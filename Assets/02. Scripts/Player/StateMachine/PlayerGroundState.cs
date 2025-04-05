@@ -12,13 +12,11 @@ public class PlayerGroundState : PlayerBaseState
     {
         base.Enter();
         //TODO: 애니메이션 파라미터 @Ground True 변경
-        Debug.Log("GroundState 진입");
     }
 
     public override void Exit()
     {
         base.Exit();
         //TODO: 애니매이션 파라미터 @Ground True 변경
-        Debug.Log("GroundState 해제");
     }
 }
