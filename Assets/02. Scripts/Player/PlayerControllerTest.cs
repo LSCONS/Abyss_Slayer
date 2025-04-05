@@ -26,7 +26,7 @@ public class PlayerControllerTest : MonoBehaviour
     private Vector2 ComputeMove()
     {
         Vector2 moveVector;
-        if(player.input.IsJump && player.playerCheckGround.isGround)
+        if(player.input.IsJump && player.playerCheckGround.CanJump)
         {
             player.playerRigidbody.AddForce(player.playerData.PlayerAirData.JumpForce * Vector2.up, ForceMode2D.Impulse);
         }
