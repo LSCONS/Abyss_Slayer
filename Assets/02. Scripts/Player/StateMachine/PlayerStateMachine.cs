@@ -7,6 +7,8 @@ public class PlayerStateMachine : StateMachine
 {
     public Player Player { get; }
     public PlayerIdleState IdleState { get; private set; }
+    public PlayerWalkState WalkState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
     public float MovementSpeed {  get; private set; }
     public float MovementSpeedModifier { get; set; } = 1f;
 
@@ -14,7 +16,9 @@ public class PlayerStateMachine : StateMachine
     {
         this.Player = player;
 
-        IdleState = new PlayerIdleState();
+        IdleState = new PlayerIdleState(this);
+        WalkState = new PlayerWalkState(this);
+        JumpState = new PlayerJumpState(this);
 
         MovementSpeed = Player.playerData.PlayerGroundData.BaseSpeed;
     }
