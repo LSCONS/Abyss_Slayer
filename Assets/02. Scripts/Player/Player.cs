@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,10 @@ public class Player : MonoBehaviour
     public PlayerControllerTest playerControllerTest;
     public Rigidbody2D playerRigidbody;
     public PlayerCheckGround playerCheckGround;
+    public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
+    public Animator PlayerAnimator {  get; private set; }//TODO: 나중에 초기화 필요
 
-    public PlayerData playerData;
+    [field: SerializeField]public PlayerData playerData { get; private set; }
 
     private void OnValidate()
     {
