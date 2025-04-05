@@ -15,7 +15,7 @@ public class TargetingData : ScriptableObject
     public bool affectPlayers;      // 아군에게 효과
     public bool includeSelf;        // 자기 자신 포함 여부
 
-    public bool isArea;             // 범위 효과 여부
+    public bool isArea;             // 단일 or 범위
     public float range;             // 시전 거리 (공격 스킬)
     public float areaRadius;        // 범위 반경 (힐 or 버프)
 }

@@ -4,7 +4,7 @@ using UnityEngine.TextCore.Text;
 
 // 개별 스킬에 대한 데이터를 저장하는 ScriptableObject.
 [CreateAssetMenu(menuName = "Skill/SkillData")]
-public class BaseSkillData : ScriptableObject
+public class BaseSkillData : ScriptableObject, ISkill
 {
     [Header("기본 정보")]
     public string skillName;                // 스킬명
@@ -29,6 +29,10 @@ public class BaseSkillData : ScriptableObject
 
     [Header("레벨별 지속시간")]
     public List<float> duration;            // 레벨별 효과 지속 시간 (ex: 버프, 디버프, 장판)
+
+    // ISkill 프로퍼티 (UI 적용 시 사용)
+    public string SkillName => skillName;
+    public Sprite Icon => icon;
 
     // 스킬 실행. SkillType의 Execute() 호출.
     public void Execute(Character user, Character target, int level)
