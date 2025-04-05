@@ -38,16 +38,30 @@ public class PlayerBaseState : IPlayerState
 
     }
 
+
+    /// <summary>
+    /// 매개변수로 들어온 애니메이션의 파라미터를 활성화 시켜줄 메서드.
+    /// </summary>
+    /// <param name="animatorHash">활성화 시킬 애니메이션의 해시태그</param>
     protected void StartAnimation(int animatorHash)
     {
         playerStateMachine.Player.PlayerAnimator.SetBool(animatorHash, true);
     }
 
+
+    /// <summary>
+    /// 매개변수로 들어온 애니메이션의 파라미터를 비활성화 시켜줄 메서드.
+    /// </summary>
+    /// <param name="animatorHash">비활성화 시킬 애니메이션의 해시태그</param>
     protected void StopAnimation(int animatorHash)
     {
         playerStateMachine.Player.PlayerAnimator.SetBool(animatorHash, false);
     }
 
+
+    /// <summary>
+    /// 플레이어를 입력한 방향으로 움직이게 만들 메서드
+    /// </summary>
     private void Move()
     {
         float newMoveX = playerStateMachine.Player.input.MoveDir.x * GetMovementSpeed();
@@ -55,6 +69,11 @@ public class PlayerBaseState : IPlayerState
         playerStateMachine.Player.playerRigidbody.velocity = new Vector2(newMoveX, nowMoveY);
     }
 
+
+    /// <summary>
+    /// 플레이어의 이동 가능한 스피드를 계산하는 메서드
+    /// </summary>
+    /// <returns>float로 속도 값을 반환</returns>
     private float GetMovementSpeed()
     {
         float moveSpeedX = playerStateMachine.MovementSpeed * playerStateMachine.MovementSpeedModifier;
