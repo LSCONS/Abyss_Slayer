@@ -19,6 +19,10 @@ public class PlayerControllerTest : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 입력받은 곳으로 특정 Speed값으로 이동하거나 Jump를 한꺼번에 계산해서 Vector2로 반환해주는 임시 메서드
+    /// </summary>
+    /// <returns>현재 이동할 velocity의 값을 Vector2로 반환</returns>
     private Vector2 ComputeMove()
     {
         Vector2 moveVector;
@@ -32,6 +36,9 @@ public class PlayerControllerTest : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 플레이어의 이동이나 점프를 실행시킬 메서드
+    /// </summary>
     private void Move()
     {
         player.playerRigidbody.velocity = ComputeMove();
