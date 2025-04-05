@@ -24,10 +24,10 @@ public class PlayerControllerTest : MonoBehaviour
         Vector2 moveVector;
         if(player.input.IsJump && player.playerCheckGround.isGround)
         {
-            player.playerRigidbody.AddForce(player.playerData.jumpForce * Vector2.up, ForceMode2D.Impulse);
+            player.playerRigidbody.AddForce(player.playerData.PlayerAirData.JumpForce * Vector2.up, ForceMode2D.Impulse);
         }
 
-        moveVector = new Vector2(player.input.MoveDir.x * player.playerData.speed, player.playerRigidbody.velocity.y);
+        moveVector = new Vector2(player.input.MoveDir.x * player.playerData.PlayerGroundData.BaseSpeed, player.playerRigidbody.velocity.y);
         return moveVector;
     }
 
