@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   input: {fileID: 5628766267635356057}
-  playerControllerTest: {fileID: 2118015960264701079}
+  playerControllerTest: {fileID: 0}
   playerRigidbody: {fileID: 3369362725294328218}
   playerCheckGround: {fileID: 361730581478519720}
   mainCamera: {fileID: 0}
@@ -249,18 +249,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2118015960264701079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6412356850329289509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bf1bc5063377ae418dd34c055373d86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &3229318962653732631
 Transform:
   m_ObjectHideFlags: 0
@@ -611,7 +599,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3229318962653732631}
   - component: {fileID: 3369362725294328218}
-  - component: {fileID: 2118015960264701079}
   - component: {fileID: 5628766267635356057}
   - component: {fileID: 1523534969511911236}
   m_Layer: 7
