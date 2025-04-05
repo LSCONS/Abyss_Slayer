@@ -12,13 +12,32 @@ public class Player : MonoBehaviour
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
     public Animator PlayerAnimator {  get; private set; }//TODO: 나중에 초기화 필요
 
+    private PlayerStateMachine playerStateMachine;
+
     [field: SerializeField]public PlayerData playerData { get; private set; }
 
-    private void OnValidate()
+    private void Awake()
     {
         input = GetComponent<PlayerInput>();
         playerControllerTest = GetComponent<PlayerControllerTest>();
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
+        playerStateMachine = new PlayerStateMachine(this);
+    }
+
+    private void Start()
+    {
+        playerStateMachine.ChangeState(playerStateMachine.IdleState);
+    }
+
+    private void Update()
+    {
+        playerStateMachine.Update();
+        playerStateMachine.HandleInput();
+    }
+
+    private void FixedUpdate()
+    {
+        playerStateMachine.FixedUpdate();
     }
 }
