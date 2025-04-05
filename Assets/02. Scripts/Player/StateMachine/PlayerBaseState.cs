@@ -79,4 +79,17 @@ public class PlayerBaseState : IPlayerState
         float moveSpeedX = playerStateMachine.MovementSpeed * playerStateMachine.MovementSpeedModifier;
         return moveSpeedX;
     }
+
+
+    /// <summary>
+    /// 플레이어가 점프를 실행할 때 실행할 메서드
+    /// </summary>
+    protected void Jump()
+    {
+        if(Mathf.Approximately(playerStateMachine.Player.playerRigidbody.velocity.y, 0))
+        {
+            Vector2 jumpForce = playerStateMachine.Player.playerData.PlayerAirData.JumpForce * Vector2.up;
+            playerStateMachine.Player.playerRigidbody.AddForce(jumpForce, ForceMode2D.Impulse);
+        }
+    }
 }
