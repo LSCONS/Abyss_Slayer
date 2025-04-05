@@ -6,7 +6,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public PlayerInput input;
-    public PlayerControllerTest playerControllerTest;
     public Rigidbody2D playerRigidbody;
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
@@ -20,7 +19,6 @@ public class Player : MonoBehaviour
     {
         playerData = Resources.Load<PlayerData>("Player/Player");
         input = GetComponent<PlayerInput>();
-        playerControllerTest = GetComponent<PlayerControllerTest>();
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         playerStateMachine = new PlayerStateMachine(this);
