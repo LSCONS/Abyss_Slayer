@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        playerData = Resources.Load<PlayerData>("Player/Player");
         input = GetComponent<PlayerInput>();
         playerControllerTest = GetComponent<PlayerControllerTest>();
         playerRigidbody = GetComponent<Rigidbody2D>();
