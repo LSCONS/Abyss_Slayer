@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class PlayerCheckGround : MonoBehaviour
 {
-    public bool isGround = false;   //플레이어가 땅을 확인하는 Collider로 땅에 닿았는지 체크해주는 변수
+    [field: SerializeField]
+    public bool CanJump { get;private set; }   //플레이어가 점프가 가능한 상태인지 반환해주는 변수
+    private int nowGroundCount = 0;
 
     //Collider가 땅에 닿을 경우 isGround true반환.
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.layer == LayerData.GroundLayerIndex)
         {
-            isGround = true;
+            if(nowGroundCount == 0)
+            {
+                CanJump = true;
+            }
+            nowGroundCount++;
         }
     }
 
@@ -20,7 +26,11 @@ public class PlayerCheckGround : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerData.GroundLayerIndex)
         {
-            isGround = false;
+            nowGroundCount--;
+            if(nowGroundCount == 0)
+            {
+                CanJump = false;
+            }
         }
     }
 }
