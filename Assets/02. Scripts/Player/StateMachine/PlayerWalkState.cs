@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWalkState : PlayerGroundState
 {
+    public Action AttackAction;
     public PlayerWalkState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -46,5 +48,7 @@ public class PlayerWalkState : PlayerGroundState
             playerStateMachine.ChangeState(playerStateMachine.FallState);
             return;
         }
+
+        AttackAction?.Invoke();
     }
 }

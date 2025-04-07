@@ -92,4 +92,11 @@ public class PlayerBaseState : IPlayerState
             playerStateMachine.Player.playerRigidbody.AddForce(jumpForce, ForceMode2D.Impulse);
         }
     }
+
+
+    protected void Dash()
+    {
+        Vector2 MoveDir = playerStateMachine.Player.input.MoveDir.normalized;
+        
+    }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundState
 {
+    public Action AttackAction;
     public PlayerIdleState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -45,5 +46,7 @@ public class PlayerIdleState : PlayerGroundState
             playerStateMachine.ChangeState(playerStateMachine.FallState);
             return;
         }
+
+        AttackAction?.Invoke();
     }
 }
