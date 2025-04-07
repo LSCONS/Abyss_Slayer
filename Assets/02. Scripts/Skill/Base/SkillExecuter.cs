@@ -8,7 +8,7 @@ using UnityEngine.TextCore.Text;
 public abstract class SkillExecuter : ScriptableObject
 {
     /// <summary>
-    /// 스킬 실행 메서드. 실제 스킬 로직은 여기서 구현
+    /// 스킬 실행 메서드
     /// </summary>
     /// <param name="user">스킬 시전자</param>
     /// <param name="target">스킬 대상</param>
