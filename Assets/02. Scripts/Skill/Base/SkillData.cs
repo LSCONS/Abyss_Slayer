@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-// 개별 스킬에 대한 데이터를 저장하는 ScriptableObject.
+// 스킬의 공통으로 필요한 데이터를 저장하는 ScriptableObject.
 [CreateAssetMenu(menuName = "Skill/Base/SkillData")]
 public class SkillData : ScriptableObject
 {
@@ -18,13 +18,13 @@ public class SkillData : ScriptableObject
     public GameObject effectPrefab;         // 이펙트 프리팹
 
     [Header("스킬")]
-    public SkillCategory category;
-    public SkillExecuter executer;
-    public DamageType damageType;
-    public EvasionType evasionType;
+    public SkillExecuter executer;			// 스킬 실행 클래스
+    public SkillCategory category;			// 스킬 종류
+    public DamageType damageType;			// 데미지 타입 (물리, 마법)
+    public EvasionType evasionType;			// 회피 종류 (대쉬, 텔포)
 
     [Header("타겟팅")]
-    public TargetingData targetingData;     // 타겟팅 방식
+    public TargetingData targetingData;     // 타겟팅 데이터
 
     public void Execute(Character user, Character target)
     {

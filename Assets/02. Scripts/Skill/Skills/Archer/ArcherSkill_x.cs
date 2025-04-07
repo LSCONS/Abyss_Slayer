@@ -6,6 +6,6 @@ public class ArcherBasicAtk : SkillExecuter
 {
     public override void Execute(Character user, Character target, SkillData skillData)
     {
-
+        // 스킬 로직 작성
     }
 }
