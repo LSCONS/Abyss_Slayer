@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerSkillDState : PlayerAttackState
 {
+    //TODO: PlayerD스킬 데이터 가져와야함.
     public PlayerSkillDState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -11,10 +12,20 @@ public class PlayerSkillDState : PlayerAttackState
     public override void Enter()
     {
         base.Enter();
+        //TODO: 스킬 사용 중 움직일 수 있는지 확인하고 실행
+        //TODO: 스킬 D 애니메이터 활성화
     }
 
     public override void Exit()
     {
         base.Exit();
+        //TODO: 스킬 D 애니메이터 비활성화
+        playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+    }
+
+    public override void Update()
+    {
+        base.Update();
+        
     }
 }
