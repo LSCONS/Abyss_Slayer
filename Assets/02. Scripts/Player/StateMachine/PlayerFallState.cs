@@ -33,6 +33,6 @@ public class PlayerFallState : PlayerAirState
             playerStateMachine.ChangeState(playerStateMachine.IdleState);
         }
 
-        AttackAction.Invoke();
+        AttackAction?.Invoke();
     }
 }
