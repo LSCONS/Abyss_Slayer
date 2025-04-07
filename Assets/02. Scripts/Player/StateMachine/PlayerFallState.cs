@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerFallState : PlayerAirState
 {
+    public Action AttackAction;
     public PlayerFallState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -30,5 +32,7 @@ public class PlayerFallState : PlayerAirState
         {
             playerStateMachine.ChangeState(playerStateMachine.IdleState);
         }
+
+        AttackAction.Invoke();
     }
 }
