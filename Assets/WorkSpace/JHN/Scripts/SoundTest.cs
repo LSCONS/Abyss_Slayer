@@ -9,11 +9,16 @@ public class SoundTest : MonoBehaviour
 
     [SerializeField] private bool playOnStart = true; // 자동 재생 여부
 
-    [SerializeField] private string sceneSfxLabel = "SFX"; // 씬 전용 SFX 라벨
+    [SerializeField] private string sceneSfxLabel = "Scene1"; // 씬 전용 SFX 라벨
+
+
+    [SerializeField] private string bgmName1 = "BGM1";
+    [SerializeField] private string bgmName2 = "BGM2";
 
     private async void Start()
     {
         await SoundManager.Instance.Init(sceneSfxLabel);
+        SoundManager.Instance.PlayBGM("BGM1");
     }
 
     private void Update()
@@ -25,6 +30,14 @@ public class SoundTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             PlayTestSound2();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            PlayBGM1();
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            PlayBGM2();
         }
     }
 
@@ -53,4 +66,15 @@ public class SoundTest : MonoBehaviour
             Debug.LogWarning("[SoundTest] SoundManager is not initialized.");
         }
     }
+
+    private void PlayBGM1()
+    {
+        SoundManager.Instance.PlayBGM(bgmName1);
+    }
+
+    private void PlayBGM2()
+    {
+        SoundManager.Instance.PlayBGM(bgmName2);
+    }
+
 }

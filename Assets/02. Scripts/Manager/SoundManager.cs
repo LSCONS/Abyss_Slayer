@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Threading.Tasks;
 
 public class SoundManager : Singleton<SoundManager>
 {
+    public SoundLibrary soundLibrary; // 사운드 라이브러리
+    private AudioSource[] bgmSources = new AudioSource[2];
+    private int currentBgmIndex = 0;
+    private Queue<AudioSource> sfxPool = new Queue<AudioSource>(); // sfx 풀
+    private List<AudioSource> activeSources = new List<AudioSource>(); // 활성화된 소스
+    [SerializeField] private int poolSize = 10; // 풀 크기
 
-    public SoundLibrary soundLibrary;
-    private Queue<AudioSource> sfxPool = new Queue<AudioSource>();
-    private List<AudioSource> activeSources = new List<AudioSource>();
-    [SerializeField] private int poolSize = 10;
+    private float bgmVolume = 0f; // 브금 볼륨
+    private float bgmFadeTime = 1f; // 브금 페이드 시간
 
-
+    private Coroutine bgmCoroutine; // 페이드인아웃에 쓸 브금 코루틴
 
     /// <summary>
     /// 사운드라이브러리 로드 + 풀 초기화
@@ -21,6 +24,7 @@ public class SoundManager : Singleton<SoundManager>
     /// <returns></returns>
     public async Task Init(string sceneSfxLabel)
     {
+        InitBGM();
         InitPool();
         soundLibrary = ScriptableObject.CreateInstance<SoundLibrary>();
 
@@ -168,5 +172,89 @@ public class SoundManager : Singleton<SoundManager>
         soundLibrary.UnloadAllSounds();
     }
 
+
+    /// <summary>
+    /// 브금 소스 초기화
+    /// </summary>
+    private void InitBGM()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject bgmObj = new GameObject($"BGM_AudioSource_{i}");
+            bgmObj.transform.SetParent(this.transform);
+            AudioSource src = bgmObj.AddComponent<AudioSource>();
+            src.playOnAwake = false;
+            src.loop = true;
+            src.volume = 0f;
+            bgmSources[i] = src;
+        }
+    }
+    /// <summary>
+    /// 브금 이름을 넣어서 브금 재생
+    /// </summary>
+    /// <param name="soundName">브금 이름</param>
+    public void PlayBGM(string soundName)
+    {
+        var data = soundLibrary.GetSoundData(soundName);
+        if (data == null) return;
+        StartCoroutine(PlayBGMAsync(data)); // 브금 재생
+    }
+
+    private IEnumerator PlayBGMAsync(SoundData data)
+    {
+        if (data.cachedClip == null)
+        {
+            var handle = data.audioClip.LoadAssetAsync<AudioClip>();
+            yield return handle;
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+            {
+                data.cachedClip = handle.Result;
+            }
+            else
+            {
+                Debug.LogError($"Failed to load audio clip: {data.soundName}");
+                yield break;
+            }
+        }
+
+        if (bgmCoroutine != null) StopCoroutine(bgmCoroutine);
+        bgmCoroutine = StartCoroutine(FadeInOutBGM(data.cachedClip, data.volume));
+    }
+
+    /// <summary>
+    /// 브금 페이드 인아웃
+    /// </summary>
+    /// <param name="newClip"></param>
+    /// <returns></returns>
+    private IEnumerator FadeInOutBGM(AudioClip newClip, float volume)
+    {
+        int nextIndex = 1 - currentBgmIndex;
+        AudioSource current = bgmSources[currentBgmIndex];
+        AudioSource next = bgmSources[nextIndex];
+
+        // 페이드 아웃
+        float time = 0f;
+        float startVolume = current.volume;
+        while (time < bgmFadeTime)
+        {
+            current.volume = Mathf.Lerp(startVolume, 0f, time / bgmFadeTime);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        current.Stop();
+
+        // 페이드 인
+        next.clip = newClip;
+        next.Play();
+        time = 0f;
+        while (time < bgmFadeTime)
+        {
+            next.volume = Mathf.Lerp(0f, volume, time / bgmFadeTime);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        next.volume = volume;
+        currentBgmIndex = nextIndex;
+    }
 }
 
