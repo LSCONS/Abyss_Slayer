@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c01c4a351db3ca4b98e478e14178966, type: 3}
+  m_Name: ASkill_basic_Targeting
+  m_EditorClassIdentifier: 
+  requiresTarget: 0
+  affectEnemies: 0
+  affectPlayers: 0
+  includeSelf: 0
+  isArea: 0
+  range: 0
+  areaRadius: 0

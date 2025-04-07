@@ -4,7 +4,7 @@ using UnityEngine;
 /// 스킬이 어떤 대상에게, 어떤 방식으로 적용되는지 정의하는 ScriptableObject.
 /// 예: 단일 대상, 범위, 아군/적군, 자기 자신 포함 여부 등.
 /// </summary>
-[CreateAssetMenu(menuName = "Skill/TargetingData")]
+[CreateAssetMenu(menuName = "Skill/Base/TargetingData")]
 public class TargetingData : ScriptableObject
 {
     [Header("타게팅 조건")]

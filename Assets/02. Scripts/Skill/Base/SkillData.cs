@@ -3,12 +3,14 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 
 // 개별 스킬에 대한 데이터를 저장하는 ScriptableObject.
-[CreateAssetMenu(menuName = "Skill/SkillData")]
+[CreateAssetMenu(menuName = "Skill/Base/SkillData")]
 public class SkillData : ScriptableObject
 {
     [Header("기본 정보")]
     public string skillName;                // 스킬명
     public string description;              // 설명
+    public int manaCost;                        // 마나 소모량
+    public float cooldown;                    // 쿨타임
 
     [Header("시각적 요소")]
     public Sprite icon;                     // 스킬 아이콘
