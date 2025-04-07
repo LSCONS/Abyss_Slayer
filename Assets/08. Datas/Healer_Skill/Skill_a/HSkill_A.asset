@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99da0ec58c473454f84b345f9b7dea99, type: 3}
+  m_Name: HSkill_A
+  m_EditorClassIdentifier: 
+  skillName: 
+  description: 
+  icon: {fileID: 0}
+  animationTrigger: 
+  effectPrefab: {fileID: 0}
+  category: 0
+  executer:
+    rid: -2
+  targetingData: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }

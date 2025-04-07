@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
-[CreateAssetMenu(menuName = "Skill/Type/SingleHeal")]
-public class HealType : SkillType
+[CreateAssetMenu(menuName = "Skill/Category/SingleHeal")]
+public class SingleHeal : ScriptableObject
 {
-    public override void Execute(Character user, Character target, BaseSkillData skillData, int level)
+    public void Execute(Character user, Character target)
     {
         
     }
