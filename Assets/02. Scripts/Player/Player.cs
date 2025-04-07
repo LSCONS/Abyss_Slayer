@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
     public Animator PlayerAnimator {  get; private set; }//TODO: 나중에 초기화 필요
-    //TODO: 나중에 플레이어 스킬을 4개 담는 데이터가 필요함.
+    //TODO: 나중에 플레이어 스킬을 5개 담는 데이터가 필요함.
     private PlayerStateMachine playerStateMachine;
 
     [field: SerializeField]public PlayerData playerData { get; private set; }
