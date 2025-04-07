@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BossBaseState : IPlayerState
 {
-    protected PlayerStateMachine playerStateMachine;
-    protected readonly PlayerGroundData playerGroundData;
+    protected BossStateMachine bossStateMachine;
+    Boss boss;
 
-    public BossBaseState(PlayerStateMachine playerStateMachine)
+    public BossBaseState(BossStateMachine bossStateMachine)
     {
-        this.playerStateMachine = playerStateMachine;
-        playerGroundData = playerStateMachine.Player.playerData.PlayerGroundData;
+        this.bossStateMachine = bossStateMachine;
+        boss = bossStateMachine.boss;
     }
 
     public virtual void Enter()

@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    GameObject targetCrosshairPrefab;
+    public Transform targetCrosshair;
+    public SpriteRenderer targetCrosshairRenderer;
+
+    private BossStateMachine bossStateMachine;
+    private void Awake()
     {
-        
+        targetCrosshair = Instantiate(targetCrosshairPrefab,transform).transform;
+        targetCrosshairRenderer = targetCrosshair.GetComponent<SpriteRenderer>();
+        bossStateMachine = new BossStateMachine(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        bossStateMachine.ChangeState(bossStateMachine.StartState);
+    }
+
+    private void Update()
+    {
+        bossStateMachine.Update();
+        bossStateMachine.HandleInput();
+    }
+
+    private void FixedUpdate()
+    {
+        bossStateMachine.FixedUpdate();
     }
 }
