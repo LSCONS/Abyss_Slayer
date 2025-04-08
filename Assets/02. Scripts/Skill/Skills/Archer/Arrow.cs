@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    [SerializeField] int damage = 50;
+    [SerializeField] private int damage = 50;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
