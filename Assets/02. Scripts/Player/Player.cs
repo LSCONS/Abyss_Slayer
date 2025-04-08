@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public SkillSet skillSet;
     private Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 임시
     private PlayerStateMachine playerStateMachine;
+    public BoxCollider2D playerGroundCollider;
 
     [field: SerializeField]public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
@@ -24,8 +25,10 @@ public class Player : MonoBehaviour
         input = GetComponent<PlayerInput>();
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
+        playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
         playerStateMachine = new PlayerStateMachine(this);
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
     }
 
     private void Start()
@@ -111,5 +114,10 @@ public class Player : MonoBehaviour
             case SkillSlotKey.D:
                 break;
         }
+    }
+
+    private void PlayerColliderTriggerOff()
+    {
+        playerGroundCollider.isTrigger = false;
     }
 }
