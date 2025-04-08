@@ -13,14 +13,18 @@ public class PlayerJumpState : PlayerAirState
         base.Enter();
         //TODO: 점프 애니메이션 실행
         Jump();
+#if StateMachineDebug
         Debug.Log("JumpState 진입");
+#endif
     }
 
     public override void Exit()
     {
         base.Exit();
         //TODO: 점프 애니메이션 종료
+#if StateMachineDebug
         Debug.Log("JumpState 해제");
+#endif
     }
 
     public override void Update()
