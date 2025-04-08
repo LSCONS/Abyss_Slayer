@@ -14,9 +14,15 @@ public static class LayerData
     /// 예)플레이어, 그라운드 동시 체크일 경우 -> GoundLayermask & PlayerLayerMask
     /// 와 같이 비트연산자로 합쳐서 넣어주시면 됩니다.
 
-    public static readonly LayerMask GroundLayerIndex = LayerMask.NameToLayer("Ground");
-    public static readonly LayerMask GroundLayerMask = 1 << GroundLayerIndex;
+    public static readonly LayerMask GroundPlaneLayerIndex = LayerMask.NameToLayer("GroundPlane");
+    public static readonly LayerMask GroundPlaneLayerMask = 1 << GroundPlaneLayerIndex;
+
+    public static readonly LayerMask GroundPlatformLayerIndex = LayerMask.NameToLayer("GroundPlatform");
+    public static readonly LayerMask GroundPlatformLayerMask = 1 << GroundPlatformLayerIndex;
 
     public static readonly LayerMask PlayerLayerIndex = LayerMask.NameToLayer("Player");
     public static readonly LayerMask PlayerLayerMask = 1 << PlayerLayerIndex;
+
+    public static readonly LayerMask EnemyLayerIndex = LayerMask.NameToLayer("Enemy");
+    public static readonly LayerMask EnemyLayerMask = 1 << EnemyLayerIndex;
 }

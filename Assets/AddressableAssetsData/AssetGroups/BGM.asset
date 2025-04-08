@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: BGM
+  m_EditorClassIdentifier: 
+  m_GroupName: BGM
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 8d7c01ee6666f78449b49b303bf1f5cf
+  m_SerializeEntries:
+  - m_GUID: 2315fdb9e384c6b4b810961876afd399
+    m_Address: Assets/08. Datas/Audio/BGM.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    - Scene1
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}
+  m_SchemaSet:
+    m_Schemas: []

@@ -19,4 +19,19 @@ MonoBehaviour:
     <RunSpeedModifier>k__BackingField: 1
   <PlayerAirData>k__BackingField:
     <WalkSpeedModifier>k__BackingField: 0.225
-    <JumpForce>k__BackingField: 30
+    <JumpForce>k__BackingField: 13
+    <MaxJumpCount>k__BackingField: 1
+    <CurJumpCount>k__BackingField: 1
+    <DashForce>k__BackingField: 30
+    <DashCoolTime>k__BackingField: 1
+    <DashChangeStateDelayTime>k__BackingField: 0.2
+    <CanDash>k__BackingField: 1
+    <MaxDashCount>k__BackingField: 1
+    <CurDashCount>k__BackingField: 1
+  <PlayerStatusData>k__BackingField:
+    <GravityForce>k__BackingField: 2
+    <HP_Max>k__BackingField: 100
+    <HP_Cur>k__BackingField: 100
+    <MP_Max>k__BackingField: 100
+    <MP_Cur>k__BackingField: 100
+    <CanMove>k__BackingField: 1

@@ -25,7 +25,10 @@ public class PlayerBaseState : IPlayerState
 
     public virtual void FixedUpdate()
     {
-        Move();
+        if (playerStateMachine.Player.playerData.PlayerStatusData.CanMove)
+        {
+            Move();
+        }
     }
 
     public virtual void HandleInput()
@@ -67,6 +70,7 @@ public class PlayerBaseState : IPlayerState
         float newMoveX = playerStateMachine.Player.input.MoveDir.x * GetMovementSpeed();
         float nowMoveY = playerStateMachine.Player.playerRigidbody.velocity.y;
         playerStateMachine.Player.playerRigidbody.velocity = new Vector2(newMoveX, nowMoveY);
+        FlipRenderer(newMoveX); //플레이어의 바라보는 방향을 바꿔주는 메서드
     }
 
 
@@ -82,14 +86,46 @@ public class PlayerBaseState : IPlayerState
 
 
     /// <summary>
-    /// 플레이어가 점프를 실행할 때 실행할 메서드
+    /// 플레이어가 X좌표로 움직이는 방향을 계산하고 바꿔주는 메서드
     /// </summary>
-    protected void Jump()
+    /// <param name="nowMoveX">움직이고 있는 X좌표값의 크기</param>
+    private void FlipRenderer(float nowMoveX)
     {
-        if(Mathf.Approximately(playerStateMachine.Player.playerRigidbody.velocity.y, 0))
+        if(nowMoveX > 0)
         {
-            Vector2 jumpForce = playerStateMachine.Player.playerData.PlayerAirData.JumpForce * Vector2.up;
-            playerStateMachine.Player.playerRigidbody.AddForce(jumpForce, ForceMode2D.Impulse);
+            playerStateMachine.Player.playerSpriteRenderer.flipX = false;
         }
+        else if (nowMoveX < 0)
+        {
+            playerStateMachine.Player.playerSpriteRenderer.flipX = true;
+        }
+    }
+
+
+    /// <summary>
+    /// 플레이어의 Rigidbody의 Velocity값을 초기화하는 메서드
+    /// </summary>
+    protected void ResetZeroVelocity()
+    {
+        playerStateMachine.Player.playerRigidbody.velocity = Vector2.zero;
+    }
+
+
+    /// <summary>
+    /// 플레이어의 Rigidbody의 Gravity값을 0으로 초기화하는 메서드
+    /// </summary>
+    protected void ResetZeroGravityForce()
+    {
+        playerStateMachine.Player.playerRigidbody.gravityScale = 0f;
+    }
+
+
+    /// <summary>
+    /// 플레이어의 Rigidbody의 Gravity값을 기본값으로 초기화하는 메서드
+    /// </summary>
+    protected void ResetDefaultGravityForce()
+    {
+        playerStateMachine.Player.playerRigidbody.gravityScale = 
+            playerStateMachine.Player.playerData.PlayerStatusData.GravityForce;
     }
 }
