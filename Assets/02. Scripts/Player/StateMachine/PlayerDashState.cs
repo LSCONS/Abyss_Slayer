@@ -43,7 +43,6 @@ public class PlayerDashState : PlayerAttackState, IPlayerAttackInput
     public override void Update()
     {
         changeStateDelayTime += Time.deltaTime;
-        Debug.Log("changeStateDelyTime = " + changeStateDelayTime);
         if (changeStateDelayTime < playerStateMachine.Player.playerData.PlayerAirData.DashChangeStateDelayTime)
         {
             return;
