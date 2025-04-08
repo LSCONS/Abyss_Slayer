@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 임시
     private PlayerStateMachine playerStateMachine;
     public BoxCollider2D playerGroundCollider;
+    public SpriteRenderer playerSpriteRenderer;
 
     [field: SerializeField]public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
+        playerSpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
         playerStateMachine = new PlayerStateMachine(this);
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
@@ -65,6 +67,11 @@ public class Player : MonoBehaviour
         playerStateMachine.FixedUpdate();
     }
 
+
+    /// <summary>
+    /// 스킬의 쿨타임을 돌릴 메서드
+    /// </summary>
+    /// <param name="slotKey">쿨타임 돌릴 스킬 키</param>
     public void SkillCoolTimeUpdate(SkillSlotKey slotKey)
     {
         Debug.Log("쿨타임 계산 시작");
@@ -90,6 +97,12 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 스킬의 쿨타임을 계산하고 다시 사용 가능하게 바꿔주는 코루틴
+    /// </summary>
+    /// <param name="coolTIme">쿨타임 시간</param>
+    /// <param name="slotKey">초기화 시킬 스킬 키</param>
     private IEnumerator SkillCoolTimeUpdateCoroutine(float coolTIme, SkillSlotKey slotKey)
     {
         float temp = 0;
@@ -116,6 +129,10 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 플레이어가 다운점프를 하고 빠져나온 뒤 isTrigger을 false로 되돌리는 메서드
+    /// </summary>
     private void PlayerColliderTriggerOff()
     {
         playerGroundCollider.isTrigger = false;
