@@ -12,11 +12,18 @@ public class PlayerGroundState : PlayerBaseState
     {
         base.Enter();
         //TODO: 애니메이션 파라미터 @Ground True 변경
+        playerStateMachine.Player.playerData.PlayerAirData.ResetDashCount();
+        playerStateMachine.Player.playerData.PlayerAirData.ResetJumpCount();
     }
 
     public override void Exit()
     {
         base.Exit();
         //TODO: 애니매이션 파라미터 @Ground True 변경
+    }
+
+    public override void Update()
+    {
+        base.Update();
     }
 }
