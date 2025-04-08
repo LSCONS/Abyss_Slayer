@@ -10,7 +10,8 @@ public class SkillData : ScriptableObject
     public string description;              // 설명
     public int manaCost;                    // 마나 소모량
     public float coolTime;                  // 쿨타임
-    public bool canMove;
+    public bool canMove;                    // 움직임 가능 여부
+    public bool canUse;                     // 사용 가능 여부
 
     [Header("시각적 요소")]
     public Sprite icon;                     // 스킬 아이콘
