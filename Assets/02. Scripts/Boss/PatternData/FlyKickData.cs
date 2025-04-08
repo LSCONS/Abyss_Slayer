@@ -12,9 +12,9 @@ public class FlyKickData : BasePatternData
     [SerializeField] float explosionSize = 1f;
     public override IEnumerator ExecutePattern(Transform bossTransform, Animator animator)
     {
-        animator.SetTrigger("kick1");       
+        animator.SetTrigger("kick1");       //날아오르는 애니메이션 재생
         float elapsed = 0f;
-        while (elapsed < flyupTime)
+        while (elapsed < flyupTime)         //일정시간동안,일정높이로 날아오름
         {
             Vector3 flyPosition = bossTransform.position + Vector3.up * flyupHight;
             bossTransform.position = Vector3.MoveTowards(bossTransform.position, flyPosition, flyupHight / flyupTime * Time.deltaTime);
@@ -22,19 +22,17 @@ public class FlyKickData : BasePatternData
             elapsed += Time.deltaTime;
             yield return null;
         }
-        yield return new WaitForSeconds(flyingTime);
+        yield return new WaitForSeconds(flyingTime);    //공중에서 일정시간 대기
         
-        elapsed = 0f;
-        Vector3 targetPosition = target.position;
-        float kickSpeed = Vector3.Distance(boss.transform.position, targetPosition)/kickTime;
+        Vector3 targetPosition = target.position;       //찍기직전 타겟 추적중지, 찍을장소 고정
+        float kickSpeed = Vector3.Distance(boss.transform.position, targetPosition)/kickTime;   //찍을 장소와의 거리에 따른 찍는스피드
         while (true)
         {
             bossTransform.position = Vector3.MoveTowards(bossTransform.position, targetPosition, kickSpeed * Time.deltaTime);
 
-            // 목표 지점 도달 여부 체크
-            if (Vector3.Distance(bossTransform.position, targetPosition) < 0.01f)
+            if (Vector3.Distance(bossTransform.position, targetPosition) < 0.01f)               // 목표 지점 도달 여부 체크
             {
-                PoolManager.Instance.explosionPool.Get(targetPosition + (Vector3.down * 1f), explosionSize);
+                PoolManager.Instance.explosionPool.Get(targetPosition + (Vector3.down * 1f), explosionSize);    //목표지점 도달시 도달지점에서 폭발 prefab생성
                 bossTransform.position = targetPosition; // 위치 보정
                 break;
             }
