@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerFallState : PlayerAirState
 {
-    public Action AttackAction;
+    public StoppableAction AttackAction = new();
     public PlayerFallState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
