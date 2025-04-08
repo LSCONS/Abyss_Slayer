@@ -27,10 +27,22 @@ public class PlayerFallState : PlayerAirState
     public override void Update()
     {
         base.Update();
+        //Idle 스테이트 진입 가능 여부 확인
         if (playerStateMachine.Player.playerCheckGround.CanJump &&
             Mathf.Approximately(playerStateMachine.Player.playerRigidbody.velocity.y, 0))
         {
             playerStateMachine.ChangeState(playerStateMachine.IdleState);
+            return;
+        }
+
+        //Dash 스테이트 진입 가능 여부 확인
+        if (playerStateMachine.Player.playerData.PlayerAirData.CanDash &&
+            playerStateMachine.Player.input.IsDash &&
+            playerStateMachine.Player.playerData.PlayerAirData.CurDashCount > 0 &&
+            playerStateMachine.Player.input.MoveDir != Vector2.zero)
+        {
+            playerStateMachine.ChangeState(playerStateMachine.DashState);
+            return;
         }
 
         AttackAction?.Invoke();
