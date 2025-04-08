@@ -9,11 +9,11 @@ public class PlayerCheckGround : MonoBehaviour
     private int nowGroundCount = 0;
 
     //Collider가 땅에 닿을 경우 isGround true반환.
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == LayerData.GroundLayerIndex)
+        if (collision.gameObject.layer == LayerData.GroundLayerIndex)
         {
-            if(nowGroundCount == 0)
+            if (nowGroundCount == 0)
             {
                 CanJump = true;
             }
@@ -22,12 +22,12 @@ public class PlayerCheckGround : MonoBehaviour
     }
 
     //Collider가 땅에서 빠져나갈 경우 isGround false반환.
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerData.GroundLayerIndex)
         {
             nowGroundCount--;
-            if(nowGroundCount == 0)
+            if (nowGroundCount == 0)
             {
                 CanJump = false;
             }
