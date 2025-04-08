@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerWalkState : PlayerGroundState
 {
-    public Action AttackAction;
+    public StoppableAction AttackAction = new();
     public PlayerWalkState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -51,6 +51,7 @@ public class PlayerWalkState : PlayerGroundState
                 //TODO: 다운점프 로직 시작
                 playerStateMachine.Player.playerGroundCollider.isTrigger = true;
                 playerStateMachine.ChangeState(playerStateMachine.FallState);
+                return;
             }
             else if (playerStateMachine.Player.input.MoveDir.y >= 0)
             {
