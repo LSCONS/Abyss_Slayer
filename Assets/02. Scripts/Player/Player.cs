@@ -23,19 +23,25 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         playerData = Resources.Load<PlayerData>("Player/Player");
+        InitSkilData();
         input = GetComponent<PlayerInput>();
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
         playerSpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
-        playerStateMachine = new PlayerStateMachine(this);
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        playerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
     }
 
     private void Start()
     {
         playerStateMachine.ChangeState(playerStateMachine.IdleState);
+    }
+
+    private void InitSkilData()
+    {
+        equippedSkills = new();
         foreach (var slot in skillSet.skillSlots)
         {
             if (slot.skillData != null)
@@ -53,12 +59,6 @@ public class Player : MonoBehaviour
     {
         playerStateMachine.Update();
         playerStateMachine.HandleInput();
-
-        // 임시
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            UseSkill(SkillSlotKey.X);
-        }
     }
 
     private void FixedUpdate()
@@ -76,7 +76,17 @@ public class Player : MonoBehaviour
         Debug.Log("쿨타임 계산 시작");
         //TODO: 해당 슬롯키와 맞는 스킬 키에서 쿨타임을 가져옴
         //TODO: 임시로 대시만 확인하기 위해 대시 쿨타임을 사용함
-        float coolTime = playerData.PlayerAirData.DashCoolTime;
+        float coolTime;
+        if (equippedSkills.ContainsKey(slotKey))
+        {
+            SkillData skillData = equippedSkills[slotKey];
+            coolTime = skillData.coolTime;
+        }
+        else
+        {
+            Debug.LogError($"{slotKey}에 대한 정보를 찾을 수 없습니다.");
+            coolTime = 0.5f;
+        }
         Debug.Log("coolTime = " +  coolTime);
         StartCoroutine(SkillCoolTimeUpdateCoroutine(coolTime, slotKey));
     }
@@ -117,6 +127,7 @@ public class Player : MonoBehaviour
         switch(slotKey)
         {
             case SkillSlotKey.X:
+                equippedSkills[SkillSlotKey.X].canUse = true;
                 break;
             case SkillSlotKey.Z:
                 playerData.PlayerAirData.CanDash = true;
