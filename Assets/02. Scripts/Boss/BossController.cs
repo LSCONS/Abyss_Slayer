@@ -18,6 +18,14 @@ public class BossController : MonoBehaviour
     [SerializeField] List<BossPattern> allPatterns;
 
     Animator animator;
+    Transform targetCrosshair;
+    private LineRenderer targetLine;
+
+    public bool showTargetCrosshair;
+    bool preShowTargetCrosshair;
+    public bool showTargetLine;
+    bool preShowTargetLine;
+
 
     private void Awake()
     {
@@ -32,6 +40,11 @@ public class BossController : MonoBehaviour
     {
         //보스시작연출 패턴 있다면 추가
         StartCoroutine(PatternLoop());
+    }
+
+    private void Update()
+    {
+        
     }
 
     /// <summary>

@@ -7,6 +7,7 @@ public class PoolManager : MonoBehaviour
     public static PoolManager Instance { get; private set; }
 
     public ExplosionPool explosionPool;
+
     void Awake()
     {
         if (Instance != null)
