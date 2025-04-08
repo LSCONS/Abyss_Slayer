@@ -34,7 +34,7 @@ public class FlyKickData : BasePatternData
             // 목표 지점 도달 여부 체크
             if (Vector3.Distance(bossTransform.position, targetPosition) < 0.01f)
             {
-                PoolManager.Instance.explosionPool.Get(targetPosition, explosionSize);
+                PoolManager.Instance.explosionPool.Get(targetPosition + (Vector3.down * 1f), explosionSize);
                 bossTransform.position = targetPosition; // 위치 보정
                 break;
             }
