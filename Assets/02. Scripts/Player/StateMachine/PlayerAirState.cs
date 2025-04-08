@@ -19,4 +19,9 @@ public class PlayerAirState : PlayerBaseState
         base.Exit();
         //TODO: Air파라미터 비활성화 필요
     }
+
+    public override void Update()
+    {
+        base.Update();
+    }
 }
