@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerAirState
 {
+    public StoppableAction AttackAction = new();
     public PlayerJumpState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -46,6 +47,8 @@ public class PlayerJumpState : PlayerAirState
             playerStateMachine.ChangeState(playerStateMachine.DashState);
             return;
         }
+
+        AttackAction?.Invoke();
     }
 
 
