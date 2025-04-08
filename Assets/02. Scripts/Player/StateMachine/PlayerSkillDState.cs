@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkillDState : PlayerAttackState
+public class PlayerSkillDState : PlayerAttackState, IPlayerAttackInput
 {
+    private SkillData skillData;
+    private SkillSlotKey slotkey = SkillSlotKey.D;
     //TODO: PlayerD스킬 데이터 가져와야함.
     public PlayerSkillDState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+        //skillData = playerStateMachine.Player.equippedSkills[slotkey];
+        //playerStateMachine.ConnectAttackState(this);
     }
-
-    private SkillSlotKey slotkey = SkillSlotKey.D;
     public override void Enter()
     {
         base.Enter();
@@ -27,6 +29,15 @@ public class PlayerSkillDState : PlayerAttackState
     public override void Update()
     {
         base.Update();
-        
+    }
+
+    public bool GetIsInputKey()
+    {
+        return playerStateMachine.Player.input.IsSkillD;
+    }
+
+    public SkillData GetSkillData()
+    {
+        return skillData;
     }
 }
