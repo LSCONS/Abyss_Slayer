@@ -9,6 +9,7 @@ public class PlayerSkillAState : PlayerAttackState
     {
     }
 
+    private SkillSlotKey slotkey = SkillSlotKey.A;
     public override void Enter()
     {
         base.Enter();

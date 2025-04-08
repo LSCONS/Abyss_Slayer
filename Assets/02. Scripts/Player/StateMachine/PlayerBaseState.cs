@@ -25,7 +25,10 @@ public class PlayerBaseState : IPlayerState
 
     public virtual void FixedUpdate()
     {
-        Move();
+        if (playerStateMachine.Player.playerData.PlayerStatusData.CanMove)
+        {
+            Move();
+        }
     }
 
     public virtual void HandleInput()
@@ -82,21 +85,29 @@ public class PlayerBaseState : IPlayerState
 
 
     /// <summary>
-    /// 플레이어가 점프를 실행할 때 실행할 메서드
+    /// 플레이어의 Rigidbody의 Velocity값을 초기화하는 메서드
     /// </summary>
-    protected void Jump()
+    protected void ResetZeroVelocity()
     {
-        if(Mathf.Approximately(playerStateMachine.Player.playerRigidbody.velocity.y, 0))
-        {
-            Vector2 jumpForce = playerStateMachine.Player.playerData.PlayerAirData.JumpForce * Vector2.up;
-            playerStateMachine.Player.playerRigidbody.AddForce(jumpForce, ForceMode2D.Impulse);
-        }
+        playerStateMachine.Player.playerRigidbody.velocity = Vector2.zero;
     }
 
 
-    protected void Dash()
+    /// <summary>
+    /// 플레이어의 Rigidbody의 Gravity값을 0으로 초기화하는 메서드
+    /// </summary>
+    protected void ResetZeroGravityForce()
     {
-        Vector2 MoveDir = playerStateMachine.Player.input.MoveDir.normalized;
-        
+        playerStateMachine.Player.playerRigidbody.gravityScale = 0f;
+    }
+
+
+    /// <summary>
+    /// 플레이어의 Rigidbody의 Gravity값을 기본값으로 초기화하는 메서드
+    /// </summary>
+    protected void ResetDefaultGravityForce()
+    {
+        playerStateMachine.Player.playerRigidbody.gravityScale = 
+            playerStateMachine.Player.playerData.PlayerStatusData.GravityForce;
     }
 }
