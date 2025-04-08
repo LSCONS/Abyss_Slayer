@@ -12,6 +12,7 @@ public class PlayerInput : MonoBehaviour
     private bool isJump;
     private bool isAttack;
     private bool isDash;
+    //private bool isDownJump;
     private bool isSkill1;
     private bool isSkill2;
     private bool isSkill3;
@@ -37,6 +38,11 @@ public class PlayerInput : MonoBehaviour
     /// 플레이어가 대시키를 입력했는지 확인(트리거)
     /// </summary>
     public bool IsDash { get => isDash; }
+
+    ///// <summary>
+    ///// 플레이어가 아래키 + 점프를 입력했는지 확인(트리거)
+    ///// </summary>
+    //public bool IsDownJump { get => isDownJump; }
 
     /// <summary>
     /// 플레이어가 스킬1을 입력했는지 확인(트리거)
@@ -82,6 +88,7 @@ public class PlayerInput : MonoBehaviour
         inputs.Player.Jump.started += StartJump;
         inputs.Player.Jump.canceled += StopJump;
         inputs.Player.Dash.started += StartDash;
+        //inputs.Player.Jump.started += StartDownJump;
         inputs.Player.Attack.started += StartAttack;
         inputs.Player.Skill1.started += StartSkill1;
         inputs.Player.Skill2.started += StartSkill2;
@@ -100,6 +107,7 @@ public class PlayerInput : MonoBehaviour
         inputs.Player.Jump.started -= StartJump;
         inputs.Player.Jump.canceled -= StopJump;
         inputs.Player.Dash.started -= StartDash;
+        //inputs.Player.Jump.started -= StartDownJump;
         inputs.Player.Attack.started -= StartAttack;
         inputs.Player.Skill1.started -= StartSkill1;
         inputs.Player.Skill2.started -= StartSkill2;
@@ -161,6 +169,16 @@ public class PlayerInput : MonoBehaviour
     }
 
 
+    ///// <summary>
+    ///// 플레이어 다운점프 트리거
+    ///// </summary>
+    ///// <param name="context"></param>
+    //private void StartDownJump(InputAction.CallbackContext context)
+    //{
+    //    if (MoveDir.y < 0) StartCoroutine(CoroutineDownJump());
+    //}
+
+
     /// <summary>
     /// 플레이어 스킬1 트리거
     /// </summary>
@@ -208,6 +226,19 @@ public class PlayerInput : MonoBehaviour
         yield return null;
         isDash = false;
     }
+
+
+    ///// <summary>
+    ///// 코루틴으로 다운점프를 트리거 형태로 실행
+    ///// </summary>
+    ///// <returns></returns>
+    //private IEnumerator CoroutineDownJump()
+    //{
+    //    Debug.Log("정상 진입 완료");
+    //    isDownJump = true;
+    //    yield return null;
+    //    isDownJump = false;
+    //}
 
 
     /// <summary>

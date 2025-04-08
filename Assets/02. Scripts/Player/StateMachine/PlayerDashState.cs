@@ -13,7 +13,9 @@ public class PlayerDashState : PlayerAttackState
 
     public override void Enter()
     {
+#if StateMachineDebug
         Debug.Log("Dash 스테이트 진입");
+#endif
         base.Enter();
         changeStateDelayTime = 0;
         //TODO: Dash애니메이션 파라미터 활성화
@@ -24,7 +26,9 @@ public class PlayerDashState : PlayerAttackState
 
     public override void Exit()
     {
+#if StateMachineDebug
         Debug.Log("Dash 스테이트 해제");
+#endif
         base.Exit();
         //TODO: Dash애니메이션 파라미터 비활성화
         ResetZeroVelocity();
