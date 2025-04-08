@@ -8,8 +8,6 @@ public abstract class BasePatternData : ScriptableObject
     protected Transform boss;
 
     [SerializeField] protected Transform target;
-
-    [SerializeField] protected int layerMask = LayerMask.GetMask("Player");
     
     [SerializeField] public List<Rect> attackableAreas;
 
@@ -33,7 +31,10 @@ public abstract class BasePatternData : ScriptableObject
             Vector2 pointB = new Vector2(attackableAreas[i].xMax, attackableAreas[i].yMax);
             pointA = boss.TransformPoint(pointA);
             pointB = boss.TransformPoint(pointB);
-            Collider2D hit = Physics2D.OverlapArea(pointA, pointB, layerMask);
+
+            //수정 송제우: 필드에서 Layer정의로 오류가 생겨서 바꿨습니다.
+            //레이어 데이터를 정리해둔 클래스가 있으니 해당 스크립트의 LEADME 참고 바랍니다.
+            Collider2D hit = Physics2D.OverlapArea(pointA, pointB, LayerData.PlayerLayerMask);
 
             if (hit != null)
             {
