@@ -9,7 +9,7 @@ public class SkillData : ScriptableObject
     public string skillName;                // 스킬명
     public string description;              // 설명
     public int manaCost;                    // 마나 소모량
-    public float cooldown;                  // 쿨타임
+    public float coolTime;                  // 쿨타임
     public bool canMove;
 
     [Header("시각적 요소")]

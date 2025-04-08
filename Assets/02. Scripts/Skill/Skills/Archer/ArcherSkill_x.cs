@@ -2,10 +2,10 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 
 [CreateAssetMenu(menuName = "Skill/Archer/Archer_x")]
-public class ArcherBasicAtk : SkillExecuter
+public class ArcherSkill_x : SkillExecuter
 {
     public override void Execute(Character user, Character target, SkillData skillData)
     {
-        // 스킬 로직 작성
+        Debug.LogAssertion("궁수 평타");
     }
 }
