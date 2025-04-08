@@ -30,9 +30,14 @@ public class BossController : MonoBehaviour
 
     private void Start()
     {
+        //보스시작연출 패턴 있다면 추가
         StartCoroutine(PatternLoop());
     }
 
+    /// <summary>
+    /// 보스패턴 지속적 호출 코루틴
+    /// </summary>
+    /// <returns></returns>
     IEnumerator PatternLoop()
     {
         while (true)
@@ -44,7 +49,7 @@ public class BossController : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("선택 가능한 패턴 없음. 대기");
+                Debug.LogWarning("선택 가능한 패턴 없음. 대기");//전체 영역가지는 기본패턴 추가전 임시 디버그용
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -80,7 +85,6 @@ public class BossController : MonoBehaviour
     public void StartNextPattern()
     {
         StartCoroutine(GetRandomPattern().patternData.ExecutePattern(transform, animator));
-        
     }
     BossPattern GetRandomPattern()
     {

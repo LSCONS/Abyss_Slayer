@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossProjectileController : MonoBehaviour
+public class BossProjectileNormal : MonoBehaviour
 {
     Vector3 direction;
     float speed;
