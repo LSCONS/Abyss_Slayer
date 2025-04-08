@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     private PlayerStateMachine playerStateMachine;
 
     [field: SerializeField]public PlayerData playerData { get; private set; }
+    public SpriteRenderer SpriteRenderer { get; private set; }
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         playerStateMachine = new PlayerStateMachine(this);
+        SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Start()

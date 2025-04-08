@@ -4,7 +4,7 @@ using UnityEngine;
 public class ArcherSkill_x : SkillExecuter
 {
     public GameObject arrow;
-    public float arrowSpeed = 30f;
+    public float arrowSpeed;
 
     public override void Execute(Player user, Player target, SkillData skillData)
     {
@@ -23,11 +23,11 @@ public class ArcherSkill_x : SkillExecuter
             }
         }
 
-        var arrows = Instantiate(arrow, user.transform.position + Vector3.up, Quaternion.identity);
-        var dir = (target != null)
-            ? (target.transform.position - user.transform.position).normalized
-            : user.transform.right;
+        var spawnPos = user.transform.position + Vector3.right * 1.5f;
+        var arrows = Instantiate(arrow, spawnPos, Quaternion.identity);
+        Vector2 dir = user.SpriteRenderer.flipX ? Vector2.left : Vector2.right;
 
-        arrows.GetComponent<Rigidbody2D>().velocity = dir * arrowSpeed;
+        var rb = arrows.GetComponent<Rigidbody2D>();
+        rb.velocity = dir * arrowSpeed;
     }
 }
