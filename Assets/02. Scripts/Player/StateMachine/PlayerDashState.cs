@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDashState : PlayerAttackState
+public class PlayerDashState : PlayerAttackState, IPlayerAttackInput
 {
+    public StoppableAction AttackAction = new();
+    private SkillData skillData;
+    private SkillSlotKey slotkey = SkillSlotKey.Z;
     public PlayerDashState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+        //skillData = playerStateMachine.Player.equippedSkills[slotkey];
+        //playerStateMachine.ConnectAttackState(this);
     }
-
-    private SkillSlotKey slotkey = SkillSlotKey.Z;
     private float changeStateDelayTime = 0;
 
     public override void Enter()
@@ -68,9 +71,20 @@ public class PlayerDashState : PlayerAttackState
         DashVector *= playerStateMachine.Player.playerData.PlayerAirData.DashForce;
         ResetZeroVelocity();
         ResetZeroGravityForce();
+        FlipRenderer(DashVector.x);   
         playerStateMachine.Player.playerRigidbody.AddForce(DashVector, ForceMode2D.Impulse);
         playerStateMachine.Player.playerData.PlayerAirData.CanDash = false;
         playerStateMachine.Player.SkillCoolTimeUpdate(slotkey);
         playerStateMachine.Player.playerData.PlayerAirData.CurDashCount--;
+    }
+
+    public bool GetIsInputKey()
+    {
+        return playerStateMachine.Player.input.IsDash;
+    }
+
+    public SkillData GetSkillData()
+    {
+        return skillData;
     }
 }
