@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 /// <summary>
 /// 스킬이 어떤 대상에게, 어떤 방식으로 적용되는지 정의하는 ScriptableObject.
@@ -18,4 +19,13 @@ public class TargetingData : ScriptableObject
     public bool isArea;             // 단일 or 범위
     public float range;             // 시전 거리 (공격 스킬)
     public float areaRadius;        // 범위 반경 (힐 or 버프)
+
+    public bool IsValidTarget(Player user, Player target)
+    {
+        if (target == null) return false;
+        if (!includeSelf && target == user) return false;
+        //if (affectPlayers && target.IsPlayer) return true;
+        //if (affectEnemies && !target.IsPlayer) return true;
+        return false;
+    }
 }

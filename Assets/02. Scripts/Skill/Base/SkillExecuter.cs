@@ -13,5 +13,5 @@ public abstract class SkillExecuter : ScriptableObject
     /// <param name="user">스킬 시전자</param>
     /// <param name="target">스킬 대상</param>
     /// <param name="skillData">실행되는 스킬 데이터</param>
-    public abstract void Execute(Character user, Character target, SkillData skillData);
+    public abstract void Execute(Player user, Player target, SkillData skillData);
 }

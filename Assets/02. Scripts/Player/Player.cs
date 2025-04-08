@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class Player : MonoBehaviour
 {
@@ -9,8 +10,9 @@ public class Player : MonoBehaviour
     public Rigidbody2D playerRigidbody;
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
-    public Animator PlayerAnimator {  get; private set; }//TODO: 나중에 초기화 필요
-    public SkillSet skillDatas;
+    public Animator PlayerAnimator { get; private set; }//TODO: 나중에 초기화 필요
+    public SkillSet skillSet;
+    private Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 임시
     private PlayerStateMachine playerStateMachine;
 
     [field: SerializeField]public PlayerData playerData { get; private set; }
@@ -26,13 +28,31 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        equippedSkills = new();
         playerStateMachine.ChangeState(playerStateMachine.IdleState);
+        foreach (var slot in skillSet.skillSlots)
+        {
+            if (slot.skillData != null)
+            {
+                equippedSkills[slot.key] = slot.skillData;
+            }
+            else
+            {
+                Debug.LogWarning($"Skill in slot {slot.key} is null!");
+            }
+        }
     }
 
     private void Update()
     {
         playerStateMachine.Update();
         playerStateMachine.HandleInput();
+
+        // 임시
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            UseSkill(SkillSlotKey.X);
+        }
     }
 
     private void FixedUpdate()
@@ -48,6 +68,21 @@ public class Player : MonoBehaviour
         float coolTime = playerData.PlayerAirData.DashCoolTime;
         Debug.Log("coolTime = " +  coolTime);
         StartCoroutine(SkillCoolTimeUpdateCoroutine(coolTime, slotKey));
+    }
+
+    // 임시
+    public void UseSkill(SkillSlotKey key)
+    {
+        if (equippedSkills == null)
+        {
+            Debug.LogError("equippedSkills is null!");
+            return;
+        }
+
+        if (equippedSkills.TryGetValue(key, out var skill))
+        {
+            skill.Execute(this, null);
+        }
     }
 
     private IEnumerator SkillCoolTimeUpdateCoroutine(float coolTIme, SkillSlotKey slotKey)

@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.TextCore.Text;
+
 
 // 스킬의 공통으로 필요한 데이터를 저장하는 ScriptableObject.
 [CreateAssetMenu(menuName = "Skill/Base/SkillData")]
@@ -26,7 +26,7 @@ public class SkillData : ScriptableObject
     [Header("타겟팅")]
     public TargetingData targetingData;     // 타겟팅 데이터
 
-    public void Execute(Character user, Character target)
+    public void Execute(Player user, Player target)
     {
         executer?.Execute(user, target, this);
     }

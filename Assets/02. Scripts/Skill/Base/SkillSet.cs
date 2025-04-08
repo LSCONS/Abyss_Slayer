@@ -4,6 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/SkillSet")]
 public class SkillSet : ScriptableObject
 {
-    public string characterClassName;
-    public List<SkillSlot> skillSlots;
+    public string className;
+    public List<SkillSlot> skillSlots = new();
 }
