@@ -11,8 +11,8 @@ public class Player : MonoBehaviour
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
     public Animator PlayerAnimator { get; private set; }//TODO: 나중에 초기화 필요
-    public SkillSet skillSet;
-    private Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 임시
+    public SkillSet skillSet; // 스킬셋 데이터
+    private Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
     private PlayerStateMachine playerStateMachine;
     public BoxCollider2D playerGroundCollider;
     public SpriteRenderer playerSpriteRenderer;
@@ -82,7 +82,10 @@ public class Player : MonoBehaviour
         StartCoroutine(SkillCoolTimeUpdateCoroutine(coolTime, slotKey));
     }
 
-    // 임시
+    /// <summary>
+    /// 스킬을 사용하는 메서드
+    /// </summary>
+    /// <param name="key">스킬 키 타입</param>
     public void UseSkill(SkillSlotKey key)
     {
         if (equippedSkills == null)
@@ -128,7 +131,6 @@ public class Player : MonoBehaviour
                 break;
         }
     }
-
 
     /// <summary>
     /// 플레이어가 다운점프를 하고 빠져나온 뒤 isTrigger을 false로 되돌리는 메서드
