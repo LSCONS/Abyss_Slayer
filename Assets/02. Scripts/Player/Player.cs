@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
     public Animator PlayerAnimator { get; private set; }//TODO: 나중에 초기화 필요
     public SkillSet skillSet; // 스킬셋 데이터
-    private Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
+    public Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
     private PlayerStateMachine playerStateMachine;
     public BoxCollider2D playerGroundCollider;
     public SpriteRenderer playerSpriteRenderer;
@@ -84,7 +84,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"{slotKey}에 대한 정보를 찾을 수 없습니다.");
+            Debug.LogError($"{slotKey}에 대한 정보를 찾을 수 없습니다. (송제우: Z에 대한 정보면 무시해도 됩니다.)");
             coolTime = 0.5f;
         }
         Debug.Log("coolTime = " +  coolTime);
@@ -131,7 +131,6 @@ public class Player : MonoBehaviour
                 break;
             case SkillSlotKey.Z:
                 playerData.PlayerAirData.CanDash = true;
-                Debug.Log("쿨타임 초기화 종료");
                 break;
             case SkillSlotKey.A:
                 break;
