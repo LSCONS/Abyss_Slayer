@@ -11,7 +11,7 @@ public static class LayerData
     /// 
     /// 하지만 RayCast와 같이 비트마스크의 int값으로 반환되는 부분은 Index가 아닌
     /// Mask부분을 사용해야 합니다. 만일 마스크 값에서 다양한 마스크 값을 비교하고 싶을 경우
-    /// 예)플레이어, 그라운드 동시 체크일 경우 -> GoundLayermask & PlayerLayerMask
+    /// 예)플레이어, 그라운드 동시 체크일 경우 -> GoundLayermask | PlayerLayerMask
     /// 와 같이 비트연산자로 합쳐서 넣어주시면 됩니다.
 
     public static readonly LayerMask GroundPlaneLayerIndex = LayerMask.NameToLayer("GroundPlane");
