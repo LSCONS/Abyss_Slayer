@@ -35,7 +35,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        equippedSkills = new();
         playerStateMachine.ChangeState(playerStateMachine.IdleState);
         foreach (var slot in skillSet.skillSlots)
         {
@@ -85,7 +84,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 스킬을 사용하는 메서드
     /// </summary>
-    /// <param name="key">스킬 키 타입</param>
+    /// <param name="key">사용할 스킬 키</param>
     public void UseSkill(SkillSlotKey key)
     {
         if (equippedSkills == null)
@@ -94,12 +93,12 @@ public class Player : MonoBehaviour
             return;
         }
 
+        // 해당 키의 스킬을 찾고 있다면 실행
         if (equippedSkills.TryGetValue(key, out var skill))
         {
             skill.Execute(this, null);
         }
     }
-
 
     /// <summary>
     /// 스킬의 쿨타임을 계산하고 다시 사용 가능하게 바꿔주는 코루틴
