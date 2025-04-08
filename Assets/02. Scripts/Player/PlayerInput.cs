@@ -13,9 +13,9 @@ public class PlayerInput : MonoBehaviour
     private bool isAttack;
     private bool isDash;
     //private bool isDownJump;
-    private bool isSkill1;
-    private bool isSkill2;
-    private bool isSkill3;
+    private bool isSkillA;
+    private bool isSkillS;
+    private bool isSkillD;
     #endregion
 
     #region 프로퍼티 선언
@@ -47,17 +47,17 @@ public class PlayerInput : MonoBehaviour
     /// <summary>
     /// 플레이어가 스킬1을 입력했는지 확인(트리거)
     /// </summary>
-    public bool IsSkill1 { get => isSkill1; }
+    public bool IsSkillA { get => isSkillA; }
 
     /// <summary>
     /// 플레이어가 스킬2를 입력했는지 확인(트리거)
     /// </summary>
-    public bool IsSkill2 { get => isSkill2; }
+    public bool IsSkillS { get => isSkillS; }
 
     /// <summary>
     /// 플레이어가 스킬3을 입력했는지 확인(트리거)
     /// </summary>
-    public bool IsSkill3 { get => isSkill3; }
+    public bool IsSkillD { get => isSkillD; }
     #endregion
 
 
@@ -90,9 +90,9 @@ public class PlayerInput : MonoBehaviour
         inputs.Player.Dash.started += StartDash;
         //inputs.Player.Jump.started += StartDownJump;
         inputs.Player.Attack.started += StartAttack;
-        inputs.Player.Skill1.started += StartSkill1;
-        inputs.Player.Skill2.started += StartSkill2;
-        inputs.Player.Skill3.started += StartSkill3;
+        inputs.Player.Skill1.started += StartSkillA;
+        inputs.Player.Skill2.started += StartSkillS;
+        inputs.Player.Skill3.started += StartSkillD;
     }
 
 
@@ -109,9 +109,9 @@ public class PlayerInput : MonoBehaviour
         inputs.Player.Dash.started -= StartDash;
         //inputs.Player.Jump.started -= StartDownJump;
         inputs.Player.Attack.started -= StartAttack;
-        inputs.Player.Skill1.started -= StartSkill1;
-        inputs.Player.Skill2.started -= StartSkill2;
-        inputs.Player.Skill3.started -= StartSkill3;
+        inputs.Player.Skill1.started -= StartSkillA;
+        inputs.Player.Skill2.started -= StartSkillS;
+        inputs.Player.Skill3.started -= StartSkillD;
     }
 
 
@@ -180,29 +180,29 @@ public class PlayerInput : MonoBehaviour
 
 
     /// <summary>
-    /// 플레이어 스킬1 트리거
+    /// 플레이어 스킬A 트리거
     /// </summary>
-    private void StartSkill1(InputAction.CallbackContext context)
+    private void StartSkillA(InputAction.CallbackContext context)
     {
-        StartCoroutine(CoroutineSkill1());
+        StartCoroutine(CoroutineSkillA());
     }
 
 
     /// <summary>
-    /// 플레이어 스킬2 트리거
+    /// 플레이어 스킬S 트리거
     /// </summary>
-    private void StartSkill2(InputAction.CallbackContext context)
+    private void StartSkillS(InputAction.CallbackContext context)
     {
-        StartCoroutine(CoroutineSkill2());
+        StartCoroutine(CoroutineSkillS());
     }
 
 
     /// <summary>
-    /// 플레이어 스킬3 트리거
+    /// 플레이어 스킬D 트리거
     /// </summary>
-    private void StartSkill3(InputAction.CallbackContext context)
+    private void StartSkillD(InputAction.CallbackContext context)
     {
-        StartCoroutine(CoroutineSkill3());
+        StartCoroutine(CoroutineSkillD());
     }
 
 
@@ -242,34 +242,34 @@ public class PlayerInput : MonoBehaviour
 
 
     /// <summary>
-    /// 코루틴으로 스킬1을 트리거 형태로 실행.
+    /// 코루틴으로 스킬A을 트리거 형태로 실행.
     /// </summary>
-    private IEnumerator CoroutineSkill1()
+    private IEnumerator CoroutineSkillA()
     {
-        isSkill1 = true;
+        isSkillA = true;
         yield return null;
-        isSkill1 = false;
+        isSkillA = false;
     }
 
 
     /// <summary>
-    /// 코루틴으로 스킬2를 트리거 형태로 실행.
+    /// 코루틴으로 스킬S를 트리거 형태로 실행.
     /// </summary>
-    private IEnumerator CoroutineSkill2()
+    private IEnumerator CoroutineSkillS()
     {
-        isSkill2 = true;
+        isSkillS = true;
         yield return null;
-        isSkill2 = false;
+        isSkillS = false;
     }
 
 
     /// <summary>
-    /// 코루틴으로 스킬3를 트리거 형태로 실행.
+    /// 코루틴으로 스킬D를 트리거 형태로 실행.
     /// </summary>
-    private IEnumerator CoroutineSkill3()
+    private IEnumerator CoroutineSkillD()
     {
-        isSkill3 = true;
+        isSkillD = true;
         yield return null;
-        isSkill3 = false;
+        isSkillD = false;
     }
 }
