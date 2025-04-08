@@ -51,7 +51,7 @@ public class PlayerIdleState : PlayerGroundState
                 playerStateMachine.Player.playerGroundCollider.isTrigger = true;
                 playerStateMachine.ChangeState(playerStateMachine.FallState);
             }
-            else
+            else if (playerStateMachine.Player.input.MoveDir.y >= 0)
             {
                 playerStateMachine.ChangeState(playerStateMachine.JumpState);
                 return;
