@@ -50,11 +50,38 @@ public static class Util
 
 
     /// <summary>
-    /// FindFirstObjectByType와 똑같지만 자동으로 디버깅을 출력해준다.
+    /// FindObjectsByType와 똑같지만 자동으로 디버깅을 출력해준다. 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="isDebug"></param>
-    /// <returns></returns>
+    /// <typeparam name="T">찾을 컴포넌트</typeparam>
+    /// <param name="findObjectsInactive">
+    /// FindObjectsInactive.Exclude -> 활성화 상태만 탐색
+    /// FindObjectsInactive.Include -> 비활성화 상태도 탐색
+    /// </param>
+    /// <param name="findObjectsSortMode">
+    /// FindObjectsSortMode.None        -> 정렬 없음(빠름)
+    /// FindObjectsSortMode.InstanceID  -> ID순서로 정렬
+    /// </param>
+    /// <param name="isDebug">디버깅 유무, 기본 값은 출력</param>
+    /// <returns>찾은 컴포넌트를 배열로 반환</returns>
+    public static T[] FindObjectsByTypeDebug<T>
+        (
+            FindObjectsInactive findObjectsInactive, 
+            FindObjectsSortMode findObjectsSortMode, 
+            bool isDebug = true
+        ) where T : Component
+    {
+        T[] tempT = Object.FindObjectsByType<T>(findObjectsInactive, findObjectsSortMode);
+        if (tempT == null && isDebug) Debug.LogError($"{typeof(T)} is null");
+        return tempT;
+    }
+
+
+    /// <summary>
+    /// FindFirstObjectsByType와 똑같지만 자동으로 디버깅을 출력해준다.
+    /// </summary>
+    /// <typeparam name="T">찾을 컴포넌트</typeparam>
+    /// <param name="isDebug">디버깅 유무, 기본값은 출력</param>
+    /// <returns>찾은 컴포넌트를 반환</returns>
     public static T FindFirstObjectByTypeDebug<T>(bool isDebug = true) where T : Component
     {
         T tempT = Object.FindFirstObjectByType<T>();
