@@ -26,7 +26,7 @@ public class ArcherSkill_x : SkillExecuter
         // 화살에 속도 적용 (지정 방향으로 발사)
         arrows.GetComponent<Rigidbody2D>().velocity = dir * arrowSpeed;
 
-        var arrowScript = arrows.GetComponent<Arrow>();
-        arrowScript.SetRange(skillData.targetingData.range);
+        // Arrow의 SetRange()에 범위 매개변수 전달
+        arrows.GetComponent<Arrow>().SetRange(skillData.targetingData.range);
     }
 }

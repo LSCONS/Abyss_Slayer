@@ -19,7 +19,7 @@ public class ArcherSkill_s : SkillExecuter
 
         float randomXSpawn;
 
-        // x축 일정 범위 내에서 화살 랜덤 생성
+        // 일정 범위 내에서 화살 랜덤 생성
         if (!user.SpriteRenderer.flipX)
         {
             randomXSpawn = Random.Range(-0.3f, 1.2f);
@@ -29,7 +29,7 @@ public class ArcherSkill_s : SkillExecuter
             randomXSpawn = Random.Range(0.3f, -1.2f);
         }
 
-        float randomYSpawn = Random.Range(-0.3f, 0.7f);
+        float randomYSpawn = Random.Range(-0.3f, 0.5f);
 
         // 화살 생성 위치 설정
         Vector3 spawnPos = user.transform.position + (Vector3)(dir * 2f) + new Vector3(randomXSpawn, randomYSpawn, 0);
@@ -44,3 +44,6 @@ public class ArcherSkill_s : SkillExecuter
         arrows.GetComponent<Arrow>().SetRange(skillData.targetingData.range);
     }
 }
+
+// 쿨타임 적용 및 발사 화살 수 별도 지정 필요
+// 현재는 플레이어의 update문에서 스킬을 사용중이라 프레임을 60으로 제한하지 않으면 너무 많이 생성

@@ -27,6 +27,7 @@ public class SkillData : ScriptableObject
     [Header("타겟팅")]
     public TargetingData targetingData;     // 타겟팅 데이터
 
+    // 스킬 실행 추상 클래스 호출
     public void Execute(Player user, Player target)
     {
         executer?.Execute(user, target, this);
