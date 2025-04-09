@@ -8,6 +8,7 @@ public class Explosion : BasePoolable
     [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] Collider2D _collider;
     List<Player> hitPlayers = new List<Player>();
+    int _damage;
 
     private void OnEnable()
     {
@@ -25,11 +26,13 @@ public class Explosion : BasePoolable
     /// <param name="position">생성위치</param>
     /// <param name="size">폭발크기 기본값 = 1</param>
     /// <param name="spriteNum">폭발모양 기본값 = 0</param>
-    public void Init(Vector3 position, float size = 1, int spriteNum = 0)
+    public void Init(Vector3 position,int damage, float size = 1, int spriteNum = 0)
     {
         transform.position = position;
+        _damage = damage;
         transform.localScale = Vector3.one * size;
         _spriteRenderer.sprite = _sprites[spriteNum];
+        
     }
     public void StartExplosion()
     {

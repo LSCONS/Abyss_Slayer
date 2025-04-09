@@ -4,17 +4,39 @@ using UnityEngine;
 
 public class BossProjectileNormal : BasePoolable
 {
+    [SerializeField] Rigidbody _rigidbody;
     [SerializeField] List<Sprite> _sprites;
     [SerializeField] SpriteRenderer _spriteRenderer;
     float speed;
     Vector3 direction;
+    float delayTime;
+
+    float startTime;
+    bool movable;
+
     private void OnEnable()
     {
-        //사운스 삽입
+        movable = false;
+        startTime = Time.time;
+    }
+    private void Update()
+    {
+        if(!movable)
+        {
+            if(Time.time - startTime >= delayTime)
+            {
+                movable = true;
+                //발사사운드 삽입
+            }
+        }
+        else
+        {
+            transform.Translate(direction * speed *  Time.deltaTime);
+        }
     }
     public override void Init()
     {
-        //호출용 실제 초기화는 오버로딘한 init에서 실행
+        //호출용 실제 초기화는 오버로드한 init에서 실행
     }
     /// <summary>
     /// 일반탄환 초기화(정해진방향,속도로일정하게 진행되는 탄환)
@@ -28,6 +50,9 @@ public class BossProjectileNormal : BasePoolable
     public void Init(Vector3 position, Vector3 direction, float speed = 1f, float delayTime = 0f, float size = 1f, int spriteNum = 0)
     {
         transform.position = position;
+        this.direction = direction.normalized;
+        this.speed = speed;
+        this.delayTime = delayTime;
         transform.localScale = Vector3.one * size;
         _spriteRenderer.sprite = _sprites[spriteNum];
     }
