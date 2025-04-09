@@ -6,6 +6,12 @@ public class ArcherSkill_x : SkillExecuter
     public GameObject arrow;         // 발사할 화살 프리팹
     public float arrowSpeed;         // 화살 속도
 
+    /// <summary>
+    /// 아처의 평타 로직을 담당하는 메소드
+    /// </summary>
+    /// <param name="user">스킬 시전자</param>
+    /// <param name="target">타겟팅 정보</param>
+    /// <param name="skillData">스킬의 공통 데이터</param>
     public override void Execute(Player user, Player target, SkillData skillData)
     {
         // 플레이어가 바라보는 방향 계산 (flipX 기준)
@@ -19,5 +25,8 @@ public class ArcherSkill_x : SkillExecuter
 
         // 화살에 속도 적용 (지정 방향으로 발사)
         arrows.GetComponent<Rigidbody2D>().velocity = dir * arrowSpeed;
+
+        var arrowScript = arrows.GetComponent<Arrow>();
+        arrowScript.SetRange(skillData.targetingData.range);
     }
 }

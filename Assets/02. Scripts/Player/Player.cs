@@ -2,7 +2,6 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class Player : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class Player : MonoBehaviour
     public BoxCollider2D playerGroundCollider;
     public SpriteRenderer playerSpriteRenderer;
 
-    [field: SerializeField]public PlayerData playerData { get; private set; }
+    [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
 
     private void Awake()
@@ -36,6 +35,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         playerStateMachine.ChangeState(playerStateMachine.IdleState);
     }
 
@@ -59,7 +59,13 @@ public class Player : MonoBehaviour
     {
         playerStateMachine.Update();
         playerStateMachine.HandleInput();
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            UseSkill(SkillSlotKey.S);
+        }
     }
+
 
     private void FixedUpdate()
     {
@@ -87,7 +93,7 @@ public class Player : MonoBehaviour
             Debug.LogError($"{slotKey}에 대한 정보를 찾을 수 없습니다. (송제우: Z에 대한 정보면 무시해도 됩니다.)");
             coolTime = 0.5f;
         }
-        Debug.Log("coolTime = " +  coolTime);
+        Debug.Log("coolTime = " + coolTime);
         StartCoroutine(SkillCoolTimeUpdateCoroutine(coolTime, slotKey));
     }
 
@@ -124,7 +130,7 @@ public class Player : MonoBehaviour
             yield return null;
         }
 
-        switch(slotKey)
+        switch (slotKey)
         {
             case SkillSlotKey.X:
                 equippedSkills[SkillSlotKey.X].canUse = true;

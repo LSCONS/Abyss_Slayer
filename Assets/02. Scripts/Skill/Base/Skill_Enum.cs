@@ -2,7 +2,7 @@ public enum SkillCategory
 {
     BasicAtk,
     Heal,
-    Damage, 
+    Attack, 
     Buff, 
     Debuff
 }

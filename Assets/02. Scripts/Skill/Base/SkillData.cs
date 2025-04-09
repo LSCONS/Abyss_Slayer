@@ -22,7 +22,6 @@ public class SkillData : ScriptableObject
     public SkillExecuter executer;			// 스킬 실행 클래스
     public SkillCategory category;			// 스킬 종류
     public DamageType damageType;			// 데미지 타입 (물리, 마법)
-    public EvasionType evasionType;			// 회피 종류 (대쉬, 텔포)
     public ApplyState applyState;           //연결 가능한 State 체크
 
     [Header("타겟팅")]
