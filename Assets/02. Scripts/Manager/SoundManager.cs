@@ -13,7 +13,14 @@ public class SoundManager : Singleton<SoundManager>
     private List<AudioSource> activeSources = new List<AudioSource>(); // 활성화된 소스
     [SerializeField] private int poolSize = 10; // 풀 크기
 
+    private float masterVolume = 0f; // 마스터 볼륨
+
     private float bgmVolume = 0f; // 브금 볼륨
+    private float sfxVolume = 0f; // sfx 볼륨
+
+    public float MasterVolume => masterVolume;
+    public float BGMVolume => bgmVolume;
+    public float SFXVolume => sfxVolume;
     private float bgmFadeTime = 1f; // 브금 페이드 시간
 
     private Coroutine bgmCoroutine; // 페이드인아웃에 쓸 브금 코루틴
@@ -135,7 +142,7 @@ public class SoundManager : Singleton<SoundManager>
 
         AudioSource audioSource = GetPooledSource();
         audioSource.clip = data.cachedClip;
-        audioSource.volume = data.volume;
+        audioSource.volume = data.volume * sfxVolume;
         audioSource.loop = data.loop;
         audioSource.Play();
 
@@ -218,7 +225,7 @@ public class SoundManager : Singleton<SoundManager>
         }
 
         if (bgmCoroutine != null) StopCoroutine(bgmCoroutine);
-        bgmCoroutine = StartCoroutine(FadeInOutBGM(data.cachedClip, data.volume));
+        bgmCoroutine = StartCoroutine(FadeInOutBGM(data.cachedClip, data.volume * bgmVolume));
     }
 
     /// <summary>
@@ -256,5 +263,53 @@ public class SoundManager : Singleton<SoundManager>
         next.volume = volume;
         currentBgmIndex = nextIndex;
     }
+
+    // 브금 볼륨 설정
+    public void SetBGMVolume(float value)
+    {
+        bgmVolume = value;
+        if (bgmSources[currentBgmIndex] != null)
+            bgmSources[currentBgmIndex].volume = value;
+    }
+
+    // sfx 볼륨 설정
+    public void SetSFXVolume(float value)
+    {
+        sfxVolume = value;
+        foreach (var src in activeSources)
+        {
+            if (src.clip != null)
+            {
+                var data = soundLibrary.GetSoundData(src.clip.name);
+                if (data != null)
+                    src.volume = data.volume * sfxVolume;
+            }
+        }
+    }
+    // 마스터 볼륨 설정 
+    public void SetMasterVolume(float value)
+    {
+        masterVolume = value;
+        ApplyBGMVolume();
+        ApplySFXVolume();
+    }
+
+
+
+// 브금 볼륨 적용
+private void ApplyBGMVolume()
+    {
+        bgmSources[currentBgmIndex].volume = bgmVolume * masterVolume;
+    }
+
+    // sfx 볼륨 적용
+    private void ApplySFXVolume()
+    {
+        foreach (var src in activeSources)
+        {
+            src.volume = sfxVolume * masterVolume;
+        }
+    }
+
 }
 
