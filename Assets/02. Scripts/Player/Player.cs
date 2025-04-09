@@ -64,11 +64,6 @@ public class Player : MonoBehaviour
     {
         playerStateMachine.Update();
         playerStateMachine.HandleInput();
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            UseSkill(SkillSlotKey.S);
-        }
     }
 
 
