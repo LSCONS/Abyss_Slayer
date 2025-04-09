@@ -117,13 +117,17 @@ public class Player : MonoBehaviour
                 equippedSkills[SkillSlotKey.X].canUse = true;
                 break;
             case SkillSlotKey.Z:
+                //TODO: 임시 코드
                 playerData.PlayerAirData.CanDash = true;
                 break;
             case SkillSlotKey.A:
+                equippedSkills[SkillSlotKey.A].canUse = true;
                 break;
             case SkillSlotKey.S:
+                equippedSkills[SkillSlotKey.S].canUse = true;
                 break;
             case SkillSlotKey.D:
+                equippedSkills[SkillSlotKey.D].canUse = true;
                 break;
         }
     }
