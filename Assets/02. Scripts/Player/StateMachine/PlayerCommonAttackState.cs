@@ -12,7 +12,7 @@ public class PlayerCommonAttackState : PlayerSkillState
     public PlayerCommonAttackState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         skillData = playerStateMachine.Player.equippedSkills[slotkey];
-        playerStateMachine.ConnectSkillState(this, skillData, playerStateMachine.Player.input.IsAttack);
+        playerStateMachine.ConnectSkillState(this, skillData,() => playerStateMachine.Player.input.IsAttack);
     }
     public override void Enter()
     {
@@ -22,6 +22,9 @@ public class PlayerCommonAttackState : PlayerSkillState
         skillData.Execute(playerStateMachine.Player, null);
         playerStateMachine.Player.SkillCoolTimeUpdate(slotkey);
         EnterUpdateTime = 0f;
+#if StateMachineDebug
+        Debug.Log("SkillXState 진입");
+#endif
     }
 
     public override void Exit()
@@ -29,6 +32,9 @@ public class PlayerCommonAttackState : PlayerSkillState
         base.Exit();
         //TODO: 스킬 X 애니메이터 비활성화
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+#if StateMachineDebug
+        Debug.Log("SkillXState 해제");
+#endif
     }
 
     public override void Update()
