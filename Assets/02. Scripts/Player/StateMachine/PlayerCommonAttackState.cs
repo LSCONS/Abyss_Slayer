@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCommonAttackState : PlayerAttackState, IPlayerAttackInput
+public class PlayerCommonAttackState : PlayerSkillState
 {
     private SkillData skillData;
     private SkillSlotKey slotkey = SkillSlotKey.X;
@@ -12,12 +12,12 @@ public class PlayerCommonAttackState : PlayerAttackState, IPlayerAttackInput
     public PlayerCommonAttackState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         skillData = playerStateMachine.Player.equippedSkills[slotkey];
-        playerStateMachine.ConnectAttackState(this);
+        playerStateMachine.ConnectSkillState(this, skillData, playerStateMachine.Player.input.IsAttack);
     }
     public override void Enter()
     {
         base.Enter();
-        //TODO: 스킬 사용 중 움직일 수 있는지 확인하고 실행
+        if (!(skillData.canMove)) playerStateMachine.MovementSpeed = 0f;
         //TODO: 스킬 X 애니메이터 활성화
         skillData.Execute(playerStateMachine.Player, null);
         playerStateMachine.Player.SkillCoolTimeUpdate(slotkey);
@@ -34,6 +34,7 @@ public class PlayerCommonAttackState : PlayerAttackState, IPlayerAttackInput
     public override void Update()
     {
         base.Update();
+        playerStateMachine.SkipAttackAction?.Invoke();
         EnterUpdateTime += Time.deltaTime;
         if(EnterUpdateTime <= ChangeStateDelayTime)
         {
@@ -42,15 +43,5 @@ public class PlayerCommonAttackState : PlayerAttackState, IPlayerAttackInput
 
         //TODO: 임시 코드
         playerStateMachine.ChangeState(playerStateMachine.IdleState);
-    }
-
-    public bool GetIsInputKey()
-    {
-        return playerStateMachine.Player.input.IsAttack;
-    }
-
-    public SkillData GetSkillData()
-    {
-        return skillData;
     }
 }
