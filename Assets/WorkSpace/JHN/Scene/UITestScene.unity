@@ -752,6 +752,7 @@ GameObject:
   m_Component:
   - component: {fileID: 638554971}
   - component: {fileID: 638554973}
+  - component: {fileID: 638554974}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -789,6 +790,18 @@ MonoBehaviour:
   allUIList:
   - {fileID: 1392714868}
   - {fileID: 1755837575}
+--- !u!114 &638554974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638554970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e59575cfa43d7a4db23020fb21d052d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &753472659
 GameObject:
   m_ObjectHideFlags: 0
@@ -1620,8 +1633,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiType: 2
   hpBar: {fileID: 1706825370}
-  targetName: Player
-  target: {fileID: 1754499209}
+  targetName: 
+  target: {fileID: 0}
 --- !u!1 &1489782603
 GameObject:
   m_ObjectHideFlags: 0
@@ -2158,8 +2171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f9e1264b623cb746b3ce9de134df3db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
-  maxHp: 100
 --- !u!1 &1755837573
 GameObject:
   m_ObjectHideFlags: 0
