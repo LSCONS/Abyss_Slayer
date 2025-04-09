@@ -21,24 +21,52 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
-        playerData = Resources.Load<PlayerData>("Player/Player");
-        playerData = Instantiate(playerData);
+        InitPlayerData();
         InitSkilData();
-        input = GetComponent<PlayerInput>();
-        playerRigidbody = GetComponent<Rigidbody2D>();
-        playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
-        playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
-        playerSpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
-        SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        InitComponent();
         playerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
     }
 
     private void Start()
     {
-        Application.targetFrameRate = 60;
         playerStateMachine.ChangeState(playerStateMachine.IdleState);
+    }
+
+    private void Update()
+    {
+        playerStateMachine.Update();
+        playerStateMachine.HandleInput();
+    }
+
+    private void FixedUpdate()
+    {
+        playerStateMachine.FixedUpdate();
+    }
+
+
+    /// <summary>
+    /// 플레이어 데이터를 초기화하는 메서드
+    /// </summary>
+    private void InitPlayerData()
+    {
+        //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
+        playerData = Resources.Load<PlayerData>("Player/Player");
+        playerData = Instantiate(playerData);
+    }
+
+
+    /// <summary>
+    /// 컴포넌트를 초기화하는 메서드
+    /// </summary>
+    private void InitComponent()
+    {
+        input = GetComponent<PlayerInput>();
+        playerRigidbody = GetComponent<Rigidbody2D>();
+        playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
+        playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
+        playerSpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
+        SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
 
@@ -47,6 +75,7 @@ public class Player : MonoBehaviour
     /// </summary>
     private void InitSkilData()
     {
+        skillSet.InstantiateSkillData();
         equippedSkills = new();
         foreach (var slot in skillSet.skillSlots)
         {
@@ -59,18 +88,6 @@ public class Player : MonoBehaviour
                 Debug.LogWarning($"Skill in slot {slot.key} is null!");
             }
         }
-    }
-
-    private void Update()
-    {
-        playerStateMachine.Update();
-        playerStateMachine.HandleInput();
-    }
-
-
-    private void FixedUpdate()
-    {
-        playerStateMachine.FixedUpdate();
     }
 
 
@@ -97,6 +114,7 @@ public class Player : MonoBehaviour
         Debug.Log("coolTime = " + coolTime);
         StartCoroutine(SkillCoolTimeUpdateCoroutine(coolTime, slotKey));
     }
+
 
     /// <summary>
     /// 스킬의 쿨타임을 계산하고 다시 사용 가능하게 바꿔주는 코루틴
@@ -132,6 +150,7 @@ public class Player : MonoBehaviour
                 break;
         }
     }
+
 
     /// <summary>
     /// 플레이어가 다운점프를 하고 빠져나온 뒤 isTrigger을 false로 되돌리는 메서드
