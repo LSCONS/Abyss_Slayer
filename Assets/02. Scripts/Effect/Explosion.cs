@@ -16,7 +16,7 @@ public class Explosion : BasePoolable
 
     public override void Init()
     {
-        //호출용 실제 초기화는 오버로딘한 init에서 실행
+        //호출용 실제 초기화는 오버로드한 init에서 실행
     }
 
     /// <summary>

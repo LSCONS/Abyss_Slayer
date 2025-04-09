@@ -17,9 +17,6 @@ public class PoolManager : Singleton<PoolManager>
     private Dictionary<Type, ObjectPool<BasePoolable>> poolDict = new();
 
 
-    public BaseObjectPool explosionPool;
-    public BaseObjectPool bossProjectileNormalPool;
-
     protected override void Awake()
     {
         base.Awake();
@@ -27,7 +24,7 @@ public class PoolManager : Singleton<PoolManager>
         for(int i = 0; i < poolConfigs.Count; i++)
         {
             ObjectPool<BasePoolable> pool = new ObjectPool<BasePoolable>(poolConfigs[i].prefab, poolConfigs[i].initialSize, poolConfigs[i].parent);
-            poolDict.Add(poolConfigs[i].GetType(), pool);
+            poolDict.Add(poolConfigs[i].prefab.GetType(), pool);
         }
     }
     public T Get<T>() where T : BasePoolable

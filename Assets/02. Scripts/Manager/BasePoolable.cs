@@ -4,15 +4,10 @@ using UnityEngine;
 
 public abstract class BasePoolable : MonoBehaviour
 {
-    protected BaseObjectPool _pool;
-    protected ObjectPool<BasePoolable> pool;
-    public virtual void SetPool(BaseObjectPool pool)
-    {
-        _pool = pool;
-    }
+    protected ObjectPool<BasePoolable> _pool;
     public virtual void SetPool(ObjectPool<BasePoolable> pool)
     {
-        this.pool = pool;
+        _pool = pool;
     }
 
     //반드시 오버로딩하여 사용
