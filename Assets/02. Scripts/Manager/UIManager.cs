@@ -33,7 +33,6 @@ public class UIManager : Singleton<UIManager>
             {
                 UIs.Add(ui.GetType(), ui);
                 ui.Init();
-                ui.Close(); // 초기화 후 닫아둠
             }
         }
     }
