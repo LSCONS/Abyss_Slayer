@@ -34,10 +34,10 @@ public class PlayerCommonAttackState : PlayerSkillState
     public override void Update()
     {
         base.Update();
-        playerStateMachine.SkipAttackAction?.Invoke();
         EnterUpdateTime += Time.deltaTime;
         if(EnterUpdateTime <= ChangeStateDelayTime)
         {
+            playerStateMachine.SkipAttackAction?.Invoke();
             return;
         }
 

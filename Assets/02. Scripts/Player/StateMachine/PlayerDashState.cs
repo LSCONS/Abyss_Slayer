@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class PlayerDashState : PlayerSkillState
 {
-    public StoppableAction AttackAction = new();
+    public StoppableAction MoveAction = new();
     private SkillData skillData;
     private SkillSlotKey slotkey = SkillSlotKey.Z;
     public PlayerDashState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         //skillData = playerStateMachine.Player.equippedSkills[slotkey];
-        //playerStateMachine.ConnectAttackState(this);
+        //playerStateMachine.ConnectSkillState(this, skillData, playerStateMachine.Player.input.IsDash);
+
+        MoveAction.AddListener(playerStateMachine.ConnectIdleState);
+        MoveAction.AddListener(playerStateMachine.ConnectFallState);
+        MoveAction.AddListener(playerStateMachine.ConnectWalkState);
     }
     private float changeStateDelayTime = 0;
 
@@ -42,27 +46,14 @@ public class PlayerDashState : PlayerSkillState
 
     public override void Update()
     {
-        changeStateDelayTime += Time.deltaTime;
-        if (changeStateDelayTime < playerStateMachine.Player.playerData.PlayerAirData.DashChangeStateDelayTime)
-        {
-            return;
-        }
         base.Update();
-
-        //Idle 스테이트 진입 가능 여부 확인
-        if (playerStateMachine.Player.playerCheckGround.CanJump &&
-            Mathf.Approximately(playerStateMachine.Player.playerRigidbody.velocity.y, 0))
+        changeStateDelayTime += Time.deltaTime;
+        if (changeStateDelayTime <= playerStateMachine.Player.playerData.PlayerAirData.DashChangeStateDelayTime)
         {
-            playerStateMachine.ChangeState(playerStateMachine.IdleState);
+            playerStateMachine.SkipAttackAction?.Invoke();
             return;
         }
-
-        //Fall 스테이트 진입 가능 여부 확인
-        if (!(playerStateMachine.Player.playerCheckGround.CanJump))
-        {
-            playerStateMachine.ChangeState(playerStateMachine.FallState);
-            return;
-        }
+        MoveAction?.Invoke();
     }
     protected void Dash()
     {

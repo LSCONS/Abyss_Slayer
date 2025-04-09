@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerFallState : PlayerAirState
 {
     public StoppableAction MoveAction = new();
-    public StoppableAction AttackAction = new();
     public PlayerFallState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         //Idle State 진입 가능 여부 확인
@@ -39,6 +38,5 @@ public class PlayerFallState : PlayerAirState
     {
         base.Update();
         MoveAction?.Invoke();
-        AttackAction?.Invoke();
     }
 }

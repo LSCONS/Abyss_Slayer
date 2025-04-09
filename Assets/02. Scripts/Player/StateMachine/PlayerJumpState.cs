@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerJumpState : PlayerAirState
 {
     public StoppableAction MoveAction = new();
-    public StoppableAction AttackAction = new();
     public PlayerJumpState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         //Fall State 진입 가능 여부 확인
@@ -37,7 +36,6 @@ public class PlayerJumpState : PlayerAirState
     {
         base.Update();
         MoveAction?.Invoke();
-        AttackAction?.Invoke();
     }
 
 

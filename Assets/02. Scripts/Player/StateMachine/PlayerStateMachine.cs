@@ -55,27 +55,27 @@ public class PlayerStateMachine : StateMachine
 
         if ((ApplyState.IdleState | applyState) == applyState)
         {
-            IdleState.AttackAction.AddListener(() => ConnectAction(isAction, state, skillData));
+            IdleState.MoveAction.AddListener(() => ConnectAction(isAction, state, skillData));
         }
 
         if ((ApplyState.WalkState | applyState) == applyState)
         {
-            WalkState.AttackAction.AddListener(() => ConnectAction(isAction, state, skillData));
+            WalkState.MoveAction.AddListener(() => ConnectAction(isAction, state, skillData));
         }
 
         if ((ApplyState.JumpState | applyState) == applyState)
         {
-            JumpState.AttackAction.AddListener(() => ConnectAction(isAction, state, skillData));
+            JumpState.MoveAction.AddListener(() => ConnectAction(isAction, state, skillData));
         }
 
         if ((ApplyState.DashState | applyState) == applyState)
         {
-            DashState.AttackAction.AddListener(() => ConnectAction(isAction, state, skillData));
+            DashState.MoveAction.AddListener(() => ConnectAction(isAction, state, skillData));
         }
 
         if ((ApplyState.FallState | applyState) == applyState)
         {
-            FallState.AttackAction.AddListener(() => ConnectAction(isAction, state, skillData));
+            FallState.MoveAction.AddListener(() => ConnectAction(isAction, state, skillData));
         }
     }
 

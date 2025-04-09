@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerIdleState : PlayerGroundState
 {
     public StoppableAction MoveAction = new();
-    public StoppableAction AttackAction = new();
     public PlayerIdleState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         //Walk 스테이트 진입 가능 여부 확인
@@ -41,6 +40,5 @@ public class PlayerIdleState : PlayerGroundState
     {
         base.Update();
         MoveAction?.Invoke();
-        AttackAction?.Invoke();
     }
 }
