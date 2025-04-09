@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
@@ -34,5 +35,52 @@ public class PlayerStateMachine : StateMachine
         CommonAttackState = new PlayerCommonAttackState(this);
 
         MovementSpeed = Player.playerData.PlayerGroundData.BaseSpeed;
+    }
+
+
+    public void ConnectAttackState(IPlayerState state)
+    {
+        IPlayerAttackInput input = null;
+        if (state is IPlayerAttackInput) input = state as IPlayerAttackInput;
+        else return;
+
+        ApplyState applyState = input.GetSkillData().applyState;
+
+
+        if ((ApplyState.IdleState | applyState) == applyState)
+        {
+            IdleState.AttackAction.AddListener(() => ConnectActionState(input.GetIsInputKey(), state, input.GetSkillData()));
+        }
+
+        if ((ApplyState.WalkState | applyState) == applyState)
+        {
+            WalkState.AttackAction.AddListener(() => ConnectActionState(input.GetIsInputKey(), state, input.GetSkillData()));
+        }
+
+        if ((ApplyState.JumpState | applyState) == applyState)
+        {
+            JumpState.AttackAction.AddListener(() => ConnectActionState(input.GetIsInputKey(), state, input.GetSkillData()));
+        }
+
+        if ((ApplyState.DashState | applyState) == applyState)
+        {
+            DashState.AttackAction.AddListener(() => ConnectActionState(input.GetIsInputKey(), state, input.GetSkillData()));
+        }
+
+        if ((ApplyState.FallState | applyState) == applyState)
+        {
+            FallState.AttackAction.AddListener(() => ConnectActionState(input.GetIsInputKey(), state, input.GetSkillData()));
+        }
+    }
+
+
+    public bool ConnectActionState(bool isAction, IPlayerState state, SkillData skillData)
+    {
+        if (isAction && skillData.canUse)
+        {
+            ChangeState(state);
+            return false;
+        }
+        return true;
     }
 }

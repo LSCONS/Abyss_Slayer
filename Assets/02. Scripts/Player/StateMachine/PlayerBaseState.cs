@@ -89,7 +89,7 @@ public class PlayerBaseState : IPlayerState
     /// 플레이어가 X좌표로 움직이는 방향을 계산하고 바꿔주는 메서드
     /// </summary>
     /// <param name="nowMoveX">움직이고 있는 X좌표값의 크기</param>
-    private void FlipRenderer(float nowMoveX)
+    protected void FlipRenderer(float nowMoveX)
     {
         if(nowMoveX > 0)
         {

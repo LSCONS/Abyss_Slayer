@@ -10,7 +10,8 @@ public class SkillData : ScriptableObject
     public string description;              // 설명
     public int manaCost;                    // 마나 소모량
     public float coolTime;                  // 쿨타임
-    public bool canMove;
+    public bool canMove;                    // 움직임 가능 여부
+    public bool canUse;                     // 사용 가능 여부
 
     [Header("시각적 요소")]
     public Sprite icon;                     // 스킬 아이콘
@@ -22,6 +23,7 @@ public class SkillData : ScriptableObject
     public SkillCategory category;			// 스킬 종류
     public DamageType damageType;			// 데미지 타입 (물리, 마법)
     public EvasionType evasionType;			// 회피 종류 (대쉬, 텔포)
+    public ApplyState applyState;           //연결 가능한 State 체크
 
     [Header("타겟팅")]
     public TargetingData targetingData;     // 타겟팅 데이터

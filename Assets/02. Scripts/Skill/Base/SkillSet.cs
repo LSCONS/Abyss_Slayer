@@ -4,6 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/SkillSet")]
 public class SkillSet : ScriptableObject
 {
-    public string className;
-    public List<SkillSlot> skillSlots = new();
+    public string className;                        // 어떤 직업의 스킬셋인지
+    public List<SkillSlot> skillSlots = new();      // 연결된 스킬 리스트
 }

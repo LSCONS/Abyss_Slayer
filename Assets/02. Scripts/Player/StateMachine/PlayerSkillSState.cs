@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkillSState : PlayerAttackState
+public class PlayerSkillSState : PlayerAttackState, IPlayerAttackInput
 {
-    //TODO: PlayerS스킬 데이터 가져와야함.
+    private SkillData skillData;
+    private SkillSlotKey slotkey = SkillSlotKey.S;
     public PlayerSkillSState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+        //skillData = playerStateMachine.Player.equippedSkills[slotkey];
+        //playerStateMachine.ConnectAttackState(this);
     }
 
-    private SkillSlotKey slotkey = SkillSlotKey.S;
     public override void Enter()
     {
         base.Enter();
@@ -22,5 +24,15 @@ public class PlayerSkillSState : PlayerAttackState
         base.Exit();
         //TODO: 스킬 S 애니메이터 비활성화
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+    }
+
+    public bool GetIsInputKey()
+    {
+        return playerStateMachine.Player.input.IsSkillS;
+    }
+
+    public SkillData GetSkillData()
+    {
+        return skillData;
     }
 }
