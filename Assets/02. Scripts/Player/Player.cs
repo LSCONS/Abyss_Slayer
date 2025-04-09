@@ -75,6 +75,7 @@ public class Player : MonoBehaviour
     /// </summary>
     private void InitSkilData()
     {
+        skillSet = Instantiate(skillSet);
         skillSet.InstantiateSkillData();
         equippedSkills = new();
         foreach (var slot in skillSet.skillSlots)
