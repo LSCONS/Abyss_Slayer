@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         playerStateMachine.ChangeState(playerStateMachine.IdleState);
     }
 
