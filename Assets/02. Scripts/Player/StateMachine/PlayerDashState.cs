@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDashState : PlayerAttackState, IPlayerAttackInput
+public class PlayerDashState : PlayerSkillState
 {
     public StoppableAction AttackAction = new();
     private SkillData skillData;
@@ -75,15 +75,5 @@ public class PlayerDashState : PlayerAttackState, IPlayerAttackInput
         playerStateMachine.Player.playerData.PlayerAirData.CanDash = false;
         playerStateMachine.Player.SkillCoolTimeUpdate(slotkey);
         playerStateMachine.Player.playerData.PlayerAirData.CurDashCount--;
-    }
-
-    public bool GetIsInputKey()
-    {
-        return playerStateMachine.Player.input.IsDash;
-    }
-
-    public SkillData GetSkillData()
-    {
-        return skillData;
     }
 }
