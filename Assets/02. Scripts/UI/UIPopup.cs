@@ -6,6 +6,8 @@ public abstract class UIPopup : UIBase
 {
     public override void Init()
     {
+        // 팝업은 시작할 때 닫아두기
+        this.gameObject.SetActive(false);
     }
 
     /// <summary>
