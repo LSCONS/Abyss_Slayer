@@ -35,8 +35,8 @@ public class PlayerStateMachine : StateMachine
         SkillAState = new PlayerSkillAState(this);
         SkillSState = new PlayerSkillSState(this);
         SkillDState = new PlayerSkillDState(this);
-        DieState = new PlayerDieState(this);
         CommonAttackState = new PlayerCommonAttackState(this);
+        DieState = new PlayerDieState(this);
 
         SkipAttackAction.AddListener(ConnectJumpState);
         SkipAttackAction.AddListener(ConnectDashState);
@@ -49,39 +49,34 @@ public class PlayerStateMachine : StateMachine
     /// SkillState에서 연결 가능한 MoveState를 찾고 연결하는 메서드
     /// </summary>
     /// <param name="state">연결하고 싶은 SkillState</param>
-    public void ConnectSkillState(IPlayerState state, SkillData skillData, bool isAction)
+    public void ConnectSkillState(IPlayerState state, SkillData skillData, System.Func<bool> isAction)
     {
         ApplyState applyState = skillData.applyState;
 
         if ((ApplyState.IdleState | applyState) == applyState)
         {
-            IdleState.MoveAction.AddListener(() => ConnectAction(isAction, state, skillData));
+            IdleState.MoveAction.AddListener(() => ConnectAction(isAction(), state, skillData));
         }
 
         if ((ApplyState.WalkState | applyState) == applyState)
         {
-            WalkState.MoveAction.AddListener(() => ConnectAction(isAction, state, skillData));
+            WalkState.MoveAction.AddListener(() => ConnectAction(isAction(), state, skillData));
         }
 
         if ((ApplyState.JumpState | applyState) == applyState)
         {
-            JumpState.MoveAction.AddListener(() => ConnectAction(isAction, state, skillData));
+            JumpState.MoveAction.AddListener(() => ConnectAction(isAction(), state, skillData));
         }
 
         if ((ApplyState.DashState | applyState) == applyState)
         {
-            DashState.MoveAction.AddListener(() => ConnectAction(isAction, state, skillData));
+            DashState.MoveAction.AddListener(() => ConnectAction(isAction(), state, skillData));
         }
 
         if ((ApplyState.FallState | applyState) == applyState)
         {
-            FallState.MoveAction.AddListener(() => ConnectAction(isAction, state, skillData));
+            FallState.MoveAction.AddListener(() => ConnectAction(isAction(), state, skillData));
         }
-    }
-
-    private bool InputKey()
-    {
-        return Player.input.IsAttack;
     }
 
 
@@ -94,7 +89,7 @@ public class PlayerStateMachine : StateMachine
     /// <returns>true면 Action 종료, false면 Action 계속</returns>
     private bool ConnectAction(bool isAction, IPlayerState state, SkillData skillData)
     {
-        if (InputKey() && skillData.canUse)
+        if (isAction && skillData.canUse)
         {
             ChangeState(state);
             return true;
@@ -165,7 +160,7 @@ public class PlayerStateMachine : StateMachine
             Player.playerCheckGround.CanJump &&
             Mathf.Approximately(Player.playerRigidbody.velocity.y, 0))
         {
-            if(Player.input.MoveDir.y >= 0)
+            if (Player.input.MoveDir.y >= 0)
             {
                 ChangeState(JumpState);
                 return true;
