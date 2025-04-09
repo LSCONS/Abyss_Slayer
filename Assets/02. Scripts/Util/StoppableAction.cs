@@ -16,8 +16,8 @@ public class StoppableAction
     {
         foreach (var listener in listeners)
         {
-            bool isContinue = listener.Invoke();
-            if (!(isContinue)) break;
+            bool isStop = listener.Invoke();
+            if (isStop) break;
         }
     }
 }
