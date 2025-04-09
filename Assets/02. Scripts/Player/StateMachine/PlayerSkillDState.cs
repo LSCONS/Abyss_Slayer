@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkillDState : PlayerAttackState, IPlayerAttackInput
+public class PlayerSkillDState : PlayerSkillState
 {
     private SkillData skillData;
     private SkillSlotKey slotkey = SkillSlotKey.D;
@@ -29,15 +29,5 @@ public class PlayerSkillDState : PlayerAttackState, IPlayerAttackInput
     public override void Update()
     {
         base.Update();
-    }
-
-    public bool GetIsInputKey()
-    {
-        return playerStateMachine.Player.input.IsSkillD;
-    }
-
-    public SkillData GetSkillData()
-    {
-        return skillData;
     }
 }

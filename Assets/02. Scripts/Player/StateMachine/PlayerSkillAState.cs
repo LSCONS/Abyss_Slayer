@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkillAState : PlayerAttackState, IPlayerAttackInput
+public class PlayerSkillAState : PlayerSkillState
 {
     private SkillData skillData;
     private SkillSlotKey slotkey = SkillSlotKey.A;
@@ -25,15 +25,5 @@ public class PlayerSkillAState : PlayerAttackState, IPlayerAttackInput
         base.Exit();
         //TODO: 스킬 A 애니메이터 비활성화
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
-    }
-
-    public bool GetIsInputKey()
-    {
-        return playerStateMachine.Player.input.IsSkillA;
-    }
-
-    public SkillData GetSkillData()
-    {
-        return skillData;
     }
 }
