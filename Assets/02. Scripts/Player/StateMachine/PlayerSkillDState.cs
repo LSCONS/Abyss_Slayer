@@ -17,6 +17,9 @@ public class PlayerSkillDState : PlayerSkillState
         base.Enter();
         //TODO: 스킬 사용 중 움직일 수 있는지 확인하고 실행
         //TODO: 스킬 D 애니메이터 활성화
+#if StateMachineDebug
+        Debug.Log("SkillDState 진입");
+#endif
     }
 
     public override void Exit()
@@ -24,6 +27,9 @@ public class PlayerSkillDState : PlayerSkillState
         base.Exit();
         //TODO: 스킬 D 애니메이터 비활성화
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+#if StateMachineDebug
+        Debug.Log("SkillDState 해제");
+#endif
     }
 
     public override void Update()

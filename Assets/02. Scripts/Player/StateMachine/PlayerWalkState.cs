@@ -33,7 +33,7 @@ public class PlayerWalkState : PlayerGroundState
         base.Exit();
         //TODO: Walk 애니매이터 비활성화 필요
 #if StateMachineDebug
-        Debug.Log("WalkState 진입");
+        Debug.Log("WalkState 해제");
 #endif
     }
 
