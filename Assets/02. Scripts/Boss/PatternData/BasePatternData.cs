@@ -9,8 +9,6 @@ public abstract class BasePatternData : ScriptableObject
     protected BossController controller;
 
     public Transform target;
-
-    [SerializeField] protected int layerMask = LayerMask.GetMask("Player");
     
     [SerializeField] public List<Rect> attackableAreas;
 
