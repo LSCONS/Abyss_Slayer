@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackState : PlayerBaseState
+public class PlayerSkillState : PlayerBaseState
 {
-    public PlayerAttackState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+    public PlayerSkillState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+        
     }
 
     public override void Enter()
