@@ -2,7 +2,6 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class Player : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class Player : MonoBehaviour
     public BoxCollider2D playerGroundCollider;
     public SpriteRenderer playerSpriteRenderer;
 
-    [field: SerializeField]public PlayerData playerData { get; private set; }
+    [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
 
     private void Awake()
@@ -41,17 +40,6 @@ public class Player : MonoBehaviour
         playerStateMachine.ChangeState(playerStateMachine.IdleState);
     }
 
-    private void Update()
-    {
-        playerStateMachine.Update();
-        playerStateMachine.HandleInput();
-    }
-
-    private void FixedUpdate()
-    {
-        playerStateMachine.FixedUpdate();
-    }
-
 
     /// <summary>
     /// 스킬 데이터를 딕셔너리 형태로 초기화하는 메서드
@@ -70,6 +58,23 @@ public class Player : MonoBehaviour
                 Debug.LogWarning($"Skill in slot {slot.key} is null!");
             }
         }
+    }
+
+    private void Update()
+    {
+        playerStateMachine.Update();
+        playerStateMachine.HandleInput();
+
+        if (Input.GetKey(KeyCode.S))
+        {
+            UseSkill(SkillSlotKey.S);
+        }
+    }
+
+
+    private void FixedUpdate()
+    {
+        playerStateMachine.FixedUpdate();
     }
 
 
@@ -93,7 +98,7 @@ public class Player : MonoBehaviour
             Debug.LogError($"{slotKey}에 대한 정보를 찾을 수 없습니다. (송제우: Z에 대한 정보면 무시해도 됩니다.)");
             coolTime = 0.5f;
         }
-        Debug.Log("coolTime = " +  coolTime);
+        Debug.Log("coolTime = " + coolTime);
         StartCoroutine(SkillCoolTimeUpdateCoroutine(coolTime, slotKey));
     }
 
@@ -111,7 +116,7 @@ public class Player : MonoBehaviour
             yield return null;
         }
 
-        switch(slotKey)
+        switch (slotKey)
         {
             case SkillSlotKey.X:
                 equippedSkills[SkillSlotKey.X].canUse = true;
