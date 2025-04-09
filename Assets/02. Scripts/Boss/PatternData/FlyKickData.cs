@@ -9,6 +9,7 @@ public class FlyKickData : BasePatternData
     [SerializeField] float flyupTime = 1f;
     [SerializeField] float flyingTime = 0.5f;
     [SerializeField] float kickTime = 0.3f;
+    [SerializeField] float minKickSpeed = 1f;
     [SerializeField] float explosionSize = 1f;
     public override IEnumerator ExecutePattern(Transform bossTransform, Animator animator)
     {
@@ -25,21 +26,20 @@ public class FlyKickData : BasePatternData
         yield return new WaitForSeconds(flyingTime);    //공중에서 일정시간 대기
         
         Vector3 targetPosition = target.position;       //찍기직전 타겟 추적중지, 찍을장소 고정
-        float kickSpeed = Vector3.Distance(boss.transform.position, targetPosition)/kickTime;   //찍을 장소와의 거리에 따른 찍는스피드
+        float kickSpeed = Mathf.Max(minKickSpeed,Vector3.Distance(boss.transform.position, targetPosition)/kickTime);   //찍을 장소와의 거리에 따른 찍는스피드
         while (true)
         {
             bossTransform.position = Vector3.MoveTowards(bossTransform.position, targetPosition, kickSpeed * Time.deltaTime);
 
             if (Vector3.Distance(bossTransform.position, targetPosition) < 0.01f)               // 목표 지점 도달 여부 체크
             {
-                PoolManager.Instance.explosionPool.Get(targetPosition + (Vector3.down * 1f), explosionSize);    //목표지점 도달시 도달지점에서 폭발 prefab생성
+                PoolManager.Instance.Get<Explosion>().Init(targetPosition + (Vector3.down * 1f), explosionSize);
+
                 bossTransform.position = targetPosition; // 위치 보정
                 break;
             }
 
             yield return null;
         }
-
-
     }
 }

@@ -18,33 +18,73 @@ public class BossController : MonoBehaviour
     [SerializeField] List<BossPattern> allPatterns;
 
     Animator animator;
-    Transform targetCrosshair;
-    private LineRenderer targetLine;
+    [SerializeField] Transform targetCrosshair;
+    [SerializeField] private LineRenderer targetLine;
+    Transform target;
 
     public bool showTargetCrosshair;
     bool preShowTargetCrosshair;
     public bool showTargetLine;
     bool preShowTargetLine;
-
+    public bool chasingTarget;
+    public bool isLeft;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        for (int i = 0; i < allPatterns.Count; i++)
+        for (int i = 0; i < allPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
         {
-            allPatterns[i].patternData.Init(transform);
+            allPatterns[i].patternData.Init(transform,this);
         }
+
+        showTargetCrosshair = false;
+        preShowTargetCrosshair = false;
+        showTargetLine = false;
+        preShowTargetLine = false;
     }
 
     private void Start()
     {
-        //보스시작연출 패턴 있다면 추가
+        //보스시작연출 패턴 만들면 추가
         StartCoroutine(PatternLoop());
     }
 
     private void Update()
     {
-        
+        if (chasingTarget)
+        {
+            Rotate();
+        }
+            
+        if (showTargetCrosshair != preShowTargetCrosshair)
+        {
+
+            preShowTargetCrosshair = showTargetCrosshair;
+        }
+        if (showTargetCrosshair)
+        {
+            targetCrosshair.position = target.position;
+        }
+        if (showTargetLine != preShowTargetLine)
+        {
+
+            preShowTargetLine = showTargetLine;
+        }
+
+    }
+
+    void Rotate()
+    {
+
+        if (isLeft)
+        {
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+        //sprite.flipX = isleft 로 바꿔야함(스프라이트를 넣고나서)
     }
 
     /// <summary>
@@ -58,6 +98,7 @@ public class BossController : MonoBehaviour
             BossPattern next = GetRandomPattern();
             if (next != null)
             {
+                target = next.patternData.target;
                 yield return StartCoroutine(next.patternData.ExecutePattern(transform,animator));
             }
             else
@@ -101,19 +142,19 @@ public class BossController : MonoBehaviour
     }
     BossPattern GetRandomPattern()
     {
-        // Step 1: 가능한 패턴만 필터링
+        // 가능한 패턴만 필터링
         List<BossPattern> availablePatterns = allPatterns.Where(p => p.patternData.IsAvailable()).ToList();
 
         if (availablePatterns.Count == 0)
             return null;
 
-        // Step 2: 가중치 총합 계산
+        // 가중치 총합 계산
         float totalWeight = availablePatterns.Sum(p => p.weight);
 
-        // Step 3: 랜덤 값 생성
+        // 랜덤 값 생성
         float selectedValue = UnityEngine.Random.Range(0f, totalWeight);
 
-        // Step 4: 해당 구간의 패턴 선택
+        // 해당 구간의 패턴 선택
         float cumulative = 0f;
         foreach (var pattern in availablePatterns)
         {
@@ -123,6 +164,6 @@ public class BossController : MonoBehaviour
                 return pattern;
             }
         }
-        return availablePatterns.Last(); // 예외 방지용 (총합이 float 연산으로 어긋날 경우)
+        return availablePatterns.Last(); // 예외 방지용 (총합이 float 연산으로 어긋날 경우, 없으면 반환없는경우 생겨서 에러남)
     }
 }

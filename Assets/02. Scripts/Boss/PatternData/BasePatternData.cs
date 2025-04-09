@@ -6,8 +6,9 @@ using UnityEngine;
 public abstract class BasePatternData : ScriptableObject
 {
     protected Transform boss;
+    protected BossController controller;
 
-    [SerializeField] protected Transform target;
+    public Transform target;
 
     [SerializeField] protected int layerMask = LayerMask.GetMask("Player");
     
@@ -15,9 +16,10 @@ public abstract class BasePatternData : ScriptableObject
 
     [SerializeField] public Color gizmoColor = new Color(1, 0, 0, 0.3f);
     
-    public void Init(Transform boss)
+    public void Init(Transform boss, BossController controller)
     {
         this.boss = boss;
+        this.controller = controller;
     }
 
     /// <summary>
