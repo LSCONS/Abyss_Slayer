@@ -22,7 +22,9 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
         playerData = Resources.Load<PlayerData>("Player/Player");
+        playerData = Instantiate(playerData);
         InitSkilData();
         input = GetComponent<PlayerInput>();
         playerRigidbody = GetComponent<Rigidbody2D>();
@@ -39,6 +41,21 @@ public class Player : MonoBehaviour
         playerStateMachine.ChangeState(playerStateMachine.IdleState);
     }
 
+    private void Update()
+    {
+        playerStateMachine.Update();
+        playerStateMachine.HandleInput();
+    }
+
+    private void FixedUpdate()
+    {
+        playerStateMachine.FixedUpdate();
+    }
+
+
+    /// <summary>
+    /// 스킬 데이터를 딕셔너리 형태로 초기화하는 메서드
+    /// </summary>
     private void InitSkilData()
     {
         equippedSkills = new();
@@ -53,17 +70,6 @@ public class Player : MonoBehaviour
                 Debug.LogWarning($"Skill in slot {slot.key} is null!");
             }
         }
-    }
-
-    private void Update()
-    {
-        playerStateMachine.Update();
-        playerStateMachine.HandleInput();
-    }
-
-    private void FixedUpdate()
-    {
-        playerStateMachine.FixedUpdate();
     }
 
 
@@ -89,25 +95,6 @@ public class Player : MonoBehaviour
         }
         Debug.Log("coolTime = " +  coolTime);
         StartCoroutine(SkillCoolTimeUpdateCoroutine(coolTime, slotKey));
-    }
-
-    /// <summary>
-    /// 스킬을 사용하는 메서드
-    /// </summary>
-    /// <param name="key">사용할 스킬 키</param>
-    public void UseSkill(SkillSlotKey key)
-    {
-        if (equippedSkills == null)
-        {
-            Debug.LogError("equippedSkills is null!");
-            return;
-        }
-
-        // 해당 키의 스킬을 찾고 있다면 실행
-        if (equippedSkills.TryGetValue(key, out var skill))
-        {
-            skill.Execute(this, null);
-        }
     }
 
     /// <summary>
@@ -147,5 +134,30 @@ public class Player : MonoBehaviour
     private void PlayerColliderTriggerOff()
     {
         playerGroundCollider.isTrigger = false;
+    }
+
+
+    /// <summary>
+    /// 플레이어 체력 변환 메서드
+    /// </summary>
+    /// <param name="value">변환을 줄 값. -를 넣어야 체력이 깎임.</param>
+    public void ChangePlayerHP(float value)
+    {
+        playerData.PlayerStatusData.HP_Cur.PlusAndClamp(value, playerData.PlayerStatusData.HP_Max);
+        //TODO: 플레이어 체력 UI 갱신 필요
+        if(playerData.PlayerStatusData.HP_Cur == 0)
+        {
+            PlayerDie();
+            return;
+        }
+    }
+
+
+    /// <summary>
+    /// 플레이어 사망 관련 메서드
+    /// </summary>
+    public void PlayerDie()
+    {
+        playerStateMachine.ChangeState(playerStateMachine.DieState);
     }
 }
