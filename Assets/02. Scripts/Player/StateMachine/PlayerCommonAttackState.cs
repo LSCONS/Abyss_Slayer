@@ -18,10 +18,11 @@ public class PlayerCommonAttackState : PlayerSkillState
     {
         base.Enter();
         if (!(skillData.canMove)) playerStateMachine.MovementSpeed = 0f;
-        //TODO: 스킬 X 애니메이터 활성화
+        StartAnimation(playerStateMachine.Player.playerAnimationData.commonAttackParameterHash);
         skillData.Execute(playerStateMachine.Player, null);
         playerStateMachine.Player.SkillCoolTimeUpdate(slotkey);
         EnterUpdateTime = 0f;
+
 #if StateMachineDebug
         Debug.Log("SkillXState 진입");
 #endif
@@ -30,8 +31,9 @@ public class PlayerCommonAttackState : PlayerSkillState
     public override void Exit()
     {
         base.Exit();
-        //TODO: 스킬 X 애니메이터 비활성화
+        StopAnimation(playerStateMachine.Player.playerAnimationData.commonAttackParameterHash);
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+
 #if StateMachineDebug
         Debug.Log("SkillXState 해제");
 #endif

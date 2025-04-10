@@ -11,7 +11,7 @@ public class PlayerGroundState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        //TODO: 애니메이션 파라미터 @Ground True 변경
+        StartAnimation(playerStateMachine.Player.playerAnimationData.groundParameterHash);
         playerStateMachine.Player.playerData.PlayerAirData.ResetDashCount();
         playerStateMachine.Player.playerData.PlayerAirData.ResetJumpCount();
     }
@@ -19,7 +19,7 @@ public class PlayerGroundState : PlayerBaseState
     public override void Exit()
     {
         base.Exit();
-        //TODO: 애니매이션 파라미터 @Ground True 변경
+        StopAnimation(playerStateMachine.Player.playerAnimationData.groundParameterHash);
     }
 
     public override void Update()

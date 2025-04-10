@@ -20,27 +20,29 @@ public class PlayerDashState : PlayerSkillState
 
     public override void Enter()
     {
+        base.Enter();
+        StartAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
+        changeStateDelayTime = 0;
+        playerStateMachine.Player.playerData.PlayerStatusData.CanMove = false;
+        Dash();
+
 #if StateMachineDebug
         Debug.Log("Dash 스테이트 진입");
 #endif
-        base.Enter();
-        changeStateDelayTime = 0;
-        //TODO: Dash애니메이션 파라미터 활성화
-        playerStateMachine.Player.playerData.PlayerStatusData.CanMove = false;
-        Dash();
     }
 
 
     public override void Exit()
     {
-#if StateMachineDebug
-        Debug.Log("Dash 스테이트 해제");
-#endif
         base.Exit();
-        //TODO: Dash애니메이션 파라미터 비활성화
+        StopAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
         ResetZeroVelocity();
         ResetDefaultGravityForce();
         playerStateMachine.Player.playerData.PlayerStatusData.CanMove = true;
+
+#if StateMachineDebug
+        Debug.Log("Dash 스테이트 해제");
+#endif
     }
 
 
