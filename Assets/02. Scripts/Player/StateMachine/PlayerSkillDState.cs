@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkillDState : PlayerAttackState, IPlayerAttackInput
+public class PlayerSkillDState : PlayerSkillState
 {
-    private SkillData skillData;
-    private SkillSlotKey slotkey = SkillSlotKey.D;
+    private SkillData SkillData { get; set; }
+    private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.D;
     //TODO: PlayerD스킬 데이터 가져와야함.
     public PlayerSkillDState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
@@ -15,29 +15,46 @@ public class PlayerSkillDState : PlayerAttackState, IPlayerAttackInput
     public override void Enter()
     {
         base.Enter();
-        //TODO: 스킬 사용 중 움직일 수 있는지 확인하고 실행
-        //TODO: 스킬 D 애니메이터 활성화
+        StartAnimation(playerStateMachine.Player.playerAnimationData.D_SkillParameterHash);
+        if (!(SkillData.canMove)) playerStateMachine.MovementSpeed = 0f;
+        playerStateMachine.IsCompareState = false;
+        playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
+
+#if StateMachineDebug
+        Debug.Log("SkillDState 진입");
+#endif
     }
 
     public override void Exit()
     {
         base.Exit();
-        //TODO: 스킬 D 애니메이터 비활성화
+        StopAnimation(playerStateMachine.Player.playerAnimationData.D_SkillParameterHash);
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+
+#if StateMachineDebug
+        Debug.Log("SkillDState 해제");
+#endif
     }
 
     public override void Update()
     {
         base.Update();
-    }
+        playerStateMachine.AnimatorInfo = playerStateMachine.Player.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
 
-    public bool GetIsInputKey()
-    {
-        return playerStateMachine.Player.input.IsSkillD;
-    }
-
-    public SkillData GetSkillData()
-    {
-        return skillData;
+        //해당 State의 애니메이터와 연결 완료
+        if (!(playerStateMachine.IsCompareState))
+        {
+            if (playerStateMachine.AnimatorInfo.shortNameHash == playerStateMachine.Player.playerAnimationData.D_SkillAnimationHash)
+            {
+                playerStateMachine.IsCompareState = true;
+            }
+            else
+            {
+                playerStateMachine.SkipAttackAction?.Invoke();
+                return;
+            }
+        }
+        if (playerStateMachine.AnimatorInfo.normalizedTime < 1f) return;
+        playerStateMachine.EndAttackAction?.Invoke();
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine;
 public abstract class BasePoolable : MonoBehaviour
 {
     protected ObjectPool<BasePoolable> _pool;
+
+    //풀 설정
     public virtual void SetPool(ObjectPool<BasePoolable> pool)
     {
         _pool = pool;

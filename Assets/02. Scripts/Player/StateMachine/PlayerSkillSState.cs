@@ -2,37 +2,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkillSState : PlayerAttackState, IPlayerAttackInput
+public class PlayerSkillSState : PlayerSkillState
 {
-    private SkillData skillData;
-    private SkillSlotKey slotkey = SkillSlotKey.S;
+    private SkillData SkillData { get; set; }
+    private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.S;
     public PlayerSkillSState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-        //skillData = playerStateMachine.Player.equippedSkills[slotkey];
-        //playerStateMachine.ConnectAttackState(this);
+        SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
+        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillS);
     }
 
     public override void Enter()
     {
         base.Enter();
-        //TODO: 스킬 사용 중 움직일 수 있는지 확인하고 실행
-        //TODO: 스킬 S 애니메이터 활성화
+        StartAnimation(playerStateMachine.Player.playerAnimationData.S_SkillParameterHash);
+        if (!(SkillData.canMove)) playerStateMachine.MovementSpeed = 0f;
+        playerStateMachine.IsCompareState = false;
+        playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
+
+#if StateMachineDebug
+        Debug.Log("SkillSState 진입");
+#endif
     }
 
     public override void Exit()
     {
         base.Exit();
-        //TODO: 스킬 S 애니메이터 비활성화
+        StopAnimation(playerStateMachine.Player.playerAnimationData.S_SkillParameterHash);
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+
+#if StateMachineDebug
+        Debug.Log("SkillSState 해제");
+#endif
     }
 
-    public bool GetIsInputKey()
+    public override void Update()
     {
-        return playerStateMachine.Player.input.IsSkillS;
-    }
+        base.Update();
+        playerStateMachine.AnimatorInfo = playerStateMachine.Player.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
 
-    public SkillData GetSkillData()
-    {
-        return skillData;
+        //해당 State의 애니메이터와 연결 완료
+        if (!(playerStateMachine.IsCompareState))
+        {
+            if (playerStateMachine.AnimatorInfo.shortNameHash == playerStateMachine.Player.playerAnimationData.S_SkillAnimationHash)
+            {
+                playerStateMachine.IsCompareState = true;
+            }
+            else
+            {
+                playerStateMachine.SkipAttackAction?.Invoke();
+                return;
+            }
+        }
+        if (playerStateMachine.AnimatorInfo.normalizedTime < 1f) return;
+        playerStateMachine.EndAttackAction?.Invoke();
     }
 }

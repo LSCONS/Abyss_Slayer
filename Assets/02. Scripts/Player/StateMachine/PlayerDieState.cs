@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackState : PlayerBaseState
+public class PlayerDieState : PlayerBaseState
 {
-    public PlayerAttackState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+    public PlayerDieState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
 
@@ -13,10 +13,11 @@ public class PlayerAttackState : PlayerBaseState
         base.Enter();
     }
 
-    public override void Exit() 
+    public override void Exit()
     {
-        base.Exit(); 
+        base.Exit();
     }
+
     public override void Update()
     {
         base.Update();

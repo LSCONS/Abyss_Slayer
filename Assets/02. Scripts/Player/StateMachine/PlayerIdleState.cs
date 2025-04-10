@@ -5,15 +5,25 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundState
 {
-    public StoppableAction AttackAction = new();
+    public StoppableAction MoveAction = new();
     public PlayerIdleState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+        //Walk 스테이트 진입 가능 여부 확인
+        MoveAction.AddListener(playerStateMachine.ConnectWalkState);
+        //Jump 혹은 DownJump스테이트 진입 가능 여부 확인
+        MoveAction.AddListener(playerStateMachine.ConnectJumpState);
+        //Fall 스테이트 진입 가능 여부 확인
+        MoveAction.AddListener(playerStateMachine.ConnectFallState);
+        //Dash 스테이트 진입 가능 여부 확인
+        MoveAction.AddListener(playerStateMachine.ConnectDashState);
     }
 
     public override void Enter()
     {
         base.Enter();
+        StartAnimation(playerStateMachine.Player.playerAnimationData.idleParameterHash);
         playerStateMachine.MovementSpeed = 0f;
+
 #if StateMachineDebug
         Debug.Log("IdleState 진입");
 #endif
@@ -22,7 +32,9 @@ public class PlayerIdleState : PlayerGroundState
     public override void Exit()
     {
         base.Exit();
+        StopAnimation(playerStateMachine.Player.playerAnimationData.idleParameterHash);
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+
 #if StateMachineDebug
         Debug.Log("IdleState 해제");
 #endif
@@ -31,53 +43,6 @@ public class PlayerIdleState : PlayerGroundState
     public override void Update()
     {
         base.Update();
-
-        //Walk 스테이트 진입 가능 여부 확인
-        if(playerStateMachine.Player.input.MoveDir.x != 0f)
-        {
-            playerStateMachine.ChangeState(playerStateMachine.WalkState);
-            return;
-        }
-
-        //Jump 혹은 DownJump스테이트 진입 가능 여부 확인
-        if (playerStateMachine.Player.input.IsJump &&
-            playerStateMachine.Player.playerCheckGround.CanJump &&
-            Mathf.Approximately(playerStateMachine.Player.playerRigidbody.velocity.y, 0))
-        {
-            if (playerStateMachine.Player.input.MoveDir.y < 0 &&
-                playerStateMachine.Player.playerCheckGround.GroundPlaneCount == 0)
-            {
-                //TODO: 다운점프 로직 시작
-                playerStateMachine.Player.playerGroundCollider.isTrigger = true;
-                playerStateMachine.ChangeState(playerStateMachine.FallState);
-                return;
-            }
-            else if (playerStateMachine.Player.input.MoveDir.y >= 0)
-            {
-                playerStateMachine.ChangeState(playerStateMachine.JumpState);
-                return;
-            }
-        }
-
-        //Fall 스테이트 진입 가능 여부 확인
-        if (!(playerStateMachine.Player.playerCheckGround.CanJump))
-        {
-            playerStateMachine.ChangeState(playerStateMachine.FallState);
-            return;
-        }
-
-        //Dash 스테이트 진입 가능 여부 확인
-        if (playerStateMachine.Player.playerData.PlayerAirData.CanDash &&
-            playerStateMachine.Player.input.IsDash &&
-            (playerStateMachine.Player.input.MoveDir.x != 0 ||
-            playerStateMachine.Player.input.MoveDir.y > 0) &&
-            playerStateMachine.Player.playerData.PlayerAirData.CurDashCount > 0 &&
-            playerStateMachine.Player.input.MoveDir != Vector2.zero)
-        {
-            playerStateMachine.ChangeState(playerStateMachine.DashState);
-            return;
-        }
-
-        AttackAction?.Invoke();
+        MoveAction?.Invoke();
     }
 }

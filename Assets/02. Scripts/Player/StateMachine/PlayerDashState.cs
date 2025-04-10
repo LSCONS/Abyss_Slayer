@@ -2,67 +2,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDashState : PlayerAttackState, IPlayerAttackInput
+public class PlayerDashState : PlayerSkillState
 {
-    public StoppableAction AttackAction = new();
-    private SkillData skillData;
-    private SkillSlotKey slotkey = SkillSlotKey.Z;
+    public StoppableAction MoveAction = new();
+    private SkillData SkillData {  get; set; }
+    private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.Z;
     public PlayerDashState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         //skillData = playerStateMachine.Player.equippedSkills[slotkey];
-        //playerStateMachine.ConnectAttackState(this);
+        //playerStateMachine.ConnectSkillState(this, skillData, playerStateMachine.Player.input.IsDash);
+
+        MoveAction.AddListener(playerStateMachine.ConnectIdleState);
+        MoveAction.AddListener(playerStateMachine.ConnectFallState);
+        MoveAction.AddListener(playerStateMachine.ConnectWalkState);
     }
     private float changeStateDelayTime = 0;
 
     public override void Enter()
     {
+        base.Enter();
+        StartAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
+        changeStateDelayTime = 0;
+        playerStateMachine.Player.playerData.PlayerStatusData.CanMove = false;
+        Dash();
+
 #if StateMachineDebug
         Debug.Log("Dash 스테이트 진입");
 #endif
-        base.Enter();
-        changeStateDelayTime = 0;
-        //TODO: Dash애니메이션 파라미터 활성화
-        playerStateMachine.Player.playerData.PlayerStatusData.CanMove = false;
-        Dash();
     }
 
 
     public override void Exit()
     {
-#if StateMachineDebug
-        Debug.Log("Dash 스테이트 해제");
-#endif
         base.Exit();
-        //TODO: Dash애니메이션 파라미터 비활성화
+        StopAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
         ResetZeroVelocity();
         ResetDefaultGravityForce();
         playerStateMachine.Player.playerData.PlayerStatusData.CanMove = true;
+
+#if StateMachineDebug
+        Debug.Log("Dash 스테이트 해제");
+#endif
     }
 
 
     public override void Update()
     {
-        changeStateDelayTime += Time.deltaTime;
-        if (changeStateDelayTime < playerStateMachine.Player.playerData.PlayerAirData.DashChangeStateDelayTime)
-        {
-            return;
-        }
         base.Update();
-
-        //Idle 스테이트 진입 가능 여부 확인
-        if (playerStateMachine.Player.playerCheckGround.CanJump &&
-            Mathf.Approximately(playerStateMachine.Player.playerRigidbody.velocity.y, 0))
+        changeStateDelayTime += Time.deltaTime;
+        if (changeStateDelayTime <= playerStateMachine.Player.playerData.PlayerAirData.DashChangeStateDelayTime)
         {
-            playerStateMachine.ChangeState(playerStateMachine.IdleState);
+            playerStateMachine.SkipAttackAction?.Invoke();
             return;
         }
-
-        //Fall 스테이트 진입 가능 여부 확인
-        if (!(playerStateMachine.Player.playerCheckGround.CanJump))
-        {
-            playerStateMachine.ChangeState(playerStateMachine.FallState);
-            return;
-        }
+        MoveAction?.Invoke();
     }
     protected void Dash()
     {
@@ -73,17 +66,7 @@ public class PlayerDashState : PlayerAttackState, IPlayerAttackInput
         FlipRenderer(DashVector.x);   
         playerStateMachine.Player.playerRigidbody.AddForce(DashVector, ForceMode2D.Impulse);
         playerStateMachine.Player.playerData.PlayerAirData.CanDash = false;
-        playerStateMachine.Player.SkillCoolTimeUpdate(slotkey);
+        playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
         playerStateMachine.Player.playerData.PlayerAirData.CurDashCount--;
-    }
-
-    public bool GetIsInputKey()
-    {
-        return playerStateMachine.Player.input.IsDash;
-    }
-
-    public SkillData GetSkillData()
-    {
-        return skillData;
     }
 }
