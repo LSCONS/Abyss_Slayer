@@ -21,7 +21,8 @@ public class PlayerWalkState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
-        //TODO: Walk 애니매이터 활성화 필요
+        StartAnimation(playerStateMachine.Player.playerAnimationData.walkParameterHash);
+
 #if StateMachineDebug
         Debug.Log("WalkState 진입");
 #endif
@@ -31,7 +32,8 @@ public class PlayerWalkState : PlayerGroundState
     public override void Exit()
     {
         base.Exit();
-        //TODO: Walk 애니매이터 비활성화 필요
+        StopAnimation(playerStateMachine.Player.playerAnimationData.walkParameterHash);
+
 #if StateMachineDebug
         Debug.Log("WalkState 해제");
 #endif
