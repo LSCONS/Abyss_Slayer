@@ -21,6 +21,8 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private List<UIBase> allUIList = new();
     [SerializeField] private Canvas canvas;
     public Transform popupParent;
+    public Transform permanentParent;
+
     private Stack<UIPopup> popupStack = new();
     private Dictionary<System.Type, UIBase> UIs = new();    // 고정적인 ui들
     public Dictionary<System.Type, UIPopup> cachedPopups = new();   // 팝업 ui들
@@ -38,6 +40,7 @@ public class UIManager : Singleton<UIManager>
         }
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         popupParent = GameObject.Find("UI_Popup").transform;
+        permanentParent = GameObject.Find("UI_Permanent").transform;
     }
 
     protected override void Awake() {   // 싱글톤 초기화 후 allUIList에 있는 모든 UI들을 딕셔너리에 추가하고 초기화함
@@ -205,6 +208,36 @@ public class UIManager : Singleton<UIManager>
         cachedPopups[typeof(T)] = go.GetComponentInChildren<T>();
         go.GetComponentInChildren<T>().gameObject.SetActive(false);
         Debug.Log($"[LoadPopup] {name} 캐싱 + 생성 완료");
+    }
+
+    public async Task<T> LoadPermanentUI<T>(string name) where T : UIBase
+    {
+        Debug.Log($"[LoadPopup] {name} 시작");
+
+        if (UIs.ContainsKey(typeof(T)))
+        {
+            Debug.Log($"[LoadPopup] {name} 이미 캐싱됨");
+            return UIs[typeof(T)] as T;
+        }
+
+        string key = name ?? typeof(T).Name;
+        var handle = Addressables.LoadAssetAsync<GameObject>(key);
+        await handle.Task;
+
+        if (handle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Debug.LogError($"[LoadPopup] {name} 로드 실패");
+            return null;
+        }
+
+        GameObject go = Instantiate(handle.Result, permanentParent);
+        UIs[typeof(T)] = go.GetComponentInChildren<T>();
+        go.GetComponentInChildren<T>().gameObject.SetActive(true);
+        Debug.Log($"[LoadPopup] {name} 캐싱 + 생성 완료");
+        
+        return UIs[typeof(T)] as T;
+
+
     }
 
 

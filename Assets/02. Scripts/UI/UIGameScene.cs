@@ -10,6 +10,9 @@ public class UIGameScene : MonoBehaviour
     private async void Awake()
     {
         await UIManager.Instance.LoadPopup<UIPopupSettings>("UIPopupSettings");
+        await UIManager.Instance.LoadPermanentUI<UIHealthBar>("PlayerState");
+
+        UIBinder.Instance.Bind<HPTest, UIHealthBar, HealthPresenter>("Player", "PlayerHp");
     }
     private void Start()
     {
@@ -18,5 +21,8 @@ public class UIGameScene : MonoBehaviour
         {
             UIManager.Instance.OpenPopup<UIPopupSettings>("UIPopupSettings");
         });
-    }   
+
+
+    }
+
 }
