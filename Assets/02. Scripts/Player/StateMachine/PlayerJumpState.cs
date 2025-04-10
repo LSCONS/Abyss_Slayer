@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerAirState
 {
-    public StoppableAction AttackAction = new();
+    public StoppableAction MoveAction = new();
     public PlayerJumpState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+        //Fall State 진입 가능 여부 확인
+        MoveAction.AddListener(playerStateMachine.ConnectFallState);
+        //Dash State 진입 가능 여부 확인
+        MoveAction.AddListener(playerStateMachine.ConnectDashState);
     }
 
     public override void Enter()
@@ -31,24 +35,7 @@ public class PlayerJumpState : PlayerAirState
     public override void Update()
     {
         base.Update();
-        //Fall 스테이트 진입 가능 여부 확인
-        if(playerStateMachine.Player.playerRigidbody.velocity.y <= 0)
-        {
-            playerStateMachine.ChangeState(playerStateMachine.FallState);
-            return;
-        }
-
-        //Dash 스테이트 진입 가능 여부 확인
-        if (playerStateMachine.Player.playerData.PlayerAirData.CanDash &&
-            playerStateMachine.Player.input.IsDash &&
-            playerStateMachine.Player.playerData.PlayerAirData.CurDashCount > 0 &&
-            playerStateMachine.Player.input.MoveDir != Vector2.zero)
-        {
-            playerStateMachine.ChangeState(playerStateMachine.DashState);
-            return;
-        }
-
-        AttackAction?.Invoke();
+        MoveAction?.Invoke();
     }
 
 
@@ -57,10 +44,7 @@ public class PlayerJumpState : PlayerAirState
     /// </summary>
     protected void Jump()
     {
-        if (Mathf.Approximately(playerStateMachine.Player.playerRigidbody.velocity.y, 0))
-        {
-            Vector2 jumpVector = playerStateMachine.Player.playerData.PlayerAirData.JumpForce * Vector2.up;
-            playerStateMachine.Player.playerRigidbody.AddForce(jumpVector, ForceMode2D.Impulse);
-        }
+        Vector2 jumpVector = playerStateMachine.Player.playerData.PlayerAirData.JumpForce * Vector2.up;
+        playerStateMachine.Player.playerRigidbody.AddForce(jumpVector, ForceMode2D.Impulse);
     }
 }

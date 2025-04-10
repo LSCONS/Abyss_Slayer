@@ -55,10 +55,10 @@ public class PlayerStatusData
     [field: SerializeField] public float GravityForce { get; private set; } = 2f;
 
     [field: Header("Status")]
-    [field: SerializeField] public int HP_Max { get; set; } = 100;
-    [field: SerializeField] public int HP_Cur { get; set; } = 100;
-    [field: SerializeField] public int MP_Max { get; set; } = 100;
-    [field: SerializeField] public int MP_Cur { get; set; } = 100;
+    [field: SerializeField] public float HP_Max { get; set; } = 100;
+    [field: SerializeField] public float HP_Cur { get; set; } = 100;
+    [field: SerializeField] public float MP_Max { get; set; } = 100;
+    [field: SerializeField] public float MP_Cur { get; set; } = 100;
 
     [field: Header("Abnormal")]
     [field: SerializeField] public bool CanMove { get; set; } = true;
