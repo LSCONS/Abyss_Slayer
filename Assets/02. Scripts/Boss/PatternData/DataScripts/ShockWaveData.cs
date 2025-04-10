@@ -24,7 +24,7 @@ public class ShockWaveData : BasePatternData
 
         Vector3 startPosition = bossTransform.position;
 
-        PoolManager.Instance.Get<Explosion>().Init(startPosition, damage, 0.5f);
+        PoolManager.Instance.Get<Explosion>().Init(startPosition + (Vector3.down * 0.7f), damage, 0.5f);
         bossController.StartCoroutine(ShockWave(startPosition));
 
         yield return new WaitForSeconds(postDelayTime);
