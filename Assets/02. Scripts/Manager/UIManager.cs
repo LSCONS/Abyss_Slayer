@@ -6,6 +6,8 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
+
 
 public enum UIState{
     None,
@@ -21,7 +23,7 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Transform popupParent;
     private Stack<UIPopup> popupStack = new();
     private Dictionary<System.Type, UIBase> UIs = new();    // 정적 ui들
-    private Dictionary<System.Type, UIPopup> cachedPopups = new();
+    public Dictionary<System.Type, UIPopup> cachedPopups = new();
     private void OnValidate() // 에디터에서 컴포넌트 변경 시 자동으로 호출됨 -> allUIList에 UIBase 가진 오브젝트들을 자동으로 추가함
     {
         allUIList.Clear();
@@ -186,26 +188,33 @@ public class UIManager : Singleton<UIManager>
     public async Task OpenPopupAsyncToName<T>(string name) where T : UIPopup
     {
         Debug.Log($"[OpenPopupAsyncToName] {name} 시작");
-      if(cachedPopups.TryGetValue(typeof(T), out var cached)){
-        if(cached.gameObject.activeSelf || isPopupOpen<T>()){
+        if (!cachedPopups.TryGetValue(typeof(T), out var cached) || cached == null)
+        {
+            Debug.LogError($"[OpenPopupAsyncToName] {name} 캐시된 프리팹이 없음");
             return;
         }
-        OpenPopup(cached);
-        return;
-      }
 
-      string key = name ?? typeof(T).Name;
-      var handle= Addressables.LoadAssetAsync<GameObject>(key);
-      await handle.Task;
+        if (isPopupOpen<T>())
+        {
+            Debug.Log($"[OpenPopupAsyncToName] {name} 이미 열려있음");
+            return;
+        }
 
-      if(handle.Status != AsyncOperationStatus.Succeeded) return;
 
-      GameObject go = Instantiate(handle.Result, popupParent);
-      T popup = go.GetComponentInChildren<T>();
-      if(popup == null) return;
+        GameObject go = Instantiate(cached.gameObject, popupParent);
+        T popup = go.GetComponentInChildren<T>();
+        if(popup == null) return;
 
-      cachedPopups.Add(typeof(T), popup);
-      OpenPopup(popup);
+        OpenPopup(popup);
+        await Task.Yield();
+
+        // 가장 상위 레이아웃 루트
+        var layoutRoot = popup.GetComponentInChildren<VerticalLayoutGroup>()?.GetComponent<RectTransform>()
+                      ?? popup.GetComponent<RectTransform>();
+
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(layoutRoot);
+        OpenPopup(popup);
     }
 
     // 라벨 기반으로 팝업 여러개 열기~
@@ -223,9 +232,9 @@ public class UIManager : Singleton<UIManager>
             GameObject go = GameObject.Instantiate(obj, popupParent);
             T popup = go.GetComponent<T>();
             if(popup == null) continue;
-
-            popupStack.Push(popup);
+            popupStack.Push(popup);            
             popup.Open();
+
         }
     }
 
