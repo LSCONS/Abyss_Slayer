@@ -81,26 +81,6 @@ public class UIManager : Singleton<UIManager>
         GetUI<T>()?.Close();
     }
     
-
-    /// <summary>
-    /// 팝업 열기       
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="args"></param>
-    public void OpenPopup<T>(params object[] args) where T : UIPopup
-    {
-        var popup = GetUI<T>();
-        OpenPopup(popup);
-    }
-
-    public void ClosePopup<T>() where T : UIPopup
-    {
-        var popup = GetUI<T>();
-        
-        CloseCurrentPopup(popup);
-    }
-
-
     /// <summary>
     /// 팝업 열기
     /// </summary>
@@ -130,13 +110,11 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-
     public void CloseAllPopup(){
         while(popupStack.Count > 0){
             CloseCurrentPopup(popupStack.Pop());
         }
     }
-
 
     /// <summary>
     /// 지금 팝업 열려있는지 검사
@@ -154,37 +132,10 @@ public class UIManager : Singleton<UIManager>
     }
 
     /// <summary>
-    /// 팝업 로드
+    /// 팝업 열기
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public async Task<T> LoadPopupAsync<T>() where T : UIPopup
-    {
-        string key = typeof(T).Name;
-        var handle = Addressables.LoadAssetAsync<GameObject>(key);
-        await handle.Task;
-
-        if(handle.Status == AsyncOperationStatus.Succeeded){
-            {
-                GameObject go = Instantiate(handle.Result, popupParent);
-                T popup = go.GetComponent<T>();
-                if(popup != null){
-                    return popup;
-                }
-            }
-        }
-        else
-        {
-            return null;
-        }   
-        return null;
-    }
-
-    /// <summary>
-    /// 팝업 열기 / 이름 기반으로 로드함
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="key"></param>
+    /// <param name="name"></param>
     public void OpenPopup<T>(string name) where T : UIPopup // 나중에 name 지우기
     {
         Debug.Log($"[OpenPopupAsyncToName] {name} 시작");
@@ -201,28 +152,7 @@ public class UIManager : Singleton<UIManager>
             return;
         }
         OpenPopup(popup);
-
-    }
-
-    // 라벨 기반으로 팝업 여러개 열기~
-    public async void OpenPopupAsyncToLabel<T>(string label) where T : UIPopup
-    {
-        string key = label ?? typeof(T).Name;
-        var handle = Addressables.LoadAssetsAsync<GameObject>(key, null);
-        await handle.Task;
-
-        if(handle.Status != AsyncOperationStatus.Succeeded) return;
-
-        foreach(var obj in handle.Result){
-            if(isPopupOpen<T>()) continue; // 이미 열려있으면 continue
-
-            GameObject go = GameObject.Instantiate(obj, popupParent);
-            T popup = go.GetComponent<T>();
-            if(popup == null) continue;
-            popupStack.Push(popup);            
-            popup.Open();
-
-        }
+        
     }
 
 
