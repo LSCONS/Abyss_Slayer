@@ -10,15 +10,13 @@ public interface IPlayerState
 
     public void Exit();
 
-    public void HandleInput();
-
     public void Update();
 
     public void FixedUpdate();
 }
 
 
-public abstract class StateMachine : MonoBehaviour
+public abstract class StateMachine
 {
     protected IPlayerState currentState;
 
@@ -27,11 +25,6 @@ public abstract class StateMachine : MonoBehaviour
         currentState?.Exit();
         currentState = state;
         currentState.Enter();
-    }
-
-    public void HandleInput()
-    {
-        currentState?.HandleInput();
     }
 
     public void Update()
