@@ -42,6 +42,9 @@ public class ArcherSkill_s : SkillExecuter
 
         // Arrow의 SetRange()에 범위 매개변수 전달
         arrows.GetComponent<Arrow>().SetRange(skillData.targetingData.range);
+
+        //스킬 사용후 사용 가능 해제
+        skillData.canUse = false;
     }
 }
 

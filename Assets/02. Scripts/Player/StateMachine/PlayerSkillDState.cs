@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkillDState : PlayerAttackState, IPlayerAttackInput
+public class PlayerSkillDState : PlayerSkillState
 {
     private SkillData skillData;
     private SkillSlotKey slotkey = SkillSlotKey.D;
@@ -17,6 +17,9 @@ public class PlayerSkillDState : PlayerAttackState, IPlayerAttackInput
         base.Enter();
         //TODO: 스킬 사용 중 움직일 수 있는지 확인하고 실행
         //TODO: 스킬 D 애니메이터 활성화
+#if StateMachineDebug
+        Debug.Log("SkillDState 진입");
+#endif
     }
 
     public override void Exit()
@@ -24,20 +27,13 @@ public class PlayerSkillDState : PlayerAttackState, IPlayerAttackInput
         base.Exit();
         //TODO: 스킬 D 애니메이터 비활성화
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+#if StateMachineDebug
+        Debug.Log("SkillDState 해제");
+#endif
     }
 
     public override void Update()
     {
         base.Update();
-    }
-
-    public bool GetIsInputKey()
-    {
-        return playerStateMachine.Player.input.IsSkillD;
-    }
-
-    public SkillData GetSkillData()
-    {
-        return skillData;
     }
 }

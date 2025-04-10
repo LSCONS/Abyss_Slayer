@@ -12,7 +12,7 @@ public class Explosion : BasePoolable
 
     private void OnEnable()
     {
-        //사운스 삽입
+        //폭발 사운드 삽입
     }
 
     public override void Init()

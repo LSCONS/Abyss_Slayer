@@ -8,7 +8,8 @@ public class ObjectPool<T> where T : BasePoolable
     private T _prefab;
     private Transform _parent;
 
-    public ObjectPool(T prefab, int initialSize, Transform parents)
+    //생성자, 초기화 (프리펩,초기생성수,부모)
+    public ObjectPool(T prefab, int initialSize, Transform parents) 
     {
         _prefab = prefab;
         _parent = parents;
@@ -19,7 +20,7 @@ public class ObjectPool<T> where T : BasePoolable
         }
     }
 
-    T CreatNew()
+    T CreatNew()        //부족할경우 추가생성
     {
         T obj = Object.Instantiate(_prefab, _parent);
         obj.SetPool(this as ObjectPool<BasePoolable>);
@@ -28,7 +29,7 @@ public class ObjectPool<T> where T : BasePoolable
         return obj;
     }
 
-    public T Get()
+    public T Get()      //프리펩을 (생성)활성화, 해당 프리펩의 스크립트를 제네릭T를 이용해 반환
     {
         if(pool.Count == 0)
         {
