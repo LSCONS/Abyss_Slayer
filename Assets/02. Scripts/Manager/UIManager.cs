@@ -151,8 +151,21 @@ public class UIManager : Singleton<UIManager>
             Debug.Log($"[OpenPopupAsyncToName] {name} 이미 열려있음");
             return;
         }
+
         OpenPopup(popup);
-        
+        StartCoroutine(DelayRebuildLayout(popup));
+
+    }
+
+    // ui정렬 깨짐현상을 해결하기 위한 레이아웃 빌드 딜레이
+    private IEnumerator DelayRebuildLayout(UIPopup popup)
+    {
+        yield return null; // 한 프레임 대기 후
+        var layoutRoot = popup.GetComponentInChildren<VerticalLayoutGroup>()?.GetComponent<RectTransform>()
+                       ?? popup.GetComponent<RectTransform>();
+
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(layoutRoot);
     }
 
 
