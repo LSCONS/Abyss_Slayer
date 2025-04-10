@@ -9,7 +9,7 @@ public class PlayerSkillXState : PlayerSkillState
     public PlayerSkillXState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         SkillData = playerStateMachine.Player.equippedSkills[slotkey];
-        playerStateMachine.ConnectSkillState(this, SkillData,() => playerStateMachine.Player.input.IsAttack);
+        playerStateMachine.ConnectSkillState(this, SkillData,() => playerStateMachine.Player.input.IsSkillX);
     }
     public override void Enter()
     {
@@ -29,6 +29,8 @@ public class PlayerSkillXState : PlayerSkillState
         base.Exit();
         StopAnimation(playerStateMachine.Player.playerAnimationData.X_SkillParameterHash);
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+        
+        
 
 #if StateMachineDebug
         Debug.Log("SkillXState 해제");
@@ -47,13 +49,13 @@ public class PlayerSkillXState : PlayerSkillState
             {
                 playerStateMachine.IsCompareState = true;
             }
-            else
-            {
-                playerStateMachine.SkipAttackAction?.Invoke();
-                return;
-            }
+            else return;
         }
-        if(playerStateMachine.AnimatorInfo.normalizedTime < 1f) return;
+        if (playerStateMachine.AnimatorInfo.normalizedTime < 1f)
+        {
+            playerStateMachine.SkipAttackAction?.Invoke();
+            return;
+        }
         playerStateMachine.EndAttackAction?.Invoke();
     }
 }
