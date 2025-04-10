@@ -20,7 +20,7 @@ public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private List<UIBase> allUIList = new();
     [SerializeField] private Canvas canvas;
-    [SerializeField] private Transform popupParent;
+    public Transform popupParent;
     private Stack<UIPopup> popupStack = new();
     private Dictionary<System.Type, UIBase> UIs = new();    // 정적 ui들
     public Dictionary<System.Type, UIPopup> cachedPopups = new();
@@ -185,10 +185,11 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="key"></param>
-    public async Task OpenPopupAsyncToName<T>(string name) where T : UIPopup
+    public void OpenPopup<T>(string name) where T : UIPopup // 나중에 name 지우기
     {
         Debug.Log($"[OpenPopupAsyncToName] {name} 시작");
-        if (!cachedPopups.TryGetValue(typeof(T), out var cached) || cached == null)
+
+        if (!cachedPopups.TryGetValue(typeof(T), out var popup) || popup == null)
         {
             Debug.LogError($"[OpenPopupAsyncToName] {name} 캐시된 프리팹이 없음");
             return;
@@ -199,22 +200,8 @@ public class UIManager : Singleton<UIManager>
             Debug.Log($"[OpenPopupAsyncToName] {name} 이미 열려있음");
             return;
         }
-
-
-        GameObject go = Instantiate(cached.gameObject, popupParent);
-        T popup = go.GetComponentInChildren<T>();
-        if(popup == null) return;
-
         OpenPopup(popup);
-        await Task.Yield();
 
-        // 가장 상위 레이아웃 루트
-        var layoutRoot = popup.GetComponentInChildren<VerticalLayoutGroup>()?.GetComponent<RectTransform>()
-                      ?? popup.GetComponent<RectTransform>();
-
-        Canvas.ForceUpdateCanvases();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(layoutRoot);
-        OpenPopup(popup);
     }
 
     // 라벨 기반으로 팝업 여러개 열기~

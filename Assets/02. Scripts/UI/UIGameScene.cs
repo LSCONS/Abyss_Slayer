@@ -14,13 +14,13 @@ public class UIGameScene : MonoBehaviour
     private void Start()
     {
         // 설정창 버튼 설정
-        settingsButton.onClick.AddListener(async()=>
+        settingsButton.onClick.AddListener(()=>
         {
-            await UIManager.Instance.OpenPopupAsyncToName<UIPopupSettings>("UIPopupSettings");
+            UIManager.Instance.OpenPopup<UIPopupSettings>("UIPopupSettings");
         });
     }   
 
-    // 팝업 오브젝트 Load
+    // 팝업 오브젝트 Load + instantiate 까지 해야된다.
     private async Task LoadPopup<T>(string name) where T : UIPopup
     {
         Debug.Log($"[LoadPopup] {name} 시작");
@@ -40,7 +40,10 @@ public class UIGameScene : MonoBehaviour
             Debug.LogError($"[LoadPopup] {name} 로드 실패");
             return;
         }
-        UIManager.Instance.cachedPopups[typeof(T)] = handle.Result.GetComponentInChildren<T>();
-        Debug.Log($"[LoadPopup] {name} 캐싱 완료");
+
+        GameObject go = Instantiate(handle.Result, UIManager.Instance.popupParent);
+        UIManager.Instance.cachedPopups[typeof(T)] = go.GetComponentInChildren<T>();
+        go.GetComponentInChildren<T>().gameObject.SetActive(false);
+        Debug.Log($"[LoadPopup] {name} 캐싱 + 생성 완료");
     }
 }
