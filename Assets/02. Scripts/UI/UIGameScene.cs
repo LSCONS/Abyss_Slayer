@@ -9,7 +9,7 @@ public class UIGameScene : MonoBehaviour
 
     private async void Awake()
     {
-        await LoadPopup<UIPopupSettings>("UIPopupSettings");
+        await UIManager.Instance.LoadPopup<UIPopupSettings>("UIPopupSettings");
     }
     private void Start()
     {
@@ -19,31 +19,4 @@ public class UIGameScene : MonoBehaviour
             UIManager.Instance.OpenPopup<UIPopupSettings>("UIPopupSettings");
         });
     }   
-
-    // 팝업 오브젝트 Load + instantiate 까지 해야된다.
-    private async Task LoadPopup<T>(string name) where T : UIPopup
-    {
-        Debug.Log($"[LoadPopup] {name} 시작");
-
-        if (UIManager.Instance.cachedPopups.ContainsKey(typeof(T)))
-        {
-            Debug.Log($"[LoadPopup] {name} 이미 캐싱됨");
-            return;
-        }
-
-        string key = name ?? typeof(T).Name;
-        var handle = UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<GameObject>(key);
-        await handle.Task;
-
-        if (handle.Status != UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
-        {
-            Debug.LogError($"[LoadPopup] {name} 로드 실패");
-            return;
-        }
-
-        GameObject go = Instantiate(handle.Result, UIManager.Instance.popupParent);
-        UIManager.Instance.cachedPopups[typeof(T)] = go.GetComponentInChildren<T>();
-        go.GetComponentInChildren<T>().gameObject.SetActive(false);
-        Debug.Log($"[LoadPopup] {name} 캐싱 + 생성 완료");
-    }
 }

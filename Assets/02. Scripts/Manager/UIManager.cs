@@ -169,4 +169,37 @@ public class UIManager : Singleton<UIManager>
     }
 
 
+    /// <summary>
+    /// 팝업 캐싱
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public async Task LoadPopup<T>(string name) where T : UIPopup
+    {
+        Debug.Log($"[LoadPopup] {name} 시작");
+
+        if (cachedPopups.ContainsKey(typeof(T)))
+        {
+            Debug.Log($"[LoadPopup] {name} 이미 캐싱됨");
+            return;
+        }
+
+        string key = name ?? typeof(T).Name;
+        var handle = Addressables.LoadAssetAsync<GameObject>(key);
+        await handle.Task;
+
+        if (handle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Debug.LogError($"[LoadPopup] {name} 로드 실패");
+            return;
+        }
+
+        GameObject go = Instantiate(handle.Result, popupParent);
+        cachedPopups[typeof(T)] = go.GetComponentInChildren<T>();
+        go.GetComponentInChildren<T>().gameObject.SetActive(false);
+        Debug.Log($"[LoadPopup] {name} 캐싱 + 생성 완료");
+    }
+
+
 }
