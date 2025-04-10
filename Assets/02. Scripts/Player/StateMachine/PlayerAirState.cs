@@ -11,13 +11,13 @@ public class PlayerAirState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        //TODO: Air파라미터 활성화 필요
+        StartAnimation(playerStateMachine.Player.playerAnimationData.airParematerHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        //TODO: Air파라미터 비활성화 필요
+        StopAnimation(playerStateMachine.Player.playerAnimationData.airParematerHash);
     }
 
     public override void Update()

@@ -12,11 +12,13 @@ public class PlayerSkillState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
+        StartAnimation(playerStateMachine.Player.playerAnimationData.attackParameterHash);
     }
 
     public override void Exit() 
     {
-        base.Exit(); 
+        base.Exit();
+        StopAnimation(playerStateMachine.Player.playerAnimationData.attackParameterHash);
     }
     public override void Update()
     {
