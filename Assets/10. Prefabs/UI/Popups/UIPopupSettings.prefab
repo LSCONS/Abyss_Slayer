@@ -2027,7 +2027,7 @@ GameObject:
   - component: {fileID: 4842193140763934929}
   - component: {fileID: 915177416767160310}
   m_Layer: 5
-  m_Name: close
+  m_Name: Close
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3437,6 +3437,7 @@ MonoBehaviour:
   masterInputField: {fileID: 4700291008241216790}
   bgmInputField: {fileID: 3803440254750890206}
   sfxInputField: {fileID: 674857479434010254}
+  closeButton: {fileID: 915177416767160310}
 --- !u!222 &8396475184032610917
 CanvasRenderer:
   m_ObjectHideFlags: 0
