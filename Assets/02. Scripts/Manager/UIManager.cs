@@ -22,8 +22,8 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Canvas canvas;
     public Transform popupParent;
     private Stack<UIPopup> popupStack = new();
-    private Dictionary<System.Type, UIBase> UIs = new();    // 정적 ui들
-    public Dictionary<System.Type, UIPopup> cachedPopups = new();
+    private Dictionary<System.Type, UIBase> UIs = new();    // 고정적인 ui들
+    public Dictionary<System.Type, UIPopup> cachedPopups = new();   // 팝업 ui들
     private void OnValidate() // 에디터에서 컴포넌트 변경 시 자동으로 호출됨 -> allUIList에 UIBase 가진 오브젝트들을 자동으로 추가함
     {
         allUIList.Clear();
@@ -52,9 +52,13 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    /// <summary>
+    /// 모든 고정 ui 초기화
+    /// </summary>
     public void InitAll(){
         foreach (var ui in allUIList)
         {
+            if(ui is UIPopup) continue; // 팝업 제외
             if (!UIs.ContainsKey(ui.GetType()))
             {
                 UIs.Add(ui.GetType(), ui);
@@ -62,6 +66,8 @@ public class UIManager : Singleton<UIManager>
             }
         }
     }
+
+
 
     public T GetUI<T>() where T : UIBase
     {
