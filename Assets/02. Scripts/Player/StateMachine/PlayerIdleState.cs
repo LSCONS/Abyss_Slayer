@@ -21,7 +21,9 @@ public class PlayerIdleState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
+        StartAnimation(playerStateMachine.Player.playerAnimationData.idleParameterHash);
         playerStateMachine.MovementSpeed = 0f;
+
 #if StateMachineDebug
         Debug.Log("IdleState 진입");
 #endif
@@ -30,7 +32,9 @@ public class PlayerIdleState : PlayerGroundState
     public override void Exit()
     {
         base.Exit();
+        StopAnimation(playerStateMachine.Player.playerAnimationData.idleParameterHash);
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+
 #if StateMachineDebug
         Debug.Log("IdleState 해제");
 #endif

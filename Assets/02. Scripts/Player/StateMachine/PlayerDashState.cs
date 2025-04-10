@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerDashState : PlayerSkillState
 {
     public StoppableAction MoveAction = new();
-    private SkillData skillData;
-    private SkillSlotKey slotkey = SkillSlotKey.Z;
+    private SkillData SkillData {  get; set; }
+    private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.Z;
     public PlayerDashState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         //skillData = playerStateMachine.Player.equippedSkills[slotkey];
@@ -20,27 +20,29 @@ public class PlayerDashState : PlayerSkillState
 
     public override void Enter()
     {
+        base.Enter();
+        StartAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
+        changeStateDelayTime = 0;
+        playerStateMachine.Player.playerData.PlayerStatusData.CanMove = false;
+        Dash();
+
 #if StateMachineDebug
         Debug.Log("Dash 스테이트 진입");
 #endif
-        base.Enter();
-        changeStateDelayTime = 0;
-        //TODO: Dash애니메이션 파라미터 활성화
-        playerStateMachine.Player.playerData.PlayerStatusData.CanMove = false;
-        Dash();
     }
 
 
     public override void Exit()
     {
-#if StateMachineDebug
-        Debug.Log("Dash 스테이트 해제");
-#endif
         base.Exit();
-        //TODO: Dash애니메이션 파라미터 비활성화
+        StopAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
         ResetZeroVelocity();
         ResetDefaultGravityForce();
         playerStateMachine.Player.playerData.PlayerStatusData.CanMove = true;
+
+#if StateMachineDebug
+        Debug.Log("Dash 스테이트 해제");
+#endif
     }
 
 
@@ -64,7 +66,7 @@ public class PlayerDashState : PlayerSkillState
         FlipRenderer(DashVector.x);   
         playerStateMachine.Player.playerRigidbody.AddForce(DashVector, ForceMode2D.Impulse);
         playerStateMachine.Player.playerData.PlayerAirData.CanDash = false;
-        playerStateMachine.Player.SkillCoolTimeUpdate(slotkey);
+        playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
         playerStateMachine.Player.playerData.PlayerAirData.CurDashCount--;
     }
 }

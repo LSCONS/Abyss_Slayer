@@ -19,7 +19,8 @@ public class PlayerFallState : PlayerAirState
     public override void Enter()
     {
         base.Enter();
-        //TODO: Fall애니매이션으로 교체
+        StartAnimation(playerStateMachine.Player.playerAnimationData.fallParameterHash);
+
 #if StateMachineDebug
         Debug.Log("FallState 진입");
 #endif
@@ -28,7 +29,8 @@ public class PlayerFallState : PlayerAirState
     public override void Exit()
     {
         base.Exit();
-        //TODO: Fall애니메이션 해제
+        StopAnimation(playerStateMachine.Player.playerAnimationData.fallParameterHash);
+
 #if StateMachineDebug
         Debug.Log("FallState 해제");
 #endif

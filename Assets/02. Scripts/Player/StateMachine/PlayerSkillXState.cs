@@ -2,37 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkillSState : PlayerSkillState
+public class PlayerSkillXState : PlayerSkillState
 {
     private SkillData SkillData { get; set; }
-    private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.S;
-    public PlayerSkillSState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+    private SkillSlotKey slotkey { get; set; } = SkillSlotKey.X;
+    public PlayerSkillXState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-        SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
-        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillS);
+        SkillData = playerStateMachine.Player.equippedSkills[slotkey];
+        playerStateMachine.ConnectSkillState(this, SkillData,() => playerStateMachine.Player.input.IsAttack);
     }
-
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.S_SkillParameterHash);
+        StartAnimation(playerStateMachine.Player.playerAnimationData.X_SkillParameterHash);
         if (!(SkillData.canMove)) playerStateMachine.MovementSpeed = 0f;
         playerStateMachine.IsCompareState = false;
-        playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
+        playerStateMachine.Player.SkillCoolTimeUpdate(slotkey);
 
 #if StateMachineDebug
-        Debug.Log("SkillSState 진입");
+        Debug.Log("SkillXState 진입");
 #endif
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.S_SkillParameterHash);
+        StopAnimation(playerStateMachine.Player.playerAnimationData.X_SkillParameterHash);
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
 
 #if StateMachineDebug
-        Debug.Log("SkillSState 해제");
+        Debug.Log("SkillXState 해제");
 #endif
     }
 
@@ -44,7 +43,7 @@ public class PlayerSkillSState : PlayerSkillState
         //해당 State의 애니메이터와 연결 완료
         if (!(playerStateMachine.IsCompareState))
         {
-            if (playerStateMachine.AnimatorInfo.shortNameHash == playerStateMachine.Player.playerAnimationData.S_SkillAnimationHash)
+            if(playerStateMachine.AnimatorInfo.shortNameHash == playerStateMachine.Player.playerAnimationData.X_SkillAnimationHash)
             {
                 playerStateMachine.IsCompareState = true;
             }
@@ -54,7 +53,7 @@ public class PlayerSkillSState : PlayerSkillState
                 return;
             }
         }
-        if (playerStateMachine.AnimatorInfo.normalizedTime < 1f) return;
+        if(playerStateMachine.AnimatorInfo.normalizedTime < 1f) return;
         playerStateMachine.EndAttackAction?.Invoke();
     }
 }

@@ -16,8 +16,9 @@ public class PlayerJumpState : PlayerAirState
     public override void Enter()
     {
         base.Enter();
-        //TODO: 점프 애니메이션 실행
+        StartAnimation(playerStateMachine.Player.playerAnimationData.jumpParameterHash);
         Jump();
+
 #if StateMachineDebug
         Debug.Log("JumpState 진입");
 #endif
@@ -26,7 +27,8 @@ public class PlayerJumpState : PlayerAirState
     public override void Exit()
     {
         base.Exit();
-        //TODO: 점프 애니메이션 종료
+        StopAnimation(playerStateMachine.Player.playerAnimationData.jumpParameterHash);
+
 #if StateMachineDebug
         Debug.Log("JumpState 해제");
 #endif

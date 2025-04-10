@@ -12,14 +12,17 @@ public class PlayerStateMachine : StateMachine
     public PlayerJumpState JumpState { get; private set; }
     public PlayerFallState FallState { get; private set; }
     public PlayerDashState DashState { get; private set; }
-    public PlayerCommonAttackState CommonAttackState { get; private set; }
+    public PlayerSkillXState SkillXState { get; private set; }
     public PlayerSkillAState SkillAState { get; private set; }
     public PlayerSkillSState SkillSState { get; private set; }
     public PlayerSkillDState SkillDState { get; private set; }
     public PlayerDieState DieState { get; private set; }
 
     public StoppableAction SkipAttackAction = new();
+    public StoppableAction EndAttackAction = new();
 
+    public AnimatorStateInfo AnimatorInfo { get; set; }
+    public bool IsCompareState { get; set; }
     public float MovementSpeed {  get; set; }
     public float MovementSpeedModifier { get; set; } = 1f;
 
@@ -35,11 +38,15 @@ public class PlayerStateMachine : StateMachine
         SkillAState = new PlayerSkillAState(this);
         SkillSState = new PlayerSkillSState(this);
         SkillDState = new PlayerSkillDState(this);
-        CommonAttackState = new PlayerCommonAttackState(this);
+        SkillXState = new PlayerSkillXState(this);
         DieState = new PlayerDieState(this);
 
         SkipAttackAction.AddListener(ConnectJumpState);
         SkipAttackAction.AddListener(ConnectDashState);
+
+        EndAttackAction.AddListener(ConnectFallState);
+        EndAttackAction.AddListener(ConnectIdleState);
+        EndAttackAction.AddListener(ConnectWalkState);
 
         MovementSpeed = Player.playerData.PlayerGroundData.BaseSpeed;
     }
@@ -183,7 +190,7 @@ public class PlayerStateMachine : StateMachine
     /// <returns>true면 Action 종료, false면 Action 계속</returns>
     public bool ConnectIdleState()
     {
-        if (Player.input.MoveDir == Vector2.zero &&
+        if (Player.input.MoveDir.x == 0 &&
             Player.playerCheckGround.CanJump &&
             !(Player.playerGroundCollider.isTrigger) &&
             Mathf.Approximately(Player.playerRigidbody.velocity.y, 0))
