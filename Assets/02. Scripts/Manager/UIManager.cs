@@ -186,13 +186,13 @@ public class UIManager : Singleton<UIManager>
     public async Task OpenPopupAsyncToName<T>(string name) where T : UIPopup
     {
         Debug.Log($"[OpenPopupAsyncToName] {name} 시작");
-    //   if(cachedPopups.TryGetValue(typeof(T), out var cached)){
-    //     if(cached.gameObject.activeSelf || isPopupOpen<T>()){
-    //         return;
-    //     }
-    //     OpenPopup(cached);
-    //     return;
-    //   }
+      if(cachedPopups.TryGetValue(typeof(T), out var cached)){
+        if(cached.gameObject.activeSelf || isPopupOpen<T>()){
+            return;
+        }
+        OpenPopup(cached);
+        return;
+      }
 
       string key = name ?? typeof(T).Name;
       var handle= Addressables.LoadAssetAsync<GameObject>(key);
@@ -206,7 +206,6 @@ public class UIManager : Singleton<UIManager>
 
       cachedPopups.Add(typeof(T), popup);
       OpenPopup(popup);
-    
     }
 
     // 라벨 기반으로 팝업 여러개 열기~
