@@ -5,15 +5,17 @@ using UnityEngine;
 
 public abstract class BasePatternData : ScriptableObject
 {
+
     protected Transform boss;
     protected BossController controller;
 
+    [Header("패턴 공통 정보")]
     public Transform target;
-    
-    [SerializeField] public List<Rect> attackableAreas;
 
+    [SerializeField] public List<Rect> attackableAreas;
+    [SerializeField] public List<Rect> globalAttackableAreas;
     [SerializeField] public Color gizmoColor = new Color(1, 0, 0, 0.3f);
-    
+
     public void Init(Transform boss, BossController controller)
     {
         this.boss = boss;
@@ -44,7 +46,23 @@ public abstract class BasePatternData : ScriptableObject
                 return true;
             }
         }
+        for (int i = 0; i < globalAttackableAreas.Count; i++)
+        {
+
+            Vector2 pointA = new Vector2(globalAttackableAreas[i].xMin, globalAttackableAreas[i].yMin);
+            Vector2 pointB = new Vector2(globalAttackableAreas[i].xMax, globalAttackableAreas[i].yMax);
+
+            //수정 송제우: 필드에서 Layer정의로 오류가 생겨서 바꿨습니다.
+            //레이어 데이터를 정리해둔 클래스가 있으니 해당 스크립트의 LEADME 참고 바랍니다.
+            Collider2D hit = Physics2D.OverlapArea(pointA, pointB, LayerData.PlayerLayerMask);
+
+            if (hit != null)
+            {
+                target = hit.transform;
+                return true;
+            }
+        }
         return false;
     }
-    public abstract IEnumerator ExecutePattern(Transform bossTransform,Animator animator);
+    public abstract IEnumerator ExecutePattern(BossController bossController,Transform bossTransform,Animator animator);
 }
