@@ -1,6 +1,8 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -10,6 +12,7 @@ public class Player : MonoBehaviour
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
     public Animator PlayerAnimator { get; private set; }//TODO: 나중에 초기화 필요
+    [field: SerializeField] public PlayerAnimationData playerAnimationData { get; private set; }
     public SkillSet skillSet; // 스킬셋 데이터
     public Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
     private PlayerStateMachine playerStateMachine;
@@ -27,6 +30,7 @@ public class Player : MonoBehaviour
         playerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
     }
+
 
     private void Start()
     {
@@ -66,7 +70,13 @@ public class Player : MonoBehaviour
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
         playerSpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
+        PlayerAnimator = transform.GetComponentForTransformFindName<Animator>("Sprtie_Player");
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        //TODO: 여기서부터 임시 코드
+        ArcherSkillAnimationTrigger trigger = PlayerAnimator.AddComponent<ArcherSkillAnimationTrigger>();
+        trigger.player = this;
+        trigger.skills = equippedSkills;
     }
 
 
