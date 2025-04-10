@@ -6,7 +6,7 @@ public class UIGameScene : MonoBehaviour
 {
     [SerializeField] private Button settingsButton;
 
-    private void Awake()
+    private void Start()
     {
         // 설정창 버튼 설정
         settingsButton.onClick.AddListener(async()=>
