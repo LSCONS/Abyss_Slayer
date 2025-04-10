@@ -17,18 +17,14 @@ public class ArcherSkill_s : SkillExecuter
     /// <param name="skillData">스킬의 공통 데이터</param>
     public override void Execute(Player user, Player target, SkillData skillData)
     {
-        // 스킬 사용 시 상태 설정
-        skillData.canUse = false;
-        skillData.canMove = false;
-        
         // 코루틴 시작
         user.StartCoroutine(FireArrows(user, target, skillData));
     }
 
     // 화살 발사 코루틴
-    private IEnumerator FireArrows(Player user, Player target, SkillData skillData)
+    public IEnumerator FireArrows(Player user, Player target, SkillData skillData)
     {
-        // GC 최적화를 위해 WaitForSeconds 캐싱
+        // GC 최적화를 위한 WaitForSeconds 캐싱
         WaitForSeconds wait = new WaitForSeconds(shotDelay);
 
         for (int i = 0; i < arrowCount; i++)
@@ -60,14 +56,16 @@ public class ArcherSkill_s : SkillExecuter
             arrows.GetComponent<Rigidbody2D>().velocity = dir * arrowSpeed;
 
             // Arrow의 SetRange()에 범위 변수 전달
-            arrows.GetComponent<Arrow>().SetRange(skillData.targetingData.range);
+            arrows.GetComponent<ArrowProjectile>().Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed);
 
             // 다음 화살 발사까지 대기
             yield return wait;
         }
 
-        // 스킬 사용 후 상태 설정
-        skillData.canUse = true;
-        skillData.canMove = true;
+        // 키다운을 멈추거나 넉백 당할 경우 canUse를 false로 설정하는 로직 필요
+        if (!skillData.canUse)
+        {
+            user.StopCoroutine(FireArrows(user, target, skillData));
+        }
     }
 }
