@@ -15,6 +15,9 @@ public class UIPopupSettings : UIPopup
     [SerializeField] private TMP_InputField sfxInputField; 
 
 
+    [SerializeField] private Button closeButton;
+
+
     private void OnValidate()
     {
         // 자식 오브젝트로 달려있는 슬라이더들을 찾아서 자동으로 연결
@@ -24,7 +27,10 @@ public class UIPopupSettings : UIPopup
 
         masterInputField = transform.GetGameObjectSameNameDFS("Master Volume InputField").GetComponent<TMP_InputField>();
         bgmInputField = transform.GetGameObjectSameNameDFS("BGM Volume InputField").GetComponent<TMP_InputField>();
-        sfxInputField = transform.GetGameObjectSameNameDFS("SFX Volume InputField").GetComponent<TMP_InputField>(); 
+        sfxInputField = transform.GetGameObjectSameNameDFS("SFX Volume InputField").GetComponent<TMP_InputField>();
+
+
+       
     }
     public override void Init()
     {
@@ -34,6 +40,8 @@ public class UIPopupSettings : UIPopup
         masterSlider.value = SoundManager.Instance.MasterVolume;
         bgmSlider.value = SoundManager.Instance.BGMVolume;
         sfxSlider.value = SoundManager.Instance.SFXVolume;
+
+        closeButton = transform.GetGameObjectSameNameDFS("Close").GetComponent<Button>();
     }
 
     public override void Open(params object[] args)
@@ -69,6 +77,8 @@ public class UIPopupSettings : UIPopup
         bgmInputField.onEndEdit.AddListener(OnBGMInputChanged);
         sfxInputField.onEndEdit.AddListener(OnSFXInputChanged);
 
+        closeButton.onClick.AddListener(OnClose);
+
         SyncInputfilds();
     }
 
@@ -82,6 +92,12 @@ public class UIPopupSettings : UIPopup
         masterInputField.onEndEdit.RemoveAllListeners();
         bgmInputField.onEndEdit.RemoveAllListeners();
         sfxInputField.onEndEdit.RemoveAllListeners();
+    }
+
+    public override void OnClose()
+    {
+        Debug.Log("OnClose");
+        base.OnClose();
     }
 
     public void OnMasterSliderValueChanged(float value)

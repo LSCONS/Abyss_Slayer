@@ -34,8 +34,7 @@ public abstract class UIPopup : UIBase
     /// </summary>
     public virtual void OnOpen()
     {
-        Open();
-        UIManager.Instance.OpenPopup(this);
+
     }
 
     /// <summary>
