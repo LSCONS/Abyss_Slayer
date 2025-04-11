@@ -12,7 +12,7 @@ public class UIGameScene : MonoBehaviour
         await UIManager.Instance.LoadPopup<UIPopupSettings>("UIPopupSettings");
         await UIManager.Instance.LoadPermanentUI<UIHealthBar>("PlayerState");
 
-        UIBinder.Instance.Bind<HPTest, UIHealthBar, HealthPresenter>("Player", "PlayerHp");
+        UIBinder.Instance.Bind<HPTest, UIHealthBar, HealthPresenter>("Player1", "PlayerHp");
     }
     private void Start()
     {
