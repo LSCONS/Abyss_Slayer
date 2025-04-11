@@ -1,6 +1,8 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -109,19 +111,16 @@ public class Player : MonoBehaviour
         Debug.Log("쿨타임 계산 시작");
         //TODO: 해당 슬롯키와 맞는 스킬 키에서 쿨타임을 가져옴
         //TODO: 임시로 대시만 확인하기 위해 대시 쿨타임을 사용함
-        float coolTime;
         if (equippedSkills.ContainsKey(slotKey))
         {
             SkillData skillData = equippedSkills[slotKey];
-            coolTime = skillData.curCoolTime;
+            skillData.CurCoolTime.Value = skillData.MaxCoolTime.Value;
+            StartCoroutine(SkillCoolTimeUpdateCoroutine(skillData.CurCoolTime, slotKey));
         }
         else
         {
             Debug.LogError($"{slotKey}에 대한 정보를 찾을 수 없습니다. (송제우: Z에 대한 정보면 무시해도 됩니다.)");
-            coolTime = 0.5f;
         }
-        Debug.Log("coolTime = " + coolTime);
-        StartCoroutine(SkillCoolTimeUpdateCoroutine(coolTime, slotKey));
     }
 
 
@@ -130,12 +129,11 @@ public class Player : MonoBehaviour
     /// </summary>
     /// <param name="coolTIme">쿨타임 시간</param>
     /// <param name="slotKey">초기화 시킬 스킬 키</param>
-    private IEnumerator SkillCoolTimeUpdateCoroutine(float coolTIme, SkillSlotKey slotKey)
+    private IEnumerator SkillCoolTimeUpdateCoroutine(ReactiveProperty<float> property, SkillSlotKey slotKey)
     {
-        float temp = 0;
-        while (temp <= coolTIme)
+        while (property.Value == 0)
         {
-            temp += Time.deltaTime;
+            property.Value = Mathf.Max(property.Value - Time.deltaTime, 0);
             yield return null;
         }
 
