@@ -3,9 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/Archer/Archer_x")]
 public class ArcherSkill_x : SkillExecuter
 {
-    public ArrowProjectile arrowPrefab;        // 발사할 화살 프리팹
-    public float arrowSpeed;                   // 화살 속도
-
+    public float arrowSpeed;          // 화살 속도
+    public int spriteNum;
     /// <summary>
     /// 아처의 평타 로직을 담당하는 메소드
     /// </summary>
@@ -24,6 +23,14 @@ public class ArcherSkill_x : SkillExecuter
         var arrow = PoolManager.Instance.Get<ArrowProjectile>();
 
         // 화살 초기화 데이터 투사체에 전달
-        arrow.Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed);
+        arrow.Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed, spriteNum);
+
+        // 버프 상태일 경우 추가 화살 생성
+        if (user.IsDoubleShot)
+        {
+            var secondArrow = PoolManager.Instance.Get<ArrowProjectile>();
+            Vector3 secondSpawnPos = spawnPos + new Vector3(0, 0.5f, 0);
+            secondArrow.Init(secondSpawnPos, dir, skillData.targetingData.range, arrowSpeed, spriteNum);
+        }
     }
 }

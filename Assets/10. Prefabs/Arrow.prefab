@@ -125,5 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c677ca13182fa4a9dfbab394bc78d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
-  arrowSpeed: 60
+  _sprites:
+  - {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  _spriteRenderer: {fileID: 3859674896930650383}
