@@ -4,10 +4,10 @@ using System.Collections;
 [CreateAssetMenu(menuName = "Skill/Archer/Archer_s")]
 public class ArcherSkill_s : SkillExecuter
 {
-    public GameObject arrow;                // 발사할 화살 프리팹
     public int damage;                      // 화살 데미지
     public float arrowSpeed;                // 화살 속도
     public int arrowCount;                  // 발사할 화살 수
+    public int spriteNum;
     public float shotDelay;                 // 화살 발사 간격
 
     /// <summary>
@@ -53,22 +53,22 @@ public class ArcherSkill_s : SkillExecuter
             var arrow = PoolManager.Instance.Get<ArrowProjectile>();
 
             // 화살 초기화 데이터 투사체에 전달
-            arrow.Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed);
+            arrow.Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed, spriteNum);
 
             // 화살 속도 적용
             arrow.GetComponent<Rigidbody2D>().velocity = dir * arrowSpeed;
 
-            // Arrow의 SetRange()에 범위 변수 전달
-            arrow.GetComponent<ArrowProjectile>().Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed);
+            // 버프 상태일 경우 추가 화살 생성
+            if (user.IsDoubleShot)
+            {
+                var secondArrow = PoolManager.Instance.Get<ArrowProjectile>();
+                Vector3 secondSpawnPos = spawnPos + new Vector3(0, 0.5f, 0);
+                secondArrow.Init(secondSpawnPos, dir, skillData.targetingData.range, arrowSpeed, spriteNum);
+                secondArrow.GetComponent<Rigidbody2D>().velocity = dir * arrowSpeed;
+            }
 
             // 다음 화살 발사까지 대기
             yield return wait;
-        }
-
-        // 키다운을 멈추거나 넉백 당할 경우 canUse를 false로 설정하는 로직 필요
-        if (!skillData.canUse)
-        {
-            user.StopCoroutine(FireArrows(user, target, skillData));
         }
     }
 }

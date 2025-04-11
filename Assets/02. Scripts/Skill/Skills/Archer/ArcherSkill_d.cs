@@ -14,6 +14,16 @@ public class ArcherSkill_d : SkillExecuter
     /// <param name="skillData">스킬의 공통 데이터</param>
     public override void Execute(Player user, Player target, SkillData skillData)
     {
+        // 버프 활성화
+        user.SetDoubleShot(true);
         
+        // 버프 지속 시간 후 비활성화
+        user.StartCoroutine(DeactivateBuff(user));
+    }
+    
+    private IEnumerator DeactivateBuff(Player user)
+    {
+        yield return new WaitForSeconds(duration);
+        user.SetDoubleShot(false);
     }
 }

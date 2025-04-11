@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
     public ArcherSkillAnimationTrigger SkillTrigger{ get; private set; }
+    public bool IsDoubleShot { get; private set; } = false;
 
 
     private void Awake()
@@ -187,5 +188,10 @@ public class Player : MonoBehaviour
     public void PlayerDie()
     {
         playerStateMachine.ChangeState(playerStateMachine.DieState);
+    }
+
+    public void SetDoubleShot(bool value)
+    {
+        IsDoubleShot = value;
     }
 }
