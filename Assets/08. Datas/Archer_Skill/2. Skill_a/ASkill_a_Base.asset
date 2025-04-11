@@ -14,12 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: 
   description: 
-  defaultCoolTime: 0
-  curCoolTime: 0
   canMove: 0
-  canUse: 0
+  canUse: 1
   <MaxCoolTime>k__BackingField:
-    value: 0
+    value: 5
   <CurCoolTime>k__BackingField:
     value: 0
   icon: {fileID: 0}

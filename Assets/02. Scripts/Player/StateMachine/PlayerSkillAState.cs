@@ -5,20 +5,21 @@ using UnityEngine;
 public class PlayerSkillAState : PlayerSkillState
 {
     private SkillData SkillData { get; set; }
-    private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.D;
-    //TODO: PlayerA스킬 데이터 가져와야함.
+    private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.A;
     public PlayerSkillAState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-        //skillData = playerStateMachine.Player.equippedSkills[slotkey];
-        //playerStateMachine.ConnectAttackState(this);
+        SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
+        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillA);
     }
 
     public override void Enter()
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.A_SkillParameterHash);
+        if (!(SkillData.canMove)) playerStateMachine.MovementSpeed = 0f;
+        playerStateMachine.IsCompareState = false;
+        playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
 
-        //TODO: 스킬 사용 중 움직일 수 있는지 확인하고 실행
 #if StateMachineDebug
         Debug.Log("SkillAState 진입");
 #endif
