@@ -49,14 +49,15 @@ public class ArcherSkill_s : SkillExecuter
             // 화살 생성 위치 설정
             Vector3 spawnPos = user.transform.position + (Vector3)(dir * 2f) + new Vector3(randomXSpawn, randomYSpawn, 0);
 
-            // 화살 생성
-            var arrows = Instantiate(arrow, spawnPos, Quaternion.identity);
+            // 오브젝트 풀에서 화살 가져오기
+            var arrow = PoolManager.Instance.Get<ArrowProjectile>();
+            arrow.Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed);
 
             // 화살 속도 적용
-            arrows.GetComponent<Rigidbody2D>().velocity = dir * arrowSpeed;
+            arrow.GetComponent<Rigidbody2D>().velocity = dir * arrowSpeed;
 
             // Arrow의 SetRange()에 범위 변수 전달
-            arrows.GetComponent<ArrowProjectile>().Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed);
+            arrow.GetComponent<ArrowProjectile>().Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed);
 
             // 다음 화살 발사까지 대기
             yield return wait;
