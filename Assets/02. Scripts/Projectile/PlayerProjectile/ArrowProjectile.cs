@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class ArrowProjectile : BasePoolable
 {
-    [SerializeField] private int damage = 50;           // 화살 데미지
-    [SerializeField] private float arrowSpeed = 60f;    // 화살 속도
-    private float maxRange;
-    private Vector3 direction;
-    private Vector3 initPos;
+    // Init으로 전달받은 화살 데이터 저장용 변수
+    private int damage;           
+    private float arrowSpeed, maxRange;    
+    private Vector3 direction, initPos;
 
     private void Update()
     {

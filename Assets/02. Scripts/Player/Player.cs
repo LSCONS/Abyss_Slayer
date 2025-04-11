@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         InitPlayerData();
-        InitSkilData();
+        InitSkillData();
         InitComponent();
         playerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
@@ -83,7 +83,7 @@ public class Player : MonoBehaviour
     /// <summary>
     /// 스킬 데이터를 딕셔너리 형태로 초기화하는 메서드
     /// </summary>
-    private void InitSkilData()
+    private void InitSkillData()
     {
         skillSet = Instantiate(skillSet);
         skillSet.InstantiateSkillData();

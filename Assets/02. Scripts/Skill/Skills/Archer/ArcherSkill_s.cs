@@ -5,6 +5,7 @@ using System.Collections;
 public class ArcherSkill_s : SkillExecuter
 {
     public GameObject arrow;                // 발사할 화살 프리팹
+    public int damage;                      // 화살 데미지
     public float arrowSpeed;                // 화살 속도
     public int arrowCount;                  // 발사할 화살 수
     public float shotDelay;                 // 화살 발사 간격
@@ -17,8 +18,7 @@ public class ArcherSkill_s : SkillExecuter
     /// <param name="skillData">스킬의 공통 데이터</param>
     public override void Execute(Player user, Player target, SkillData skillData)
     {
-        // 코루틴 시작
-        user.StartCoroutine(FireArrows(user, target, skillData));
+        // 호출용
     }
 
     // 화살 발사 코루틴
