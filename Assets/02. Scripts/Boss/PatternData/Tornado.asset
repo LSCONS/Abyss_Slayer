@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8803144aa4f255e499b19ee0302c0a5f, type: 3}
+  m_Name: Tornado
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  attackableAreas:
+  - serializedVersion: 2
+    x: -2
+    y: -10
+    width: 4
+    height: 30
+  globalAttackableAreas:
+  - serializedVersion: 2
+    x: 8
+    y: -10
+    width: 4
+    height: 30
+  - serializedVersion: 2
+    x: -12
+    y: -10
+    width: 4
+    height: 30
+  gizmoColor: {r: 0.97646475, g: 0, b: 1, a: 0.3}
+  damage: 0
+  preDelayTime: 0.5
+  spawnPositionsX:
+  - 10
+  - -10
+  groundPositionY: -5
+  tornadoWidth: 1
+  warningTime: 1
+  durationTime: 2.5
+  postDelayTime: 1

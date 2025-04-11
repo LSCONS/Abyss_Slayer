@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerDashState : PlayerSkillState
 {
     public StoppableAction MoveAction = new();
-    private SkillData skillData;
-    private SkillSlotKey slotkey = SkillSlotKey.Z;
+    private SkillData SkillData {  get; set; }
+    private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.Z;
     public PlayerDashState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         //skillData = playerStateMachine.Player.equippedSkills[slotkey];
@@ -66,7 +66,7 @@ public class PlayerDashState : PlayerSkillState
         FlipRenderer(DashVector.x);   
         playerStateMachine.Player.playerRigidbody.AddForce(DashVector, ForceMode2D.Impulse);
         playerStateMachine.Player.playerData.PlayerAirData.CanDash = false;
-        playerStateMachine.Player.SkillCoolTimeUpdate(slotkey);
+        playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
         playerStateMachine.Player.playerData.PlayerAirData.CurDashCount--;
     }
 }

@@ -1,12 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
+
+
+public enum UIState{
+    None,
+    Main,
+    Settings,
+    
+}
 
 public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private List<UIBase> allUIList = new();
+    [SerializeField] private Canvas canvas;
+    public Transform popupParent;
+    public Transform permanentParent;
+
     private Stack<UIPopup> popupStack = new();
-    private Dictionary<System.Type, UIBase> UIs = new();    // 정적 ui들
+    private Dictionary<System.Type, UIBase> UIs = new();    // 고정적인 ui들
+    public Dictionary<System.Type, UIPopup> cachedPopups = new();   // 팝업 ui들
     private void OnValidate() // 에디터에서 컴포넌트 변경 시 자동으로 호출됨 -> allUIList에 UIBase 가진 오브젝트들을 자동으로 추가함
     {
         allUIList.Clear();
@@ -19,16 +38,30 @@ public class UIManager : Singleton<UIManager>
                 allUIList.Add(ui);
             }
         }
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        popupParent = GameObject.Find("UI_Popup").transform;
+        permanentParent = GameObject.Find("UI_Permanent").transform;
     }
 
     protected override void Awake() {   // 싱글톤 초기화 후 allUIList에 있는 모든 UI들을 딕셔너리에 추가하고 초기화함
         base.Awake();
         InitAll();
+
+        if(canvas == null){
+            Debug.LogError("Canvas 찾을 수 없음");
+        }
+        if(popupParent == null){
+            popupParent = new GameObject("UI_Popup").transform;
+        }
     }
 
+    /// <summary>
+    /// 모든 고정 ui 초기화
+    /// </summary>
     public void InitAll(){
         foreach (var ui in allUIList)
         {
+            if(ui is UIPopup) continue; // 팝업 제외
             if (!UIs.ContainsKey(ui.GetType()))
             {
                 UIs.Add(ui.GetType(), ui);
@@ -36,6 +69,8 @@ public class UIManager : Singleton<UIManager>
             }
         }
     }
+
+
 
     public T GetUI<T>() where T : UIBase
     {
@@ -55,26 +90,6 @@ public class UIManager : Singleton<UIManager>
         GetUI<T>()?.Close();
     }
     
-
-    /// <summary>
-    /// 팝업 열기       
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="args"></param>
-    public void OpenPopup<T>(params object[] args) where T : UIPopup
-    {
-        var popup = GetUI<T>();
-        OpenPopup(popup);
-    }
-
-    public void ClosePopup<T>() where T : UIPopup
-    {
-        var popup = GetUI<T>();
-        
-        CloseCurrentPopup(popup);
-    }
-
-
     /// <summary>
     /// 팝업 열기
     /// </summary>
@@ -91,7 +106,8 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     public void CloseCurrentPopup(UIPopup popup)
     {
-        if(popupStack.Count == 0) return;
+        Debug.Log($"[CloseCurrentPopup] stackCount={popupStack.Count} target={popup.name}");
+        if (popupStack.Count == 0) return;
 
         if(popupStack.Peek() == popup){
             popupStack.Pop();
@@ -103,11 +119,125 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-
     public void CloseAllPopup(){
         while(popupStack.Count > 0){
             CloseCurrentPopup(popupStack.Pop());
         }
+    }
+
+    /// <summary>
+    /// 지금 팝업 열려있는지 검사
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public bool isPopupOpen<T>() where T : UIPopup
+    {
+        foreach(var popup in popupStack){
+            if(popup is T && popup.gameObject.activeSelf){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// 팝업 열기
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="name"></param>
+    public void OpenPopup<T>(string name) where T : UIPopup // 나중에 name 지우기
+    {
+        Debug.Log($"[OpenPopupAsyncToName] {name} 시작");
+
+        if (!cachedPopups.TryGetValue(typeof(T), out var popup) || popup == null)
+        {
+            Debug.LogError($"[OpenPopupAsyncToName] {name} 캐시된 프리팹이 없음");
+            return;
+        }
+
+        if (isPopupOpen<T>())
+        {
+            Debug.Log($"[OpenPopupAsyncToName] {name} 이미 열려있음");
+            return;
+        }
+
+        OpenPopup(popup);
+        StartCoroutine(DelayRebuildLayout(popup));
+
+    }
+
+    // ui정렬 깨짐현상을 해결하기 위한 레이아웃 빌드 딜레이
+    private IEnumerator DelayRebuildLayout(UIPopup popup)
+    {
+        yield return null; // 한 프레임 대기 후
+        var layoutRoot = popup.GetComponentInChildren<VerticalLayoutGroup>()?.GetComponent<RectTransform>()
+                       ?? popup.GetComponent<RectTransform>();
+
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(layoutRoot);
+    }
+
+
+    /// <summary>
+    /// 팝업 캐싱
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    public async Task LoadPopup<T>(string name) where T : UIPopup
+    {
+        Debug.Log($"[LoadPopup] {name} 시작");
+
+        if (cachedPopups.ContainsKey(typeof(T)))
+        {
+            Debug.Log($"[LoadPopup] {name} 이미 캐싱됨");
+            return;
+        }
+
+        string key = name ?? typeof(T).Name;
+        var handle = Addressables.LoadAssetAsync<GameObject>(key);
+        await handle.Task;
+
+        if (handle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Debug.LogError($"[LoadPopup] {name} 로드 실패");
+            return;
+        }
+
+        GameObject go = Instantiate(handle.Result, popupParent);
+        cachedPopups[typeof(T)] = go.GetComponentInChildren<T>();
+        go.GetComponentInChildren<T>().gameObject.SetActive(false);
+        Debug.Log($"[LoadPopup] {name} 캐싱 + 생성 완료");
+    }
+
+    public async Task<T> LoadPermanentUI<T>(string name) where T : UIBase
+    {
+        Debug.Log($"[LoadPopup] {name} 시작");
+
+        if (UIs.ContainsKey(typeof(T)))
+        {
+            Debug.Log($"[LoadPopup] {name} 이미 캐싱됨");
+            return UIs[typeof(T)] as T;
+        }
+
+        string key = name ?? typeof(T).Name;
+        var handle = Addressables.LoadAssetAsync<GameObject>(key);
+        await handle.Task;
+
+        if (handle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Debug.LogError($"[LoadPopup] {name} 로드 실패");
+            return null;
+        }
+
+        GameObject go = Instantiate(handle.Result, permanentParent);
+        UIs[typeof(T)] = go.GetComponentInChildren<T>();
+        go.GetComponentInChildren<T>().gameObject.SetActive(true);
+        Debug.Log($"[LoadPopup] {name} 캐싱 + 생성 완료");
+        
+        return UIs[typeof(T)] as T;
+
+
     }
 
 

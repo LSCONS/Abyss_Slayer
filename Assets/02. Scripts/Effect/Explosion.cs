@@ -36,6 +36,8 @@ public class Explosion : BasePoolable
     }
     public void StartExplosion()
     {
+        _collider.enabled = true;
+
         Collider2D[] hitplayers = Physics2D.OverlapCircleAll(transform.position, 0.5f, LayerMask.NameToLayer("Player"));
 
         for(int i = 0; i < hitplayers.Length; i++)
