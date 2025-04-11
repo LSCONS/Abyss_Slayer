@@ -26,6 +26,13 @@ public class ArrowProjectile : BasePoolable
         // 호출용
     }
 
+    /// <summary>
+    /// 각 스킬 클래스에서 전달받은 데이터로 화살을 초기화하는 메서드
+    /// </summary>
+    /// <param name="spawnPos">화살 생성 위치</param>
+    /// <param name="dir">화살 이동 방향</param>
+    /// <param name="range">화살 최대 이동 거리</param>
+    /// <param name="speed">화살 이동 속도</param>
     public void Init(Vector3 spawnPos, Vector3 dir, float range, float speed)
     {
         transform.position = spawnPos;
