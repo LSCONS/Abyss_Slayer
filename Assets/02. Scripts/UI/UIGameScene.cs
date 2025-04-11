@@ -3,26 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 public class UIGameScene : MonoBehaviour
 {
     [SerializeField] private Button settingsButton;
 
-    private async void Awake()
+    private async Task Awake() 
     {
-        await UIManager.Instance.LoadPopup<UIPopupSettings>("UIPopupSettings");
-        await UIManager.Instance.LoadPermanentUI<UIHealthBar>("PlayerState");
-
-        UIBinder.Instance.Bind<HPTest, UIHealthBar, HealthPresenter>("Player1", "PlayerHp");
-    }
-    private void Start()
-    {
-        // 설정창 버튼 설정
-        settingsButton.onClick.AddListener(()=>
-        {
-            UIManager.Instance.OpenPopup<UIPopupSettings>("UIPopupSettings");
-        });
+        await UIManager.Instance.LoadAllUI(UIType.Popup);
+        await UIManager.Instance.LoadAllUI(UIType.Bottom);
+        await UIManager.Instance.LoadAllUI(UIType.Top);
 
 
+
+        UIManager.Instance.CreateAllUI(UIType.GamePlay);
+        UIManager.Instance.Init();
+        // UIManager.Instance.OpenAllPermanent();
     }
 
 }
