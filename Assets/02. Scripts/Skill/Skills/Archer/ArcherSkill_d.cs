@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/Archer/Archer_d")]
 public class ArcherSkill_d : SkillExecuter
 {
+    public int duration;
     /// <summary>
     /// 아처의 D키 스킬 로직을 담당하는 메소드
     /// </summary>
