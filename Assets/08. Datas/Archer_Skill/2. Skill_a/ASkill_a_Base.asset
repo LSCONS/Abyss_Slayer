@@ -14,16 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: 
   description: 
-  manaCost: 0
   defaultCoolTime: 0
   curCoolTime: 0
   canMove: 0
   canUse: 0
+  <MaxCoolTime>k__BackingField:
+    value: 0
+  <CurCoolTime>k__BackingField:
+    value: 0
   icon: {fileID: 0}
   animationTrigger: 
   effectPrefab: {fileID: 0}
-  executer: {fileID: 0}
+  executer: {fileID: 11400000, guid: bc30e32a856507e4fadd9d6f06ed7558, type: 2}
   category: 0
-  damageType: 0
-  applyState: 0
-  targetingData: {fileID: 0}
+  damageType: 1
+  applyState: 23
+  targetingData: {fileID: 11400000, guid: 3a12b9b4ca56f204fb83280983ec6eda, type: 2}
