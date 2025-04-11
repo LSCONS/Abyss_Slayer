@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class ArcherSkillAnimationTrigger : MonoBehaviour
@@ -31,6 +32,15 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour
     {
         SkillData skillData = skills[SkillSlotKey.Z];
         skillData.Execute(player, null);
+        //Vector2 DashVector = player.input.MoveDir.normalized;
+        //DashVector *= player.playerData.PlayerAirData.DashForce;
+        //ResetZeroVelocity();
+        //ResetZeroGravityForce();
+        //FlipRenderer(DashVector.x);
+        //player.playerRigidbody.AddForce(DashVector, ForceMode2D.Impulse);
+        //player.playerData.PlayerAirData.CanDash = false;
+        //player.SkillCoolTimeUpdate(SkillSlotKey.Z);
+        //player.playerData.PlayerAirData.CurDashCount--;
     }
 
     public void UseSkillX()
