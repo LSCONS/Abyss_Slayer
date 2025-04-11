@@ -60,7 +60,7 @@ public class BossController : MonoBehaviour
         animator = GetComponent<Animator>();
         for (int i = 0; i < allPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
         {
-            allPatterns[i].patternData.Init(transform,this);
+            allPatterns[i].patternData.Init(transform,this,animator);
         }
 
         targetCrosshair = Instantiate(targetCrossHairPrefab).transform;
@@ -80,11 +80,12 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
+        
         if (chasingTarget)
         {
-            Rotate();
+            isLeft = (target.position.x - transform.position.x < 0);
         }
-        
+        Rotate();
         if (_showTargetCrosshair)
         {
             targetCrosshair.position = target.position;
@@ -94,7 +95,6 @@ public class BossController : MonoBehaviour
 
     void Rotate()
     {
-        isLeft = (target.position.x - transform.position.x < 0);
         if (isLeft)
         {
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
@@ -118,7 +118,7 @@ public class BossController : MonoBehaviour
             if (next != null)
             {
                 target = next.patternData.target;
-                yield return StartCoroutine(next.patternData.ExecutePattern(this, transform,animator));
+                yield return StartCoroutine(next.patternData.ExecutePattern());
             }
             else
             {
@@ -171,7 +171,7 @@ public class BossController : MonoBehaviour
 
     public void StartNextPattern()
     {
-        StartCoroutine(GetRandomPattern().patternData.ExecutePattern(this, transform, animator));
+        StartCoroutine(GetRandomPattern().patternData.ExecutePattern());
     }
     BossPattern GetRandomPattern()
     {
