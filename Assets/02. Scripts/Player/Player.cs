@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
         if (equippedSkills.ContainsKey(slotKey))
         {
             SkillData skillData = equippedSkills[slotKey];
-            coolTime = skillData.coolTime;
+            coolTime = skillData.curCoolTime;
         }
         else
         {
