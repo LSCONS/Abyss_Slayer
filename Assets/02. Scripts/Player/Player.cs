@@ -128,12 +128,13 @@ public class Player : MonoBehaviour
     /// <param name="slotKey">초기화 시킬 스킬 키</param>
     private IEnumerator SkillCoolTimeUpdateCoroutine(ReactiveProperty<float> property, SkillSlotKey slotKey)
     {
-        while (property.Value == 0)
+        while (property.Value > 0)
         {
             property.Value = Mathf.Max(property.Value - Time.deltaTime, 0);
             yield return null;
         }
 
+        Debug.Log("스킬 쿨타임 초기화");
         switch (slotKey)
         {
             case SkillSlotKey.X:

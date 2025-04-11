@@ -13,7 +13,6 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour
     {
         SkillData skillData = skills[SkillSlotKey.A];
         skillData.Execute(player, null);
-        skillData.canUse = false;
     }
 
     public void UseSkillS()
@@ -21,14 +20,12 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour
         SkillData skillData = skills[SkillSlotKey.S];
         skillData.canMove = false;
         skillCoroutine = StartCoroutine(((ArcherSkill_s)skillData.executer).FireArrows(player, null, skillData));
-        skillData.canUse = false;
     }
 
     public void UseSkillD()
     {
         SkillData skillData = skills[SkillSlotKey.D];
         skillData.Execute(player, null);
-        skillData.canUse = false;
     }
 
     public void UseSkillZ()
@@ -44,14 +41,12 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour
         //player.playerData.PlayerAirData.CanDash = false;
         //player.SkillCoolTimeUpdate(SkillSlotKey.Z);
         //player.playerData.PlayerAirData.CurDashCount--;
-        skillData.canUse = false;
     }
 
     public void UseSkillX()
     {
         SkillData skillData = skills[SkillSlotKey.X];
         skillData.Execute(player, null);
-        skillData.canUse = false;
     }
 
 

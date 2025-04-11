@@ -24,6 +24,8 @@ public class PlayerDashState : PlayerSkillState
         StartAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
         changeStateDelayTime = 0;
         playerStateMachine.Player.playerData.PlayerStatusData.CanMove = false;
+        //SkillData.canUse = false;
+
         Dash();
 
 #if StateMachineDebug

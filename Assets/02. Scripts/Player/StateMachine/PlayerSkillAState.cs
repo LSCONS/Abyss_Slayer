@@ -19,6 +19,7 @@ public class PlayerSkillAState : PlayerSkillState
         if (!(SkillData.canMove)) playerStateMachine.MovementSpeed = 0f;
         playerStateMachine.IsCompareState = false;
         playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
+        SkillData.canUse = false;
 
 #if StateMachineDebug
         Debug.Log("SkillAState 진입");
