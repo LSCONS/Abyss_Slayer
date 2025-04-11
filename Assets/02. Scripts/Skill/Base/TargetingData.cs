@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 /// <summary>
 /// 스킬이 어떤 대상에게, 어떤 방식으로 적용되는지 정의하는 ScriptableObject.

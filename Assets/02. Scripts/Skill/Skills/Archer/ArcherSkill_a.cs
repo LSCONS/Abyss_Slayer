@@ -4,7 +4,7 @@ using UnityEngine;
 public class ArcherSkill_a : SkillExecuter
 {
     public float arrowSpeed;          // 화살 속도
-    public int spriteNum;
+    public int spriteNum;             // 화살 스프라이트 인덱스
     /// <summary>
     /// 아처의 A키 스킬 로직직을 담당하는 메소드
     /// </summary>

@@ -4,7 +4,7 @@ using UnityEngine;
 public class ArcherSkill_x : SkillExecuter
 {
     public float arrowSpeed;          // 화살 속도
-    public int spriteNum;
+    public int spriteNum;             // 화살 스프라이트 인덱스
     /// <summary>
     /// 아처의 평타 로직을 담당하는 메소드
     /// </summary>

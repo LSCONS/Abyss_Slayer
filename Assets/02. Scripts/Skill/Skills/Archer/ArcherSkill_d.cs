@@ -1,11 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Skill/Archer/Archer_d")]
 public class ArcherSkill_d : SkillExecuter
 {
     public int duration;
+
     /// <summary>
     /// 아처의 D키 스킬 로직을 담당하는 메소드
     /// </summary>
@@ -16,11 +16,11 @@ public class ArcherSkill_d : SkillExecuter
     {
         // 버프 활성화
         user.SetDoubleShot(true);
-        
+
         // 버프 지속 시간 후 비활성화
         user.StartCoroutine(DeactivateBuff(user));
     }
-    
+
     private IEnumerator DeactivateBuff(Player user)
     {
         yield return new WaitForSeconds(duration);

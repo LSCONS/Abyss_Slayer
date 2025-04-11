@@ -190,6 +190,10 @@ public class Player : MonoBehaviour
         playerStateMachine.ChangeState(playerStateMachine.DieState);
     }
 
+    /// <summary>
+    /// 더블샷 버프 활성화 메서드
+    /// </summary>
+    /// <param name="value">활성화 여부</param>
     public void SetDoubleShot(bool value)
     {
         IsDoubleShot = value;
