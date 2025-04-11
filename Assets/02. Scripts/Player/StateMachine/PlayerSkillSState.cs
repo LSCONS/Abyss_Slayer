@@ -30,6 +30,7 @@ public class PlayerSkillSState : PlayerSkillState
         base.Exit();
         StopAnimation(playerStateMachine.Player.playerAnimationData.S_SkillParameterHash);
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+        playerStateMachine.Player.SkillTrigger.StopSkillCoroutine();
 
 #if StateMachineDebug
         Debug.Log("SkillSState 해제");

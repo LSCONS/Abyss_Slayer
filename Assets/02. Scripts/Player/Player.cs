@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public PlayerInput input;
+    public PlayerInput input { get; private set; }
     public Rigidbody2D playerRigidbody;
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
@@ -16,12 +16,12 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerAnimationData playerAnimationData { get; private set; }
     public SkillSet skillSet; // 스킬셋 데이터
     public Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
-    private PlayerStateMachine playerStateMachine;
-    public BoxCollider2D playerGroundCollider;
-    public SpriteRenderer playerSpriteRenderer;
-
+    private PlayerStateMachine playerStateMachine { get; set; }
+    public BoxCollider2D playerGroundCollider {  get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
+    public ArcherSkillAnimationTrigger SkillTrigger{ get; private set; }
+
 
     private void Awake()
     {
@@ -69,14 +69,14 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
-        playerSpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
+        SpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
         PlayerAnimator = transform.GetComponentForTransformFindName<Animator>("Sprtie_Player");
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         //TODO: 여기서부터 임시 코드
-        ArcherSkillAnimationTrigger trigger = PlayerAnimator.AddComponent<ArcherSkillAnimationTrigger>();
-        trigger.player = this;
-        trigger.skills = equippedSkills;
+        SkillTrigger = PlayerAnimator.AddComponent<ArcherSkillAnimationTrigger>();
+        SkillTrigger.player = this;
+        SkillTrigger.skills = equippedSkills;
     }
 
 
@@ -108,9 +108,6 @@ public class Player : MonoBehaviour
     /// <param name="slotKey">쿨타임 돌릴 스킬 키</param>
     public void SkillCoolTimeUpdate(SkillSlotKey slotKey)
     {
-        Debug.Log("쿨타임 계산 시작");
-        //TODO: 해당 슬롯키와 맞는 스킬 키에서 쿨타임을 가져옴
-        //TODO: 임시로 대시만 확인하기 위해 대시 쿨타임을 사용함
         if (equippedSkills.ContainsKey(slotKey))
         {
             SkillData skillData = equippedSkills[slotKey];
@@ -143,7 +140,6 @@ public class Player : MonoBehaviour
                 equippedSkills[SkillSlotKey.X].canUse = true;
                 break;
             case SkillSlotKey.Z:
-                //TODO: 임시 코드
                 playerData.PlayerAirData.CanDash = true;
                 break;
             case SkillSlotKey.A:
