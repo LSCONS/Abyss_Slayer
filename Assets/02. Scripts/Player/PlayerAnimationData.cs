@@ -21,7 +21,7 @@ public class PlayerAnimationData
     [SerializeField] private string S_SkillParameterName    = "S_Skill";
     [SerializeField] private string D_SkillParameterName    = "D_Skill";
 
-    [SerializeField] private string Z_SkillAnimationName    = "Player_SkillA";
+    [SerializeField] private string Z_SkillAnimationName    = "Player_SkillZ";
     [SerializeField] private string X_SkillAnimationName    = "Player_SkillX";
     [SerializeField] private string A_SkillAnimationName    = "Player_SkillA";
     [SerializeField] private string S_SkillAnimationName    = "Player_SkillS";
