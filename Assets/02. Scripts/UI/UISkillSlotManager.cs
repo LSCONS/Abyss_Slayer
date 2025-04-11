@@ -11,6 +11,7 @@ public class UISkillSlotManager : MonoBehaviour
     [SerializeField] private GameObject skillSlotPrefab;
     [SerializeField] private Transform skillSlotParent;
 
+    private readonly List<SkillSlotPresenter> presenters = new();
     private void Start()
     {
         CreateSkillSlots();
@@ -24,7 +25,9 @@ public class UISkillSlotManager : MonoBehaviour
                 continue;
 
             var skillSlot = Instantiate(skillSlotPrefab, skillSlotParent);
-            skillSlot.GetComponent<UISkillSlot>().Bind(kvp.Value);
+            var slotView = skillSlot.GetComponent<UISkillSlot>();
+            var presenter = new SkillSlotPresenter(kvp.Value, slotView);
+            presenters.Add(presenter);
         }
     }
 
@@ -32,4 +35,12 @@ public class UISkillSlotManager : MonoBehaviour
     {
         return key == SkillSlotKey.A || key == SkillSlotKey.S || key == SkillSlotKey.D;
     }
+
+    private void OnDestroy()
+    {
+        foreach (var presenter in presenters)
+            presenter.Dispose();
+        presenters.Clear();
+    }
+
 }
