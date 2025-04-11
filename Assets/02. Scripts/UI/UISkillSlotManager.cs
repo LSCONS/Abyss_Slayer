@@ -12,6 +12,11 @@ public class UISkillSlotManager : MonoBehaviour
     [SerializeField] private Transform skillSlotParent;
 
     private readonly List<SkillSlotPresenter> presenters = new();
+
+    private void Awake()
+    {
+        player = GameObject.Find("Player").GetComponent<Player>();
+    }
     private void Start()
     {
         CreateSkillSlots();
