@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerAnimationData playerAnimationData { get; private set; }
     public SkillSet skillSet; // 스킬셋 데이터
     public Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
-    private PlayerStateMachine playerStateMachine { get; set; }
+    public PlayerStateMachine playerStateMachine { get; private set; }
     public BoxCollider2D playerGroundCollider {  get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
@@ -141,7 +141,7 @@ public class Player : MonoBehaviour
                 equippedSkills[SkillSlotKey.X].canUse = true;
                 break;
             case SkillSlotKey.Z:
-                playerData.PlayerAirData.CanDash = true;
+                equippedSkills[SkillSlotKey.Z].canUse = true;
                 break;
             case SkillSlotKey.A:
                 equippedSkills[SkillSlotKey.A].canUse = true;
