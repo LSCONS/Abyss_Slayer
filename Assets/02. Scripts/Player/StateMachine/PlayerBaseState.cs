@@ -31,11 +31,6 @@ public class PlayerBaseState : IPlayerState
         }
     }
 
-    public virtual void HandleInput()
-    {
-
-    }
-
     public virtual void Update()
     {
 

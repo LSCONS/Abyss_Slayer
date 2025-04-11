@@ -1,5 +1,5 @@
 {
-    "name": "PlajyerInputs",
+    "name": "PlayerInputs",
     "maps": [
         {
             "name": "Player",
@@ -24,15 +24,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
-                    "type": "Button",
-                    "id": "7e0403ac-2299-4b6a-8f29-ef0e35d369c5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Dash",
                     "type": "Button",
                     "id": "1fee8a45-aeb6-4c32-80c9-d72e7c13fc77",
@@ -42,7 +33,16 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Skill1",
+                    "name": "SkillX",
+                    "type": "Button",
+                    "id": "7e0403ac-2299-4b6a-8f29-ef0e35d369c5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SkillA",
                     "type": "Button",
                     "id": "6cb53e5c-5561-4f75-97df-fd843a7ccb8f",
                     "expectedControlType": "Button",
@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Skill2",
+                    "name": "SkillS",
                     "type": "Button",
                     "id": "d1228c59-b24f-49cb-84a7-441913097080",
                     "expectedControlType": "Button",
@@ -60,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Skill3",
+                    "name": "SkillD",
                     "type": "Button",
                     "id": "3eeff64f-a4e7-4ac9-bab4-95c43072b7de",
                     "expectedControlType": "Button",
@@ -143,7 +143,40 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "SkillX",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a0dd3aea-74f5-4e91-ba23-ed1a3c9030ad",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkillA",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5323f97d-2065-4e05-aabf-aad151564d8f",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkillS",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e346bbf-93a9-4ce5-a6d0-5ce027639511",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkillD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -155,39 +188,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a0dd3aea-74f5-4e91-ba23-ed1a3c9030ad",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skill1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5323f97d-2065-4e05-aabf-aad151564d8f",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skill2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6e346bbf-93a9-4ce5-a6d0-5ce027639511",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skill3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,7 +1,6 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -40,7 +39,6 @@ public class Player : MonoBehaviour
     private void Update()
     {
         playerStateMachine.Update();
-        playerStateMachine.HandleInput();
     }
 
     private void FixedUpdate()
