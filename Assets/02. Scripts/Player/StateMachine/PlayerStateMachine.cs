@@ -148,7 +148,8 @@ public class PlayerStateMachine : StateMachine
         if (Player.equippedSkills[SkillSlotKey.Z].canUse &&
             Player.input.IsSkillZ &&
             (Player.input.MoveDir.x != 0 ||
-            Player.input.MoveDir.y > 0) &&
+            Player.input.MoveDir.y > 0 ||
+            (Player.playerCheckGround.GroundPlaneCount + Player.playerCheckGround.GroundPlatformCount == 0)) &&
             Player.playerData.PlayerAirData.CurDashCount > 0)
         {
             ChangeState(SkillZState);

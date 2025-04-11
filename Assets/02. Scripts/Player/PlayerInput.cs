@@ -49,7 +49,8 @@ public class PlayerInput : MonoBehaviour
         playerAction.Move.canceled      += StopMove;
         playerAction.Jump.started       += StartJump;
         playerAction.Jump.canceled      += StopJump;
-        playerAction.SkillZ.started       += StartSkillZ;
+        playerAction.SkillZ.started     += StartSkillZ;
+        playerAction.SkillZ.canceled    += StopSkillZ;
         playerAction.SkillX.started     += StartSkillX;
         playerAction.SkillX.canceled    += StopSkillX;
         playerAction.SkillA.started     += StartSkillA;
@@ -70,7 +71,8 @@ public class PlayerInput : MonoBehaviour
         playerAction.Move.canceled      -= StopMove;
         playerAction.Jump.started       -= StartJump;
         playerAction.Jump.canceled      -= StopJump;
-        playerAction.SkillZ.started       -= StartSkillZ;
+        playerAction.SkillZ.started     -= StartSkillZ;
+        playerAction.SkillZ.canceled    -= StopSkillZ;
         playerAction.SkillX.started     -= StartSkillX;
         playerAction.SkillX.canceled    -= StopSkillX;
         playerAction.SkillA.started     -= StartSkillA;
@@ -94,9 +96,10 @@ public class PlayerInput : MonoBehaviour
     private void StopJump(InputAction.CallbackContext context) => IsJump = false;
 
 
-    /// <summary>플레이어 스킬Z 트리거</summary>
-    private void StartSkillZ(InputAction.CallbackContext context) => 
-        StartCoroutine(TriggerAction(X => IsSkillZ = X));
+    /// <summary>플레이어 스킬Z 시작</summary>
+    private void StartSkillZ(InputAction.CallbackContext context) => IsSkillZ = true;
+    /// <summary>플레이어 스킬Z 종료</summary>
+    private void StopSkillZ(InputAction.CallbackContext context) => IsSkillZ = false;
 
 
     /// <summary>플레이어 스킬X 시작</summary>
