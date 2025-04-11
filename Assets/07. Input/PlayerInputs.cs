@@ -46,7 +46,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Dash"",
+                    ""name"": ""SkillZ"",
                     ""type"": ""Button"",
                     ""id"": ""1fee8a45-aeb6-4c32-80c9-d72e7c13fc77"",
                     ""expectedControlType"": ""Button"",
@@ -209,7 +209,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Dash"",
+                    ""action"": ""SkillZ"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -222,7 +222,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+        m_Player_SkillZ = m_Player.FindAction("SkillZ", throwIfNotFound: true);
         m_Player_SkillX = m_Player.FindAction("SkillX", throwIfNotFound: true);
         m_Player_SkillA = m_Player.FindAction("SkillA", throwIfNotFound: true);
         m_Player_SkillS = m_Player.FindAction("SkillS", throwIfNotFound: true);
@@ -290,7 +290,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Dash;
+    private readonly InputAction m_Player_SkillZ;
     private readonly InputAction m_Player_SkillX;
     private readonly InputAction m_Player_SkillA;
     private readonly InputAction m_Player_SkillS;
@@ -301,7 +301,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public PlayerActions(@PlayerInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Dash => m_Wrapper.m_Player_Dash;
+        public InputAction @SkillZ => m_Wrapper.m_Player_SkillZ;
         public InputAction @SkillX => m_Wrapper.m_Player_SkillX;
         public InputAction @SkillA => m_Wrapper.m_Player_SkillA;
         public InputAction @SkillS => m_Wrapper.m_Player_SkillS;
@@ -321,9 +321,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Dash.started += instance.OnDash;
-            @Dash.performed += instance.OnDash;
-            @Dash.canceled += instance.OnDash;
+            @SkillZ.started += instance.OnSkillZ;
+            @SkillZ.performed += instance.OnSkillZ;
+            @SkillZ.canceled += instance.OnSkillZ;
             @SkillX.started += instance.OnSkillX;
             @SkillX.performed += instance.OnSkillX;
             @SkillX.canceled += instance.OnSkillX;
@@ -346,9 +346,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Dash.started -= instance.OnDash;
-            @Dash.performed -= instance.OnDash;
-            @Dash.canceled -= instance.OnDash;
+            @SkillZ.started -= instance.OnSkillZ;
+            @SkillZ.performed -= instance.OnSkillZ;
+            @SkillZ.canceled -= instance.OnSkillZ;
             @SkillX.started -= instance.OnSkillX;
             @SkillX.performed -= instance.OnSkillX;
             @SkillX.canceled -= instance.OnSkillX;
@@ -382,7 +382,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnDash(InputAction.CallbackContext context);
+        void OnSkillZ(InputAction.CallbackContext context);
         void OnSkillX(InputAction.CallbackContext context);
         void OnSkillA(InputAction.CallbackContext context);
         void OnSkillS(InputAction.CallbackContext context);
