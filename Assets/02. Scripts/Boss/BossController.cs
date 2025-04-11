@@ -8,9 +8,16 @@ using UnityEngine;
 [Serializable]
 public class BossPattern
 {
+    [Header("패턴 정보")]
+    [Tooltip("가중치")]
     public float weight;
     public BasePatternData patternData;
+
+    [Header("테스트용 항목")]
+    [Tooltip("끄면 패턴 비활성화")]
+    public bool setActivePatternForTest;
     public bool showGizmos;
+   
     
 }
 public class BossController : MonoBehaviour
@@ -18,14 +25,33 @@ public class BossController : MonoBehaviour
     [SerializeField] List<BossPattern> allPatterns;
 
     Animator animator;
-    [SerializeField] Transform targetCrosshair;
+    [SerializeField] GameObject targetCrossHairPrefab;
+    Transform targetCrosshair;
+    SpriteRenderer targetCrosshairRenderer;
     [SerializeField] private LineRenderer targetLine;
     Transform target;
 
-    public bool showTargetCrosshair;
-    bool preShowTargetCrosshair;
-    public bool showTargetLine;
-    bool preShowTargetLine;
+    bool _showTargetCrosshair;
+    public bool showTargetCrosshair
+    {
+        get { return _showTargetCrosshair; }
+        set 
+        {
+            if (value && target != null) targetCrosshair.position = target.position;
+            targetCrosshairRenderer.enabled = value;
+            _showTargetCrosshair = value;
+        }
+    }
+    bool _showTargetLine;
+    public bool showTargetLine
+    {
+        get { return _showTargetLine; }
+        set
+        {
+            targetLine.enabled = value;
+            _showTargetLine = value;
+        }
+    }
     public bool chasingTarget;
     public bool isLeft;
 
@@ -37,10 +63,13 @@ public class BossController : MonoBehaviour
             allPatterns[i].patternData.Init(transform,this);
         }
 
+        targetCrosshair = Instantiate(targetCrossHairPrefab).transform;
+        targetCrosshairRenderer = targetCrosshair.GetComponent<SpriteRenderer>();
+        targetLine = GetComponent<LineRenderer>();
+
+        chasingTarget = false;
         showTargetCrosshair = false;
-        preShowTargetCrosshair = false;
         showTargetLine = false;
-        preShowTargetLine = false;
     }
 
     private void Start()
@@ -55,27 +84,17 @@ public class BossController : MonoBehaviour
         {
             Rotate();
         }
-            
-        if (showTargetCrosshair != preShowTargetCrosshair)
-        {
-
-            preShowTargetCrosshair = showTargetCrosshair;
-        }
-        if (showTargetCrosshair)
+        
+        if (_showTargetCrosshair)
         {
             targetCrosshair.position = target.position;
-        }
-        if (showTargetLine != preShowTargetLine)
-        {
-
-            preShowTargetLine = showTargetLine;
         }
 
     }
 
     void Rotate()
     {
-
+        isLeft = (target.position.x - transform.position.x < 0);
         if (isLeft)
         {
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
@@ -99,7 +118,7 @@ public class BossController : MonoBehaviour
             if (next != null)
             {
                 target = next.patternData.target;
-                yield return StartCoroutine(next.patternData.ExecutePattern(transform,animator));
+                yield return StartCoroutine(next.patternData.ExecutePattern(this, transform,animator));
             }
             else
             {
@@ -118,18 +137,32 @@ public class BossController : MonoBehaviour
             return;
         for(int i = 0; i < allPatterns.Count; i++)
         {
-            if (allPatterns[i] == null || allPatterns[i].patternData.attackableAreas.Count == 0)
+            BossPattern pattern = allPatterns[i];
+
+            if (pattern == null || pattern.patternData.attackableAreas.Count == 0)
                 return;
-            if (!allPatterns[i].showGizmos)
-                return;
-            Gizmos.color = allPatterns[i].patternData.gizmoColor;
-            foreach (Rect rect in allPatterns[i].patternData.attackableAreas)
+            if (!pattern.setActivePatternForTest || !pattern.showGizmos)
+                continue;
+            Gizmos.color = pattern.patternData.gizmoColor;
+
+            for(int j = 0; j < pattern.patternData.attackableAreas.Count; j++)
             {
-                // Rect는 2D 기준: position은 좌하단 기준, size는 width/height
+                Rect rect = pattern.patternData.attackableAreas[j]; // Rect는 2D 기준: position은 좌하단 기준, size는 width/height
+
                 Vector3 center = new Vector3(rect.x + rect.width / 2f, rect.y + rect.height / 2f, transform.position.z);
                 center = transform.TransformPoint(center);
+
                 Vector3 size = new Vector3(rect.width, rect.height, 0f);
-                
+
+                Gizmos.DrawCube(center, size);
+            }
+            for (int j = 0; j < pattern.patternData.globalAttackableAreas.Count; j++)
+            {
+                Rect rect = pattern.patternData.globalAttackableAreas[j]; // Rect는 2D 기준: position은 좌하단 기준, size는 width/height
+
+                Vector3 center = new Vector3(rect.x + rect.width / 2f, rect.y + rect.height / 2f, transform.position.z);
+
+                Vector3 size = new Vector3(rect.width, rect.height, 0f);
 
                 Gizmos.DrawCube(center, size);
             }
@@ -138,12 +171,12 @@ public class BossController : MonoBehaviour
 
     public void StartNextPattern()
     {
-        StartCoroutine(GetRandomPattern().patternData.ExecutePattern(transform, animator));
+        StartCoroutine(GetRandomPattern().patternData.ExecutePattern(this, transform, animator));
     }
     BossPattern GetRandomPattern()
     {
-        // 가능한 패턴만 필터링
-        List<BossPattern> availablePatterns = allPatterns.Where(p => p.patternData.IsAvailable()).ToList();
+        // 가능한 패턴만 필터링, 테스트용 활성화 값이 참인경우만 포함
+        List<BossPattern> availablePatterns = allPatterns.Where(p =>p.setActivePatternForTest && p.patternData.IsAvailable()).ToList();
 
         if (availablePatterns.Count == 0)
             return null;
