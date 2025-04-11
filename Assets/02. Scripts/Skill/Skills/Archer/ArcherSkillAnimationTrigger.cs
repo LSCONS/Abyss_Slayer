@@ -6,7 +6,7 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour
 {
     public Dictionary<SkillSlotKey, SkillData> skills;
     public Player player;
-    public Coroutine curCoroutine;
+    public Coroutine skillCoroutine;
 
     public void UseSkillA()
     {
@@ -20,7 +20,7 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour
 
         // 임시 추가 (아직 UseSkillS 호출이 안되는 상태인듯 해서 아직 실행 자체는 ArcherSkill_s에서 담당중)
         skillData.canMove = false;
-        curCoroutine = StartCoroutine(((ArcherSkill_s)skillData.executer).FireArrows(player, null, skillData));
+        skillCoroutine = StartCoroutine(((ArcherSkill_s)skillData.executer).FireArrows(player, null, skillData));
     }
 
     public void UseSkillD()
@@ -42,6 +42,12 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour
     }
 
 
-
-
+    public void StopSkillCoroutine()
+    {
+        if(skillCoroutine != null)
+        {
+            StopCoroutine(skillCoroutine);
+            skillCoroutine = null;
+        }
+    }
 }
