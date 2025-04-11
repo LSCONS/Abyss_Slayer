@@ -11,7 +11,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerWalkState WalkState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerFallState FallState { get; private set; }
-    public PlayerDashState DashState { get; private set; }
+    public PlayerSkillZState SkillZState { get; private set; }
     public PlayerSkillXState SkillXState { get; private set; }
     public PlayerSkillAState SkillAState { get; private set; }
     public PlayerSkillSState SkillSState { get; private set; }
@@ -21,6 +21,7 @@ public class PlayerStateMachine : StateMachine
     public StoppableAction SkipAttackAction = new();
     public StoppableAction EndAttackAction = new();
 
+    public bool CanMove { get; set; } = true;
     public AnimatorStateInfo AnimatorInfo { get; set; }
     public bool IsCompareState { get; set; }
     public float MovementSpeed {  get; set; }
@@ -34,7 +35,7 @@ public class PlayerStateMachine : StateMachine
         WalkState = new PlayerWalkState(this);
         JumpState = new PlayerJumpState(this);
         FallState = new PlayerFallState(this);
-        DashState = new PlayerDashState(this);
+        SkillZState = new PlayerSkillZState(this);
         SkillAState = new PlayerSkillAState(this);
         SkillSState = new PlayerSkillSState(this);
         SkillDState = new PlayerSkillDState(this);
@@ -77,7 +78,7 @@ public class PlayerStateMachine : StateMachine
 
         if ((ApplyState.DashState | applyState) == applyState)
         {
-            DashState.MoveAction.AddListener(() => ConnectAction(isAction(), state, skillData));
+            SkillZState.MoveAction.AddListener(() => ConnectAction(isAction(), state, skillData));
         }
 
         if ((ApplyState.FallState | applyState) == applyState)
@@ -144,13 +145,15 @@ public class PlayerStateMachine : StateMachine
     /// <returns>true면 Action 종료, false면 Action 계속</returns>
     public bool ConnectDashState()
     {
-        if (Player.playerData.PlayerAirData.CanDash &&
-            Player.input.IsDash &&
+        if (Player.equippedSkills[SkillSlotKey.Z].canUse &&
+            Player.input.IsSkillZ &&
             (Player.input.MoveDir.x != 0 ||
-            Player.input.MoveDir.y > 0) &&
+            Player.input.MoveDir.y > 0 ||
+            (Player.playerCheckGround.GroundPlaneCount + Player.playerCheckGround.GroundPlatformCount == 0) && 
+            Player.input.MoveDir != Vector2.zero) &&
             Player.playerData.PlayerAirData.CurDashCount > 0)
         {
-            ChangeState(DashState);
+            ChangeState(SkillZState);
             return true;
         }
         return false;

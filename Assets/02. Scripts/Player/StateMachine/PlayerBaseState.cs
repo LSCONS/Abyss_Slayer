@@ -25,7 +25,7 @@ public class PlayerBaseState : IPlayerState
 
     public virtual void FixedUpdate()
     {
-        if (playerStateMachine.Player.playerData.PlayerStatusData.CanMove)
+        if (playerStateMachine.MovementSpeed != 0f)
         {
             Move();
         }

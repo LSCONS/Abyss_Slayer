@@ -17,7 +17,7 @@ public class PlayerInput : MonoBehaviour
     public bool IsJump          { get; private set; }
 
     /// <summary>플레이어가 대시키를 입력했는지 확인(트리거)</summary>
-    public bool IsDash          { get; private set; }
+    public bool IsSkillZ        { get; private set; }
 
     /// <summary>플레이어가 어택키를 입력했는지 확인(트리거)</summary>
     public bool IsSkillX        { get; private set; }
@@ -49,7 +49,8 @@ public class PlayerInput : MonoBehaviour
         playerAction.Move.canceled      += StopMove;
         playerAction.Jump.started       += StartJump;
         playerAction.Jump.canceled      += StopJump;
-        playerAction.Dash.started       += StartDash;
+        playerAction.SkillZ.started     += StartSkillZ;
+        playerAction.SkillZ.canceled    += StopSkillZ;
         playerAction.SkillX.started     += StartSkillX;
         playerAction.SkillX.canceled    += StopSkillX;
         playerAction.SkillA.started     += StartSkillA;
@@ -70,7 +71,8 @@ public class PlayerInput : MonoBehaviour
         playerAction.Move.canceled      -= StopMove;
         playerAction.Jump.started       -= StartJump;
         playerAction.Jump.canceled      -= StopJump;
-        playerAction.Dash.started       -= StartDash;
+        playerAction.SkillZ.started     -= StartSkillZ;
+        playerAction.SkillZ.canceled    -= StopSkillZ;
         playerAction.SkillX.started     -= StartSkillX;
         playerAction.SkillX.canceled    -= StopSkillX;
         playerAction.SkillA.started     -= StartSkillA;
@@ -94,14 +96,15 @@ public class PlayerInput : MonoBehaviour
     private void StopJump(InputAction.CallbackContext context) => IsJump = false;
 
 
-    /// <summary>플레이어 대시 트리거</summary>
-    private void StartDash(InputAction.CallbackContext context) => 
-        StartCoroutine(TriggerAction(X => IsDash = X));
+    /// <summary>플레이어 스킬Z 시작</summary>
+    private void StartSkillZ(InputAction.CallbackContext context) => IsSkillZ = true;
+    /// <summary>플레이어 스킬Z 종료</summary>
+    private void StopSkillZ(InputAction.CallbackContext context) => IsSkillZ = false;
 
 
-    /// <summary>플레이어 어택 시작</summary>
+    /// <summary>플레이어 스킬X 시작</summary>
     private void StartSkillX(InputAction.CallbackContext context) => IsSkillX = true;
-    /// <summary>플레이어 어택 종료</summary>
+    /// <summary>플레이어 스킬X 종료</summary>
     private void StopSkillX(InputAction.CallbackContext context) => IsSkillX = false;
 
 

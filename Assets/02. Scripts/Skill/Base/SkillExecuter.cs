@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 /// <summary>
 /// 스킬 실행 로직을 정의하는 추상 클래스.

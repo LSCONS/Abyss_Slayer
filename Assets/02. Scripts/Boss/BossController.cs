@@ -139,7 +139,7 @@ public class BossController : MonoBehaviour
         {
             BossPattern pattern = allPatterns[i];
 
-            if (pattern == null || pattern.patternData.attackableAreas.Count == 0)
+            if (pattern == null || (pattern.patternData.attackableAreas.Count == 0 && pattern.patternData.globalAttackableAreas.Count == 0))
                 return;
             if (!pattern.setActivePatternForTest || !pattern.showGizmos)
                 continue;

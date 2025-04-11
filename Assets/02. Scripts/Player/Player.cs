@@ -16,11 +16,12 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerAnimationData playerAnimationData { get; private set; }
     public SkillSet skillSet; // 스킬셋 데이터
     public Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
-    private PlayerStateMachine playerStateMachine { get; set; }
+    public PlayerStateMachine playerStateMachine { get; private set; }
     public BoxCollider2D playerGroundCollider {  get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
     public ArcherSkillAnimationTrigger SkillTrigger{ get; private set; }
+    public bool IsDoubleShot { get; private set; } = false;
 
 
     private void Awake()
@@ -128,19 +129,20 @@ public class Player : MonoBehaviour
     /// <param name="slotKey">초기화 시킬 스킬 키</param>
     private IEnumerator SkillCoolTimeUpdateCoroutine(ReactiveProperty<float> property, SkillSlotKey slotKey)
     {
-        while (property.Value == 0)
+        while (property.Value > 0)
         {
             property.Value = Mathf.Max(property.Value - Time.deltaTime, 0);
             yield return null;
         }
 
+        Debug.Log("스킬 쿨타임 초기화");
         switch (slotKey)
         {
             case SkillSlotKey.X:
                 equippedSkills[SkillSlotKey.X].canUse = true;
                 break;
             case SkillSlotKey.Z:
-                playerData.PlayerAirData.CanDash = true;
+                equippedSkills[SkillSlotKey.Z].canUse = true;
                 break;
             case SkillSlotKey.A:
                 equippedSkills[SkillSlotKey.A].canUse = true;
@@ -186,5 +188,14 @@ public class Player : MonoBehaviour
     public void PlayerDie()
     {
         playerStateMachine.ChangeState(playerStateMachine.DieState);
+    }
+
+    /// <summary>
+    /// 더블샷 버프 활성화 메서드
+    /// </summary>
+    /// <param name="value">활성화 여부</param>
+    public void SetDoubleShot(bool value)
+    {
+        IsDoubleShot = value;
     }
 }

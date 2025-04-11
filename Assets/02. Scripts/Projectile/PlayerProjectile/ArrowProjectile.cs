@@ -1,13 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ArrowProjectile : BasePoolable
 {
     // Init으로 전달받은 화살 데이터 저장용 변수
-    private int damage;           
-    private float arrowSpeed, maxRange;    
+    private int damage;
+    private float arrowSpeed, maxRange;
     private Vector3 direction, initPos;
+    [SerializeField] List<Sprite> sprites;
+    [SerializeField] SpriteRenderer spriteRenderer;
 
     private void Update()
     {
@@ -33,13 +34,15 @@ public class ArrowProjectile : BasePoolable
     /// <param name="dir">화살 이동 방향</param>
     /// <param name="range">화살 최대 이동 거리</param>
     /// <param name="speed">화살 이동 속도</param>
-    public void Init(Vector3 spawnPos, Vector3 dir, float range, float speed)
+    /// <param name="spriteNum">화살 스프라이트 인덱스</param>
+    public void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, int spriteNum)
     {
         transform.position = spawnPos;
         initPos = spawnPos;
         direction = dir.normalized;
         maxRange = range;
         arrowSpeed = speed;
+        spriteRenderer.sprite = sprites[spriteNum];
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

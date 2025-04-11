@@ -23,6 +23,7 @@ public class PlayerIdleState : PlayerGroundState
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.idleParameterHash);
         playerStateMachine.MovementSpeed = 0f;
+        ResetZeroVelocity();
 
 #if StateMachineDebug
         Debug.Log("IdleState 진입");

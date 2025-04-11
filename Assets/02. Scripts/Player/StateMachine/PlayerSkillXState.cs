@@ -5,19 +5,24 @@ using UnityEngine;
 public class PlayerSkillXState : PlayerSkillState
 {
     private SkillData SkillData { get; set; }
-    private SkillSlotKey slotkey { get; set; } = SkillSlotKey.X;
+    private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.X;
     public PlayerSkillXState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-        SkillData = playerStateMachine.Player.equippedSkills[slotkey];
+        SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
         playerStateMachine.ConnectSkillState(this, SkillData,() => playerStateMachine.Player.input.IsSkillX);
     }
     public override void Enter()
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.X_SkillParameterHash);
-        if (!(SkillData.canMove)) playerStateMachine.MovementSpeed = 0f;
+        if (!(SkillData.canMove))
+        {
+            playerStateMachine.MovementSpeed = 0f;
+            ResetZeroVelocity();
+        }
         playerStateMachine.IsCompareState = false;
-        playerStateMachine.Player.SkillCoolTimeUpdate(slotkey);
+        playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
+        SkillData.canUse = false;
 
 #if StateMachineDebug
         Debug.Log("SkillXState 진입");

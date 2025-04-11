@@ -9,16 +9,22 @@ public class PlayerSkillDState : PlayerSkillState
     //TODO: PlayerD스킬 데이터 가져와야함.
     public PlayerSkillDState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-        //skillData = playerStateMachine.Player.equippedSkills[slotkey];
-        //playerStateMachine.ConnectAttackState(this);
+        SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
+        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillD);
     }
+
     public override void Enter()
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.D_SkillParameterHash);
-        if (!(SkillData.canMove)) playerStateMachine.MovementSpeed = 0f;
+        if (!(SkillData.canMove))
+        {
+            playerStateMachine.MovementSpeed = 0f;
+            ResetZeroVelocity();
+        }
         playerStateMachine.IsCompareState = false;
         playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
+        SkillData.canUse = false;
 
 #if StateMachineDebug
         Debug.Log("SkillDState 진입");
@@ -49,12 +55,14 @@ public class PlayerSkillDState : PlayerSkillState
             {
                 playerStateMachine.IsCompareState = true;
             }
-            else
-            {
-                playerStateMachine.SkipAttackAction?.Invoke();
-                return;
-            }
+            else return;
         }
+        if (playerStateMachine.AnimatorInfo.normalizedTime < 1f)
+        {
+            playerStateMachine.SkipAttackAction?.Invoke();
+            return;
+        }
+
         if (playerStateMachine.AnimatorInfo.normalizedTime < 1f) return;
         playerStateMachine.EndAttackAction?.Invoke();
     }
