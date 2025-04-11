@@ -16,7 +16,11 @@ public class PlayerSkillAState : PlayerSkillState
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.A_SkillParameterHash);
-        if (!(SkillData.canMove)) playerStateMachine.MovementSpeed = 0f;
+        if (!(SkillData.canMove))
+        {
+            playerStateMachine.MovementSpeed = 0f;
+            ResetZeroVelocity();
+        }
         playerStateMachine.IsCompareState = false;
         playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
         SkillData.canUse = false;
@@ -50,11 +54,12 @@ public class PlayerSkillAState : PlayerSkillState
             {
                 playerStateMachine.IsCompareState = true;
             }
-            else
-            {
-                playerStateMachine.SkipAttackAction?.Invoke();
-                return;
-            }
+            else return;
+        }
+        if (playerStateMachine.AnimatorInfo.normalizedTime < 1f)
+        {
+            playerStateMachine.SkipAttackAction?.Invoke();
+            return;
         }
         if (playerStateMachine.AnimatorInfo.normalizedTime < 1f) return;
         playerStateMachine.EndAttackAction?.Invoke();
