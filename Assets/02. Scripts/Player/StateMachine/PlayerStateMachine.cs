@@ -149,7 +149,8 @@ public class PlayerStateMachine : StateMachine
             Player.input.IsSkillZ &&
             (Player.input.MoveDir.x != 0 ||
             Player.input.MoveDir.y > 0 ||
-            (Player.playerCheckGround.GroundPlaneCount + Player.playerCheckGround.GroundPlatformCount == 0)) &&
+            (Player.playerCheckGround.GroundPlaneCount + Player.playerCheckGround.GroundPlatformCount == 0) && 
+            Player.input.MoveDir != Vector2.zero) &&
             Player.playerData.PlayerAirData.CurDashCount > 0)
         {
             ChangeState(SkillZState);

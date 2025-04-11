@@ -53,6 +53,7 @@ public class PlayerCheckGround : MonoBehaviour
         GroundPlaneCount = 0;
         GroundPlatformCount = 0;
         playerTriggerOff?.Invoke();
+        CheckAllGroundCanJumpExit();
     }
 
     private void CheckAllGroundCanJumpEnter()
