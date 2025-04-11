@@ -5,20 +5,26 @@ using UnityEngine;
 public class PlayerSkillAState : PlayerSkillState
 {
     private SkillData SkillData { get; set; }
-    private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.D;
-    //TODO: PlayerA스킬 데이터 가져와야함.
+    private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.A;
     public PlayerSkillAState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-        //skillData = playerStateMachine.Player.equippedSkills[slotkey];
-        //playerStateMachine.ConnectAttackState(this);
+        SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
+        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillA);
     }
 
     public override void Enter()
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.A_SkillParameterHash);
+        if (!(SkillData.canMove))
+        {
+            playerStateMachine.MovementSpeed = 0f;
+            ResetZeroVelocity();
+        }
+        playerStateMachine.IsCompareState = false;
+        playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
+        SkillData.canUse = false;
 
-        //TODO: 스킬 사용 중 움직일 수 있는지 확인하고 실행
 #if StateMachineDebug
         Debug.Log("SkillAState 진입");
 #endif
@@ -29,6 +35,7 @@ public class PlayerSkillAState : PlayerSkillState
         base.Exit();
         StopAnimation(playerStateMachine.Player.playerAnimationData.A_SkillParameterHash);
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+        playerStateMachine.Player.SkillTrigger.StopSkillCoroutine();
 
 #if StateMachineDebug
         Debug.Log("SkillAState 해제");
@@ -47,11 +54,12 @@ public class PlayerSkillAState : PlayerSkillState
             {
                 playerStateMachine.IsCompareState = true;
             }
-            else
-            {
-                playerStateMachine.SkipAttackAction?.Invoke();
-                return;
-            }
+            else return;
+        }
+        if (playerStateMachine.AnimatorInfo.normalizedTime < 1f)
+        {
+            playerStateMachine.SkipAttackAction?.Invoke();
+            return;
         }
         if (playerStateMachine.AnimatorInfo.normalizedTime < 1f) return;
         playerStateMachine.EndAttackAction?.Invoke();

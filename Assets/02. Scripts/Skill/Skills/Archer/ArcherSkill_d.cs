@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcherSkill_d : MonoBehaviour
+[CreateAssetMenu(menuName = "Skill/Archer/Archer_d")]
+public class ArcherSkill_d : SkillExecuter
 {
-    // Start is called before the first frame update
-    void Start()
+    public int duration;
+    /// <summary>
+    /// 아처의 D키 스킬 로직을 담당하는 메소드
+    /// </summary>
+    /// <param name="user">스킬 시전자</param>
+    /// <param name="target">타겟팅 정보</param>
+    /// <param name="skillData">스킬의 공통 데이터</param>
+    public override void Execute(Player user, Player target, SkillData skillData)
     {
+        // 버프 활성화
+        user.SetDoubleShot(true);
         
+        // 버프 지속 시간 후 비활성화
+        user.StartCoroutine(DeactivateBuff(user));
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    private IEnumerator DeactivateBuff(Player user)
     {
-        
+        yield return new WaitForSeconds(duration);
+        user.SetDoubleShot(false);
     }
 }

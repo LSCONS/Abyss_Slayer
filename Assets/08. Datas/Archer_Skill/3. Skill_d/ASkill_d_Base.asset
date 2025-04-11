@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99da0ec58c473454f84b345f9b7dea99, type: 3}
+  m_Name: ASkill_d_Base
+  m_EditorClassIdentifier: 
+  skillName: "\uD22C\uC0AC\uCCB4 \uC99D\uAC00"
+  description: "\uC77C\uC815 \uC2DC\uAC04\uB3D9\uC548 \uD22C\uC0AC\uCCB4\uC758 \uAC1C\uC218\uAC00
+    2\uBC30\uAC00 \uB41C\uB2E4."
+  canMove: 0
+  canUse: 0
+  <MaxCoolTime>k__BackingField:
+    value: 0
+  <CurCoolTime>k__BackingField:
+    value: 0
+  icon: {fileID: 0}
+  animationTrigger: 
+  effectPrefab: {fileID: 0}
+  executer: {fileID: 11400000, guid: a26fc2579075e684a814fe134f6c2fc2, type: 2}
+  category: 3
+  damageType: 0
+  applyState: -1
+  targetingData: {fileID: 11400000, guid: f171947caa498a4408b8d6b1332429f5, type: 2}

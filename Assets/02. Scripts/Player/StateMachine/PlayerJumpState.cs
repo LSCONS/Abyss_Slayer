@@ -11,6 +11,10 @@ public class PlayerJumpState : PlayerAirState
         MoveAction.AddListener(playerStateMachine.ConnectFallState);
         //Dash State 진입 가능 여부 확인
         MoveAction.AddListener(playerStateMachine.ConnectDashState);
+        //Idle State 진입 가능 여부 확인
+        MoveAction.AddListener(playerStateMachine.ConnectIdleState);
+        //Walk State 진입 가능 여부 확인
+        MoveAction.AddListener(playerStateMachine.ConnectWalkState);
     }
 
     public override void Enter()

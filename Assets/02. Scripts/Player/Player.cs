@@ -1,13 +1,14 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public PlayerInput input;
+    public PlayerInput input { get; private set; }
     public Rigidbody2D playerRigidbody;
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
@@ -15,17 +16,18 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerAnimationData playerAnimationData { get; private set; }
     public SkillSet skillSet; // 스킬셋 데이터
     public Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
-    private PlayerStateMachine playerStateMachine;
-    public BoxCollider2D playerGroundCollider;
-    public SpriteRenderer playerSpriteRenderer;
-
+    public PlayerStateMachine playerStateMachine { get; private set; }
+    public BoxCollider2D playerGroundCollider {  get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
+    public ArcherSkillAnimationTrigger SkillTrigger{ get; private set; }
+    public bool IsDoubleShot { get; private set; } = false;
+
 
     private void Awake()
     {
         InitPlayerData();
-        InitSkilData();
+        InitSkillData();
         InitComponent();
         playerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
@@ -40,7 +42,6 @@ public class Player : MonoBehaviour
     private void Update()
     {
         playerStateMachine.Update();
-        playerStateMachine.HandleInput();
     }
 
     private void FixedUpdate()
@@ -69,21 +70,21 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
-        playerSpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
+        SpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
         PlayerAnimator = transform.GetComponentForTransformFindName<Animator>("Sprtie_Player");
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         //TODO: 여기서부터 임시 코드
-        ArcherSkillAnimationTrigger trigger = PlayerAnimator.AddComponent<ArcherSkillAnimationTrigger>();
-        trigger.player = this;
-        trigger.skills = equippedSkills;
+        SkillTrigger = PlayerAnimator.AddComponent<ArcherSkillAnimationTrigger>();
+        SkillTrigger.player = this;
+        SkillTrigger.skills = equippedSkills;
     }
 
 
     /// <summary>
     /// 스킬 데이터를 딕셔너리 형태로 초기화하는 메서드
     /// </summary>
-    private void InitSkilData()
+    private void InitSkillData()
     {
         skillSet = Instantiate(skillSet);
         skillSet.InstantiateSkillData();
@@ -108,22 +109,16 @@ public class Player : MonoBehaviour
     /// <param name="slotKey">쿨타임 돌릴 스킬 키</param>
     public void SkillCoolTimeUpdate(SkillSlotKey slotKey)
     {
-        Debug.Log("쿨타임 계산 시작");
-        //TODO: 해당 슬롯키와 맞는 스킬 키에서 쿨타임을 가져옴
-        //TODO: 임시로 대시만 확인하기 위해 대시 쿨타임을 사용함
-        float coolTime;
         if (equippedSkills.ContainsKey(slotKey))
         {
             SkillData skillData = equippedSkills[slotKey];
-            coolTime = skillData.coolTime;
+            skillData.CurCoolTime.Value = skillData.MaxCoolTime.Value;
+            StartCoroutine(SkillCoolTimeUpdateCoroutine(skillData.CurCoolTime, slotKey));
         }
         else
         {
             Debug.LogError($"{slotKey}에 대한 정보를 찾을 수 없습니다. (송제우: Z에 대한 정보면 무시해도 됩니다.)");
-            coolTime = 0.5f;
         }
-        Debug.Log("coolTime = " + coolTime);
-        StartCoroutine(SkillCoolTimeUpdateCoroutine(coolTime, slotKey));
     }
 
 
@@ -132,23 +127,22 @@ public class Player : MonoBehaviour
     /// </summary>
     /// <param name="coolTIme">쿨타임 시간</param>
     /// <param name="slotKey">초기화 시킬 스킬 키</param>
-    private IEnumerator SkillCoolTimeUpdateCoroutine(float coolTIme, SkillSlotKey slotKey)
+    private IEnumerator SkillCoolTimeUpdateCoroutine(ReactiveProperty<float> property, SkillSlotKey slotKey)
     {
-        float temp = 0;
-        while (temp <= coolTIme)
+        while (property.Value > 0)
         {
-            temp += Time.deltaTime;
+            property.Value = Mathf.Max(property.Value - Time.deltaTime, 0);
             yield return null;
         }
 
+        Debug.Log("스킬 쿨타임 초기화");
         switch (slotKey)
         {
             case SkillSlotKey.X:
                 equippedSkills[SkillSlotKey.X].canUse = true;
                 break;
             case SkillSlotKey.Z:
-                //TODO: 임시 코드
-                playerData.PlayerAirData.CanDash = true;
+                equippedSkills[SkillSlotKey.Z].canUse = true;
                 break;
             case SkillSlotKey.A:
                 equippedSkills[SkillSlotKey.A].canUse = true;
@@ -194,5 +188,10 @@ public class Player : MonoBehaviour
     public void PlayerDie()
     {
         playerStateMachine.ChangeState(playerStateMachine.DieState);
+    }
+
+    public void SetDoubleShot(bool value)
+    {
+        IsDoubleShot = value;
     }
 }

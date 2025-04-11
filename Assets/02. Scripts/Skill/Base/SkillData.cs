@@ -1,3 +1,4 @@
+using UniRx;
 using UnityEngine;
 
 
@@ -8,10 +9,10 @@ public class SkillData : ScriptableObject
     [Header("기본 정보")]
     public string skillName;                // 스킬명
     public string description;              // 설명
-    public int manaCost;                    // 마나 소모량
-    public float coolTime;                  // 쿨타임
     public bool canMove;                    // 움직임 가능 여부
     public bool canUse;                     // 사용 가능 여부
+    [field: SerializeField] public ReactiveProperty<float> MaxCoolTime { get; set; }    // 최대 쿨타임
+    [field: SerializeField] public ReactiveProperty<float> CurCoolTime { get; set; }    // 현재 쿨타임
 
     [Header("시각적 요소")]
     public Sprite icon;                     // 스킬 아이콘
@@ -22,7 +23,7 @@ public class SkillData : ScriptableObject
     public SkillExecuter executer;			// 스킬 실행 클래스
     public SkillCategory category;			// 스킬 종류
     public DamageType damageType;			// 데미지 타입 (물리, 마법)
-    public ApplyState applyState;           //연결 가능한 State 체크
+    public ApplyState applyState;           // 연결 가능한 State 체크
 
     [Header("타겟팅")]
     public TargetingData targetingData;     // 타겟팅 데이터

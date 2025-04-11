@@ -14,15 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: "\uAD81\uC218 \uAE30\uBCF8 \uACF5\uACA9"
   description: "\uD654\uC0B4 \uD558\uB098\uB97C \uBC1C\uC0AC\uD55C\uB2E4."
-  manaCost: 0
-  coolTime: 0.8
   canMove: 1
   canUse: 1
+  <MaxCoolTime>k__BackingField:
+    value: 0.5
+  <CurCoolTime>k__BackingField:
+    value: 0
   icon: {fileID: 0}
   animationTrigger: 
   effectPrefab: {fileID: 0}
   executer: {fileID: 11400000, guid: 162468a590ae91b40a7044e02b24ad16, type: 2}
   category: 0
   damageType: 0
-  applyState: 23
+  applyState: -1
   targetingData: {fileID: 11400000, guid: 75b883c69bd25ad49b7c46e635f0c9a3, type: 2}

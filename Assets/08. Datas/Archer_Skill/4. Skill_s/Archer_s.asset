@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af92ef3a988138347b9597bcb76d9666, type: 3}
   m_Name: Archer_s
   m_EditorClassIdentifier: 
-  arrow: {fileID: 6357939757288727743, guid: 0a8101b506287904482ebdf5f10ab013, type: 3}
-  arrowSpeed: 60
+  damage: 0
+  arrowSpeed: 50
+  arrowCount: 100
+  spriteNum: 1
+  shotDelay: 0.05

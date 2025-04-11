@@ -1,5 +1,5 @@
 {
-    "name": "PlajyerInputs",
+    "name": "PlayerInputs",
     "maps": [
         {
             "name": "Player",
@@ -24,16 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
-                    "type": "Button",
-                    "id": "7e0403ac-2299-4b6a-8f29-ef0e35d369c5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Dash",
+                    "name": "SkillZ",
                     "type": "Button",
                     "id": "1fee8a45-aeb6-4c32-80c9-d72e7c13fc77",
                     "expectedControlType": "Button",
@@ -42,7 +33,16 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Skill1",
+                    "name": "SkillX",
+                    "type": "Button",
+                    "id": "7e0403ac-2299-4b6a-8f29-ef0e35d369c5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SkillA",
                     "type": "Button",
                     "id": "6cb53e5c-5561-4f75-97df-fd843a7ccb8f",
                     "expectedControlType": "Button",
@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Skill2",
+                    "name": "SkillS",
                     "type": "Button",
                     "id": "d1228c59-b24f-49cb-84a7-441913097080",
                     "expectedControlType": "Button",
@@ -60,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Skill3",
+                    "name": "SkillD",
                     "type": "Button",
                     "id": "3eeff64f-a4e7-4ac9-bab4-95c43072b7de",
                     "expectedControlType": "Button",
@@ -143,18 +143,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e5128fc1-5926-4ada-807d-2e23f9670678",
-                    "path": "<Keyboard>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dash",
+                    "action": "SkillX",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -165,7 +154,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Skill1",
+                    "action": "SkillA",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -176,7 +165,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Skill2",
+                    "action": "SkillS",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -187,7 +176,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Skill3",
+                    "action": "SkillD",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e5128fc1-5926-4ada-807d-2e23f9670678",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkillZ",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,10 +1,14 @@
 using UnityEngine;
+using System.Collections;
 
 [CreateAssetMenu(menuName = "Skill/Archer/Archer_s")]
 public class ArcherSkill_s : SkillExecuter
 {
-    public GameObject arrow;         // 발사할 화살 프리팹
-    public float arrowSpeed;         // 화살 속도
+    public int damage;                      // 화살 데미지
+    public float arrowSpeed;                // 화살 속도
+    public int arrowCount;                  // 발사할 화살 수
+    public int spriteNum;
+    public float shotDelay;                 // 화살 발사 간격
 
     /// <summary>
     /// 아처의 S키 스킬 로직을 담당하는 메소드
@@ -14,39 +18,57 @@ public class ArcherSkill_s : SkillExecuter
     /// <param name="skillData">스킬의 공통 데이터</param>
     public override void Execute(Player user, Player target, SkillData skillData)
     {
-        // 플레이어가 바라보는 방향 계산
-        Vector2 dir = user.SpriteRenderer.flipX ? Vector2.left : Vector2.right;
+        // 호출용
+    }
 
-        float randomXSpawn;
+    // 화살 발사 코루틴
+    public IEnumerator FireArrows(Player user, Player target, SkillData skillData)
+    {
+        // GC 최적화를 위한 WaitForSeconds 캐싱
+        WaitForSeconds wait = new WaitForSeconds(shotDelay);
 
-        // 일정 범위 내에서 화살 랜덤 생성
-        if (!user.SpriteRenderer.flipX)
+        for (int i = 0; i < arrowCount; i++)
         {
-            randomXSpawn = Random.Range(-0.3f, 1.2f);
+            // 플레이어가 바라보는 방향 계산
+            Vector2 dir = user.SpriteRenderer.flipX ? Vector2.left : Vector2.right;
+            
+            // 일정 범위 내에서 화살 랜덤 생성
+            float randomXSpawn;
+
+            if (!user.SpriteRenderer.flipX)
+            {
+                randomXSpawn = Random.Range(-0.3f, 1.2f);
+            }
+            else
+            {
+                randomXSpawn = Random.Range(0.3f, -1.2f);
+            }
+
+            float randomYSpawn = Random.Range(-0.3f, 0.5f);
+
+            // 화살 생성 위치 설정
+            Vector3 spawnPos = user.transform.position + (Vector3)(dir * 2f) + new Vector3(randomXSpawn, randomYSpawn, 0);
+
+            // 오브젝트 풀에서 화살 가져오기
+            var arrow = PoolManager.Instance.Get<ArrowProjectile>();
+
+            // 화살 초기화 데이터 투사체에 전달
+            arrow.Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed, spriteNum);
+
+            // 화살 속도 적용
+            arrow.GetComponent<Rigidbody2D>().velocity = dir * arrowSpeed;
+
+            // 버프 상태일 경우 추가 화살 생성
+            if (user.IsDoubleShot)
+            {
+                var secondArrow = PoolManager.Instance.Get<ArrowProjectile>();
+                Vector3 secondSpawnPos = spawnPos + new Vector3(0, 0.5f, 0);
+                secondArrow.Init(secondSpawnPos, dir, skillData.targetingData.range, arrowSpeed, spriteNum);
+                secondArrow.GetComponent<Rigidbody2D>().velocity = dir * arrowSpeed;
+            }
+
+            // 다음 화살 발사까지 대기
+            yield return wait;
         }
-        else
-        {
-            randomXSpawn = Random.Range(0.3f, -1.2f);
-        }
-
-        float randomYSpawn = Random.Range(-0.3f, 0.5f);
-
-        // 화살 생성 위치 설정
-        Vector3 spawnPos = user.transform.position + (Vector3)(dir * 2f) + new Vector3(randomXSpawn, randomYSpawn, 0);
-
-        // 화살 생성
-        var arrows = Instantiate(arrow, spawnPos, Quaternion.identity);
-
-        // 화살 속도 적용
-        arrows.GetComponent<Rigidbody2D>().velocity = dir * arrowSpeed;
-
-        // Arrow의 SetRange()에 범위 매개변수 전달
-        arrows.GetComponent<Arrow>().SetRange(skillData.targetingData.range);
-
-        //스킬 사용후 사용 가능 해제
-        skillData.canUse = false;
     }
 }
-
-// 쿨타임 적용 및 발사 화살 수 별도 지정 필요
-// 현재는 플레이어의 update문에서 스킬을 사용중이라 프레임을 60으로 제한하지 않으면 너무 많이 생성
