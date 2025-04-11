@@ -4,11 +4,11 @@ using System.Collections;
 [CreateAssetMenu(menuName = "Skill/Archer/Archer_s")]
 public class ArcherSkill_s : SkillExecuter
 {
-    public int damage;                      // 화살 데미지
-    public float arrowSpeed;                // 화살 속도
-    public int arrowCount;                  // 발사할 화살 수
-    public int spriteNum;
-    public float shotDelay;                 // 화살 발사 간격
+    public int damage;              // 화살 데미지
+    public float arrowSpeed;        // 화살 속도
+    public int arrowCount;          // 발사할 화살 수
+    public int spriteNum;           // 화살 스프라이트 인덱스
+    public float shotDelay;         // 화살 발사 간격
 
     /// <summary>
     /// 아처의 S키 스킬 로직을 담당하는 메소드
