@@ -22,6 +22,8 @@ public class ArcherSkill_x : SkillExecuter
 
         // 오브젝트 풀에서 화살 가져오기
         var arrow = PoolManager.Instance.Get<ArrowProjectile>();
+
+        // 화살 초기화 데이터 투사체에 전달
         arrow.Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed);
     }
 }

@@ -18,6 +18,7 @@ public enum SkillSlotKey
 
 public enum DamageType
 {
+    None,
     Physical,
     Magical,
     Hybrid
