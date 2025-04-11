@@ -9,9 +9,10 @@ public class PlayerSkillDState : PlayerSkillState
     //TODO: PlayerD스킬 데이터 가져와야함.
     public PlayerSkillDState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
-        //skillData = playerStateMachine.Player.equippedSkills[slotkey];
-        //playerStateMachine.ConnectAttackState(this);
+        SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
+        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillD);
     }
+
     public override void Enter()
     {
         base.Enter();
@@ -23,7 +24,7 @@ public class PlayerSkillDState : PlayerSkillState
         }
         playerStateMachine.IsCompareState = false;
         playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
-        //SkillData.canUse = false;
+        SkillData.canUse = false;
 
 #if StateMachineDebug
         Debug.Log("SkillDState 진입");
