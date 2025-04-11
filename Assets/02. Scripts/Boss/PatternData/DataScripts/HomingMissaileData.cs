@@ -5,6 +5,7 @@ using UnityEngine;
 public class HomingMissaileData : BasePatternData
 {
     [SerializeField] int damage;
+    [SerializeField] float homingPower = 15f;
     [SerializeField] Vector3 startPosition = new Vector3(9f,-3.5f, 0);
     [SerializeField] float startCircleR = 1.5f;
     [SerializeField] float preDelayTime = 1f;
@@ -33,7 +34,7 @@ public class HomingMissaileData : BasePatternData
             position = bossTransform.TransformPoint(position);
             
 
-            PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, 1.3f - (i * 0.1f));
+            PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, 1.3f - (i * 0.1f),homingPower);
 
             yield return new WaitForSeconds(0.1f);
         }

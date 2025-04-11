@@ -8,6 +8,7 @@ public class HomingProjectile : BasePoolable
     [SerializeField] AnimationCurve speedCurve;
     [SerializeField] AnimationCurve homingCurve;
     [SerializeField] BaseBossProjectileCollider _collider;
+    [SerializeField] TrailRenderer trailRenderer;
     int _damage;
     Transform _target;
     float _inputSpeed;
@@ -36,6 +37,10 @@ public class HomingProjectile : BasePoolable
         }
 
     }
+    private void Awake()
+    {
+         trailRenderer.enabled = false;
+    }
     public override void Init()
     {
     }
@@ -51,6 +56,7 @@ public class HomingProjectile : BasePoolable
         _fireTime = Time.time + delayFireTime;
 
         _collider.colliderSet(Hit);
+        trailRenderer.enabled = true;
     }
 
     void Move()
@@ -71,6 +77,7 @@ public class HomingProjectile : BasePoolable
 
     public void Hit()
     {
+        trailRenderer.enabled = false;
         _fired = false;
         PoolManager.Instance.Get<Explosion>().Init(transform.position, _damage, 0.1f);
         ReturnToPool();
