@@ -11,7 +11,7 @@ public class PlayerSkillZState : PlayerSkillState
     public PlayerSkillZState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
         SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
-        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsDash);
+        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillZ);
 
         MoveAction.AddListener(playerStateMachine.ConnectIdleState);
         MoveAction.AddListener(playerStateMachine.ConnectFallState);
