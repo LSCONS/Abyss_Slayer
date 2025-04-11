@@ -39,6 +39,7 @@ public class PlayerDashState : PlayerSkillState
         ResetZeroVelocity();
         ResetDefaultGravityForce();
         playerStateMachine.Player.playerData.PlayerStatusData.CanMove = true;
+        playerStateMachine.Player.SkillTrigger.StopSkillCoroutine();
 
 #if StateMachineDebug
         Debug.Log("Dash 스테이트 해제");

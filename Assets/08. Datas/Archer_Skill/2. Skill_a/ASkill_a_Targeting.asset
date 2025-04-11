@@ -9,8 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce938560ed12bbc4698ff072e9979e34, type: 3}
-  m_Name: Archer_x
+  m_Script: {fileID: 11500000, guid: 8c01c4a351db3ca4b98e478e14178966, type: 3}
+  m_Name: ASkill_a_Targeting
   m_EditorClassIdentifier: 
-  arrowPrefab: {fileID: -143444998832389949, guid: 0a8101b506287904482ebdf5f10ab013, type: 3}
-  arrowSpeed: 40
+  requiresTarget: 0
+  affectEnemies: 0
+  affectPlayers: 0
+  includeSelf: 0
+  isArea: 0
+  range: 0
+  areaRadius: 0

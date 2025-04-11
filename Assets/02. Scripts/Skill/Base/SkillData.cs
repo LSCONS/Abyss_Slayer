@@ -9,7 +9,8 @@ public class SkillData : ScriptableObject
     [Header("기본 정보")]
     public string skillName;                // 스킬명
     public string description;              // 설명
-    public int manaCost;                    // 마나 소모량
+    public float defaultCoolTime;           // 쿨타임
+    public float curCoolTime;               // 현재 쿨타임
     public bool canMove;                    // 움직임 가능 여부
     public bool canUse;                     // 사용 가능 여부
     [field: SerializeField] public ReactiveProperty<float> MaxCoolTime { get; set; }    // 최대 쿨타임

@@ -88,11 +88,11 @@ public class PlayerBaseState : IPlayerState
     {
         if(nowMoveX > 0)
         {
-            playerStateMachine.Player.playerSpriteRenderer.flipX = false;
+            playerStateMachine.Player.SpriteRenderer.flipX = false;
         }
         else if (nowMoveX < 0)
         {
-            playerStateMachine.Player.playerSpriteRenderer.flipX = true;
+            playerStateMachine.Player.SpriteRenderer.flipX = true;
         }
     }
 

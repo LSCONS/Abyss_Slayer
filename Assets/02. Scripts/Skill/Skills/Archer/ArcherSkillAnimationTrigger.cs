@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 public class ArcherSkillAnimationTrigger : MonoBehaviour
 {
     public Dictionary<SkillSlotKey, SkillData> skills;
     public Player player;
-    public Coroutine curCoroutine;
+    public Coroutine skillCoroutine;
 
     public void UseSkillA()
     {
@@ -17,10 +18,8 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour
     public void UseSkillS()
     {
         SkillData skillData = skills[SkillSlotKey.S];
-
-        // 임시 추가 (아직 UseSkillS 호출이 안되는 상태인듯 해서 아직 실행 자체는 ArcherSkill_s에서 담당중)
         skillData.canMove = false;
-        curCoroutine = StartCoroutine(((ArcherSkill_s)skillData.executer).FireArrows(player, null, skillData));
+        skillCoroutine = StartCoroutine(((ArcherSkill_s)skillData.executer).FireArrows(player, null, skillData));
     }
 
     public void UseSkillD()
@@ -33,6 +32,15 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour
     {
         SkillData skillData = skills[SkillSlotKey.Z];
         skillData.Execute(player, null);
+        //Vector2 DashVector = player.input.MoveDir.normalized;
+        //DashVector *= player.playerData.PlayerAirData.DashForce;
+        //ResetZeroVelocity();
+        //ResetZeroGravityForce();
+        //FlipRenderer(DashVector.x);
+        //player.playerRigidbody.AddForce(DashVector, ForceMode2D.Impulse);
+        //player.playerData.PlayerAirData.CanDash = false;
+        //player.SkillCoolTimeUpdate(SkillSlotKey.Z);
+        //player.playerData.PlayerAirData.CurDashCount--;
     }
 
     public void UseSkillX()
@@ -42,6 +50,12 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour
     }
 
 
-
-
+    public void StopSkillCoroutine()
+    {
+        if(skillCoroutine != null)
+        {
+            StopCoroutine(skillCoroutine);
+            skillCoroutine = null;
+        }
+    }
 }

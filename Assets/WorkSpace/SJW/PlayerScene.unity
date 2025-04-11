@@ -1018,7 +1018,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a4184effe3bbd4bbc8087229a1daaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 8449457370421303312}
   playerRigidbody: {fileID: 1734269636558971646}
   playerCheckGround: {fileID: 7395095722449238074}
   mainCamera: {fileID: 0}
@@ -1041,8 +1040,6 @@ MonoBehaviour:
     S_SkillAnimationName: Player_SkillS
     D_SkillAnimationName: Player_SkillD
   skillSet: {fileID: 11400000, guid: a98e8f1c3fbcaf7459f839b9c298dbb0, type: 2}
-  playerGroundCollider: {fileID: 0}
-  playerSpriteRenderer: {fileID: 0}
   <playerData>k__BackingField: {fileID: 0}
 --- !u!4 &6183832375909701958
 Transform:
