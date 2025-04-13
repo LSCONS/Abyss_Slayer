@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayerAnimationData", menuName = "Player/AnimationData")]
