@@ -78,7 +78,7 @@ public class PlayerBaseState : IPlayerState
     protected void SkillExit()
     {
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
-        playerStateMachine.Player.SkillTrigger.StopSkillCoroutine();
+        playerStateMachine.Player.SkillTrigger.StopCoroutine();
     }
 
 
