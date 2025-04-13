@@ -2,9 +2,18 @@ using Cinemachine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+public enum CharacterClass
+{
+    Archer,
+    Healer,
+    Mage,
+    MagicalBlader,
+    Tanker
+}
 
 public class Player : MonoBehaviour
 {
+    public CharacterClass playerCharacterClass;
     public PlayerInput input { get; private set; }
     public Rigidbody2D playerRigidbody;
     public PlayerCheckGround playerCheckGround;
@@ -17,7 +26,7 @@ public class Player : MonoBehaviour
     public BoxCollider2D playerGroundCollider {  get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
-    public ArcherSkillAnimationTrigger SkillTrigger{ get; private set; }
+    public IStopCoroutine SkillTrigger{ get; private set; }
     public bool IsDoubleShot { get; private set; } = false;
 
 
@@ -94,7 +103,24 @@ public class Player : MonoBehaviour
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         //TODO: 여기서부터 임시 코드
-        SkillTrigger = PlayerAnimator.AddComponent<ArcherSkillAnimationTrigger>();
+        switch (playerCharacterClass)
+        {
+            case CharacterClass.Archer:
+                SkillTrigger = PlayerAnimator.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutine;
+                break;
+            case CharacterClass.Healer:
+                SkillTrigger = PlayerAnimator.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutine;
+                break;
+            case CharacterClass.Mage:
+                SkillTrigger = PlayerAnimator.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutine;
+                break;
+            case CharacterClass.MagicalBlader:
+                SkillTrigger = PlayerAnimator.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutine;
+                break;
+            case CharacterClass.Tanker:
+                SkillTrigger = PlayerAnimator.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutine;
+                break;
+        }
         SkillTrigger.player = this;
         SkillTrigger.skills = equippedSkills;
     }
