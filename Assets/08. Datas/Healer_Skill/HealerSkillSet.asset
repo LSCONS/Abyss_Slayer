@@ -13,5 +13,15 @@ MonoBehaviour:
   m_Name: HealerSkillSet
   m_EditorClassIdentifier: 
   className: 
-  skillSlots: []
+  skillSlots:
+  - key: 0
+    skillData: {fileID: 11400000, guid: f5b11a386c616cf49b451bffe1eac8dc, type: 2}
+  - key: 1
+    skillData: {fileID: 11400000, guid: 58adc838feeffc14e97b7c63069e43b6, type: 2}
+  - key: 2
+    skillData: {fileID: 11400000, guid: 85785e1225764c64bab6bc729f23b155, type: 2}
+  - key: 3
+    skillData: {fileID: 11400000, guid: 1e70aab72cc556e43b4016db416d932c, type: 2}
+  - key: 4
+    skillData: {fileID: 11400000, guid: 17f8d83db8cf2364cbb09804f586cbba, type: 2}
   evasionType: 0
