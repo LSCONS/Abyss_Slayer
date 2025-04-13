@@ -1,19 +1,20 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class PlayerAnimationData
+[CreateAssetMenu(fileName = "PlayerAnimationData", menuName = "Player/AnimationData")]
+public class PlayerAnimationData : ScriptableObject
 {
+    [Header("GroundParameterName")]
     [SerializeField] private string groundParameterName     = "@Ground";
     [SerializeField] private string idleParameterName       = "Idle";
     [SerializeField] private string walkParameterName       = "Walk";
 
+    [Header("AirParameterName")]
     [SerializeField] private string airParematerName        = "@Air";
     [SerializeField] private string jumpParameterName       = "Jump";
     [SerializeField] private string fallParameterName       = "Fall";
 
+    [Header("SkillParameterName")]
     [SerializeField] private string skillParameterName      = "@Skill";
     [SerializeField] private string X_SkillParameterName    = "X_Skill";
     [SerializeField] private string Z_SkillParameterName    = "Z_Skill";
@@ -21,6 +22,7 @@ public class PlayerAnimationData
     [SerializeField] private string S_SkillParameterName    = "S_Skill";
     [SerializeField] private string D_SkillParameterName    = "D_Skill";
 
+    [Header("AnimationStateName")]
     [SerializeField] private string Z_SkillAnimationName    = "Player_SkillZ";
     [SerializeField] private string X_SkillAnimationName    = "Player_SkillX";
     [SerializeField] private string A_SkillAnimationName    = "Player_SkillA";
@@ -48,12 +50,7 @@ public class PlayerAnimationData
     public int S_SkillAnimationHash     { get; private set; }
     public int D_SkillAnimationHash     { get; private set; }
 
-    public PlayerAnimationData()
-    {
-        Init();
-    }
-
-    private void Init()
+    public void Init()
     {
         groundParameterHash     = Animator.StringToHash(groundParameterName);
         idleParameterHash       = Animator.StringToHash(idleParameterName);        
