@@ -202,27 +202,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a4184effe3bbd4bbc8087229a1daaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCharacterClass: 0
   playerRigidbody: {fileID: 8165940904188659768}
   playerCheckGround: {fileID: 7794453141698782085}
   mainCamera: {fileID: 0}
-  <playerAnimationData>k__BackingField:
-    groundParameterName: '@Ground'
-    idleParameterName: Idle
-    walkParameterName: Walk
-    airParematerName: '@Air'
-    jumpParameterName: Jump
-    fallParameterName: Fall
-    skillParameterName: '@Skill'
-    X_SkillParameterName: X_Skill
-    Z_SkillParameterName: Z_Skill
-    A_SkillParameterName: A_Skill
-    S_SkillParameterName: S_Skill
-    D_SkillParameterName: D_Skill
-    Z_SkillAnimationName: Player_SkillA
-    X_SkillAnimationName: Player_SkillX
-    A_SkillAnimationName: Player_SkillA
-    S_SkillAnimationName: Player_SkillS
-    D_SkillAnimationName: Player_SkillD
   skillSet: {fileID: 11400000, guid: a98e8f1c3fbcaf7459f839b9c298dbb0, type: 2}
   <playerData>k__BackingField: {fileID: 0}
 --- !u!4 &467856226711399544

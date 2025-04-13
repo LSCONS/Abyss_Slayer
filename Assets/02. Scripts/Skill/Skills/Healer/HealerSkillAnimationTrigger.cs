@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealerSkillAnimationTrigger : MonoBehaviour
+public class HealerSkillAnimationTrigger : MonoBehaviour, IStopCoroutine
 {
-    public Dictionary<SkillSlotKey, SkillData> skills;
-    public Player player;
+    public Dictionary<SkillSlotKey, SkillData> skills { get; set; }
+    public Player player { get; set; }
     public Coroutine skillCoroutine;
 
     public void UseSkillA()
@@ -37,10 +37,9 @@ public class HealerSkillAnimationTrigger : MonoBehaviour
         skillData.Execute(player, null);
     }
 
-
-    public void StopSkillCoroutine()
+    public void StopCoroutine()
     {
-        if(skillCoroutine != null)
+        if (skillCoroutine != null)
         {
             StopCoroutine(skillCoroutine);
             skillCoroutine = null;
