@@ -16,19 +16,19 @@ public class PlayerInput : MonoBehaviour
     /// <summary>플레이어가 점프키를 입력하고 있는지 확인</summary>
     public bool IsJump          { get; private set; }
 
-    /// <summary>플레이어가 대시키를 입력했는지 확인(트리거)</summary>
+    /// <summary>플레이어가 대시키를 입력했는지 확인</summary>
     public bool IsSkillZ        { get; private set; }
 
-    /// <summary>플레이어가 어택키를 입력했는지 확인(트리거)</summary>
+    /// <summary>플레이어가 어택키를 입력했는지 확인</summary>
     public bool IsSkillX        { get; private set; }
 
-    /// <summary>플레이어가 스킬A을 입력했는지 확인(트리거)</summary>
+    /// <summary>플레이어가 스킬A을 입력했는지 확인</summary>
     public bool IsSkillA        { get; private set; }
 
-    /// <summary>플레이어가 스킬S를 입력했는지 확인(트리거)</summary>
+    /// <summary>플레이어가 스킬S를 입력했는지 확인</summary>
     public bool IsSkillS        { get; private set; }
 
-    /// <summary>플레이어가 스킬D을 입력했는지 확인(트리거)</summary>
+    /// <summary>플레이어가 스킬D을 입력했는지 확인</summary>
     public bool IsSkillD        { get; private set; }
     #endregion
 
@@ -124,16 +124,4 @@ public class PlayerInput : MonoBehaviour
     private void StartSkillD(InputAction.CallbackContext context) => IsSkillD = true;
     /// <summary>플레이어 스킬D 종료</summary>
     private void StopSkillD(InputAction.CallbackContext context) => IsSkillD = false;
-
-
-    /// <summary>
-    /// 해당 입력을 Trigger형태로 한 프레임만 True로 변환해주고 False로 반환하는 메서드
-    /// </summary>
-    /// <param name="action">값을 변환할 bool 값을 Action형태로 입력</param>
-    private IEnumerator TriggerAction(Action<bool> action)
-    {
-        action(true);
-        yield return null;  // 한 프레임 대기
-        action(false);
-    }
 }
