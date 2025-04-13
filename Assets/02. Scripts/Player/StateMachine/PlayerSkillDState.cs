@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSkillDState : PlayerSkillState
@@ -17,24 +15,18 @@ public class PlayerSkillDState : PlayerSkillState
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.D_SkillParameterHash);
-        AttackEnter(SkillData.canMove, Slotkey);
+        SkillEnter(SkillData.canMove, Slotkey);
 
 #if StateMachineDebug
         Debug.Log("SkillDState 진입");
 #endif
     }
 
-    protected void AttackExit()
-    {
-        playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
-        playerStateMachine.Player.SkillTrigger.StopSkillCoroutine();
-    }
-
     public override void Exit()
     {
         base.Exit();
         StopAnimation(playerStateMachine.Player.playerAnimationData.D_SkillParameterHash);
-        AttackExit();
+        SkillExit();
 #if StateMachineDebug
         Debug.Log("SkillDState 해제");
 #endif

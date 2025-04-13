@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSkillSState : PlayerSkillState
@@ -16,7 +14,7 @@ public class PlayerSkillSState : PlayerSkillState
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.S_SkillParameterHash);
-        AttackEnter(SkillData.canMove, Slotkey);
+        SkillEnter(SkillData.canMove, Slotkey);
 
 #if StateMachineDebug
         Debug.Log("SkillSState 진입");
@@ -27,7 +25,7 @@ public class PlayerSkillSState : PlayerSkillState
     {
         base.Exit();
         StopAnimation(playerStateMachine.Player.playerAnimationData.S_SkillParameterHash);
-        AttackExit();
+        SkillExit();
 
 #if StateMachineDebug
         Debug.Log("SkillSState 해제");

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
 public class PlayerSkillZState : PlayerSkillState
@@ -22,7 +19,7 @@ public class PlayerSkillZState : PlayerSkillState
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
-        AttackEnter(SkillData.canMove, Slotkey);
+        SkillEnter(SkillData.canMove, Slotkey);
         ResetZeroGravityForce();
 
 #if StateMachineDebug
@@ -35,7 +32,7 @@ public class PlayerSkillZState : PlayerSkillState
     {
         base.Exit();
         StopAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
-        AttackExit();
+        SkillExit();
         ResetZeroVelocity();
         ResetDefaultGravityForce();
 
