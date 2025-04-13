@@ -32,9 +32,9 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        InitComponent();
         InitPlayerData();
         InitSkillData();
-        InitComponent();
         playerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
     }
@@ -82,10 +82,35 @@ public class Player : MonoBehaviour
     /// </summary>
     private void InitPlayerData()
     {
+
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
         playerAnimationData = PlayerManager.Instance.PlayerAnimationData;
         playerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
         playerData = Instantiate(playerData);
+        //TODO: 여기서부터 임시 코드
+        switch (playerCharacterClass)
+        {
+            case CharacterClass.Archer:
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutine;
+                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
+                break;
+            case CharacterClass.Healer:
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutine;
+                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/HealerSkillSet");
+                break;
+            case CharacterClass.Mage:
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutine;
+                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/MageSkillSet");
+                break;
+            case CharacterClass.MagicalBlader:
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutine;
+                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
+                break;
+            case CharacterClass.Tanker:
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutine;
+                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/TankerSkillSet");
+                break;
+        }
     }
 
 
@@ -101,28 +126,6 @@ public class Player : MonoBehaviour
         SpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
         PlayerAnimator = transform.GetComponentForTransformFindName<Animator>("Sprtie_Player");
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
-        //TODO: 여기서부터 임시 코드
-        switch (playerCharacterClass)
-        {
-            case CharacterClass.Archer:
-                SkillTrigger = PlayerAnimator.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutine;
-                break;
-            case CharacterClass.Healer:
-                SkillTrigger = PlayerAnimator.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutine;
-                break;
-            case CharacterClass.Mage:
-                SkillTrigger = PlayerAnimator.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutine;
-                break;
-            case CharacterClass.MagicalBlader:
-                SkillTrigger = PlayerAnimator.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutine;
-                break;
-            case CharacterClass.Tanker:
-                SkillTrigger = PlayerAnimator.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutine;
-                break;
-        }
-        SkillTrigger.player = this;
-        SkillTrigger.skills = equippedSkills;
     }
 
 
@@ -145,6 +148,8 @@ public class Player : MonoBehaviour
                 Debug.LogWarning($"Skill in slot {slot.key} is null!");
             }
         }
+        SkillTrigger.player = this;
+        SkillTrigger.skills = equippedSkills;
     }
 
 
