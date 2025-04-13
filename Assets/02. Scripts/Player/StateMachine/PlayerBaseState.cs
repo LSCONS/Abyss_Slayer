@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBaseState : IPlayerState
@@ -56,7 +54,13 @@ public class PlayerBaseState : IPlayerState
         playerStateMachine.Player.PlayerAnimator.SetBool(animatorHash, false);
     }
 
-    protected void AttackEnter(bool canMove, SkillSlotKey slotKey)
+
+    /// <summary>
+    /// SkillState로 진입할 경우 필수적으로 실행해야하는 메서드
+    /// </summary>
+    /// <param name="canMove">움직일 수 있는 스킬인지 확인</param>
+    /// <param name="slotKey">해당 스킬에 등록된 키</param>
+    protected void SkillEnter(bool canMove, SkillSlotKey slotKey)
     {
         if (!(canMove))
         {
@@ -67,14 +71,25 @@ public class PlayerBaseState : IPlayerState
         playerStateMachine.Player.SkillCoolTimeUpdate(slotKey);
     }
 
-    protected void AttackExit()
+
+    /// <summary>
+    /// SkillState에서 해제될 경우 필수적으로 실행해야하는 메서드
+    /// </summary>
+    protected void SkillExit()
     {
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
         playerStateMachine.Player.SkillTrigger.StopSkillCoroutine();
     }
 
+
+    /// <summary>
+    /// SkillState의 Update에서 필수적으로 실행해야하는 메서드
+    /// </summary>
+    /// <param name="SkillAnimationHash">해당 애니메이션의 Hash값</param>
+    /// <returns>true면 Update종료, false면 계속 실행</returns>
     protected bool SkillUpdate(int SkillAnimationHash)
     {
+        //TODO: 매 프레임 초기화 시켜주는 방식. 큰 리로스 차지는 없지만 나중에 리팩토링 때 고려 필요.
         playerStateMachine.AnimatorInfo = playerStateMachine.Player.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
 
         //해당 State의 애니메이터와 연결 완료
@@ -84,10 +99,9 @@ public class PlayerBaseState : IPlayerState
             {
                 playerStateMachine.IsCompareState = true;
             }
-            else return true;
+            return true;
         }
-
-        if (playerStateMachine.AnimatorInfo.normalizedTime < 1f)
+        else if (playerStateMachine.AnimatorInfo.normalizedTime < 1f)
         {
             playerStateMachine.SkipAttackAction?.Invoke();
             return true;
