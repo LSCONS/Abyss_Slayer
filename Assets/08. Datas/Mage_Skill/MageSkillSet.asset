@@ -13,5 +13,15 @@ MonoBehaviour:
   m_Name: MageSkillSet
   m_EditorClassIdentifier: 
   className: 
-  skillSlots: []
+  skillSlots:
+  - key: 0
+    skillData: {fileID: 11400000, guid: a01db6437ddd3594e9b1caf5246e2ef5, type: 2}
+  - key: 1
+    skillData: {fileID: 11400000, guid: 5ffc4d7ffbc8b78478af20fa27526777, type: 2}
+  - key: 2
+    skillData: {fileID: 11400000, guid: b704d14f637e5ba46b97abf8dd48abb2, type: 2}
+  - key: 3
+    skillData: {fileID: 11400000, guid: 9f7908ce22ce6db4d89a0fd46efdb971, type: 2}
+  - key: 4
+    skillData: {fileID: 11400000, guid: f9511337262228847a181323a2bf9348, type: 2}
   evasionType: 0
