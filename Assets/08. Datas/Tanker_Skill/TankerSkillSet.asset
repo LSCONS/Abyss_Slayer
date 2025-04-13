@@ -13,5 +13,15 @@ MonoBehaviour:
   m_Name: TankerSkillSet
   m_EditorClassIdentifier: 
   className: 
-  skillSlots: []
+  skillSlots:
+  - key: 0
+    skillData: {fileID: 11400000, guid: 235f4bae0daee774b9367856e4dfe0e7, type: 2}
+  - key: 1
+    skillData: {fileID: 11400000, guid: 6c01c1115d8140148862deb03e77cffb, type: 2}
+  - key: 2
+    skillData: {fileID: 11400000, guid: 184586fb594a3a6428b21eb175a06d56, type: 2}
+  - key: 3
+    skillData: {fileID: 11400000, guid: cd40da6b8f4e5ad4ea850da420104cd7, type: 2}
+  - key: 4
+    skillData: {fileID: 11400000, guid: f5aef7b42ce0e5f479ece08b07796b52, type: 2}
   evasionType: 0
