@@ -1,7 +1,3 @@
-using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
@@ -25,7 +21,7 @@ public class PlayerStateMachine : StateMachine
     public bool CanMove { get; set; } = true;
     public AnimatorStateInfo AnimatorInfo { get; set; }
     public bool IsCompareState { get; set; }
-    public float MovementSpeed {  get; set; }
+    public float MovementSpeed { get; set; }
     public float MovementSpeedModifier { get; set; } = 1f;
 
     public PlayerStateMachine(Player player)
@@ -109,8 +105,8 @@ public class PlayerStateMachine : StateMachine
     /// <summary>isTrigger가 어떤 상태인지 확인</summary>
     private bool IsTrigger() => Player.playerGroundCollider.isTrigger;
 
-    /// <summary>isTrigger에 값을 대입</summary>
-    private void IsTrigger(bool setTrigger) => Player.playerGroundCollider.isTrigger = setTrigger;
+    /// <summary>isTrigger을 true로 변경</summary>
+    private void IsTriggerTrue() => Player.playerGroundCollider.isTrigger = true;
 
     /// <summary>velocity.y의 값이 0에 가까운지 확인</summary>
     private bool IsZeroVelocityY() => Mathf.Approximately(Player.playerRigidbody.velocity.y, 0);
@@ -202,7 +198,7 @@ public class PlayerStateMachine : StateMachine
             
             if(IsZeroGroundPlane())         //닿고 있는 GroundPlane의 갯수가 0이라면
             {
-                IsTrigger(true);            //isTrigger을 true로 전환
+                IsTriggerTrue();            //isTrigger을 true로 전환
                 ChangeState(FallState);     //FallState로 전환 
                 return true;
             }
