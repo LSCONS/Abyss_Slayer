@@ -16,14 +16,7 @@ public class PlayerSkillSState : PlayerSkillState
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.S_SkillParameterHash);
-        if (!(SkillData.canMove))
-        {
-            playerStateMachine.MovementSpeed = 0f;
-            ResetZeroVelocity();
-        }
-        playerStateMachine.IsCompareState = false;
-        playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
-        SkillData.canUse = false;
+        AttackEnter(SkillData.canMove, Slotkey);
 
 #if StateMachineDebug
         Debug.Log("SkillSState 진입");
@@ -34,8 +27,7 @@ public class PlayerSkillSState : PlayerSkillState
     {
         base.Exit();
         StopAnimation(playerStateMachine.Player.playerAnimationData.S_SkillParameterHash);
-        playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
-        playerStateMachine.Player.SkillTrigger.StopSkillCoroutine();
+        AttackExit();
 
 #if StateMachineDebug
         Debug.Log("SkillSState 해제");
@@ -45,23 +37,7 @@ public class PlayerSkillSState : PlayerSkillState
     public override void Update()
     {
         base.Update();
-        playerStateMachine.AnimatorInfo = playerStateMachine.Player.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
-
-        //해당 State의 애니메이터와 연결 완료
-        if (!(playerStateMachine.IsCompareState))
-        {
-            if (playerStateMachine.AnimatorInfo.shortNameHash == playerStateMachine.Player.playerAnimationData.S_SkillAnimationHash)
-            {
-                playerStateMachine.IsCompareState = true;
-            }
-            else return;
-        }
-        if (playerStateMachine.AnimatorInfo.normalizedTime < 1f)
-        {
-            playerStateMachine.SkipAttackAction?.Invoke();
-            return;
-        }
-        if (playerStateMachine.AnimatorInfo.normalizedTime < 1f) return;
+        if (SkillUpdate(playerStateMachine.Player.playerAnimationData.S_SkillAnimationHash)) return;
         playerStateMachine.EndAttackAction?.Invoke();
     }
 }

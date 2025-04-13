@@ -56,6 +56,45 @@ public class PlayerBaseState : IPlayerState
         playerStateMachine.Player.PlayerAnimator.SetBool(animatorHash, false);
     }
 
+    protected void AttackEnter(bool canMove, SkillSlotKey slotKey)
+    {
+        if (!(canMove))
+        {
+            playerStateMachine.MovementSpeed = 0f;
+            ResetZeroVelocity();
+        }
+        playerStateMachine.IsCompareState = false;
+        playerStateMachine.Player.SkillCoolTimeUpdate(slotKey);
+    }
+
+    protected void AttackExit()
+    {
+        playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+        playerStateMachine.Player.SkillTrigger.StopSkillCoroutine();
+    }
+
+    protected bool SkillUpdate(int SkillAnimationHash)
+    {
+        playerStateMachine.AnimatorInfo = playerStateMachine.Player.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
+
+        //해당 State의 애니메이터와 연결 완료
+        if (!(playerStateMachine.IsCompareState))
+        {
+            if (playerStateMachine.AnimatorInfo.shortNameHash == SkillAnimationHash)
+            {
+                playerStateMachine.IsCompareState = true;
+            }
+            else return true;
+        }
+
+        if (playerStateMachine.AnimatorInfo.normalizedTime < 1f)
+        {
+            playerStateMachine.SkipAttackAction?.Invoke();
+            return true;
+        }
+        return false;
+    }
+
 
     /// <summary>
     /// 플레이어를 입력한 방향으로 움직이게 만들 메서드
