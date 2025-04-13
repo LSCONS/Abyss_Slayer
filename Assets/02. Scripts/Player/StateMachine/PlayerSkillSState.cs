@@ -6,6 +6,10 @@ public class PlayerSkillSState : PlayerSkillState
     private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.S;
     public PlayerSkillSState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+    }
+
+    public void Init()
+    {
         SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
         playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillS);
     }

@@ -5,6 +5,10 @@ public class PlayerWalkState : PlayerGroundState
     public StoppableAction MoveAction = new();
     public PlayerWalkState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+    }
+
+    public void Init()
+    {
         //Idle 스테이트 진입 가능 여부 확인
         MoveAction.AddListener(playerStateMachine.ConnectIdleState);
         //Jump 스테이트 진입 가능 여부 확인

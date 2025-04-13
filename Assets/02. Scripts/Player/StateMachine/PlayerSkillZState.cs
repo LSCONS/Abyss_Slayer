@@ -7,6 +7,10 @@ public class PlayerSkillZState : PlayerSkillState
     private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.Z;
     public PlayerSkillZState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+    }
+
+    public void Init()
+    {
         SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
         playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillZ);
 

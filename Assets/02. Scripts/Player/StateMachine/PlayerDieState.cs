@@ -4,6 +4,11 @@ public class PlayerDieState : PlayerBaseState
     {
     }
 
+    public void Init()
+    {
+
+    }
+
     public override void Enter()
     {
         base.Enter();

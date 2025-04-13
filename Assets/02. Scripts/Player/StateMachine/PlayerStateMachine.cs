@@ -40,6 +40,17 @@ public class PlayerStateMachine : StateMachine
         SkillDState = new PlayerSkillDState(this);
         SkillXState = new PlayerSkillXState(this);
 
+        IdleState.Init();
+        WalkState.Init();
+        JumpState.Init(); 
+        FallState.Init(); 
+        DieState.Init(); 
+        SkillZState.Init();
+        SkillAState.Init();
+        SkillSState.Init();
+        SkillDState.Init();
+        SkillXState.Init();
+
         SkipAttackAction.AddListener(ConnectJumpState);
         SkipAttackAction.AddListener(ConnectDashState);
 

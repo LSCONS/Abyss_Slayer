@@ -5,6 +5,11 @@ public class PlayerJumpState : PlayerAirState
     public StoppableAction MoveAction = new();
     public PlayerJumpState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+    }
+
+
+    public void Init()
+    {
         //Fall State 진입 가능 여부 확인
         MoveAction.AddListener(playerStateMachine.ConnectFallState);
         //Dash State 진입 가능 여부 확인

@@ -7,6 +7,10 @@ public class PlayerSkillDState : PlayerSkillState
     //TODO: PlayerD스킬 데이터 가져와야함.
     public PlayerSkillDState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
+    }
+
+    public void Init()
+    {
         SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
         playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillD);
     }
