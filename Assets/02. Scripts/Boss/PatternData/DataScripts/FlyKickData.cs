@@ -13,9 +13,9 @@ public class FlyKickData : BasePatternData
     [SerializeField] float kickSpeed = 100f;
     [SerializeField] float explosionSize = 1f;
     [SerializeField] float postDelayTime = 1f;
-    public override IEnumerator ExecutePattern(BossController bossController ,Transform bossTransform, Animator animator)
+    public override IEnumerator ExecutePattern()
     {
-        animator.SetTrigger("kick1");       //날아오르는 애니메이션 재생
+        bossAnimator.SetTrigger("kick1");       //날아오르는 애니메이션 재생
         bossController.chasingTarget = true;        //타겟따라 방향전환
         bossController.showTargetCrosshair = true;  //타겟 조준선 활성화
         float elapsed = 0f;

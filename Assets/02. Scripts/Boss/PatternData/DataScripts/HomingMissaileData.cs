@@ -12,21 +12,22 @@ public class HomingMissaileData : BasePatternData
     [SerializeField] int missaileDamage = 10;
     [SerializeField] float missailSpeed = 10;
     [SerializeField] int missaileCount = 8;
-    [SerializeField] float fireDegree = 120f;
+    [SerializeField] float fireDegree = 60f;
     [SerializeField] float spreadDegree = 30f;
     [SerializeField] float postDelayTime = 3f;
 
-    public override IEnumerator ExecutePattern(BossController bossController, Transform bossTransform, Animator animator)
+    public override IEnumerator ExecutePattern()
     {
-        animator.SetTrigger("HomingMissaile1");
+        bossAnimator.SetTrigger("HomingMissaile1");
         //이동 코드(이동방식에 따라 달라짐
         bossTransform.position = startPosition;
-        animator.SetTrigger("HomingMissaile2");
+        bossController.isLeft = true;
+        bossAnimator.SetTrigger("HomingMissaile2");
         yield return new WaitForSeconds(preDelayTime);
 
         for(int i = 0; i < missaileCount; i++)
         {
-            float degree = (fireDegree + ((spreadDegree / 2) - (i * spreadDegree / (missaileCount - 1))));
+            float degree = (fireDegree - ((spreadDegree / 2) - (i * spreadDegree / (missaileCount - 1))));
             Quaternion rotate = Quaternion.Euler(0, 0, degree); //오일러 각도로 각도계산
 
             degree *= Mathf.Deg2Rad;                            //오일러 각도를 라디우스로 변환
@@ -38,7 +39,7 @@ public class HomingMissaileData : BasePatternData
 
             yield return new WaitForSeconds(0.1f);
         }
-        animator.SetTrigger("HomingMissaile3");
+        bossAnimator.SetTrigger("HomingMissaile3");
         yield return new WaitForSeconds(postDelayTime);
     }
 }

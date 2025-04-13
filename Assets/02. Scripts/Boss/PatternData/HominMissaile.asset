@@ -22,12 +22,13 @@ MonoBehaviour:
     height: 15
   gizmoColor: {r: 0, g: 0.98978424, b: 1, a: 0.3}
   damage: 10
+  homingPower: 15
   startPosition: {x: 9, y: -3.5, z: 0}
   startCircleR: 1.5
   preDelayTime: 1
   missaileDamage: 10
   missailSpeed: 1
   missaileCount: 8
-  fireDegree: 120
+  fireDegree: 60
   spreadDegree: 30
   postDelayTime: 3

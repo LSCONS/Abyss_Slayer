@@ -23,14 +23,14 @@ public class HomingProjectile : BasePoolable
     {
         if (_inited)
         {
-            if(_fireTime <= Time.time)
+            if(_fireTime <= Time.time)  //대기시간 대기 후 실제 발사
             {
                 _inited = false;
                 _fired = true;
                 //발사사운드 삽입
             }
         }
-        else if (_fired)
+        else if (_fired)                //발사, 이동,회전
         {
             Move();
             Rotate();
@@ -39,13 +39,24 @@ public class HomingProjectile : BasePoolable
     }
     private void Awake()
     {
-         trailRenderer.enabled = false;
+         trailRenderer.enabled = false; //탄 궤적 비활성
     }
     public override void Init()
     {
     }
+
+    /// <summary>
+    /// 유도탄 초기화
+    /// </summary>
+    /// <param name="damage">데미지</param>
+    /// <param name="position">생성위치</param>
+    /// <param name="rotate">생성시 회전값</param>
+    /// <param name="target">따라갈 목표</param>
+    /// <param name="speed">전체적인 탄속도(비례하여 유동적으로 변화)</param>
+    /// <param name="delayFireTime">지연발사 시간</param>
+    /// <param name="homingPower">전체적인 유도력(비례하여 유동적으로 변화)</param>
     public void Init(int damage, Vector3 position, Quaternion rotate, Transform target,float speed, float delayFireTime = 0f, float homingPower = 10f)
-    {
+    { 
         _damage = damage;
         transform.position = position;
         transform.rotation = rotate;
@@ -55,29 +66,30 @@ public class HomingProjectile : BasePoolable
         _inited = true;
         _fireTime = Time.time + delayFireTime;
 
-        _collider.colliderSet(Hit);
-        trailRenderer.enabled = true;
+        _collider.colliderSet(Hit);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
+        trailRenderer.enabled = true;   //탄 궤적 활성화
     }
 
-    void Move()
+    void Move()                     //정해진 속도에 따라, 자신(투사체)의 right(+x)방향으로 고정적으로 진행
     {
-        _speed = _inputSpeed * speedCurve.Evaluate((Time.time - _fireTime)/dampDuration);
+        _speed = _inputSpeed * speedCurve.Evaluate((Time.time - _fireTime)/dampDuration);   //animationCurve와 시간 에따라 속도 유동적으로 변경
         transform.Translate(Vector3.right * 10 * _speed * Time.deltaTime);
     }
-    void Rotate()
+
+    void Rotate()                   //정해진 유도력에 따라, 자신의 rotation.z를 회전
     {
-        Vector3 targetDirection = _target.position - transform.position;
-        float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+        Vector3 targetDirection = _target.position - transform.position;                        
+        float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;              //목표물과의 각도 계산
 
-        float _homingSpeed = _homingPower * homingCurve.Evaluate((Time.time - _fireTime) / dampDuration);
+        float _homingSpeed = _homingPower * homingCurve.Evaluate((Time.time - _fireTime) / dampDuration);   //animationCurve와 시간 에따라 유도력 유동적으로 변경
 
-        float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * _homingSpeed * Time.deltaTime);
-        transform.rotation = Quaternion.Euler(0, 0, newAngle);
+        float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * _homingSpeed * Time.deltaTime);  
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);                                                         //유동적인 유도력에 따라 자신을 회전
     }
 
     public void Hit()
     {
-        trailRenderer.enabled = false;
+        trailRenderer.enabled = false;  //탄궤적 비활성화(오브젝트풀 사용하기에 안끄면 생성시 마지막 위치에서 생성위치까지 궤적생김)
         _fired = false;
         PoolManager.Instance.Get<Explosion>().Init(transform.position, _damage, 0.1f);
         ReturnToPool();

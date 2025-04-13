@@ -14,12 +14,12 @@ public class ShockWaveData : BasePatternData
     [SerializeField] float shockOffsetWidth = 1.0f;
     [SerializeField] float shockOffsetTime = 0.15f;
     [SerializeField] float postDelayTime = 3f;
-    public override IEnumerator ExecutePattern(BossController bossController, Transform bossTransform, Animator animator)
+    public override IEnumerator ExecutePattern()
     {
-        animator.SetTrigger("ShockWave1");
+        bossAnimator.SetTrigger("ShockWave1");
         yield return new WaitForSeconds(preDelayTime);
 
-        animator.SetTrigger("ShockWave2");
+        bossAnimator.SetTrigger("ShockWave2");
         yield return new WaitForSeconds(stompTime);
 
         Vector3 startPosition = bossTransform.position;

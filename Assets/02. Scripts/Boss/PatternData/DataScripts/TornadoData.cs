@@ -16,12 +16,12 @@ public class TornadoData : BasePatternData
     [SerializeField] float durationTime = 2.5f;
     [SerializeField] float postDelayTime = 1f;
 
-    public override IEnumerator ExecutePattern(BossController bossController, Transform bossTransform, Animator animator)
+    public override IEnumerator ExecutePattern()
     {
-        animator.SetTrigger("Tornado1");                    //공격모션 애니메이션 삽입                              
+        bossAnimator.SetTrigger("Tornado1");                    //공격모션 애니메이션 삽입                              
         yield return new WaitForSeconds(preDelayTime);      //공격모션 선딜
 
-        animator.SetTrigger("Tornado2");                    //공격 애니메이션 삽입
+        bossAnimator.SetTrigger("Tornado2");                    //공격 애니메이션 삽입
 
         //자신위치에 토네이도 한개 생성
         PoolManager.Instance.Get<Tornado>().Init(new Vector3(bossTransform.position.x, groundPositionY), damage, durationTime, warningTime, tornadoWidth);
@@ -33,7 +33,7 @@ public class TornadoData : BasePatternData
         }
 
         yield return new WaitForSeconds(warningTime + durationTime);
-        animator.SetTrigger("Tornado3");
+        bossAnimator.SetTrigger("Tornado3");
         yield return new WaitForSeconds(postDelayTime);
     }
 
