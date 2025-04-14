@@ -32,7 +32,8 @@ public class UIManager : Singleton<UIManager>
     protected override void Awake() {   
         base.Awake();
         if(canvas == null){
-            Debug.LogError("Canvas 찾을 수 없음");
+            canvas = transform.GetGameObjectSameNameDFS("Canvas").GetComponent<Canvas>();
+            if(canvas == null) return;
         }
         if(popupParent == null){
             popupParent = new GameObject("UI_Popup").transform;
@@ -209,7 +210,10 @@ public class UIManager : Singleton<UIManager>
             }
             else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.Bottom) != 0){
                 ui.Value.SetActive(true);
-            }       
+            }     
+            else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.Permanent) != 0){
+                ui.Value.SetActive(true);
+            }
         }
     }
 
