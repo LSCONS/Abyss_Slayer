@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -71,8 +71,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,7 +134,238 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: fx_heavenlystrike_11
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 272
+        width: 50
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42dde41ce0410884da64e65c18e267f9
+      internalID: 1543464626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_heavenlystrike_03
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 272
+        width: 50
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9aa2bfd397a7f8448a67b7125bb97eb0
+      internalID: -451028879
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_heavenlystrike_02
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 272
+        width: 50
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 412cf45b7e183b14c99c0395f20ba6d5
+      internalID: -36381328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_heavenlystrike_01
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 272
+        width: 50
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f999eab31ad3c354da032054c61b991b
+      internalID: 927586839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_heavenlystrike_05
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 272
+        width: 50
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f1f7f52f97002b40b04e7af81cc4a83
+      internalID: 222053877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_heavenlystrike_09
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 31
+        width: 50
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecef064505802634785eceef246eea4a
+      internalID: 863942295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_heavenlystrike_07
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 31
+        width: 50
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bd784696d8a47740bb8e88c6ac049ee
+      internalID: 1608186025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_heavenlystrike_06
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 31
+        width: 50
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15377e31d2337124fafcee2ccb6722ef
+      internalID: 1878667759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_heavenlystrike_04
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 31
+        width: 50
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cc7042e59161fb4da3fdf978f5f5fbf
+      internalID: -640675033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_heavenlystrike_10
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 31
+        width: 50
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7806a8782f7b5b04da0540c70d61f6a2
+      internalID: 2024294280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_heavenlystrike_08
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 272
+        width: 50
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49e64e29ad0d8034b96e607b7ada50cc
+      internalID: -1721707618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -145,7 +376,26 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      fx_heavenlystrike_01: 927586839
+      fx_heavenlystrike_02: -36381328
+      fx_heavenlystrike_03: -451028879
+      fx_heavenlystrike_04: -640675033
+      fx_heavenlystrike_05: 222053877
+      fx_heavenlystrike_06: 1878667759
+      fx_heavenlystrike_07: 1608186025
+      fx_heavenlystrike_08: -1721707618
+      fx_heavenlystrike_09: 863942295
+      fx_heavenlystrike_10: 2024294280
+      fx_heavenlystrike_11: 1543464626
+      fx_heavenlystrike_12: -517199072
+      fx_heavenlystrike_13: 451447461
+      fx_heavenlystrike_14: -211490786
+      fx_heavenlystrike_16: 2143112586
+      fx_heavenlystrike_17: -970421378
+      fx_heavenlystrike_18: -957143897
+      fx_heavenlystrike_5: 1766451537
+      fx_heavenlystrike_7: -163747876
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
