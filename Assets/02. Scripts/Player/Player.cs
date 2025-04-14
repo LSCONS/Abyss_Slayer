@@ -202,7 +202,7 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// 더블샷 버프 활성화 메서드
+    /// 버프 활성화 메서드
     /// </summary>
     /// <param name="value">활성화 여부</param>
     public void SetBuff(bool value)
