@@ -15,7 +15,7 @@ public class ArcherSkill_d : SkillExecuter
     public override void Execute(Player user, Player target, SkillData skillData)
     {
         // 버프 활성화
-        user.SetDoubleShot(true);
+        user.SetBuff(true);
 
         // 버프 지속 시간 후 비활성화
         user.StartCoroutine(DeactivateBuff(user));
@@ -24,6 +24,6 @@ public class ArcherSkill_d : SkillExecuter
     private IEnumerator DeactivateBuff(Player user)
     {
         yield return new WaitForSeconds(duration);
-        user.SetDoubleShot(false);
+        user.SetBuff(false);
     }
 }
