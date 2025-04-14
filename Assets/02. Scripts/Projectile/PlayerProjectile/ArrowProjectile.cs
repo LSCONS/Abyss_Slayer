@@ -4,8 +4,7 @@ using UnityEngine;
 public class ArrowProjectile : BasePoolable
 {
     // Init으로 전달받은 화살 데이터 저장용 변수
-    private int damage;
-    private float arrowSpeed, maxRange;
+    private float arrowDamage, arrowSpeed, maxRange;
     private Vector3 direction, initPos;
     [SerializeField] List<Sprite> sprites;
     [SerializeField] SpriteRenderer spriteRenderer;
@@ -35,7 +34,8 @@ public class ArrowProjectile : BasePoolable
     /// <param name="range">화살 최대 이동 거리</param>
     /// <param name="speed">화살 이동 속도</param>
     /// <param name="spriteNum">화살 스프라이트 인덱스</param>
-    public void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, int spriteNum)
+    /// <param name="damage">화살 데미지</param>
+    public void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, int spriteNum, float damage)
     {
         transform.position = spawnPos;
         initPos = spawnPos;
@@ -43,13 +43,14 @@ public class ArrowProjectile : BasePoolable
         maxRange = range;
         arrowSpeed = speed;
         spriteRenderer.sprite = sprites[spriteNum];
+        arrowDamage = damage;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Boss>(out Boss boss))
+        if (collision.TryGetComponent<Dummy>(out Dummy dummy))
         {
-            //boss.TakeDamage(damage); // 데미지 전달
+            dummy.TakeDamage(arrowDamage); // 데미지 전달
         }
 
         ReturnToPool(); // 투사체 제거
