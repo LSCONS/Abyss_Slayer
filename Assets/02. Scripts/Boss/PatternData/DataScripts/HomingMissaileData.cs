@@ -19,8 +19,7 @@ public class HomingMissaileData : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         bossAnimator.SetTrigger("HomingMissaile1");
-        //이동 코드(이동방식에 따라 달라짐
-        bossTransform.position = startPosition;
+        yield return bossController.StartCoroutine(bossController.JumpMove(startPosition));
         bossController.isLeft = true;
         bossAnimator.SetTrigger("HomingMissaile2");
         yield return new WaitForSeconds(preDelayTime);
@@ -28,7 +27,7 @@ public class HomingMissaileData : BasePatternData
         for(int i = 0; i < missaileCount; i++)
         {
             float degree = (fireDegree - ((spreadDegree / 2) - (i * spreadDegree / (missaileCount - 1))));
-            Quaternion rotate = Quaternion.Euler(0, 0, degree); //오일러 각도로 각도계산
+            Quaternion rotate = Quaternion.Euler(0, 0, bossController.isLeft? 180 - degree : degree); //오일러 각도로 각도계산
 
             degree *= Mathf.Deg2Rad;                            //오일러 각도를 라디우스로 변환
             Vector3 position = new Vector3(Mathf.Cos(degree), Mathf.Sin(degree)) * startCircleR;   //라디우스로 위치계산

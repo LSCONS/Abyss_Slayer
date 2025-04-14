@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: FlyKick
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  layerMask: 128
   attackableAreas:
   - serializedVersion: 2
     x: 4
@@ -25,10 +24,12 @@ MonoBehaviour:
     y: -1
     width: 10
     height: 3
+  globalAttackableAreas: []
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.20392157}
+  damage: 0
   flyupHight: 5
   flyupTime: 0.5
   flyingTime: 0.3
   kickSpeed: 100
   explosionSize: 1
-  postDelayTime: 1
+  postDelayTime: 0.3

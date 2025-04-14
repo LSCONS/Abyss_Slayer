@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TreeEditor;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 [Serializable]
 public class BossPattern
@@ -52,8 +54,13 @@ public class BossController : MonoBehaviour
             _showTargetLine = value;
         }
     }
-    public bool chasingTarget;
-    public bool isLeft;
+    [HideInInspector] public bool chasingTarget;
+    [HideInInspector] public bool isLeft;
+
+    [Header("움직임 관련")]
+    [SerializeField] float jumpMoveTime;
+    [SerializeField] float jumpMoveHight;
+    [SerializeField] float gravityMultiplier;
 
     private void Awake()
     {
@@ -114,6 +121,7 @@ public class BossController : MonoBehaviour
     {
         while (true)
         {
+            yield return StartCoroutine(Landing());
             BossPattern next = GetRandomPattern();
             if (next != null)
             {
@@ -198,5 +206,61 @@ public class BossController : MonoBehaviour
             }
         }
         return availablePatterns.Last(); // 예외 방지용 (총합이 float 연산으로 어긋날 경우, 없으면 반환없는경우 생겨서 에러남)
+    }
+
+    [SerializeField] LayerMask _groundLayerMask;
+    IEnumerator Landing()
+    {
+        float halfBossHight = 1f;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f,_groundLayerMask);
+        //Debug.DrawRay(transform.position, Vector2.down * 10f, Color.red, 2f);
+        //Debug.LogWarning($"{hit.point}");
+        //if (hit.collider == null) yield break;
+
+        if (hit.point.y > transform.position.y - halfBossHight + 0.05f)
+        {
+            while (hit.point.y >= transform.position.y - halfBossHight + 0.05f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, hit.point + (Vector2.up * halfBossHight), 20f * Time.deltaTime);
+                yield return null;
+            }
+        }
+        else if (hit.point.y < transform.position.y - halfBossHight - 0.05f)
+        {
+            float time = 0f;
+            float startHight = transform.position.y;
+            while (hit.point.y <= transform.position.y - halfBossHight - 0.05f)
+            {
+                transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * gravityMultiplier * time * time));
+                time += Time.deltaTime;
+                yield return null;
+            }
+        }
+        transform.position = hit.point + (Vector2.up * halfBossHight);
+    }
+    
+    public IEnumerator JumpMove(Vector3 targetPosition)
+    {
+        Vector3 startPosition = transform.position;
+        float maxY = Mathf.Max(targetPosition.y, startPosition.y) + jumpMoveHight;
+        float deltaY1 = maxY - startPosition.y;
+        float deltaY2 = maxY - targetPosition.y;
+        float hightestTime = jumpMoveTime / (1 + Mathf.Sqrt(deltaY2 / deltaY1));
+        float jumpGravity = 2 * deltaY1 / (hightestTime * hightestTime);
+        float startVelocityY = jumpGravity * hightestTime;
+
+        animator.SetTrigger("Jump");
+        float time = 0f;
+        while(time < jumpMoveTime)
+        {
+            float x = Mathf.Lerp(startPosition.x, targetPosition.x, time / jumpMoveTime);
+            animator.SetBool("Fall",time >= hightestTime);
+            float y = startPosition.y + (startVelocityY * time) - (0.5f * jumpGravity * time * time);
+            transform.position = new Vector3(x, y, 0);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        animator.SetBool("Fall",false);
+        transform.position = targetPosition;
     }
 }
