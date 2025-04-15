@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TreeEditor;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 [Serializable]
 public class BossPattern
@@ -52,12 +54,18 @@ public class BossController : MonoBehaviour
             _showTargetLine = value;
         }
     }
-    public bool chasingTarget;
-    public bool isLeft;
+    [HideInInspector] public bool chasingTarget;
+    [HideInInspector] public bool isLeft;
+
+    [Header("움직임 관련")]
+    [SerializeField] float jumpMoveTime;
+    [SerializeField] float jumpMoveHight;
+    [SerializeField] float gravityMultiplier;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+
         for (int i = 0; i < allPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
         {
             allPatterns[i].patternData.Init(transform,this,animator);
@@ -97,11 +105,11 @@ public class BossController : MonoBehaviour
     {
         if (isLeft)
         {
-            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            //transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
         else
         {
-            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            //transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
         //sprite.flipX = isleft 로 바꿔야함(스프라이트를 넣고나서)
     }
@@ -114,6 +122,7 @@ public class BossController : MonoBehaviour
     {
         while (true)
         {
+            yield return StartCoroutine(Landing());
             BossPattern next = GetRandomPattern();
             if (next != null)
             {
@@ -198,5 +207,67 @@ public class BossController : MonoBehaviour
             }
         }
         return availablePatterns.Last(); // 예외 방지용 (총합이 float 연산으로 어긋날 경우, 없으면 반환없는경우 생겨서 에러남)
+    }
+
+    [SerializeField] LayerMask _groundLayerMask;
+    public IEnumerator Landing()
+    {
+        float halfBossHight = 1f;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f,_groundLayerMask);
+
+        if (hit.point.y > transform.position.y - halfBossHight + 0.05f)
+        {
+            while (hit.point.y >= transform.position.y - halfBossHight + 0.05f)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, hit.point + (Vector2.up * halfBossHight), 20f * Time.deltaTime);
+                yield return null;
+            }
+        }
+        else if (hit.point.y < transform.position.y - halfBossHight - 0.05f)
+        {
+            float time = 0f;
+            float startHight = transform.position.y;
+            while (hit.point.y <= transform.position.y - halfBossHight - 0.05f)
+            {
+                transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * gravityMultiplier * time * time));
+                time += Time.deltaTime;
+                yield return null;
+            }
+        }
+        transform.position = hit.point + (Vector2.up * halfBossHight);
+    }
+
+    /// <summary>
+    /// 현재 좌표에서 지정장소까지 점프해서 이동하는 코루틴
+    /// </summary>
+    /// <param name="targetPosition">이동할(도착)장소</param>
+    /// <param name="inputJumpMoveTime">도착까지 걸리는 시간 (음수입력시 기본값)</param>
+    /// <param name="inputJumpMoveHight">점프높이(더 높은쪽에 +되는 높이, 음수입력시 기본값)</param>
+    /// <returns></returns>
+    public IEnumerator JumpMove(Vector3 targetPosition, float inputJumpMoveTime = -1f, float inputJumpMoveHight = -1f)
+    {
+        Vector3 startPosition = transform.position;
+        float _jumpMoveTime = (inputJumpMoveTime <= 0)? jumpMoveTime : inputJumpMoveTime;
+        float _jumpMoveHight = (inputJumpMoveHight < 0)? jumpMoveHight : inputJumpMoveHight;
+        float maxY = Mathf.Max(targetPosition.y, startPosition.y) + _jumpMoveHight;
+        float deltaY1 = maxY - startPosition.y;
+        float deltaY2 = maxY - targetPosition.y;
+        float hightestTime = _jumpMoveTime / (1 + Mathf.Sqrt(deltaY2 / deltaY1));
+        float jumpGravity = 2 * deltaY1 / (hightestTime * hightestTime);
+        float startVelocityY = jumpGravity * hightestTime;
+
+        animator.SetTrigger("Jump");
+        float time = 0f;
+        while(time < _jumpMoveTime)
+        {
+            float x = Mathf.Lerp(startPosition.x, targetPosition.x, time / _jumpMoveTime);
+            animator.SetBool("Fall",time >= hightestTime);
+            float y = startPosition.y + (startVelocityY * time) - (0.5f * jumpGravity * time * time);
+            transform.position = new Vector3(x, y, 0);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        animator.SetBool("Fall",false);
+        transform.position = targetPosition;
     }
 }

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99da0ec58c473454f84b345f9b7dea99, type: 3}
   m_Name: MageSkill_s_Base
   m_EditorClassIdentifier: 
-  skillName: "\uAD81\uC218 \uAE30\uBCF8 \uACF5\uACA9"
-  description: "\uD654\uC0B4 \uD558\uB098\uB97C \uBC1C\uC0AC\uD55C\uB2E4."
+  skillName: "\uB808\uC774\uC800 \uBE54"
+  description: "\uAE30\uB97C \uBAA8\uC544\uC11C \uD55C\uBC88\uC5D0 \uAC15\uB825\uD55C
+    \uB370\uBBF8\uC9C0\uB97C \uC785\uD798"
   canMove: 1
   canUse: 1
   <MaxCoolTime>k__BackingField:
@@ -25,6 +26,6 @@ MonoBehaviour:
   effectPrefab: {fileID: 0}
   executer: {fileID: 11400000, guid: 9502140ea0944cc4c8f5b45bc250d5b8, type: 2}
   category: 0
-  damageType: 0
+  damageType: 2
   applyState: -1
   targetingData: {fileID: 11400000, guid: add3b35706cf24449920fcce1b104471, type: 2}

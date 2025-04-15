@@ -15,10 +15,27 @@ public enum UIType
     All = ~0,
 }
 
+[System.Flags]
+public enum UISceneType
+{
+    None = 0,
+    Intro = 1 << 0,
+    Start = 1 << 1,
+    Lobby = 1 << 2,
+    Boss = 1 << 3,
+    Rest = 1 << 4,
+    Loading = 1 << 5,
+    All = ~0,
+}
+
 public abstract class UIBase : MonoBehaviour
 {
     public UIType uiType;
-    public abstract void Init();
+    public UISceneType uISceneType = UISceneType.None;
+    public virtual void Init()
+    {
+        gameObject.SetActive(false);
+    }
     public virtual void Open(params object[] args)
     {
         gameObject.SetActive(true);

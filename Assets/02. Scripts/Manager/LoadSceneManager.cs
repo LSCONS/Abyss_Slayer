@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using System.Threading.Tasks;
 public class LoadSceneManager : Singleton<LoadSceneManager>
 {
     private ProgressBar progressBar;
@@ -19,31 +19,30 @@ public class LoadSceneManager : Singleton<LoadSceneManager>
     //         LoadScene("UITestScene");
     //     }
     // }
-    public void LoadScene(string sceneName)
+    public Task LoadScene(string sceneName)
     {
-        StartCoroutine(LoadingAsync(sceneName));
+        var tcs = new TaskCompletionSource<bool>();
+        StartCoroutine(LoadingAsync(sceneName, tcs));
+        return tcs.Task;
     }
 
-    IEnumerator LoadingAsync(string sceneName)
+    private IEnumerator LoadingAsync(string sceneName, TaskCompletionSource<bool> tcs)
     {
-
-        // 페이드인 추가
-
-        // 로딩 씬 로드
         yield return SceneManager.LoadSceneAsync("LoadingScene");
         progressBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
 
-        // 진짜 찐 씬 로드
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
-        asyncOperation.allowSceneActivation = false;
+        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+        op.allowSceneActivation = false;
 
-        while (asyncOperation.progress < 0.9f)
+        while (op.progress < 0.9f)
         {
-            progressBar.SetProgress(asyncOperation.progress);
+            progressBar.SetProgress(op.progress);
             yield return null;
         }
         progressBar.SetProgress(1f);
         yield return null;
-        asyncOperation.allowSceneActivation = true;
+
+        op.allowSceneActivation = true;
+        tcs.SetResult(true);
     }
 }
