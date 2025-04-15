@@ -11,8 +11,23 @@ public class UIHealthBar : UIBase, IView
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private RectTransform shakeTarget; // 체력 닳을 때 흔들릴 타겟
 
+    [Header("연결할 타겟 이름")]
+    [SerializeField] private string TargetName = "Player";  // 연결할 타겟이름
+
+
+    private void Awake()
+    {
+        UIBinder.Bind<HPTest, UIHealthBar, HealthPresenter>(TargetName, this.gameObject); // 체력 바 바인딩
+
+        if (!UIBinder.Bind<HPTest, UIHealthBar, HealthPresenter>(TargetName, this.gameObject))
+        {
+            Debug.LogWarning($"[UIHealthBar] 바인딩 실패 {TargetName}를 찾을 수 없다");
+        }
+
+    }
     public override void Init()
     {
+   
         hpBar.fillAmount = 1;
         hpText.text = $"{100:F0}%";
     }
