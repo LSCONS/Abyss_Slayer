@@ -44,7 +44,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Popup
-    - GamaPlay
+    - GamePlay
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6895cd51b5fa48b4ba01576d8c3ecd53
     m_Address: Assets/10. Prefabs/UI/Popups/PlayerState.prefab
@@ -62,15 +62,36 @@ MonoBehaviour:
     m_Address: Assets/10. Prefabs/UI/Permanent/SkillSpace.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
-    - GamaPlay
+    - GamePlay
     - Bottom
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3e322a8852f544a48b5d8baf0687515f
     m_Address: Assets/10. Prefabs/UI/Permanent/SettingsOpenBTN.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
-    - GamaPlay
+    - GamePlay
     - Top
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 77fae0f6507a7114e959dd349a943698
+    m_Address: Assets/WorkSpace/JHN/Intro.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NonGamePlay
+    - Permanent
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f865cdabf773b0341ad472c6cbc6a513
+    m_Address: Assets/WorkSpace/JHN/Start.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NonGamePlay
+    - Permanent
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 15d2563fc2205e945bcaf274ed9bfeb7
+    m_Address: Assets/WorkSpace/JHN/Lobby.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NonGamePlay
+    - Permanent
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}

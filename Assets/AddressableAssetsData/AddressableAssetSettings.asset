@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: f42c4174a27bcb943a07de2faef1fd1d
   m_currentHash:
     serializedVersion: 2
-    Hash: 3f927ec043299b5bd1c23219dd417e82
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -96,11 +96,13 @@ MonoBehaviour:
     - UIPopupSettings
     - PlayerState
     - SkillSlot
-    - Popup
-    - GamaPlay
+    - None
     - NonGamePlay
+    - GamePlay
+    - Permanent
     - Top
     - Bottom
+    - Popup
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 34d877ec853ce1e40987ad922d126888, type: 2}

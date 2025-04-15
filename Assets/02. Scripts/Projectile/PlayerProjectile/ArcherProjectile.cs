@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowProjectile : BasePoolable
+public class ArcherProjectile : BasePoolable
 {
     // Init으로 전달받은 화살 데이터 저장용 변수
-    private float arrowDamage, arrowSpeed, maxRange;
+    private float damage, speed, maxRange;
     private Vector3 direction, initPos;
     [SerializeField] List<Sprite> sprites;
     [SerializeField] SpriteRenderer spriteRenderer;
@@ -18,7 +18,7 @@ public class ArrowProjectile : BasePoolable
         }
 
         // 화살 이동
-        transform.Translate(direction * arrowSpeed * Time.deltaTime);
+        transform.Translate(direction * speed * Time.deltaTime);
     }
 
     public override void Init()
@@ -41,18 +41,18 @@ public class ArrowProjectile : BasePoolable
         initPos = spawnPos;
         direction = dir.normalized;
         maxRange = range;
-        arrowSpeed = speed;
+        this.speed = speed;
         spriteRenderer.sprite = sprites[spriteNum];
-        arrowDamage = damage;
+        this.damage = damage;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Dummy>(out Dummy dummy))
         {
-            dummy.TakeDamage(arrowDamage); // 데미지 전달
+            dummy.TakeDamage(damage); // 데미지 전달
         }
 
-        ReturnToPool(); // 투사체 제거
+        ReturnToPool(); // 투사체 반환
     }
 }
