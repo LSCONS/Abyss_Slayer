@@ -15,6 +15,5 @@ public class HPTest : MonoBehaviour, IHasHealth
         {
             Hp.Value = Mathf.Max(Hp.Value - 5, 0);
         }
-
     }
 }

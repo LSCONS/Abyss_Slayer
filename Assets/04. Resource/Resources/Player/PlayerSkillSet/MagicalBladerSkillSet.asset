@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e500b6f3aa0d8041b62452b7d738c1d, type: 3}
+  m_Name: MagicalBladerSkillSet
+  m_EditorClassIdentifier: 
+  className: 
+  skillSlots:
+  - key: 0
+    skillData: {fileID: 11400000, guid: deac4918640cb6d44ab80274b6b24fc7, type: 2}
+  - key: 1
+    skillData: {fileID: 11400000, guid: 5b8b9bdfee514b9498c27a0e93e25435, type: 2}
+  - key: 2
+    skillData: {fileID: 11400000, guid: c96449ccf3daf15489276bc2d2445dc5, type: 2}
+  - key: 3
+    skillData: {fileID: 11400000, guid: 1bbd2d78b383e52489056c2a602b7510, type: 2}
+  - key: 4
+    skillData: {fileID: 11400000, guid: 9360cd4e26cbc04458838497294c8ab9, type: 2}
+  evasionType: 1

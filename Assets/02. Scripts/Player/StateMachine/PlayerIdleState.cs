@@ -1,12 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundState
 {
     public StoppableAction MoveAction = new();
     public PlayerIdleState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+    {
+    }
+
+    public void Init()
     {
         //Walk 스테이트 진입 가능 여부 확인
         MoveAction.AddListener(playerStateMachine.ConnectWalkState);

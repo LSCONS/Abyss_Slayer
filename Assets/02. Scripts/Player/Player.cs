@@ -1,34 +1,40 @@
 using Cinemachine;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
+public enum CharacterClass
+{
+    Archer,
+    Healer,
+    Mage,
+    MagicalBlader,
+    Tanker
+}
 
 public class Player : MonoBehaviour
 {
+    public CharacterClass playerCharacterClass;
     public PlayerInput input { get; private set; }
     public Rigidbody2D playerRigidbody;
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
     public Animator PlayerAnimator { get; private set; }//TODO: 나중에 초기화 필요
-    [field: SerializeField] public PlayerAnimationData playerAnimationData { get; private set; }
+    public PlayerAnimationData playerAnimationData { get; private set; }
     public SkillSet skillSet; // 스킬셋 데이터
     public Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
     public PlayerStateMachine playerStateMachine { get; private set; }
     public BoxCollider2D playerGroundCollider {  get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
-    public ArcherSkillAnimationTrigger SkillTrigger{ get; private set; }
-    public bool IsDoubleShot { get; private set; } = false;
+    public IStopCoroutine SkillTrigger{ get; private set; }
+    public bool IsBuff = false;
 
 
     private void Awake()
     {
+        InitComponent();
         InitPlayerData();
         InitSkillData();
-        InitComponent();
         playerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
     }
@@ -42,6 +48,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         playerStateMachine.Update();
+        SkillCoolTimeCompute();
     }
 
     private void FixedUpdate()
@@ -51,13 +58,59 @@ public class Player : MonoBehaviour
 
 
     /// <summary>
+    /// 각 스킬이 사용 가능한지 확인하고 불가능하다면 쿨타임을 계산하는 메서드
+    /// </summary>
+    private void SkillCoolTimeCompute()
+    {
+        foreach (var value in equippedSkills.Values)
+        {
+            if (!(value.canUse))
+            {
+                value.CurCoolTime.Value -= Time.deltaTime;
+                if (value.CurCoolTime.Value <= 0)
+                {
+                    value.CurCoolTime.Value = 0;
+                    value.canUse = true;
+                }
+            }
+        }
+    }
+
+
+    /// <summary>
     /// 플레이어 데이터를 초기화하는 메서드
     /// </summary>
     private void InitPlayerData()
     {
+
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
-        playerData = Resources.Load<PlayerData>("Player/Player");
+        playerAnimationData = PlayerManager.Instance.PlayerAnimationData;
+        playerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
         playerData = Instantiate(playerData);
+        //TODO: 여기서부터 임시 코드
+        switch (playerCharacterClass)
+        {
+            case CharacterClass.Archer:
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutine;
+                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
+                break;
+            case CharacterClass.Healer:
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutine;
+                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/HealerSkillSet");
+                break;
+            case CharacterClass.Mage:
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutine;
+                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/MageSkillSet");
+                break;
+            case CharacterClass.MagicalBlader:
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutine;
+                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
+                break;
+            case CharacterClass.Tanker:
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutine;
+                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/TankerSkillSet");
+                break;
+        }
     }
 
 
@@ -73,11 +126,6 @@ public class Player : MonoBehaviour
         SpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
         PlayerAnimator = transform.GetComponentForTransformFindName<Animator>("Sprtie_Player");
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-
-        //TODO: 여기서부터 임시 코드
-        SkillTrigger = PlayerAnimator.AddComponent<ArcherSkillAnimationTrigger>();
-        SkillTrigger.player = this;
-        SkillTrigger.skills = equippedSkills;
     }
 
 
@@ -100,6 +148,8 @@ public class Player : MonoBehaviour
                 Debug.LogWarning($"Skill in slot {slot.key} is null!");
             }
         }
+        SkillTrigger.player = this;
+        SkillTrigger.skills = equippedSkills;
     }
 
 
@@ -113,46 +163,7 @@ public class Player : MonoBehaviour
         {
             SkillData skillData = equippedSkills[slotKey];
             skillData.CurCoolTime.Value = skillData.MaxCoolTime.Value;
-            StartCoroutine(SkillCoolTimeUpdateCoroutine(skillData.CurCoolTime, slotKey));
-        }
-        else
-        {
-            Debug.LogError($"{slotKey}에 대한 정보를 찾을 수 없습니다. (송제우: Z에 대한 정보면 무시해도 됩니다.)");
-        }
-    }
-
-
-    /// <summary>
-    /// 스킬의 쿨타임을 계산하고 다시 사용 가능하게 바꿔주는 코루틴
-    /// </summary>
-    /// <param name="coolTIme">쿨타임 시간</param>
-    /// <param name="slotKey">초기화 시킬 스킬 키</param>
-    private IEnumerator SkillCoolTimeUpdateCoroutine(ReactiveProperty<float> property, SkillSlotKey slotKey)
-    {
-        while (property.Value > 0)
-        {
-            property.Value = Mathf.Max(property.Value - Time.deltaTime, 0);
-            yield return null;
-        }
-
-        Debug.Log("스킬 쿨타임 초기화");
-        switch (slotKey)
-        {
-            case SkillSlotKey.X:
-                equippedSkills[SkillSlotKey.X].canUse = true;
-                break;
-            case SkillSlotKey.Z:
-                equippedSkills[SkillSlotKey.Z].canUse = true;
-                break;
-            case SkillSlotKey.A:
-                equippedSkills[SkillSlotKey.A].canUse = true;
-                break;
-            case SkillSlotKey.S:
-                equippedSkills[SkillSlotKey.S].canUse = true;
-                break;
-            case SkillSlotKey.D:
-                equippedSkills[SkillSlotKey.D].canUse = true;
-                break;
+            skillData.canUse = false;
         }
     }
 
@@ -190,8 +201,12 @@ public class Player : MonoBehaviour
         playerStateMachine.ChangeState(playerStateMachine.DieState);
     }
 
-    public void SetDoubleShot(bool value)
+    /// <summary>
+    /// 버프 활성화 메서드
+    /// </summary>
+    /// <param name="value">활성화 여부</param>
+    public void SetBuff(bool value)
     {
-        IsDoubleShot = value;
+        IsBuff = value;
     }
 }

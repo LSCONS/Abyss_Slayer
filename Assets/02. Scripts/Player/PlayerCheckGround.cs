@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCheckGround : MonoBehaviour
@@ -12,7 +10,6 @@ public class PlayerCheckGround : MonoBehaviour
     public Action playerTriggerOff;     //플레이어의 isTrigger을 off해주는 로직
 
 
-    //Collider가 땅에 닿을 경우 isGround true반환.
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerData.GroundPlatformLayerIndex)
@@ -21,7 +18,7 @@ public class PlayerCheckGround : MonoBehaviour
             GroundPlatformCount++;
             return;
         }
-
+        
         if(collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
         {
             CheckAllGroundCanJumpEnter();
@@ -30,7 +27,7 @@ public class PlayerCheckGround : MonoBehaviour
         }
     }
 
-    //Collider가 땅에서 빠져나갈 경우 isGround false반환.
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerData.GroundPlatformLayerIndex)
@@ -48,13 +45,32 @@ public class PlayerCheckGround : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
+        {
+            playerTriggerOff?.Invoke();
+            return;
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-        GroundPlaneCount = 0;
-        GroundPlatformCount = 0;
+        ResetAllGround();
+        CheckAllGroundCanJumpExit();
         playerTriggerOff?.Invoke();
     }
 
+
+    public void ResetAllGround()
+    {
+        GroundPlaneCount = 0;
+        GroundPlatformCount = 0;
+    }
+
+    /// <summary>
+    /// 아직까지 닿은 바닥이 하나도 없었다면 점프가 가능해짐.
+    /// </summary>
     private void CheckAllGroundCanJumpEnter()
     {
         if(GroundPlaneCount + GroundPlatformCount == 0)
@@ -63,6 +79,10 @@ public class PlayerCheckGround : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 닿은 바닥에서 떨어졌을 때 닿고있는 바닥이 하나도 없다면 점프기 불가능해짐.
+    /// </summary>
     private void CheckAllGroundCanJumpExit()
     {
         if (GroundPlaneCount + GroundPlatformCount == 0)

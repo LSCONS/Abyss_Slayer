@@ -1,12 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerFallState : PlayerAirState
 {
     public StoppableAction MoveAction = new();
     public PlayerFallState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+    {
+    }
+
+    public void Init()
     {
         //Idle State 진입 가능 여부 확인
         MoveAction.AddListener(playerStateMachine.ConnectIdleState);

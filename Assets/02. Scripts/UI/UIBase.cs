@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Flags]
 public enum UIType
 {
-    Default,   // 기본 형식
-    Popup,   // 팝업 형식
-    Scene,   // 상시 띄워져야 되는 ui
-    Top,     // 상단에 띄워야 되는 ui
+    None = 0,
+    NonGamePlay = 1 << 0,
+    GamePlay = 1 << 1,
+    Permanent = 1 << 2,
+    Top = 1 << 3,
+    Bottom = 1 << 4,
+    Popup = 1 << 5,
+    All = ~0,
 }
 
 public abstract class UIBase : MonoBehaviour
