@@ -6,14 +6,18 @@ using UnityEngine;
 public class BaseBossProjectileCollider : MonoBehaviour
 {
     List<Player> hitPlayers = new List<Player>();
-    bool ispiercing;
     Action hit;
-    int multiAttackCount;
+    int piercingAttackCount;
     bool _hited;
-    public void colliderSet(Action hit,int multiAttackCount = 1,bool isPiercing = false)
+    LayerMask hitLayerMask;
+
+    private void Awake()
     {
-        this.multiAttackCount = multiAttackCount;
-        this.ispiercing = isPiercing;
+        hitLayerMask = LayerMask.GetMask("GroundPlane", "Shield");
+    }
+    public void colliderSet(Action hit, int piercingAttackCount = 1)
+    {
+        this.piercingAttackCount = piercingAttackCount;
         this.hit = hit;
         _hited = false;
         hitPlayers.Clear();
@@ -29,21 +33,17 @@ public class BaseBossProjectileCollider : MonoBehaviour
         {
             //player에 대미지 주는코드
             hitPlayers.Add(player);
-            if(!ispiercing && hitPlayers.Count >= multiAttackCount)
+            if(hitPlayers.Count < piercingAttackCount)
             {
-                _hited = true;
-                hit?.Invoke();
+                return;
             }
+            _hited = true;
+            hit?.Invoke();
         }
-        else if(collision.gameObject.layer == LayerMask.NameToLayer("GroundPlane"))
+        else if(((1 << collision.gameObject.layer) & hitLayerMask) != 0 )
         {
             _hited = true;
             hit?.Invoke();
         }
-        /*else if(쉴드 스크립트 가지고있다면)
-        {
-            returnToPool?.Invoke();
-        }
-        */
     }
 }

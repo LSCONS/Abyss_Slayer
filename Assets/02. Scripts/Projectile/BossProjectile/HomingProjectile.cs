@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HomingProjectile : BasePoolable
 {
-    [SerializeField] float dampDuration;
+    [SerializeField] float homingTime;
     [SerializeField] AnimationCurve speedCurve;
     [SerializeField] AnimationCurve homingCurve;
     [SerializeField] BaseBossProjectileCollider _collider;
@@ -55,7 +55,7 @@ public class HomingProjectile : BasePoolable
     /// <param name="speed">전체적인 탄속도(비례하여 유동적으로 변화)</param>
     /// <param name="delayFireTime">지연발사 시간</param>
     /// <param name="homingPower">전체적인 유도력(비례하여 유동적으로 변화)</param>
-    public void Init(int damage, Vector3 position, Quaternion rotate, Transform target,float speed, float delayFireTime = 0f, float homingPower = 10f)
+    public void Init(int damage, Vector3 position, Quaternion rotate, Transform target,float speed, float delayFireTime = 0f, float homingPower = 10f,float homingTime = 3f, AnimationCurve homingCurve = null)
     { 
         _damage = damage;
         transform.position = position;
@@ -65,6 +65,9 @@ public class HomingProjectile : BasePoolable
         _homingPower = homingPower;
         _inited = true;
         _fireTime = Time.time + delayFireTime;
+        this.homingTime = homingTime;
+        if(homingCurve != null)
+            this.homingCurve = homingCurve;
 
         _collider.colliderSet(Hit);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
         trailRenderer.enabled = true;   //탄 궤적 활성화
@@ -72,7 +75,7 @@ public class HomingProjectile : BasePoolable
 
     void Move()                     //정해진 속도에 따라, 자신(투사체)의 right(+x)방향으로 고정적으로 진행
     {
-        _speed = _inputSpeed * speedCurve.Evaluate((Time.time - _fireTime)/dampDuration);   //animationCurve와 시간 에따라 속도 유동적으로 변경
+        _speed = _inputSpeed * speedCurve.Evaluate((Time.time - _fireTime)/homingTime);   //animationCurve와 시간 에따라 속도 유동적으로 변경
         transform.Translate(Vector3.right * 10 * _speed * Time.deltaTime);
     }
 
@@ -81,7 +84,7 @@ public class HomingProjectile : BasePoolable
         Vector3 targetDirection = _target.position - transform.position;                        
         float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;              //목표물과의 각도 계산
 
-        float _homingSpeed = _homingPower * homingCurve.Evaluate((Time.time - _fireTime) / dampDuration);   //animationCurve와 시간 에따라 유도력 유동적으로 변경
+        float _homingSpeed = _homingPower * homingCurve.Evaluate((Time.time - _fireTime) / homingTime);   //animationCurve와 시간 에따라 유도력 유동적으로 변경
 
         float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * _homingSpeed * Time.deltaTime);  
         transform.rotation = Quaternion.Euler(0, 0, newAngle);                                                         //유동적인 유도력에 따라 자신을 회전

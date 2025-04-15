@@ -1,0 +1,40 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+[CreateAssetMenu(fileName = "Pattern", menuName = "BossPattern/Uppercut")]
+public class UppercutData : BasePatternData
+{
+    [SerializeField] int damage;
+    [SerializeField] float accessSpeed = 10f;
+    [SerializeField] float preDelayTime = 0.8f;
+    [SerializeField] float warningTime = 0.4f;
+    [SerializeField] float duration = 0.2f;
+    [SerializeField] float width = 0.8f;
+    [SerializeField] float jumpTime = 1f;
+    [SerializeField] float jumpHight = 3f;
+    [SerializeField] float postDelayTime = 1f;
+    public override IEnumerator ExecutePattern()
+    {
+        bossController.chasingTarget = true;
+        yield return new WaitForSeconds(preDelayTime);
+        bossController.showTargetCrosshair = true;
+        bossAnimator.SetTrigger("Uppercut1");
+        yield return new WaitForSeconds(0.2f);
+        bossAnimator.SetTrigger("Uppercut2");
+        Vector3 targetPosition = target.position;
+        while (Mathf.Abs(targetPosition.x - bossTransform.position.x) >= 0.05f)
+        {
+            float x = Mathf.Lerp(bossTransform.position.x, targetPosition.x, accessSpeed * Time.deltaTime);
+            bossTransform.position = new Vector3(x, bossTransform.position.y, 0);
+            yield return null;
+        }
+        bossAnimator.SetTrigger("Uppercut3");
+        PoolManager.Instance.Get<Tornado>().Init(bossTransform.position, damage, duration, warningTime, width);
+        yield return new WaitForSeconds(warningTime);
+        bossAnimator.SetTrigger("Uppercut4");
+        yield return bossController.StartCoroutine(bossController.JumpMove(targetPosition + Vector3.up * jumpHight, jumpTime, 0f));
+        yield return bossController.StartCoroutine(bossController.Landing());
+        bossAnimator.SetTrigger("Uppercut5");
+        yield return new WaitForSeconds(postDelayTime);
+    }
+}
