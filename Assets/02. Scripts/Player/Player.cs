@@ -27,9 +27,9 @@ public class Player : MonoBehaviour
     public BoxCollider2D playerGroundCollider {  get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
-    public IStopCoroutine SkillTrigger{ get; private set; }
+    public IStopCoroutine SkillTrigger { get; private set; }
     public bool IsBuff { get; private set; } = false;
-    public ReactiveProperty<float> MaxDuration = new ReactiveProperty<float>(5f);   // 최대 지속 시간
+    public ReactiveProperty<float> MaxDuration;   // 최대 지속 시간
     public ReactiveProperty<float> CurDuration;   // 현재 지속 시간
 
 
