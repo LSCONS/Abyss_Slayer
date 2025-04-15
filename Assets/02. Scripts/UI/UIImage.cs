@@ -6,7 +6,7 @@ public class UIImage : UIBase
 {
     public override void Init()
     {
-
+        base.Init();
     }
 
 
