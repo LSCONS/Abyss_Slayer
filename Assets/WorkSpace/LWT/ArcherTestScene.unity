@@ -414,6 +414,10 @@ PrefabInstance:
       value: PlayerPrefab_V6.2
       objectReference: {fileID: 0}
     - target: {fileID: 8450915431213149332, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
+      propertyPath: MaxDuration.value
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8450915431213149332, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
       propertyPath: playerCharacterClass
       value: 0
       objectReference: {fileID: 0}

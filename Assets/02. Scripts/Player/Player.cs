@@ -1,5 +1,6 @@
 using Cinemachine;
 using System.Collections.Generic;
+using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 public enum CharacterClass
@@ -28,6 +29,8 @@ public class Player : MonoBehaviour
     public SpriteRenderer SpriteRenderer { get; private set; }
     public IStopCoroutine SkillTrigger{ get; private set; }
     public bool IsBuff { get; private set; } = false;
+    public ReactiveProperty<float> MaxDuration = new ReactiveProperty<float>(5f);   // 최대 지속 시간
+    public ReactiveProperty<float> CurDuration;   // 현재 지속 시간
 
 
     private void Awake()
@@ -49,6 +52,7 @@ public class Player : MonoBehaviour
     {
         playerStateMachine.Update();
         SkillCoolTimeCompute();
+        UpdateBuffDuration();
     }
 
     private void FixedUpdate()
@@ -201,12 +205,34 @@ public class Player : MonoBehaviour
         playerStateMachine.ChangeState(playerStateMachine.DieState);
     }
 
+
     /// <summary>
     /// 버프 활성화 메서드
     /// </summary>
     /// <param name="value">활성화 여부</param>
     public void SetBuff(bool value)
     {
+        Debug.LogAssertion(value);
         IsBuff = value;
+        if (value)
+        {
+            CurDuration.Value = MaxDuration.Value;
+        }
+    }
+
+
+    /// <summary>
+    /// 버프 지속 시간을 업데이트하는 메서드
+    /// </summary>
+    private void UpdateBuffDuration()
+    {
+        if (IsBuff)
+        {
+            CurDuration.Value -= Time.deltaTime;
+            if (CurDuration.Value <= 0)
+            {
+                SetBuff(false);
+            }
+        }
     }
 }
