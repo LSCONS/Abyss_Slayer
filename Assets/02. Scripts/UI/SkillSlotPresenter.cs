@@ -17,7 +17,8 @@ public class SkillSlotPresenter : IPresenter
         view.SetCoolTime(model.CurCoolTime.Value);
         view.SetPresenter(this);
 
-        model.CurCoolTime.CombineLatest(model.MaxCoolTime, (cur, max) => cur / max)
+        model.CurCoolTime
+            .CombineLatest(model.MaxCoolTime, (cur, max) => max <= 0 ? 0f : cur / max)  // 0 나누면 non됨 0이하로 나누면 0으로 처리
             .Subscribe(view.SetCoolTime)
             .AddTo(disposable);
     }
