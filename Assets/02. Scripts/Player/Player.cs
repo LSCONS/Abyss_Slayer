@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
     public IStopCoroutine SkillTrigger{ get; private set; }
-    public bool IsDoubleShot { get; private set; } = false;
+    public bool IsBuff { get; private set; } = false;
 
 
     private void Awake()
@@ -202,11 +202,11 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// 더블샷 버프 활성화 메서드
+    /// 버프 활성화 메서드
     /// </summary>
     /// <param name="value">활성화 여부</param>
-    public void SetDoubleShot(bool value)
+    public void SetBuff(bool value)
     {
-        IsDoubleShot = value;
+        IsBuff = value;
     }
 }

@@ -613,27 +613,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a4184effe3bbd4bbc8087229a1daaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCharacterClass: 2
   playerRigidbody: {fileID: 484377003506228574}
   playerCheckGround: {fileID: 1999757081045251811}
   mainCamera: {fileID: 0}
-  <playerAnimationData>k__BackingField:
-    groundParameterName: '@Ground'
-    idleParameterName: Idle
-    walkParameterName: Walk
-    airParematerName: '@Air'
-    jumpParameterName: Jump
-    fallParameterName: Fall
-    skillParameterName: '@Skill'
-    X_SkillParameterName: X_Skill
-    Z_SkillParameterName: Z_Skill
-    A_SkillParameterName: A_Skill
-    S_SkillParameterName: S_Skill
-    D_SkillParameterName: D_Skill
-    Z_SkillAnimationName: Player_SkillA
-    X_SkillAnimationName: Player_SkillX
-    A_SkillAnimationName: Player_SkillA
-    S_SkillAnimationName: Player_SkillS
-    D_SkillAnimationName: Player_SkillD
   skillSet: {fileID: 11400000, guid: a98e8f1c3fbcaf7459f839b9c298dbb0, type: 2}
   <playerData>k__BackingField: {fileID: 0}
 --- !u!1 &2433702727355813357
@@ -993,6 +976,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &3553336044609741220
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6865917897523543875}
+  m_Layer: 0
+  m_Name: MageProjectilePool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6865917897523543875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3553336044609741220}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5971403508696890814}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5107976448273201699
 GameObject:
   m_ObjectHideFlags: 0
@@ -1261,7 +1275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8050353047529230958}
   m_Layer: 0
-  m_Name: PlayerProjectilePool
+  m_Name: ArcherProjectilePool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1592,6 +1606,7 @@ Transform:
   - {fileID: 1164233907002757114}
   - {fileID: 4529010729352494589}
   - {fileID: 8050353047529230958}
+  - {fileID: 6865917897523543875}
   m_Father: {fileID: 463012758619609384}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4372419427601950216
@@ -1614,5 +1629,8 @@ MonoBehaviour:
     parent: {fileID: 4529010729352494589}
     initialSize: 12
   - prefab: {fileID: -143444998832389949, guid: 0a8101b506287904482ebdf5f10ab013, type: 3}
+    parent: {fileID: 8050353047529230958}
+    initialSize: 12
+  - prefab: {fileID: -589420653525222953, guid: 4d2f3580db6e67145ae189949e08248e, type: 3}
     parent: {fileID: 8050353047529230958}
     initialSize: 12

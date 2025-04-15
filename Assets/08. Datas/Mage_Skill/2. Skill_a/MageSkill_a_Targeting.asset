@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c01c4a351db3ca4b98e478e14178966, type: 3}
   m_Name: MageSkill_a_Targeting
   m_EditorClassIdentifier: 
-  requiresTarget: 0
+  requiresTarget: 1
   affectEnemies: 1
   affectPlayers: 0
   includeSelf: 0
   isArea: 0
-  range: 13.5
-  areaRadius: 0
+  range: 0
+  areaRadius: 15

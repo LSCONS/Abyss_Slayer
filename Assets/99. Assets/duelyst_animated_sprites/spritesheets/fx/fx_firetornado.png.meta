@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -71,8 +71,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,7 +134,259 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: fx_firetornado_10
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 186
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3bdc51000ae96741a805d277548c9fc
+      internalID: -679385644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_firetornado_04
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 186
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79df977b19f731a43b981bc117a772f5
+      internalID: 514356796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_firetornado_07
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 186
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68c4e6779cb941d4f99089a5e1257faf
+      internalID: 905155178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_firetornado_01
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 186
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 793dc319bbef91147a5d6c4f01a05aec
+      internalID: 13053979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_firetornado_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 115
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4869f0a918d457d4188591c922ae1e79
+      internalID: -645805102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_firetornado_09
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 115
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fff3c57c96a9c644eb2e3e820aecf609
+      internalID: 1196146012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_firetornado_06
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 115
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dc01374aaf4acb4e8c84447969ce383
+      internalID: -191518881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_firetornado_08
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 44
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4e1e777fe888654982e5fc8b1fc22cb
+      internalID: -1213962496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_firetornado_05
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 44
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bf5f3c50d4b4fc4b8b457e67594a727
+      internalID: -19632243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_firetornado_03
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 116
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 693eadd38f628a14083f39f01887d74c
+      internalID: -1945938601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_firetornado_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 44
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7f07b328d8e9b94da97a05bdf461a40
+      internalID: -1472811037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_firetornado_02
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 44
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6a813ada283f374b910c68175637ff8
+      internalID: 127313787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -145,7 +397,44 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      fx_firetornado_01: 13053979
+      fx_firetornado_02: 127313787
+      fx_firetornado_03: -1945938601
+      fx_firetornado_04: 514356796
+      fx_firetornado_05: -19632243
+      fx_firetornado_06: -191518881
+      fx_firetornado_07: 905155178
+      fx_firetornado_08: -1213962496
+      fx_firetornado_09: 1196146012
+      fx_firetornado_10: -679385644
+      fx_firetornado_11: -1472811037
+      fx_firetornado_12: -645805102
+      fx_firetornado_13: -2082621648
+      fx_firetornado_14: -2128468333
+      fx_firetornado_15: -1413701862
+      fx_firetornado_16: 1037612400
+      fx_firetornado_17: -1168769741
+      fx_firetornado_2: 243644797
+      fx_firetornado_21: -530860860
+      fx_firetornado_22: 1626511274
+      fx_firetornado_23: -1641159119
+      fx_firetornado_24: 828295724
+      fx_firetornado_25: 882156498
+      fx_firetornado_26: -143910983
+      fx_firetornado_27: 770576888
+      fx_firetornado_28: 215804400
+      fx_firetornado_29: -1810907725
+      fx_firetornado_30: 1371407298
+      fx_firetornado_31: -336271796
+      fx_firetornado_32: -2036865805
+      fx_firetornado_34: 180267475
+      fx_firetornado_35: -380300670
+      fx_firetornado_36: 833828351
+      fx_firetornado_37: -147683359
+      fx_firetornado_38: 1958722475
+      fx_firetornado_5: 488468668
+      fx_firetornado_9: -791561287
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
