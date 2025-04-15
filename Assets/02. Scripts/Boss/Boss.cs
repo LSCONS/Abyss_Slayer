@@ -6,8 +6,8 @@ using UnityEngine;
 public class Boss : MonoBehaviour, IHasHealth
 {
     public BossController bossController;
-    public ReactiveProperty<int> Hp { get; }
-    public ReactiveProperty<int> MaxHp { get; }
+    public ReactiveProperty<int> Hp { get; } = new ReactiveProperty<int>(1000);
+    public ReactiveProperty<int> MaxHp { get; } = new ReactiveProperty<int> (1000);
     bool isDead;
 
     [SerializeField] int maxHP;
@@ -17,15 +17,6 @@ public class Boss : MonoBehaviour, IHasHealth
         Hp.Value = Mathf.Clamp(Hp.Value + value, 0, MaxHp.Value);
         if (Hp.Value == 0)
             isDead = true;
-    }
-
-    public void Damage(int damage)
-    {
-        if (!isDead)
-        {
-            ChangeHP(-damage);
-            //피해입을때 효과,소리
-        }
     }
     /// <summary>
     /// 데미지(양수) 입히기
