@@ -22,19 +22,14 @@ public class ArcherSkill_x : SkillExecuter
         Vector3 spawnPos = user.transform.position + (Vector3)(dir * 1.5f);
 
         // 오브젝트 풀에서 화살 가져오기
-        var arrow = PoolManager.Instance.Get<ArcherProjectile>();
-        // 화살 초기화 데이터 투사체에 전달
-        arrow.Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed, spriteNum, damage);
+        PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos, dir, skillData.targetingData.range, arrowSpeed, spriteNum, damage);
 
         // 버프 상태일 경우 추가 화살 생성
         if (user.IsBuff)
         {
-            var secondArrow = PoolManager.Instance.Get<ArcherProjectile>();
-
             // 플레이어가 바라보는 방향에 따라 오프셋 조정
-            Vector3 secondOffset = user.SpriteRenderer.flipX ? new Vector3(-1.0f, 0.5f, 0) : new Vector3(1.0f, 0.5f, 0);
-            Vector3 secondSpawnPos = spawnPos + secondOffset;
-            secondArrow.Init(secondSpawnPos, dir, skillData.targetingData.range, arrowSpeed, spriteNum, damage * 0.8f);
+            Vector3 secondSpawnPos = user.SpriteRenderer.flipX ? spawnPos + new Vector3(-1.0f, 0.5f, 0) : spawnPos + new Vector3(1.0f, 0.5f, 0);
+            PoolManager.Instance.Get<ArcherProjectile>().Init(secondSpawnPos, dir, skillData.targetingData.range, arrowSpeed, spriteNum, damage * 0.8f);
         }
         
     }
