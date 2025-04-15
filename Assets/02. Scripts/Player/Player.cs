@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
     public IStopCoroutine SkillTrigger{ get; private set; }
-    public bool IsBuff = false;
+    public bool IsBuff { get; private set; } = false;
 
 
     private void Awake()
