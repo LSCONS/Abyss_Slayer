@@ -9,6 +9,7 @@ public class UIHealthBar : UIBase, IView
     [SerializeField] private Image hpBar;
     [SerializeField] private IPresenter presenter;
     [SerializeField] private TextMeshProUGUI hpText;
+    [SerializeField] private RectTransform shakeTarget; // 체력 닳을 때 흔들릴 타겟
 
     public override void Init()
     {
@@ -31,6 +32,14 @@ public class UIHealthBar : UIBase, IView
             currentHp = x;
             hpText.text = $"{currentHp}/{maxHp}";
         }, hp, 0.3f).SetEase(Ease.OutQuart);
+
+        // 이전보다 hp가 줄었으면 흔들림 효과
+        shakeTarget.DOComplete();   // 이전 흔들림 효과 중지
+        if (hp < currentHp)
+        {
+            shakeTarget.DOShakeAnchorPos(0.2f, strength: new Vector2(10f, 0f), vibrato: 10) //  0.2f동안 x축 10f의 강도 흔들림 효과 10번
+                .SetEase(Ease.OutCirc);
+        }
     }   
 
     public void SetPresenter(IPresenter presenter)
