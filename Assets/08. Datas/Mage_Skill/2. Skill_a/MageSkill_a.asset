@@ -12,3 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05e52c6ec7d609044b070df8db9f1c5a, type: 3}
   m_Name: MageSkill_a
   m_EditorClassIdentifier: 
+  damage: 0
+  target: {fileID: 7262168489981388417, guid: a15171323940f5743a4f640f0d209000, type: 3}
+  count: 3
+  startCircleR: 1.5
+  fireDegree: 60
+  spreadDegree: 30
+  homingPower: 15
+  speed: 10
+  homingTime: 3
+  homingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

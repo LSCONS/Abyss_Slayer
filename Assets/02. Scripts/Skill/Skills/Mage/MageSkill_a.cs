@@ -1,9 +1,11 @@
 using UnityEngine;
+using System.Collections;
 
 [CreateAssetMenu(menuName = "Skill/Mage/Mage_a")]
 public class MageSkill_a : SkillExecuter
 {
     public int damage;
+    [SerializeField] private GameObject target;
 
     [Header("발사정보")]
     public int count;
@@ -17,21 +19,22 @@ public class MageSkill_a : SkillExecuter
     public float homingTime;
     public AnimationCurve homingCurve;
 
+    private Transform TargetTransform => target?.transform;
+
     public override void Execute(Player user, Player target, SkillData skillData)
     {
-        // for(int i = 0; i < count; i++)
-        // {
-        //     float degree = fireDegree - ((spreadDegree / 2) - (i * spreadDegree / (count - 1)));
-        //     degree = isLeft ? 180 - degree : degree;
-        //     Quaternion rotate = Quaternion.Euler(0, 0, degree); //오일러 각도로 각도계산
+        for(int i = 0; i < count; i++)
+        {
+            float degree = fireDegree - ((spreadDegree / 2) - (i * spreadDegree / (count - 1)));
+            degree = user.SpriteRenderer.flipX ? 180 - degree : degree;
+            Quaternion rotate = Quaternion.Euler(0, 0, degree); //오일러 각도로 각도계산
 
-        //     degree *= Mathf.Deg2Rad;                            //오일러 각도를 라디우스로 변환
-        //     Vector3 position = new Vector3(Mathf.Cos(degree), Mathf.Sin(degree)) * startCircleR;   //라디우스로 위치계산
-        //     position = bossTransform.TransformPoint(position);
+            degree *= Mathf.Deg2Rad; //오일러 각도를 라디우스로 변환
+            Vector3 position = new Vector3(Mathf.Cos(degree), Mathf.Sin(degree)) * startCircleR; //라디우스로 위치계산
+            position = user.transform.TransformPoint(position);
 
-        //     PoolManager.Instance.Get<HomingProjectile>().Init(damage, user.transform.position, user.transform.rotation, target.transform, speed, homingPower, homingTime, homingCurve);
-
-        //     yield return new WaitForSeconds(0.1f);
-        // }
+            Transform targetTransform = TargetTransform ?? user.transform;
+            PoolManager.Instance.Get<MageProjectile>().Init(damage, position, rotate, targetTransform, speed, homingPower, homingTime, homingCurve);
+        }
     }
 }

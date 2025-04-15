@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e500b6f3aa0d8041b62452b7d738c1d, type: 3}
   m_Name: MageSkillSet
   m_EditorClassIdentifier: 
-  className: 
+  className: Mage
   skillSlots:
   - key: 0
     skillData: {fileID: 11400000, guid: a01db6437ddd3594e9b1caf5246e2ef5, type: 2}
@@ -24,4 +24,4 @@ MonoBehaviour:
     skillData: {fileID: 11400000, guid: 9f7908ce22ce6db4d89a0fd46efdb971, type: 2}
   - key: 4
     skillData: {fileID: 11400000, guid: f9511337262228847a181323a2bf9348, type: 2}
-  evasionType: 0
+  evasionType: 1

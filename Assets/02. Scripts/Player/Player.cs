@@ -21,12 +21,14 @@ public class Player : MonoBehaviour
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
     public Animator PlayerAnimator { get; private set; }//TODO: 나중에 초기화 필요
     public PlayerAnimationData playerAnimationData { get; private set; }
-    public SkillSet skillSet; // 스킬셋 데이터
-    public Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
     public PlayerStateMachine playerStateMachine { get; private set; }
     public BoxCollider2D playerGroundCollider {  get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
+
+    [Header("스킬 관련")]
+    public Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
+    public SkillSet skillSet; // 스킬셋 데이터
     public IStopCoroutine SkillTrigger { get; private set; }
     public bool IsBuff { get; private set; } = false;
     public ReactiveProperty<float> MaxDuration;   // 최대 지속 시간
