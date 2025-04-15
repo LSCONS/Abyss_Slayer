@@ -16,6 +16,7 @@ public class InGameState : BaseGameState
 
         UIManager.Instance.ClearUI(UIType.NonGamePlay);         // 비게임 플레이 UI 제거
         UIManager.Instance.CreateAllUI(UIType.GamePlay);       // 게임 플레이 UI 생성
+        UIManager.Instance.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
         UIManager.Instance.OpenAllPermanent();                  // 고정 UI 열기 
         await Task.CompletedTask;
     }
