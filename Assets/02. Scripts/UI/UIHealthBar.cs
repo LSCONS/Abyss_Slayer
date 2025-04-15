@@ -17,9 +17,9 @@ public class UIHealthBar : UIBase, IView
 
     private void Awake()
     {
-        UIBinder.Bind<HPTest, UIHealthBar, HealthPresenter>(TargetName, this.gameObject); // 체력 바 바인딩
+        UIBinder.Bind<IHasHealth, UIHealthBar, HealthPresenter>(TargetName, this.gameObject); // 체력 바 바인딩
 
-        if (!UIBinder.Bind<HPTest, UIHealthBar, HealthPresenter>(TargetName, this.gameObject))
+        if (!UIBinder.Bind<IHasHealth, UIHealthBar, HealthPresenter>(TargetName, this.gameObject))
         {
             Debug.LogWarning($"[UIHealthBar] 바인딩 실패 {TargetName}를 찾을 수 없다");
         }
