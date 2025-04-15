@@ -408,20 +408,25 @@ PrefabInstance:
     - target: {fileID: 4372419427601950216, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
       propertyPath: poolConfigs.Array.data[3].parent
       value: 
-      objectReference: {fileID: 1638269431}
+      objectReference: {fileID: 1001625946}
+    - target: {fileID: 4372419427601950216, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
+      propertyPath: poolConfigs.Array.data[3].initialSize
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6605132080319999302, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
       propertyPath: m_Name
       value: PlayerPrefab_V6.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8450915431213149332, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
-      propertyPath: playerCharacterClass
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
+--- !u!4 &1001625946 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6865917897523543875, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
+  m_PrefabInstance: {fileID: 1001625945}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1122380502
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,11 +484,6 @@ Transform:
   - {fileID: 1715973643}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1638269431 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6865917897523543875, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
-  m_PrefabInstance: {fileID: 1001625945}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1715973642
 GameObject:
   m_ObjectHideFlags: 0
