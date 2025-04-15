@@ -201,7 +201,30 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-
+    // uiscenetype 에 따른 ui 오픈
+    public void OpenUI(UISceneType type){
+        foreach (var ui in UIMap)
+        {
+            var sceneType = ui.Value.GetComponentInChildren<UIBase>().uISceneType;
+            if ((type & sceneType) != 0)
+            {
+                ui.Value.SetActive(true);
+            }
+        }
+    }
+    
+    // uiscenetype 에 따른 ui 닫기
+    public void CloseUI(UISceneType type){
+        foreach (var ui in UIMap)
+        {
+            var sceneType = ui.Value.GetComponentInChildren<UIBase>().uISceneType;
+            if ((type & sceneType) != 0)
+            {
+                ui.Value.SetActive(false);
+            }
+        }
+    }
+    
     // 모든 고정 ui 켜기
     public void OpenAllPermanent(){
         foreach(var ui in UIMap){
@@ -239,7 +262,6 @@ public class UIManager : Singleton<UIManager>
         popupStack.Push(popup);
         popup.Open();
     }
-
 
     /// <summary>
     /// 현재 팝업 닫기
