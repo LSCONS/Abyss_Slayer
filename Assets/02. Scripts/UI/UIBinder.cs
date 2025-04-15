@@ -14,7 +14,7 @@ public static class UIBinder
     /// <param name="targetName">모델 이름</param>
     /// <param name="viewName">뷰 이름</param>
     public static void Bind<TModel, TView, TPresenter>(string targetName, string viewName)
-    where TModel : Component
+    where TModel : IHasHealth
     where TView : IView
     where TPresenter : IPresenter
     {
@@ -33,7 +33,7 @@ public static class UIBinder
     /// <param name="targetName">모델 이름</param>
     /// <param name="_view">뷰 오브젝트</param>
     public static bool Bind<TModel, TView, TPresenter>(string targetName, GameObject _view)
-    where TModel : Component
+    where TModel : IHasHealth
     where TView : IView
     where TPresenter : IPresenter
     {
