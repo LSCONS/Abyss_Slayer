@@ -5,7 +5,7 @@ using System.Collections;
 public class MageSkill_a : SkillExecuter
 {
     public int damage;
-    [SerializeField] private GameObject target;
+    public Transform target;
 
     [Header("발사정보")]
     public int count;
@@ -19,22 +19,37 @@ public class MageSkill_a : SkillExecuter
     public float homingTime;
     public AnimationCurve homingCurve;
 
-    private Transform TargetTransform => target?.transform;
-
-    public override void Execute(Player user, Player target, SkillData skillData)
+    public override void Execute(Player user, Boss target, SkillData skillData)
     {
+        // 타겟이 지정되지 않은 경우, 범위 내에서 보스를 찾음
+        if (target == null)
+        {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(user.transform.position, skillData.targetingData.range);
+            
+            foreach (var collider in colliders)
+            {
+                if (collider.TryGetComponent<Boss>(out Boss boss))
+                {
+                    target = boss;
+                    break;
+                }
+            }
+        }
+
+        // 타겟이 여전히 null이면 스킬을 발동하지 않음
+        if (target == null) return;
+
         for(int i = 0; i < count; i++)
         {
             float degree = fireDegree - ((spreadDegree / 2) - (i * spreadDegree / (count - 1)));
             degree = user.SpriteRenderer.flipX ? 180 - degree : degree;
-            Quaternion rotate = Quaternion.Euler(0, 0, degree); //오일러 각도로 각도계산
+            Quaternion rotate = Quaternion.Euler(0, 0, degree);
 
-            degree *= Mathf.Deg2Rad; //오일러 각도를 라디우스로 변환
-            Vector3 position = new Vector3(Mathf.Cos(degree), Mathf.Sin(degree)) * startCircleR; //라디우스로 위치계산
+            degree *= Mathf.Deg2Rad;
+            Vector3 position = new Vector3(Mathf.Cos(degree), Mathf.Sin(degree)) * startCircleR;
             position = user.transform.TransformPoint(position);
 
-            Transform targetTransform = TargetTransform ?? user.transform;
-            PoolManager.Instance.Get<MageProjectile>().Init(damage, position, rotate, targetTransform, speed, homingPower, homingTime, homingCurve);
+            PoolManager.Instance.Get<MageProjectile>().Init(damage, position, rotate, target.transform, speed, homingPower, homingTime, homingCurve);
         }
     }
 }

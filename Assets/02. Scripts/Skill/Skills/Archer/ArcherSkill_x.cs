@@ -13,7 +13,7 @@ public class ArcherSkill_x : SkillExecuter
     /// <param name="user">스킬 시전자</param>
     /// <param name="target">타겟팅 정보</param>
     /// <param name="skillData">스킬의 공통 데이터</param>
-    public override void Execute(Player user, Player target, SkillData skillData)
+    public override void Execute(Player user, Boss target, SkillData skillData)
     {
         // 플레이어가 보는 방향 계산 (flipX 기준)
         Vector2 dir = user.SpriteRenderer.flipX ? Vector2.left : Vector2.right;

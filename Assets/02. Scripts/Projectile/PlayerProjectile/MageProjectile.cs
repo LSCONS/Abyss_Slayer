@@ -37,7 +37,6 @@ public class MageProjectile : BasePoolable
     {
         fired = false;
         trailRenderer.enabled = false;
-        target = null;
     }
     
     /// <summary>
@@ -75,6 +74,8 @@ public class MageProjectile : BasePoolable
 
     void Rotate() //정해진 유도력에 따라, 자신의 rotation.z를 회전
     {
+        if (target == null) return; // 타겟이 null인 경우 회전하지 않음
+        
         Vector3 targetDirection = target.position - transform.position;                        
         float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg; //목표물과의 각도 계산
 
