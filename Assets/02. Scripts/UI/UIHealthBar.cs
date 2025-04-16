@@ -7,6 +7,7 @@ using TMPro;
 public class UIHealthBar : UIBase, IView
 {
     [SerializeField] private Image hpBar;
+    [SerializeField] private Image shadowBar; // hp바 그림자 (체력 깎일 때 사용)
     [SerializeField] private IPresenter presenter;
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private RectTransform shakeTarget; // 체력 닳을 때 흔들릴 타겟
@@ -36,7 +37,26 @@ public class UIHealthBar : UIBase, IView
     private Tween hpTween;  // 이전 Tween 저장
     public void SetHp(float ratio, int hp, int maxHp)
     {
-        hpBar.DOFillAmount(ratio, 0.3f).SetEase(Ease.OutQuart);
+        // 체력 애니메이션
+        if (shadowBar == null)  // 그림자 없으면 그냥 체력바 애니메이션만
+        {
+            hpBar.DOFillAmount(ratio, 0.3f).SetEase(Ease.OutQuart);
+        }
+        else if (shadowBar != null)  // 그림자 있으면 그림자 애니메이션 ( 체력ui는 빠르게 줄고 그림자가 천천히 따라옴)
+        {
+            hpBar.DOFillAmount(ratio, 0.01f).SetEase(Ease.OutQuart);
+
+            if (shadowBar.fillAmount > ratio)
+            {
+                shadowBar.fillAmount = Mathf.Max(shadowBar.fillAmount, ratio);
+                shadowBar.DOFillAmount(ratio, 1.0f).SetEase(Ease.OutQuart);
+            }
+            else
+            {
+                // 체력 회복시는 바로바로
+                shadowBar.fillAmount = ratio;
+            }
+        }
 
         // 이전 Tween 중지
         hpTween?.Kill();
