@@ -59,7 +59,7 @@ public class MageSkill_a : SkillExecuter
             degree = user.SpriteRenderer.flipX ? 180 - degree : degree;
             Quaternion rotate = Quaternion.Euler(0, 0, degree);
 
-            // 투사체 시작 위치 계산 (원을 기준으로 배치)
+            // 투사체 생성 위치 계산 (원을 기준으로 배치)
             degree *= Mathf.Deg2Rad;
             Vector3 position = new Vector3(Mathf.Cos(degree), Mathf.Sin(degree)) * startCircleR;
             position = user.transform.TransformPoint(position);

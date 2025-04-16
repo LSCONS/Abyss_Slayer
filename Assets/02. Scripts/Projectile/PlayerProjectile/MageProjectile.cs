@@ -84,7 +84,7 @@ public class MageProjectile : BasePoolable
 
         float homingSpeed = homingPower * homingCurve.Evaluate((Time.time - fireTime) / homingTime);                        // animationCurve와 시간 에따라 유도력 유동적으로 변경
 
-        float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * homingSpeed * Time.deltaTime);       
+        float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * homingSpeed * Time.deltaTime);   // 각도 계산    
         transform.rotation = Quaternion.Euler(0, 0, newAngle);                                                              // 유동적인 유도력에 따라 자신을 회전
     }
 
