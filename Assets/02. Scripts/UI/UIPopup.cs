@@ -1,13 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public abstract class UIPopup : UIBase
 {
+    private CanvasGroup canvasGroup;
+    private Tween openTween;
+    private Tween closeTween;
+
     public override void Init()
     {
         // 팝업은 시작할 때 닫아두기
         this.gameObject.SetActive(false);
+        if(canvasGroup == null)
+        {
+            canvasGroup = GetComponent<CanvasGroup>();
+            if(canvasGroup == null)
+            {
+                canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            }
+        }
+        canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
     }
 
     /// <summary>
@@ -17,7 +33,24 @@ public abstract class UIPopup : UIBase
     {
         base.Open(args);
         transform.SetAsLastSibling();   // 제일 위로 올려줌
-        // 나중에 dotween 사용해서 애니메이션 추가
+
+
+        // 애니메이션 추가
+        // 시작 상태
+        canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+        transform.localScale = Vector3.one * 0.8f;
+
+        openTween?.Kill();
+        openTween = DOTween.Sequence()
+            .Append(transform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack))
+            .Join(canvasGroup.DOFade(1, 0.25f))
+            .OnComplete(() =>
+            {
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
+            });
     }
 
     /// <summary>
@@ -25,8 +58,20 @@ public abstract class UIPopup : UIBase
     /// </summary>
     public override void Close()
     {
-        base.Close();
-        // 나중에 dotween 사용해서 애니메이션 추가
+
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+
+        closeTween?.Kill();
+        closeTween = DOTween.Sequence()
+            .Append(transform.DOScale(Vector3.one * 0.8f, 0.2f).SetEase(Ease.InBack))
+            .Join(canvasGroup.DOFade(0, 0.2f))
+            .OnComplete(() =>
+            {
+                base.Close();
+            });
+
+
     }
 
     /// <summary>
@@ -34,7 +79,7 @@ public abstract class UIPopup : UIBase
     /// </summary>
     public virtual void OnOpen()
     {
-
+        Open();
     }
 
     /// <summary>
@@ -42,6 +87,7 @@ public abstract class UIPopup : UIBase
     /// </summary>
     public virtual void OnClose()
     {
+        Close();
         UIManager.Instance.CloseCurrentPopup(this);
     }
 
