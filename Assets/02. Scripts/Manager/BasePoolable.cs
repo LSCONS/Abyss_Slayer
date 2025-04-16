@@ -15,6 +15,11 @@ public abstract class BasePoolable : MonoBehaviour
     //반드시 오버로딩하여 사용
     public abstract void Init();
 
+    public virtual void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, int spriteNum, float damage)
+    {
+
+    }
+
     public virtual void ReturnToPool()
     {
         gameObject.SetActive(false);

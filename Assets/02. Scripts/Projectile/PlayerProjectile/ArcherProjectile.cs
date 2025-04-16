@@ -35,7 +35,7 @@ public class ArcherProjectile : BasePoolable
     /// <param name="speed">화살 이동 속도</param>
     /// <param name="spriteNum">화살 스프라이트 인덱스</param>
     /// <param name="damage">화살 데미지</param>
-    public void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, int spriteNum, float damage)
+    public override void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, int spriteNum, float damage)
     {
         transform.position = spawnPos;
         initPos = spawnPos;
