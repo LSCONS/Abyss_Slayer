@@ -34,6 +34,8 @@ public class Player : MonoBehaviour
     public ReactiveProperty<float> MaxDuration;   // 최대 지속 시간
     public ReactiveProperty<float> CurDuration;   // 현재 지속 시간
 
+    public Dictionary<BuffType, float> BuffDuration {  get; private set; }
+
 
     private void Awake()
     {

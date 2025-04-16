@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49d23e7837458654fb44be960fb2fd1e, type: 3}
+  m_Name: ArchorSkillX
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  Name: "\uC77C\uBC18 \uACF5\uACA9 \uC2A4\uD0AC"
+  Info: "\uC2A4\uD0AC \uC815\uBCF4"
+  <MaxCoolTime>k__BackingField:
+    value: 0.8
+  <CurCoolTime>k__BackingField:
+    value: 0
+  CanUse: 1
+  CanMove: 1
+  damage: 10
+  range: 5
+  speed: 1
+  spriteNum: 1
