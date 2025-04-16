@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UniRx;
-public class UISkillSlot : MonoBehaviour, IView
+using UnityEngine.EventSystems;
+public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private Image coolTimeOverlay;
     [SerializeField] private TextMeshProUGUI coolTimeText;
     private IPresenter presenter;
+
+    private SkillData skillData;
 
     public void SetIcon(Sprite icon)
     {
@@ -25,6 +28,24 @@ public class UISkillSlot : MonoBehaviour, IView
     public void SetPresenter(IPresenter presenter)
     {
         this.presenter = presenter;
+    }
+
+    public void SetSkillData(SkillData skillData)
+    {
+        this.skillData = skillData;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+        tooltip.Open();
+        tooltip.SetSkill(skillData);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+        tooltip.Close();
     }
 
 }

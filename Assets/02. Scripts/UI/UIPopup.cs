@@ -6,6 +6,8 @@ using DG.Tweening;
 public abstract class UIPopup : UIBase
 {
     private CanvasGroup canvasGroup;
+
+    private Tween popTween;
     private Tween openTween;
     private Tween closeTween;
 
@@ -42,8 +44,8 @@ public abstract class UIPopup : UIBase
         canvasGroup.blocksRaycasts = false;
         transform.localScale = Vector3.one * 0.8f;
 
-        openTween?.Kill();
-        openTween = DOTween.Sequence()
+        popTween?.Kill();
+        popTween = DOTween.Sequence()
             .Append(transform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack))
             .Join(canvasGroup.DOFade(1, 0.25f))
             .OnComplete(() =>
@@ -62,8 +64,8 @@ public abstract class UIPopup : UIBase
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
 
-        closeTween?.Kill();
-        closeTween = DOTween.Sequence()
+        popTween?.Kill();
+        popTween = DOTween.Sequence()
             .Append(transform.DOScale(Vector3.one * 0.8f, 0.2f).SetEase(Ease.InBack))
             .Join(canvasGroup.DOFade(0, 0.2f))
             .OnComplete(() =>
