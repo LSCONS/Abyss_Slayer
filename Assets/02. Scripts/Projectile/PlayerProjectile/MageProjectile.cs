@@ -11,16 +11,12 @@ public class MageProjectile : BasePoolable
 
     // Init으로 전달받은 매개변수를 저장하는 변수
     Transform target;
-    float damage, inputSpeed, speed, homingPower;
-    float fireTime;
-    public bool fired;
+    float damage, inputSpeed, speed, homingPower, fireTime;
+    bool fired;
 
-    private void Awake()
+    void Awake()
     {
-        if (trailRenderer != null)
-        {
-            trailRenderer.emitting = false;
-        }
+        trailRenderer.enabled = false;
     }
 
     private void Update()
@@ -33,7 +29,8 @@ public class MageProjectile : BasePoolable
         }
     }
 
-    void UpdateTrailPosition()
+    // 투사체 궤적 위치 업데이트
+    private void UpdateTrailPosition()
     {
         trailRenderer.transform.position = transform.position;
         trailRenderer.transform.rotation = transform.rotation;
@@ -66,46 +63,40 @@ public class MageProjectile : BasePoolable
         if(homingCurve != null)
             this.homingCurve = homingCurve;
         this.homingTime = homingTime;
-
-        if (trailRenderer != null)
-        {
-            trailRenderer.Clear();
-            trailRenderer.emitting = true;
-        }
-
+        trailRenderer.Clear();
+        trailRenderer.enabled = true;
         fired = true;
         fireTime = Time.time;
     }
 
-    void Move() //정해진 속도에 따라, 자신(투사체)의 right(+x)방향으로 고정적으로 진행
+    //정해진 속도에 따라, 자신(투사체)의 right(+x)방향으로 고정적으로 진행
+    void Move()
     {
         speed = inputSpeed * speedCurve.Evaluate((Time.time - fireTime)/homingTime); //animationCurve와 시간 에따라 속도 유동적으로 변경
         transform.Translate(Vector3.right * 10 * speed * Time.deltaTime);
     }
 
-    void Rotate() //정해진 유도력에 따라, 자신의 rotation.z를 회전
-    {
-        if (target == null) return; // 타겟이 null인 경우 회전하지 않음
-        
-        Vector3 targetDirection = target.position - transform.position;                        
-        float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg; //목표물과의 각도 계산
+    // 정해진 유도력에 따라 회전
+    void Rotate() 
+    {        
+        Vector3 targetDirection = target.position - transform.position;                                                     // 타겟 방향 계산          
+        float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;                              // 목표물과의 각도 계산
 
-        float homingSpeed = homingPower * homingCurve.Evaluate((Time.time - fireTime) / homingTime); //animationCurve와 시간 에따라 유도력 유동적으로 변경
+        float homingSpeed = homingPower * homingCurve.Evaluate((Time.time - fireTime) / homingTime);                        // animationCurve와 시간 에따라 유도력 유동적으로 변경
 
-        float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * homingSpeed * Time.deltaTime);  
-        transform.rotation = Quaternion.Euler(0, 0, newAngle); //유동적인 유도력에 따라 자신을 회전
+        float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * homingSpeed * Time.deltaTime);       
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);                                                              // 유동적인 유도력에 따라 자신을 회전
     }
 
+    // 타겟과 충돌 시 행동
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Boss>(out Boss boss))
         {
-            if (trailRenderer != null)
-            {
-                trailRenderer.emitting = false;
-            }
-            boss.Damage((int)damage); // 데미지 전달
-            ReturnToPool(); // 투사체 반환
+            trailRenderer.enabled = false;      // 투사체 궤적 비활성화
+            fired = false;                      // 발사 여부 초기화
+            boss.Damage((int)damage);           // 데미지 전달
+            ReturnToPool();                     // 투사체 반환
         }
     }
 }

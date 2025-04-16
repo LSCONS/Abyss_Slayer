@@ -238,7 +238,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   trailRenderer: {fileID: 1166470861726159914}
-  fired: 0
 --- !u!1 &8621405661606954922
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +311,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 50
   m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:

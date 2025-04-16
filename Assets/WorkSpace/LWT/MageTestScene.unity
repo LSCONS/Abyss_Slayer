@@ -239,7 +239,7 @@ PrefabInstance:
       objectReference: {fileID: 1001625946}
     - target: {fileID: 4372419427601950216, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
       propertyPath: poolConfigs.Array.data[3].initialSize
-      value: 30
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6605132080319999302, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
       propertyPath: m_Name
@@ -377,6 +377,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 636358878418134985, guid: a15171323940f5743a4f640f0d209000, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3674272529863333457, guid: a15171323940f5743a4f640f0d209000, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5367583
