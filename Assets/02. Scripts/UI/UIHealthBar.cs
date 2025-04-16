@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
-public class UIHealthBar : UIBase, IView
+public class UIHealthBar : UIPermanent, IView
 {
     [SerializeField] private Image hpBar;
     [SerializeField] private Image shadowBar; // hp바 그림자 (체력 깎일 때 사용)
@@ -28,9 +28,10 @@ public class UIHealthBar : UIBase, IView
     }
     public override void Init()
     {
-   
         hpBar.fillAmount = 1;
         hpText.text = $"{100:F0}%";
+        base.Init();
+
     }
 
     private int currentHp = 0;  // 애니메이션에 쓰일 현재 hp
