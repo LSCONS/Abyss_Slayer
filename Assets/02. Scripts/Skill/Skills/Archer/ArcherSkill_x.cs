@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/Archer/Archer_x")]
 public class ArcherSkill_x : SkillExecuter
 {
-    [SerializeField] private int damage;              // 화살 데미지
+    [SerializeField] private float damage;              // 화살 데미지
     [SerializeField] private float arrowSpeed;        // 화살 속도
     [SerializeField] private int spriteNum;           // 화살 스프라이트 인덱스
 

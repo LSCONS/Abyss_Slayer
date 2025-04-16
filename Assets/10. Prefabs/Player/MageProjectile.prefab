@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9022490541325255678}
-  - component: {fileID: 5432303380021660034}
+  - component: {fileID: 9213625010389357829}
   - component: {fileID: -4998084865619899632}
   - component: {fileID: -1233303962445164246}
   - component: {fileID: -589420653525222953}
@@ -30,13 +30,13 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2919864776523764485}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5432303380021660034
+--- !u!212 &9213625010389357829
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,13 +76,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -162,7 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2a9d95a55aa524b8f451b945da64c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  homingTime: 0
   speedCurve:
     serializedVersion: 2
     m_Curve:
@@ -176,13 +175,31 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
+      time: 0.1
+      value: 0
+      inSlope: -0.0052900403
+      outSlope: -0.0052900403
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.19640124
+    - serializedVersion: 3
+      time: 0.40527412
+      value: 0.32502037
+      inSlope: 1.8276213
+      outSlope: 1.8276213
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.19494727
+    - serializedVersion: 3
+      time: 1
+      value: 3
+      inSlope: 5.9177265
+      outSlope: 5.9177265
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.05550016
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -221,9 +238,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   trailRenderer: {fileID: 1166470861726159914}
-  sprites:
-  - {fileID: 158672178, guid: eb543c673bf768745abeec0f1820fccc, type: 3}
-  spriteRenderer: {fileID: 5432303380021660034}
   fired: 0
 --- !u!1 &8621405661606954922
 GameObject:

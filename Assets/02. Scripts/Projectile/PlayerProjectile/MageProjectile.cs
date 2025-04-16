@@ -10,18 +10,17 @@ public class MageProjectile : BasePoolable
     [SerializeField] TrailRenderer trailRenderer;
 
     // Init으로 전달받은 매개변수를 저장하는 변수
-    int damage;
     Transform target;
-    float inputSpeed, speed, homingPower;
-
-    [SerializeField] List<Sprite> sprites;
-    [SerializeField] SpriteRenderer spriteRenderer;
+    float damage, inputSpeed, speed, homingPower;
     float fireTime;
     public bool fired;
 
     private void Awake()
     {
-        trailRenderer.enabled = false;
+        if (trailRenderer != null)
+        {
+            trailRenderer.emitting = false;
+        }
     }
 
     private void Update()
@@ -30,13 +29,19 @@ public class MageProjectile : BasePoolable
         {
             Move();
             Rotate();
+            UpdateTrailPosition();
         }
+    }
+
+    void UpdateTrailPosition()
+    {
+        trailRenderer.transform.position = transform.position;
+        trailRenderer.transform.rotation = transform.rotation;
     }
 
     public override void Init()
     {
-        fired = false;
-        trailRenderer.enabled = false;
+        // BasePoolable의 추상 메서드 구현
     }
     
     /// <summary>
@@ -50,7 +55,7 @@ public class MageProjectile : BasePoolable
     /// <param name="homingPower">투사체 유도력(비례하여 유동적으로 변경)</param>
     /// <param name="homingTime">투사체 유도시간</param>
     /// <param name="homingCurve">투사체 유도곡선</param>
-    public void Init(int damage, Vector3 position, Quaternion rotation, Transform target, float speed, float homingPower, float homingTime, AnimationCurve homingCurve)
+    public void Init(float damage, Vector3 position, Quaternion rotation, Transform target, float speed, float homingPower, float homingTime, AnimationCurve homingCurve)
     {
         transform.position = position;
         transform.rotation = rotation;
@@ -61,7 +66,13 @@ public class MageProjectile : BasePoolable
         if(homingCurve != null)
             this.homingCurve = homingCurve;
         this.homingTime = homingTime;
-        trailRenderer.enabled = true;
+
+        if (trailRenderer != null)
+        {
+            trailRenderer.Clear();
+            trailRenderer.emitting = true;
+        }
+
         fired = true;
         fireTime = Time.time;
     }
@@ -85,15 +96,16 @@ public class MageProjectile : BasePoolable
         transform.rotation = Quaternion.Euler(0, 0, newAngle); //유동적인 유도력에 따라 자신을 회전
     }
 
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Dummy>(out Dummy dummy))
+        if (collision.TryGetComponent<Boss>(out Boss boss))
         {
-            trailRenderer.enabled = false;
-            dummy.TakeDamage(damage); // 데미지 전달
+            if (trailRenderer != null)
+            {
+                trailRenderer.emitting = false;
+            }
+            boss.Damage((int)damage); // 데미지 전달
+            ReturnToPool(); // 투사체 반환
         }
-
-        ReturnToPool(); // 투사체 반환
     }
 }

@@ -4,8 +4,7 @@ using System.Collections;
 [CreateAssetMenu(menuName = "Skill/Mage/Mage_a")]
 public class MageSkill_a : SkillExecuter
 {
-    public int damage;
-    public Transform target;
+    public float damage;
 
     [Header("발사정보")]
     public int count;
@@ -19,12 +18,21 @@ public class MageSkill_a : SkillExecuter
     public float homingTime;
     public AnimationCurve homingCurve;
 
+    private MageSkillRangeVisualizer rangeVisualizer;
+
     public override void Execute(Player user, Boss target, SkillData skillData)
     {
+        // 범위 시각화 컴포넌트 설정
+        if (rangeVisualizer == null)
+        {
+            rangeVisualizer = user.gameObject.AddComponent<MageSkillRangeVisualizer>();
+        }
+        rangeVisualizer.SetRange(skillData.targetingData.range);
+
         // 타겟이 지정되지 않은 경우, 범위 내에서 보스를 찾음
         if (target == null)
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(user.transform.position, skillData.targetingData.range);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(user.transform.position, skillData.targetingData.range, LayerMask.GetMask("Enemy"));
             
             foreach (var collider in colliders)
             {
@@ -37,7 +45,11 @@ public class MageSkill_a : SkillExecuter
         }
 
         // 타겟이 여전히 null이면 스킬을 발동하지 않음
-        if (target == null) return;
+        if (target == null)
+        {
+            Debug.LogAssertion("타겟이 없습니다.");
+            return;
+        }
 
         for(int i = 0; i < count; i++)
         {

@@ -4,7 +4,7 @@ using System.Collections;
 [CreateAssetMenu(menuName = "Skill/Archer/Archer_s")]
 public class ArcherSkill_s : SkillExecuter
 {
-    [SerializeField] private int damage;              // 화살 데미지
+    [SerializeField] private float damage;              // 화살 데미지
     [SerializeField] private float arrowSpeed;        // 화살 속도
     [SerializeField] private int arrowCount;          // 발사할 화살 수
     [SerializeField] private int spriteNum;           // 화살 스프라이트 인덱스

@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: MageSkill_a
   m_EditorClassIdentifier: 
   damage: 0
-  target: {fileID: 7262168489981388417, guid: a15171323940f5743a4f640f0d209000, type: 3}
-  count: 3
-  startCircleR: 1.5
+  count: 6
+  startCircleR: 2
   fireDegree: 60
-  spreadDegree: 30
-  homingPower: 15
-  speed: 10
+  spreadDegree: 360
+  homingPower: 30
+  speed: 3
   homingTime: 3
   homingCurve:
     serializedVersion: 2
@@ -29,18 +28,27 @@ MonoBehaviour:
       value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 34
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.053805776
     - serializedVersion: 3
-      time: 1
-      value: 1
+      time: 0.3
+      value: 0.2
       inSlope: 0
       outSlope: 0
-      tangentMode: 34
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 2
+      inSlope: 4.446671
+      outSlope: 4.446671
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09742546
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

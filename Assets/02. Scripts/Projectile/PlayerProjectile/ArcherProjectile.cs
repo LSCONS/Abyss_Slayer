@@ -23,7 +23,7 @@ public class ArcherProjectile : BasePoolable
 
     public override void Init()
     {
-        // 호출용
+        // BasePoolable의 추상 메서드 구현
     }
 
     /// <summary>
@@ -48,9 +48,9 @@ public class ArcherProjectile : BasePoolable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Dummy>(out Dummy dummy))
+        if (collision.TryGetComponent<Boss>(out Boss boss))
         {
-            dummy.TakeDamage(damage); // 데미지 전달
+            boss.Damage((int)damage); // 데미지 전달
         }
 
         ReturnToPool(); // 투사체 반환
