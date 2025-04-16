@@ -9,7 +9,10 @@ public class UIBuffSlotManager : MonoBehaviour
     [SerializeField] private GameObject buffSlotPrefab;
     [SerializeField] private Transform buffSlotParent;
 
-    private readonly List<BuffSlotPresenter> presenters = new();
+    private Dictionary<SkillData, BuffSlotPresenter> activePresenters = new();
+
+    private GameObject slotInstance;
+    private BuffSlotPresenter presenter;    
 
     private void Awake()
     {
@@ -22,28 +25,52 @@ public class UIBuffSlotManager : MonoBehaviour
     }
     private void ObservePlayerBuff()
     {
+        Debug.Log("[BuffManager] ObservePlayerBuff 구독 시작");
+
         player.CurDuration
-            .Pairwise() // 이전 값, 현재 값 쌍을 받아서
-            .Where(pair => pair.Previous <= 0 && pair.Current > 0) // 0 → 양수로 변한 순간만 감지
-            .Subscribe(_ => CreateBuffSlot())
+            .Do(x => Debug.Log($"[BuffManager] CurDuration 변화: {x}"))
+            .Subscribe(duration =>
+            {
+                if (duration > 0)
+                {
+                    ShowBuffSlot();
+                }
+                else
+                {
+                    HideBuffSlot();
+                }
+            })
             .AddTo(this);
     }
 
-    private void CreateBuffSlot()
+    private void ShowBuffSlot()
     {
-        Debug.Log("CreateBuffSlot");
+        if (slotInstance == null)
+        {
+            Debug.Log("CreateBuffSlot (처음 생성)");
 
-        var slot = Instantiate(buffSlotPrefab, buffSlotParent);
-        var view = slot.GetComponent<UIBuffSlot>();
-
-        // 버프는 SkillData 없이 Player 기준으로 만들 수 있으므로 Presenter도 다르게 구성해야 함
-        var presenter = new BuffSlotPresenter(player, view);
-        presenters.Add(presenter);
+            slotInstance = Instantiate(buffSlotPrefab, buffSlotParent);
+            var view = slotInstance.GetComponent<UIBuffSlot>();
+            presenter = new BuffSlotPresenter(player, view);
+        }
+        else
+        {
+            Debug.Log("Reusing existing slot");
+            slotInstance.SetActive(true);
+        }
     }
+
+    private void HideBuffSlot()
+    {
+        if (slotInstance != null)
+        {
+            Debug.Log("Hiding existing slot");
+            slotInstance.SetActive(false);
+        }
+    }
+
     private void OnDestroy()
     {
-        foreach (var presenter in presenters)
-            presenter.Dispose();
-        presenters.Clear();
+        presenter?.Dispose();
     }
 }

@@ -17,6 +17,7 @@ public class UIBotton : UIBase
     {
         popup = UIManager.Instance.FindPopupByName(popupName);
         OnClickButton();
+        base.Init();
         gameObject.SetActive(true);
     }
 

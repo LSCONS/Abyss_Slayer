@@ -336,4 +336,20 @@ public class UIManager : Singleton<UIManager>
         return null;
     }
 
+    /// <summary>
+    /// UI 탐색
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns> 
+    public T GetUI<T>() where T : UIBase
+    {
+        foreach (var ui in UIMap)
+        {
+            if (ui.Value.GetComponentInChildren<T>() != null)
+                return ui.Value.GetComponentInChildren<T>();
+        }
+
+        return null;
+    }
+
 }

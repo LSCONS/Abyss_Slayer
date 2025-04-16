@@ -17,18 +17,18 @@ public class BuffSlotPresenter : IPresenter
         view.SetCoolTime(model.CurDuration.Value / model.MaxDuration.Value);
         view.SetPresenter(this);
 
+        // 지속 시간에 따라 fillAmount 업데이트
         model.CurDuration
             .CombineLatest(model.MaxDuration, (cur, max) => cur / max)
             .Subscribe(view.SetCoolTime)
             .AddTo(disposable);
 
+        // 지속 시간이 0 이하가 되면 UI만 끔 (SetActive(false)하기)
         model.CurDuration
             .Where(cur => cur <= 0)
-            .Take(1)
             .Subscribe(_ =>
             {
-                Object.Destroy(view.gameObject);
-                Dispose();
+                view.gameObject.SetActive(false);
             })
             .AddTo(disposable);
     }
