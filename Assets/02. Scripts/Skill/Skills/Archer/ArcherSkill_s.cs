@@ -4,7 +4,7 @@ using System.Collections;
 [CreateAssetMenu(menuName = "Skill/Archer/Archer_s")]
 public class ArcherSkill_s : SkillExecuter
 {
-    [SerializeField] private int damage;              // 화살 데미지
+    [SerializeField] private float damage;              // 화살 데미지
     [SerializeField] private float arrowSpeed;        // 화살 속도
     [SerializeField] private int arrowCount;          // 발사할 화살 수
     [SerializeField] private int spriteNum;           // 화살 스프라이트 인덱스
@@ -16,7 +16,7 @@ public class ArcherSkill_s : SkillExecuter
     /// <param name="user">스킬 시전자</param>
     /// <param name="target">타겟팅 정보</param>
     /// <param name="skillData">스킬의 공통 데이터</param>
-    public override void Execute(Player user, Player target, SkillData skillData)
+    public override void Execute(Player user, Boss target, SkillData skillData)
     {
         // 호출용
     }

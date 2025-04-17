@@ -66,9 +66,9 @@ public class PlayerStateMachine : StateMachine
     /// SkillState에서 연결 가능한 MoveState를 찾고 연결하는 메서드
     /// </summary>
     /// <param name="state">연결하고 싶은 SkillState</param>
-    public void ConnectSkillState(IPlayerState state, SkillData skillData, System.Func<bool> isAction)
+    public void ConnectSkillState(IPlayerState state, Skill skillData, System.Func<bool> isAction)
     {
-        ApplyState applyState = skillData.applyState;
+        ApplyState applyState = skillData.ApplyState;
 
         if ((ApplyState.IdleState | applyState) == applyState)
             IdleState.MoveAction.AddListener(() => ConnectAttackAction(isAction(), state, skillData));
@@ -94,7 +94,7 @@ public class PlayerStateMachine : StateMachine
     /// <param name="state">변환할 State</param>
     /// <param name="skillData">참고할 SkillData</param>
     /// <returns>true면 Action 종료, false면 Action 계속</returns>
-    private bool ConnectAttackAction(bool isAction, IPlayerState state, SkillData skillData)
+    private bool ConnectAttackAction(bool isAction, IPlayerState state, Skill skillData)
     {
         if (isAction && skillData.canUse)
         {

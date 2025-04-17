@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerSkillAState : PlayerSkillState
 {
-    private SkillData SkillData { get; set; }
+    private Skill SkillData { get; set; }
     private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.A;
     public PlayerSkillAState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {

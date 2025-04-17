@@ -10,19 +10,9 @@ public class MageProjectile : BasePoolable
     [SerializeField] TrailRenderer trailRenderer;
 
     // Init으로 전달받은 매개변수를 저장하는 변수
-    int damage;
     Transform target;
-    float inputSpeed, speed, homingPower;
-
-    [SerializeField] List<Sprite> sprites;
-    [SerializeField] SpriteRenderer spriteRenderer;
-    float fireTime;
-    public bool fired;
-
-    private void Awake()
-    {
-        trailRenderer.enabled = false;
-    }
+    float damage, inputSpeed, speed, homingPower, fireTime;
+    bool fired = false;
 
     private void Update()
     {
@@ -30,14 +20,20 @@ public class MageProjectile : BasePoolable
         {
             Move();
             Rotate();
+            UpdateTrailPosition();
         }
+    }
+
+    // 투사체 궤적 위치 업데이트
+    private void UpdateTrailPosition()
+    {
+        trailRenderer.transform.position = transform.position;
+        trailRenderer.transform.rotation = transform.rotation;
     }
 
     public override void Init()
     {
-        fired = false;
-        trailRenderer.enabled = false;
-        target = null;
+        // BasePoolable의 추상 메서드 구현
     }
     
     /// <summary>
@@ -51,7 +47,7 @@ public class MageProjectile : BasePoolable
     /// <param name="homingPower">투사체 유도력(비례하여 유동적으로 변경)</param>
     /// <param name="homingTime">투사체 유도시간</param>
     /// <param name="homingCurve">투사체 유도곡선</param>
-    public void Init(int damage, Vector3 position, Quaternion rotation, Transform target, float speed, float homingPower, float homingTime, AnimationCurve homingCurve)
+    public void Init(float damage, Vector3 position, Quaternion rotation, Transform target, float speed, float homingPower, float homingTime, AnimationCurve homingCurve)
     {
         transform.position = position;
         transform.rotation = rotation;
@@ -59,40 +55,42 @@ public class MageProjectile : BasePoolable
         this.target = target;
         inputSpeed = speed;
         this.homingPower = homingPower;
-        if(homingCurve != null)
-            this.homingCurve = homingCurve;
+        if(homingCurve != null) this.homingCurve = homingCurve;
         this.homingTime = homingTime;
+        trailRenderer.Clear();
         trailRenderer.enabled = true;
         fired = true;
         fireTime = Time.time;
     }
 
-    void Move() //정해진 속도에 따라, 자신(투사체)의 right(+x)방향으로 고정적으로 진행
+    //정해진 속도에 따라, 자신(투사체)의 right(+x)방향으로 고정적으로 진행
+    void Move()
     {
         speed = inputSpeed * speedCurve.Evaluate((Time.time - fireTime)/homingTime); //animationCurve와 시간 에따라 속도 유동적으로 변경
         transform.Translate(Vector3.right * 10 * speed * Time.deltaTime);
     }
 
-    void Rotate() //정해진 유도력에 따라, 자신의 rotation.z를 회전
-    {
-        Vector3 targetDirection = target.position - transform.position;                        
-        float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg; //목표물과의 각도 계산
+    // 정해진 유도력에 따라 회전
+    void Rotate() 
+    {        
+        Vector3 targetDirection = target.position - transform.position;                                                     // 타겟 방향 계산          
+        float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;                              // 목표물과의 각도 계산
 
-        float homingSpeed = homingPower * homingCurve.Evaluate((Time.time - fireTime) / homingTime); //animationCurve와 시간 에따라 유도력 유동적으로 변경
+        float homingSpeed = homingPower * homingCurve.Evaluate((Time.time - fireTime) / homingTime);                        // animationCurve와 시간 에따라 유도력 유동적으로 변경
 
-        float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * homingSpeed * Time.deltaTime);  
-        transform.rotation = Quaternion.Euler(0, 0, newAngle); //유동적인 유도력에 따라 자신을 회전
+        float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * homingSpeed * Time.deltaTime);   // 각도 계산    
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);                                                              // 유동적인 유도력에 따라 자신을 회전
     }
 
-
+    // 타겟과 충돌 시 행동
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Dummy>(out Dummy dummy))
+        if (collision.TryGetComponent<Boss>(out Boss boss))
         {
-            trailRenderer.enabled = false;
-            dummy.TakeDamage(damage); // 데미지 전달
+            trailRenderer.enabled = false;      // 투사체 궤적 비활성화
+            fired = false;                      // 발사 여부 초기화
+            boss.Damage((int)damage);           // 데미지 전달
+            ReturnToPool();                     // 투사체 반환
         }
-
-        ReturnToPool(); // 투사체 반환
     }
 }

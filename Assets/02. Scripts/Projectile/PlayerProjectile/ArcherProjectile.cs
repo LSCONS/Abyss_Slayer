@@ -8,6 +8,12 @@ public class ArcherProjectile : BasePoolable
     private Vector3 direction, initPos;
     [SerializeField] List<Sprite> sprites;
     [SerializeField] SpriteRenderer spriteRenderer;
+    private LayerMask includeLayer;
+
+    private void Awake()
+    {
+        includeLayer = LayerData.EnemyLayerMask | LayerData.GroundPlaneLayerMask;
+    }
 
     private void Update()
     {
@@ -23,7 +29,7 @@ public class ArcherProjectile : BasePoolable
 
     public override void Init()
     {
-        // 호출용
+        // BasePoolable의 추상 메서드 구현
     }
 
     /// <summary>
@@ -35,7 +41,7 @@ public class ArcherProjectile : BasePoolable
     /// <param name="speed">화살 이동 속도</param>
     /// <param name="spriteNum">화살 스프라이트 인덱스</param>
     /// <param name="damage">화살 데미지</param>
-    public void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, int spriteNum, float damage)
+    public override void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, int spriteNum, float damage)
     {
         transform.position = spawnPos;
         initPos = spawnPos;
@@ -48,11 +54,14 @@ public class ArcherProjectile : BasePoolable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Dummy>(out Dummy dummy))
+        if (collision.TryGetComponent<Boss>(out Boss boss))
         {
-            dummy.TakeDamage(damage); // 데미지 전달
+            boss.Damage((int)damage); // 데미지 전달
         }
 
-        ReturnToPool(); // 투사체 반환
+        if((1 << collision.gameObject.layer | includeLayer) == includeLayer)
+        {
+            ReturnToPool(); // 투사체 반환
+        }
     }
 }

@@ -239,7 +239,7 @@ PrefabInstance:
       objectReference: {fileID: 1001625946}
     - target: {fileID: 4372419427601950216, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
       propertyPath: poolConfigs.Array.data[3].initialSize
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6605132080319999302, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
       propertyPath: m_Name
@@ -248,7 +248,7 @@ PrefabInstance:
     - target: {fileID: 8450915431213149332, guid: fa6f7252759fac74ebd2fd2e2daa41e4, type: 3}
       propertyPath: skillSet
       value: 
-      objectReference: {fileID: 11400000, guid: 1567a21474ffff546b7aa57015699062, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -360,11 +360,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3674272529863333457, guid: a15171323940f5743a4f640f0d209000, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.5345
+      value: 5.6795
       objectReference: {fileID: 0}
     - target: {fileID: 3674272529863333457, guid: a15171323940f5743a4f640f0d209000, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.0629
+      value: 1.4606
       objectReference: {fileID: 0}
     - target: {fileID: 3674272529863333457, guid: a15171323940f5743a4f640f0d209000, type: 3}
       propertyPath: m_LocalPosition.z
@@ -400,7 +400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7262168489981388417, guid: a15171323940f5743a4f640f0d209000, type: 3}
       propertyPath: m_Name
-      value: Dummy
+      value: Boss
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

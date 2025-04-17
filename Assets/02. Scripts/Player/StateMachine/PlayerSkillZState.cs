@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerSkillZState : PlayerSkillState
 {
     public StoppableAction MoveAction = new();
-    private SkillData SkillData {  get; set; }
+    private Skill SkillData {  get; set; }
     private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.Z;
     public PlayerSkillZState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {

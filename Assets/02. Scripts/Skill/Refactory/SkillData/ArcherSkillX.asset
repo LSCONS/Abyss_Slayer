@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49d23e7837458654fb44be960fb2fd1e, type: 3}
+  m_Name: ArcherSkillX
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  <skillName>k__BackingField: "\uC544\uCC98 \uAE30\uBCF8 \uACF5\uACA9"
+  <info>k__BackingField: "\uD654\uC0B4 \uD558\uB098\uB97C \uBC1C\uC0AC"
+  <icon>k__BackingField: {fileID: 0}
+  canUse: 1
+  canMove: 1
+  <MaxCoolTime>k__BackingField:
+    value: 0.6
+  <CurCoolTime>k__BackingField:
+    value: 0
+  <ApplyState>k__BackingField: 23
+  damage: 10
+  range: 12
+  speed: 80
+  spriteNum: 0

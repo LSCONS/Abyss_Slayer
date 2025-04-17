@@ -11,9 +11,10 @@ public class ArcherSkill_d : SkillExecuter
     /// <param name="user">스킬 시전자</param>
     /// <param name="target">타겟팅 정보</param>
     /// <param name="skillData">스킬의 공통 데이터</param>
-    public override void Execute(Player user, Player target, SkillData skillData)
+    public override void Execute(Player user, Boss target, SkillData skillData)
     {
         // 버프 활성화
-        user.SetBuff(true);
+        Skill tempSkill = null;
+        user.SetBuff(tempSkill); //TODO: 나중에 tempSkill을 this로 교체 필요
     }
 }
