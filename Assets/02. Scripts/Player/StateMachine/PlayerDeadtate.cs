@@ -1,9 +1,8 @@
-public class PlayerDieState : PlayerBaseState
+public class PlayerDeadtate : PlayerBaseState
 {
-    public PlayerDieState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+    public PlayerDeadtate(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
-
     public void Init()
     {
 
