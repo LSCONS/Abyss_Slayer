@@ -20,21 +20,10 @@ public class DashAttackSkill : MeleeAttackSkill
    public override void UseSkill()
    {
         // 대시 방향 설정
-        Vector2 dashDirection = player.input.MoveDir.normalized;
-        if(dashDirection == Vector2.zero)
-            dashDirection = new Vector2(PlayerFrontXNomalized(), 0);
-
-        if(dashDirection == Vector2.zero)
-            return;
-
-        // 스프라이트 방향 설정
-        if(dashDirection.x > 0) player.SpriteRenderer.flipX = false;
-        else if (dashDirection.x < 0) player.SpriteRenderer.flipX = true;
-
+        Vector2 dashDirection = player.SpriteRenderer.flipX ? Vector2.left : Vector2.right;
 
         // 대시 이후의 처리들 (데미지 넣을 콜라이더 이동 + )
         player.StartCoroutine(DashCoroutine(dashDirection, dashDuration));
-
    }
 
    private IEnumerator DashCoroutine(Vector2 dashDirection, float dashDuration)
@@ -43,7 +32,6 @@ public class DashAttackSkill : MeleeAttackSkill
         float time = 0;
         Vector2 startPos = player.transform.position;
         Vector2 targetPos = startPos + dashDirection * dashDistance;
-
 
         // 대쉬 이펙트 생성
         GameObject dashEffect = null;
@@ -60,7 +48,7 @@ public class DashAttackSkill : MeleeAttackSkill
             SpriteRenderer effectSpriteRenderer = dashEffect.GetComponent<SpriteRenderer>();
             if(effectSpriteRenderer != null)
             {
-                effectSpriteRenderer.flipX = player.SpriteRenderer.flipX;
+                effectSpriteRenderer.flipX = dashDirection.x < 0;
             }
         }
 
@@ -99,7 +87,5 @@ public class DashAttackSkill : MeleeAttackSkill
         // 콜라이더 위치 원래대로 돌리기
         yield return new WaitForSeconds(colliderDuration);
         GameObject.Destroy(colliderObj);
-
-    
     }
 }
