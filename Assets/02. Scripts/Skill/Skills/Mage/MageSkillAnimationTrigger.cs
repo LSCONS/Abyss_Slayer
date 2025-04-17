@@ -1,48 +1,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MageSkillAnimationTrigger : MonoBehaviour, IStopCoroutine
+public class MageSkillAnimationTrigger : MonoBehaviour, IStopCoroutineS
 {
-    public Dictionary<SkillSlotKey, SkillData> skills { get; set; }
+    public Dictionary<SkillSlotKey, Skill> skills { get; set; }
     public Player player { get; set; }
-    public Coroutine skillCoroutine;
+    public Coroutine HoldSkillCoroutine { get; set; }
 
     public void UseSkillA()
     {
-        SkillData skillData = skills[SkillSlotKey.A];
-        skillData.Execute(player, null);
+        Skill skill = skills[SkillSlotKey.A];
+        skill.UseSkill();
     }
 
     public void UseSkillS()
     {
-        SkillData skillData = skills[SkillSlotKey.S];
-        skillData.Execute(player, null);
+        Skill skill = skills[SkillSlotKey.S];
+        skill.UseSkill();
     }
 
     public void UseSkillD()
     {
-        SkillData skillData = skills[SkillSlotKey.D];
-        skillData.Execute(player, null);
+        Skill skill = skills[SkillSlotKey.D];
+        skill.UseSkill();
     }
 
     public void UseSkillZ()
     {
-        SkillData skillData = skills[SkillSlotKey.Z];
-        skillData.Execute(player, null);
+        Skill skill = skills[SkillSlotKey.Z];
+        skill.UseSkill();
     }
 
     public void UseSkillX()
     {
-        SkillData skillData = skills[SkillSlotKey.X];
-        skillData.Execute(player, null);
+        Skill skill = skills[SkillSlotKey.X];
+        skill.UseSkill();
     }
 
     public void StopCoroutine()
     {
-        if (skillCoroutine != null)
+        if (HoldSkillCoroutine != null)
         {
-            StopCoroutine(skillCoroutine);
-            skillCoroutine = null;
+            StopCoroutine(HoldSkillCoroutine);
+            HoldSkillCoroutine = null;
         }
     }
 }
