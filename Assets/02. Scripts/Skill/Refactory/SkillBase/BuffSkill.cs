@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
-[System.Flags]
 public enum BuffType
 {
     None = 0,
-    ArcherDoubleShot = 1 << 0,  //아처 더블 샷 버프
+    ArcherDoubleShot = 1,  //아처 더블 샷 버프
 }
 
 public class BuffSkill : Skill

@@ -12,7 +12,7 @@ public interface IStopCoroutine
 public interface IStopCoroutineS
 {
     public Dictionary<SkillSlotKey, Skill> skills { get; set; }
-    public Coroutine SkillCoroutine { get; set; }
+    public Coroutine HoldSkillCoroutine { get; set; }
     public Player player { get; set; }
     public void StopCoroutine();
 }

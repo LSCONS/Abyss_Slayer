@@ -7,7 +7,7 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutineS
 {
     public Dictionary<SkillSlotKey, Skill> skills {  get; set; }
     public Player player {  get; set; }
-    public Coroutine SkillCoroutine {  get; set; }
+    public Coroutine HoldSkillCoroutine {  get; set; }
 
     public void UseSkillA()
     {
@@ -18,7 +18,7 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutineS
     public void UseSkillS()
     {
         Skill skill = skills[SkillSlotKey.S];
-        //skillCoroutine = StartCoroutine((HoldingShotRangeSkill)skill.FireArrows(player, null, skill));
+        skill.UseSkill();
     }
 
     public void UseSkillD()
@@ -41,10 +41,10 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutineS
 
     public void StopCoroutine()
     {
-        if (SkillCoroutine != null)
+        if (HoldSkillCoroutine != null)
         {
-            StopCoroutine(SkillCoroutine);
-            SkillCoroutine = null;
+            StopCoroutine(HoldSkillCoroutine);
+            HoldSkillCoroutine = null;
         }
     }
 }

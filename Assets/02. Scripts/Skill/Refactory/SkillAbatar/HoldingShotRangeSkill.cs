@@ -12,7 +12,7 @@ public class HoldingShotRangeSkill : RangeAttackSkill
     public override void UseSkill()
     {
         base.UseSkill();
-        //CoroutineManager.Instance.StartCoroutineManager(player.SkillTrigger)
+        CoroutineManager.Instance.StartCoroutineManager(player.SkillTrigger.HoldSkillCoroutine, FireArrows());
     }
 
     // 화살 발사 코루틴
@@ -23,17 +23,18 @@ public class HoldingShotRangeSkill : RangeAttackSkill
 
         for (int i = 0; i < ProjectileCount; i++)
         {
+            float y = Random.Range(-0.1f, 0.1f);
             // 플레이어가 바라보는 방향 계산
-            Vector2 dir = new Vector2(PlayerFrontXNomalized(), 0);
+            Vector2 dir = new Vector2(PlayerFrontXNomalized(), y);
 
             // 일정 범위 내에서 화살 랜덤 생성
-            float x = Random.Range(-0.3f, 1.2f);
-            float randomXSpawn = player.SpriteRenderer.flipX ? -x : x;
-            float randomYSpawn = Random.Range(-0.3f, 0.5f);
+            //float x = Random.Range(-0.3f, 1.2f);
+            //float randomXSpawn = player.SpriteRenderer.flipX ? -x : x;
+            //float randomYSpawn = Random.Range(-1f, 1f);
+
 
             // 화살 생성 위치 설정
-            Vector3 spawnPos = player.transform.position + (Vector3)(dir * 2f) + new Vector3(randomXSpawn, randomYSpawn, 0);
-
+            Vector3 spawnPos = player.transform.position + (Vector3)(dir * 1.5f);
 
             // 버프 상태일 경우 추가 화살 생성
             if (player.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot) && player.BuffDuration[BuffType.ArcherDoubleShot].IsApply)
