@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerSkillXState : PlayerSkillState
 {
-    private SkillData SkillData { get; set; }
+    private Skill SkillData { get; set; }
     private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.X;
     public PlayerSkillXState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
@@ -18,7 +18,7 @@ public class PlayerSkillXState : PlayerSkillState
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.X_SkillParameterHash);
-        SkillEnter(SkillData.canMove, Slotkey);
+        SkillEnter(SkillData.CanMove, Slotkey);
 
 #if StateMachineDebug
         Debug.Log("SkillXState 진입");

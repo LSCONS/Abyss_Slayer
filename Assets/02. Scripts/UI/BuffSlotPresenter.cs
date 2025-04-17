@@ -38,7 +38,7 @@ public class BuffSlotPresenter : IPresenter
         // 필요 시, 버프 발동한 스킬의 아이콘 반환
         foreach (var skill in model.equippedSkills.Values)
         {
-            if (skill.category == SkillCategory.Buff)
+            if (skill is BuffSkill)
                 return skill.icon;
         }
 

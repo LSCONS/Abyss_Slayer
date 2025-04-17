@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerSkillAState : PlayerSkillState
 {
-    private SkillData SkillData { get; set; }
+    private Skill SkillData { get; set; }
     private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.A;
     public PlayerSkillAState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
@@ -18,7 +18,7 @@ public class PlayerSkillAState : PlayerSkillState
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.A_SkillParameterHash);
-        SkillEnter(SkillData.canMove, Slotkey);
+        SkillEnter(SkillData.CanMove, Slotkey);
 
 #if StateMachineDebug
         Debug.Log("SkillAState 진입");

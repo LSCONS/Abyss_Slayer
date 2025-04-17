@@ -27,14 +27,14 @@ public class Player : MonoBehaviour
     public SpriteRenderer SpriteRenderer { get; private set; }
 
     [Header("스킬 관련")]
-    public Dictionary<SkillSlotKey, SkillData> equippedSkills = new(); // 스킬 연결용 딕셔너리
-    public SkillSet skillSet; // 스킬셋 데이터
-    public IStopCoroutine SkillTrigger { get; private set; }
+    public Dictionary<SkillSlotKey, Skill> equippedSkills = new(); // 스킬 연결용 딕셔너리
+    public CharacterSkillSet skillSet; // 스킬셋 데이터
+    public IStopCoroutineS SkillTrigger { get; private set; }
     public bool IsBuff { get; private set; } = false;
     public ReactiveProperty<float> MaxDuration;   // 최대 지속 시간
     public ReactiveProperty<float> CurDuration;   // 현재 지속 시간
 
-    public Dictionary<BuffType, float> BuffDuration {  get; private set; }
+    public Dictionary<BuffType, float> BuffDuration { get; private set; } = new();
 
 
     private void Awake()
@@ -56,7 +56,6 @@ public class Player : MonoBehaviour
     {
         playerStateMachine.Update();
         SkillCoolTimeCompute();
-        UpdateBuffDuration();
     }
 
     private void FixedUpdate()
@@ -72,13 +71,13 @@ public class Player : MonoBehaviour
     {
         foreach (var value in equippedSkills.Values)
         {
-            if (!(value.canUse))
+            if (!(value.CanUse))
             {
                 value.CurCoolTime.Value -= Time.deltaTime;
                 if (value.CurCoolTime.Value <= 0)
                 {
                     value.CurCoolTime.Value = 0;
-                    value.canUse = true;
+                    value.CanUse = true;
                 }
             }
         }
@@ -99,24 +98,24 @@ public class Player : MonoBehaviour
         switch (playerCharacterClass)
         {
             case CharacterClass.Archer:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutine;
-                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutineS;
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillset");
                 break;
             case CharacterClass.Healer:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutine;
-                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/HealerSkillSet");
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutineS;
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/HealerSkillSet");
                 break;
             case CharacterClass.Mage:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutine;
-                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/MageSkillSet");
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutineS;
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MageSkillSet");
                 break;
             case CharacterClass.MagicalBlader:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutine;
-                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutineS;
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
                 break;
             case CharacterClass.Tanker:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutine;
-                skillSet = Resources.Load<SkillSet>("Player/PlayerSkillSet/TankerSkillSet");
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutineS;
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/TankerSkillSet");
                 break;
         }
     }
@@ -143,13 +142,13 @@ public class Player : MonoBehaviour
     private void InitSkillData()
     {
         skillSet = Instantiate(skillSet);
-        skillSet.InstantiateSkillData();
+        skillSet.InstantiateSkillData(this);
         equippedSkills = new();
         foreach (var slot in skillSet.skillSlots)
         {
-            if (slot.skillData != null)
+            if (slot.skill != null)
             {
-                equippedSkills[slot.key] = slot.skillData;
+                equippedSkills[slot.key] = slot.skill;
             }
             else
             {
@@ -169,9 +168,9 @@ public class Player : MonoBehaviour
     {
         if (equippedSkills.ContainsKey(slotKey))
         {
-            SkillData skillData = equippedSkills[slotKey];
-            skillData.CurCoolTime.Value = skillData.MaxCoolTime.Value;
-            skillData.canUse = false;
+            Skill skill = equippedSkills[slotKey];
+            skill.CurCoolTime.Value = skill.MaxCoolTime.Value;
+            skill.CanUse = false;
         }
     }
 
@@ -214,29 +213,8 @@ public class Player : MonoBehaviour
     /// 버프 활성화 메서드
     /// </summary>
     /// <param name="value">활성화 여부</param>
-    public void SetBuff(bool value)
+    public void SetBuff(Skill skill)
     {
-        Debug.LogAssertion(value);
-        IsBuff = value;
-        if (value)
-        {
-            CurDuration.Value = MaxDuration.Value;
-        }
-    }
-
-
-    /// <summary>
-    /// 버프 지속 시간을 업데이트하는 메서드
-    /// </summary>
-    private void UpdateBuffDuration()
-    {
-        if (IsBuff)
-        {
-            CurDuration.Value -= Time.deltaTime;
-            if (CurDuration.Value <= 0)
-            {
-                SetBuff(false);
-            }
-        }
+        
     }
 }

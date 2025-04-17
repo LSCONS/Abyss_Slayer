@@ -13,6 +13,8 @@ public class Skill : ScriptableObject
     [field: SerializeField] public ReactiveProperty<float> CurCoolTime { get; set; } = new ReactiveProperty<float>(0f);
     public bool CanUse = true;
     public bool CanMove = true;
+    public Sprite icon;
+    [field: SerializeField]public ApplyState ApplyState { get; set; }
     
     public void Init(Player _player)
     {

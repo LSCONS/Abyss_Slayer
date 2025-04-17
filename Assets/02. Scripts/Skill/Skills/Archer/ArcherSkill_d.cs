@@ -14,6 +14,7 @@ public class ArcherSkill_d : SkillExecuter
     public override void Execute(Player user, Boss target, SkillData skillData)
     {
         // 버프 활성화
-        user.SetBuff(true);
+        Skill tempSkill = null;
+        user.SetBuff(tempSkill); //TODO: 나중에 tempSkill을 this로 교체 필요
     }
 }

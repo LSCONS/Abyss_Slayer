@@ -7,7 +7,7 @@ public class UISkillTooltip : UIPopup
     [SerializeField] private TextMeshProUGUI skillNameText;
     [SerializeField] private TextMeshProUGUI skillDescText;
 
-    private SkillData skillData;
+    private Skill skillData;
     public override void Init()
     {
         base.Init();
@@ -17,7 +17,7 @@ public class UISkillTooltip : UIPopup
         skillDescText.text = "";
     }
 
-    public void SetSkill(SkillData skillData)
+    public void SetSkill(Skill skillData)
     {
         if (skillData == null)
         {
@@ -33,8 +33,8 @@ public class UISkillTooltip : UIPopup
             return;
         }
 
-        skillNameText.text = skillData.skillName;
-        skillDescText.text = skillData.description;
+        skillNameText.text = skillData.Name;
+        skillDescText.text = skillData.Info;
     }
 
     
