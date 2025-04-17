@@ -6,6 +6,7 @@ using UnityEngine;
 public class OneShotRangeSkill : RangeAttackSkill
 {
     private Vector3 distanceY = new Vector3(0, 0.25f, 0);
+    
     public override void UseSkill()
     {
         base.UseSkill();
@@ -13,7 +14,7 @@ public class OneShotRangeSkill : RangeAttackSkill
         Vector3 spawnPos = PlayerPosition() + dirX;
 
         // 버프 상태일 경우 추가 화살 생성
-        if (player.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot))
+        if (player.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot) && player.BuffDuration[BuffType.ArcherDoubleShot].IsApply)
         {
             ThrowProjectile<ArcherProjectile>(spawnPos + distanceY, dirX, 0.8f);
             ThrowProjectile<ArcherProjectile>(spawnPos - distanceY, dirX, 0.8f);

@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
 
 
+
     private void Awake()
     {
         InitComponent();
@@ -66,13 +67,13 @@ public class Player : MonoBehaviour
     {
         foreach (var value in BuffDuration.Values)
         {
-            if (value.isApply)
+            if (value.IsApply)
             {
-                value.curBuffDuration.Value -= Time.deltaTime;
-                if (value.curBuffDuration.Value <= 0)
+                value.CurBuffDuration.Value -= Time.deltaTime;
+                if (value.CurBuffDuration.Value <= 0)
                 {
-                    value.curBuffDuration.Value = 0;
-                    value.isApply = false;
+                    value.CurBuffDuration.Value = 0;
+                    value.IsApply = false;
                 }
             }
 
@@ -87,13 +88,13 @@ public class Player : MonoBehaviour
     {
         foreach (var value in equippedSkills.Values)
         {
-            if (!(value.canUse))
+            if (!(value.CanUse))
             {
                 value.CurCoolTime.Value -= Time.deltaTime;
                 if (value.CurCoolTime.Value <= 0)
                 {
                     value.CurCoolTime.Value = 0;
-                    value.canUse = true;
+                    value.CanUse = true;
                 }
             }
         }
@@ -115,7 +116,7 @@ public class Player : MonoBehaviour
         {
             case CharacterClass.Archer:
                 SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutineS;
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillset");
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
                 break;
             case CharacterClass.Healer:
                 SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutineS;
@@ -186,7 +187,7 @@ public class Player : MonoBehaviour
         {
             Skill skill = equippedSkills[slotKey];
             skill.CurCoolTime.Value = skill.MaxCoolTime.Value;
-            skill.canUse = false;
+            skill.CanUse = false;
         }
     }
 
@@ -234,9 +235,9 @@ public class Player : MonoBehaviour
         BuffSkill buffSkill = skill as BuffSkill;
         if(buffSkill != null)
         {
-            buffSkill.curBuffDuration.Value = buffSkill.maxBuffDuration.Value;
-            BuffDuration.Add(buffSkill.type, buffSkill); 
-            buffSkill.isApply = true;
+            buffSkill.CurBuffDuration.Value = buffSkill.MaxBuffDuration.Value;
+            BuffDuration.Add(buffSkill.Type, buffSkill); 
+            buffSkill.IsApply = true;
         }
     }
 }

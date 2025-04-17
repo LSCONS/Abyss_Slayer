@@ -18,7 +18,7 @@ public class PlayerSkillSState : PlayerSkillState
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.S_SkillParameterHash);
-        SkillEnter(SkillData.canMove, Slotkey);
+        SkillEnter(SkillData.CanMove, Slotkey);
 
 #if StateMachineDebug
         Debug.Log("SkillSState 진입");

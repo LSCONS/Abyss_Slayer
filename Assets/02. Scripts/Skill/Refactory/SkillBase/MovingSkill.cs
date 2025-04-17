@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class MovingSkill : Skill
 {
-    public float movingDistance = 3f;
+    [field: SerializeField] public float MovingForce { get; private set; } = 30f; //움직이는 힘
 }

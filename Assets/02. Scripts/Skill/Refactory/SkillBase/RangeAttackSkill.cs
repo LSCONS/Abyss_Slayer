@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class RangeAttackSkill : Skill
 {
-    [SerializeField] private float damage;
-    [SerializeField] private float range;
-    [SerializeField] private float speed;
-    [SerializeField] private int spriteNum;
+    [field: SerializeField] public float Damage { get; private set; } = 10f;    //데미지
+    [field: SerializeField] public float Range { get; private set; } = 5f;      //사거리
+    [field: SerializeField] public float Speed { get; private set; } = 5f;      //투사체 속도
+    [field: SerializeField] public int SpriteNum { get; private set; } = 0;     //Sprite 인덱스 번호
 
 
     public void ThrowProjectile<T>(Vector3 startPos, Vector3 dir) where T : BasePoolable
     {
-        PoolManager.Instance.Get<T>().Init(startPos, dir, range, speed, spriteNum, damage);
+        PoolManager.Instance.Get<T>().Init(startPos, dir, Range, Speed, SpriteNum, Damage);
     }
 
     public void ThrowProjectile<T>(Vector3 startPos, Vector3 dir, float damageMultiple) where T : BasePoolable
     {
-        PoolManager.Instance.Get<T>().Init(startPos, dir, range, speed, spriteNum, damage * damageMultiple);
+        PoolManager.Instance.Get<T>().Init(startPos, dir, Range, Speed, SpriteNum, Damage * damageMultiple);
     }
 }

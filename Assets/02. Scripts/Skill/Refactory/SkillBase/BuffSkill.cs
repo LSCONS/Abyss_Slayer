@@ -13,8 +13,10 @@ public enum BuffType
 
 public class BuffSkill : Skill
 {
-    public ReactiveProperty<float> maxBuffDuration { get; set; } = new ReactiveProperty<float>(5f);              //최대 지속시간
-    public ReactiveProperty<float> curBuffDuration { get; set; } = new ReactiveProperty<float>(0f);              //현재 지속시간
-    public bool isApply = false;
-    public BuffType type = BuffType.None;       //현재 버프 타입
+    [field: SerializeField]public ReactiveProperty<float> MaxBuffDuration { get; set; }//최대 지속시간
+        = new ReactiveProperty<float>(5f);    
+    [field: SerializeField] public ReactiveProperty<float> CurBuffDuration { get; set; }//현재 지속시간
+        = new ReactiveProperty<float>(0f);     
+    [field: SerializeField] public bool IsApply { get; set; } = false;          //현재 버프 적용 여부
+    [field: SerializeField] public BuffType Type { get; private set; } = BuffType.None; //버프 타입
 }
