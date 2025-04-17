@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 934d7e03d3d3dd84ca1b553aae326b71
+guid: 9a9845c89724b4f43840aed838d014ef
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,13 +136,76 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fx_slashfrenzy_01
+      name: fx_f3_boneswarm_06
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 431
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 723c8e2707e665e4fbca5531363a494f
+      internalID: -1636119149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_12
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 431
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91cc663ae422a6140bffd4af90d34421
+      internalID: 939127994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_18
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 431
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41924e52dad9c364f831a643265e5f54
+      internalID: -88263760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_01
       rect:
         serializedVersion: 2
         x: 0
-        y: 896
-        width: 128
-        height: 128
+        y: 350
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +213,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4581fae5d05b64846894bd99c5508e61
-      internalID: -1525716021
+      spriteID: 03a1ab3684685b748bae96196b3f15fc
+      internalID: -1087300266
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_08
+      name: fx_f3_boneswarm_07
       rect:
         serializedVersion: 2
-        x: 128
-        y: 896
-        width: 128
-        height: 128
+        x: 80
+        y: 350
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ea048a9c672a8e746b6818f7da6f14a6
-      internalID: -816179405
+      spriteID: 3f5e073d8218d954284ae2b5f83cf74d
+      internalID: 221115186
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_02
+      name: fx_f3_boneswarm_13
       rect:
         serializedVersion: 2
-        x: 0
-        y: 768
-        width: 128
-        height: 128
+        x: 160
+        y: 350
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,20 +255,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ef52d074b90d0e4e8a33e37ae0b9eaf
-      internalID: 564605571
+      spriteID: a8af4f2e2decf6149b63b1cc90aa9c60
+      internalID: -1420671076
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_09
+      name: fx_f3_boneswarm_19
       rect:
         serializedVersion: 2
-        x: 128
-        y: 768
-        width: 128
-        height: 128
+        x: 240
+        y: 350
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,62 +276,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e898918d5cef1444abcd91f8bf3423c6
-      internalID: -1971599374
+      spriteID: 905fe8f7782418844a99cc1606d4c8ca
+      internalID: 804570870
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_03
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 640
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5e7046fed543feb499d53788a686de23
-      internalID: -1241762501
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fx_slashfrenzy_10
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 640
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6721368c02468b84abaab17f3a669377
-      internalID: -1974709649
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fx_slashfrenzy_04
+      name: fx_f3_boneswarm_02
       rect:
         serializedVersion: 2
         x: 0
-        y: 512
-        width: 128
-        height: 128
+        y: 269
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -276,20 +297,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88abab3fc1c3b8d4e8e9995ef5751ce2
-      internalID: -1783148099
+      spriteID: 64737ed0edbba104b8be17995cc7e310
+      internalID: -575423590
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_11
+      name: fx_f3_boneswarm_08
       rect:
         serializedVersion: 2
-        x: 128
-        y: 512
-        width: 128
-        height: 128
+        x: 80
+        y: 269
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -297,20 +318,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d73b6d03776c971488f426d1ccbf7ed0
-      internalID: 269469194
+      spriteID: 8d48129d28f3b55459ad7268ab052cc5
+      internalID: -1466937791
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_05
+      name: fx_f3_boneswarm_14
       rect:
         serializedVersion: 2
-        x: 0
-        y: 384
-        width: 128
-        height: 128
+        x: 160
+        y: 269
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -318,20 +339,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e88daea962ea0034da552a684bec3291
-      internalID: -179627411
+      spriteID: 6ed4edd34c880c04ebbc565c1c840016
+      internalID: 969909229
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_06
+      name: fx_f3_boneswarm_20
       rect:
         serializedVersion: 2
-        x: 128
-        y: 384
-        width: 128
-        height: 128
+        x: 240
+        y: 269
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -339,41 +360,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a4ed0ece5c5508e4382b73f8e8189439
-      internalID: 1101673718
+      spriteID: 0e292a7cdb7227847985a1a0982423c3
+      internalID: -759599649
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_12
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 256
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ae25fb32ddda5954b96ef1938b8ebe17
-      internalID: -270715216
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: fx_slashfrenzy_07
+      name: fx_f3_boneswarm_03
       rect:
         serializedVersion: 2
         x: 0
-        y: 128
-        width: 128
-        height: 128
+        y: 188
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -381,8 +381,197 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e85ed368fd0b83249a05c5afca688f80
-      internalID: 1757652576
+      spriteID: a2ffb8eba1d3fac41999caeb1706abd1
+      internalID: 1806629700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_09
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 188
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2496b583a7434f45a42eb0519b83fc6
+      internalID: -676214096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_15
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 188
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b165bff49a45a004ab6f06e43244013c
+      internalID: 133368919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_10
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 188
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdd1409552061ad4bbdb310a56a30823
+      internalID: 1602394596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_04
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 107
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 639ad6b773cf1f8419e0cafb9f67537c
+      internalID: 978569581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_21
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 107
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 527998fdf41a16949bf0b5ca8f271817
+      internalID: -61636773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_16
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 107
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35d8f21f72f12ce46ab7be1f03d40bce
+      internalID: 1443194446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_05
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 26
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f4b7586d323d9345b873c11b63d1822
+      internalID: -1169047999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_11
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 26
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfab0bf7d3a427c4caee68566fd47dea
+      internalID: 1709554347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f3_boneswarm_17
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 26
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f8585d3f9a3d9046aaa51011357e849
+      internalID: 801127819
       vertices: []
       indices: 
       edges: []
@@ -398,18 +587,27 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fx_slashfrenzy_01: -1525716021
-      fx_slashfrenzy_02: 564605571
-      fx_slashfrenzy_03: -1241762501
-      fx_slashfrenzy_04: -1783148099
-      fx_slashfrenzy_05: -179627411
-      fx_slashfrenzy_06: 1101673718
-      fx_slashfrenzy_07: 1757652576
-      fx_slashfrenzy_08: -816179405
-      fx_slashfrenzy_09: -1971599374
-      fx_slashfrenzy_10: -1974709649
-      fx_slashfrenzy_11: 269469194
-      fx_slashfrenzy_12: -270715216
+      fx_f3_boneswarm_01: -1087300266
+      fx_f3_boneswarm_02: -575423590
+      fx_f3_boneswarm_03: 1806629700
+      fx_f3_boneswarm_04: 978569581
+      fx_f3_boneswarm_05: -1169047999
+      fx_f3_boneswarm_06: -1636119149
+      fx_f3_boneswarm_07: 221115186
+      fx_f3_boneswarm_08: -1466937791
+      fx_f3_boneswarm_09: -676214096
+      fx_f3_boneswarm_10: 133368919
+      fx_f3_boneswarm_11: 1709554347
+      fx_f3_boneswarm_12: 939127994
+      fx_f3_boneswarm_13: -1420671076
+      fx_f3_boneswarm_14: 1443194446
+      fx_f3_boneswarm_15: 969909229
+      fx_f3_boneswarm_16: 801127819
+      fx_f3_boneswarm_17: -88263760
+      fx_f3_boneswarm_18: 804570870
+      fx_f3_boneswarm_19: 804570870
+      fx_f3_boneswarm_20: -759599649
+      fx_f3_boneswarm_21: -61636773
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
