@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -71,8 +71,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,7 +134,385 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: fx_martyrdom_18
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 399
+        width: 64
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a69b8d71a758f074ca6ae7925297033f
+      internalID: -93005407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_13
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 399
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 186d93ee1ae278c4ba5d466ddb567b84
+      internalID: -1382352106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_16
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 399
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6e5ee019f86a6b468f570d7087618c7
+      internalID: -185602504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_05
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 399
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba340fcd4c46d424ea2ee3f1beb2a063
+      internalID: 370687654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_01
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 399
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71f643e93a100dd4ca2e764e42d1309e
+      internalID: 1218751952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_17
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 278
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbdc051356ddecb478898d3fb4553d79
+      internalID: -1659238268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_12
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 278
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7dee4e43af99d24ab99e0eac3223b52
+      internalID: -1974191549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_08
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 278
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d202cda3b9f76024299aaf0a9501659e
+      internalID: -139221759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_04
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 278
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44c7550e7b645634fb49d4c93a9cf5c4
+      internalID: -1970871717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_09
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 278
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdb4b7d75fae88b42acfbd6420193294
+      internalID: 435830649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_15
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 157
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36d8aeb46f4f01f47bd7b11b59504bab
+      internalID: -2025053289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_11
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 157
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56e92f1838fba5140bcedb84c1ac1542
+      internalID: -1881958754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_07
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 157
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 389a43f6973618443b4b327da3c8b1ea
+      internalID: 805559627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_03
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 157
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fed272d19f002c42b08310d7e1366ba
+      internalID: 2061487918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_14
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 36
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78431659d7cea244bab19e6781cbae6b
+      internalID: -38157543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_10
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 36
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e60c85cfaf55d2141ac84881e8e6265f
+      internalID: 1503156791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_06
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 36
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34f23ea4208ad39498d2b518c436813e
+      internalID: 1804883908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_martyrdom_02
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 36
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f32aba0fd922af14e9bc39cad7c88797
+      internalID: 1292631381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -145,7 +523,25 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      fx_martyrdom_01: 1218751952
+      fx_martyrdom_02: 1292631381
+      fx_martyrdom_03: 2061487918
+      fx_martyrdom_04: -1970871717
+      fx_martyrdom_05: 370687654
+      fx_martyrdom_06: 1804883908
+      fx_martyrdom_07: 805559627
+      fx_martyrdom_08: -139221759
+      fx_martyrdom_09: 435830649
+      fx_martyrdom_10: 1503156791
+      fx_martyrdom_11: -1881958754
+      fx_martyrdom_12: -1974191549
+      fx_martyrdom_13: -1382352106
+      fx_martyrdom_14: -38157543
+      fx_martyrdom_15: -2025053289
+      fx_martyrdom_16: -185602504
+      fx_martyrdom_17: -1659238268
+      fx_martyrdom_18: -93005407
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
