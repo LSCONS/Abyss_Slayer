@@ -9,11 +9,12 @@ public class CharacterSkillSet : ScriptableObject
     public List<CharacterSkillSlot> skillSlots = new();      // 연결된 스킬 리스트
 
 
-    public void InstantiateSkillData()
+    public void InstantiateSkillData(Player _player)
     {
         for (int i = 0; i < skillSlots.Count; i++)
         {
             skillSlots[i].skill = Instantiate(skillSlots[i].skill);
+            skillSlots[i].skill.player = _player;
         }
     }
 }

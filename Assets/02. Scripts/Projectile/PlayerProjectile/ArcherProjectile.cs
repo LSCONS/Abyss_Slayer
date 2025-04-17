@@ -8,6 +8,12 @@ public class ArcherProjectile : BasePoolable
     private Vector3 direction, initPos;
     [SerializeField] List<Sprite> sprites;
     [SerializeField] SpriteRenderer spriteRenderer;
+    private LayerMask includeLayer;
+
+    private void Awake()
+    {
+        includeLayer = LayerData.EnemyLayerMask | LayerData.GroundPlaneLayerMask;
+    }
 
     private void Update()
     {
@@ -53,6 +59,9 @@ public class ArcherProjectile : BasePoolable
             boss.Damage((int)damage); // 데미지 전달
         }
 
-        ReturnToPool(); // 투사체 반환
+        if((1 << collision.gameObject.layer | includeLayer) == includeLayer)
+        {
+            ReturnToPool(); // 투사체 반환
+        }
     }
 }

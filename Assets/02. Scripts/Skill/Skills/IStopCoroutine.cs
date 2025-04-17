@@ -8,3 +8,11 @@ public interface IStopCoroutine
     public Player player { get; set; }
     public void StopCoroutine();
 }
+
+public interface IStopCoroutineS
+{
+    public Dictionary<SkillSlotKey, Skill> skills { get; set; }
+    public Player player { get; set; }
+    public void StopCoroutine();
+}
+
