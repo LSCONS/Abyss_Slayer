@@ -10,17 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3efcea43e5ef1364486fb96d0fb51de7, type: 3}
-  m_Name: MagicalBladerSkillSet
+  m_Name: MagicalBladerSkillset
   m_EditorClassIdentifier: 
   className: MagicalBlader
   skillSlots:
-  - key: 0
-    skill: {fileID: 11400000, guid: ba83090a6eaf2fc4b9dbcd4a63722056, type: 2}
-  - key: 1
-    skill: {fileID: 11400000, guid: 25b2eea0a3f83824a9a06920ccbaa0b0, type: 2}
   - key: 2
     skill: {fileID: 11400000, guid: 6fc98d45c56fe3c49a55003026cbb72c, type: 2}
-  - key: 3
-    skill: {fileID: 11400000, guid: 949d063aed3af5c40982a3320d91d51d, type: 2}
-  - key: 4
-    skill: {fileID: 11400000, guid: 4351947970d924044971ddf767645525, type: 2}

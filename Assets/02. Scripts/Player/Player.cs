@@ -1,8 +1,8 @@
 using Cinemachine;
 using System.Collections.Generic;
-using UniRx;
-using Unity.VisualScripting;
 using UnityEngine;
+using System;
+using System.Collections;
 public enum CharacterClass
 {
     Archer,
@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     public PlayerAnimationData playerAnimationData { get; private set; }
     public PlayerStateMachine playerStateMachine { get; private set; }
     public BoxCollider2D playerGroundCollider {  get; private set; }
+    public BoxCollider2D playerMeleeCollider { get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
 
@@ -33,6 +34,7 @@ public class Player : MonoBehaviour
 
     public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
 
+    public Action<BoxCollider2D, float> OnMeleeAttack;  // 근접 공격 콜라이더 ON/OFF 액션
 
 
     private void Awake()
@@ -42,6 +44,7 @@ public class Player : MonoBehaviour
         InitSkillData();
         playerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
+        OnMeleeAttack += (collider, duration) => StartCoroutine(EnableMeleeCollider(collider, duration));
     }
 
 
@@ -147,6 +150,7 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
+        playerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
         SpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
         PlayerAnimator = transform.GetComponentForTransformFindName<Animator>("Sprtie_Player");
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -239,5 +243,12 @@ public class Player : MonoBehaviour
             buffSkill.IsApply = true;
             BuffDuration[buffSkill.Type] = buffSkill; 
         }
+    }
+
+    private IEnumerator EnableMeleeCollider(BoxCollider2D collider, float duration)
+    {
+        collider.enabled = true;
+        yield return new WaitForSeconds(duration);
+        collider.enabled = false;
     }
 }
