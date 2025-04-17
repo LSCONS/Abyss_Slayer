@@ -12,7 +12,7 @@ public class HoldingShotRangeSkill : RangeAttackSkill
     public override void UseSkill()
     {
         base.UseSkill();
-        CoroutineManager.Instance.StartCoroutineManager(player.SkillTrigger.HoldSkillCoroutine, FireArrows());
+        CoroutineManager.Instance.StartCoroutineManager(player.SkillTrigger.HoldSkillCoroutine, FireArrows()); // 화살 발사 코루틴 실행
     }
 
     // 화살 발사 코루틴
@@ -30,7 +30,6 @@ public class HoldingShotRangeSkill : RangeAttackSkill
             //float x = Random.Range(-0.3f, 1.2f);
             //float randomXSpawn = player.SpriteRenderer.flipX ? -x : x;
             float randomYSpawn = Random.Range(-0.3f, 0.3f);
-
 
             // 화살 생성 위치 설정
             Vector3 spawnPos = player.transform.position + (Vector3)(dir * 1.5f) + new Vector3(0, randomYSpawn, 0);

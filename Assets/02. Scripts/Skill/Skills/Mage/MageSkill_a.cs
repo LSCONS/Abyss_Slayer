@@ -18,11 +18,17 @@ public class MageSkill_a : SkillExecuter
     public float homingTime;                // 유도 지속 시간
     public AnimationCurve homingCurve;      // 유도 세기 커브
 
-    private MageSkillRangeVisualizer rangeVisualizer;
+    private MageSkillRangeVisualizer rangeVisualizer; // 범위 시각화 컴포넌트(디버그용)
 
+    /// <summary>
+    /// 스킬 실행
+    /// </summary>
+    /// <param name="user">플레이어</param>
+    /// <param name="target">타겟</param>
+    /// <param name="skillData">스킬 데이터</param>
     public override void Execute(Player user, Boss target, SkillData skillData)
     {
-        // 범위 시각화 컴포넌트를 플레이어에 추가하고 설정
+        // 범위 시각화 컴포넌트를 플레이어에 추가하고 설정(디버그용)
         if (rangeVisualizer == null)
         {
             rangeVisualizer = user.gameObject.AddComponent<MageSkillRangeVisualizer>();
