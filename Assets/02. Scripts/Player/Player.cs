@@ -236,8 +236,8 @@ public class Player : MonoBehaviour
         if(buffSkill != null)
         {
             buffSkill.CurBuffDuration.Value = buffSkill.MaxBuffDuration.Value;
-            BuffDuration.Add(buffSkill.Type, buffSkill); 
             buffSkill.IsApply = true;
+            BuffDuration[buffSkill.Type] = buffSkill; 
         }
     }
 }
