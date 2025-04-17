@@ -9,19 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e500b6f3aa0d8041b62452b7d738c1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 3efcea43e5ef1364486fb96d0fb51de7, type: 3}
   m_Name: MagicalBladerSkillSet
   m_EditorClassIdentifier: 
-  className: 
+  className: MagicalBlader
   skillSlots:
   - key: 0
-    skillData: {fileID: 11400000, guid: deac4918640cb6d44ab80274b6b24fc7, type: 2}
+    skill: {fileID: 11400000, guid: ba83090a6eaf2fc4b9dbcd4a63722056, type: 2}
   - key: 1
-    skillData: {fileID: 11400000, guid: 5b8b9bdfee514b9498c27a0e93e25435, type: 2}
+    skill: {fileID: 11400000, guid: 25b2eea0a3f83824a9a06920ccbaa0b0, type: 2}
   - key: 2
-    skillData: {fileID: 11400000, guid: c96449ccf3daf15489276bc2d2445dc5, type: 2}
+    skill: {fileID: 11400000, guid: 6fc98d45c56fe3c49a55003026cbb72c, type: 2}
   - key: 3
-    skillData: {fileID: 11400000, guid: 1bbd2d78b383e52489056c2a602b7510, type: 2}
+    skill: {fileID: 11400000, guid: 949d063aed3af5c40982a3320d91d51d, type: 2}
   - key: 4
-    skillData: {fileID: 11400000, guid: 9360cd4e26cbc04458838497294c8ab9, type: 2}
-  evasionType: 1
+    skill: {fileID: 11400000, guid: 4351947970d924044971ddf767645525, type: 2}
