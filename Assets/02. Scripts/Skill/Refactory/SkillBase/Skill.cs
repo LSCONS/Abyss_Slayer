@@ -11,8 +11,8 @@ public class Skill : ScriptableObject
     public string info = "스킬 정보";
     [field: SerializeField] public ReactiveProperty<float> MaxCoolTime { get; set; } = new ReactiveProperty<float>(10f);
     [field: SerializeField] public ReactiveProperty<float> CurCoolTime { get; set; } = new ReactiveProperty<float>(0f);
-    public bool CanUse = true;
-    public bool CanMove = true;
+    public bool canUse = true;
+    public bool canMove = true;
     public Sprite icon;
     [field: SerializeField]public ApplyState ApplyState { get; set; }
     

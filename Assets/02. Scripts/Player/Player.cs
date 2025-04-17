@@ -71,13 +71,13 @@ public class Player : MonoBehaviour
     {
         foreach (var value in equippedSkills.Values)
         {
-            if (!(value.CanUse))
+            if (!(value.canUse))
             {
                 value.CurCoolTime.Value -= Time.deltaTime;
                 if (value.CurCoolTime.Value <= 0)
                 {
                     value.CurCoolTime.Value = 0;
-                    value.CanUse = true;
+                    value.canUse = true;
                 }
             }
         }
@@ -170,7 +170,7 @@ public class Player : MonoBehaviour
         {
             Skill skill = equippedSkills[slotKey];
             skill.CurCoolTime.Value = skill.MaxCoolTime.Value;
-            skill.CanUse = false;
+            skill.canUse = false;
         }
     }
 
