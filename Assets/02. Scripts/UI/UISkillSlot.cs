@@ -12,7 +12,7 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
     [SerializeField] private TextMeshProUGUI coolTimeText;
     private IPresenter presenter;
 
-    private SkillData skillData;
+    private Skill skillData;
 
     public void SetIcon(Sprite icon)
     {
@@ -30,7 +30,7 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
         this.presenter = presenter;
     }
 
-    public void SetSkillData(SkillData skillData)
+    public void SetSkillData(Skill skillData)
     {
         this.skillData = skillData;
     }

@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf51912dc9af01e4a924395f18c69d88, type: 3}
-  m_Name: ArchorSkillD
+  m_Script: {fileID: 11500000, guid: 1477ff3cc0cf5ae4d9b8b0e6ff8bf79f, type: 3}
+  m_Name: ArcherSkillZ
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  Name: "\uB354\uBE14 \uC0F7 \uBC84\uD504"
+  Name: "\uB300\uC2DC \uC2A4\uD0AC"
   Info: "\uC2A4\uD0AC \uC815\uBCF4"
   <MaxCoolTime>k__BackingField:
     value: 10
@@ -21,6 +21,6 @@ MonoBehaviour:
     value: 0
   CanUse: 1
   CanMove: 1
-  maxBuffDuration: 5
-  curBuffDuration: 0
-  type: -1
+  icon: {fileID: 0}
+  <ApplyState>k__BackingField: -1
+  movingDistance: 3

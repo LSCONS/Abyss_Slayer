@@ -9,19 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e500b6f3aa0d8041b62452b7d738c1d, type: 3}
-  m_Name: ArcherSkillSet
+  m_Script: {fileID: 11500000, guid: 3efcea43e5ef1364486fb96d0fb51de7, type: 3}
+  m_Name: ArcherSkillset
   m_EditorClassIdentifier: 
-  className: Archer
+  className: Archor
   skillSlots:
   - key: 0
-    skillData: {fileID: 11400000, guid: 02f9574dfcf7c174b95f1674df60179f, type: 2}
-  - key: 2
-    skillData: {fileID: 11400000, guid: bbb159a4fc966b74fa6af686f7e01c0d, type: 2}
-  - key: 3
-    skillData: {fileID: 11400000, guid: ee8ceb4a62c1c474bb8ab2f52c86a629, type: 2}
+    skill: {fileID: 11400000, guid: ba83090a6eaf2fc4b9dbcd4a63722056, type: 2}
   - key: 1
-    skillData: {fileID: 11400000, guid: 08cb92fa681f9dd4ea644f6be95f5c04, type: 2}
+    skill: {fileID: 11400000, guid: 8298de9670909324cb2eadb36e210bb3, type: 2}
+  - key: 2
+    skill: {fileID: 11400000, guid: 732717cabddd8ca4a850822310b86436, type: 2}
+  - key: 3
+    skill: {fileID: 11400000, guid: 949d063aed3af5c40982a3320d91d51d, type: 2}
   - key: 4
-    skillData: {fileID: 11400000, guid: ba952b1aff645c84e916562229bc227d, type: 2}
-  evasionType: 0
+    skill: {fileID: 11400000, guid: 613674b7fccfabd449baa9e04ae09da3, type: 2}
