@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class Skill : ScriptableObject
 {
-    [HideInInspector]
-    public Player player;
-    public string skillName = "스킬 이름";
-    public string info = "스킬 정보";
-    [field: SerializeField] public ReactiveProperty<float> MaxCoolTime { get; set; } = new ReactiveProperty<float>(10f);
-    [field: SerializeField] public ReactiveProperty<float> CurCoolTime { get; set; } = new ReactiveProperty<float>(0f);
+    [HideInInspector] public Player player;
+    [field: SerializeField] public string skillName {get; private set;} 
+    [field: SerializeField] public string info {get; private set;}
+    [field: SerializeField] public Sprite icon {get; private set;}
+
     public bool canUse = true;
     public bool canMove = true;
-    public Sprite icon;
-    [field: SerializeField]public ApplyState ApplyState { get; set; }
+    
+    [field: SerializeField] public ReactiveProperty<float> MaxCoolTime { get; private set; } = new ReactiveProperty<float>(10f);
+    [field: SerializeField] public ReactiveProperty<float> CurCoolTime { get; private set; } = new ReactiveProperty<float>(0f);
+    [field: SerializeField] public ApplyState ApplyState { get; set; }
     
     public void Init(Player player)
     {

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class RangeAttackSkill : Skill
 {
-    public float damage = 10f;
-    public float range = 5f;
-    public float speed = 1f;
-    public int spriteNum = 1;
+    [SerializeField] private float damage;
+    [SerializeField] private float range;
+    [SerializeField] private float speed;
+    [SerializeField] private int spriteNum;
 
 
     public void ThrowProjectile<T>(Vector3 startPos, Vector3 dir) where T : BasePoolable
