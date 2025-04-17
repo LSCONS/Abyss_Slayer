@@ -21,7 +21,7 @@ public class ArcherSkill_a : SkillExecuter
         Vector3 spawnPos = user.transform.position + (Vector3)(dir * 1.5f);
         
         // 버프 상태일 경우 추가 화살 생성
-        if (user.BuffDuration.ContainsKey(BuffType.ArchorDoubleShot))
+        if (user.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot))
         {
             Vector3 secondSpawnPos = user.SpriteRenderer.flipX ? spawnPos + new Vector3(-1.0f, 0.5f, 0) : spawnPos + new Vector3(1.0f, 0.5f, 0);
             PoolManager.Instance.Get<ArcherProjectile>().Init(secondSpawnPos, dir, skillData.targetingData.range, arrowSpeed, spriteNum, damage * 0.8f);

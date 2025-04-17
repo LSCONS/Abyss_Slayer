@@ -7,7 +7,7 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutineS
 {
     public Dictionary<SkillSlotKey, Skill> skills {  get; set; }
     public Player player {  get; set; }
-    public Coroutine skillCoroutine;
+    public Coroutine SkillCoroutine {  get; set; }
 
     public void UseSkillA()
     {
@@ -18,8 +18,7 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutineS
     public void UseSkillS()
     {
         Skill skill = skills[SkillSlotKey.S];
-        skill.canMove = false;
-        //skillCoroutine = StartCoroutine(((ArcherSkill_s)skillData.executer).FireArrows(player, null, skillData));
+        //skillCoroutine = StartCoroutine((HoldingShotRangeSkill)skill.FireArrows(player, null, skill));
     }
 
     public void UseSkillD()
@@ -32,13 +31,6 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutineS
     {
         Skill skill = skills[SkillSlotKey.Z];
         skill.UseSkill();
-
-        Vector2 DashVector = player.input.MoveDir.normalized;
-        DashVector *= player.playerData.PlayerAirData.DashForce;
-        if (DashVector.x > 0) player.SpriteRenderer.flipX = false;
-        else if (DashVector.x < 0) player.SpriteRenderer.flipX = true;
-        player.playerRigidbody.AddForce(DashVector, ForceMode2D.Impulse);
-        player.playerData.PlayerAirData.CurDashCount--;
     }
 
     public void UseSkillX()
@@ -49,10 +41,10 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutineS
 
     public void StopCoroutine()
     {
-        if (skillCoroutine != null)
+        if (SkillCoroutine != null)
         {
-            StopCoroutine(skillCoroutine);
-            skillCoroutine = null;
+            StopCoroutine(SkillCoroutine);
+            SkillCoroutine = null;
         }
     }
 }

@@ -39,7 +39,7 @@ public class BuffSlotPresenter : IPresenter
         foreach (var skill in model.equippedSkills.Values)
         {
             if (skill is BuffSkill)
-                return skill.icon;
+                return skill.SkillIcon;
         }
 
         return null;
