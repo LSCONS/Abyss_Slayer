@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 [System.Flags]
@@ -12,7 +13,8 @@ public enum BuffType
 
 public class BuffSkill : Skill
 {
-    public float maxBuffDuration = 5f;              //최대 지속시간
-    public float curBuffDuration = 0f;              //현재 지속시간
+    public ReactiveProperty<float> maxBuffDuration { get; set; } = new ReactiveProperty<float>(5f);              //최대 지속시간
+    public ReactiveProperty<float> curBuffDuration { get; set; } = new ReactiveProperty<float>(0f);              //현재 지속시간
+    public bool isApply = false;
     public BuffType type = BuffType.None;       //현재 버프 타입
 }

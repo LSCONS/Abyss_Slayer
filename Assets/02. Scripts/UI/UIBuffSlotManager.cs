@@ -25,22 +25,23 @@ public class UIBuffSlotManager : MonoBehaviour
     }
     private void ObservePlayerBuff()
     {
-        Debug.Log("[BuffManager] ObservePlayerBuff 구독 시작");
+        //TODO: 버프 UI 출력 변경 필요
+        //Debug.Log("[BuffManager] ObservePlayerBuff 구독 시작");
 
-        player.CurDuration
-            .Do(x => Debug.Log($"[BuffManager] CurDuration 변화: {x}"))
-            .Subscribe(duration =>
-            {
-                if (duration > 0)
-                {
-                    ShowBuffSlot();
-                }
-                else
-                {
-                    HideBuffSlot();
-                }
-            })
-            .AddTo(this);
+        //player.CurDuration
+        //    .Do(x => Debug.Log($"[BuffManager] CurDuration 변화: {x}"))
+        //    .Subscribe(duration =>
+        //    {
+        //        if (duration > 0)
+        //        {
+        //            ShowBuffSlot();
+        //        }
+        //        else
+        //        {
+        //            HideBuffSlot();
+        //        }
+        //    })
+        //    .AddTo(this);
     }
 
     private void ShowBuffSlot()

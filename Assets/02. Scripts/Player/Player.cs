@@ -30,11 +30,8 @@ public class Player : MonoBehaviour
     public Dictionary<SkillSlotKey, Skill> equippedSkills = new(); // 스킬 연결용 딕셔너리
     public CharacterSkillSet skillSet; // 스킬셋 데이터
     public IStopCoroutineS SkillTrigger { get; private set; }
-    public bool IsBuff { get; private set; } = false;
-    public ReactiveProperty<float> MaxDuration;   // 최대 지속 시간
-    public ReactiveProperty<float> CurDuration;   // 현재 지속 시간
 
-    public Dictionary<BuffType, float> BuffDuration { get; private set; } = new();
+    public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
 
 
     private void Awake()
@@ -56,11 +53,30 @@ public class Player : MonoBehaviour
     {
         playerStateMachine.Update();
         SkillCoolTimeCompute();
+        BuffDurationCompute();
     }
 
     private void FixedUpdate()
     {
         playerStateMachine.FixedUpdate();
+    }
+
+
+    private void BuffDurationCompute()
+    {
+        foreach (var value in BuffDuration.Values)
+        {
+            if (value.isApply)
+            {
+                value.curBuffDuration.Value -= Time.deltaTime;
+                if (value.curBuffDuration.Value <= 0)
+                {
+                    value.curBuffDuration.Value = 0;
+                    value.isApply = false;
+                }
+            }
+
+        }
     }
 
 
@@ -215,6 +231,11 @@ public class Player : MonoBehaviour
     /// <param name="value">활성화 여부</param>
     public void SetBuff(Skill skill)
     {
-        
+        BuffSkill buffSkill = skill as BuffSkill;
+        if(buffSkill != null)
+        {
+            buffSkill.curBuffDuration.Value = buffSkill.maxBuffDuration.Value;
+            BuffDuration.Add(buffSkill.type, buffSkill);
+        }
     }
 }
