@@ -96,7 +96,7 @@ public class PlayerStateMachine : StateMachine
     /// <returns>true면 Action 종료, false면 Action 계속</returns>
     private bool ConnectAttackAction(bool isAction, IPlayerState state, Skill skillData)
     {
-        if (isAction && skillData.CanUse)
+        if (isAction && skillData.canUse)
         {
             ChangeState(state);
             return true;
@@ -126,7 +126,7 @@ public class PlayerStateMachine : StateMachine
     private bool IsZeroGround() => (Player.playerCheckGround.GroundPlaneCount + Player.playerCheckGround.GroundPlatformCount) == 0;
 
     /// <summary>해당 SlotKey의 스킬이 사용 가능한지 확인</summary>
-    private bool IsSkillCanUse(SkillSlotKey slotKey) => Player.equippedSkills[slotKey].CanUse;
+    private bool IsSkillCanUse(SkillSlotKey slotKey) => Player.equippedSkills[slotKey].canUse;
 
     /// <summary>MoveDir.y의 값이 0보다 작은지 확인</summary>
     private bool IsDownMoveDirY() => Player.input.MoveDir.y < 0;

@@ -9,18 +9,18 @@ public class OneShotRangeSkill : RangeAttackSkill
     public override void UseSkill()
     {
         base.UseSkill();
-        Vector3 DirX = new Vector3(PlayerFrontXNomalized() * 1.5f, 0 ,0);  
-        Vector3 spawnPos = PlayerPosition() + DirX;
+        Vector3 dirX = new Vector3(PlayerFrontXNomalized() * 1.5f, 0 ,0);  
+        Vector3 spawnPos = PlayerPosition() + dirX;
 
         // 버프 상태일 경우 추가 화살 생성
-        if (player.BuffDuration.ContainsKey(BuffType.ArchorDoubleShot))
+        if (player.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot))
         {
-            ThrowProjectile<ArcherProjectile>(spawnPos + distanceY, DirX, 0.8f);
-            ThrowProjectile<ArcherProjectile>(spawnPos - distanceY, DirX, 0.8f);
+            ThrowProjectile<ArcherProjectile>(spawnPos + distanceY, dirX, 0.8f);
+            ThrowProjectile<ArcherProjectile>(spawnPos - distanceY, dirX, 0.8f);
         }
         else
         {
-            ThrowProjectile<ArcherProjectile>(spawnPos, DirX);
+            ThrowProjectile<ArcherProjectile>(spawnPos, dirX);
         }
     }
 }

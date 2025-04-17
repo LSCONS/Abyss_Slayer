@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -71,8 +71,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
-    textureCompression: 1
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,7 +134,448 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_0
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 574
+        width: 95
+        height: 450
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d20a136f8c1aa7c48b49f7d0682c5d93
+      internalID: -1310032457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_1
+      rect:
+        serializedVersion: 2
+        x: 909
+        y: 123
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d683cb50d58c5714fa529cf8375bbfb4
+      internalID: 2131387164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_2
+      rect:
+        serializedVersion: 2
+        x: 909
+        y: 574
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e63524c1bc39a9a45b85dab3b6b9afba
+      internalID: 1625679991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_3
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 123
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b8bbca0edcfbc144b39aaa2c942a8d8
+      internalID: 193231570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_4
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 574
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2acd6f6033174f4458a8a755ba2f3e9f
+      internalID: -296523749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_5
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 123
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d9c5c751e4e4434090ce14f39c26c8c
+      internalID: -1465127617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_6
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 574
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4557368c4fa5ce845b3b92be0a21acbd
+      internalID: 642063265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_7
+      rect:
+        serializedVersion: 2
+        x: 606
+        y: 123
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52d0baf52b2e12847ad3ed548219ef58
+      internalID: 862519416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_8
+      rect:
+        serializedVersion: 2
+        x: 606
+        y: 574
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b56d71ba5724f894fa7de7117b53c74a
+      internalID: -1860409762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_9
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 123
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de6436bf1f84e9441bbfd41f59cf281c
+      internalID: -182670720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_10
+      rect:
+        serializedVersion: 2
+        x: 1010
+        y: 573
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f964116252389584ab8096228aef13bc
+      internalID: 1045027612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_11
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 123
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbb55e4579197634b9d98c38ada13f43
+      internalID: -1737434962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_12
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 574
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89a932d75f6ed1c4db41f3948619cc5f
+      internalID: -2034404436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_13
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 123
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39f1790d2b16eb447a95a89871baa399
+      internalID: -378163335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_14
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 574
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c52423b87b9771c449187d3b79677160
+      internalID: 1773648344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_15
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 123
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5464413c56ed634459d2b226e4772d40
+      internalID: 728641603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_16
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 574
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 249a1f42f38b4ea42bc49f54c297363f
+      internalID: 1783814491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_17
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 123
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36b803b5b6f40374f83638c9ddef9c85
+      internalID: 900661130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_18
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 574
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddea7a2d8569e5644a704421a7998498
+      internalID: -1339179185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 123
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5787793106b6b54e973fb99544aa93d
+      internalID: 299987809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f5_kinectequilibrium_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 574
+        width: 95
+        height: 450
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29334b64bacf44945bbb7819ce153dfe
+      internalID: -425772428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -145,7 +586,28 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      fx_f5_kinectequilibrium_0: -1310032457
+      fx_f5_kinectequilibrium_1: 2131387164
+      fx_f5_kinectequilibrium_10: 1045027612
+      fx_f5_kinectequilibrium_11: -1737434962
+      fx_f5_kinectequilibrium_12: -2034404436
+      fx_f5_kinectequilibrium_13: -378163335
+      fx_f5_kinectequilibrium_14: 1773648344
+      fx_f5_kinectequilibrium_15: 728641603
+      fx_f5_kinectequilibrium_16: 1783814491
+      fx_f5_kinectequilibrium_17: 900661130
+      fx_f5_kinectequilibrium_18: -1339179185
+      fx_f5_kinectequilibrium_19: 299987809
+      fx_f5_kinectequilibrium_2: 1625679991
+      fx_f5_kinectequilibrium_20: -425772428
+      fx_f5_kinectequilibrium_3: 193231570
+      fx_f5_kinectequilibrium_4: -296523749
+      fx_f5_kinectequilibrium_5: -1465127617
+      fx_f5_kinectequilibrium_6: 642063265
+      fx_f5_kinectequilibrium_7: 862519416
+      fx_f5_kinectequilibrium_8: -1860409762
+      fx_f5_kinectequilibrium_9: -182670720
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

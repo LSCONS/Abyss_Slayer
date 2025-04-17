@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: ArcherSkillX
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  Name: "\uC77C\uBC18 \uACF5\uACA9 \uC2A4\uD0AC"
-  Info: "\uC2A4\uD0AC \uC815\uBCF4"
+  <skillName>k__BackingField: "\uC544\uCC98 \uAE30\uBCF8 \uACF5\uACA9"
+  <info>k__BackingField: "\uD654\uC0B4 \uD558\uB098\uB97C \uBC1C\uC0AC"
+  <icon>k__BackingField: {fileID: 0}
+  canUse: 1
+  canMove: 1
   <MaxCoolTime>k__BackingField:
-    value: 0.8
+    value: 0.6
   <CurCoolTime>k__BackingField:
     value: 0
-  CanUse: 1
-  CanMove: 1
-  icon: {fileID: 0}
-  <ApplyState>k__BackingField: -1
+  <ApplyState>k__BackingField: 23
   damage: 10
-  range: 5
-  speed: 1
-  spriteNum: 1
+  range: 12
+  speed: 80
+  spriteNum: 0

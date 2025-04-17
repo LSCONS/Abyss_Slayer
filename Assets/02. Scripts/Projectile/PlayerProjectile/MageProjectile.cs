@@ -12,12 +12,7 @@ public class MageProjectile : BasePoolable
     // Init으로 전달받은 매개변수를 저장하는 변수
     Transform target;
     float damage, inputSpeed, speed, homingPower, fireTime;
-    bool fired;
-
-    void Awake()
-    {
-        trailRenderer.enabled = false;
-    }
+    bool fired = false;
 
     private void Update()
     {
@@ -60,8 +55,7 @@ public class MageProjectile : BasePoolable
         this.target = target;
         inputSpeed = speed;
         this.homingPower = homingPower;
-        if(homingCurve != null)
-            this.homingCurve = homingCurve;
+        if(homingCurve != null) this.homingCurve = homingCurve;
         this.homingTime = homingTime;
         trailRenderer.Clear();
         trailRenderer.enabled = true;

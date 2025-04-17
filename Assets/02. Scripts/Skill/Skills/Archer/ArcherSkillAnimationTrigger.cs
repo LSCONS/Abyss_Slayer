@@ -18,7 +18,7 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutineS
     public void UseSkillS()
     {
         Skill skill = skills[SkillSlotKey.S];
-        skill.CanMove = false;
+        skill.canMove = false;
         //skillCoroutine = StartCoroutine(((ArcherSkill_s)skillData.executer).FireArrows(player, null, skillData));
     }
 
