@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -132,9 +132,211 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: fx_plasma_7
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 209
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.8695652, y: 0.5217391}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9c02a456ba30a14f801d6ee1f48f5af
+      internalID: -188006904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_plasma_2
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 209
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.8695652, y: 0.5217391}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 318e0da97fe49a7448612b399ccbc071
+      internalID: -1321881091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_plasma_6
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 162
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.8695652, y: 0.5217391}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdd571692a9a0c3489d87c14767a24d1
+      internalID: 1667575018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_plasma_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 162
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.8695652, y: 0.5217391}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4dfadcd94fcdd044b0689b9e42742e6
+      internalID: -1558082512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_plasma_5
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 115
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.8695652, y: 0.5217391}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d1a6f191c742a6499c2ec98e4fd87bc
+      internalID: 753656181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_plasma_4
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 115
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.8695652, y: 0.5217391}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f6d595074385fd4784cc6eff32ad5e3
+      internalID: 1944502907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_plasma_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 68
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.8695652, y: 0.5217391}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c06d72ed2e9f7114fab2f6acce8a6e9f
+      internalID: -675314087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_plasma_3
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 21
+        width: 46
+        height: 46
+      alignment: 9
+      pivot: {x: 0.8695652, y: 0.5217391}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08686806af80d6947a0d8715836b8cb1
+      internalID: 233912873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_plasma_8
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 68
+        width: 46
+        height: 46
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9de0f943474c5004eaf8da9df5cec8c9
+      internalID: 28913960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -145,7 +347,16 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      fx_plasma_0: -675314087
+      fx_plasma_1: -1558082512
+      fx_plasma_2: -1321881091
+      fx_plasma_3: 233912873
+      fx_plasma_4: 1944502907
+      fx_plasma_5: 753656181
+      fx_plasma_6: 1667575018
+      fx_plasma_7: -188006904
+      fx_plasma_8: -1170443530
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

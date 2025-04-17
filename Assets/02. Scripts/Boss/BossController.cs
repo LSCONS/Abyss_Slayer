@@ -30,7 +30,7 @@ public class BossController : MonoBehaviour
     [SerializeField] GameObject targetCrossHairPrefab;
     Transform targetCrosshair;
     SpriteRenderer targetCrosshairRenderer;
-    [SerializeField] private LineRenderer targetLine;
+    //[SerializeField] private LineRenderer targetLine;
     Transform target;
 
     bool _showTargetCrosshair;
@@ -44,16 +44,16 @@ public class BossController : MonoBehaviour
             _showTargetCrosshair = value;
         }
     }
-    bool _showTargetLine;
-    public bool showTargetLine
-    {
-        get { return _showTargetLine; }
-        set
-        {
-            targetLine.enabled = value;
-            _showTargetLine = value;
-        }
-    }
+    //bool _showTargetLine;
+    //public bool showTargetLine
+    //{
+    //    get { return _showTargetLine; }
+    //    set
+    //    {
+    //        targetLine.enabled = value;
+    //        _showTargetLine = value;
+    //    }
+    //}
     [HideInInspector] public bool chasingTarget;
     [HideInInspector] public bool isLeft;
 
@@ -73,11 +73,11 @@ public class BossController : MonoBehaviour
 
         targetCrosshair = Instantiate(targetCrossHairPrefab).transform;
         targetCrosshairRenderer = targetCrosshair.GetComponent<SpriteRenderer>();
-        targetLine = GetComponent<LineRenderer>();
+        //targetLine = GetComponent<LineRenderer>();
 
         chasingTarget = false;
         showTargetCrosshair = false;
-        showTargetLine = false;
+        //showTargetLine = false;
     }
 
     private void Start()
