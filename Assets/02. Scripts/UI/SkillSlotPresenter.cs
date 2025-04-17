@@ -4,11 +4,11 @@ using UnityEngine;
 using UniRx;
 public class SkillSlotPresenter : IPresenter
 {
-    private SkillData model;
+    private Skill model;
     private UISkillSlot view;
     private CompositeDisposable disposable = new();
 
-    public SkillSlotPresenter(SkillData model, UISkillSlot view)
+    public SkillSlotPresenter(Skill model, UISkillSlot view)
     {
         this.model = model;
         this.view = view;
