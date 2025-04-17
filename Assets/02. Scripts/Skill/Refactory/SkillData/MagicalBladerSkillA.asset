@@ -25,8 +25,8 @@ MonoBehaviour:
   <ApplyState>k__BackingField: -1
   <Damage>k__BackingField: 10
   <ColliderDuration>k__BackingField: 0.5
-  meleeCollider: {fileID: 0}
-  dashSpeed: 10
-  dashDuration: 1
+  dashDuration: 0.1
   dashDistance: 10
-  colliderDuration: 0.5
+  colliderDuration: 5
+  dashColliderPrefab: {fileID: 2447310417550558937, guid: a8bd7d225b3400e44b188e713de4cec7, type: 3}
+  dashEffectPrefab: {fileID: 6217270966681975731, guid: bc5396bf2df41e64396c3ce969831978, type: 3}
