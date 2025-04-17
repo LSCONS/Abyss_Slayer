@@ -1,40 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankerSkillAnimationTrigger : MonoBehaviour, IStopCoroutineS
+public class TankerSkillAnimationTrigger : MonoBehaviour, IStopCoroutine
 {
-    public Dictionary<SkillSlotKey, Skill> skills { get; set; }
-    public Player player { get; set; }
+    public Dictionary<SkillSlotKey, Skill> SkillDictionary { get; set; }
+    public Player Player { get; set; }
     public Coroutine HoldSkillCoroutine { get; set; }
 
 
     public void UseSkillA()
     {
-        Skill skill = skills[SkillSlotKey.A];
+        Skill skill = SkillDictionary[SkillSlotKey.A];
         skill.UseSkill();
     }
 
     public void UseSkillS()
     {
-        Skill skill = skills[SkillSlotKey.S];
+        Skill skill = SkillDictionary[SkillSlotKey.S];
         skill.UseSkill();
     }
 
     public void UseSkillD()
     {
-        Skill skill = skills[SkillSlotKey.D];
+        Skill skill = SkillDictionary[SkillSlotKey.D];
         skill.UseSkill();
     }
 
     public void UseSkillZ()
     {
-        Skill skill = skills[SkillSlotKey.Z];
+        Skill skill = SkillDictionary[SkillSlotKey.Z];
         skill.UseSkill();
     }
 
     public void UseSkillX()
     {
-        Skill skill = skills[SkillSlotKey.X];
+        Skill skill = SkillDictionary[SkillSlotKey.X];
         skill.UseSkill();
     }
 

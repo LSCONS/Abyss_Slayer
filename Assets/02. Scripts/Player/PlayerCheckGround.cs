@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerCheckGround : MonoBehaviour
 {
     [field: SerializeField]
-    public bool CanJump { get;private set; }   //플레이어가 점프가 가능한 상태인지 반환해주는 변수
+    public bool CanJump { get; private set; }   //플레이어가 점프가 가능한 상태인지 반환해주는 변수
     public int GroundPlaneCount { get; private set; } = 0;
     public int GroundPlatformCount { get; private set; } = 0;
     public Action playerTriggerOff;     //플레이어의 isTrigger을 off해주는 로직
@@ -18,8 +18,8 @@ public class PlayerCheckGround : MonoBehaviour
             GroundPlatformCount++;
             return;
         }
-        
-        if(collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
+
+        if (collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
         {
             CheckAllGroundCanJumpEnter();
             GroundPlaneCount++;
@@ -56,9 +56,19 @@ public class PlayerCheckGround : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        ResetAllGround();
-        CheckAllGroundCanJumpExit();
-        playerTriggerOff?.Invoke();
+        if (collision.gameObject.layer == LayerData.GroundPlatformLayerIndex)
+        {
+            GroundPlatformCount--;
+            CheckAllGroundCanJumpExit();
+            return;
+        }
+
+        if (collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
+        {
+            GroundPlaneCount--;
+            CheckAllGroundCanJumpExit();
+            return;
+        }
     }
 
 
@@ -73,7 +83,7 @@ public class PlayerCheckGround : MonoBehaviour
     /// </summary>
     private void CheckAllGroundCanJumpEnter()
     {
-        if(GroundPlaneCount + GroundPlatformCount == 0)
+        if (GroundPlaneCount + GroundPlatformCount == 0)
         {
             CanJump = true;
         }
@@ -88,6 +98,7 @@ public class PlayerCheckGround : MonoBehaviour
         if (GroundPlaneCount + GroundPlatformCount == 0)
         {
             CanJump = false;
+            playerTriggerOff?.Invoke();
         }
     }
 }
