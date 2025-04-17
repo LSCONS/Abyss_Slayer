@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     [Header("스킬 관련")]
     public Dictionary<SkillSlotKey, Skill> equippedSkills = new(); // 스킬 연결용 딕셔너리
     public CharacterSkillSet skillSet; // 스킬셋 데이터
-    public IStopCoroutineS SkillTrigger { get; private set; }
+    public IStopCoroutine SkillTrigger { get; private set; }
 
     public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
 
@@ -118,23 +118,23 @@ public class Player : MonoBehaviour
         switch (playerCharacterClass)
         {
             case CharacterClass.Archer:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutineS;
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
                 break;
             case CharacterClass.Healer:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutineS;
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/HealerSkillSet");
                 break;
             case CharacterClass.Mage:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutineS;
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MageSkillSet");
                 break;
             case CharacterClass.MagicalBlader:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutineS;
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
                 break;
             case CharacterClass.Tanker:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutineS;
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/TankerSkillSet");
                 break;
         }
@@ -176,8 +176,8 @@ public class Player : MonoBehaviour
                 Debug.LogWarning($"Skill in slot {slot.key} is null!");
             }
         }
-        SkillTrigger.player = this;
-        SkillTrigger.skills = equippedSkills;
+        SkillTrigger.Player = this;
+        SkillTrigger.SkillDictionary = equippedSkills;
     }
 
 
