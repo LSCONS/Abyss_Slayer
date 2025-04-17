@@ -35,11 +35,28 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
         this.skillData = skillData;
     }
 
+    // 스킬 툴팁 위치 설정
+    public void SetTooltipPosition(Vector3 position)
+    {
+        var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+
+        // position의 위치에 더해서 툴팁 표시
+        tooltip.transform.position = position + new Vector3(150f, 150f);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
         tooltip.Open();
+
+        // 툴팁이 열려있지 않으면 열기
+        if (!tooltip.gameObject.activeSelf)
+            tooltip.Open();
+
         tooltip.SetSkill(skillData);
+
+        // 마우스 위치를 기준으로 툴팁 설정
+        SetTooltipPosition(eventData.position);
     }
 
     public void OnPointerExit(PointerEventData eventData)

@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
         {
             case CharacterClass.Archer:
                 SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutineS;
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArchorSkillset");
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillset");
                 break;
             case CharacterClass.Healer:
                 SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutineS;
