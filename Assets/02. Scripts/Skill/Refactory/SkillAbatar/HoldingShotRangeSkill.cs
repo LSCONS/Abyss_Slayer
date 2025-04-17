@@ -5,14 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "RangeHoldingShotSkill", menuName = "SkillRefactory/Range/HoldingShot")]
 public class HoldingShotRangeSkill : RangeAttackSkill
 {
-    [field: SerializeField] public int ProjectileCount { get; private set; } = 10;
+    [field: SerializeField] public int ProjectileCount { get; private set; } = 50;
     [field: SerializeField] public float ShotDelay { get; private set; } = 0.1f;
     private Vector3 distanceY = new Vector3(0, 0.25f, 0);
 
     public override void UseSkill()
     {
         base.UseSkill();
-        //CoroutineManager.Instance.StartCoroutineManager(player.SkillTrigger)
+        CoroutineManager.Instance.StartCoroutineManager(player.SkillTrigger.HoldSkillCoroutine, FireArrows());
     }
 
     // 화살 발사 코루틴
@@ -27,13 +27,13 @@ public class HoldingShotRangeSkill : RangeAttackSkill
             Vector2 dir = new Vector2(PlayerFrontXNomalized(), 0);
 
             // 일정 범위 내에서 화살 랜덤 생성
-            float x = Random.Range(-0.3f, 1.2f);
-            float randomXSpawn = player.SpriteRenderer.flipX ? -x : x;
-            float randomYSpawn = Random.Range(-0.3f, 0.5f);
+            //float x = Random.Range(-0.3f, 1.2f);
+            //float randomXSpawn = player.SpriteRenderer.flipX ? -x : x;
+            float randomYSpawn = Random.Range(-0.3f, 0.3f);
+
 
             // 화살 생성 위치 설정
-            Vector3 spawnPos = player.transform.position + (Vector3)(dir * 2f) + new Vector3(randomXSpawn, randomYSpawn, 0);
-
+            Vector3 spawnPos = player.transform.position + (Vector3)(dir * 1.5f) + new Vector3(0, randomYSpawn, 0);
 
             // 버프 상태일 경우 추가 화살 생성
             if (player.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot) && player.BuffDuration[BuffType.ArcherDoubleShot].IsApply)

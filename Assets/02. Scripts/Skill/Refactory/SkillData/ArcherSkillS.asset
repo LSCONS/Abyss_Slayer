@@ -15,17 +15,17 @@ MonoBehaviour:
   player: {fileID: 0}
   <SkillName>k__BackingField: 
   <SkillDesription>k__BackingField: 
-  <SKillIcon>k__BackingField: {fileID: 0}
+  <SkillIcon>k__BackingField: {fileID: 0}
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 0
   <MaxCoolTime>k__BackingField:
-    value: 10
+    value: 5
   <CurCoolTime>k__BackingField:
     value: 0
-  <ApplyState>k__BackingField: -1
+  <ApplyState>k__BackingField: 1
   <Damage>k__BackingField: 10
-  <Range>k__BackingField: 5
-  <Speed>k__BackingField: 5
-  <SpriteNum>k__BackingField: 0
-  <ProjectileCount>k__BackingField: 10
+  <Range>k__BackingField: 12
+  <Speed>k__BackingField: 70
+  <SpriteNum>k__BackingField: 1
+  <ProjectileCount>k__BackingField: 50
   <ShotDelay>k__BackingField: 0.1
