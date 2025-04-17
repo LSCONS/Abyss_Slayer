@@ -14,11 +14,6 @@ public class MageProjectile : BasePoolable
     float damage, inputSpeed, speed, homingPower, fireTime;
     bool fired = false;
 
-    private void Awake()
-    {
-        ReturnToPool();     // 투사체 반환
-    }
-
     private void Update()
     {
         if(fired)
