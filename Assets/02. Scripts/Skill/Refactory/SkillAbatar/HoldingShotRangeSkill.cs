@@ -7,6 +7,7 @@ public class HoldingShotRangeSkill : RangeAttackSkill
 {
     [field: SerializeField] public int ProjectileCount { get; private set; } = 50;
     [field: SerializeField] public float ShotDelay { get; private set; } = 0.1f;
+    private Vector3 distanceY = new Vector3(0, 0.25f, 0);
 
     public override void UseSkill()
     {
@@ -37,8 +38,8 @@ public class HoldingShotRangeSkill : RangeAttackSkill
             // 버프 상태일 경우 추가 화살 생성
             if (player.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot) && player.BuffDuration[BuffType.ArcherDoubleShot].IsApply)
             {
-                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos + distance, dir, Range, Speed, SpriteNum, Damage * 0.8f);
-                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos - distance, dir, Range, Speed, SpriteNum, Damage * 0.8f);
+                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos + distanceY, dir, Range, Speed, SpriteNum, Damage * 0.8f);
+                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos - distanceY, dir, Range, Speed, SpriteNum, Damage * 0.8f);
             }
             else
             {
