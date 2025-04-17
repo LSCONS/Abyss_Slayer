@@ -28,6 +28,11 @@ public class PlayerAnimationData : ScriptableObject
     [SerializeField] private string S_SkillAnimationName    = "Player_SkillS";
     [SerializeField] private string D_SkillAnimationName    = "Player_SkillD";
 
+    [Header("AbnomalParameterName")]
+    [SerializeField] private string abnomalParameterName = "@Abnomal";
+    [SerializeField] private string DeadParameterName = "Dead";
+
+
     public int groundParameterHash      { get; private set; }
     public int idleParameterHash        { get; private set; }
     public int walkParameterHash        { get; private set; }
@@ -43,11 +48,15 @@ public class PlayerAnimationData : ScriptableObject
     public int S_SkillParameterHash     { get; private set; }
     public int D_SkillParameterHash     { get; private set; }
 
+    public int DeadParameterHash { get; private set; }
+
     public int Z_SkillAnimationHash     { get; private set; }
     public int X_SkillAnimationHash     { get; private set; }
     public int A_SkillAnimationHash     { get; private set; }
     public int S_SkillAnimationHash     { get; private set; }
     public int D_SkillAnimationHash     { get; private set; }
+
+    
 
     public void Init()
     {
@@ -65,6 +74,8 @@ public class PlayerAnimationData : ScriptableObject
         A_SkillParameterHash    = Animator.StringToHash(A_SkillParameterName);     
         S_SkillParameterHash    = Animator.StringToHash(S_SkillParameterName);     
         D_SkillParameterHash    = Animator.StringToHash(D_SkillParameterName);
+
+        DeadParameterHash = Animator.StringToHash(DeadParameterName);
 
         Z_SkillAnimationHash    = Animator.StringToHash(Z_SkillAnimationName);
         X_SkillAnimationHash    = Animator.StringToHash(X_SkillAnimationName);

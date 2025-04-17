@@ -7,7 +7,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerWalkState WalkState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerFallState FallState { get; private set; }
-    public PlayerDeadtate DieState { get; private set; }
+    public PlayerDeadState DieState { get; private set; }
 
     public PlayerSkillZState SkillZState { get; private set; }
     public PlayerSkillXState SkillXState { get; private set; }
@@ -32,7 +32,7 @@ public class PlayerStateMachine : StateMachine
         WalkState = new PlayerWalkState(this);
         JumpState = new PlayerJumpState(this);
         FallState = new PlayerFallState(this);
-        DieState = new PlayerDeadtate(this);
+        DieState = new PlayerDeadState(this);
 
         SkillZState = new PlayerSkillZState(this);
         SkillAState = new PlayerSkillAState(this);
