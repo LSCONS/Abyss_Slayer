@@ -7,8 +7,8 @@ public class Skill : ScriptableObject
 {
     [HideInInspector]
     public Player player;
-    public string Name = "스킬 이름";
-    public string Info = "스킬 정보";
+    public string skillName = "스킬 이름";
+    public string info = "스킬 정보";
     [field: SerializeField] public ReactiveProperty<float> MaxCoolTime { get; set; } = new ReactiveProperty<float>(10f);
     [field: SerializeField] public ReactiveProperty<float> CurCoolTime { get; set; } = new ReactiveProperty<float>(0f);
     public bool CanUse = true;
@@ -16,9 +16,9 @@ public class Skill : ScriptableObject
     public Sprite icon;
     [field: SerializeField]public ApplyState ApplyState { get; set; }
     
-    public void Init(Player _player)
+    public void Init(Player player)
     {
-        player = _player;
+        this.player = player;
     }
 
 

@@ -33,8 +33,8 @@ public class UISkillTooltip : UIPopup
             return;
         }
 
-        skillNameText.text = skillData.Name;
-        skillDescText.text = skillData.Info;
+        skillNameText.text = skillData.skillName;
+        skillDescText.text = skillData.info;
     }
 
     
