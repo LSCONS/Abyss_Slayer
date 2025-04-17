@@ -21,7 +21,7 @@ public class ParallaxScrolling : MonoBehaviour
 
     void LateUpdate()
     {
-        Parallax();
+        ParallaxBackground();
     }
 
     private void SetCamera()
@@ -35,7 +35,7 @@ public class ParallaxScrolling : MonoBehaviour
     /// <summary>
     /// 배경 이미지 움직이게하는 메서드
     /// </summary>
-    private void Parallax()
+    private void ParallaxBackground()
     {
         // 현재 카메라 위치와 이전 위치의 차이 계산
         Vector3 deltaMovement = cam.position - previousCamPos;
