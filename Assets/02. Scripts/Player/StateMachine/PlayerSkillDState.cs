@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerSkillDState : PlayerSkillState
 {
-    private SkillData SkillData { get; set; }
+    private Skill SkillData { get; set; }
     private SkillSlotKey Slotkey { get; set; } = SkillSlotKey.D;
     //TODO: PlayerD스킬 데이터 가져와야함.
     public PlayerSkillDState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
@@ -19,7 +19,7 @@ public class PlayerSkillDState : PlayerSkillState
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.D_SkillParameterHash);
-        SkillEnter(SkillData.canMove, Slotkey);
+        SkillEnter(SkillData.CanMove, Slotkey);
 
 #if StateMachineDebug
         Debug.Log("SkillDState 진입");
