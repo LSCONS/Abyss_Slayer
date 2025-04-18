@@ -19,7 +19,7 @@ public class UIPermanent : UIBase
         else if ((uiType & UIType.Bottom) != 0)
             startPos += new Vector2(0, -200f);
         else if ((uiType & UIType.TopMid) != 0)
-            startPos += new Vector2(0, -200f);
+            startPos += new Vector2(0, 200f);
         else if ((uiType & UIType.Permanent) != 0)  // 그냥 고정 ui면 애니메이션 없음
                 return;
 
