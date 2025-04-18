@@ -15,13 +15,14 @@ public class UppercutData : BasePatternData
     [SerializeField] float postDelayTime = 1f;
     public override IEnumerator ExecutePattern()
     {
+        Vector3 targetPosition = target.position;
         bossController.chasingTarget = true;
         yield return new WaitForSeconds(preDelayTime);
         bossController.showTargetCrosshair = true;
         bossAnimator.SetTrigger("Uppercut1");
         yield return new WaitForSeconds(0.2f);
         bossAnimator.SetTrigger("Uppercut2");
-        Vector3 targetPosition = target.position;
+        
         while (Mathf.Abs(targetPosition.x - bossTransform.position.x) >= 0.05f)
         {
             float x = Mathf.Lerp(bossTransform.position.x, targetPosition.x, accessSpeed * Time.deltaTime);

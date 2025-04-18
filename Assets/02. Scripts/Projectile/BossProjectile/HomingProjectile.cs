@@ -55,7 +55,7 @@ public class HomingProjectile : BasePoolable
     /// <param name="speed">전체적인 탄속도(비례하여 유동적으로 변화)</param>
     /// <param name="delayFireTime">지연발사 시간</param>
     /// <param name="homingPower">전체적인 유도력(비례하여 유동적으로 변화)</param>
-    public void Init(int damage, Vector3 position, Quaternion rotate, Transform target,float speed, float delayFireTime = 0f, float homingPower = 10f,float homingTime = 3f, AnimationCurve homingCurve = null)
+    public void Init(int damage, Vector3 position, Quaternion rotate, Transform target, float speed, float delayFireTime = 0f, float homingPower = 10f, float homingTime = 3f, AnimationCurve homingCurve = null, AnimationCurve speedCurve = null)
     { 
         _damage = damage;
         transform.position = position;
@@ -68,6 +68,8 @@ public class HomingProjectile : BasePoolable
         this.homingTime = homingTime;
         if(homingCurve != null)
             this.homingCurve = homingCurve;
+        if(speedCurve != null)
+            this.speedCurve = speedCurve;
 
         _collider.colliderSet(Hit);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
         trailRenderer.enabled = true;   //탄 궤적 활성화
