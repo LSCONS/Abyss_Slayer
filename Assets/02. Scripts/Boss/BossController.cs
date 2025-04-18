@@ -25,37 +25,40 @@ public class BossPattern
 public class BossController : MonoBehaviour
 {
     [SerializeField] List<BossPattern> allPatterns;
-
-    Animator animator;
     [SerializeField] GameObject targetCrossHairPrefab;
-    Transform targetCrosshair;
-    SpriteRenderer targetCrosshairRenderer;
-    //[SerializeField] private LineRenderer targetLine;
-    Transform target;
+    Animator animator;
+    Transform _targetCrosshair;
+    GameObject _targetCrosshairObj;
+    Transform _target;
+    [SerializeField] SpriteRenderer _sprite;
+    [SerializeField] float bossCenterHight;
 
+    [HideInInspector] public bool chasingTarget;
     bool _showTargetCrosshair;
     public bool showTargetCrosshair
     {
         get { return _showTargetCrosshair; }
         set 
         {
-            if (value && target != null) targetCrosshair.position = target.position;
-            targetCrosshairRenderer.enabled = value;
+            if (value && _target != null) _targetCrosshair.position = _target.position;
+            _targetCrosshairObj.SetActive(value);
             _showTargetCrosshair = value;
         }
     }
-    //bool _showTargetLine;
-    //public bool showTargetLine
-    //{
-    //    get { return _showTargetLine; }
-    //    set
-    //    {
-    //        targetLine.enabled = value;
-    //        _showTargetLine = value;
-    //    }
-    //}
-    [HideInInspector] public bool chasingTarget;
-    [HideInInspector] public bool isLeft;
+    
+    bool _isLeft;
+    public bool isLeft
+    {
+        get { return _isLeft; }
+        set 
+        {
+            if(_isLeft != value)
+            {
+                _isLeft = value;
+                _sprite.flipX = value;
+            }
+        }
+    }
 
     [Header("움직임 관련")]
     [SerializeField] float jumpMoveTime;
@@ -71,13 +74,11 @@ public class BossController : MonoBehaviour
             allPatterns[i].patternData.Init(transform,this,animator);
         }
 
-        targetCrosshair = Instantiate(targetCrossHairPrefab).transform;
-        targetCrosshairRenderer = targetCrosshair.GetComponent<SpriteRenderer>();
-        //targetLine = GetComponent<LineRenderer>();
+        _targetCrosshair = Instantiate(targetCrossHairPrefab).transform;
+        _targetCrosshairObj = _targetCrosshair.gameObject;
 
         chasingTarget = false;
         showTargetCrosshair = false;
-        //showTargetLine = false;
     }
 
     private void Start()
@@ -88,30 +89,11 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
-        
         if (chasingTarget)
         {
-            isLeft = (target.position.x - transform.position.x < 0);
+            isLeft = (_target.position.x - transform.position.x < 0);
+            _targetCrosshair.position = _target.position;
         }
-        Rotate();
-        if (_showTargetCrosshair)
-        {
-            targetCrosshair.position = target.position;
-        }
-
-    }
-
-    void Rotate()
-    {
-        if (isLeft)
-        {
-            //transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-        }
-        else
-        {
-            //transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        }
-        //sprite.flipX = isleft 로 바꿔야함(스프라이트를 넣고나서)
     }
 
     /// <summary>
@@ -126,7 +108,7 @@ public class BossController : MonoBehaviour
             BossPattern next = GetRandomPattern();
             if (next != null)
             {
-                target = next.patternData.target;
+                _target = next.patternData.target;
                 yield return StartCoroutine(next.patternData.ExecutePattern());
             }
             else
@@ -138,7 +120,7 @@ public class BossController : MonoBehaviour
     }
 
     /// <summary>
-    /// 각 패턴이 가지는 감지영역 시각화
+    /// 각 패턴이 가지는 감지영역 시각화, 상대적 위치영역, 절대적 위치영역 2종류 존재
     /// </summary>
     private void OnDrawGizmos()
     {
@@ -212,29 +194,28 @@ public class BossController : MonoBehaviour
     [SerializeField] LayerMask _groundLayerMask;
     public IEnumerator Landing()
     {
-        float halfBossHight = 1f;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f,_groundLayerMask);
 
-        if (hit.point.y > transform.position.y - halfBossHight + 0.05f)
+        if (hit.point.y > transform.position.y - bossCenterHight + 0.05f)
         {
-            while (hit.point.y >= transform.position.y - halfBossHight + 0.05f)
+            while (hit.point.y >= transform.position.y - bossCenterHight + 0.05f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, hit.point + (Vector2.up * halfBossHight), 20f * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, hit.point + (Vector2.up * bossCenterHight), 10f * Time.deltaTime);
                 yield return null;
             }
         }
-        else if (hit.point.y < transform.position.y - halfBossHight - 0.05f)
+        else if (hit.point.y < transform.position.y - bossCenterHight - 0.05f)
         {
             float time = 0f;
             float startHight = transform.position.y;
-            while (hit.point.y <= transform.position.y - halfBossHight - 0.05f)
+            while (hit.point.y <= transform.position.y - bossCenterHight - 0.05f)
             {
                 transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * gravityMultiplier * time * time));
                 time += Time.deltaTime;
                 yield return null;
             }
         }
-        transform.position = hit.point + (Vector2.up * halfBossHight);
+        transform.position = hit.point + (Vector2.up * bossCenterHight);
     }
 
     /// <summary>
