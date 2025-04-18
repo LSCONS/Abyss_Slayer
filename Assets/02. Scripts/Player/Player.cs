@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Collections;
+using UniRx;
 public enum CharacterClass
 {
     Archer,
@@ -12,7 +13,7 @@ public enum CharacterClass
     Tanker
 }
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IHasHealth
 {
     public CharacterClass playerCharacterClass;
     public PlayerInput input { get; private set; }
@@ -33,6 +34,10 @@ public class Player : MonoBehaviour
     public IStopCoroutine SkillTrigger { get; private set; }
 
     public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
+
+    public ReactiveProperty<int> Hp { get; set; } = new();
+
+    public ReactiveProperty<int> MaxHp { get; set; } = new();
 
     public Action<BoxCollider2D, float> OnMeleeAttack;  // 근접 공격 콜라이더 ON/OFF 액션
 
@@ -58,10 +63,6 @@ public class Player : MonoBehaviour
         playerStateMachine.Update();
         SkillCoolTimeCompute();
         BuffDurationCompute();
-        if (Input.GetKey(KeyCode.Q))
-        {
-            ChangePlayerHP(-1);
-        }
     }
 
     private void FixedUpdate()
@@ -113,11 +114,12 @@ public class Player : MonoBehaviour
     /// </summary>
     private void InitPlayerData()
     {
-
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
         playerAnimationData = PlayerManager.Instance.PlayerAnimationData;
         playerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
         playerData = Instantiate(playerData);
+        Hp.Value = playerData.PlayerStatusData.HP_Cur;
+        MaxHp.Value = playerData.PlayerStatusData.HP_Max;
         //TODO: 여기서부터 임시 코드
         switch (playerCharacterClass)
         {
@@ -215,10 +217,9 @@ public class Player : MonoBehaviour
     /// <param name="value">변환을 줄 값. -를 넣어야 체력이 깎임.</param>
     public void ChangePlayerHP(int value)
     {
-        playerData.PlayerStatusData.Hp.Value.PlusAndClamp(value, playerData.PlayerStatusData.MaxHp.Value);
+        Hp.Value = Hp.Value.PlusAndIntClamp(value, MaxHp.Value);
         //TODO: 플레이어 체력 UI 갱신 필요
-        Debug.Log($"Player Hp {playerData.PlayerStatusData.Hp.Value}");
-        if(playerData.PlayerStatusData.Hp.Value == 0)
+        if (Hp.Value == 0)
         {
             PlayerDie();
             return;

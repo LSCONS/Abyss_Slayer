@@ -213,7 +213,7 @@ public static class Util
     /// <param name="min">최소값</param>
     /// <param name="max">최대값</param>
     /// <returns>min <= nowValue + addValue <= min 반환</returns>
-    public static float PlusAndClamp(this int nowValue, float addValue, float min, float max)
+    public static int PlusAndIntClamp(this int nowValue, int addValue, int min, int max)
     {
         return Mathf.Clamp(nowValue + addValue, min, max);
     }
@@ -224,7 +224,7 @@ public static class Util
     /// <param name="addValue">추가할 값</param>
     /// <param name="max">최대값</param>
     /// <returns>0 <= nowValue + addValue <= min 반환</returns>
-    public static float PlusAndClamp(this int nowValue, float addValue, float max)
+    public static int PlusAndIntClamp(this int nowValue, int addValue, int max)
     {
         return Mathf.Clamp(nowValue + addValue, 0, max);
     }

@@ -48,16 +48,16 @@ public class PlayerGroundData
 
 
 [Serializable]
-public class PlayerStatusData : IHasHealth
+public class PlayerStatusData
 {
     [field: Header("Data")]
     [field: SerializeField] public float GravityForce { get; private set; } = 2f;
 
     [field: Header("Status")]
-    [field: SerializeField] public ReactiveProperty<int> Hp { get; } = new ReactiveProperty<int>(100);
-    [field: SerializeField] public ReactiveProperty<int> MaxHp { get; } = new ReactiveProperty<int>(100);
-    [field: SerializeField] public float MP_Max { get; set; } = 100;
-    [field: SerializeField] public float MP_Cur { get; set; } = 100;
+    [field: SerializeField] public int HP_Cur { get; private set; } = 100;
+    [field: SerializeField] public int HP_Max { get; private set; } = 100;
+    [field: SerializeField] public float MP_Max { get; private set; } = 100;
+    [field: SerializeField] public float MP_Cur { get; private set; } = 100;
 
     [field: Header("Abnormal")]
     [field: SerializeField] public bool CanMove { get; set; } = true;

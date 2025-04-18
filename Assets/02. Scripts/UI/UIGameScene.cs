@@ -13,6 +13,8 @@ public class UIGameScene : MonoBehaviour
         await UIManager.Instance.LoadAllUI(UIType.Bottom);
         await UIManager.Instance.LoadAllUI(UIType.Top);
         await UIManager.Instance.LoadAllUI(UIType.Permanent);
+        await UIManager.Instance.LoadAllUI(UIType.TopMid);
+
 
         UIManager.Instance.CreateAllUI(UIType.GamePlay);
         UIManager.Instance.Init();
