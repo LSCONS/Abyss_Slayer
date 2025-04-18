@@ -238,6 +238,7 @@ MonoBehaviour:
   topParent: {fileID: 645399418}
   bottomParent: {fileID: 1634912149}
   popupParent: {fileID: 105628012}
+  topMidParent: {fileID: 1352380651}
 --- !u!114 &638554975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +302,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!224 &1352380651 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2328582295903163497, guid: 54283dbe4ace6bf40ba96e576213dec1, type: 3}
+  m_PrefabInstance: {fileID: 511873910807559675}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1573321043
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,7 +918,7 @@ GameObject:
   - component: {fileID: 8450915430538158565}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1958,7 +1964,7 @@ GameObject:
   - component: {fileID: 5508266527243381291}
   m_Layer: 8
   m_Name: Dummy
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

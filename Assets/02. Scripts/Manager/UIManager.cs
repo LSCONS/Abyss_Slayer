@@ -13,7 +13,7 @@ public class UIManager : Singleton<UIManager>
     public Transform topParent;
     public Transform bottomParent;
     public Transform popupParent;
-
+    public Transform topMidParent;
 
     private Stack<UIPopup> popupStack = new();
 
@@ -35,18 +35,29 @@ public class UIManager : Singleton<UIManager>
             canvas = transform.GetGameObjectSameNameDFS("Canvas").GetComponent<Canvas>();
             if(canvas == null) return;
         }
-        if(popupParent == null){
-            popupParent = new GameObject("UI_Popup").transform;
+        if (popupParent == null)
+        {
+            popupParent = canvas.transform.GetGameObjectSameNameDFS("UI_Popup")?.transform
+                    ?? new GameObject("UI_Popup", typeof(RectTransform)).transform;
         }
-        if(permanentParent == null){
-            permanentParent = new GameObject("UI_Permanent").transform;
+        if (permanentParent == null){
+            permanentParent = canvas.transform.GetGameObjectSameNameDFS("UI_Permanent")?.transform
+                      ?? new GameObject("UI_Permanent", typeof(RectTransform)).transform;
         }
         if(topParent == null){
-            topParent = new GameObject("UI_Top").transform;
+            topParent = canvas.transform.GetGameObjectSameNameDFS("UI_Top")?.transform
+                 ?? new GameObject("UI_Top", typeof(RectTransform)).transform;
         }   
         if(bottomParent == null){
-            bottomParent = new GameObject("UI_Bottom").transform;
+            bottomParent = canvas.transform.GetGameObjectSameNameDFS("UI_Bottom")?.transform
+                    ?? new GameObject("UI_Bottom", typeof(RectTransform)).transform;
         }
+        if (topMidParent == null)
+        {
+            topMidParent = canvas.transform.GetGameObjectSameNameDFS("UI_TopMid")?.transform
+                    ?? new GameObject("UI_TopMid", typeof(RectTransform)).transform;
+        }
+
     }
 
     /// <summary>
@@ -143,6 +154,9 @@ public class UIManager : Singleton<UIManager>
         else if((uiBase.uiType & UIType.Bottom) != 0){
             parent = bottomParent;
         }
+        else if((uiBase.uiType & UIType.TopMid) != 0){
+            parent = topMidParent;
+        }
 
         Debug.Log($"[CreateUI] {uiBase.uiType} 타입의 UI 생성 완료");    
         // 부모에 만들기
@@ -237,6 +251,9 @@ public class UIManager : Singleton<UIManager>
             else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.Permanent) != 0){
                 ui.Value.SetActive(true);
             }
+            else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.TopMid) != 0){
+                ui.Value.SetActive(true);
+            }
         }
     }
 
@@ -247,6 +264,9 @@ public class UIManager : Singleton<UIManager>
                 ui.Value.SetActive(false);
             }
             else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.Bottom) != 0){
+                ui.Value.SetActive(false);
+            }
+            else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.TopMid) != 0){
                 ui.Value.SetActive(false);
             }
         }

@@ -1,8 +1,9 @@
-public class PlayerDeadState : PlayerBaseState
+public class PlayerDeadState : PlayerAbnomalState
 {
     public PlayerDeadState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
+
     public void Init()
     {
 
