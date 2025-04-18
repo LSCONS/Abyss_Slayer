@@ -20,7 +20,7 @@ public class DotDamageCollider : MonoBehaviour
             _preDamageTime = Time.time;
             foreach(Player p in hitPlayers)
             {
-                p.ChangePlayerHP(-_damage);
+                p.OnDamagePlayerHP(-_damage);
             }
         }
         
