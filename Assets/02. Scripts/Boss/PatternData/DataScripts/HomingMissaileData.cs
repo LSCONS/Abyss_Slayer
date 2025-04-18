@@ -18,6 +18,7 @@ public class HomingMissaileData : BasePatternData
     [SerializeField] float homingPower = 15f;
     [SerializeField] float missailSpeed = 10;
     [SerializeField] float homingTime = 3f;
+    [SerializeField] float explosionSize = 0.5f;
     [SerializeField] AnimationCurve homingCurve;
     [SerializeField] AnimationCurve speedCurve;
     public override IEnumerator ExecutePattern()
@@ -38,7 +39,7 @@ public class HomingMissaileData : BasePatternData
             Vector3 position = new Vector3(Mathf.Cos(degree), Mathf.Sin(degree)) * startCircleR;   //라디우스로 위치계산
             position = bossTransform.TransformPoint(position);
 
-            PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, 1.3f - (i * 0.1f), homingPower, homingTime, homingCurve,speedCurve);
+            PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, 1.3f - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
 
             yield return new WaitForSeconds(0.1f);
         }
