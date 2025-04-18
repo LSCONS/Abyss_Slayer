@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "skillset", menuName = "SkillRefactory/New Skill Set")]
 public class CharacterSkillSet : ScriptableObject
 {
-    public string className;                                // 어떤 직업의 스킬셋인지
-    public List<CharacterSkillSlot> skillSlots = new();     // 연결된 스킬 리스트
+    public string className; // 어떤 직업의 스킬셋인지
+    public List<CharacterSkillSlot> skillSlots = new(); // 연결된 스킬 리스트
 
 
     public void InstantiateSkillData(Player player)

@@ -14,6 +14,7 @@ public class HomingProjectile : BasePoolable
     float _inputSpeed;
     float _speed;
     float _homingPower;
+    float _explosionSize;
 
     bool _inited;
     float _fireTime;
@@ -55,7 +56,7 @@ public class HomingProjectile : BasePoolable
     /// <param name="speed">전체적인 탄속도(비례하여 유동적으로 변화)</param>
     /// <param name="delayFireTime">지연발사 시간</param>
     /// <param name="homingPower">전체적인 유도력(비례하여 유동적으로 변화)</param>
-    public void Init(int damage, Vector3 position, Quaternion rotate, Transform target, float speed, float delayFireTime = 0f, float homingPower = 10f, float homingTime = 3f, AnimationCurve homingCurve = null, AnimationCurve speedCurve = null)
+    public void Init(int damage, Vector3 position, Quaternion rotate, Transform target, float speed, float delayFireTime = 0f, float homingPower = 10f, float homingTime = 3f, float explosionSize = 0.5f, AnimationCurve homingCurve = null, AnimationCurve speedCurve = null)
     { 
         _damage = damage;
         transform.position = position;
@@ -63,6 +64,7 @@ public class HomingProjectile : BasePoolable
         _target = target;
         _inputSpeed = speed;
         _homingPower = homingPower;
+        _explosionSize = explosionSize;
         _inited = true;
         _fireTime = Time.time + delayFireTime;
         this.homingTime = homingTime;
@@ -96,7 +98,7 @@ public class HomingProjectile : BasePoolable
     {
         trailRenderer.enabled = false;  //탄궤적 비활성화(오브젝트풀 사용하기에 안끄면 생성시 마지막 위치에서 생성위치까지 궤적생김)
         _fired = false;
-        PoolManager.Instance.Get<Explosion>().Init(transform.position, _damage, 0.1f);
+        PoolManager.Instance.Get<Explosion>().Init(transform.position, _damage, _explosionSize);
         ReturnToPool();
     }
 }
