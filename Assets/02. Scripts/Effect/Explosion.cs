@@ -12,10 +12,6 @@ public class Explosion : BasePoolable
     int _damage;
 
 
-    private void Awake()
-    {
-        _baseDamageCollider.Init(_damage,null,int.MaxValue);
-    }
     private void OnEnable()
     {
         //폭발 사운드 삽입
@@ -38,7 +34,8 @@ public class Explosion : BasePoolable
         _damage = damage;
         transform.localScale = Vector3.one * size;
         _spriteRenderer.sprite = _sprites[spriteNum];
-        
+
+        _baseDamageCollider.Init(_damage, null, int.MaxValue);
     }
     public void StartExplosion()
     {

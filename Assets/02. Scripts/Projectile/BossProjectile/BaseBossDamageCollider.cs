@@ -45,12 +45,14 @@ public class BaseBossDamageCollider : MonoBehaviour
             !(player.playerStateMachine.IsDash) && 
             hitPlayers.Add(player))
         {
+            player.OnDamagePlayerHP(_damage);            //데미지 입힘
+            Debug.Log($"{_damage}데미지");
             if (hitPlayers.Count < piercingAttackCount)
             {
                 return;
             }
-            player.OnDamagePlayerHP(_damage);            //데미지 입힘
-            _destroyed = true;
+            
+            _destroyed = true;  
             _destroy?.Invoke();
         }
 
