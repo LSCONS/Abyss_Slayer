@@ -5,16 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "RangeTargetingShotSkill", menuName = "SkillRefactory/Range/TargetingShot")]
 public class TargetingShotRangeSkill : RangeAttackSkill
 {
-    [field: SerializeField] public int ProjectileCount { get; private set; } = 1;       //투사체 개수
-    [field: SerializeField] public float StartCircleR { get; private set; } = 1f;       //투사체 시작 위치 반지름
-    [field: SerializeField] public float FireDegree { get; private set; } = 1f;         //중심 발사 각도
-    [field: SerializeField] public float SpreadDegree { get; private set; } = 1f;       //투사체 퍼짐 각도
-    [field: SerializeField] public float HomingPower { get; private set; } = 1f;        //유도 강도
-    [field: SerializeField] public float HomingTime { get; private set; } = 10f;        //유도 지속 시간
-    [field: SerializeField] public AnimationCurve HomingCurve { get; private set; }     //유도 세기 커브
-    [field: SerializeField] public LayerMask TargetLayer { get; private set; }          //타겟 레이어
+    [field: SerializeField] public int ProjectileCount { get; private set; } = 1;       // 투사체 개수
+    [field: SerializeField] public float StartCircleR { get; private set; } = 1f;       // 투사체 시작 위치 반지름
+    [field: SerializeField] public float FireDegree { get; private set; } = 1f;         // 중심 발사 각도
+    [field: SerializeField] public float SpreadDegree { get; private set; } = 1f;       // 투사체 퍼짐 각도
+    [field: SerializeField] public float HomingPower { get; private set; } = 1f;        // 유도 강도
+    [field: SerializeField] public float HomingTime { get; private set; } = 10f;        // 유도 지속 시간
+    [field: SerializeField] public AnimationCurve HomingCurve { get; private set; }     // 유도 세기 커브
+    [field: SerializeField] public LayerMask TargetLayer { get; private set; }          // 타겟 레이어
 
-    private MageSkillRangeVisualizer rangeVisualizer;   //범위 시각화
+    private MageSkillRangeVisualizer rangeVisualizer;   // 범위 시각화
     private Boss target;
     
 

@@ -49,37 +49,38 @@ public class MageProjectile : BasePoolable
     /// <param name="homingCurve">투사체 유도곡선</param>
     public void Init(float damage, Vector3 position, Quaternion rotation, Transform target, float speed, float homingPower, float homingTime, AnimationCurve homingCurve)
     {
-        transform.position = position;
-        transform.rotation = rotation;
-        this.damage = damage;
-        this.target = target;
-        inputSpeed = speed;
-        this.homingPower = homingPower;
-        if(homingCurve != null) this.homingCurve = homingCurve;
-        this.homingTime = homingTime;
+        transform.position = position; // 투사체 위치
+        transform.rotation = rotation; // 투사체 회전
+        this.damage = damage; // 데미지
+        this.target = target; // 타겟
+        inputSpeed = speed; // 입력 속도
+        this.homingPower = homingPower; // 유도력
+        if(homingCurve != null) this.homingCurve = homingCurve; // 유도 곡선
+        this.homingTime = homingTime; // 유도 시간
         trailRenderer.Clear();
-        trailRenderer.enabled = true;
-        fired = true;
-        fireTime = Time.time;
+        trailRenderer.enabled = false; // 궤적 비활성화
+        fired = true; // 발사 여부
+        fireTime = Time.time; // 발사 시간
     }
 
-    //정해진 속도에 따라, 자신(투사체)의 right(+x)방향으로 고정적으로 진행
+    // 속도에 따라 투사체의 right(+x)방향으로 고정적으로 진행
     void Move()
     {
-        speed = inputSpeed * speedCurve.Evaluate((Time.time - fireTime)/homingTime); //animationCurve와 시간 에따라 속도 유동적으로 변경
+        trailRenderer.enabled = true;
+        speed = inputSpeed * speedCurve.Evaluate((Time.time - fireTime)/homingTime); // animationCurve와 시간 에따라 속도 유동적으로 변경
         transform.Translate(Vector3.right * 10 * speed * Time.deltaTime);
     }
 
-    // 정해진 유도력에 따라 회전
+    // 유도력에 따라 회전
     void Rotate() 
     {        
-        Vector3 targetDirection = target.position - transform.position;                                                     // 타겟 방향 계산          
-        float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;                              // 목표물과의 각도 계산
+        Vector3 targetDirection = target.position - transform.position; // 타겟 방향 계산          
+        float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg; // 목표물과의 각도 계산
 
-        float homingSpeed = homingPower * homingCurve.Evaluate((Time.time - fireTime) / homingTime);                        // animationCurve와 시간 에따라 유도력 유동적으로 변경
+        float homingSpeed = homingPower * homingCurve.Evaluate((Time.time - fireTime) / homingTime); // animationCurve와 시간 에따라 유도력 유동적으로 변경
 
-        float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * homingSpeed * Time.deltaTime);   // 각도 계산    
-        transform.rotation = Quaternion.Euler(0, 0, newAngle);                                                              // 유동적인 유도력에 따라 자신을 회전
+        float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * homingSpeed * Time.deltaTime); // 각도 계산    
+        transform.rotation = Quaternion.Euler(0, 0, newAngle); // 유동적인 유도력에 따라 자신을 회전
     }
 
     // 타겟과 충돌 시 행동
@@ -87,10 +88,10 @@ public class MageProjectile : BasePoolable
     {
         if (collision.TryGetComponent<Boss>(out Boss boss))
         {
-            trailRenderer.enabled = false;      // 투사체 궤적 비활성화
-            fired = false;                      // 발사 여부 초기화
-            boss.Damage((int)damage);           // 데미지 전달
-            ReturnToPool();                     // 투사체 반환
+            trailRenderer.enabled = false;    // 투사체 궤적 비활성화
+            fired = false;                    // 발사 여부 초기화
+            boss.Damage((int)damage);         // 데미지 전달
+            ReturnToPool();                   // 투사체 반환
         }
     }
 }
