@@ -28,6 +28,7 @@ public class LaserBoxProjectile : BasePoolable
         transform.position = startPosition;
         _scale = scale;
         transform.localScale = Vector3.zero;
+        transform.rotation = Quaternion.identity;
         _firePosition = firePosition;
         _moveTime = moveTime;
         _chasingTime = chasingTime;
