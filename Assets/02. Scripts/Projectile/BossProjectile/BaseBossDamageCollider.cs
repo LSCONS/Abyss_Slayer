@@ -46,7 +46,7 @@ public class BaseBossDamageCollider : MonoBehaviour
             {
                 return;
             }
-            player.ChangePlayerHP(-_damage);            //데미지 입힘
+            player.OnDamagePlayerHP(_damage);            //데미지 입힘
             _destroyed = true;
             _destroy?.Invoke();
         }
