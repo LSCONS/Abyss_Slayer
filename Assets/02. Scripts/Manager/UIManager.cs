@@ -37,30 +37,25 @@ public class UIManager : Singleton<UIManager>
         }
         if (popupParent == null)
         {
-            var go = new GameObject("UI_Popup");
-            go.transform.SetParent(canvas.transform, false);
-            popupParent = go.transform;
+            popupParent = canvas.transform.GetGameObjectSameNameDFS("UI_Popup")?.transform
+                    ?? new GameObject("UI_Popup", typeof(RectTransform)).transform;
         }
         if (permanentParent == null){
-            var go = new GameObject("UI_Popup");
-            go.transform.SetParent(canvas.transform, false);
-            permanentParent = go.transform;
+            permanentParent = canvas.transform.GetGameObjectSameNameDFS("UI_Permanent")?.transform
+                      ?? new GameObject("UI_Permanent", typeof(RectTransform)).transform;
         }
         if(topParent == null){
-            var go = new GameObject("UI_Top");
-            go.transform.SetParent(canvas.transform, false);
-            topParent = go.transform;
+            topParent = canvas.transform.GetGameObjectSameNameDFS("UI_Top")?.transform
+                 ?? new GameObject("UI_Top", typeof(RectTransform)).transform;
         }   
         if(bottomParent == null){
-            var go = new GameObject("UI_Bottom");
-            go.transform.SetParent(canvas.transform, false);
-            bottomParent = go.transform;
+            bottomParent = canvas.transform.GetGameObjectSameNameDFS("UI_Bottom")?.transform
+                    ?? new GameObject("UI_Bottom", typeof(RectTransform)).transform;
         }
         if (topMidParent == null)
         {
-            GameObject topMidObj = new GameObject("UI_TopMid");
-            topMidObj.transform.SetParent(canvas.transform, false); 
-            topMidParent = topMidObj.transform;
+            topMidParent = canvas.transform.GetGameObjectSameNameDFS("UI_TopMid")?.transform
+                    ?? new GameObject("UI_TopMid", typeof(RectTransform)).transform;
         }
 
     }
