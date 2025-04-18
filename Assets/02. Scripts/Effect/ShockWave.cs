@@ -7,10 +7,6 @@ public class ShockWave : BasePoolable
     int _damage;
     [SerializeField] Collider2D _collider;
     [SerializeField] BaseBossDamageCollider _bossDamageCollider;
-    private void Awake()
-    {
-        _bossDamageCollider.Init(_damage,null,int.MaxValue);
-    }
     public override void Init()
     {
     }
@@ -19,6 +15,8 @@ public class ShockWave : BasePoolable
         transform.position = position;
         _damage = damage;
         transform.localScale = new Vector3(width, height, 1);
+
+        _bossDamageCollider.Init(_damage, null, int.MaxValue);
     }
 
     public void StartAnimation()

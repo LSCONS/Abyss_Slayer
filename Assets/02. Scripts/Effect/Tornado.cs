@@ -28,6 +28,7 @@ public class Tornado : BasePoolable
         _durationTime = durationTime;
         _animator.SetFloat("WarningTime", 1 / warningTime);
         transform.localScale = new Vector3(width, 1f, 1f);
+
         _damageColliderScript.Init(_damage, attackPerSec);
     }
     public void StartAttack()

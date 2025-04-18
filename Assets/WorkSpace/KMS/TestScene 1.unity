@@ -162,13 +162,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1779072543370487692, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
-      propertyPath: m_Priority
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1779072543370487692, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
-      propertyPath: m_Lens.OrthographicSize
-      value: 10
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: allPatterns.Array.data[2].setActivePatternForTest
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2893000285666796103, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: m_Name

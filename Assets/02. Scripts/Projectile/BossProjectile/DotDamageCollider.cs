@@ -20,7 +20,7 @@ public class DotDamageCollider : MonoBehaviour
             _preDamageTime = Time.time;
             foreach(Player p in hitPlayers)
             {
-                p.OnDamagePlayerHP(-_damage);
+                p.OnDamagePlayerHP(_damage);
             }
         }
         
@@ -37,7 +37,7 @@ public class DotDamageCollider : MonoBehaviour
         hitPlayers.Clear();
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Player>(out Player player))
         {
