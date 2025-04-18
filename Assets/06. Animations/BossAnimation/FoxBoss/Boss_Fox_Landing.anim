@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Boss_Fox_Fall
+  m_Name: Boss_Fox_Landing
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,13 +21,13 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 1372342836, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
+      value: {fileID: -1670385013, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
     - time: 0.25
-      value: {fileID: -1516519552, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
+      value: {fileID: 513022851, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
     - time: 0.5
-      value: {fileID: -1614300578, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
+      value: {fileID: -819934149, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
     - time: 0.75
-      value: {fileID: -1614300578, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
+      value: {fileID: 171416399, guid: e4eff3e8af0670945b6ad312257d3277, type: 3}
     attribute: m_Sprite
     path: BossSprite
     classID: 212
@@ -50,10 +50,10 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 1372342836, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
-    - {fileID: -1516519552, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
-    - {fileID: -1614300578, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
-    - {fileID: -1614300578, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
+    - {fileID: -1670385013, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
+    - {fileID: 513022851, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
+    - {fileID: -819934149, guid: 1e9561b69d8029d44a38e35324e74644, type: 3}
+    - {fileID: 171416399, guid: e4eff3e8af0670945b6ad312257d3277, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
