@@ -43,4 +43,19 @@ public class PoolManager : Singleton<PoolManager>
         Debug.LogWarning($"{type}에 대한 풀을 찾을 수 없습니다.");
         return null;
     }
+
+
+    /// <summary>
+    /// 풀 타입을 받아 풀에서 오브젝트를 가져오는 메서드
+    /// </summary>
+    /// <param name="type">풀 타입</param>
+    /// <returns>풀에서 가져온 오브젝트</returns>
+    public BasePoolable Get(System.Type type)
+    {
+        if (poolDict.TryGetValue(type, out var pool))
+            return pool.Get();
+
+        Debug.LogWarning($"{type}에 대한 풀을 찾을 수 없습니다.");
+        return null;
+    }
 }

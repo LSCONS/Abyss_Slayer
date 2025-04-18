@@ -11,7 +11,6 @@ public class Boss : MonoBehaviour, IHasHealth
     bool isDead;
 
     [SerializeField] int maxHP;
-
     public void ChangeHP(int value)
     {
         Hp.Value = Mathf.Clamp(Hp.Value + value, 0, MaxHp.Value);

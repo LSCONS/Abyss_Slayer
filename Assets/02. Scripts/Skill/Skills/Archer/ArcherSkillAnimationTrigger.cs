@@ -41,10 +41,6 @@ public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutine
 
     public void StopCoroutine()
     {
-        if (HoldSkillCoroutine != null)
-        {
-            StopCoroutine(HoldSkillCoroutine);
-            HoldSkillCoroutine = null;
-        }
+        CoroutineManager.Instance.StopCoroutineExit(HoldSkillCoroutine);
     }
 }

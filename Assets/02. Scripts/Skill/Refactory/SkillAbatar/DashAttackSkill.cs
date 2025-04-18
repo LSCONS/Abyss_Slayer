@@ -9,15 +9,20 @@ using UnityEngine.PlayerLoop;
 [CreateAssetMenu(fileName = "DashAttackSkill", menuName = "SkillRefactory/Melee/DashAttackSkill")]
 public class DashAttackSkill : MeleeAttackSkill
 {
-   public float dashDuration = 0.5f;
-   public float dashDistance = 5f;
-   public float colliderDuration = 0.5f;
+    public float damage = 10f;
+    public float dashDuration = 0.5f;
+    public float dashDistance = 5f;
+    public float colliderDuration = 0.5f;
 
-   public GameObject dashColliderPrefab;
-   public GameObject dashEffectPrefab;
+    public float skillDuration = 1f;    // 스킬 지속 시간
 
-   
-   public override void UseSkill()
+    public GameObject dashColliderPrefab;
+    public GameObject dashEffectPrefab;
+    public GameObject dashAttackEffectPrefab;
+
+
+
+    public override void UseSkill()
    {
         // 대시 방향 설정
         Vector2 dashDirection = player.SpriteRenderer.flipX ? Vector2.left : Vector2.right;
@@ -79,10 +84,13 @@ public class DashAttackSkill : MeleeAttackSkill
         Vector2 originalPos = player.playerMeleeCollider.transform.position;
         player.playerMeleeCollider.transform.position = midPos;
 
-        // 콜라이더 키기
+        // 콜라이더 세팅
         GameObject colliderObj = GameObject.Instantiate(dashColliderPrefab, midPos, Quaternion.identity);
-        colliderObj.transform.right = dashDirection; // 콜라이더 방향을 설정    
-        colliderObj.transform.localScale = new Vector3(distance, 1, 1);
+        MeleeDamageCheck damageCheck = colliderObj.GetComponent<MeleeDamageCheck>();
+        if(damageCheck != null)
+        {
+            damageCheck.Init(distance, 1, damage, typeof(BossHitEffect), skillDuration);
+        }
 
         // 콜라이더 위치 원래대로 돌리기
         yield return new WaitForSeconds(colliderDuration);

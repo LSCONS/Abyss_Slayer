@@ -50,7 +50,15 @@ public class GravityProjectile : BasePoolable
         float velocityY = deltaY / time + (_gravity * time / 2);                        //시작지점 y축 속도
 
         _velocityX = _velocityX * Mathf.Sign(_targetPosition.x - transform.position.x); //시작지점 x축 속도
-        _rigidbody.velocity = new Vector2(_velocityX, velocityY);
+
+        Vector2 velocity = new Vector2(_velocityX, velocityY);                          //목표물의 x축 거리가 짧을때 y속도가 과도하게 높아지는 현상 방지
+        if (velocity.magnitude >= 20)
+        {
+            velocity = velocity.normalized * 20f;
+        }
+
+
+        _rigidbody.velocity = velocity;
         _rigidbody.angularVelocity = Random.Range(-90f, 90f);                           //랜덤 회전값
     }
 

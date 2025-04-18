@@ -10,8 +10,18 @@ public class CoroutineManager : Singleton<CoroutineManager>
     }
 
 
-    public void StartCoroutineManager(Coroutine coroutine, IEnumerator enumerator)
+    public Coroutine StartCoroutineEnter(IEnumerator enumerator)
     {
-        coroutine = StartCoroutine(enumerator);
+        return StartCoroutine(enumerator);
+    }
+
+
+    public void StopCoroutineExit(Coroutine coroutine)
+    {
+        if(coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            coroutine = null;
+        }
     }
 }
