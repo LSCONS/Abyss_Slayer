@@ -12,19 +12,32 @@ public class UIHealthBar : UIPermanent, IView
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private RectTransform shakeTarget; // 체력 닳을 때 흔들릴 타겟
 
-    [Header("연결할 타겟 이름")]
-    [SerializeField] private string TargetName = "Player";  // 연결할 타겟이름
+    [Header("플레이어인지 체크")]
+    [SerializeField] private bool isPlayer;   // 플레이어인지 확인
 
 
     private void Awake()
     {
-        UIBinder.Bind<IHasHealth, UIHealthBar, HealthPresenter>(TargetName, this.gameObject); // 체력 바 바인딩
+        string targetTag = isPlayer ? "Player" : "Boss";
+        GameObject target = GameObject.FindWithTag(targetTag);
 
-        if (!UIBinder.Bind<IHasHealth, UIHealthBar, HealthPresenter>(TargetName, this.gameObject))
+        if (target == null)
         {
-            Debug.LogWarning($"[UIHealthBar] 바인딩 실패 {TargetName}를 찾을 수 없다");
+            Debug.LogWarning($"[UIHealthBar] 태그 '{targetTag}'에 해당하는 오브젝트를 찾을 수 없습니다.");
+            return;
         }
 
+        bool bindSuccess = UIBinder.Bind<IHasHealth, UIHealthBar, HealthPresenter>(target.name, this.gameObject);
+        if (!bindSuccess)
+        {
+            Debug.LogWarning($"[UIHealthBar] 바인딩 실패: {target.name}");
+        }
+    }
+
+    private void Update()
+    {
+        if (presenter == null)
+            Debug.LogWarning("[UIHealthBar] presenter가 아직 null입니다.");
     }
     public override void Init()
     {
@@ -82,6 +95,7 @@ public class UIHealthBar : UIPermanent, IView
     {
         this.presenter = presenter;
     }
+    
 
     private void OnDestroy()
     {
