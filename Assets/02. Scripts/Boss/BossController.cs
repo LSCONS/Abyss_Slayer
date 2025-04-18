@@ -274,8 +274,8 @@ public class BossController : MonoBehaviour
         animator.SetTrigger("Dead");
         CinemachineVirtualCamera camera = GetComponentInChildren<CinemachineVirtualCamera>();
         camera.Priority = 20;
-        yield return new WaitForSeconds(1f);
-        float time = Time.time;
+        yield return new WaitForSeconds(0.2f);
+
         while (Time.timeScale < 1f)
         {
             Time.timeScale += 0.1f;
