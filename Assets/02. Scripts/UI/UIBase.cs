@@ -11,7 +11,8 @@ public enum UIType
     Permanent = 1 << 2,
     Top = 1 << 3,
     Bottom = 1 << 4,
-    Popup = 1 << 5,
+    TopMid = 1 << 5,
+    Popup = 1 << 6,
     All = ~0,
 }
 
