@@ -33,12 +33,6 @@ public class UIHealthBar : UIPermanent, IView
             Debug.LogWarning($"[UIHealthBar] 바인딩 실패: {target.name}");
         }
     }
-
-    private void Update()
-    {
-        if (presenter == null)
-            Debug.LogWarning("[UIHealthBar] presenter가 아직 null입니다.");
-    }
     public override void Init()
     {
         hpBar.fillAmount = 1;
