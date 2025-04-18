@@ -18,6 +18,7 @@ public class PlayerStateMachine : StateMachine
     public StoppableAction SkipAttackAction = new();
     public StoppableAction EndAttackAction = new();
 
+    public bool IsDash { get; set; } = false;       //플레이어가 현재 대시 상태인지 출력하는 변수
     public bool CanMove { get; set; } = true;
     public AnimatorStateInfo AnimatorInfo { get; set; }
     public bool IsCompareState { get; set; }

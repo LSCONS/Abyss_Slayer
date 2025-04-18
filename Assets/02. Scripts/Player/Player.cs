@@ -212,18 +212,26 @@ public class Player : MonoBehaviour, IHasHealth
 
 
     /// <summary>
-    /// 플레이어 체력 변환 메서드
+    /// 플레이어 체력 닳는 메서드
     /// </summary>
-    /// <param name="value">변환을 줄 값. -를 넣어야 체력이 깎임.</param>
-    public void ChangePlayerHP(int value)
+    /// <param name="value">변환을 줄 값. +를 넣어야 체력이 깎임.</param>
+    public void OnDamagePlayerHP(int value)
     {
-        Hp.Value = Hp.Value.PlusAndIntClamp(value, MaxHp.Value);
-        //TODO: 플레이어 체력 UI 갱신 필요
+        Hp.Value = Hp.Value.PlusAndIntClamp(-value, MaxHp.Value);
         if (Hp.Value == 0)
         {
             PlayerDie();
-            return;
         }
+    }
+
+
+    /// <summary>
+    /// 플레이어 체력 회복 메서드
+    /// </summary>
+    /// <param name="value">변환을 줄 값. +를 넣어야 체력이 회복.</param>
+    public void HealPlayerHP(int value)
+    {
+        Hp.Value = Hp.Value.PlusAndIntClamp(value, MaxHp.Value);
     }
 
 
