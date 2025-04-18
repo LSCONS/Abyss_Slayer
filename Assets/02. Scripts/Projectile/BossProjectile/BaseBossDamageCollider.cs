@@ -16,7 +16,7 @@ public class BaseBossDamageCollider : MonoBehaviour
 
     private void Awake()
     {
-        hitLayerMask = LayerMask.GetMask("GroundPlane", "Shield");
+        hitLayerMask = LayerData.GroundPlaneLayerMask | LayerData.ShieldLayerMask;
     }
     /// <summary>
     /// 
@@ -39,20 +39,23 @@ public class BaseBossDamageCollider : MonoBehaviour
         {
             return;
         }
-        if(collision.TryGetComponent<Player>(out Player player) && hitPlayers.Add(player))
+
+        if(collision.transform.parent?.TryGetComponent<Player>(out Player player) != null && !(player.playerStateMachine.IsDash) && hitPlayers.Add(player))
         {
-            player.ChangePlayerHP(-_damage);    //데미지 입힘
-            if(hitPlayers.Count < piercingAttackCount)
+            if (hitPlayers.Count < piercingAttackCount)
             {
                 return;
             }
+            player.ChangePlayerHP(-_damage);            //데미지 입힘
             _destroyed = true;
             _destroy?.Invoke();
         }
-        else if(((1 << collision.gameObject.layer) & hitLayerMask) != 0 )
+
+        if(((1 << collision.gameObject.layer) & hitLayerMask) != 0 )
         {
             _destroyed = true;
             _destroy?.Invoke();
+            return;
         }
     }
 }
