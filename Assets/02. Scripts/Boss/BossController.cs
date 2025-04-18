@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -31,7 +32,7 @@ public class BossController : MonoBehaviour
     GameObject _targetCrosshairObj;
     Transform _target;
     [SerializeField] SpriteRenderer _sprite;
-    [SerializeField] float bossCenterHight;
+    [SerializeField] public float bossCenterHight;
 
     [HideInInspector] public bool chasingTarget;
     bool _showTargetCrosshair;
@@ -192,7 +193,7 @@ public class BossController : MonoBehaviour
     }
 
     [SerializeField] LayerMask _groundLayerMask;
-    public IEnumerator Landing()
+    public IEnumerator Landing(bool isDeath = false)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f,_groundLayerMask);
 
@@ -200,12 +201,14 @@ public class BossController : MonoBehaviour
         {
             while (hit.point.y >= transform.position.y - bossCenterHight + 0.05f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, hit.point + (Vector2.up * bossCenterHight), 10f * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, hit.point + (Vector2.up * bossCenterHight), 8f * Time.deltaTime);
                 yield return null;
             }
+            transform.position = hit.point + (Vector2.up * bossCenterHight);
         }
         else if (hit.point.y < transform.position.y - bossCenterHight - 0.05f)
         {
+            animator.SetTrigger(isDeath? "DeathFall" : "Fall");
             float time = 0f;
             float startHight = transform.position.y;
             while (hit.point.y <= transform.position.y - bossCenterHight - 0.05f)
@@ -214,8 +217,14 @@ public class BossController : MonoBehaviour
                 time += Time.deltaTime;
                 yield return null;
             }
+            transform.position = hit.point + (Vector2.up * bossCenterHight);
+
+            if (!isDeath)
+            {
+                animator.SetTrigger("Land");
+                yield return new WaitForSeconds(0.2f);
+            }
         }
-        transform.position = hit.point + (Vector2.up * bossCenterHight);
     }
 
     /// <summary>
@@ -250,5 +259,33 @@ public class BossController : MonoBehaviour
         }
         animator.SetBool("Fall",false);
         transform.position = targetPosition;
+    }
+
+    public void OnDead()
+    {
+        StopAllCoroutines();
+        StartCoroutine(Dead());
+    }
+
+    IEnumerator Dead()
+    {
+        //yield return StartCoroutine(Landing(true));
+        Time.timeScale = 0.2f;
+        animator.SetTrigger("Dead");
+        CinemachineVirtualCamera camera = GetComponentInChildren<CinemachineVirtualCamera>();
+        camera.Priority = 20;
+        yield return new WaitForSeconds(1f);
+        float time = Time.time;
+        while (Time.timeScale < 1f)
+        {
+            Time.timeScale += 0.1f;
+            yield return null;
+        }
+        Time.timeScale = 1f;
+
+        yield return new WaitForSeconds(2f);
+        camera.Priority = 5;
+        yield return new WaitForSeconds(2f);
+        gameObject.SetActive(false);
     }
 }
