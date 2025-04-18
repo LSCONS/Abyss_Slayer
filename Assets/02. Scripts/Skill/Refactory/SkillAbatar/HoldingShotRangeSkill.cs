@@ -1,6 +1,4 @@
-using Photon.Realtime;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RangeHoldingShotSkill", menuName = "SkillRefactory/Range/HoldingShot")]
@@ -28,8 +26,6 @@ public class HoldingShotRangeSkill : RangeAttackSkill
             Vector2 dir = new Vector2(PlayerFrontXNomalized(), 0);
 
             // 일정 범위 내에서 화살 랜덤 생성
-            //float x = Random.Range(-0.3f, 1.2f);
-            //float randomXSpawn = player.SpriteRenderer.flipX ? -x : x;
             float randomYSpawn = Random.Range(-0.3f, 0.3f);
 
             // 화살 생성 위치 설정
