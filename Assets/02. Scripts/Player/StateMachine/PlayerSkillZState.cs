@@ -25,6 +25,7 @@ public class PlayerSkillZState : PlayerSkillState
         StartAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
         SkillEnter(SkillData.CanMove, Slotkey);
         ResetZeroGravityForce();
+        playerStateMachine.IsDash = true;
 
 #if StateMachineDebug
         Debug.Log("Dash 스테이트 진입");
@@ -39,6 +40,7 @@ public class PlayerSkillZState : PlayerSkillState
         SkillExit();
         ResetZeroVelocity();
         ResetDefaultGravityForce();
+        playerStateMachine.IsDash = false;
 
 #if StateMachineDebug
         Debug.Log("Dash 스테이트 해제");
