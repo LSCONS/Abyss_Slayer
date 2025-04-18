@@ -25,4 +25,7 @@ public static class LayerData
 
     public static readonly LayerMask EnemyLayerIndex = LayerMask.NameToLayer("Enemy");
     public static readonly LayerMask EnemyLayerMask = 1 << EnemyLayerIndex;
+
+    public static readonly LayerMask ShieldLayerIndex = LayerMask.NameToLayer("Shield");
+    public static readonly LayerMask ShieldLayerMask = 1 << ShieldLayerIndex;
 }
