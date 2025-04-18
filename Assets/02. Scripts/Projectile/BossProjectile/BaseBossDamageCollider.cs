@@ -40,8 +40,7 @@ public class BaseBossDamageCollider : MonoBehaviour
             return;
         }
 
-        if(collision.transform.parent != null &&
-            collision.transform.parent.TryGetComponent<Player>(out Player player)&& 
+        if(collision.transform.TryGetComponent<Player>(out Player player)&& 
             !(player.playerStateMachine.IsDash) && 
             hitPlayers.Add(player))
         {
