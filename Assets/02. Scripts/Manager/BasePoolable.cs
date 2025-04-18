@@ -20,6 +20,9 @@ public abstract class BasePoolable : MonoBehaviour
 
     }
 
+    // aliveTime 후에 풀에 반환
+    public virtual void AutoReturn(float aliveTime){}
+
     public virtual void ReturnToPool()
     {
         gameObject.SetActive(false);

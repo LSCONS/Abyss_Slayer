@@ -4,15 +4,9 @@ using UnityEngine;
 
 public interface IStopCoroutine
 {
-    public Dictionary<SkillSlotKey, SkillData> skills { get; set; }
-    public Player player { get; set; }
-    public void StopCoroutine();
-}
-
-public interface IStopCoroutineS
-{
-    public Dictionary<SkillSlotKey, Skill> skills { get; set; }
-    public Player player { get; set; }
+    public Dictionary<SkillSlotKey, Skill> SkillDictionary { get; set; }
+    public Coroutine HoldSkillCoroutine { get; set; }
+    public Player Player { get; set; }
     public void StopCoroutine();
 }
 

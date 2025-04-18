@@ -23,7 +23,7 @@ public class PlayerSkillZState : PlayerSkillState
     {
         base.Enter();
         StartAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
-        SkillEnter(SkillData.canMove, Slotkey);
+        SkillEnter(SkillData.CanMove, Slotkey);
         ResetZeroGravityForce();
 
 #if StateMachineDebug

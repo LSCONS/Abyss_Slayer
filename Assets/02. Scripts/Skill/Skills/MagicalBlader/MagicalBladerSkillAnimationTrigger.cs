@@ -3,46 +3,47 @@ using UnityEngine;
 
 public class MagicalBladerSkillAnimationTrigger : MonoBehaviour, IStopCoroutine
 {
-    public Dictionary<SkillSlotKey, SkillData> skills { get; set; }
-    public Player player { get; set; }
-    public Coroutine skillCoroutine;
+    public Dictionary<SkillSlotKey, Skill> SkillDictionary { get; set; }
+    public Player Player { get; set; }
+    public Coroutine HoldSkillCoroutine { get; set; }
+
 
     public void UseSkillA()
     {
-        SkillData skillData = skills[SkillSlotKey.A];
-        skillData.Execute(player, null);
+        Skill skill = SkillDictionary[SkillSlotKey.A];
+        skill.UseSkill();
     }
 
     public void UseSkillS()
     {
-        SkillData skillData = skills[SkillSlotKey.S];
-        skillData.Execute(player, null);
+        Skill skill = SkillDictionary[SkillSlotKey.S];
+        skill.UseSkill();
     }
 
     public void UseSkillD()
     {
-        SkillData skillData = skills[SkillSlotKey.D];
-        skillData.Execute(player, null);
+        Skill skill = SkillDictionary[SkillSlotKey.D];
+        skill.UseSkill();
     }
 
     public void UseSkillZ()
     {
-        SkillData skillData = skills[SkillSlotKey.Z];
-        skillData.Execute(player, null);
+        Skill skill = SkillDictionary[SkillSlotKey.Z];
+        skill.UseSkill();
     }
 
     public void UseSkillX()
     {
-        SkillData skillData = skills[SkillSlotKey.X];
-        skillData.Execute(player, null);
+        Skill skill = SkillDictionary[SkillSlotKey.X];
+        skill.UseSkill();
     }
 
     public void StopCoroutine()
     {
-        if (skillCoroutine != null)
+        if (HoldSkillCoroutine != null)
         {
-            StopCoroutine(skillCoroutine);
-            skillCoroutine = null;
+            StopCoroutine(HoldSkillCoroutine);
+            HoldSkillCoroutine = null;
         }
     }
 }

@@ -7,7 +7,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerWalkState WalkState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerFallState FallState { get; private set; }
-    public PlayerDieState DieState { get; private set; }
+    public PlayerDeadState DieState { get; private set; }
 
     public PlayerSkillZState SkillZState { get; private set; }
     public PlayerSkillXState SkillXState { get; private set; }
@@ -32,7 +32,7 @@ public class PlayerStateMachine : StateMachine
         WalkState = new PlayerWalkState(this);
         JumpState = new PlayerJumpState(this);
         FallState = new PlayerFallState(this);
-        DieState = new PlayerDieState(this);
+        DieState = new PlayerDeadState(this);
 
         SkillZState = new PlayerSkillZState(this);
         SkillAState = new PlayerSkillAState(this);
@@ -96,7 +96,7 @@ public class PlayerStateMachine : StateMachine
     /// <returns>true면 Action 종료, false면 Action 계속</returns>
     private bool ConnectAttackAction(bool isAction, IPlayerState state, Skill skillData)
     {
-        if (isAction && skillData.canUse)
+        if (isAction && skillData.CanUse)
         {
             ChangeState(state);
             return true;
@@ -126,7 +126,7 @@ public class PlayerStateMachine : StateMachine
     private bool IsZeroGround() => (Player.playerCheckGround.GroundPlaneCount + Player.playerCheckGround.GroundPlatformCount) == 0;
 
     /// <summary>해당 SlotKey의 스킬이 사용 가능한지 확인</summary>
-    private bool IsSkillCanUse(SkillSlotKey slotKey) => Player.equippedSkills[slotKey].canUse;
+    private bool IsSkillCanUse(SkillSlotKey slotKey) => Player.equippedSkills[slotKey].CanUse;
 
     /// <summary>MoveDir.y의 값이 0보다 작은지 확인</summary>
     private bool IsDownMoveDirY() => Player.input.MoveDir.y < 0;

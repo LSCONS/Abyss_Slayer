@@ -9,10 +9,9 @@ public class UIBuffSlotManager : MonoBehaviour
     [SerializeField] private GameObject buffSlotPrefab;
     [SerializeField] private Transform buffSlotParent;
 
-    private Dictionary<SkillData, BuffSlotPresenter> activePresenters = new();
 
-    private GameObject slotInstance;
-    private BuffSlotPresenter presenter;    
+    private Dictionary<BuffType, GameObject> slotInstances = new();
+    private Dictionary<BuffType, BuffSlotPresenter> activePresenters = new();
 
     private void Awake()
     {
@@ -21,56 +20,72 @@ public class UIBuffSlotManager : MonoBehaviour
 
     private void Start()
     {
-        ObservePlayerBuff();
+        // Player의 모든 스킬 중 BuffSkill만 감지
+        foreach (var skill in player.equippedSkills.Values)
+        {
+            if (skill is BuffSkill buffSkill)
+            {
+                RegisterBuff(buffSkill.Type, buffSkill);
+            }
+        }
     }
-    private void ObservePlayerBuff()
-    {
-        Debug.Log("[BuffManager] ObservePlayerBuff 구독 시작");
 
-        player.CurDuration
-            .Do(x => Debug.Log($"[BuffManager] CurDuration 변화: {x}"))
+    /// <summary>
+    /// 새로운 버프가 추가되었을 때 외부에서 호출할 것
+    /// </summary>
+    public void RegisterBuff(BuffType buffType, BuffSkill buffSkill)
+    {
+        if (activePresenters.ContainsKey(buffType))
+            return;
+
+        // 구독 걸기
+        buffSkill.CurBuffDuration
             .Subscribe(duration =>
             {
                 if (duration > 0)
                 {
-                    ShowBuffSlot();
+                    if (!activePresenters.ContainsKey(buffType))
+                    {
+                        ShowBuffSlot(buffType, buffSkill);
+                    }
                 }
                 else
                 {
-                    HideBuffSlot();
+                    HideBuffSlot(buffType, buffSkill);
                 }
             })
             .AddTo(this);
     }
-
-    private void ShowBuffSlot()
+    private void ShowBuffSlot(BuffType buffType, BuffSkill buffSkill)
     {
-        if (slotInstance == null)
-        {
-            Debug.Log("CreateBuffSlot (처음 생성)");
+        var slotInstance = Instantiate(buffSlotPrefab, buffSlotParent);
+        var view = slotInstance.GetComponent<UIBuffSlot>();
+        var presenter = new BuffSlotPresenter(buffSkill, view);
 
-            slotInstance = Instantiate(buffSlotPrefab, buffSlotParent);
-            var view = slotInstance.GetComponent<UIBuffSlot>();
-            presenter = new BuffSlotPresenter(player, view);
-        }
-        else
-        {
-            Debug.Log("Reusing existing slot");
-            slotInstance.SetActive(true);
-        }
+        slotInstances[buffType] = slotInstance;
+        activePresenters[buffType] = presenter;
     }
 
-    private void HideBuffSlot()
+    private void HideBuffSlot(BuffType buffType, BuffSkill buffSkill)
     {
-        if (slotInstance != null)
+        if (activePresenters.TryGetValue(buffType, out var presenter))
         {
-            Debug.Log("Hiding existing slot");
-            slotInstance.SetActive(false);
+            presenter.Dispose();
+            activePresenters.Remove(buffType);
+        }
+
+        if (slotInstances.TryGetValue(buffType, out var slotInstance))
+        {
+            slotInstance.SetActive(false); //  풀링
+            slotInstances.Remove(buffType);
         }
     }
 
     private void OnDestroy()
     {
-        presenter?.Dispose();
+        foreach (var presenter in activePresenters.Values)
+        {
+            presenter.Dispose();
+        }
     }
 }

@@ -1,8 +1,8 @@
 using Cinemachine;
 using System.Collections.Generic;
-using UniRx;
-using Unity.VisualScripting;
 using UnityEngine;
+using System;
+using System.Collections;
 public enum CharacterClass
 {
     Archer,
@@ -23,18 +23,18 @@ public class Player : MonoBehaviour
     public PlayerAnimationData playerAnimationData { get; private set; }
     public PlayerStateMachine playerStateMachine { get; private set; }
     public BoxCollider2D playerGroundCollider {  get; private set; }
+    public BoxCollider2D playerMeleeCollider { get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
 
     [Header("스킬 관련")]
     public Dictionary<SkillSlotKey, Skill> equippedSkills = new(); // 스킬 연결용 딕셔너리
     public CharacterSkillSet skillSet; // 스킬셋 데이터
-    public IStopCoroutineS SkillTrigger { get; private set; }
-    public bool IsBuff { get; private set; } = false;
-    public ReactiveProperty<float> MaxDuration;   // 최대 지속 시간
-    public ReactiveProperty<float> CurDuration;   // 현재 지속 시간
+    public IStopCoroutine SkillTrigger { get; private set; }
 
-    public Dictionary<BuffType, float> BuffDuration { get; private set; } = new();
+    public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
+
+    public Action<BoxCollider2D, float> OnMeleeAttack;  // 근접 공격 콜라이더 ON/OFF 액션
 
 
     private void Awake()
@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
         InitSkillData();
         playerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
+        OnMeleeAttack += (collider, duration) => StartCoroutine(EnableMeleeCollider(collider, duration));
     }
 
 
@@ -56,11 +57,30 @@ public class Player : MonoBehaviour
     {
         playerStateMachine.Update();
         SkillCoolTimeCompute();
+        BuffDurationCompute();
     }
 
     private void FixedUpdate()
     {
         playerStateMachine.FixedUpdate();
+    }
+
+
+    private void BuffDurationCompute()
+    {
+        foreach (var value in BuffDuration.Values)
+        {
+            if (value.IsApply)
+            {
+                value.CurBuffDuration.Value -= Time.deltaTime;
+                if (value.CurBuffDuration.Value <= 0)
+                {
+                    value.CurBuffDuration.Value = 0;
+                    value.IsApply = false;
+                }
+            }
+
+        }
     }
 
 
@@ -71,13 +91,13 @@ public class Player : MonoBehaviour
     {
         foreach (var value in equippedSkills.Values)
         {
-            if (!(value.canUse))
+            if (!(value.CanUse))
             {
                 value.CurCoolTime.Value -= Time.deltaTime;
                 if (value.CurCoolTime.Value <= 0)
                 {
                     value.CurCoolTime.Value = 0;
-                    value.canUse = true;
+                    value.CanUse = true;
                 }
             }
         }
@@ -98,23 +118,23 @@ public class Player : MonoBehaviour
         switch (playerCharacterClass)
         {
             case CharacterClass.Archer:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutineS;
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillset");
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutine;
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
                 break;
             case CharacterClass.Healer:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutineS;
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/HealerSkillSet");
                 break;
             case CharacterClass.Mage:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutineS;
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MageSkillSet");
                 break;
             case CharacterClass.MagicalBlader:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutineS;
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
                 break;
             case CharacterClass.Tanker:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutineS;
+                SkillTrigger = PlayerAnimator.gameObject.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/TankerSkillSet");
                 break;
         }
@@ -130,6 +150,7 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
+        playerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
         SpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
         PlayerAnimator = transform.GetComponentForTransformFindName<Animator>("Sprtie_Player");
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -155,8 +176,8 @@ public class Player : MonoBehaviour
                 Debug.LogWarning($"Skill in slot {slot.key} is null!");
             }
         }
-        SkillTrigger.player = this;
-        SkillTrigger.skills = equippedSkills;
+        SkillTrigger.Player = this;
+        SkillTrigger.SkillDictionary = equippedSkills;
     }
 
 
@@ -170,7 +191,7 @@ public class Player : MonoBehaviour
         {
             Skill skill = equippedSkills[slotKey];
             skill.CurCoolTime.Value = skill.MaxCoolTime.Value;
-            skill.canUse = false;
+            skill.CanUse = false;
         }
     }
 
@@ -215,6 +236,19 @@ public class Player : MonoBehaviour
     /// <param name="value">활성화 여부</param>
     public void SetBuff(Skill skill)
     {
-        
+        BuffSkill buffSkill = skill as BuffSkill;
+        if(buffSkill != null)
+        {
+            buffSkill.CurBuffDuration.Value = buffSkill.MaxBuffDuration.Value;
+            buffSkill.IsApply = true;
+            BuffDuration[buffSkill.Type] = buffSkill; 
+        }
+    }
+
+    private IEnumerator EnableMeleeCollider(BoxCollider2D collider, float duration)
+    {
+        collider.enabled = true;
+        yield return new WaitForSeconds(duration);
+        collider.enabled = false;
     }
 }

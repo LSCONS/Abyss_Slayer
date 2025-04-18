@@ -14,7 +14,7 @@ public class SkillSlotPresenter : IPresenter
         this.view = view;
 
         view.SetSkillData(model);
-        view.SetIcon(model.icon);
+        view.SetIcon(model.SkillIcon);
         view.SetCoolTime(model.CurCoolTime.Value);
         view.SetPresenter(this);
 

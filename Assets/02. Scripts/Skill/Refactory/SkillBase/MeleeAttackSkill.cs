@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class MeleeAttackSkill : Skill
 {
-    public float damage = 10f;
-    public float colliderDuration = 0.5f;
+    [field: SerializeField] public float Damage { get; private set; } = 10f;
+    [field: SerializeField] public float ColliderDuration { get; private set; } = 0.5f;
 }

@@ -3,56 +3,44 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
-public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutineS
+public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutine
 {
-    public Dictionary<SkillSlotKey, Skill> skills {  get; set; }
-    public Player player {  get; set; }
-    public Coroutine skillCoroutine;
+    public Dictionary<SkillSlotKey, Skill> SkillDictionary {  get; set; }
+    public Player Player {  get; set; }
+    public Coroutine HoldSkillCoroutine {  get; set; }
 
     public void UseSkillA()
     {
-        Skill skill = skills[SkillSlotKey.A];
+        Skill skill = SkillDictionary[SkillSlotKey.A];
         skill.UseSkill();
     }
 
     public void UseSkillS()
     {
-        Skill skill = skills[SkillSlotKey.S];
-        skill.canMove = false;
-        //skillCoroutine = StartCoroutine(((ArcherSkill_s)skillData.executer).FireArrows(player, null, skillData));
+        Skill skill = SkillDictionary[SkillSlotKey.S];
+        skill.UseSkill();
     }
 
     public void UseSkillD()
     {
-        Skill skill = skills[SkillSlotKey.D];
+        Skill skill = SkillDictionary[SkillSlotKey.D];
         skill.UseSkill();
     }
 
     public void UseSkillZ()
     {
-        Skill skill = skills[SkillSlotKey.Z];
+        Skill skill = SkillDictionary[SkillSlotKey.Z];
         skill.UseSkill();
-
-        Vector2 DashVector = player.input.MoveDir.normalized;
-        DashVector *= player.playerData.PlayerAirData.DashForce;
-        if (DashVector.x > 0) player.SpriteRenderer.flipX = false;
-        else if (DashVector.x < 0) player.SpriteRenderer.flipX = true;
-        player.playerRigidbody.AddForce(DashVector, ForceMode2D.Impulse);
-        player.playerData.PlayerAirData.CurDashCount--;
     }
 
     public void UseSkillX()
     {
-        Skill skill = skills[SkillSlotKey.X];
+        Skill skill = SkillDictionary[SkillSlotKey.X];
         skill.UseSkill();
     }
 
     public void StopCoroutine()
     {
-        if (skillCoroutine != null)
-        {
-            StopCoroutine(skillCoroutine);
-            skillCoroutine = null;
-        }
+        CoroutineManager.Instance.StopCoroutineExit(HoldSkillCoroutine);
     }
 }
