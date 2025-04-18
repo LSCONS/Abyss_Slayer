@@ -40,7 +40,10 @@ public class BaseBossDamageCollider : MonoBehaviour
             return;
         }
 
-        if(collision.transform.parent?.TryGetComponent<Player>(out Player player) != null && !(player.playerStateMachine.IsDash) && hitPlayers.Add(player))
+        if(collision.transform.parent != null &&
+            collision.transform.parent.TryGetComponent<Player>(out Player player)&& 
+            !(player.playerStateMachine.IsDash) && 
+            hitPlayers.Add(player))
         {
             if (hitPlayers.Count < piercingAttackCount)
             {
