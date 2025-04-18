@@ -1732,6 +1732,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossFirst
       objectReference: {fileID: 0}
+    - target: {fileID: 5953183454478518748, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533442902988421679, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533442902988421679, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533442902988421679, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 171416399, guid: e4eff3e8af0670945b6ad312257d3277, type: 3}
     - target: {fileID: 8802479938377772646, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2121,10 +2137,6 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   <playerData>k__BackingField: {fileID: 0}
   skillSet: {fileID: 0}
-  MaxDuration:
-    value: 0
-  CurDuration:
-    value: 0
 --- !u!4 &5617009150960733084
 Transform:
   m_ObjectHideFlags: 0
