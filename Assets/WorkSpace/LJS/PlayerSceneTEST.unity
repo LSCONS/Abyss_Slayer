@@ -488,9 +488,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1587025431}
-  - {fileID: 1790966210}
   - {fileID: 590978552}
+  - {fileID: 1790966210}
+  - {fileID: 1360780183}
   m_Father: {fileID: 1964015028}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &226084121
@@ -1226,7 +1226,7 @@ GameObject:
   - component: {fileID: 590978551}
   - component: {fileID: 590978550}
   m_Layer: 0
-  m_Name: MageSkill03
+  m_Name: MageAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2080,12 +2080,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 993407286}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.73, y: -4.47, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11.320193, y: -1.4354621, z: 0.085585}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1964015028}
+  m_Father: {fileID: 2084300890}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &993407288
 SpriteRenderer:
@@ -2743,7 +2743,7 @@ GameObject:
   - component: {fileID: 1360780182}
   - component: {fileID: 1360780181}
   m_Layer: 0
-  m_Name: TEST111
+  m_Name: MageSkill03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2835,7 +2835,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1964015028}
+  m_Father: {fileID: 209173319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1367961270 stripped
 RectTransform:
@@ -3253,7 +3253,7 @@ GameObject:
   - component: {fileID: 1587025433}
   - component: {fileID: 1587025432}
   m_Layer: 0
-  m_Name: MageAttack
+  m_Name: MagicAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3272,7 +3272,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 209173319}
+  m_Father: {fileID: 1964015028}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1587025432
 Animator:
@@ -3942,7 +3942,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1360780183}
+  - {fileID: 1587025431}
   - {fileID: 961227798}
   - {fileID: 1799917533}
   - {fileID: 569239210}
@@ -3954,7 +3954,6 @@ Transform:
   - {fileID: 1004990526}
   - {fileID: 209173319}
   - {fileID: 141274350}
-  - {fileID: 993407287}
   m_Father: {fileID: 551514461}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2084300889
@@ -3990,6 +3989,7 @@ Transform:
   - {fileID: 380306894}
   - {fileID: 1908984065}
   - {fileID: 938038085}
+  - {fileID: 993407287}
   m_Father: {fileID: 551514461}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2111012492
