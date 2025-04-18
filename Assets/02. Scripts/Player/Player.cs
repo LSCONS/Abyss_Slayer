@@ -58,6 +58,10 @@ public class Player : MonoBehaviour
         playerStateMachine.Update();
         SkillCoolTimeCompute();
         BuffDurationCompute();
+        if (Input.GetKey(KeyCode.Q))
+        {
+            ChangePlayerHP(-1);
+        }
     }
 
     private void FixedUpdate()
@@ -209,11 +213,11 @@ public class Player : MonoBehaviour
     /// 플레이어 체력 변환 메서드
     /// </summary>
     /// <param name="value">변환을 줄 값. -를 넣어야 체력이 깎임.</param>
-    public void ChangePlayerHP(float value)
+    public void ChangePlayerHP(int value)
     {
-        playerData.PlayerStatusData.HP_Cur.PlusAndClamp(value, playerData.PlayerStatusData.HP_Max);
+        playerData.PlayerStatusData.Hp.Value.PlusAndClamp(value, playerData.PlayerStatusData.MaxHp.Value);
         //TODO: 플레이어 체력 UI 갱신 필요
-        if(playerData.PlayerStatusData.HP_Cur == 0)
+        if(playerData.PlayerStatusData.Hp.Value == 0)
         {
             PlayerDie();
             return;

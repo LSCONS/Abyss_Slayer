@@ -205,6 +205,29 @@ public static class Util
     {
         return Mathf.Clamp(nowValue + addValue, 0, max);
     }
+    /// <summary>
+    /// 해당 정수를 더한 후 값을 제한하여 반환합니다.
+    /// </summary>
+    /// <param name="nowValue">현재 값</param>
+    /// <param name="addValue">추가할 값</param>
+    /// <param name="min">최소값</param>
+    /// <param name="max">최대값</param>
+    /// <returns>min <= nowValue + addValue <= min 반환</returns>
+    public static float PlusAndClamp(this int nowValue, float addValue, float min, float max)
+    {
+        return Mathf.Clamp(nowValue + addValue, min, max);
+    }
+    /// <summary>
+    /// 해당 정수를 더한 후 값을 제한하여 반환합니다.
+    /// </summary>
+    /// <param name="nowValue">현재 값</param>
+    /// <param name="addValue">추가할 값</param>
+    /// <param name="max">최대값</param>
+    /// <returns>0 <= nowValue + addValue <= min 반환</returns>
+    public static float PlusAndClamp(this int nowValue, float addValue, float max)
+    {
+        return Mathf.Clamp(nowValue + addValue, 0, max);
+    }
 
 
     /// <summary>
