@@ -238,7 +238,7 @@ MonoBehaviour:
   topParent: {fileID: 645399418}
   bottomParent: {fileID: 1634912149}
   popupParent: {fileID: 105628012}
-  topMidParent: {fileID: 1352380651}
+  topMidParent: {fileID: 0}
 --- !u!114 &638554975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,11 +302,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!224 &1352380651 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2328582295903163497, guid: 54283dbe4ace6bf40ba96e576213dec1, type: 3}
-  m_PrefabInstance: {fileID: 511873910807559675}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1573321043
 GameObject:
   m_ObjectHideFlags: 0
@@ -2209,7 +2204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a4184effe3bbd4bbc8087229a1daaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCharacterClass: 0
+  playerCharacterClass: 3
   playerRigidbody: {fileID: 484377001488076847}
   playerCheckGround: {fileID: 1999757080370461586}
   mainCamera: {fileID: 0}
