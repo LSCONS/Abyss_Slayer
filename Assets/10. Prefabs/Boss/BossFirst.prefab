@@ -67,7 +67,7 @@ MonoBehaviour:
   allPatterns:
   - weight: 5
     patternData: {fileID: 11400000, guid: f1c7e98faf85eda4fbe0f400ebcf2af4, type: 2}
-    setActivePatternForTest: 0
+    setActivePatternForTest: 1
     showGizmos: 1
   - weight: 5
     patternData: {fileID: 11400000, guid: 14e37b6adf587b14ab4574a89a929725, type: 2}
@@ -91,7 +91,7 @@ MonoBehaviour:
     showGizmos: 1
   - weight: 5
     patternData: {fileID: 11400000, guid: ca4ceaddc4d5c8045b0b06622fd03155, type: 2}
-    setActivePatternForTest: 1
+    setActivePatternForTest: 0
     showGizmos: 1
   targetCrossHairPrefab: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
   _sprite: {fileID: 7533442902988421679}
@@ -264,7 +264,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4, y: 6}
+  m_Size: {x: 8, y: 8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
