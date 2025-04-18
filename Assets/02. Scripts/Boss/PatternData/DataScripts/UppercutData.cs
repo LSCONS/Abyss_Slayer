@@ -5,6 +5,7 @@ using UnityEngine;
 public class UppercutData : BasePatternData
 {
     [SerializeField] int damage;
+    [SerializeField] float attackPerSec = 5f;
     [SerializeField] float accessSpeed = 10f;
     [SerializeField] float preDelayTime = 0.8f;
     [SerializeField] float warningTime = 0.4f;
@@ -29,8 +30,10 @@ public class UppercutData : BasePatternData
             bossTransform.position = new Vector3(x, bossTransform.position.y, 0);
             yield return null;
         }
+        bossController.chasingTarget = false;
+        bossController.showTargetCrosshair = false;
         bossAnimator.SetTrigger("Uppercut3");
-        PoolManager.Instance.Get<Tornado>().Init(bossTransform.position, damage, duration, warningTime, width);
+        PoolManager.Instance.Get<Tornado>().Init(bossTransform.position + Vector3.down * bossCenterHight, damage, duration, attackPerSec, warningTime, width);
         yield return new WaitForSeconds(warningTime);
         bossAnimator.SetTrigger("Uppercut4");
         yield return bossController.StartCoroutine(bossController.JumpMove(targetPosition + Vector3.up * jumpHight, jumpTime, 0f));
