@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RangeTargetingShotSkill", menuName = "SkillRefactory/Range/TargetingShot")]
@@ -21,6 +19,7 @@ public class TargetingShotRangeSkill : RangeAttackSkill
     public override void UseSkill()
     {
         base.UseSkill();
+        
         // 범위 시각화 컴포넌트를 플레이어에 추가하고 설정(디버그용)
         if (rangeVisualizer == null)
         {
