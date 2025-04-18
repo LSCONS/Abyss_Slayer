@@ -7,7 +7,7 @@ public class HomingProjectile : BasePoolable
     [SerializeField] float homingTime;
     [SerializeField] AnimationCurve speedCurve;
     [SerializeField] AnimationCurve homingCurve;
-    [SerializeField] BaseBossProjectileCollider _collider;
+    [SerializeField] BaseBossDamageCollider _collider;
     [SerializeField] TrailRenderer trailRenderer;
     int _damage;
     Transform _target;
@@ -71,7 +71,7 @@ public class HomingProjectile : BasePoolable
         if(speedCurve != null)
             this.speedCurve = speedCurve;
 
-        _collider.colliderSet(Hit);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
+        _collider.Init(0,Destroy);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
         trailRenderer.enabled = true;   //탄 궤적 활성화
     }
 
@@ -92,7 +92,7 @@ public class HomingProjectile : BasePoolable
         transform.rotation = Quaternion.Euler(0, 0, newAngle);                                                         //유동적인 유도력에 따라 자신을 회전
     }
 
-    public void Hit()
+    public void Destroy()
     {
         trailRenderer.enabled = false;  //탄궤적 비활성화(오브젝트풀 사용하기에 안끄면 생성시 마지막 위치에서 생성위치까지 궤적생김)
         _fired = false;

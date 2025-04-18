@@ -217,6 +217,7 @@ public class Player : MonoBehaviour
     {
         playerData.PlayerStatusData.Hp.Value.PlusAndClamp(value, playerData.PlayerStatusData.MaxHp.Value);
         //TODO: 플레이어 체력 UI 갱신 필요
+        Debug.Log($"Player Hp {playerData.PlayerStatusData.Hp.Value}");
         if(playerData.PlayerStatusData.Hp.Value == 0)
         {
             PlayerDie();

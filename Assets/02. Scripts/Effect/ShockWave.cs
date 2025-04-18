@@ -6,6 +6,11 @@ public class ShockWave : BasePoolable
 {
     int _damage;
     [SerializeField] Collider2D _collider;
+    [SerializeField] BaseBossDamageCollider _bossDamageCollider;
+    private void Awake()
+    {
+        _bossDamageCollider.Init(_damage,null,int.MaxValue);
+    }
     public override void Init()
     {
     }

@@ -7,9 +7,15 @@ public class Explosion : BasePoolable
     [SerializeField] List<Sprite> _sprites;
     [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] Collider2D _collider;
+    [SerializeField] BaseBossDamageCollider _baseDamageCollider;
     List<Player> hitPlayers = new List<Player>();
     int _damage;
 
+
+    private void Awake()
+    {
+        _baseDamageCollider.Init(_damage,null,int.MaxValue);
+    }
     private void OnEnable()
     {
         //폭발 사운드 삽입
@@ -37,27 +43,8 @@ public class Explosion : BasePoolable
     public void StartExplosion()
     {
         _collider.enabled = true;
-
-        Collider2D[] hitplayers = Physics2D.OverlapCircleAll(transform.position, 0.5f, LayerMask.NameToLayer("Player"));
-
-        for(int i = 0; i < hitplayers.Length; i++)
-        {
-            if(hitplayers[i].TryGetComponent<Player>(out Player player))
-            {
-                //데미지주기 코드 삽입필요
-                hitPlayers.Add(player);
-            }
-        }
-        _collider.enabled = true;
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if(collision.TryGetComponent<Player>(out Player player) && !hitPlayers.Contains(player))
-        {
-            //데미지주기 코드 삽입필요
-            hitPlayers.Add(player);
-        } 
-    }
+
     public void StopDamage()
     {
         _collider.enabled = false;

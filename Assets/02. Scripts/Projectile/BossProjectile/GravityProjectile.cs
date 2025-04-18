@@ -6,7 +6,7 @@ public class GravityProjectile : BasePoolable
 {
     Rigidbody2D _rigidbody;
     [SerializeField] ParticleSystem _particleSystem;
-    [SerializeField] BaseBossProjectileCollider _bossProjectileCollider;
+    [SerializeField] BaseBossDamageCollider _bossProjectileCollider;
     [SerializeField] GameObject _sprite;
 
     float _gravity;
@@ -31,7 +31,7 @@ public class GravityProjectile : BasePoolable
         transform.localScale = Vector3.one * size;
         _gravity = 9.81f * gravityScale;
         _rigidbody.gravityScale = gravityScale;
-        _bossProjectileCollider.colliderSet(hit,piercingCount);
+        _bossProjectileCollider.Init(_damage,Destroy,piercingCount);
 
         Throw();
 
@@ -62,7 +62,7 @@ public class GravityProjectile : BasePoolable
         _rigidbody.angularVelocity = Random.Range(-90f, 90f);                           //랜덤 회전값
     }
 
-    void hit()
+    void Destroy()
     {
         _rigidbody.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody.velocity = Vector2.zero;

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8219885142913271648}
+  - component: {fileID: 8597099813525594896}
   - component: {fileID: 866989579873824697}
   - component: {fileID: 3417948789256547885}
   m_Layer: 0
@@ -33,6 +34,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6646979938667965719}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8597099813525594896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910480307328887921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688d4d1a7e0d1fc4f97caf345fa86b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &866989579873824697
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -170,6 +183,7 @@ MonoBehaviour:
   - {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   _spriteRenderer: {fileID: 866989579873824697}
   _collider: {fileID: 3417948789256547885}
+  _baseDamageCollider: {fileID: 8597099813525594896}
 --- !u!95 &9147096211941698975
 Animator:
   serializedVersion: 5
