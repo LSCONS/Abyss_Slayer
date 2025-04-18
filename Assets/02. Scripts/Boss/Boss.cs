@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
@@ -9,13 +10,21 @@ public class Boss : MonoBehaviour, IHasHealth
     public ReactiveProperty<int> Hp { get; } = new ReactiveProperty<int>(1000);
     public ReactiveProperty<int> MaxHp { get; } = new ReactiveProperty<int> (1000);
     bool isDead;
+    Action bossDeath;
 
     [SerializeField] int maxHP;
     public void ChangeHP(int value)
     {
         Hp.Value = Mathf.Clamp(Hp.Value + value, 0, MaxHp.Value);
         if (Hp.Value == 0)
+        {
             isDead = true;
+            bossDeath?.Invoke();
+        }
+    }
+    public void AddBossDeathAction(Action deatAction)
+    {
+        bossDeath += deatAction;
     }
     /// <summary>
     /// 데미지(양수) 입히기
@@ -46,5 +55,6 @@ public class Boss : MonoBehaviour, IHasHealth
         Hp.Value = MaxHp.Value;
         isDead = false;
         bossController = GetComponent<BossController>();
+        AddBossDeathAction(bossController.OnDead);
     }
 }

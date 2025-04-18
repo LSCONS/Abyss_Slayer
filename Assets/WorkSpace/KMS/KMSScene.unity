@@ -1730,11 +1730,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[0].setActivePatternForTest
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[3].setActivePatternForTest
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[4].setActivePatternForTest
@@ -1747,6 +1747,14 @@ PrefabInstance:
     - target: {fileID: 2893000285666796103, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: m_Name
       value: BossFirst
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533442902988421679, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: m_Size.x
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533442902988421679, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: m_Size.y
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8802479938377772646, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: m_LocalPosition.x

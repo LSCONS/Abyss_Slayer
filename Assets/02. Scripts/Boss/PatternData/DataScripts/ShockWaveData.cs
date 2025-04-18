@@ -22,9 +22,9 @@ public class ShockWaveData : BasePatternData
         bossAnimator.SetTrigger("ShockWave2");
         yield return new WaitForSeconds(stompTime);
 
-        Vector3 startPosition = bossTransform.position;
+        Vector3 startPosition = bossTransform.position + Vector3.down * bossCenterHight;
 
-        PoolManager.Instance.Get<Explosion>().Init(startPosition + (Vector3.down * 0.7f), damage, 0.5f);
+        PoolManager.Instance.Get<Explosion>().Init(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
         bossController.StartCoroutine(ShockWave(startPosition));
 
         yield return new WaitForSeconds(postDelayTime);
