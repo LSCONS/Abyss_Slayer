@@ -46,9 +46,36 @@ public class MeleeDamageCheck : MonoBehaviour
         
         hitObjects.Clear();
         nextHitTime.Clear();
-
-
     }
+
+
+    /// <summary>
+    /// 위치, 크기, 데미지, 이펙트 타입, 이펙트 타임 설정
+    /// </summary>
+    /// <param name="sizeX">콜라이더 크기 X</param>
+    /// <param name="sizeY">콜라이더 크기 Y</param>
+    /// <param name="offset">오프셋</param>
+    /// <param name="damage">데미지</param>
+    /// <param name="effectType">이펙트 타입</param>
+    /// <param name="aliveTime">이펙트 지속 시간</param>
+    public void Init(Player player, float sizeX, float sizeY, Vector2 offset, float damage, System.Type effectType, float aliveTime)
+    {
+        boxCollider.size = new Vector2(sizeX, sizeY);
+        boxCollider.offset = new Vector2(offset.x, offset.y);
+        this.damage = damage;
+        this.effectType = effectType;
+        this.aliveTime = aliveTime;
+
+
+        float flag = 1f;
+
+        if(player.SpriteRenderer !=null) flag = player.SpriteRenderer.flipX ? -1f : 1f;
+        boxCollider.offset = new Vector2(offset.x * flag, offset.y);
+
+        hitObjects.Clear();
+        nextHitTime.Clear();
+    }
+
     /// <summary>
     /// 반복 여부와 쿨타임 설정
     /// </summary>
@@ -73,7 +100,6 @@ public class MeleeDamageCheck : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D col)
     {
-        Debug.Log($"[Stay] {col.name} at {Time.time}");
         if (canRepeatHit)
             TryHit(col.gameObject);
     }
@@ -131,6 +157,22 @@ public class MeleeDamageCheck : MonoBehaviour
             //Destroy(gameObject, 10); // 풀 객체가 아니면 그냥 파괴
         }
 
+    }
+
+
+    // 공격 기즈모로 확인해보기
+    private void OnDrawGizmosSelected()
+    {
+        if (boxCollider == null)
+            boxCollider = GetComponent<BoxCollider2D>();
+
+        // 사이즈나 오프셋 적용된 박스 정보
+        Vector3 worldCenter = transform.TransformPoint(boxCollider.offset);
+        // 로컬 크기를 월드 벡터로 변환
+        Vector3 worldSize = transform.TransformVector(boxCollider.size);
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(worldCenter, worldSize);
     }
 
 }
