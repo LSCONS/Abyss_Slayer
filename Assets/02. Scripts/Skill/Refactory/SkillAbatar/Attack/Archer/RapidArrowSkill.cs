@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RapidArrowSkill", menuName = "SkillRefactory/Range/RapidArrow")]
+[CreateAssetMenu(fileName = "ArcherSkillS", menuName = "SkillRefactory/Range/RapidArrow")]
 public class RapidArrowSkill : ProjectileAttackSkill
 {
     [field: SerializeField] public int ProjectileCount { get; private set; } = 50;
@@ -37,6 +37,7 @@ public class RapidArrowSkill : ProjectileAttackSkill
                 float x = Random.Range(-1f, 1f);
                 Vector3 distanceX = new Vector3(x, 0, 0);
                 PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos + distanceY + distanceX, dir, Range, Speed, SpriteNum, Damage * 0.8f);
+                
                 x = Random.Range(-1f, 1f);
                 distanceX = new Vector3(x, 0, 0);
                 PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos - distanceY + distanceX, dir, Range, Speed, SpriteNum, Damage * 0.8f);
