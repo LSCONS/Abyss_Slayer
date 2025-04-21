@@ -35,5 +35,6 @@ public class LightningSkill : RangeAttackSkill
         }
 
         Destroy(SkillEffect.gameObject);
+        player.SkillTrigger.HoldSkillCoroutine = null;
     }
 }
