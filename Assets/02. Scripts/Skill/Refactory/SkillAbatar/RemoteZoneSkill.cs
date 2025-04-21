@@ -5,7 +5,7 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "RemoteZoneSkill", menuName = "SkillRefactory/Range/RemoteZoneSkill")]
 
-public class RemoteZoneSkill : RangeAttackSkill
+public class RemoteZoneSkill : ProjectileAttackSkill
 {
 
     [SerializeField] private float sizeX = 1;
