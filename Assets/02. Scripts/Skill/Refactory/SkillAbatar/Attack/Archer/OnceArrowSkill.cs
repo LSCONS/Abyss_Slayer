@@ -8,7 +8,7 @@ public class OnceArrowSkill : ProjectileAttackSkill
     public override void UseSkill()
     {
         base.UseSkill(); 
-        Vector3 dirX = new Vector3(PlayerFrontXNomalized() * 1.5f, 0 ,0); // 플레이어 방향 계산
+        Vector3 dirX = new Vector3(PlayerFrontXNormalized() * 1.5f, 0 ,0); // 플레이어 방향 계산
         Vector3 spawnPos = PlayerPosition() + dirX; // 화살 생성 위치
 
         // 버프 상태일 경우 추가 화살 생성

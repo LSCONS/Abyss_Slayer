@@ -23,7 +23,7 @@ public class RapidArrowSkill : ProjectileAttackSkill
         for (int i = 0; i < ProjectileCount; i++)
         {
             // 플레이어가 바라보는 방향 계산
-            Vector2 dir = new Vector2(PlayerFrontXNomalized(), 0);
+            Vector2 dir = new Vector2(PlayerFrontXNormalized(), 0);
 
             // 일정 범위 내에서 화살 랜덤 생성
             float randomYSpawn = Random.Range(-0.3f, 0.3f);
@@ -37,7 +37,7 @@ public class RapidArrowSkill : ProjectileAttackSkill
                 float x = Random.Range(-1f, 1f);
                 Vector3 distanceX = new Vector3(x, 0, 0);
                 PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos + distanceY + distanceX, dir, Range, Speed, SpriteNum, Damage * 0.8f);
-                
+
                 x = Random.Range(-1f, 1f);
                 distanceX = new Vector3(x, 0, 0);
                 PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos - distanceY + distanceX, dir, Range, Speed, SpriteNum, Damage * 0.8f);

@@ -15,7 +15,7 @@ public class LightningSkill : RangeAttackSkill
 
     public IEnumerator Lightning()
     {
-        Vector3 dir = new Vector3(PlayerFrontXNomalized() * 1.5f, 0, 0);
+        Vector3 dir = new Vector3(PlayerFrontXNormalized() * 1.5f, 0, 0);
 
         Instantiate(SkillEffect, player.transform.position + (Vector3)(dir * 4f), Quaternion.identity);
 

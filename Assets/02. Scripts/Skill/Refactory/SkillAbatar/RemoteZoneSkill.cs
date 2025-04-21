@@ -22,7 +22,7 @@ public class RemoteZoneSkill : ProjectileAttackSkill
 
     public override void UseSkill()
     {
-        Vector2 offset = new Vector2(spawnOffset.x * PlayerFrontXNomalized(), spawnOffset.y);
+        Vector2 offset = new Vector2(spawnOffset.x * PlayerFrontXNormalized(), spawnOffset.y);
         Vector3 spawnPos = player.transform.position + (Vector3)offset;
 
 
