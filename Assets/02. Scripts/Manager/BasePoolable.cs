@@ -25,6 +25,11 @@ public abstract class BasePoolable : MonoBehaviour
 
     }
 
+    public virtual void Init(Vector3 spawnPos, float sizeX, float sizeY, float tickRate, float duration, float damage, LayerMask targetLayer, string effetName)
+    {
+
+    }
+
 
     // aliveTime 후에 풀에 반환
     public virtual void AutoReturn(float aliveTime){}

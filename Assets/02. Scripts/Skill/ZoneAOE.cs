@@ -17,12 +17,11 @@ public class ZoneAOE : BasePoolable
     private HashSet<IHasHealth> targetsInRange = new();
 
     [SerializeField] private GameObject effectPrefab; // 이펙트 프리팹
-
     public override void Init()
     {
 
     }
-    public override void Init(Vector3 spawnPos, float sizeX, float sizeY, float tickRate, float _duration, float damage, LayerMask targetLayer)
+    public override void Init(Vector3 spawnPos, float sizeX, float sizeY, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
     {
         // 기본 세팅
         this.duration = _duration;
@@ -34,25 +33,8 @@ public class ZoneAOE : BasePoolable
         // 위치 세팅
         transform.position = spawnPos;
 
-        // 존 이펙트 활성화
-        if (effectPrefab != null)
-        {   // 이펙트 길이 맞추기
-            effectPrefab.SetActive(true);
-            var animator = effectPrefab.GetComponentInChildren<Animator>();
-            if (animator != null && animator.runtimeAnimatorController != null)
-            {
-                // 첫 번째 클립 길이 가져오기
-                var clips = animator.runtimeAnimatorController.animationClips;
-                if (clips.Length > 0)
-                {
-                    float clipLength = clips[0].length;
-                    // clipLength 초짜리 애니메이션을 duration 초에 맞춰 재생
-                    animator.speed = clipLength / _duration;
-                    // 애니메이션 처음부터 재생
-                    animator.Play(clips[0].name, 0, 0f);
-                }
-            }
-        }
+        // 애니메이터 세팅
+        SetActiveAnimator(effectName);
 
         // 박스 콜라이더 세팅
         var col = GetComponent<BoxCollider2D>();
@@ -79,6 +61,38 @@ public class ZoneAOE : BasePoolable
             effectPrefab.SetActive(false);
         ReturnToPool();
     }
+
+    // 애니메이터 활성화
+    private void SetActiveAnimator(string effectName){
+        // 존 이펙트 활성화
+        if (effectPrefab != null)
+        {   // 이펙트 길이 맞추기
+            effectPrefab.SetActive(true);
+            var animator = effectPrefab.GetComponentInChildren<Animator>();
+            animator.runtimeAnimatorController = ChangeAnimatior(effectName);
+            if (animator != null && animator.runtimeAnimatorController != null)
+            {
+                // 첫 번째 클립 길이 가져오기
+                var clips = animator.runtimeAnimatorController.animationClips;
+                if (clips.Length > 0)
+                {
+                    float clipLength = clips[0].length;
+                    // clipLength 초짜리 애니메이션을 duration 초에 맞춰 재생
+                    animator.speed = clipLength / duration;
+                    // 애니메이션 처음부터 재생
+                    animator.Play(clips[0].name, 0, 0f);
+                }
+            }
+        }
+
+    }
+
+    // 애니메이터 가져오기 << 나중에 미리 캐싱해두기
+    private RuntimeAnimatorController ChangeAnimatior(string effectName)
+    {
+       return Resources.Load<RuntimeAnimatorController>("Effect/Animator/" + effectName);   
+    }
+
 
     // 기즈모 범위 씬 뷰에서 범위 확인용
     private void OnDrawGizmosSelected()

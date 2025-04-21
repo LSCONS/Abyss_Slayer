@@ -17,7 +17,8 @@ public class RemoteZoneSkill : RangeAttackSkill
     [Header("플레이어 기준 offset")]
     [SerializeField] private float spawnOffset = 5f; // 플레이어 기준 거리
 
-
+    [Header("effect 이름")]
+    [SerializeField] private string effectName;
 
     public override void UseSkill()
     {
@@ -27,7 +28,7 @@ public class RemoteZoneSkill : RangeAttackSkill
 
         // 풀에서 ZoneAOE 꺼내기
         var zone = PoolManager.Instance.Get<ZoneAOE>();
-        zone.Init(spawnPos, sizeX, sizeY, tickRate, duration, Damage, targetLayer);
+        zone.Init(spawnPos, sizeX, sizeY, tickRate, duration, Damage, targetLayer, effectName);
     }
 
 

@@ -11,9 +11,6 @@ public class BasicMeleeAttackSkill : MeleeAttackSkill
     [SerializeField] private float sizeY;
     [SerializeField] private Vector2 offset;
 
-
-
-
     public override void UseSkill()
     {
         Debug.Log("때리기");
@@ -25,8 +22,6 @@ public class BasicMeleeAttackSkill : MeleeAttackSkill
 
         // 콜라이더 온오프
         player.StartCoroutine(player.EnableMeleeCollider(player.playerMeleeCollider, ColliderDuration));
-
-
     
     }
 }
