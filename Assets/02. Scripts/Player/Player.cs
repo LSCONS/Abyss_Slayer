@@ -259,7 +259,7 @@ public class Player : MonoBehaviour, IHasHealth
         }
     }
 
-    private IEnumerator EnableMeleeCollider(BoxCollider2D collider, float duration)
+    public IEnumerator EnableMeleeCollider(BoxCollider2D collider, float duration)
     {
         collider.enabled = true;
         yield return new WaitForSeconds(duration);
