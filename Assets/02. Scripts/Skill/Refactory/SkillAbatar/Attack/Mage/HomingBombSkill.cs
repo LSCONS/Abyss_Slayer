@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RangeTargetingShotSkill", menuName = "SkillRefactory/Range/TargetingShot")]
-public class TargetingShotRangeSkill : RangeAttackSkill
+[CreateAssetMenu(fileName = "HomingBombSkill", menuName = "SkillRefactory/Range/HomingBomb")]
+public class HomingBombSkill : ProjectileAttackSkill
 {
     [field: SerializeField] public int ProjectileCount { get; private set; } = 1;       // 투사체 개수
     [field: SerializeField] public float StartCircleR { get; private set; } = 1f;       // 투사체 시작 위치 반지름

@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RangeHoldingShotSkill", menuName = "SkillRefactory/Range/HoldingShot")]
-public class HoldingShotRangeSkill : RangeAttackSkill
+[CreateAssetMenu(fileName = "RapidArrowSkill", menuName = "SkillRefactory/Range/RapidArrow")]
+public class RapidArrowSkill : ProjectileAttackSkill
 {
     [field: SerializeField] public int ProjectileCount { get; private set; } = 50;
     [field: SerializeField] public float ShotDelay { get; private set; } = 0.1f;
