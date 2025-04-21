@@ -31,7 +31,7 @@ public class Skill : ScriptableObject
     }
 
     // 플레이어 방향 반환
-    public float PlayerFrontXNomalized()
+    public float PlayerFrontXNormalized()
     {
         float x = player.SpriteRenderer.flipX ? -1f : 1f;
         return x;

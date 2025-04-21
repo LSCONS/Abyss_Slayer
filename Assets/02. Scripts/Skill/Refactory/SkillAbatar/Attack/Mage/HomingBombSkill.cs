@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "HomingBombSkill", menuName = "SkillRefactory/Range/HomingBomb")]
+[CreateAssetMenu(fileName = "MageSkillA", menuName = "SkillRefactory/Range/HomingBomb")]
 public class HomingBombSkill : ProjectileAttackSkill
 {
     [field: SerializeField] public int ProjectileCount { get; private set; } = 1;       // 투사체 개수
