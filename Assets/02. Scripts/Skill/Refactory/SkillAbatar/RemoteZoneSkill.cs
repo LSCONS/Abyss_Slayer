@@ -15,15 +15,15 @@ public class RemoteZoneSkill : RangeAttackSkill
     [SerializeField] private LayerMask targetLayer; // 타겟 설정
 
     [Header("플레이어 기준 offset")]
-    [SerializeField] private float spawnOffset = 5f; // 플레이어 기준 거리
+    [SerializeField] private Vector2 spawnOffset = new Vector2( 5f, 0f ); // 플레이어 기준 거리
 
     [Header("effect 이름")]
     [SerializeField] private string effectName;
 
     public override void UseSkill()
     {
-        Vector2 dir = player.SpriteRenderer.flipX ? Vector2.left : Vector2.right;
-        Vector3 spawnPos = player.transform.position + (Vector3)(dir * spawnOffset);
+        Vector2 offset = new Vector2(spawnOffset.x * PlayerFrontXNomalized(), spawnOffset.y);
+        Vector3 spawnPos = player.transform.position + (Vector3)offset;
 
 
         // 풀에서 ZoneAOE 꺼내기
