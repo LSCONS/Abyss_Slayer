@@ -38,7 +38,7 @@ public class ZoneAOE : BasePoolable
         if (effectPrefab != null)
         {   // 이펙트 길이 맞추기
             effectPrefab.SetActive(true);
-            var animator = effectPrefab.GetComponent<Animator>();
+            var animator = effectPrefab.GetComponentInChildren<Animator>();
             if (animator != null && animator.runtimeAnimatorController != null)
             {
                 // 첫 번째 클립 길이 가져오기
