@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7527216689834434670}
   - component: {fileID: 8599692419846450926}
   m_Layer: 0
-  m_Name: ZoneAOE
+  m_Name: MagicalSSkillEffectZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectPrefab: {fileID: 3405910839843231857}
+  effectName: Skill_S
 --- !u!114 &7527216689834434670
 MonoBehaviour:
   m_ObjectHideFlags: 0

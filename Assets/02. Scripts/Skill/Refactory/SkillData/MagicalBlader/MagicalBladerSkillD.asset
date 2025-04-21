@@ -10,30 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37dde014a4932e84181cc9f60a73359d, type: 3}
-  m_Name: MagicalBladerSkillS
+  m_Name: MagicalBladerSkillD
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  <SkillName>k__BackingField: "\uBC94\uC704 \uB2E4\uB2E8\uD788\uD2B8"
-  <SkillDesription>k__BackingField: "\uBC94\uC704 \uB2E4\uB2E8\uD788\uD2B8\uB97C
-    \uD574\uC57C\uB9CC\uD568"
+  <SkillName>k__BackingField: "\uADF9\uB51C\uAE30"
+  <SkillDesription>k__BackingField: "\uD3C9\uD0C0 \uB54C\uB9AC\uBA74 \uCFE8\uD0C0\uC784
+    \uC904\uC5B4\uB4DC\uB294 \uC2A4\uD0AC"
   <SkillIcon>k__BackingField: {fileID: 0}
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 1
   <MaxCoolTime>k__BackingField:
-    value: 5
+    value: 10
   <CurCoolTime>k__BackingField:
     value: 0
   <ApplyState>k__BackingField: -1
-  <Damage>k__BackingField: 10
-  <Range>k__BackingField: 3
-  <Speed>k__BackingField: 3
+  <Damage>k__BackingField: 100
+  <Range>k__BackingField: 0
+  <Speed>k__BackingField: 0
   <SpriteNum>k__BackingField: 0
   sizeX: 3
-  sizeY: 2
-  tickRate: 0.25
-  duration: 1
+  sizeY: 3
+  tickRate: 0.5
+  duration: 3
   targetLayer:
     serializedVersion: 2
     m_Bits: 256
-  spawnOffset: 10
-  effectName: Skill_D
+  spawnOffset: 2.5
