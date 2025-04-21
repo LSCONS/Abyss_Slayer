@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0d135c036827e40b256c22b1672192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _damageColliderScript: {fileID: 8318337961776965857}
 --- !u!1 &3217133211128412471
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,6 +79,7 @@ GameObject:
   - component: {fileID: 4679403098504000155}
   - component: {fileID: 6339058970690549061}
   - component: {fileID: 744539602331380905}
+  - component: {fileID: 8318337961776965857}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -167,7 +169,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1911
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -197,6 +199,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8318337961776965857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3217133211128412471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39993fd24843a9e4a83db7498d5370d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4222334341464765191
 GameObject:
   m_ObjectHideFlags: 0

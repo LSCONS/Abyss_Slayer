@@ -87,7 +87,7 @@ public class Laser : BasePoolable
             {
                 if(colliders[i].TryGetComponent<Player>(out Player player))
                 {
-                    //player데미지주기
+                    player.OnDamagePlayerHP(_damage);
                 }
             }
         }
@@ -95,7 +95,7 @@ public class Laser : BasePoolable
         {
             if(_hit.transform.TryGetComponent<Player>(out Player player))
             {
-                //플레이어 데미지주기
+                player.OnDamagePlayerHP(_damage);
             }
         }
     }

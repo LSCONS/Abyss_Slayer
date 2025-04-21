@@ -22,7 +22,7 @@ MonoBehaviour:
     <JumpForce>k__BackingField: 21
     <MaxJumpCount>k__BackingField: 1
     <CurJumpCount>k__BackingField: 1
-    <DashForce>k__BackingField: 30
+    <DashForce>k__BackingField: 100
     <DashCoolTime>k__BackingField: 1
     <DashChangeStateDelayTime>k__BackingField: 0.2
     <CanDash>k__BackingField: 1
@@ -30,8 +30,8 @@ MonoBehaviour:
     <CurDashCount>k__BackingField: 1
   <PlayerStatusData>k__BackingField:
     <GravityForce>k__BackingField: 5
-    <HP_Max>k__BackingField: 100
-    <HP_Cur>k__BackingField: 100
+    <HP_Cur>k__BackingField: 10000
+    <HP_Max>k__BackingField: 10000
     <MP_Max>k__BackingField: 100
     <MP_Cur>k__BackingField: 100
     <CanMove>k__BackingField: 1

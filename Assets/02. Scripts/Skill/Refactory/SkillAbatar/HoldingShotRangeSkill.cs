@@ -1,6 +1,4 @@
-using Photon.Realtime;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RangeHoldingShotSkill", menuName = "SkillRefactory/Range/HoldingShot")]
@@ -28,8 +26,6 @@ public class HoldingShotRangeSkill : RangeAttackSkill
             Vector2 dir = new Vector2(PlayerFrontXNomalized(), 0);
 
             // 일정 범위 내에서 화살 랜덤 생성
-            //float x = Random.Range(-0.3f, 1.2f);
-            //float randomXSpawn = player.SpriteRenderer.flipX ? -x : x;
             float randomYSpawn = Random.Range(-0.3f, 0.3f);
 
             // 화살 생성 위치 설정
@@ -38,8 +34,12 @@ public class HoldingShotRangeSkill : RangeAttackSkill
             // 버프 상태일 경우 추가 화살 생성
             if (player.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot) && player.BuffDuration[BuffType.ArcherDoubleShot].IsApply)
             {
-                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos + distanceY, dir, Range, Speed, SpriteNum, Damage * 0.8f);
-                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos - distanceY, dir, Range, Speed, SpriteNum, Damage * 0.8f);
+                float x = Random.Range(-1f, 1f);
+                Vector3 distanceX = new Vector3(x, 0, 0);
+                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos + distanceY + distanceX, dir, Range, Speed, SpriteNum, Damage * 0.8f);
+                x = Random.Range(-1f, 1f);
+                distanceX = new Vector3(x, 0, 0);
+                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos - distanceY + distanceX, dir, Range, Speed, SpriteNum, Damage * 0.8f);
             }
             else
             {

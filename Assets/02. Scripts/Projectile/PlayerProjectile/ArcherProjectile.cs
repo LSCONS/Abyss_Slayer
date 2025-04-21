@@ -8,11 +8,12 @@ public class ArcherProjectile : BasePoolable
     private Vector3 direction, initPos;
     [SerializeField] List<Sprite> sprites;
     [SerializeField] SpriteRenderer spriteRenderer;
-    private LayerMask includeLayer;
+
+    private LayerMask includeLayer; // 화살 충돌 레이어
 
     private void Awake()
     {
-        includeLayer = LayerData.EnemyLayerMask | LayerData.GroundPlaneLayerMask;
+        includeLayer = LayerData.EnemyLayerMask | LayerData.GroundPlaneLayerMask; 
     }
 
     private void Update()
@@ -43,13 +44,13 @@ public class ArcherProjectile : BasePoolable
     /// <param name="damage">화살 데미지</param>
     public override void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, int spriteNum, float damage)
     {
-        transform.position = spawnPos;
-        initPos = spawnPos;
-        direction = dir.normalized;
-        maxRange = range;
-        this.speed = speed;
-        spriteRenderer.sprite = sprites[spriteNum];
-        this.damage = damage;
+        transform.position = spawnPos; // 실제 화살 위치
+        initPos = spawnPos; // 최대 거리 체크용 초기 위치
+        direction = dir.normalized; // 방향 정규화
+        maxRange = range; // 최대 거리
+        this.speed = speed; // 이동 속도
+        spriteRenderer.sprite = sprites[spriteNum]; // 스프라이트 설정
+        this.damage = damage; // 데미지
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

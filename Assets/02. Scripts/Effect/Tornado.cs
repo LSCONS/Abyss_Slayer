@@ -6,6 +6,7 @@ public class Tornado : BasePoolable
 {
     Animator _animator;
     Collider2D _collider;
+    [SerializeField] DotDamageCollider _damageColliderScript;
 
     int _damage;
     float _durationTime;
@@ -14,18 +15,21 @@ public class Tornado : BasePoolable
     {
         _animator = GetComponent<Animator>();
         _collider = GetComponentInChildren<Collider2D>();
+        
     }
     public override void Init()
     {
         
     }
-    public void Init(Vector3 position,int damage, float durationTime, float warningTime = 1f, float width = 1f)
+    public void Init(Vector3 position,int damage, float durationTime,float attackPerSec, float warningTime = 1f, float width = 1f)
     {
         transform.position = position;
         _damage = damage;
         _durationTime = durationTime;
         _animator.SetFloat("WarningTime", 1 / warningTime);
         transform.localScale = new Vector3(width, 1f, 1f);
+
+        _damageColliderScript.Init(_damage, attackPerSec);
     }
     public void StartAttack()
     {
