@@ -81,7 +81,7 @@ public class LaserBoxProjectile : BasePoolable
             }
             for (int j = 0; j < 4; j++)
             {
-                PoolManager.Instance.Get<Laser>().Init(_damage, transform.position, transforms[j], 0.5f, 0.5f, _chasingTime);
+                PoolManager.Instance.Get<Laser>().Init(_damage, transform.position, transforms[j], 0.5f, 0.5f, _chasingTime,false);
             }
 
             time = 0f;

@@ -49,7 +49,7 @@ MonoBehaviour:
   - m_Script
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
-  m_Priority: 10
+  m_Priority: 5
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossController: {fileID: 0}
-  maxHP: 1000
+  maxHP: 100
 --- !u!114 &2290308739379278194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +152,7 @@ MonoBehaviour:
     showGizmos: 1
   - weight: 3
     patternData: {fileID: 11400000, guid: da2208074cc981a4192e7de10edaacf6, type: 2}
-    setActivePatternForTest: 1
+    setActivePatternForTest: 0
     showGizmos: 1
   - weight: 4
     patternData: {fileID: 11400000, guid: 6d77efd23e848994c989c255b8d141e9, type: 2}
