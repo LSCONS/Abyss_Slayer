@@ -87,7 +87,7 @@ public class PlayerBaseState : IPlayerState
     /// </summary>
     /// <param name="SkillAnimationHash">해당 애니메이션의 Hash값</param>
     /// <returns>true면 Update종료, false면 계속 실행</returns>
-    protected bool SkillUpdate(int SkillAnimationHash)
+    protected bool SkillUpdate(int SkillAnimationHash, System.Func<bool> isAction)
     {
         //TODO: 매 프레임 초기화 시켜주는 방식. 큰 리로스 차지는 없지만 나중에 리팩토링 때 고려 필요.
         playerStateMachine.AnimatorInfo = playerStateMachine.Player.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
@@ -104,6 +104,7 @@ public class PlayerBaseState : IPlayerState
         else if (playerStateMachine.AnimatorInfo.normalizedTime < 1f)
         {
             playerStateMachine.SkipAttackAction?.Invoke();
+            playerStateMachine.CheckHoldSkillStop(this, isAction);
             return true;
         }
         return false;
