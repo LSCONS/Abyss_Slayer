@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "RangeOneShotSkill", menuName = "SkillRefactory/Range/OneShot")]
-public class OneShotRangeSkill : RangeAttackSkill
+[CreateAssetMenu(fileName = "OnceArrowSkill", menuName = "SkillRefactory/Range/OnceArrow")]
+public class OnceArrowSkill : ProjectileAttackSkill
 {
     private Vector3 distanceY = new Vector3(0, 0.25f, 0); // 화살 y축 위치
     
