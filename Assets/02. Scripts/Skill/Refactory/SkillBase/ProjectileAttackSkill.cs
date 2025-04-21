@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RangeAttackSkill : Skill
+public class ProjectileAttackSkill : Skill
 {
     [field: SerializeField] public float Damage { get; private set; } // 데미지
     [field: SerializeField] public float Range { get; private set; } // 사거리
