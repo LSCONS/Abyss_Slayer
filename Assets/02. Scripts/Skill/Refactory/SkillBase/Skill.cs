@@ -43,4 +43,14 @@ public class Skill : ScriptableObject
         Vector3 playerPosition = player.transform.position;
         return playerPosition;
     }
+
+    // 스킬 쿨타임 줄이기
+    public void Cooldown(float cooldown)
+    {
+        if (!CanUse)
+        {
+            CurCoolTime.Value = Mathf.Max(CurCoolTime.Value - cooldown, 0);
+            if (CurCoolTime.Value == 0) CanUse = true;
+        }
+    }
 }
