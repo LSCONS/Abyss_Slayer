@@ -7,6 +7,8 @@ public interface IPlayerState
     public void Update();
 
     public void FixedUpdate();
+
+    public void FixedUpdateNetwork();
 }
 
 
@@ -29,5 +31,9 @@ public abstract class StateMachine
     public void FixedUpdate()
     {
         currentState?.FixedUpdate();
+    }
+    public void FixedUpdateNetwork()
+    {
+        currentState?.FixedUpdateNetwork();
     }
 }
