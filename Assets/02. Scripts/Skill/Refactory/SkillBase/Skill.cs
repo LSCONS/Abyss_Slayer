@@ -45,11 +45,11 @@ public class Skill : ScriptableObject
     }
 
     // 스킬 쿨타임 줄이기
-    public void Cooldown(float cooldown)
+    public void ReduceCooldown(float amount)
     {
         if (!CanUse)
         {
-            CurCoolTime.Value = Mathf.Max(CurCoolTime.Value - cooldown, 0);
+            CurCoolTime.Value = Mathf.Max(CurCoolTime.Value - amount, 0);
             if (CurCoolTime.Value == 0) CanUse = true;
         }
     }
