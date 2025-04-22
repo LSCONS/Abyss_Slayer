@@ -21,7 +21,7 @@ public class BasicMeleeAttackSkill : MeleeAttackSkill
 
         // 콜라이더 초기화
         MeleeDamageCheck damageCheck = player.playerMeleeCollider.GetComponent<MeleeDamageCheck>();
-        damageCheck.Init(player, sizeX, sizeY, offset, Damage, typeof(BossHitEffect), ColliderDuration);
+        damageCheck.Init(player, this, sizeX, sizeY, offset, Damage, typeof(BossHitEffect), ColliderDuration);
 
         // 콜라이더 온오프
         player.StartCoroutine(player.EnableMeleeCollider(player.playerMeleeCollider, ColliderDuration));

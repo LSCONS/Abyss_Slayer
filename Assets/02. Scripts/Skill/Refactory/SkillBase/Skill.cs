@@ -1,6 +1,7 @@
 using UniRx;
 using UnityEngine;
 
+
 public class Skill : ScriptableObject
 {
     // 모든 스킬에 공통으로 적용되는 변수
@@ -17,7 +18,7 @@ public class Skill : ScriptableObject
     [field: SerializeField] public ReactiveProperty<float> CurCoolTime { get; private set; } // 현재 쿨타임
         = new ReactiveProperty<float>(0f);
     [field: SerializeField] public ApplyState ApplyState { get; set; } // 연결해서 작동시킬 State 설정
-    
+
     // 플레이어 초기화
     public void Init(Player player)
     {

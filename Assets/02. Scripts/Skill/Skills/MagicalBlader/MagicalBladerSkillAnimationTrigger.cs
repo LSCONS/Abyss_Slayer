@@ -8,51 +8,71 @@ public class MagicalBladerSkillAnimationTrigger : MonoBehaviour, IStopCoroutine
     public Player Player { get; set; }
     public Coroutine HoldSkillCoroutine { get; set; }
 
+    [Serializable]
+    public class CooldownReductionRule
+    {
+        public Skill sourceSkill; // 이 스킬이 적중할 때
+        public Skill targetSkill; // 이 스킬의 쿨타임을
+        public float reductionAmount;   // 이만큼 줄인다
+    }
 
     public List<CooldownReductionRule> cooldownRules = new();
-    public SkillSlotKey? currentSkillSlotKey { get; set; }
 
     private void Start()
     {
         cooldownRules.Add(new CooldownReductionRule
         {
-            sourceSlot = SkillSlotKey.X,
-            targetSlot = SkillSlotKey.D,
-            reductionAmount = 2f
+            sourceSkill = SkillDictionary[SkillSlotKey.X],
+            targetSkill = SkillDictionary[SkillSlotKey.D],
+            reductionAmount = 5f
         });
+
+        if (Player != null)
+        {
+            Player.OnSkillHit += OnSkillHit;    // 이벤트 등록
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (Player != null)
+        {
+            Player.OnSkillHit -= OnSkillHit;
+        }
+    }
+
+    // 데미지 체크 되면 이 메서드로
+    private void OnSkillHit(Skill skill)
+    {
+        NotifySkillHit(skill);
     }
 
     public void UseSkillA()
     {
-        currentSkillSlotKey = SkillSlotKey.A;
         Skill skill = SkillDictionary[SkillSlotKey.A];
         skill.UseSkill();
     }
 
     public void UseSkillS()
     {
-        currentSkillSlotKey = SkillSlotKey.S;
         Skill skill = SkillDictionary[SkillSlotKey.S];
         skill.UseSkill();
     }
 
     public void UseSkillD()
     {
-        currentSkillSlotKey = SkillSlotKey.D;
         Skill skill = SkillDictionary[SkillSlotKey.D];
         skill.UseSkill();
     }
 
     public void UseSkillZ()
     {
-        currentSkillSlotKey = SkillSlotKey.Z;
         Skill skill = SkillDictionary[SkillSlotKey.Z];
         skill.UseSkill();
     }
 
     public void UseSkillX()
     {
-        currentSkillSlotKey = SkillSlotKey.X;
         Skill skill = SkillDictionary[SkillSlotKey.X];
         skill.UseSkill();
     }
@@ -66,24 +86,15 @@ public class MagicalBladerSkillAnimationTrigger : MonoBehaviour, IStopCoroutine
         }
     }
 
-    public void NotifySkillHit(SkillSlotKey slot)
+    public void NotifySkillHit(Skill skill)
     {
         foreach (var rule in cooldownRules)
         {
-            if (rule.sourceSlot == slot &&
-                Player.equippedSkills.TryGetValue(rule.targetSlot, out var target))
-            {
-                target.ReduceCooldown(rule.reductionAmount);
-            }
+            if(rule.sourceSkill == skill)
+                rule.targetSkill.ReduceCooldown(rule.reductionAmount);
         }
     }
 
 }
 
-[Serializable]
-public class CooldownReductionRule
-{
-    public SkillSlotKey sourceSlot; // 이 스킬이 적중할 때
-    public SkillSlotKey targetSlot; // 이 스킬의 쿨타임을
-    public float reductionAmount;   // 이만큼 줄인다
-}
+
