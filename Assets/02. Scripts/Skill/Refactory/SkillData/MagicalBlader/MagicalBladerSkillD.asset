@@ -20,20 +20,18 @@ MonoBehaviour:
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 1
   <MaxCoolTime>k__BackingField:
-    value: 10
+    value: 30
   <CurCoolTime>k__BackingField:
     value: 0
   <ApplyState>k__BackingField: -1
   <Damage>k__BackingField: 100
   <Range>k__BackingField: 0
-  <Speed>k__BackingField: 0
-  <SpriteNum>k__BackingField: 0
+  <TargetLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 0
   sizeX: 3
   sizeY: 3
   tickRate: 0.5
   duration: 3
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  spawnOffset: 2.5
+  spawnOffset: {x: 5, y: 0}
   effectName: Skill_D
