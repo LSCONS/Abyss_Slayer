@@ -18,8 +18,6 @@ public class DashAttackSkill : MeleeAttackSkill
     public GameObject dashEffectPrefab;
     public GameObject dashAttackEffectPrefab;
 
-
-
     public override void UseSkill()
    {
         // 대시 방향 설정
@@ -80,14 +78,14 @@ public class DashAttackSkill : MeleeAttackSkill
 
         // 콜라이더 위치 저장 이동
         Vector2 originalPos = player.playerMeleeCollider.transform.position;
-        player.playerMeleeCollider.transform.position = midPos;
+        // player.playerMeleeCollider.transform.position = midPos;
 
         // 콜라이더 세팅
         GameObject colliderObj = GameObject.Instantiate(dashColliderPrefab, midPos, Quaternion.identity);
         MeleeDamageCheck damageCheck = colliderObj.GetComponent<MeleeDamageCheck>();
         if(damageCheck != null)
         {
-            damageCheck.Init(distance, 1, damage, typeof(BossHitEffect), skillDuration);
+            damageCheck.Init(player, this, distance, 1.0f, new Vector2(0,0), damage, typeof(BossHitEffect), skillDuration);
         }
 
         // 콜라이더 위치 원래대로 돌리기
