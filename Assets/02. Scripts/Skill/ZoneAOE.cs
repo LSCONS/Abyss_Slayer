@@ -19,6 +19,7 @@ public class ZoneAOE : BasePoolable
     [SerializeField] private GameObject effectPrefab; // 이펙트 프리팹
 
     private Player player;
+    private Skill skill;
     public override void Init()
     {
 
@@ -46,7 +47,7 @@ public class ZoneAOE : BasePoolable
         // meleedamagecheck 세팅
         var meleeCheck = GetComponent<MeleeDamageCheck>();
         System.Type fxType = null;
-        meleeCheck.Init(sizeX, sizeY, damage, fxType, _duration);
+        meleeCheck.Init(player, skill, sizeX, sizeY, new Vector2(0,0), damage, fxType, _duration);
         meleeCheck.SetRepeatMode(true, tickRate);
 
         gameObject.SetActive(true);
@@ -60,6 +61,13 @@ public class ZoneAOE : BasePoolable
     {
         this.player = player;
         Init(spawnPos, sizeX, sizeY, tickRate, _duration, damage, targetLayer, effectName);
+    }
+
+    public void Init(Player player, Skill skill, Vector3 spawnPos, float sizeX, float sizeY, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
+    {
+        this.player = player;
+        this.skill = skill;
+        Init(player, spawnPos, sizeX, sizeY, tickRate, _duration, damage, targetLayer, effectName);
     }
 
     private IEnumerator ReturnTOPool(float seconds, LayerMask targetLayer)
