@@ -11,13 +11,13 @@ public class PlayerAbnomalState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.AbnomalParameterHash);
+        StartAnimation(playerStateMachine.Player.PlayerAnimationData.AbnomalParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.AbnomalParameterHash);
+        StopAnimation(playerStateMachine.Player.PlayerAnimationData.AbnomalParameterHash);
     }
 
     public override void Update()

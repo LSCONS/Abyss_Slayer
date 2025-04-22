@@ -23,7 +23,7 @@ public class PlayerJumpState : PlayerAirState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.jumpParameterHash);
+        StartAnimation(playerStateMachine.Player.PlayerAnimationData.JumpParameterHash);
         Jump();
 
 #if StateMachineDebug
@@ -34,7 +34,7 @@ public class PlayerJumpState : PlayerAirState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.jumpParameterHash);
+        StopAnimation(playerStateMachine.Player.PlayerAnimationData.JumpParameterHash);
 
 #if StateMachineDebug
         Debug.Log("JumpState 해제");
@@ -53,7 +53,7 @@ public class PlayerJumpState : PlayerAirState
     /// </summary>
     protected void Jump()
     {
-        Vector2 jumpVector = playerStateMachine.Player.playerData.PlayerAirData.JumpForce * Vector2.up;
-        playerStateMachine.Player.playerRigidbody.AddForce(jumpVector, ForceMode2D.Impulse);
+        Vector2 jumpVector = playerStateMachine.Player.PlayerData.PlayerAirData.JumpForce * Vector2.up;
+        playerStateMachine.Player.PlayerRigidbody.AddForce(jumpVector, ForceMode2D.Impulse);
     }
 }

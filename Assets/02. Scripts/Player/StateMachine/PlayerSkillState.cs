@@ -8,13 +8,13 @@ public class PlayerSkillState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.skillParameterHash);
+        StartAnimation(playerStateMachine.Player.PlayerAnimationData.SkillParameterHash);
     }
 
     public override void Exit() 
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.skillParameterHash);
+        StopAnimation(playerStateMachine.Player.PlayerAnimationData.SkillParameterHash);
     }
     public override void Update()
     {

@@ -7,13 +7,13 @@ public class PlayerAirState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.airParematerHash);
+        StartAnimation(playerStateMachine.Player.PlayerAnimationData.AirParematerHash);
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.airParematerHash);
+        StopAnimation(playerStateMachine.Player.PlayerAnimationData.AirParematerHash);
     }
 
     public override void Update()

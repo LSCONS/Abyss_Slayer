@@ -12,7 +12,7 @@ public class PlayerSkillZState : PlayerSkillState
     public void Init()
     {
         SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
-        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillZ);
+        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.Input.IsSkillZ);
 
         MoveAction.AddListener(playerStateMachine.ConnectIdleState);
         MoveAction.AddListener(playerStateMachine.ConnectFallState);
@@ -22,7 +22,7 @@ public class PlayerSkillZState : PlayerSkillState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
+        StartAnimation(playerStateMachine.Player.PlayerAnimationData.Z_SkillParameterHash);
         SkillEnter(SkillData.CanMove, Slotkey);
         ResetZeroGravityForce();
         playerStateMachine.IsDash = true;
@@ -36,7 +36,7 @@ public class PlayerSkillZState : PlayerSkillState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.Z_SkillParameterHash);
+        StopAnimation(playerStateMachine.Player.PlayerAnimationData.Z_SkillParameterHash);
         SkillExit();
         ResetZeroVelocity();
         ResetDefaultGravityForce();
@@ -51,8 +51,8 @@ public class PlayerSkillZState : PlayerSkillState
     public override void Update()
     {
         base.Update();
-        if (SkillUpdate(playerStateMachine.Player.playerAnimationData.Z_SkillAnimationHash,
-            () => playerStateMachine.Player.input.IsSkillZ)) return;
+        if (SkillUpdate(playerStateMachine.Player.PlayerAnimationData.Z_SkillAnimationHash,
+            () => playerStateMachine.Player.Input.IsSkillZ)) return;
         MoveAction?.Invoke();
     }
 }

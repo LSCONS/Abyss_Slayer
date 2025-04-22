@@ -20,7 +20,7 @@ public class PlayerFallState : PlayerAirState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.fallParameterHash);
+        StartAnimation(playerStateMachine.Player.PlayerAnimationData.FallParameterHash);
 
 #if StateMachineDebug
         Debug.Log("FallState 진입");
@@ -30,7 +30,7 @@ public class PlayerFallState : PlayerAirState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.fallParameterHash);
+        StopAnimation(playerStateMachine.Player.PlayerAnimationData.FallParameterHash);
 
 #if StateMachineDebug
         Debug.Log("FallState 해제");

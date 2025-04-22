@@ -11,13 +11,13 @@ public class PlayerSkillXState : PlayerSkillState
     public void Init()
     {
         SkillData = playerStateMachine.Player.equippedSkills[Slotkey];
-        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.input.IsSkillX);
+        playerStateMachine.ConnectSkillState(this, SkillData, () => playerStateMachine.Player.Input.IsSkillX);
     }
 
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.X_SkillParameterHash);
+        StartAnimation(playerStateMachine.Player.PlayerAnimationData.X_SkillParameterHash);
         SkillEnter(SkillData.CanMove, Slotkey);
 
 #if StateMachineDebug
@@ -28,7 +28,7 @@ public class PlayerSkillXState : PlayerSkillState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.X_SkillParameterHash);
+        StopAnimation(playerStateMachine.Player.PlayerAnimationData.X_SkillParameterHash);
         SkillExit();
 
 #if StateMachineDebug
@@ -39,8 +39,8 @@ public class PlayerSkillXState : PlayerSkillState
     public override void Update()
     {
         base.Update();
-        if (SkillUpdate(playerStateMachine.Player.playerAnimationData.X_SkillAnimationHash,
-            () => playerStateMachine.Player.input.IsSkillX)) return;
+        if (SkillUpdate(playerStateMachine.Player.PlayerAnimationData.X_SkillAnimationHash,
+            () => playerStateMachine.Player.Input.IsSkillX)) return;
         playerStateMachine.EndAttackAction?.Invoke();
     }
 }

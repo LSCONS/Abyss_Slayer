@@ -33,15 +33,15 @@ public class PlayerAnimationData : ScriptableObject
     [SerializeField] private string deadParameterName       = "Dead";
 
 
-    public int groundParameterHash      { get; private set; }
-    public int idleParameterHash        { get; private set; }
-    public int walkParameterHash        { get; private set; }
+    public int GroundParameterHash      { get; private set; }
+    public int IdleParameterHash        { get; private set; }
+    public int WalkParameterHash        { get; private set; }
 
-    public int airParematerHash         { get; private set; }
-    public int jumpParameterHash        { get; private set; }
-    public int fallParameterHash        { get; private set; }
+    public int AirParematerHash         { get; private set; }
+    public int JumpParameterHash        { get; private set; }
+    public int FallParameterHash        { get; private set; }
 
-    public int skillParameterHash       { get; private set; }
+    public int SkillParameterHash       { get; private set; }
     public int X_SkillParameterHash     { get; private set; }
     public int Z_SkillParameterHash     { get; private set; }
     public int A_SkillParameterHash     { get; private set; }
@@ -61,15 +61,15 @@ public class PlayerAnimationData : ScriptableObject
 
     public void Init()
     {
-        groundParameterHash     = Animator.StringToHash(groundParameterName);
-        idleParameterHash       = Animator.StringToHash(idleParameterName);        
-        walkParameterHash       = Animator.StringToHash(walkParameterName);
+        GroundParameterHash     = Animator.StringToHash(groundParameterName);
+        IdleParameterHash       = Animator.StringToHash(idleParameterName);        
+        WalkParameterHash       = Animator.StringToHash(walkParameterName);
 
-        airParematerHash        = Animator.StringToHash(airParematerName);
-        jumpParameterHash       = Animator.StringToHash(jumpParameterName);       
-        fallParameterHash       = Animator.StringToHash(fallParameterName);
+        AirParematerHash        = Animator.StringToHash(airParematerName);
+        JumpParameterHash       = Animator.StringToHash(jumpParameterName);       
+        FallParameterHash       = Animator.StringToHash(fallParameterName);
 
-        skillParameterHash      = Animator.StringToHash(skillParameterName);
+        SkillParameterHash      = Animator.StringToHash(skillParameterName);
         X_SkillParameterHash    = Animator.StringToHash(X_SkillParameterName);
         Z_SkillParameterHash    = Animator.StringToHash(Z_SkillParameterName);     
         A_SkillParameterHash    = Animator.StringToHash(A_SkillParameterName);     

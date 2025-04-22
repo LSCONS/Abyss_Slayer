@@ -22,7 +22,7 @@ public class PlayerWalkState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.walkParameterHash);
+        StartAnimation(playerStateMachine.Player.PlayerAnimationData.WalkParameterHash);
 
 #if StateMachineDebug
         Debug.Log("WalkState 진입");
@@ -33,7 +33,7 @@ public class PlayerWalkState : PlayerGroundState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.walkParameterHash);
+        StopAnimation(playerStateMachine.Player.PlayerAnimationData.WalkParameterHash);
 
 #if StateMachineDebug
         Debug.Log("WalkState 해제");

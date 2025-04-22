@@ -41,7 +41,7 @@ public class BaseBossDamageCollider : MonoBehaviour
         }
 
         if(collision.transform.TryGetComponent<Player>(out Player player)&& 
-            !(player.playerStateMachine.IsDash) && 
+            !(player.PlayerStateMachine.IsDash) && 
             hitPlayers.Add(player))
         {
             player.OnDamagePlayerHP(_damage);            //데미지 입힘

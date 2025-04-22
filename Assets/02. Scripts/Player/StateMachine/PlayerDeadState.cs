@@ -12,7 +12,7 @@ public class PlayerDeadState : PlayerAbnomalState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.DeadParameterHash);
+        StartAnimation(playerStateMachine.Player.PlayerAnimationData.DeadParameterHash);
         playerStateMachine.MovementSpeed = 0f;
         ResetZeroVelocity();
 
@@ -24,8 +24,8 @@ public class PlayerDeadState : PlayerAbnomalState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.idleParameterHash);
-        playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+        StopAnimation(playerStateMachine.Player.PlayerAnimationData.IdleParameterHash);
+        playerStateMachine.MovementSpeed = playerStateMachine.Player.PlayerData.PlayerGroundData.BaseSpeed;
 
 #if StateMachineDebug
         Debug.Log("IdleState 해제");
