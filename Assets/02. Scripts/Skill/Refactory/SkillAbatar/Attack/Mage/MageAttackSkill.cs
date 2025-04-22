@@ -1,9 +1,8 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MageSkillX", menuName = "SkillRefactory/Range/MageAttack")]
-public class MageAttackSkill : ProjectileAttackSkill
+public class MageAttackSkill : RangeAttackSkill
 {
-    [field: SerializeField] public LayerMask TargetLayer {  get; private set; }
     public override void UseSkill()
     {
         base.UseSkill();
