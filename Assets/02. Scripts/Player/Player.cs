@@ -41,6 +41,7 @@ public class Player : MonoBehaviour, IHasHealth
 
     public Action<BoxCollider2D, float> OnMeleeAttack;  // 근접 공격 콜라이더 ON/OFF 액션
 
+    public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
 
     private void Awake()
     {
@@ -265,4 +266,14 @@ public class Player : MonoBehaviour, IHasHealth
         yield return new WaitForSeconds(duration);
         collider.enabled = false;
     }
+
+    /// <summary>
+    ///  스킬 데미지 들어갈 때 호출 hitskill 전달해줌
+    /// </summary>
+    /// <param name="hitSkill"></param>
+    public void RaiseSkillHit(Skill hitSkill)
+    {
+        OnSkillHit?.Invoke(hitSkill);
+    }
+
 }
