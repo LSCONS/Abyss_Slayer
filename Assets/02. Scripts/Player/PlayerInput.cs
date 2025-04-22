@@ -1,7 +1,8 @@
+using Fusion;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : NetworkBehaviour
 {
 
     #region 프로퍼티 선언
@@ -122,4 +123,11 @@ public class PlayerInput : MonoBehaviour
     private void StartSkillD(InputAction.CallbackContext context) => IsSkillD = true;
     /// <summary>플레이어 스킬D 종료</summary>
     private void StopSkillD(InputAction.CallbackContext context) => IsSkillD = false;
+
+
+    public override void Spawned()
+    {
+        base.Spawned();
+        if (Object.HasInputAuthority) BasicSpawner.Instance.RegisterLocalInput(this);
+    }
 }
