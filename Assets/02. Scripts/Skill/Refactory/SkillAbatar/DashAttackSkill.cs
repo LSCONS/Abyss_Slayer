@@ -57,13 +57,13 @@ public class DashAttackSkill : MeleeAttackSkill
         // dashDistance만큼을 dashDuration 시간동안 이동
         while(time < dashDuration)
         {
-            player.playerRigidbody.MovePosition(Vector2.Lerp(startPos, targetPos, time / dashDuration));
+            player.PlayerRigidbody.MovePosition(Vector2.Lerp(startPos, targetPos, time / dashDuration));
             time += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
 
         // 대시 이후 위치
-        player.playerRigidbody.MovePosition(targetPos);
+        player.PlayerRigidbody.MovePosition(targetPos);
 
         // 이펙트 제거
         if(dashEffect != null)
@@ -77,8 +77,8 @@ public class DashAttackSkill : MeleeAttackSkill
         float distance = Vector2.Distance(startPos, endPos);
 
         // 콜라이더 위치 저장 이동
-        Vector2 originalPos = player.playerMeleeCollider.transform.position;
-        // player.playerMeleeCollider.transform.position = midPos;
+        Vector2 originalPos = player.PlayerMeleeCollider.transform.position;
+        player.PlayerMeleeCollider.transform.position = midPos;
 
         // 콜라이더 세팅
         GameObject colliderObj = GameObject.Instantiate(dashColliderPrefab, midPos, Quaternion.identity);
