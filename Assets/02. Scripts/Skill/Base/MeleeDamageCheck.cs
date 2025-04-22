@@ -1,4 +1,3 @@
-using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +21,9 @@ public class MeleeDamageCheck : MonoBehaviour
 
     private HashSet<GameObject> hitObjects = new HashSet<GameObject>(); // 스킬 맞으면 여기다가 추가해서 중복 데미지 들어오지 않도록 막음
 
+    private Skill skill; // 어떤 스킬이 이 데미지체크를 사용했는가
     private Player player;
+
 
     private void Awake()
     {
@@ -68,6 +69,7 @@ public class MeleeDamageCheck : MonoBehaviour
     public void Init(Player player, float sizeX, float sizeY, Vector2 offset, float damage, System.Type effectType, float aliveTime)
     {
         this.player = player;
+
         boxCollider.size = new Vector2(sizeX, sizeY);
         boxCollider.offset = new Vector2(offset.x, offset.y);
         this.damage = damage;
@@ -84,6 +86,12 @@ public class MeleeDamageCheck : MonoBehaviour
         nextHitTime.Clear();
     }
 
+    public void Init(Player player, Skill skill, float sizeX, float sizeY, Vector2 offset, float damage, System.Type effectType, float aliveTime)
+    {
+        this.skill = skill;
+        Init(player, sizeX, sizeY, offset, damage, effectType, aliveTime);
+    }
+
     /// <summary>
     /// 반복 여부와 쿨타임 설정
     /// </summary>
@@ -93,7 +101,6 @@ public class MeleeDamageCheck : MonoBehaviour
         repeatHitCoolTime = cooldown;
 
         Debug.Log($"aliveTime: {aliveTime} // repeatHitCoolTime: {repeatHitCoolTime} ");
-
     }
 
 
@@ -141,11 +148,7 @@ public class MeleeDamageCheck : MonoBehaviour
             boss.Damage((int)damage); // 데미지 전달
             Debug.Log($"Damage Applied at {Time.time}");
 
-            // 트리거에게 쿨다운 감소
-            if (player != null && player.SkillTrigger is MagicalBladerSkillAnimationTrigger trigger && trigger.currentSkillSlotKey.HasValue)
-            {
-                trigger.NotifySkillHit(trigger.currentSkillSlotKey.Value);
-            }
+            player.RaiseSkillHit(skill);    // 스킬이 적중하면 플레이어한테 알려줌
 
             if (effectType != null)
             {
