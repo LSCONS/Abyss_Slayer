@@ -88,10 +88,10 @@ public class MageProjectile : BasePoolable
     {
         if (collision.TryGetComponent<Boss>(out Boss boss))
         {
-            trailRenderer.enabled = false;    // 투사체 궤적 비활성화
-            fired = false;                    // 발사 여부 초기화
-            boss.Damage((int)damage);         // 데미지 전달
-            ReturnToPool();                   // 투사체 반환
+            trailRenderer.enabled = false; // 투사체 궤적 비활성화
+            fired = false; // 발사 여부 초기화
+            boss.Damage((int)damage); // 데미지 전달
+            ReturnToPool(); // 투사체 반환
         }
     }
 }
