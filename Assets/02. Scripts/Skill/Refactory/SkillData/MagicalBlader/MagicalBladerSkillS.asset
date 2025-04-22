@@ -26,14 +26,12 @@ MonoBehaviour:
   <ApplyState>k__BackingField: -1
   <Damage>k__BackingField: 10
   <Range>k__BackingField: 3
-  <Speed>k__BackingField: 3
-  <SpriteNum>k__BackingField: 0
+  <TargetLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 256
   sizeX: 10
   sizeY: 10
   tickRate: 0.25
   duration: 1
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  spawnOffset: 10
+  spawnOffset: {x: 5, y: 0}
   effectName: Skill_S
