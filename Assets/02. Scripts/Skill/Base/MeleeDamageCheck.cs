@@ -1,7 +1,12 @@
+using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
+
+[RequireComponent(typeof(BoxCollider2D))]
 public class MeleeDamageCheck : MonoBehaviour
 {
     private float aliveTime = 0f;
@@ -16,6 +21,8 @@ public class MeleeDamageCheck : MonoBehaviour
     private LayerMask includeLayer;
 
     private HashSet<GameObject> hitObjects = new HashSet<GameObject>(); // 스킬 맞으면 여기다가 추가해서 중복 데미지 들어오지 않도록 막음
+
+    private Player player;
 
     private void Awake()
     {
@@ -60,6 +67,7 @@ public class MeleeDamageCheck : MonoBehaviour
     /// <param name="aliveTime">이펙트 지속 시간</param>
     public void Init(Player player, float sizeX, float sizeY, Vector2 offset, float damage, System.Type effectType, float aliveTime)
     {
+        this.player = player;
         boxCollider.size = new Vector2(sizeX, sizeY);
         boxCollider.offset = new Vector2(offset.x, offset.y);
         this.damage = damage;
@@ -133,6 +141,12 @@ public class MeleeDamageCheck : MonoBehaviour
             boss.Damage((int)damage); // 데미지 전달
             Debug.Log($"Damage Applied at {Time.time}");
 
+            // 트리거에게 쿨다운 감소
+            if (player != null && player.SkillTrigger is MagicalBladerSkillAnimationTrigger trigger && trigger.currentSkillSlotKey.HasValue)
+            {
+                trigger.NotifySkillHit(trigger.currentSkillSlotKey.Value);
+            }
+
             if (effectType != null)
             {
                 BasePoolable effect = PoolManager.Instance.Get(effectType);
@@ -158,8 +172,6 @@ public class MeleeDamageCheck : MonoBehaviour
         }
 
     }
-
-
     // 공격 기즈모로 확인해보기
     private void OnDrawGizmosSelected()
     {
