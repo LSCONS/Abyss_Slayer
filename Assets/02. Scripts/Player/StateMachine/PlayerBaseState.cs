@@ -8,7 +8,7 @@ public class PlayerBaseState : IPlayerState
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
         this.playerStateMachine = playerStateMachine;
-        playerGroundData = playerStateMachine.Player.playerData.PlayerGroundData;
+        playerGroundData = playerStateMachine.Player.PlayerData.PlayerGroundData;
     }
 
     public virtual void Enter()
@@ -23,15 +23,20 @@ public class PlayerBaseState : IPlayerState
 
     public virtual void FixedUpdate()
     {
-        if (playerStateMachine.MovementSpeed != 0f)
-        {
-            Move();
-        }
+
+    }
+
+    public virtual void FixedUpdateNetwork()
+    {
+
     }
 
     public virtual void Update()
     {
-
+        if (playerStateMachine.MovementSpeed != 0f)
+        {
+            Move();
+        }
     }
 
 
@@ -77,7 +82,7 @@ public class PlayerBaseState : IPlayerState
     /// </summary>
     protected void SkillExit()
     {
-        playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+        playerStateMachine.MovementSpeed = playerStateMachine.Player.PlayerData.PlayerGroundData.BaseSpeed;
         playerStateMachine.Player.SkillTrigger.StopCoroutine();
     }
 
@@ -116,10 +121,10 @@ public class PlayerBaseState : IPlayerState
     /// </summary>
     private void Move()
     {
-        float newMoveX = playerStateMachine.Player.input.MoveDir.x * GetMovementSpeed();
-        float nowMoveY = playerStateMachine.Player.playerRigidbody.velocity.y;
-        playerStateMachine.Player.playerRigidbody.velocity = new Vector2(newMoveX, nowMoveY);
-        FlipRenderer(newMoveX); //플레이어의 바라보는 방향을 바꿔주는 메서드
+        float newMoveX = playerStateMachine.Player.Input.MoveDir.x * GetMovementSpeed();
+        float nowMoveY = playerStateMachine.Player.PlayerRigidbody.velocity.y;
+        playerStateMachine.Player.PlayerRigidbody.velocity = new Vector2(newMoveX, nowMoveY);
+        playerStateMachine.Player.SetFlipX(newMoveX); //플레이어의 바라보는 방향을 바꿔주는 메서드
     }
 
 
@@ -135,28 +140,11 @@ public class PlayerBaseState : IPlayerState
 
 
     /// <summary>
-    /// 플레이어가 X좌표로 움직이는 방향을 계산하고 바꿔주는 메서드
-    /// </summary>
-    /// <param name="nowMoveX">움직이고 있는 X좌표값의 크기</param>
-    protected void FlipRenderer(float nowMoveX)
-    {
-        if(nowMoveX > 0)
-        {
-            playerStateMachine.Player.SpriteRenderer.flipX = false;
-        }
-        else if (nowMoveX < 0)
-        {
-            playerStateMachine.Player.SpriteRenderer.flipX = true;
-        }
-    }
-
-
-    /// <summary>
     /// 플레이어의 Rigidbody의 Velocity값을 초기화하는 메서드
     /// </summary>
     protected void ResetZeroVelocity()
     {
-        playerStateMachine.Player.playerRigidbody.velocity = Vector2.zero;
+        playerStateMachine.Player.PlayerRigidbody.velocity = Vector2.zero;
     }
 
 
@@ -165,7 +153,7 @@ public class PlayerBaseState : IPlayerState
     /// </summary>
     protected void ResetZeroGravityForce()
     {
-        playerStateMachine.Player.playerRigidbody.gravityScale = 0f;
+        playerStateMachine.Player.PlayerRigidbody.gravityScale = 0f;
     }
 
 
@@ -174,7 +162,7 @@ public class PlayerBaseState : IPlayerState
     /// </summary>
     protected void ResetDefaultGravityForce()
     {
-        playerStateMachine.Player.playerRigidbody.gravityScale = 
-            playerStateMachine.Player.playerData.PlayerStatusData.GravityForce;
+        playerStateMachine.Player.PlayerRigidbody.gravityScale = 
+            playerStateMachine.Player.PlayerData.PlayerStatusData.GravityForce;
     }
 }
