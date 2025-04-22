@@ -17,6 +17,8 @@ public class ZoneAOE : BasePoolable
     private HashSet<IHasHealth> targetsInRange = new();
 
     [SerializeField] private GameObject effectPrefab; // 이펙트 프리팹
+
+    private Player player;
     public override void Init()
     {
 
@@ -50,8 +52,14 @@ public class ZoneAOE : BasePoolable
         gameObject.SetActive(true);
 
         // duration 후 풀에 자동 반환
-        if(ReturnToPoolCoroutine != null) StopCoroutine(ReturnToPoolCoroutine);
+        if (ReturnToPoolCoroutine != null) StopCoroutine(ReturnToPoolCoroutine);
         ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(_duration, targetLayer));
+    }
+
+    public void Init(Player player, Vector3 spawnPos, float sizeX, float sizeY, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
+    {
+        this.player = player;
+        Init(spawnPos, sizeX, sizeY, tickRate, _duration, damage, targetLayer, effectName);
     }
 
     private IEnumerator ReturnTOPool(float seconds, LayerMask targetLayer)
@@ -68,6 +76,11 @@ public class ZoneAOE : BasePoolable
         if (effectPrefab != null)
         {   // 이펙트 길이 맞추기
             effectPrefab.SetActive(true);
+
+            var effectSprite = GetComponentInChildren<SpriteRenderer>();
+            bool flip = player.SpriteRenderer.flipX ? true : false;
+            effectSprite.flipX = flip;
+
             var animator = effectPrefab.GetComponentInChildren<Animator>();
             animator.runtimeAnimatorController = ChangeAnimatior(effectName);
             if (animator != null && animator.runtimeAnimatorController != null)
