@@ -1,5 +1,4 @@
 using System.Collections;
-using Fusion;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MageSkillS", menuName = "SkillRefactory/Range/Lightning")]
@@ -17,7 +16,7 @@ public class LightningSkill : RangeAttackSkill
     {
         Vector3 dir = new Vector3(PlayerFrontXNormalized() * 1.5f, 0, 0);
 
-        Instantiate(SkillEffect, player.transform.position + (Vector3)(dir * 4f), Quaternion.identity);
+        // Instantiate(SkillEffect, player.transform.position + (Vector3)(dir * 4f), Quaternion.identity);
 
         WaitForSeconds Wait = new WaitForSeconds(DamageDelay);
 
@@ -34,6 +33,6 @@ public class LightningSkill : RangeAttackSkill
             yield return Wait;
         }
 
-        Destroy(SkillEffect.gameObject);
+        // Destroy(SkillEffect.gameObject);
     }
 }
