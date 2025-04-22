@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using System.Collections;
 using UniRx;
+using Fusion;
+using Fusion.Addons.Physics;
 public enum CharacterClass
 {
     Archer,
@@ -13,20 +15,23 @@ public enum CharacterClass
     Tanker
 }
 
-public class Player : MonoBehaviour, IHasHealth
+public class Player : NetworkBehaviour, IHasHealth
 {
     public CharacterClass playerCharacterClass;
-    public PlayerInput input { get; private set; }
-    public Rigidbody2D playerRigidbody;
-    public PlayerCheckGround playerCheckGround;
-    public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
-    public Animator PlayerAnimator { get; private set; }//TODO: 나중에 초기화 필요
-    public PlayerAnimationData playerAnimationData { get; private set; }
-    public PlayerStateMachine playerStateMachine { get; private set; }
-    public BoxCollider2D playerGroundCollider {  get; private set; }
-    public BoxCollider2D playerMeleeCollider { get; private set; }
-    [field: SerializeField] public PlayerData playerData { get; private set; }
+    public NetworkInputData Input { get; private set; }
+    public Rigidbody2D PlayerRigidbody {  get; private set; }
+    public NetworkRigidbody2D PlayerNetworkRigidbody { get; private set; }
+    public PlayerCheckGround PlayerCheckGround { get; private set; }
+    public CinemachineVirtualCamera MainCamera { get; private set; }    //TODO: 나중에 초기화 필요
+    public Animator PlayerAnimator { get; private set; }                //TODO: 나중에 초기화 필요
+    public PlayerAnimationData PlayerAnimationData { get; private set; }
+    public PlayerStateMachine PlayerStateMachine { get; private set; }
+    public BoxCollider2D PlayerGroundCollider {  get; private set; }
+    public BoxCollider2D PlayerMeleeCollider { get; private set; }
+    [field: SerializeField] public PlayerData PlayerData { get; private set; }
     public SpriteRenderer SpriteRenderer { get; private set; }
+    [Networked, OnChangedRender(nameof(SetSpriteFlipX))]
+    public NetworkBool IsFlipX { get; set; } = false;
 
     [Header("스킬 관련")]
     public Dictionary<SkillSlotKey, Skill> equippedSkills = new(); // 스킬 연결용 딕셔너리
@@ -48,27 +53,33 @@ public class Player : MonoBehaviour, IHasHealth
         InitComponent();
         InitPlayerData();
         InitSkillData();
-        playerStateMachine = new PlayerStateMachine(this);
-        playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
+        PlayerStateMachine = new PlayerStateMachine(this);
+        PlayerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
         OnMeleeAttack += (collider, duration) => StartCoroutine(EnableMeleeCollider(collider, duration));
     }
 
 
     private void Start()
     {
-        playerStateMachine.ChangeState(playerStateMachine.IdleState);
-    }
-
-    private void Update()
-    {
-        playerStateMachine.Update();
-        SkillCoolTimeCompute();
-        BuffDurationCompute();
+        PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
     }
 
     private void FixedUpdate()
     {
-        playerStateMachine.FixedUpdate();
+        PlayerStateMachine.FixedUpdate();
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        if (GetInput(out NetworkInputData data)) Input = data;
+        PlayerStateMachine.FixedUpdateNetwork();
+    } 
+
+    private void Update()
+    {
+        PlayerStateMachine.Update();
+        SkillCoolTimeCompute();
+        BuffDurationCompute();
     }
 
 
@@ -116,11 +127,11 @@ public class Player : MonoBehaviour, IHasHealth
     private void InitPlayerData()
     {
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
-        playerAnimationData = PlayerManager.Instance.PlayerAnimationData;
-        playerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
-        playerData = Instantiate(playerData);
-        Hp.Value = playerData.PlayerStatusData.HP_Cur;
-        MaxHp.Value = playerData.PlayerStatusData.HP_Max;
+        PlayerAnimationData = PlayerManager.Instance.PlayerAnimationData;
+        PlayerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
+        PlayerData = Instantiate(PlayerData);
+        Hp.Value = PlayerData.PlayerStatusData.HP_Cur;
+        MaxHp.Value = PlayerData.PlayerStatusData.HP_Max;
         //TODO: 여기서부터 임시 코드
         switch (playerCharacterClass)
         {
@@ -153,11 +164,11 @@ public class Player : MonoBehaviour, IHasHealth
     /// </summary>
     private void InitComponent()
     {
-        input = GetComponent<PlayerInput>();
-        playerRigidbody = GetComponent<Rigidbody2D>();
-        playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
-        playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
-        playerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
+        PlayerNetworkRigidbody = GetComponent<NetworkRigidbody2D>();
+        PlayerRigidbody = GetComponent<Rigidbody2D>();
+        PlayerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
+        PlayerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
+        PlayerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
         SpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
         PlayerAnimator = transform.GetComponentForTransformFindName<Animator>("Sprtie_Player");
         SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -208,7 +219,7 @@ public class Player : MonoBehaviour, IHasHealth
     /// </summary>
     private void PlayerColliderTriggerOff()
     {
-        playerGroundCollider.isTrigger = false;
+        PlayerGroundCollider.isTrigger = false;
     }
 
 
@@ -241,7 +252,7 @@ public class Player : MonoBehaviour, IHasHealth
     /// </summary>
     public void PlayerDie()
     {
-        playerStateMachine.ChangeState(playerStateMachine.DieState);
+        PlayerStateMachine.ChangeState(PlayerStateMachine.DieState);
     }
 
 
@@ -276,4 +287,24 @@ public class Player : MonoBehaviour, IHasHealth
         OnSkillHit?.Invoke(hitSkill);
     }
 
+
+    private void SetSpriteFlipX()
+    {
+        SpriteRenderer.flipX = IsFlipX;
+    }
+
+    public void SetFlipX(float moveX)
+    {
+        if(moveX < 0)
+        {
+            IsFlipX = true;
+            return;
+        }
+
+        if(moveX > 0)
+        {
+            IsFlipX = false;
+            return;
+        }
+    }
 }
