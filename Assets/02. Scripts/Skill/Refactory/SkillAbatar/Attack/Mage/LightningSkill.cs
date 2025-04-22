@@ -33,6 +33,7 @@ public class LightningSkill : RangeAttackSkill
             yield return Wait;
         }
 
-        // Destroy(SkillEffect.gameObject);
+        Destroy(SkillEffect.gameObject);
+        player.SkillTrigger.HoldSkillCoroutine = null;
     }
 }

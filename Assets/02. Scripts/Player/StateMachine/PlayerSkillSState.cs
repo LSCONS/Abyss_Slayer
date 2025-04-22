@@ -39,7 +39,8 @@ public class PlayerSkillSState : PlayerSkillState
     public override void Update()
     {
         base.Update();
-        if (SkillUpdate(playerStateMachine.Player.playerAnimationData.S_SkillAnimationHash)) return;
+        if (SkillUpdate(playerStateMachine.Player.playerAnimationData.S_SkillAnimationHash,
+            () => playerStateMachine.Player.input.IsSkillS)) return;
         playerStateMachine.EndAttackAction?.Invoke();
     }
 }

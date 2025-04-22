@@ -12,7 +12,7 @@ public interface IPlayerState
 
 public abstract class StateMachine
 {
-    protected IPlayerState currentState;
+    public IPlayerState currentState;
 
     public void ChangeState(IPlayerState state)
     {
