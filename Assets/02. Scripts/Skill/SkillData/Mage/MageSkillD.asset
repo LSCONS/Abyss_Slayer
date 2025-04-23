@@ -9,27 +9,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37dde014a4932e84181cc9f60a73359d, type: 3}
-  m_Name: MageSkillS
+  m_Script: {fileID: 11500000, guid: 41126c27b66a9ec4ea6375c2ebe28a22, type: 3}
+  m_Name: MageSkillD
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   <SkillName>k__BackingField: "\uC2A4\uD0AC \uC774\uB984"
   <SkillDesription>k__BackingField: "\uC2A4\uD0AC \uC124\uBA85"
   <SkillIcon>k__BackingField: {fileID: 0}
   <CanUse>k__BackingField: 1
-  <CanMove>k__BackingField: 0
+  <CanMove>k__BackingField: 1
   <MaxCoolTime>k__BackingField:
-    value: 30
+    value: 10
   <CurCoolTime>k__BackingField:
     value: 0
-  <ApplyState>k__BackingField: 1
-  <Damage>k__BackingField: 1
+  <ApplyState>k__BackingField: 3
+  <Damage>k__BackingField: 10
   <Range>k__BackingField: 10
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <ColliderSize>k__BackingField: {x: 13.4, y: 2.3}
-  <SpawnOffset>k__BackingField: {x: 7.9, y: 0}
-  <TickRate>k__BackingField: 0.2
-  <Duration>k__BackingField: 1
-  <EffectName>k__BackingField: Blast
+  shockCount: 6
+  shockOffsetWidth: 1
+  shockOffsetTime: 0.5
