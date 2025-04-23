@@ -21,7 +21,6 @@ public class CoroutineManager : Singleton<CoroutineManager>
         if(coroutine != null)
         {
             StopCoroutine(coroutine);
-            coroutine = null;
         }
     }
 }

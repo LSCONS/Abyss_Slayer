@@ -235,4 +235,16 @@ public class PlayerStateMachine : StateMachine
         }
         return false;
     }
+
+    public void CheckHoldSkillStop(IPlayerState state, System.Func<bool> isAction)
+    {
+        if (currentState == state)
+        {
+            if (!(isAction()) && Player.SkillTrigger.HoldSkillCoroutine != null)
+            {
+                ChangeState(IdleState);
+                return;
+            }
+        }
+    }
 }
