@@ -1,0 +1,51 @@
+using System.Collections;
+using System.Collections.Generic;
+using UniRx;
+using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
+
+public class FoxClone : BasePoolable,IHasHealth
+{
+    [SerializeField] Animator animator;
+    public ReactiveProperty<int> Hp { get; } = new ReactiveProperty<int>(1);
+    public ReactiveProperty<int> MaxHp { get; } = new ReactiveProperty<int>(1);
+
+    int _deadDamage;
+    float _deadExplosionScale;
+    [SerializeField] DotDamageCollider dotCollidier;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+    public void Damage(int damage, float attackPosX = -1000)
+    {
+        animator.SetTrigger("Damage");
+    }
+    public override void Init()
+    {
+    }
+    public void Init(Vector3 position, int deadDamage, int explosionDamage)
+    {
+        Hp.Value = MaxHp.Value;
+        transform.position = position;
+        _deadDamage = deadDamage;
+        dotCollidier.Init(explosionDamage,5);
+    }
+    public void Explosion()
+    {
+        if(Hp.Value > 0)
+        {
+            animator.SetTrigger("Explosion");
+        }
+    }
+    public void DeadExplosionDamage()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 5.5f * _deadExplosionScale, LayerData.PlayerLayerIndex);
+        for(int i = 0; i < hits.Length; i++)
+        {
+            hits[i].GetComponent<Player>().OnDamagePlayerHP(_deadDamage);
+        }
+    }
+    
+}
