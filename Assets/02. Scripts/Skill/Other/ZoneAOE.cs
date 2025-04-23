@@ -84,9 +84,10 @@ public class ZoneAOE : BasePoolable
         if (effectPrefab != null)
         {   // 이펙트 길이 맞추기
             effectPrefab.SetActive(true);
-
             var effectSprite = GetComponentInChildren<SpriteRenderer>();
+            effectSprite.transform.localScale = Vector3.one;
             bool flip = player.SpriteRenderer.flipX ? true : false;
+            
             effectSprite.flipX = flip;
 
             var animator = effectPrefab.GetComponentInChildren<Animator>();
