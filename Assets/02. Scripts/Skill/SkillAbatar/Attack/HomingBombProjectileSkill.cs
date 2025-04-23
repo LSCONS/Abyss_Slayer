@@ -23,7 +23,7 @@ public class HomingBombProjectileSkill : ProjectileAttackSkill
     [field: Header("타겟 레이어")]
     [field: SerializeField] public LayerMask TargetLayer { get; private set; }          // 타겟 레이어
 
-    private MageSkillRangeVisualizer rangeVisualizer;   // 범위 시각화
+    private MageSkillRangeVisualizer rangeVisualizer; // 범위 시각화
     private Boss target;
     
 

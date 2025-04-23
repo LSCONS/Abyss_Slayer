@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MageSkillD", menuName = "SkillRefactory/Range/ShockWave")]
+[CreateAssetMenu(fileName = "MageSkillD", menuName = "Skill/RangeAttack/ShockWave")]
 public class MShockWaveSkill : RangeAttackSkill
 {
     [SerializeField] private int shockCount = 6;
