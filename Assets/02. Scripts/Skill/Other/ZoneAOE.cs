@@ -86,6 +86,7 @@ public class ZoneAOE : BasePoolable
             effectPrefab.SetActive(true);
             var effectSprite = GetComponentInChildren<SpriteRenderer>();
             effectSprite.transform.localScale = Vector3.one;
+            effectSprite.transform.localRotation = Quaternion.Euler(0,0,0);
             bool flip = player.SpriteRenderer.flipX ? true : false;
             
             effectSprite.flipX = flip;
