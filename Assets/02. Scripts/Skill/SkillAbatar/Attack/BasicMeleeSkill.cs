@@ -10,8 +10,6 @@ public class BasicMeleeSkill : MeleeAttackSkill
     [field: SerializeField] public Vector2 ColliderSize { get; private set; }
     [field: Header("콜라이더 위치")]
     [field: SerializeField] public Vector2 ColliderOffset {  get; private set; }
-    [field: Header("일반공격 쿨다운")]
-    [field: SerializeField] public float CooldownBonus {  get; private set; }
 
     public override void UseSkill()
     {
