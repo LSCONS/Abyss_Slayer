@@ -29,9 +29,8 @@ MonoBehaviour:
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  sizeX: 10
-  sizeY: 10
-  tickRate: 0.25
-  duration: 1
-  spawnOffset: {x: 5, y: 0}
-  effectName: Skill_S
+  <ColliderSize>k__BackingField: {x: 5, y: 2}
+  <SpawnOffset>k__BackingField: {x: 3, y: 0}
+  <TickRate>k__BackingField: 0.2
+  <Duration>k__BackingField: 1.3
+  <EffectName>k__BackingField: Skill_S
