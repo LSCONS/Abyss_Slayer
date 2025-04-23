@@ -28,9 +28,8 @@ MonoBehaviour:
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  sizeX: 13
-  sizeY: 1.2
-  tickRate: 0.05
-  duration: 4
-  spawnOffset: {x: 8, y: 0}
-  effectName: Blast
+  <ColliderSize>k__BackingField: {x: 1, y: 1}
+  <SpawnOffset>k__BackingField: {x: 0, y: 0}
+  <TickRate>k__BackingField: 0.2
+  <Duration>k__BackingField: 1
+  <EffectName>k__BackingField: Blast
