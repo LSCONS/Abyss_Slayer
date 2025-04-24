@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStateMachine : StateMachine
@@ -9,11 +10,8 @@ public class PlayerStateMachine : StateMachine
     public PlayerFallState FallState { get; private set; }
     public PlayerDeadState DieState { get; private set; }
 
-    public PlayerSkillZState SkillZState { get; private set; }
-    public PlayerSkillXState SkillXState { get; private set; }
-    public PlayerSkillAState SkillAState { get; private set; }
-    public PlayerSkillSState SkillSState { get; private set; }
-    public PlayerSkillDState SkillDState { get; private set; }
+    public Dictionary<SkillSlotKey, PlayerSkillEnterState> PlayerSkillEnterStateDict { get; private set; } = new();
+    public Dictionary<SkillSlotKey, PlayerSkillUseState> PlayerSkillUseStateDict { get; private set; } = new();
 
     public StoppableAction SkipAttackAction = new();
     public StoppableAction EndAttackAction = new();
@@ -35,22 +33,24 @@ public class PlayerStateMachine : StateMachine
         FallState = new PlayerFallState(this);
         DieState = new PlayerDeadState(this);
 
-        SkillZState = new PlayerSkillZState(this);
-        SkillAState = new PlayerSkillAState(this);
-        SkillSState = new PlayerSkillSState(this);
-        SkillDState = new PlayerSkillDState(this);
-        SkillXState = new PlayerSkillXState(this);
+        foreach (var key in player.EquippedSkills.Keys)
+        {
+            PlayerSkillEnterStateDict.Add(key, new PlayerSkillEnterState(this, key));
+            PlayerSkillUseStateDict.Add(key, new PlayerSkillUseState(this, key));
+        }
 
         IdleState.Init();
         WalkState.Init();
         JumpState.Init(); 
         FallState.Init(); 
-        DieState.Init(); 
-        SkillZState.Init();
-        SkillAState.Init();
-        SkillSState.Init();
-        SkillDState.Init();
-        SkillXState.Init();
+        DieState.Init();
+
+
+        foreach (var key in player.EquippedSkills.Keys)
+        {
+            PlayerSkillEnterStateDict[key].Init();
+            PlayerSkillUseStateDict[key].Init();
+        }
 
         SkipAttackAction.AddListener(ConnectJumpState);
         SkipAttackAction.AddListener(ConnectDashState);
@@ -79,9 +79,6 @@ public class PlayerStateMachine : StateMachine
 
         if ((ApplyState.JumpState | applyState) == applyState)
             JumpState.MoveAction.AddListener(() => ConnectAttackAction(isAction(), state, skillData));
-
-        if ((ApplyState.DashState | applyState) == applyState)
-            SkillZState.MoveAction.AddListener(() => ConnectAttackAction(isAction(), state, skillData));
 
         if ((ApplyState.FallState | applyState) == applyState)
             FallState.MoveAction.AddListener(() => ConnectAttackAction(isAction(), state, skillData));
@@ -123,11 +120,14 @@ public class PlayerStateMachine : StateMachine
     /// <summary>velocity.y의 값이 0에 가까운지 확인</summary>
     private bool IsZeroVelocityY() => Mathf.Approximately(Player.playerRigidbody.velocity.y, 0);
 
+    /// <summary>velocity.y의 값이 0보다 작거나 같은지 확인</summary>
+    private bool IsLowVelocityY() => Player.playerRigidbody.velocity.y <= 0;
+
     /// <summary>현재 닿고 있는 땅이 있는지 확인</summary>
     private bool IsZeroGround() => (Player.playerCheckGround.GroundPlaneCount + Player.playerCheckGround.GroundPlatformCount) == 0;
 
     /// <summary>해당 SlotKey의 스킬이 사용 가능한지 확인</summary>
-    private bool IsSkillCanUse(SkillSlotKey slotKey) => Player.equippedSkills[slotKey].CanUse;
+    private bool IsSkillCanUse(SkillSlotKey slotKey) => Player.EquippedSkills[slotKey].CanUse;
 
     /// <summary>MoveDir.y의 값이 0보다 작은지 확인</summary>
     private bool IsDownMoveDirY() => Player.input.MoveDir.y < 0;
@@ -172,6 +172,17 @@ public class PlayerStateMachine : StateMachine
     }
 
 
+    public bool ConnectRigidbodyFallState()
+    {
+        if(IsLowVelocityY())                //velocityY값이 0보다 작거나 같다면
+        {
+            ChangeState(FallState);         //FallState로 전환
+            return true;
+        }
+        return false;
+    }
+
+
     /// <summary>
     /// Dash State에 진입 가능 여부를 확인하고 전환하는 메서드
     /// </summary>
@@ -185,7 +196,7 @@ public class PlayerStateMachine : StateMachine
             (!(IsDownMoveDirY()) || IsZeroGround()) &&      //공중에 뜬 상태거나 아래키를 누르고 있지 않다면
             IsCanDashCount())                               //대시 카운트가 존재한다면
         {
-            ChangeState(SkillZState);                       //Z스킬 State로 전환
+            ChangeState(PlayerSkillEnterStateDict[SkillSlotKey.Z]); //Z스킬 State로 전환
             return true;
         }
         return false;
@@ -240,7 +251,7 @@ public class PlayerStateMachine : StateMachine
     {
         if (currentState == state)
         {
-            if (!(isAction()) && Player.SkillTrigger.HoldSkillCoroutine != null)
+            if (!(isAction()) /*&& Player.SkillTrigger.HoldSkillCoroutine != null*/)//TODO: 홀드스킬 취소 나중에 추가 필요
             {
                 ChangeState(IdleState);
                 return;
