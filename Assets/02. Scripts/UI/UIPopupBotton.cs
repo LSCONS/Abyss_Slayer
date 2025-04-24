@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIBotton : UIBase
+public class UIPopupBotton : UIBase
 {
     [Header("열고싶은 팝업 이름을 적어주세요.")]
     [SerializeField] private string popupName;  // 열고싶은 팝업 이름
