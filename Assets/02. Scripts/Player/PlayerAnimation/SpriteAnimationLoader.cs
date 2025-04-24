@@ -12,7 +12,8 @@ public static class SpriteAnimationData
         { AnimationState.Run1, 8 },
         { AnimationState.Run2, 8 },
         { AnimationState.Jump, 4 },
-        { AnimationState.Fall, 4 },
+        { AnimationState.Fall, 3 },
+        { AnimationState.None, 1 },
         { AnimationState.Attack1, 6 },
         { AnimationState.Attack2, 6 },
         { AnimationState.Attack3, 4 },
@@ -58,6 +59,27 @@ public static class SpriteSlicer
             index += item.Value;
         }
 
+        //별도로 나누고 싶은 AnimationSprite 지정
+        result[AnimationState.Attack1Enter] = result[AnimationState.Attack1].AsSpan(0,3).ToArray();
+        result[AnimationState.Attack1Use] = result[AnimationState.Attack1].AsSpan(3, 3).ToArray();
+
+        result[AnimationState.Attack2Enter] = result[AnimationState.Attack2].AsSpan(0, 3).ToArray();
+        result[AnimationState.Attack2Use] = result[AnimationState.Attack2].AsSpan(3, 3).ToArray();
+
+        result[AnimationState.Attack3Enter] = result[AnimationState.Attack3].AsSpan(0, 2).ToArray();
+        result[AnimationState.Attack3Use] = result[AnimationState.Attack3].AsSpan(2, 2).ToArray();
+
+        result[AnimationState.AirAtk1Enter] = result[AnimationState.AirAtk1].AsSpan(0, 3).ToArray();
+        result[AnimationState.AirAtk1Use] = result[AnimationState.AirAtk1].AsSpan(3, 3).ToArray();
+
+        result[AnimationState.AirAtk2Enter] = result[AnimationState.AirAtk2].AsSpan(0, 2).ToArray();
+        result[AnimationState.AirAtk2Use] = result[AnimationState.AirAtk2].AsSpan(2, 2).ToArray();
+
+        result[AnimationState.Casting1Enter] = result[AnimationState.Casting1].AsSpan(0, 5).ToArray();
+        result[AnimationState.Casting1Use] = result[AnimationState.Casting1].AsSpan(2, 3).ToArray();
+
+        result[AnimationState.Casting2Enter] = result[AnimationState.Casting2].AsSpan(0, 5).ToArray();
+        result[AnimationState.Casting2Use] = result[AnimationState.Casting2].AsSpan(2, 3).ToArray();
         return result;
     }
 
@@ -73,13 +95,28 @@ public enum AnimationState
     Run2,
     Jump,
     Fall,
+    None,
     Attack1,
+    Attack1Enter,
+    Attack1Use,
     Attack2,
+    Attack2Enter,
+    Attack2Use,
     Attack3,
+    Attack3Enter,
+    Attack3Use,
     AirAtk1,
+    AirAtk1Enter,
+    AirAtk1Use,
     AirAtk2,
+    AirAtk2Enter,
+    AirAtk2Use,
     Casting1,
+    Casting1Enter,
+    Casting1Use,
     Casting2,
+    Casting2Enter,
+    Casting2Use,
     Hurt,
     Dying,
     Dash,
