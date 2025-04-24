@@ -9,12 +9,12 @@ public class ObjectPool<T> where T : BasePoolable
     private Transform _parent;
 
     //생성자, 초기화 (프리펩,초기생성수,부모)
-    public ObjectPool(T prefab, int initialSize, Transform parents) 
+    public ObjectPool(T prefab, Transform parents, int initialSize)
     {
         _prefab = prefab;
         _parent = parents;
 
-        for(int i = 0; i < initialSize; i++)
+        for (int i = 0; i < initialSize; i++)
         {
             CreatNew();
         }
