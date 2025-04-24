@@ -62,7 +62,7 @@ public class HomingBombProjectileSkill : ProjectileAttackSkill
         {
             // 각 투사체의 발사 각도를 계산
             float degree = FireDegree - ((SpreadDegree / 2) - (i * SpreadDegree / (ProjectileCount)));
-            degree = player.SpriteRenderer.flipX ? 180 - degree : degree;
+            degree = player.IsFlipX ? 180 - degree : degree;
             Quaternion rotate = Quaternion.Euler(0, 0, degree);
 
             // 투사체 생성 위치 계산 (원을 기준으로 배치)
