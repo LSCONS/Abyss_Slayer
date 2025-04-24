@@ -143,9 +143,9 @@ public class MeleeDamageCheck : MonoBehaviour
         }
 
             // 뎀지 처리
-        if (target.TryGetComponent<Boss>(out Boss boss))
+        if (target.TryGetComponent<IHasHealth>(out IHasHealth enemy))
         {
-            boss.Damage((int)damage); // 데미지 전달
+            enemy.Damage((int)damage, transform.position.x); // 데미지 전달
             Debug.Log($"Damage Applied at {Time.time}");
 
             player.RaiseSkillHit(skill);    // 스킬이 적중하면 플레이어한테 알려줌
@@ -155,10 +155,15 @@ public class MeleeDamageCheck : MonoBehaviour
                 BasePoolable effect = PoolManager.Instance.Get(effectType);
                 if (effect != null)
                 {
-                    effect.transform.position = boss.transform.position;
-                    effect.transform.SetParent(boss.transform);
-                    effect.Init();
-                    effect.AutoReturn(aliveTime);
+                    if (enemy is MonoBehaviour mb)
+                    {
+                        Transform enemyTransform = mb.transform;
+                        effect.transform.position = enemyTransform.transform.position;
+                        effect.transform.SetParent(enemyTransform);
+                        effect.Init();
+                        effect.AutoReturn(aliveTime);
+                    }
+                    
                 }
             }
         }

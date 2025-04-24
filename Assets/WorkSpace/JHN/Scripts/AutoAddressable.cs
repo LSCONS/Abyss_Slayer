@@ -12,7 +12,7 @@ public class AddressablesAutoRegister
         var settings = AddressableAssetSettingsDefaultObject.Settings;
         var group = settings.FindGroup("PlayerAnimation");
 
-        string[] spriteGuids = AssetDatabase.FindAssets("t:Sprite", new[] {"cloth1_c1_bot"});
+        string[] spriteGuids = AssetDatabase.FindAssets("t:Sprite");
 
         foreach (string guid in spriteGuids)
         {

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 65b8a0ba009f67840845166561a9b04a
+guid: d05fd71ed9199a44fb1d9a7deea6367e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -95,6 +95,19 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -136,7 +149,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Attack_3_0
+      name: Dash_0
       rect:
         serializedVersion: 2
         x: 0
@@ -150,14 +163,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d91341b4ef6c6ac4a82a139c2b3e8271
-      internalID: 1365700271
+      spriteID: 9ce14140b44338e4c91d16afc43f04c0
+      internalID: 584930174
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack_3_1
+      name: Dash_1
       rect:
         serializedVersion: 2
         x: 128
@@ -171,14 +184,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a20a5f19516e3944db808780521a743b
-      internalID: 1100641371
+      spriteID: 1986059b87157b14cb02b6851f9583f9
+      internalID: -841802296
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack_3_2
+      name: Dash_2
       rect:
         serializedVersion: 2
         x: 256
@@ -192,14 +205,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6e3dcb6620b3c924f8c7b525bda6d333
-      internalID: 1560987596
+      spriteID: 97787b1323087da44bbd217fe7c03d49
+      internalID: 1286971885
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack_3_3
+      name: Dash_3
       rect:
         serializedVersion: 2
         x: 384
@@ -213,14 +226,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9612cab478348194e96a686c869b44d0
-      internalID: 1902924
+      spriteID: 75b80748590c08348bd8040834a3b8ac
+      internalID: 558802693
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack_3_4
+      name: Dash_4
       rect:
         serializedVersion: 2
         x: 512
@@ -234,14 +247,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 27277ad1eeee7bd498e042ab799ec446
-      internalID: 825600174
+      spriteID: 8d8c52bd1bcbb9144b96106aad0c7ce8
+      internalID: -1275585833
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack_3_5
+      name: Dash_5
       rect:
         serializedVersion: 2
         x: 640
@@ -255,14 +268,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 993c2f55851b98a4caafaab238fb6b3a
-      internalID: 121106770
+      spriteID: ad194865647dde94fa338f3179e97099
+      internalID: -1415667720
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Attack_3_6
+      name: Dash_6
       rect:
         serializedVersion: 2
         x: 768
@@ -276,8 +289,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 09ee944bd36eb454e8312c3838a02477
-      internalID: -1967988008
+      spriteID: ec0e50669829648438449fa26996b232
+      internalID: -1032467034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dash_7
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b8d8ac0e432d0a4faaef54d32d52f6c
+      internalID: -2069830966
       vertices: []
       indices: 
       edges: []
@@ -293,13 +327,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Attack_3_0: 1365700271
-      Attack_3_1: 1100641371
-      Attack_3_2: 1560987596
-      Attack_3_3: 1902924
-      Attack_3_4: 825600174
-      Attack_3_5: 121106770
-      Attack_3_6: -1967988008
+      Dash_0: 584930174
+      Dash_1: -841802296
+      Dash_2: 1286971885
+      Dash_3: 558802693
+      Dash_4: -1275585833
+      Dash_5: -1415667720
+      Dash_6: -1032467034
+      Dash_7: -2069830966
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

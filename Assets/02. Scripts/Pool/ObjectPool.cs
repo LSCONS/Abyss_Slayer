@@ -22,6 +22,11 @@ public class ObjectPool<T> where T : BasePoolable
 
     T CreatNew()        //부족할경우 추가생성
     {
+        if (_prefab == null)
+        {
+            Debug.LogError("ObjectPool 생성 시 prefab이 null입니다!");
+            return null;
+        }
         T obj = Object.Instantiate(_prefab, _parent);
         obj.SetPool(this as ObjectPool<BasePoolable>);
         obj.gameObject.SetActive(false);
