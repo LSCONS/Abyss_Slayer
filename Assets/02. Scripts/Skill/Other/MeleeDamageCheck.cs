@@ -79,7 +79,7 @@ public class MeleeDamageCheck : MonoBehaviour
 
         float flag = 1f;
 
-        if(player.SpriteRenderer !=null) flag = player.SpriteRenderer.flipX ? -1f : 1f;
+        flag = player.IsFlipX ? -1f : 1f;
         boxCollider.offset = new Vector2(offset.x * flag, offset.y);
 
         hitObjects.Clear();

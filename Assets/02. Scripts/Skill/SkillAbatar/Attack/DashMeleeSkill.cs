@@ -21,7 +21,7 @@ public class DashMeleeSkill : MeleeAttackSkill
     public override void UseSkill()
    {
         // 대시 방향 설정
-        Vector2 dashDirection = player.SpriteRenderer.flipX ? Vector2.left : Vector2.right;
+        Vector2 dashDirection = player.IsFlipX ? Vector2.left : Vector2.right;
 
         // 대시 이후의 처리들 (데미지 넣을 콜라이더 이동 + )
         player.StartCoroutine(DashCoroutine(dashDirection, dashDuration));
@@ -39,7 +39,7 @@ public class DashMeleeSkill : MeleeAttackSkill
         if (dashEffectPrefab != null)
         {
             // 위치 설정
-            Vector3 effectOffset = new Vector3(player.SpriteRenderer.flipX ? 1f : -1f, -0.5f, 0);   // 플립되어있으면 1f, 아니면 -1f
+            Vector3 effectOffset = new Vector3(player.IsFlipX ? 1f : -1f, -0.5f, 0);   // 플립되어있으면 1f, 아니면 -1f
             Vector3 effectPos = player.transform.position + effectOffset;
 
             dashEffect = GameObject.Instantiate(dashEffectPrefab, effectPos, Quaternion.identity, player.transform);
