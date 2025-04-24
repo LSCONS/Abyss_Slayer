@@ -30,6 +30,16 @@ public abstract class BasePoolable : MonoBehaviour
 
     }
 
+    public virtual void Init
+        (
+            SpriteChange spriteChange,
+            AnimationState state,
+            int num,
+            Vector3 position,
+            bool flipX
+        )
+    { }
+
 
     // aliveTime 후에 풀에 반환
     public virtual void AutoReturn(float aliveTime){}
