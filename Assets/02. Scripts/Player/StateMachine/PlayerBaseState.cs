@@ -36,26 +36,6 @@ public class PlayerBaseState : IPlayerState
 
 
     /// <summary>
-    /// 매개변수로 들어온 애니메이션의 파라미터를 활성화 시켜줄 메서드.
-    /// </summary>
-    /// <param name="animatorHash">활성화 시킬 애니메이션의 해시태그</param>
-    protected void StartAnimation(int animatorHash)
-    {
-        playerStateMachine.Player.PlayerAnimator.SetBool(animatorHash, true);
-    }
-
-
-    /// <summary>
-    /// 매개변수로 들어온 애니메이션의 파라미터를 비활성화 시켜줄 메서드.
-    /// </summary>
-    /// <param name="animatorHash">비활성화 시킬 애니메이션의 해시태그</param>
-    protected void StopAnimation(int animatorHash)
-    {
-        playerStateMachine.Player.PlayerAnimator.SetBool(animatorHash, false);
-    }
-
-
-    /// <summary>
     /// SkillState로 진입할 경우 필수적으로 실행해야하는 메서드
     /// </summary>
     /// <param name="canMove">움직일 수 있는 스킬인지 확인</param>
@@ -67,7 +47,6 @@ public class PlayerBaseState : IPlayerState
             playerStateMachine.MovementSpeed = 0f;
             ResetZeroVelocity();
         }
-        playerStateMachine.IsCompareState = false;
         playerStateMachine.Player.SkillCoolTimeUpdate(slotKey);
     }
 
@@ -78,7 +57,7 @@ public class PlayerBaseState : IPlayerState
     protected void SkillExit()
     {
         playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
-        playerStateMachine.Player.SkillTrigger.StopCoroutine();
+        //TODO:홀드스킬 멈추는 트리거   playerStateMachine.Player.SkillTrigger.StopCoroutine();
     }
 
 
@@ -90,7 +69,7 @@ public class PlayerBaseState : IPlayerState
     protected bool SkillUpdate(int SkillAnimationHash, System.Func<bool> isAction)
     {
         //TODO: 매 프레임 초기화 시켜주는 방식. 큰 리로스 차지는 없지만 나중에 리팩토링 때 고려 필요.
-        playerStateMachine.AnimatorInfo = playerStateMachine.Player.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
+        //playerStateMachine.AnimatorInfo = playerStateMachine.Player.PlayerAnimator.GetCurrentAnimatorStateInfo(0);
 
         //해당 State의 애니메이터와 연결 완료
         if (!(playerStateMachine.IsCompareState))

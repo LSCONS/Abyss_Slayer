@@ -3,6 +3,9 @@ using UnityEngine;
 public class PlayerJumpState : PlayerAirState
 {
     public StoppableAction MoveAction = new();
+    private int animationNum = 0;
+    private float animationTime = 0;
+    private int animationDelay = 10;
     public PlayerJumpState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -10,8 +13,6 @@ public class PlayerJumpState : PlayerAirState
 
     public void Init()
     {
-        //Fall State 진입 가능 여부 확인
-        MoveAction.AddListener(playerStateMachine.ConnectFallState);
         //Dash State 진입 가능 여부 확인
         MoveAction.AddListener(playerStateMachine.ConnectDashState);
         //Idle State 진입 가능 여부 확인
@@ -23,7 +24,9 @@ public class PlayerJumpState : PlayerAirState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.jumpParameterHash);
+        playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Jump, 0);
+        animationNum = 0;
+        animationTime = animationDelay;
         Jump();
 
 #if StateMachineDebug
@@ -34,16 +37,27 @@ public class PlayerJumpState : PlayerAirState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.jumpParameterHash);
 
 #if StateMachineDebug
         Debug.Log("JumpState 해제");
 #endif
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        animationTime--;
+    }
+
     public override void Update()
     {
         base.Update();
+        if (animationTime <= 0)
+        {
+            animationTime = animationDelay;
+            if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Jump, ++animationNum)) return;
+        }
+        if (playerStateMachine.ConnectRigidbodyFallState()) return;
         MoveAction?.Invoke();
     }
 
