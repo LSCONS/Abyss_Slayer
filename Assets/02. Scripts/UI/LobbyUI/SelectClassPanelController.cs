@@ -24,7 +24,7 @@ public class SelectClassPanelController : UIPopup
         if (!selectButton) selectButton = transform.GetGameObjectSameNameDFS("Select").GetComponent<Button>();
 
 
-        controller.CreateClassSlots();  // 클래스 슬롯 생성
+        if(controller.Slots.Count == 0) controller.CreateClassSlots();  // 클래스 슬롯 생성
     }
 
     public override void Open(params object[] args)
