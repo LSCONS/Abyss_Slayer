@@ -8,7 +8,7 @@ public class RemoteZoneRangeSkill : RangeAttackSkill
     [field: Header("콜라이더 크기 조정")]
     [field: SerializeField] public Vector2 ColliderSize { get; private set; } = new Vector2(1, 1);
     [field: Header("오브젝트 크기")]
-    [field: SerializeField] public Vector3 SpawnSize { get; private set; } = new Vector3(1, 0.4f, 0);
+    [field: SerializeField] public Vector2 SpawnSize { get; private set; } = new Vector2(2, 2);
     [field: Header("콜라이더 위치 값 조정")]
     [field: SerializeField] public Vector2 ColliderOffset { get; private set; } = new Vector2(1, 1);
     [field: Header("오브젝트 위치 값 조정(플레이어 기준)")]

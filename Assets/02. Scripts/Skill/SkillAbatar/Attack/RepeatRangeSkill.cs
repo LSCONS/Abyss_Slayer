@@ -9,16 +9,16 @@ public class RepeatRangeSkill : RangeAttackSkill
 {
 
     [field: Header("콜라이더 크기")]
-    [field: SerializeField] public Vector2 ColliderSize { get; private set; } = new Vector2(1, 1);
+    [field: SerializeField] public Vector2 ColliderSize { get; private set; } = new Vector2(1.8f, 14);
 
     [field: Header("오브젝트 크기")]
     [field: SerializeField] public Vector2 SpawnSize { get; private set; } = new Vector2(1, 0.4f);
 
     [field: Header("콜라이더 위치 값 조정")]
-    [field: SerializeField] public Vector2 ColliderOffset { get; private set; } = new Vector2(1, 1);
+    [field: SerializeField] public Vector2 ColliderOffset { get; private set; } = new Vector2(0, 7);
 
     [field: Header("오브젝트 위치 값 조정(플레이어 기준)")]
-    [field: SerializeField] public Vector2 SpawnOffset { get; private set; } = Vector2.zero;
+    [field: SerializeField] public Vector2 SpawnOffset { get; private set; } = new Vector2(3, -1.1f);
 
     [field: Header("생성 딜레이 시간")]
     [field: SerializeField] public float TickRate { get; private set; } = 0.5f;
