@@ -16,14 +16,14 @@ public class RepeatRangeSkill : RangeAttackSkill
     [field: Header("생성 딜레이 시간")]
     [field: SerializeField] public float TickRate { get; private set; } = 0.5f;
     [field: Header("콜라이더 유지 시간")]
-    [field: SerializeField] public float Duration { get; private set; } = 1f;
+    [field: SerializeField] public float Duration { get; private set; } = 0.5f;
     [field: Header("Effect 이름")]
     [field: SerializeField] public string EffectName { get; private set; } = "이펙트 이름";
 
     public override void UseSkill()
     {
         base.UseSkill();
-        player.SkillTrigger.HoldSkillCoroutine = CoroutineManager.Instance.StartCoroutineEnter(Repeat());
+        CoroutineManager.Instance.StartCoroutine(Repeat());
     }
 
     public IEnumerator Repeat()
@@ -31,10 +31,10 @@ public class RepeatRangeSkill : RangeAttackSkill
         WaitForSeconds wait = new WaitForSeconds(TickRate);
 
         // 풀에서 ZoneAOE 꺼내기
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 5; i++)
         {
-            Vector2 offset = new Vector2(SpawnOffset.x * PlayerFrontXNormalized(), SpawnOffset.y);
-            Vector3 spawnPos = player.transform.position + (Vector3)offset + new Vector3(i * PlayerFrontXNormalized(), -2f, 0);
+            Vector3 offset = new Vector3(SpawnOffset.x * PlayerFrontXNormalized(), SpawnOffset.y, 0);
+            Vector3 spawnPos = player.transform.position + offset + new Vector3(i * 2 * PlayerFrontXNormalized(), 0, 0);
 
             var zone = PoolManager.Instance.Get<ZoneAOE>();
             zone.Init(player, this, spawnPos, ColliderSize, ColliderOffset, TickRate, Duration, Damage, TargetLayer, EffectName);
