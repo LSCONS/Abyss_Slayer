@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class RemoteZoneRangeSkill : RangeAttackSkill
 {
-    [field: Header("콜라이더 크기")]
+    [field: Header("콜라이더 크기 조정")]
     [field: SerializeField] public Vector2 ColliderSize { get; private set; } = new Vector2(1, 1);
-    [field: Header("콜라이더 위치(플레이어 기준)")]
+    [field: Header("콜라이더 위치 값 조정")]
+    [field: SerializeField] public Vector2 ColliderOffset { get; private set; } = new Vector2(1, 1);
+    [field: Header("오브젝트 위치 값 조정(플레이어 기준)")]
     [field: SerializeField] public Vector2 SpawnOffset{ get; private set; } = Vector2.zero;
     [field: Header("데미지 딜레이 시간")]
     [field: SerializeField] public float TickRate { get; private set; } = 0.2f;
@@ -24,6 +26,6 @@ public class RemoteZoneRangeSkill : RangeAttackSkill
 
         // 풀에서 ZoneAOE 꺼내기
         var zone = PoolManager.Instance.Get<ZoneAOE>();
-        zone.Init(player, this, spawnPos, ColliderSize, TickRate, Duration, Damage, TargetLayer, EffectName);
+        zone.Init(player, this, spawnPos, ColliderSize, ColliderOffset, TickRate, Duration, Damage, TargetLayer, EffectName);
     }
 }
