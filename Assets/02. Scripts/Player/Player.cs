@@ -22,16 +22,15 @@ public class Player : MonoBehaviour, IHasHealth
     public Rigidbody2D playerRigidbody;
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
-    public Animator PlayerAnimator { get; private set; }//TODO: 나중에 초기화 필요
-    public PlayerAnimationData playerAnimationData { get; private set; }
+    public PlayerSpriteData PlayerSpriteData { get; private set; }
     public PlayerStateMachine playerStateMachine { get; private set; }
     public BoxCollider2D playerGroundCollider {  get; private set; }
     public BoxCollider2D playerMeleeCollider { get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
 
-    [Header("스킬 관련")]
-    public Dictionary<SkillSlotKey, Skill> equippedSkills = new(); // 스킬 연결용 딕셔너리
-    public CharacterSkillSet skillSet; // 스킬셋 데이터
+    [field: Header("스킬 관련")]
+    public Dictionary<SkillSlotKey, Skill> EquippedSkills { get; private set; } = new(); // 스킬 연결용 딕셔너리
+    public CharacterSkillSet SkillSet { get; private set; } // 스킬셋 데이터
     public IStopCoroutine SkillTrigger { get; private set; }
 
     public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
@@ -44,6 +43,7 @@ public class Player : MonoBehaviour, IHasHealth
 
     public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
     public bool IsFlipX { get; private set; } = false;
+    public SpriteChange PlayerSpriteChange { get; private set; }
 
     private void Awake()
     {
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour, IHasHealth
     /// </summary>
     private void SkillCoolTimeCompute()
     {
-        foreach (var value in equippedSkills.Values)
+        foreach (var value in EquippedSkills.Values)
         {
             if (!(value.CanUse))
             {
@@ -118,9 +118,10 @@ public class Player : MonoBehaviour, IHasHealth
     private void InitPlayerData()
     {
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
-        PlayerManager.Instance.SettingPlayerAnimator(playerCharacterClass, PlayerAnimator); // 클래스에 맞는 애니메이터 설정
+        //PlayerManager.Instance.SettingPlayerAnimator(playerCharacterClass, PlayerAnimator); // 클래스에 맞는 애니메이터 설정
 
-        playerAnimationData = PlayerManager.Instance.PlayerAnimationData;
+        PlayerSpriteData = PlayerManager.Instance.PlayerSpriteData;
+        PlayerSpriteChange.Init(PlayerSpriteData);
         playerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
         playerData = Instantiate(playerData);
         Hp.Value = playerData.PlayerStatusData.HP_Cur;
@@ -129,24 +130,19 @@ public class Player : MonoBehaviour, IHasHealth
         switch (playerCharacterClass)
         {
             case CharacterClass.Archer:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutine;
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
+                SkillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
                 break;
             case CharacterClass.Healer:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutine;
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/HealerSkillSet");
+                SkillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/HealerSkillSet");
                 break;
             case CharacterClass.Mage:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutine;
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MageSkillSet");
+                SkillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MageSkillSet");
                 break;
             case CharacterClass.MagicalBlader:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutine;
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
+                SkillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
                 break;
             case CharacterClass.Tanker:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutine;
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/TankerSkillSet");
+                SkillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/TankerSkillSet");
                 break;
         }
     }
@@ -158,11 +154,12 @@ public class Player : MonoBehaviour, IHasHealth
     private void InitComponent()
     {
         input = GetComponent<PlayerInput>();
+        input.InitDictionary();
         playerRigidbody = GetComponent<Rigidbody2D>();
+        PlayerSpriteChange = GetComponentInChildren<SpriteChange>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
         playerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
-        PlayerAnimator = transform.GetComponentForTransformFindName<Animator>("Sprtie_Player");
     }
 
 
@@ -171,22 +168,16 @@ public class Player : MonoBehaviour, IHasHealth
     /// </summary>
     private void InitSkillData()
     {
-        skillSet = Instantiate(skillSet);
-        skillSet.InstantiateSkillData(this);
-        equippedSkills = new();
-        foreach (var slot in skillSet.skillSlots)
+        SkillSet = Instantiate(SkillSet);
+        SkillSet.InstantiateSkillData(this);
+        EquippedSkills = new();
+        foreach (var slot in SkillSet.skillSlots)
         {
             if (slot.skill != null)
             {
-                equippedSkills[slot.key] = slot.skill;
-            }
-            else
-            {
-                Debug.LogWarning($"Skill in slot {slot.key} is null!");
+                EquippedSkills[slot.key] = slot.skill;
             }
         }
-        SkillTrigger.Player = this;
-        SkillTrigger.SkillDictionary = equippedSkills;
     }
 
 
@@ -196,9 +187,9 @@ public class Player : MonoBehaviour, IHasHealth
     /// <param name="slotKey">쿨타임 돌릴 스킬 키</param>
     public void SkillCoolTimeUpdate(SkillSlotKey slotKey)
     {
-        if (equippedSkills.ContainsKey(slotKey))
+        if (EquippedSkills.ContainsKey(slotKey))
         {
-            Skill skill = equippedSkills[slotKey];
+            Skill skill = EquippedSkills[slotKey];
             skill.CurCoolTime.Value = skill.MaxCoolTime.Value;
             skill.CanUse = false;
         }
@@ -292,6 +283,7 @@ public class Player : MonoBehaviour, IHasHealth
         {
             IsFlipX = true;
         }
+        PlayerSpriteChange.SetFlipxSpriteRenderer(IsFlipX);
     }
 
 }
