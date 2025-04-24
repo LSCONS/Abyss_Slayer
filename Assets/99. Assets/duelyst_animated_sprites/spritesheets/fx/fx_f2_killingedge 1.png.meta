@@ -1,0 +1,1033 @@
+fileFormatVersion: 2
+guid: bbbaa0c0ae1e4ca4398984bf19abd09d
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 828
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 162ad403bb1243847bc14058f598b1e1
+      internalID: 492646282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_05
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 828
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7efa0b3b829dfb34998736bb2b6b658b
+      internalID: 61224100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_10
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 828
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 990a0825c0b5245438479c6b14f41c3a
+      internalID: 1590515327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_15
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 828
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 425c0bf92149f2b4abeafa967436b057
+      internalID: -1468332189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_25
+      rect:
+        serializedVersion: 2
+        x: 1005
+        y: 828
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29f411b27059bf3428283102219c33dd
+      internalID: 388382621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_30
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 828
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c98f276540fe20447947ed7b5ae0e4d3
+      internalID: 395415286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_35
+      rect:
+        serializedVersion: 2
+        x: 1407
+        y: 828
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 308e1a862fe30e94d8ff8765a2328695
+      internalID: 1971141510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_40
+      rect:
+        serializedVersion: 2
+        x: 1608
+        y: 828
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbb13784eae1a364da89b700b40efd22
+      internalID: -684647456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_04
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 628
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bc94235ac0f570469197cee12c27fd1
+      internalID: 277223234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_09
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 628
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57507b5cc49241a4da4dae6f33b94e46
+      internalID: 896821911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_14
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 628
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c70f6e8560c6824cbde956859e6829a
+      internalID: 1670864214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_19
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 628
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d501acdb68cd1da4aa229b009f254ae1
+      internalID: 618191292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_24
+      rect:
+        serializedVersion: 2
+        x: 1005
+        y: 628
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 019e82feb49efbb418db993ba0887842
+      internalID: 616404300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_29
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 628
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a1cf0a922128e040aaa7188b7d3efae
+      internalID: 204285978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_34
+      rect:
+        serializedVersion: 2
+        x: 1407
+        y: 628
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43d51f56bec00a546a7c22af112bb9c6
+      internalID: -89507984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_39
+      rect:
+        serializedVersion: 2
+        x: 1608
+        y: 628
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e31f7a69b9e84f4687d2f09aba76141
+      internalID: 1187712371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_03
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 428
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aaea915c6c91d494995f55b2341027a7
+      internalID: -1204351510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_08
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 428
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d07c8665fd96bdf44af089dbf9ca3f4d
+      internalID: -630543731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_13
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 428
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdc27abaea390f0418c8505463972450
+      internalID: 444388942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_18
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 428
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b81171963b262534b934ac4c75566406
+      internalID: 1018095484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_23
+      rect:
+        serializedVersion: 2
+        x: 1007
+        y: 428
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c15ffac91c724b4fbc885ca9cbe30e7
+      internalID: 2111480891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_28
+      rect:
+        serializedVersion: 2
+        x: 1208
+        y: 428
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a76b94d6479b9e47995e3fd52898897
+      internalID: 1597370298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_33
+      rect:
+        serializedVersion: 2
+        x: 1407
+        y: 428
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eada876f4f273014c8e102bca35a3d96
+      internalID: -1465658236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_38
+      rect:
+        serializedVersion: 2
+        x: 1608
+        y: 428
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 386dfc1cde20d1a4f985bc277b3e82e9
+      internalID: 2090214670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_02
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 228
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d258d7d973ed3b0449c235abebd7e6e3
+      internalID: 1418790004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_07
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 228
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce5720c37d147504cbdc096175b8fb26
+      internalID: 1892539936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_12
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 228
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d737803dcfbdfd642820901bfd38d43e
+      internalID: 384178648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_17
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 228
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7975b0230780df24e8039b51c3b3d71e
+      internalID: 274195937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_22
+      rect:
+        serializedVersion: 2
+        x: 1006
+        y: 228
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d3ffcc17b1ac5549ac1aba595de0395
+      internalID: -731747255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_27
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 228
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a55c37474380c134183645d9cb01815e
+      internalID: -780484577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_32
+      rect:
+        serializedVersion: 2
+        x: 1407
+        y: 228
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fedd5f224141c8349bbc70a3ab332a39
+      internalID: -683785616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_37
+      rect:
+        serializedVersion: 2
+        x: 1610
+        y: 230
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf89b50049367c34cb78b9e84b087d69
+      internalID: 1152793920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_01
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 28
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ff05e9b0a25b674a8e8c5408b789902
+      internalID: 59318162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_06
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 28
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a040aa396f3d65547a264e4ff64ff965
+      internalID: 1489969288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_11
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 28
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba1fc5d317856174bb234bb0f1aa1b1d
+      internalID: -1820849978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_16
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 28
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fde4c654b05bebb40baf6ee74064ba83
+      internalID: -1292343380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_21
+      rect:
+        serializedVersion: 2
+        x: 1006
+        y: 28
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 87ca92905d72afd41bd03a27525a8886
+      internalID: -1670621603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_26
+      rect:
+        serializedVersion: 2
+        x: 1206
+        y: 28
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c269d3a71867320418659683d3982907
+      internalID: -279718011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_31
+      rect:
+        serializedVersion: 2
+        x: 1407
+        y: 28
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d10fc1edbf244d240bf621f770c1334b
+      internalID: -367613531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_f2_killingedge 1_36
+      rect:
+        serializedVersion: 2
+        x: 1608
+        y: 28
+        width: 149
+        height: 196
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59b098283e6146d4baef0c19b816bf9f
+      internalID: -1801088922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      fx_f2_killingedge 1_01: 1418790004
+      fx_f2_killingedge 1_02: 896821911
+      fx_f2_killingedge 1_03: -1204351510
+      fx_f2_killingedge 1_04: 1892539936
+      fx_f2_killingedge 1_05: 277223234
+      fx_f2_killingedge 1_06: 1590515327
+      fx_f2_killingedge 1_07: 1489969288
+      fx_f2_killingedge 1_08: 1892539936
+      fx_f2_killingedge 1_09: 384178648
+      fx_f2_killingedge 1_10: 896821911
+      fx_f2_killingedge 1_11: -1292343380
+      fx_f2_killingedge 1_12: 1670864214
+      fx_f2_killingedge 1_13: 61224100
+      fx_f2_killingedge 1_14: -1468332189
+      fx_f2_killingedge 1_15: -1820849978
+      fx_f2_killingedge 1_16: 274195937
+      fx_f2_killingedge 1_17: 1018095484
+      fx_f2_killingedge 1_18: 618191292
+      fx_f2_killingedge 1_19: 492646282
+      fx_f2_killingedge 1_20: -1670621603
+      fx_f2_killingedge 1_21: -731747255
+      fx_f2_killingedge 1_22: 2111480891
+      fx_f2_killingedge 1_23: 616404300
+      fx_f2_killingedge 1_24: 388382621
+      fx_f2_killingedge 1_25: -279718011
+      fx_f2_killingedge 1_26: -780484577
+      fx_f2_killingedge 1_27: 1597370298
+      fx_f2_killingedge 1_28: 204285978
+      fx_f2_killingedge 1_29: -683785616
+      fx_f2_killingedge 1_30: -367613531
+      fx_f2_killingedge 1_31: -367613531
+      fx_f2_killingedge 1_32: 395415286
+      fx_f2_killingedge 1_33: 2090214670
+      fx_f2_killingedge 1_34: -89507984
+      fx_f2_killingedge 1_35: 1971141510
+      fx_f2_killingedge 1_36: -1801088922
+      fx_f2_killingedge 1_37: 1152793920
+      fx_f2_killingedge 1_38: 1152793920
+      fx_f2_killingedge 1_39: 1187712371
+      fx_f2_killingedge 1_40: -684647456
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

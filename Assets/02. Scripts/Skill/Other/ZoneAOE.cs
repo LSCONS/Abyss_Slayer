@@ -24,7 +24,7 @@ public class ZoneAOE : BasePoolable
     {
 
     }
-    public override void Init(Vector3 spawnPos, Vector2 size, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
+    public override void Init(Vector3 spawnPos, Vector2 size, Vector2 offset, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
     {
         // 기본 세팅
         this.duration = _duration;
@@ -43,11 +43,12 @@ public class ZoneAOE : BasePoolable
         var col = GetComponent<BoxCollider2D>();
         col.isTrigger = true;
         col.size = size;
+        col.offset = offset;
 
         // meleedamagecheck 세팅
         var meleeCheck = GetComponent<MeleeDamageCheck>();
         System.Type fxType = null;
-        meleeCheck.Init(player, skill, size, new Vector2(0,0), damage, fxType, _duration);
+        meleeCheck.Init(player, skill, size, offset, damage, fxType, _duration);
         meleeCheck.SetRepeatMode(true, tickRate);
 
         gameObject.SetActive(true);
@@ -57,17 +58,17 @@ public class ZoneAOE : BasePoolable
         ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(_duration, targetLayer));
     }
 
-    public void Init(Player player, Vector3 spawnPos, Vector2 size, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
+    public void Init(Player player, Vector3 spawnPos, Vector2 size, Vector2 offset, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
     {
         this.player = player;
-        Init(spawnPos, size, tickRate, _duration, damage, targetLayer, effectName);
+        Init(spawnPos, size, offset, tickRate, _duration, damage, targetLayer, effectName);
     }
 
-    public void Init(Player player, Skill skill, Vector3 spawnPos, Vector2 size, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
+    public void Init(Player player, Skill skill, Vector3 spawnPos, Vector2 size, Vector2 offset,float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
     {
         this.player = player;
         this.skill = skill;
-        Init(player, spawnPos, size, tickRate, _duration, damage, targetLayer, effectName);
+        Init(player, spawnPos, size, offset, tickRate, _duration, damage, targetLayer, effectName);
     }
 
     private IEnumerator ReturnTOPool(float seconds, LayerMask targetLayer)
@@ -87,9 +88,7 @@ public class ZoneAOE : BasePoolable
             var effectSprite = GetComponentInChildren<SpriteRenderer>();
             effectSprite.transform.localScale = Vector3.one;
             effectSprite.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            bool flip = player.SpriteRenderer.flipX ? true : false;
-            
-            effectSprite.flipX = flip;
+            effectSprite.flipX = player.IsFlipX;
 
             var animator = effectPrefab.GetComponentInChildren<Animator>();
             animator.runtimeAnimatorController = ChangeAnimatior(effectName);
