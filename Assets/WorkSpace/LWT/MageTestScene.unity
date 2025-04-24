@@ -185,37 +185,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1083979439}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &827313307
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 827313308}
-  m_Layer: 0
-  m_Name: ExplosionPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &827313308
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 827313307}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1122380504}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &886057624
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -281,37 +250,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
---- !u!1 &893134259
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 893134260}
-  m_Layer: 0
-  m_Name: BossProjectileNormalPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &893134260
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 893134259}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1122380504}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &938445975
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,7 +317,7 @@ MonoBehaviour:
   - prefab: {fileID: 7896639486435320998, guid: a05b54dc9c69c2c4d81a8ea8a8ae6608, type: 3}
     parent: {fileID: 384301497}
     initialSize: 12
-  - prefab: {fileID: -143444998832389949, guid: 0a8101b506287904482ebdf5f10ab013, type: 3}
+  - prefab: {fileID: 5262481886868993792, guid: 0a8101b506287904482ebdf5f10ab013, type: 3}
     parent: {fileID: 1883821572}
     initialSize: 12
   - prefab: {fileID: -589420653525222953, guid: 4d2f3580db6e67145ae189949e08248e, type: 3}
@@ -390,9 +328,6 @@ MonoBehaviour:
     initialSize: 12
   - prefab: {fileID: 1640822207898752333, guid: 4e2032fca0a81a9498ac09113ab84d58, type: 3}
     parent: {fileID: 151883459}
-    initialSize: 12
-  - prefab: {fileID: 8233709686028198085, guid: f8d20a795cd214c4fa9163a0b8635c7f, type: 3}
-    parent: {fileID: 1894302203}
     initialSize: 12
 --- !u!4 &1083979439
 Transform:
@@ -413,66 +348,6 @@ Transform:
   - {fileID: 1383165751}
   - {fileID: 151883459}
   - {fileID: 1894302203}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1122380502
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1122380504}
-  - component: {fileID: 1122380503}
-  m_Layer: 0
-  m_Name: PoolManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1122380503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1122380502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d98e2c581d6c9d649b708506353b23e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolConfigs:
-  - prefab: {fileID: 2555030200978516725, guid: 064257dbf50bd914291a41de424d8ee1, type: 3}
-    parent: {fileID: 827313308}
-    initialSize: 3
-  - prefab: {fileID: 7896639486435320998, guid: a05b54dc9c69c2c4d81a8ea8a8ae6608, type: 3}
-    parent: {fileID: 893134260}
-    initialSize: 12
-  - prefab: {fileID: -143444998832389949, guid: 0a8101b506287904482ebdf5f10ab013, type: 3}
-    parent: {fileID: 1715973643}
-    initialSize: 12
-  - prefab: {fileID: -589420653525222953, guid: 4d2f3580db6e67145ae189949e08248e, type: 3}
-    parent: {fileID: 0}
-    initialSize: 8
---- !u!4 &1122380504
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1122380502}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.532406, y: 1.2043436, z: -10.200145}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 827313308}
-  - {fileID: 893134260}
-  - {fileID: 1715973643}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1383165750
@@ -505,37 +380,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1083979439}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1715973642
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1715973643}
-  m_Layer: 0
-  m_Name: ArcherProjectilePool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1715973643
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1715973642}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1122380504}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1883821571
 GameObject:
@@ -578,7 +422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1894302203}
   m_Layer: 0
-  m_Name: MShockWavePool
+  m_Name: MageShockWavePool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2431,7 +2275,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1122380504}
+  - {fileID: 1083979439}
   - {fileID: 3660388834084905767}
   - {fileID: 6312463769850051886}
   - {fileID: 8873918761667223361}
@@ -2446,4 +2290,3 @@ SceneRoots:
   - {fileID: 5569100086388186749}
   - {fileID: 2284587740710019586}
   - {fileID: 886057624}
-  - {fileID: 1083979439}

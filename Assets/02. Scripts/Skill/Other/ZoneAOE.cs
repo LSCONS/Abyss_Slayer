@@ -84,9 +84,11 @@ public class ZoneAOE : BasePoolable
         if (effectPrefab != null)
         {   // 이펙트 길이 맞추기
             effectPrefab.SetActive(true);
-
             var effectSprite = GetComponentInChildren<SpriteRenderer>();
+            effectSprite.transform.localScale = Vector3.one;
+            effectSprite.transform.localRotation = Quaternion.Euler(0, 0, 0);
             bool flip = player.SpriteRenderer.flipX ? true : false;
+            
             effectSprite.flipX = flip;
 
             var animator = effectPrefab.GetComponentInChildren<Animator>();
@@ -105,7 +107,6 @@ public class ZoneAOE : BasePoolable
                 }
             }
         }
-
     }
 
     // 애니메이터 가져오기 << 나중에 미리 캐싱해두기

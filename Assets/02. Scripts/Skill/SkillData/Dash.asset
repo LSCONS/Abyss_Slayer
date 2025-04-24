@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1477ff3cc0cf5ae4d9b8b0e6ff8bf79f, type: 3}
+  m_Name: Dash
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  <SkillName>k__BackingField: "\uB300\uC26C"
+  <SkillDesription>k__BackingField: "\uC77C\uC815\uAC70\uB9AC\uB97C \uBE60\uB974\uAC8C
+    \uC774\uB3D9\uD558\uACE0 \uC7A0\uC2DC \uBB34\uC801 \uC0C1\uD0DC\uAC00 \uB41C\uB2E4."
+  <SkillIcon>k__BackingField: {fileID: 0}
+  <CanUse>k__BackingField: 1
+  <CanMove>k__BackingField: 0
+  <MaxCoolTime>k__BackingField:
+    value: 1
+  <CurCoolTime>k__BackingField:
+    value: 0
+  <ApplyState>k__BackingField: 8
+  <MovingForce>k__BackingField: 50
