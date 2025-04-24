@@ -48,7 +48,7 @@ public class ZoneAOE : BasePoolable
         // meleedamagecheck 세팅
         var meleeCheck = GetComponent<MeleeDamageCheck>();
         System.Type fxType = null;
-        meleeCheck.Init(player, skill, size, new Vector2(0,0), damage, fxType, _duration);
+        meleeCheck.Init(player, skill, size, offset, damage, fxType, _duration);
         meleeCheck.SetRepeatMode(true, tickRate);
 
         gameObject.SetActive(true);
