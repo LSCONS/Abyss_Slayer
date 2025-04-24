@@ -10,6 +10,7 @@ public class PoolConfig     //새로 풀을 추가할때 필요한 정보
 {
     public BasePoolable prefab;     //오브젝트풀 구조로 관리할 프리펩
     public Transform parent;        //해당 오브젝트를 생성할 부모
+    public int initialSize;
 }
 public class PoolManager : Singleton<PoolManager>
 {
@@ -31,14 +32,15 @@ public class PoolManager : Singleton<PoolManager>
         BasePoolable[] basePoolables = GetAllPoolable();
         foreach(BasePoolable poolable in basePoolables)
         {
+            //이미 들어있는 타입인 경우 다음으로 넘어감.
+            if (poolDict.ContainsKey(poolable.GetType())) continue;
+
+            //빈 오브젝트 추가 후 부모 오브젝트 설정
             Transform newObject = new GameObject(poolable.GetType().Name).transform;
             newObject.parent = transform;
-            PoolConfig poolConfig = new PoolConfig
-            {
-                prefab = poolable,
-                parent = newObject,
-            };
-            ObjectPool<BasePoolable> pool = new ObjectPool<BasePoolable>(poolConfig.prefab, poolConfig.parent);
+
+            //TODO: 임시로 풀링할 오브젝트 5개씩 모두 생성후 Dictionary에 추가
+            ObjectPool<BasePoolable> pool = new ObjectPool<BasePoolable>(poolable, newObject, 5);
             poolDict.Add(poolable.GetType(), pool);
         }
     }
