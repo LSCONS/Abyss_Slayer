@@ -116,6 +116,8 @@ public class Player : MonoBehaviour, IHasHealth
     private void InitPlayerData()
     {
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
+        PlayerManager.Instance.SettingPlayerAnimator(playerCharacterClass, PlayerAnimator); // 클래스에 맞는 애니메이터 설정
+
         playerAnimationData = PlayerManager.Instance.PlayerAnimationData;
         playerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
         playerData = Instantiate(playerData);
