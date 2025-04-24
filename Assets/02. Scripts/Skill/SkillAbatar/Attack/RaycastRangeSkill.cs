@@ -16,7 +16,7 @@ public class RaycastRangeSkill : RangeAttackSkill
         if (hit.collider != null)
         {
             Debug.Log(hit.collider.gameObject.name);
-            hit.collider.GetComponent<Boss>().Damage((int)Damage); // 데미지 전달
+            hit.collider.GetComponent<IHasHealth>().Damage((int)Damage,hit.point.x); // 데미지 전달
         }
     }
 }

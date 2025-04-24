@@ -74,13 +74,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 91
+  m_SortingOrder: 400
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4, y: 4.4375}
+  m_Size: {x: 5.0625, y: 4.1875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -121,9 +121,9 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 10}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.546875, y: 0.112676054}
-    oldSize: {x: 4, y: 4.4375}
-    newSize: {x: 4, y: 4.4375}
+    pivot: {x: 0.5, y: 0.1}
+    oldSize: {x: 10.0625, y: 28.25}
+    newSize: {x: 10.0625, y: 28.25}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -249,6 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
   dotCollidier: {fileID: 5408697951640577446}
+  cloneSprite: {fileID: 4147493409915590806}
 --- !u!1 &7682915619832727464
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +322,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 90
+  m_SortingOrder: 300
   m_Sprite: {fileID: 171416399, guid: e4eff3e8af0670945b6ad312257d3277, type: 3}
   m_Color: {r: 0.8235294, g: 1, b: 1, a: 1}
   m_FlipX: 0

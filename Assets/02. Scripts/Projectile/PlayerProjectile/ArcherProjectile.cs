@@ -55,9 +55,9 @@ public class ArcherProjectile : BasePoolable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<Boss>(out Boss boss))
+        if (collision.TryGetComponent<IHasHealth>(out IHasHealth enemy))
         {
-            boss.Damage((int)damage); // 데미지 전달
+            enemy.Damage((int)damage,transform.position.x); // 데미지 전달
         }
 
         if((1 << collision.gameObject.layer | includeLayer) == includeLayer)

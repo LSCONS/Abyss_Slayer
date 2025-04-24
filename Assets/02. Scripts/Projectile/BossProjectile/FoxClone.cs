@@ -14,7 +14,9 @@ public class FoxClone : BasePoolable,IHasHealth
     int _deadDamage;
     float _deadExplosionScale;
     [SerializeField] DotDamageCollider dotCollidier;
-    Action dead;
+    [SerializeField] SpriteRenderer cloneSprite;
+    public delegate void Dead(FoxClone foxClone);
+    Dead dead;
 
     private void Awake()
     {
@@ -23,18 +25,19 @@ public class FoxClone : BasePoolable,IHasHealth
     public void Damage(int damage, float attackPosX = -1000)
     {
         Hp.Value = 0;
-        animator.SetTrigger("Damage");
+        animator.SetTrigger("Damaged");
     }
     public override void Init()
     {
     }
-    public void Init(Vector3 position, int deadDamage, int explosionDamage, Action cloneDead)
+    public void Init(Vector3 position, int deadDamage, int explosionDamage, Dead cloneDead)
     {
         Hp.Value = MaxHp.Value;
         transform.position = position;
         _deadDamage = deadDamage;
         dotCollidier.Init(explosionDamage,5);
         dead = cloneDead;
+        cloneSprite.flipX = UnityEngine.Random.value < 0.5f;
     }
     public void Explosion()
     {
@@ -48,12 +51,12 @@ public class FoxClone : BasePoolable,IHasHealth
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 5.5f * _deadExplosionScale, LayerData.PlayerLayerIndex);
         for(int i = 0; i < hits.Length; i++)
         {
-            hits[i].GetComponent<Player>().OnDamagePlayerHP(_deadDamage);
+            hits[i].GetComponent<Player>().Damage(_deadDamage);
         }
     }
     public override void ReturnToPool()
     {
-        dead?.Invoke();
+        dead?.Invoke(this);
         base.ReturnToPool();
     }
 }

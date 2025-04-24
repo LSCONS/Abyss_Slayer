@@ -218,7 +218,7 @@ public class Player : MonoBehaviour, IHasHealth
     /// 플레이어 체력 닳는 메서드
     /// </summary>
     /// <param name="value">변환을 줄 값. +를 넣어야 체력이 깎임.</param>
-    public void OnDamagePlayerHP(int value)
+    public void Damage(int value, float attackPosX = -1000)
     {
         Hp.Value = Hp.Value.PlusAndIntClamp(-value, MaxHp.Value);
         if (Hp.Value == 0)
