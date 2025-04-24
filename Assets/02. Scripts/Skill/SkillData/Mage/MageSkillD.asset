@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37dde014a4932e84181cc9f60a73359d, type: 3}
+  m_Script: {fileID: 11500000, guid: 906db3620c9e89947b45cb7b8e91a283, type: 3}
   m_Name: MageSkillD
   m_EditorClassIdentifier: 
   player: {fileID: 0}
@@ -23,13 +23,15 @@ MonoBehaviour:
   <CurCoolTime>k__BackingField:
     value: 0
   <ApplyState>k__BackingField: 3
-  <Damage>k__BackingField: 10
+  <Damage>k__BackingField: 5
   <Range>k__BackingField: 8
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <ColliderSize>k__BackingField: {x: 2, y: 5.5}
-  <SpawnOffset>k__BackingField: {x: 3, y: 1.6}
-  <TickRate>k__BackingField: 1
-  <Duration>k__BackingField: 1
+  <ColliderSize>k__BackingField: {x: 1.8, y: 5.5}
+  <SpawnSize>k__BackingField: {x: 1, y: 0.4}
+  <ColliderOffset>k__BackingField: {x: 0, y: 2.7}
+  <SpawnOffset>k__BackingField: {x: 3, y: -1.1}
+  <TickRate>k__BackingField: 0.1
+  <Duration>k__BackingField: 0.5
   <EffectName>k__BackingField: MageSkill03

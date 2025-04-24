@@ -9,12 +9,12 @@ public class ObjectPool<T> where T : BasePoolable
     private Transform _parent;
 
     //생성자, 초기화 (프리펩,초기생성수,부모)
-    public ObjectPool(T prefab, int initialSize, Transform parents) 
+    public ObjectPool(T prefab, Transform parents, int initialSize)
     {
         _prefab = prefab;
         _parent = parents;
 
-        for(int i = 0; i < initialSize; i++)
+        for (int i = 0; i < initialSize; i++)
         {
             CreatNew();
         }
@@ -22,6 +22,11 @@ public class ObjectPool<T> where T : BasePoolable
 
     T CreatNew()        //부족할경우 추가생성
     {
+        if (_prefab == null)
+        {
+            Debug.LogError("ObjectPool 생성 시 prefab이 null입니다!");
+            return null;
+        }
         T obj = Object.Instantiate(_prefab, _parent);
         obj.SetPool(this as ObjectPool<BasePoolable>);
         obj.gameObject.SetActive(false);

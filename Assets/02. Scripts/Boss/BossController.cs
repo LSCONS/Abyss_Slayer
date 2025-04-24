@@ -114,7 +114,7 @@ public class BossController : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("선택 가능한 패턴 없음. 대기");//전체 영역가지는 기본패턴 추가전 임시 디버그용
+                //Debug.LogWarning("선택 가능한 패턴 없음. 대기");
                 yield return new WaitForSeconds(1f);
             }
         }

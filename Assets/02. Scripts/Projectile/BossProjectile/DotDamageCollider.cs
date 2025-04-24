@@ -9,18 +9,18 @@ public class DotDamageCollider : MonoBehaviour
 
     int _damage;
     float _attackRate;
-    float _preDamageTime;
+    float _damageTime;
 
 
 
     private void Update()
     {
-        if(Time.time - _preDamageTime >= _attackRate)
+        if(Time.time >= _damageTime)
         {
-            _preDamageTime = Time.time;
+            _damageTime = Time.time  + _attackRate;
             foreach(Player p in hitPlayers)
             {
-                p.OnDamagePlayerHP(_damage);
+                p.Damage(_damage);
             }
         }
         
@@ -35,6 +35,7 @@ public class DotDamageCollider : MonoBehaviour
         _damage = damage;
         _attackRate = 1/attackPerSec;
         hitPlayers.Clear();
+        _damageTime = Time.time + _attackRate;
     }
 
     protected virtual void OnTriggerStay2D(Collider2D collision)

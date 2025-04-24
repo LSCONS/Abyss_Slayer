@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PlayerDeadState : PlayerAbnomalState
 {
     public PlayerDeadState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
