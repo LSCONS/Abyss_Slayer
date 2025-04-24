@@ -164,7 +164,7 @@ public class UIManager : Singleton<UIManager>
         // 부모에 만들기
         var ui = Instantiate(prefab, parent);
         ui.name = name; // 원래 프리팹 이름으로 나오게 설정 => clone 안뜨게
-       // UIMap.Add(name, ui);    // 맵에 추가
+        UIMap.Add(name, ui);    // 맵에 추가
         CreateAllUnder(ui.transform);
     }
 
@@ -288,6 +288,10 @@ public class UIManager : Singleton<UIManager>
                 ui.Value.SetActive(false);
             }
             else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.TopMid) != 0){
+                ui.Value.SetActive(false);
+            }
+            else if ((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.Permanent) != 0)
+            {
                 ui.Value.SetActive(false);
             }
         }
