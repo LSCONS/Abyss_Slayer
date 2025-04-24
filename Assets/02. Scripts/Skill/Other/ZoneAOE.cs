@@ -24,7 +24,7 @@ public class ZoneAOE : BasePoolable
     {
 
     }
-    public override void Init(Vector3 spawnPos, Vector2 size, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
+    public override void Init(Vector3 spawnPos, Vector2 size, Vector2 offset, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
     {
         // 기본 세팅
         this.duration = _duration;
@@ -43,6 +43,7 @@ public class ZoneAOE : BasePoolable
         var col = GetComponent<BoxCollider2D>();
         col.isTrigger = true;
         col.size = size;
+        col.offset = offset;
 
         // meleedamagecheck 세팅
         var meleeCheck = GetComponent<MeleeDamageCheck>();
@@ -57,17 +58,17 @@ public class ZoneAOE : BasePoolable
         ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(_duration, targetLayer));
     }
 
-    public void Init(Player player, Vector3 spawnPos, Vector2 size, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
+    public void Init(Player player, Vector3 spawnPos, Vector2 size, Vector2 offset, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
     {
         this.player = player;
-        Init(spawnPos, size, tickRate, _duration, damage, targetLayer, effectName);
+        Init(spawnPos, size, offset, tickRate, _duration, damage, targetLayer, effectName);
     }
 
-    public void Init(Player player, Skill skill, Vector3 spawnPos, Vector2 size, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
+    public void Init(Player player, Skill skill, Vector3 spawnPos, Vector2 size, Vector2 offset,float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
     {
         this.player = player;
         this.skill = skill;
-        Init(player, spawnPos, size, tickRate, _duration, damage, targetLayer, effectName);
+        Init(player, spawnPos, size, offset, tickRate, _duration, damage, targetLayer, effectName);
     }
 
     private IEnumerator ReturnTOPool(float seconds, LayerMask targetLayer)
