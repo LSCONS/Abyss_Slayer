@@ -87,7 +87,7 @@ MonoBehaviour:
     - GamePlay
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 576735568703f494ca86dd04789ce474
-    m_Address: Assets/10. Prefabs/UI/Popups/InvitationWindow.prefab
+    m_Address: InvitationWindow
     m_ReadOnly: 0
     m_SerializedLabels:
     - Popup
@@ -95,6 +95,20 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4f302ddc42de6524da200da0fc6c11ec
     m_Address: Assets/10. Prefabs/UI/Permanent/Robby/RobbyRightSide_LevelSelectNStartPanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Permanent
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d8fd56d41e311f40b1234289d8bbfd8
+    m_Address: Assets/10. Prefabs/UI/Popups/SelectPanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c6e6161ebdbbd6044b820a98e58c79e6
+    m_Address: Assets/10. Prefabs/UI/Permanent/Robby/CharacterInfoPanel.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
     - Permanent
