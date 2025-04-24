@@ -26,7 +26,6 @@ public class Player : MonoBehaviour, IHasHealth
     public BoxCollider2D playerGroundCollider {  get; private set; }
     public BoxCollider2D playerMeleeCollider { get; private set; }
     [field: SerializeField] public PlayerData playerData { get; private set; }
-    public SpriteRenderer SpriteRenderer { get; private set; }
 
     [Header("스킬 관련")]
     public Dictionary<SkillSlotKey, Skill> equippedSkills = new(); // 스킬 연결용 딕셔너리
@@ -42,6 +41,7 @@ public class Player : MonoBehaviour, IHasHealth
     public Action<BoxCollider2D, float> OnMeleeAttack;  // 근접 공격 콜라이더 ON/OFF 액션
 
     public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
+    public bool IsFlipX { get; private set; } = false;
 
     private void Awake()
     {
@@ -160,9 +160,7 @@ public class Player : MonoBehaviour, IHasHealth
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
         playerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
-        SpriteRenderer = transform.GetComponentForTransformFindName<SpriteRenderer>("Sprtie_Player");
         PlayerAnimator = transform.GetComponentForTransformFindName<Animator>("Sprtie_Player");
-        SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
 
@@ -276,6 +274,22 @@ public class Player : MonoBehaviour, IHasHealth
     public void RaiseSkillHit(Skill hitSkill)
     {
         OnSkillHit?.Invoke(hitSkill);
+    }
+
+    /// <summary>
+    /// 플레이어가 X좌표로 움직이는 방향을 계산하고 바꿔주는 메서드
+    /// </summary>
+    /// <param name="nowMoveX">움직이고 있는 X좌표값의 크기</param>
+    public void FlipRenderer(float nowMoveX)
+    {
+        if (nowMoveX > 0)
+        {
+            IsFlipX = false;
+        }
+        else if (nowMoveX < 0)
+        {
+            IsFlipX = true;
+        }
     }
 
 }

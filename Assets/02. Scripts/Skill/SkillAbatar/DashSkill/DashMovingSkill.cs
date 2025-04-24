@@ -13,8 +13,7 @@ public class DashMovingSkill : MovingSkill
         base.UseSkill();
         Vector2 DashVector = player.input.MoveDir.normalized;
         DashVector *= MovingForce;
-        if (DashVector.x > 0) player.SpriteRenderer.flipX = false;
-        else if (DashVector.x < 0) player.SpriteRenderer.flipX = true;
+        player.FlipRenderer(DashVector.x);
         player.playerRigidbody.AddForce(DashVector, ForceMode2D.Impulse);
         player.playerData.PlayerAirData.CurDashCount--;
     }
