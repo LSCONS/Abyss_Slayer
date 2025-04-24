@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 5884940485109588886}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74,15 +74,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 200
-  m_Sprite: {fileID: 1711497767, guid: 93da80ecd404ff2418e2f03aa917b6de, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 14.0625, y: 2.96875}
+  m_Size: {x: 1.90625, y: 13.96875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &302454312105063854
@@ -95,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 5884940485109588886}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1aba001ca22bbe74c97c6a41f793c5b0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0444f0fdc8524c944aba0773b6dfb15e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -117,10 +117,10 @@ GameObject:
   - component: {fileID: 2866578909236517437}
   - component: {fileID: 2373441960933919171}
   - component: {fileID: 8599692419846450926}
-  - component: {fileID: 5961722291786083739}
-  - component: {fileID: 3157826915577235703}
+  - component: {fileID: -3633896019085844845}
+  - component: {fileID: 6827139483093492416}
   m_Layer: 0
-  m_Name: MageSSkillEffect
+  m_Name: ZoneAOESkillEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,7 +214,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &5961722291786083739
+--- !u!114 &-3633896019085844845
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,8 +226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091e6a6f314bfe740bf23db387cda825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canRepeatHit: 1
---- !u!114 &3157826915577235703
+  canRepeatHit: 0
+--- !u!114 &6827139483093492416
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -240,3 +240,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectPrefab: {fileID: 7843340872266542274}
+  boxCollider: {fileID: 0}

@@ -10,7 +10,9 @@ public enum CharacterClass
     Healer,
     Mage,
     MagicalBlader,
-    Tanker
+    Tanker,
+
+    Count
 }
 
 public class Player : MonoBehaviour, IHasHealth

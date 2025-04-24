@@ -20,12 +20,12 @@ public abstract class BasePoolable : MonoBehaviour
 
     }
 
-    public virtual void Init(Vector3 spawnPos, Vector2 size, Vector2 offset, float tickRate, float duration, float damage, LayerMask targetLayer)
+    public virtual void Init(Vector3 spawnPos, Vector3 spawnSize, Vector2 size, Vector2 offset, float tickRate, float duration, float damage, LayerMask targetLayer)
     {
 
     }
 
-    public virtual void Init(Vector3 spawnPos, Vector2 size, Vector2 offset, float tickRate, float duration, float damage, LayerMask targetLayer, string effetName)
+    public virtual void Init(Vector3 spawnPos, Vector3 spawnSize, Vector2 size, Vector2 offset, float tickRate, float duration, float damage, LayerMask targetLayer, string effetName)
     {
 
     }
