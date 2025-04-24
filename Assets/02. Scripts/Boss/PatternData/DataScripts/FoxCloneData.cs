@@ -55,6 +55,7 @@ public class FoxCloneData : BasePatternData
         {
             bossAnimator.SetTrigger("Stun");
             yield return new WaitForSeconds(stunTime);
+            bossAnimator.SetTrigger("Idle");
         }
         else
         {

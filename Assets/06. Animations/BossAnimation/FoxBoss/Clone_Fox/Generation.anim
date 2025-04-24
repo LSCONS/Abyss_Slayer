@@ -85,7 +85,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.8627451
+        value: 0.9019608
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -185,6 +185,15 @@ AnimationClip:
     classID: 212
     script: {fileID: 0}
     flags: 2
+  - serializedVersion: 2
+    curve:
+    - time: 0
+      value: {fileID: 171416399, guid: e4eff3e8af0670945b6ad312257d3277, type: 3}
+    attribute: m_Sprite
+    path: CloneSprite
+    classID: 212
+    script: {fileID: 0}
+    flags: 2
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
@@ -221,6 +230,15 @@ AnimationClip:
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
       path: 1682543171
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    - serializedVersion: 2
+      path: 4088438345
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -269,6 +287,7 @@ AnimationClip:
     - {fileID: -1377957469, guid: 09d6980d0f97cbb4ba705b679bdf6c0d, type: 3}
     - {fileID: -1298267483, guid: 09d6980d0f97cbb4ba705b679bdf6c0d, type: 3}
     - {fileID: 1095538252, guid: 09d6980d0f97cbb4ba705b679bdf6c0d, type: 3}
+    - {fileID: 171416399, guid: e4eff3e8af0670945b6ad312257d3277, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -452,7 +471,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.8627451
+        value: 0.9019608
         inSlope: 0
         outSlope: 0
         tangentMode: 136
