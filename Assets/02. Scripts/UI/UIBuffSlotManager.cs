@@ -21,7 +21,7 @@ public class UIBuffSlotManager : MonoBehaviour
     private void Start()
     {
         // Player의 모든 스킬 중 BuffSkill만 감지
-        foreach (var skill in player.equippedSkills.Values)
+        foreach (var skill in player.EquippedSkills.Values)
         {
             if (skill is BuffSkill buffSkill)
             {
