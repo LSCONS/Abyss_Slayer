@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3800093496770712719}
   - component: {fileID: 4999579379897463780}
   - component: {fileID: 6119824763744236556}
+  - component: {fileID: 5408697951640577446}
   m_Layer: 0
   m_Name: EffectSprite
   m_TagString: Untagged
@@ -130,6 +131,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 20}
   m_EdgeRadius: 0
+--- !u!114 &5408697951640577446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 365238029438641233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39993fd24843a9e4a83db7498d5370d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2672433069915211541
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +155,7 @@ GameObject:
   - component: {fileID: 2576671082057659120}
   - component: {fileID: 7607589292555486498}
   - component: {fileID: 1243215970550983804}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FoxClone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  dotCollidier: {fileID: 0}
+  dotCollidier: {fileID: 5408697951640577446}
 --- !u!1 &7682915619832727464
 GameObject:
   m_ObjectHideFlags: 0

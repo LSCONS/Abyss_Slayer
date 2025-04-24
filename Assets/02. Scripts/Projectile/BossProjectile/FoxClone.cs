@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
@@ -13,6 +14,7 @@ public class FoxClone : BasePoolable,IHasHealth
     int _deadDamage;
     float _deadExplosionScale;
     [SerializeField] DotDamageCollider dotCollidier;
+    Action dead;
 
     private void Awake()
     {
@@ -20,17 +22,19 @@ public class FoxClone : BasePoolable,IHasHealth
     }
     public void Damage(int damage, float attackPosX = -1000)
     {
+        Hp.Value = 0;
         animator.SetTrigger("Damage");
     }
     public override void Init()
     {
     }
-    public void Init(Vector3 position, int deadDamage, int explosionDamage)
+    public void Init(Vector3 position, int deadDamage, int explosionDamage, Action cloneDead)
     {
         Hp.Value = MaxHp.Value;
         transform.position = position;
         _deadDamage = deadDamage;
         dotCollidier.Init(explosionDamage,5);
+        dead = cloneDead;
     }
     public void Explosion()
     {
@@ -47,5 +51,9 @@ public class FoxClone : BasePoolable,IHasHealth
             hits[i].GetComponent<Player>().OnDamagePlayerHP(_deadDamage);
         }
     }
-    
+    public override void ReturnToPool()
+    {
+        dead?.Invoke();
+        base.ReturnToPool();
+    }
 }
