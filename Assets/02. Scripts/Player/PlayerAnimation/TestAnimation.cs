@@ -14,7 +14,6 @@ public class TestAnimation : MonoBehaviour
     private float timer = 0f;
     private Sprite[] currentFrames;
     private int currentFrame;
-
     private async void Start()
     {
         await LoadAndSortSprites(addressKey);
