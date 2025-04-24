@@ -30,13 +30,14 @@ public class FoxClone : BasePoolable,IHasHealth
     public override void Init()
     {
     }
-    public void Init(Vector3 position, int deadDamage, int explosionDamage, Dead cloneDead)
+    public void Init(Vector3 position, int deadDamage, int explosionDamage, Dead cloneDead, float deadExplosionSize = 1f)
     {
         Hp.Value = MaxHp.Value;
         transform.position = position;
         _deadDamage = deadDamage;
         dotCollidier.Init(explosionDamage,5);
         dead = cloneDead;
+        _deadExplosionScale = deadExplosionSize;
         cloneSprite.flipX = UnityEngine.Random.value < 0.5f;
     }
     public void Explosion()
@@ -48,10 +49,14 @@ public class FoxClone : BasePoolable,IHasHealth
     }
     public void DeadExplosionDamage()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 5.5f * _deadExplosionScale, LayerData.PlayerLayerIndex);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 5.5f * _deadExplosionScale, LayerData.PlayerLayerMask);
         for(int i = 0; i < hits.Length; i++)
         {
-            hits[i].GetComponent<Player>().Damage(_deadDamage);
+            if(hits[i].TryGetComponent<Player>(out Player hitPlayer))
+            {
+                hitPlayer.Damage(_deadDamage);
+            }
+            
         }
     }
     public override void ReturnToPool()
