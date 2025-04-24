@@ -111,7 +111,7 @@ public class UIManager : Singleton<UIManager>
 
         foreach(var prefab in handle.Result){
             // 타입 찾아
-            var uiType = prefab.GetComponentInChildren<UIBase>();
+            var uiType = prefab.GetComponentInChildren<UIBase>(true);
             if(uiType == null) continue;    // 타입이 없으면 패스
 
            // 이미 로드 되어있는지 확인해야됨
@@ -142,7 +142,9 @@ public class UIManager : Singleton<UIManager>
             return;
         }
 
+
         var uiBase = prefab.GetComponentInChildren<UIBase>();
+
         // 타입에 따라 부모 선택 근데 popup / top / bottom 이렇게 3개 중에 하나여야만 함 만약 다 아니면 permanent 부모에 만들기
         Transform parent = permanentParent; // 기본
         if((uiBase.uiType & UIType.Popup) != 0){
@@ -161,7 +163,9 @@ public class UIManager : Singleton<UIManager>
         Debug.Log($"[CreateUI] {uiBase.uiType} 타입의 UI 생성 완료");    
         // 부모에 만들기
         var ui = Instantiate(prefab, parent);
-        UIMap.Add(name, ui);    // 맵에 추가
+        ui.name = name; // 원래 프리팹 이름으로 나오게 설정 => clone 안뜨게
+       // UIMap.Add(name, ui);    // 맵에 추가
+        CreateAllUnder(ui.transform);
     }
 
 
@@ -178,6 +182,23 @@ public class UIManager : Singleton<UIManager>
             if((uiBase.uiType & type) != 0){
                 CreateUI(ui.Key);
             }
+        }
+    }
+
+    /// <summary>
+    /// 자식에 있는 uibase도 가져와서 uimap에 저장하기
+    /// </summary>
+    /// <param name="parent"></param>
+    public void CreateAllUnder(Transform parent)
+    {
+        var uiBases = parent.GetComponentsInChildren<UIBase>(true);
+        foreach (var uiBase in uiBases)
+        {
+            string name = uiBase.gameObject.name;
+            if (UIMap.ContainsKey(name)) continue;
+
+            // 이미 씬에 존재하는 오브젝트면 따로 Instantiate 필요 없음
+            UIMap.Add(name, uiBase.gameObject);
         }
     }
 
