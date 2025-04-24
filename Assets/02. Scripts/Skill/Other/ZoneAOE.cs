@@ -18,7 +18,6 @@ public class ZoneAOE : BasePoolable
     private HashSet<IHasHealth> targetsInRange = new();
 
     [SerializeField] private GameObject effectPrefab; // 이펙트 프리팹
-    [SerializeField] private BoxCollider2D boxCollider;
 
     private Player player;
     private Skill skill;
@@ -72,21 +71,6 @@ public class ZoneAOE : BasePoolable
         this.player = player;
         this.skill = skill;
         Init(player, spawnPos, spawnSize, colSize, offset, tickRate, _duration, damage, targetLayer, effectName);
-    }
-
-    /// <summary>
-    /// 위치를 옮긴 뒤에 콜라이더를 끄고 켜서
-    /// OnTriggerEnter 판정을 다시 일으키도록 합니다.
-    /// 내부 targetsInRange도 초기화합니다.
-    /// </summary>
-    public void ResetCollider()
-    {
-        if (boxCollider == null) boxCollider = GetComponent<BoxCollider2D>();
-        // 이미 잡혀있던 타깃 초기화
-        targetsInRange.Clear();
-        // 트리거 재발생을 위해 토글
-        boxCollider.enabled = false;
-        boxCollider.enabled = true;
     }
 
     private IEnumerator ReturnTOPool(float seconds, LayerMask targetLayer)
