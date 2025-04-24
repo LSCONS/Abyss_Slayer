@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Fusion.Allocator;
 
@@ -9,25 +10,56 @@ public class PoolConfig     //새로 풀을 추가할때 필요한 정보
 {
     public BasePoolable prefab;     //오브젝트풀 구조로 관리할 프리펩
     public Transform parent;        //해당 오브젝트를 생성할 부모
-    public int initialSize = 10;    //초기 생성해둘 프리펩 수
 }
 public class PoolManager : Singleton<PoolManager>
 {
-    [SerializeField] private List<PoolConfig> poolConfigs;      //풀을 추가할때 쓰는 리스트
-
     private Dictionary<Type, ObjectPool<BasePoolable>> poolDict = new();    //리스트의 풀을 저장하는 딕셔너리
 
 
     protected override void Awake()
     {
         base.Awake();
+        SetObjectPoolDictionary();
+    }
 
-        for(int i = 0; i < poolConfigs.Count; i++)      //관리할 오브젝트풀을 생성하고 프리펩의 '클래스를 키값으로 사용하여 불러올수있도록' 리스트의 값들을 딕셔너리에 저장
+
+    /// <summary>
+    /// PoolDictionary를 초기화
+    /// </summary>
+    private void SetObjectPoolDictionary()
+    {
+        BasePoolable[] basePoolables = GetAllPoolable();
+        foreach(BasePoolable poolable in basePoolables)
         {
-            ObjectPool<BasePoolable> pool = new ObjectPool<BasePoolable>(poolConfigs[i].prefab, poolConfigs[i].initialSize, poolConfigs[i].parent);
-            poolDict.Add(poolConfigs[i].prefab.GetType(), pool);
+            Transform newObject = new GameObject(poolable.GetType().Name).transform;
+            newObject.parent = transform;
+            PoolConfig poolConfig = new PoolConfig
+            {
+                prefab = poolable,
+                parent = newObject,
+            };
+            ObjectPool<BasePoolable> pool = new ObjectPool<BasePoolable>(poolConfig.prefab, poolConfig.parent);
+            poolDict.Add(poolable.GetType(), pool);
         }
     }
+
+
+    /// <summary>
+    /// Resources/ObjectPoolPrefab에 들어있는 모든 풀 오브젝트를 로드한 뒤 반환
+    /// </summary>
+    private BasePoolable[] GetAllPoolable()
+    {
+        //TODO: 나중에 Resources 어드레서블로 교체 필요
+        GameObject[] poolObjectArray = Resources.LoadAll<GameObject>("ObjectPoolPrefab");
+        BasePoolable[] basePoolables = new BasePoolable[poolObjectArray.Length];
+        for (int i = 0; i < poolObjectArray.Length; i++)
+        {
+            basePoolables[i] = poolObjectArray[i].GetComponent<BasePoolable>();
+            if (basePoolables[i] == null) Debug.LogError("PoolObject BasePoolable is null");
+        }
+        return basePoolables;
+    }
+
     /// <summary>
     /// 오브젝트풀로 관리되는 오브젝트를 생성,호출 ==>> 반드시 Init(초기화)호출 필요
     /// </summary>
@@ -40,7 +72,7 @@ public class PoolManager : Singleton<PoolManager>
         if (poolDict.TryGetValue(type, out var pool))   //키값으로 딕셔너리의 오브젝트풀을 호출
             return (T)pool.Get();                       //호출한 오브젝트풀에서 오브젝트를 생성,호출
 
-        Debug.LogWarning($"{type}에 대한 풀을 찾을 수 없습니다.");
+            Debug.LogWarning($"{type}에 대한 풀을 찾을 수 없습니다.");
         return null;
     }
 
