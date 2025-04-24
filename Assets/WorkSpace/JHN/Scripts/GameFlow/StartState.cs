@@ -11,6 +11,9 @@ public class StartState : BaseGameState
         await UIManager.Instance.LoadAllUI(UIType.NonGamePlay);
         UIManager.Instance.CreateAllUI(UIType.NonGamePlay);
         UIManager.Instance.Init();
+        UIManager.Instance.CloseAllPermanent();
+        UIManager.Instance.CloseAllPopup();
+
         UIManager.Instance.OpenUI(UISceneType.Start);
 
         await Task.CompletedTask;
