@@ -32,6 +32,7 @@ public class BossController : MonoBehaviour
     GameObject _targetCrosshairObj;
     Transform _target;
     [SerializeField] SpriteRenderer _sprite;
+    [SerializeField] SpriteRenderer _effectSprite;
     [SerializeField] public float bossCenterHight;
 
     [HideInInspector] public bool chasingTarget;

@@ -388,12 +388,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 710d5774c9caa6949815aa772eb2c753, type: 2}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: allPatterns.Array.data[3].setActivePatternForTest
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[4].setActivePatternForTest
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[7].setActivePatternForTest
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2893000285666796103, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: m_Name
