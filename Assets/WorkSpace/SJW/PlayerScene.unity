@@ -415,11 +415,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a4184effe3bbd4bbc8087229a1daaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCharacterClass: 0
+  playerCharacterClass: 2
   playerRigidbody: {fileID: 1520611182}
   playerCheckGround: {fileID: 772538548}
   mainCamera: {fileID: 0}
-  <playerData>k__BackingField: {fileID: 0}
+  <PlayerData>k__BackingField: {fileID: 0}
 --- !u!114 &1520611181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2637,14 +2637,6 @@ MonoBehaviour:
   <Face>k__BackingField: {fileID: 2369107067559883074}
   <Skin>k__BackingField: {fileID: 3643174975741022074}
   <WeaponBottom>k__BackingField: {fileID: 5093021004897451030}
-  <WeaponTopName>k__BackingField: weapon1_top
-  <ClothTopName>k__BackingField: cloth7_c1_top
-  <HairTopName>k__BackingField: f1_c1_top
-  <ClothBottomName>k__BackingField: cloth1_c1_bot
-  <HairBottomName>k__BackingField: f1_c1_bot
-  <FaceName>k__BackingField: face_c1
-  <SkinName>k__BackingField: skin_c1
-  <WeaponBottomName>k__BackingField: weapon1_bot
 --- !u!114 &9112463493250594742
 MonoBehaviour:
   m_ObjectHideFlags: 0
