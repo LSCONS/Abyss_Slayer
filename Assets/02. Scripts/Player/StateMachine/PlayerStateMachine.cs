@@ -59,7 +59,7 @@ public class PlayerStateMachine : StateMachine
         EndAttackAction.AddListener(ConnectIdleState);
         EndAttackAction.AddListener(ConnectWalkState);
 
-        MovementSpeed = Player.playerData.PlayerGroundData.BaseSpeed;
+        MovementSpeed = Player.PlayerData.PlayerGroundData.BaseSpeed;
     }
 
 
@@ -112,10 +112,10 @@ public class PlayerStateMachine : StateMachine
     private bool IsCanJump() => Player.playerCheckGround.CanJump;
 
     /// <summary>isTrigger가 어떤 상태인지 확인</summary>
-    private bool IsTrigger() => Player.playerGroundCollider.isTrigger;
+    private bool IsTrigger() => Player.PlayerGroundCollider.isTrigger;
 
     /// <summary>isTrigger을 true로 변경</summary>
-    private void IsTriggerTrue() => Player.playerGroundCollider.isTrigger = true;
+    private void IsTriggerTrue() => Player.PlayerGroundCollider.isTrigger = true;
 
     /// <summary>velocity.y의 값이 0에 가까운지 확인</summary>
     private bool IsZeroVelocityY() => Mathf.Approximately(Player.playerRigidbody.velocity.y, 0);
@@ -133,7 +133,7 @@ public class PlayerStateMachine : StateMachine
     private bool IsDownMoveDirY() => Player.input.MoveDir.y < 0;
 
     /// <summary>현재 대시 카운트가 0보다 큰지 확인</summary>
-    private bool IsCanDashCount() => Player.playerData.PlayerAirData.CurDashCount > 0;
+    private bool IsCanDashCount() => Player.PlayerData.PlayerAirData.CurDashCount > 0;
 
     /// <summary>현재 닿고 있는 GroundPlane이 0인지 확인</summary>
     private bool IsZeroGroundPlane() => Player.playerCheckGround.GroundPlaneCount == 0;

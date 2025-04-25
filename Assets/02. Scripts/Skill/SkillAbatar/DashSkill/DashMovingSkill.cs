@@ -15,6 +15,6 @@ public class DashMovingSkill : MovingSkill
         DashVector *= MovingForce;
         player.FlipRenderer(DashVector.x);
         player.playerRigidbody.AddForce(DashVector, ForceMode2D.Impulse);
-        player.playerData.PlayerAirData.CurDashCount--;
+        player.PlayerData.PlayerAirData.CurDashCount--;
     }
 }

@@ -8,7 +8,7 @@ public class PlayerBaseState : IPlayerState
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
         this.playerStateMachine = playerStateMachine;
-        playerGroundData = playerStateMachine.Player.playerData.PlayerGroundData;
+        playerGroundData = playerStateMachine.Player.PlayerData.PlayerGroundData;
     }
 
     public virtual void Enter()
@@ -36,28 +36,12 @@ public class PlayerBaseState : IPlayerState
 
 
     /// <summary>
-    /// SkillState로 진입할 경우 필수적으로 실행해야하는 메서드
-    /// </summary>
-    /// <param name="canMove">움직일 수 있는 스킬인지 확인</param>
-    /// <param name="slotKey">해당 스킬에 등록된 키</param>
-    protected void SkillEnter(bool canMove, SkillSlotKey slotKey)
-    {
-        if (!(canMove))
-        {
-            playerStateMachine.MovementSpeed = 0f;
-            ResetZeroVelocity();
-        }
-        playerStateMachine.Player.SkillCoolTimeUpdate(slotKey);
-    }
-
-
-    /// <summary>
     /// SkillState에서 해제될 경우 필수적으로 실행해야하는 메서드
     /// </summary>
     protected void SkillExit()
     {
-        playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
-        //TODO:홀드스킬 멈추는 트리거   playerStateMachine.Player.SkillTrigger.StopCoroutine();
+        playerStateMachine.MovementSpeed = playerStateMachine.Player.PlayerData.PlayerGroundData.BaseSpeed;
+        playerStateMachine.Player.StopHoldSkillCoroutine();
     }
 
 
@@ -137,6 +121,6 @@ public class PlayerBaseState : IPlayerState
     protected void ResetDefaultGravityForce()
     {
         playerStateMachine.Player.playerRigidbody.gravityScale = 
-            playerStateMachine.Player.playerData.PlayerStatusData.GravityForce;
+            playerStateMachine.Player.PlayerData.PlayerStatusData.GravityForce;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerSkillEnterState : PlayerBaseState
@@ -25,9 +26,14 @@ public class PlayerSkillEnterState : PlayerBaseState
     {
         base.Enter();
         playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillEnterState, 0);
-        SkillEnter(SkillData.CanMove, Slotkey);
+        if (!(SkillData.CanMove))
+        {
+            playerStateMachine.MovementSpeed = 0f;
+            ResetZeroVelocity();
+        }
         animationNum = 0;
         animationTime = animationDelay;
+        playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
 
 #if StateMachineDebug
         Debug.Log("SkillState 진입");
@@ -53,12 +59,17 @@ public class PlayerSkillEnterState : PlayerBaseState
     public override void Update()
     {
         base.Update();
-        if (animationTime <= 0)
+        if (SkillData.SkillCategory == SkillCategory.Hold && !(SkillInputKey()))
         {
-            animationTime = animationDelay;
-            if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillEnterState, ++animationNum)) return;
+            playerStateMachine.ChangeState(playerStateMachine.IdleState);
+            return;
         }
-        else return;
+
+
+        if (animationTime > 0) return;
+        animationTime = animationDelay;
+
+        if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillEnterState, ++animationNum)) return;
         playerStateMachine.ChangeState(playerStateMachine.PlayerSkillUseStateDict[Slotkey]);
     }
 }

@@ -16,7 +16,7 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
     public override void UseSkill()
     {
         base.UseSkill();
-        player.SkillTrigger.HoldSkillCoroutine = CoroutineManager.Instance.StartCoroutineEnter(FireArrows());
+        player.StartHoldSkillCoroutine(FireArrows());
     }
 
     // 화살 발사 코루틴
@@ -55,5 +55,6 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
             // 다음 화살 발사까지 대기
             yield return wait;
         }
+        player.StopHoldSkillCoroutine();
     }
 }

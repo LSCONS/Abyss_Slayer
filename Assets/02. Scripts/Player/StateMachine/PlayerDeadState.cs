@@ -31,7 +31,7 @@ public class PlayerDeadState : PlayerAbnomalState
     public override void Exit()
     {
         base.Exit();
-        playerStateMachine.MovementSpeed = playerStateMachine.Player.playerData.PlayerGroundData.BaseSpeed;
+        playerStateMachine.MovementSpeed = playerStateMachine.Player.PlayerData.PlayerGroundData.BaseSpeed;
 
 #if StateMachineDebug
         Debug.Log("IdleState 해제");

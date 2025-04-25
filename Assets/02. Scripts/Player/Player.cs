@@ -23,20 +23,15 @@ public class Player : MonoBehaviour, IHasHealth
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
     public PlayerSpriteData PlayerSpriteData { get; private set; }
-    public PlayerStateMachine playerStateMachine { get; private set; }
-    public BoxCollider2D playerGroundCollider {  get; private set; }
-    public BoxCollider2D playerMeleeCollider { get; private set; }
-    [field: SerializeField] public PlayerData playerData { get; private set; }
-
+    public PlayerStateMachine PlayerStateMachine { get; private set; }
+    public BoxCollider2D PlayerGroundCollider {  get; private set; }
+    public BoxCollider2D PlayerMeleeCollider { get; private set; }
+    [field: SerializeField] public PlayerData PlayerData { get; private set; }
     [field: Header("스킬 관련")]
     public Dictionary<SkillSlotKey, Skill> EquippedSkills { get; private set; } = new(); // 스킬 연결용 딕셔너리
     public CharacterSkillSet SkillSet { get; private set; } // 스킬셋 데이터
-    public IStopCoroutine SkillTrigger { get; private set; }
-
     public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
-
     public ReactiveProperty<int> Hp { get; set; } = new();
-
     public ReactiveProperty<int> MaxHp { get; set; } = new();
 
     public Action<BoxCollider2D, float> OnMeleeAttack;  // 근접 공격 콜라이더 ON/OFF 액션
@@ -44,13 +39,29 @@ public class Player : MonoBehaviour, IHasHealth
     public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
     public bool IsFlipX { get; private set; } = false;
     public SpriteChange PlayerSpriteChange { get; private set; }
+    public Coroutine HoldSkillCoroutine { get; private set; }
+
+    public void StartHoldSkillCoroutine(IEnumerator skill)
+    {
+        StopHoldSkillCoroutine();
+        HoldSkillCoroutine = StartCoroutine(skill);
+    }
+
+    public void StopHoldSkillCoroutine()
+    {
+        if (HoldSkillCoroutine != null)
+        {
+            StopCoroutine(HoldSkillCoroutine);
+            HoldSkillCoroutine = null;
+        }
+    }
 
     private void Awake()
     {
         InitComponent();
         InitPlayerData();
         InitSkillData();
-        playerStateMachine = new PlayerStateMachine(this);
+        PlayerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
         OnMeleeAttack += (collider, duration) => StartCoroutine(EnableMeleeCollider(collider, duration));
     }
@@ -58,19 +69,19 @@ public class Player : MonoBehaviour, IHasHealth
 
     private void Start()
     {
-        playerStateMachine.ChangeState(playerStateMachine.IdleState);
+        PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
     }
 
     private void Update()
     {
-        playerStateMachine.Update();
+        PlayerStateMachine.Update();
         SkillCoolTimeCompute();
         BuffDurationCompute();
     }
 
     private void FixedUpdate()
     {
-        playerStateMachine.FixedUpdate();
+        PlayerStateMachine.FixedUpdate();
     }
 
 
@@ -122,10 +133,10 @@ public class Player : MonoBehaviour, IHasHealth
 
         PlayerSpriteData = PlayerManager.Instance.PlayerSpriteData;
         PlayerSpriteChange.Init(PlayerSpriteData);
-        playerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
-        playerData = Instantiate(playerData);
-        Hp.Value = playerData.PlayerStatusData.HP_Cur;
-        MaxHp.Value = playerData.PlayerStatusData.HP_Max;
+        PlayerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
+        PlayerData = Instantiate(PlayerData);
+        Hp.Value = PlayerData.PlayerStatusData.HP_Cur;
+        MaxHp.Value = PlayerData.PlayerStatusData.HP_Max;
         //TODO: 여기서부터 임시 코드
         switch (playerCharacterClass)
         {
@@ -158,8 +169,8 @@ public class Player : MonoBehaviour, IHasHealth
         playerRigidbody = GetComponent<Rigidbody2D>();
         PlayerSpriteChange = GetComponentInChildren<SpriteChange>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
-        playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
-        playerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
+        PlayerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
+        PlayerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
     }
 
 
@@ -201,7 +212,7 @@ public class Player : MonoBehaviour, IHasHealth
     /// </summary>
     private void PlayerColliderTriggerOff()
     {
-        playerGroundCollider.isTrigger = false;
+        PlayerGroundCollider.isTrigger = false;
     }
 
 
@@ -234,7 +245,7 @@ public class Player : MonoBehaviour, IHasHealth
     /// </summary>
     public void PlayerDie()
     {
-        playerStateMachine.ChangeState(playerStateMachine.DieState);
+        PlayerStateMachine.ChangeState(PlayerStateMachine.DieState);
     }
 
 

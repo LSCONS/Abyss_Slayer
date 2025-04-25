@@ -67,7 +67,7 @@ public class PlayerJumpState : PlayerAirState
     /// </summary>
     protected void Jump()
     {
-        Vector2 jumpVector = playerStateMachine.Player.playerData.PlayerAirData.JumpForce * Vector2.up;
+        Vector2 jumpVector = playerStateMachine.Player.PlayerData.PlayerAirData.JumpForce * Vector2.up;
         playerStateMachine.Player.playerRigidbody.AddForce(jumpVector, ForceMode2D.Impulse);
     }
 }

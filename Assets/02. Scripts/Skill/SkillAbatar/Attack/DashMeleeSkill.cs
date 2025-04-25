@@ -77,7 +77,7 @@ public class DashMeleeSkill : MeleeAttackSkill
         float distance = Vector2.Distance(startPos, endPos);
 
         // 콜라이더 위치 저장 이동
-        Vector2 originalPos = player.playerMeleeCollider.transform.position;
+        Vector2 originalPos = player.PlayerMeleeCollider.transform.position;
         // player.playerMeleeCollider.transform.position = midPos;
 
         // 콜라이더 세팅

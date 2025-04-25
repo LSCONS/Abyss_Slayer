@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -30,11 +31,15 @@ public class PlayerSkillUseState : PlayerBaseState
     {
         base.Enter();
         playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, 0);
-        SkillEnter(SkillData.CanMove, Slotkey);
+        if (!(SkillData.CanMove))
+        {
+            playerStateMachine.MovementSpeed = 0f;
+            ResetZeroVelocity();
+        }
         animationNum = 0;
         animationTime = animationDelay;
 
-        if(SkillData.SkillCategory == SkillCategory.Dash)
+        if (SkillData.SkillCategory == SkillCategory.Dash)
         {
             PoolManager.Instance.Get<DashPlayerSilhouette>().Init
                 (
@@ -79,24 +84,31 @@ public class PlayerSkillUseState : PlayerBaseState
     public override void Update()
     {
         base.Update();
-        if (animationTime <= 0)
+        if (SkillData.SkillCategory == SkillCategory.Hold)
         {
+            if (!(SkillInputKey()) || playerStateMachine.Player.HoldSkillCoroutine == null)
+            {
+                playerStateMachine.ChangeState(playerStateMachine.IdleState);
+                return;
+            }
+
+            if (animationTime > 0) return;
+
             animationTime = animationDelay;
+            playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(SkillData.SkillUseState, ++animationNum);
+        }
+        else if (SkillData.SkillCategory == SkillCategory.Charge)
+        {
 
-            if(SkillData.SkillCategory == SkillCategory.Hold)
-            {
-                //TODO: Hold스킬 로직 필요
-            }
+        }
+        else if (SkillData.SkillCategory == SkillCategory.Dash)
+        {
+            if (animationTime > 0) return;
 
-            if (SkillData.SkillCategory == SkillCategory.Charge)
-            {
-                //TODO: Charge스킬 로직 필요
-            }
-
-
+            animationTime = animationDelay;
             if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, ++animationNum))
             {
-                if(SkillData.SkillCategory == SkillCategory.Dash && animationNum % 2 == 0)
+                if (animationNum % 2 == 0)
                 {
                     PoolManager.Instance.Get<DashPlayerSilhouette>().Init
                     (
@@ -107,13 +119,18 @@ public class PlayerSkillUseState : PlayerBaseState
                         playerStateMachine.Player.IsFlipX
                     );
                 }
-                return; 
+                return;
             }
+            playerStateMachine.EndAttackAction?.Invoke();
         }
-        else { return; }
+        else
+        {
+            if (animationTime > 0) return;
 
-        playerStateMachine.SkipAttackAction?.Invoke();
-        playerStateMachine.CheckHoldSkillStop(this, SkillInputKey);
-        playerStateMachine.EndAttackAction?.Invoke();
+            animationTime = animationDelay;
+            if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, ++animationNum)) return;
+
+            playerStateMachine.EndAttackAction?.Invoke();
+        }
     }
 }

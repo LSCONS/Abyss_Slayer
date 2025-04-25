@@ -5,7 +5,7 @@ using UnityEngine;
 public class DashPlayerSilhouette : BasePoolable
 {
     [field: SerializeField]private SpriteChange SpriteChange;
-    private Color color = new Color(1, 1, 1, 0.3f);
+    private Color color = new Color(1, 1, 1, 0.2f);
     private WaitForSeconds waitSeconds = new WaitForSeconds(0.16f);
 
     public override void Init() { }

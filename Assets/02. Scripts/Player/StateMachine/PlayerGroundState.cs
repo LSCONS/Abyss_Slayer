@@ -7,8 +7,8 @@ public class PlayerGroundState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        playerStateMachine.Player.playerData.PlayerAirData.ResetDashCount();
-        playerStateMachine.Player.playerData.PlayerAirData.ResetJumpCount();
+        playerStateMachine.Player.PlayerData.PlayerAirData.ResetDashCount();
+        playerStateMachine.Player.PlayerData.PlayerAirData.ResetJumpCount();
     }
 
     public override void Exit()
