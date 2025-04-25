@@ -37,25 +37,6 @@ public class MeleeDamageCheck : MonoBehaviour
         nextHitTime.Clear();
     }
 
-    /// <summary>
-    /// 위치, 크기, 데미지, 이펙트 타입 설정
-    /// </summary>
-    /// <param name="sizeX">콜라이더 크기 X</param>
-    /// <param name="sizeY">콜라이더 크기 Y</param>
-    /// <param name="damage">데미지</param>
-    /// <param name="effectType">이펙트 타입</param>
-    /// <param name="aliveTime">이펙트 지속 시간</param>
-    public void Init(Vector2 size, float damage, System.Type effectType, float aliveTime)
-    {
-        boxCollider.size = size;
-        this.damage = damage;
-        this.effectType = effectType;
-        this.aliveTime = aliveTime;
-        
-        hitObjects.Clear();
-        nextHitTime.Clear();
-    }
-
 
     /// <summary>
     /// 위치, 크기, 데미지, 이펙트 타입, 이펙트 타임 설정

@@ -27,7 +27,6 @@ public class RemoteZoneRangeSkill : RangeAttackSkill
 
 
         // 풀에서 ZoneAOE 꺼내기
-        var zone = PoolManager.Instance.Get<ZoneAOE>();
-        zone.Init(player, this, spawnPos, SpawnSize, ColliderSize, ColliderOffset, TickRate, Duration, Damage, TargetLayer, EffectName);
+        PoolManager.Instance.Get<ZoneAOE>().Init(this);
     }
 }

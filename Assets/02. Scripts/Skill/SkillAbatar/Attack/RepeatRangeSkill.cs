@@ -28,27 +28,29 @@ public class RepeatRangeSkill : RangeAttackSkill
 
     [field: Header("Effect 이름")]
     [field: SerializeField] public string EffectName { get; private set; } = "이펙트 이름";
+    [field: Header("스킬을 반복할 횟수")]
+    [field: SerializeField] public int UseSkillCount { get; private set; } = 5;
+    [field: Header("스킬을 사용할 때마다 움직일 오브젝트 위치 값")]
+    [field: SerializeField] public Vector2 MovePosition { get; private set; } = Vector2.zero;
 
     public override void UseSkill()
     {
+        Vector2 temp = MovePosition;
         base.UseSkill();
-        CoroutineManager.Instance.StartCoroutine(Repeat());
+        player.StartHoldSkillCoroutine(Repeat(), () => MovePosition = temp);
     }
 
     public IEnumerator Repeat()
     {
         WaitForSeconds wait = new WaitForSeconds(TickRate);
-
+        Vector2 temp = MovePosition;
         // 풀에서 ZoneAOE 꺼내기
         for (int i = 0; i < 5; i++)
         {
-            Vector3 offset = new Vector3(SpawnOffset.x * PlayerFrontXNormalized(), SpawnOffset.y, 0);
-            Vector3 spawnPos = player.transform.position + offset + new Vector3(i * 2 * PlayerFrontXNormalized(), 0, 0);
-
-            var zone = PoolManager.Instance.Get<ZoneAOE>();
-            zone.Init(player, this, spawnPos, SpawnSize,  ColliderSize, ColliderOffset, TickRate, Duration, Damage, TargetLayer, EffectName);
-
+            MovePosition = temp * i;
+            PoolManager.Instance.Get<ZoneAOE>().Init(this);
             yield return wait;
         }
+        player.StopHoldSkillCoroutine();
     }
 }

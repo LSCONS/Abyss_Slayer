@@ -16,7 +16,7 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
     public override void UseSkill()
     {
         base.UseSkill();
-        player.StartHoldSkillCoroutine(FireArrows());
+        player.StartHoldSkillCoroutine(FireArrows(), null);
     }
 
     // 화살 발사 코루틴

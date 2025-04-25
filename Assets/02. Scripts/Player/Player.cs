@@ -40,11 +40,13 @@ public class Player : MonoBehaviour, IHasHealth
     public bool IsFlipX { get; private set; } = false;
     public SpriteChange PlayerSpriteChange { get; private set; }
     public Coroutine HoldSkillCoroutine { get; private set; }
+    public Action HoldSkillCoroutineStopAction { get; private set; }
 
-    public void StartHoldSkillCoroutine(IEnumerator skill)
+    public void StartHoldSkillCoroutine(IEnumerator skill, Action action)
     {
         StopHoldSkillCoroutine();
         HoldSkillCoroutine = StartCoroutine(skill);
+        HoldSkillCoroutineStopAction = action;
     }
 
     public void StopHoldSkillCoroutine()
@@ -52,6 +54,8 @@ public class Player : MonoBehaviour, IHasHealth
         if (HoldSkillCoroutine != null)
         {
             StopCoroutine(HoldSkillCoroutine);
+            HoldSkillCoroutineStopAction?.Invoke();
+            HoldSkillCoroutineStopAction = null;
             HoldSkillCoroutine = null;
         }
     }

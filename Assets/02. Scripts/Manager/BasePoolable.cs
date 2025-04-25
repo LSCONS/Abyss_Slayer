@@ -39,6 +39,8 @@ public abstract class BasePoolable : MonoBehaviour
             bool flipX
         )
     { }
+    public virtual void Init(RepeatRangeSkill repeatRangeSkill) { }
+    public virtual void Init(RemoteZoneRangeSkill remoteZoneRangeSkill) { }
 
 
     // aliveTime 후에 풀에 반환
