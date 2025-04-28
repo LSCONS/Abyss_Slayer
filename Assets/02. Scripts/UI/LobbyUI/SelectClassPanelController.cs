@@ -40,6 +40,11 @@ public class SelectClassPanelController : UIPopup
                 .Subscribe(OnClassSelected)
                 .AddTo(disposables);
         }
+
+        if(controller.Slots.Count > 0)  // 일다 ㄴ열면 첫번째 슬롯 자동 선택되어있도록
+        {
+            OnClassSelected(controller.Slots[0].CharacterClass);
+        }
     }
 
     private void OnClassSelected(CharacterClass cc)

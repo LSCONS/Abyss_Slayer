@@ -146,7 +146,7 @@ public class UIManager : Singleton<UIManager>
         }
 
 
-        var uiBase = prefab.GetComponentInChildren<UIBase>();
+        var uiBase = prefab.GetComponentInChildren<UIBase>(true);
 
         // 타입에 따라 부모 선택 근데 popup / top / bottom 이렇게 3개 중에 하나여야만 함 만약 다 아니면 permanent 부모에 만들기
         Transform parent = permanentParent; // 기본
@@ -272,16 +272,11 @@ public class UIManager : Singleton<UIManager>
     // 모든 고정 ui 켜기
     public void OpenAllPermanent(){
         foreach(var ui in UIMap){
-            if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.Top) != 0){
-                ui.Value.SetActive(true);
-            }
-            else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.Bottom) != 0){
-                ui.Value.SetActive(true);
-            }     
-            else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.Permanent) != 0){
-                ui.Value.SetActive(true);
-            }
-            else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.TopMid) != 0){
+            var uiBase = ui.Value.GetComponentInChildren<UIBase>(true);
+            if (uiBase == null) continue;
+
+            if ((uiBase.uiType & (UIType.Top | UIType.Bottom | UIType.Permanent | UIType.TopMid)) != 0)
+            {
                 ui.Value.SetActive(true);
             }
         }
@@ -364,10 +359,20 @@ public class UIManager : Singleton<UIManager>
 
     private IEnumerator DelayRebuildLayoutCoroutine(UIBase uiBase)
     {
+        if (uiBase == null || uiBase.gameObject == null)    // 대상이 없는데 갱신을 하려고하면 오류 생김 체크해줘야됨
+        {
+            yield break;
+        }
+
         uiBase.gameObject.SetActive(true);
         yield return null; // 한 프레임 대기 후
 
         RectTransform layoutRoot = null;
+
+        if (uiBase == null || uiBase.gameObject == null) // 대상이 없는데 갱신을 하려고하면 오류 생김 체크해줘야됨
+        {
+            yield break;
+        }
 
         // VerticalLayoutGroup이나 HorizontalLayoutGroup이 있으면 그것을 기준으로
         var layoutGroup = uiBase.GetComponentInChildren<LayoutGroup>(true);
@@ -409,8 +414,9 @@ public class UIManager : Singleton<UIManager>
     {
         foreach (var ui in UIMap)
         {
-            if (ui.Value.GetComponentInChildren<T>() != null)
-                return ui.Value.GetComponentInChildren<T>();
+            if (ui.Value == null || ui.Value.Equals(null)) continue;
+            if (ui.Value.GetComponentInChildren<T>(true) != null)
+                return ui.Value.GetComponentInChildren<T>(true);
         }
 
         return null;
