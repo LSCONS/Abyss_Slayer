@@ -6,7 +6,6 @@ public class FoxSphereProjectile : BasePoolable
 {
     [SerializeField] Animator animator;
     [SerializeField] NormalDamageCollider damageCollider;
-    int _damage;
     float _fireTime;
     float _returnTime;
     float _endTime;
@@ -19,10 +18,6 @@ public class FoxSphereProjectile : BasePoolable
     bool _end;
     Vector3 targetDirection;
 
-    private void Awake()
-    {
-        damageCollider.Init(_damage,null,int.MaxValue);
-    }
     private void Update()
     {
         if (_fired)
@@ -51,7 +46,7 @@ public class FoxSphereProjectile : BasePoolable
     }
     public void Init(int damage,Vector3 startPosition, float preDelayTime, Transform target, float speed, float distance)
     {
-        _damage = damage;
+        damageCollider.Init(damage, null, int.MaxValue);
         transform.position = startPosition;
         _fireTime = Time.time + preDelayTime;
         animator.SetFloat("CreationSpeed", 1 / (Mathf.Min(0.9f, preDelayTime)));
