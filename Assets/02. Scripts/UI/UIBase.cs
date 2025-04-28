@@ -35,6 +35,7 @@ public abstract class UIBase : MonoBehaviour
     public UISceneType uISceneType = UISceneType.None;
     public virtual void Init()
     {
+        UIManager.Instance.DelayRebuildLayout(this);    // 강제 정렬
         gameObject.SetActive(false);
     }
     public virtual void Open(params object[] args)

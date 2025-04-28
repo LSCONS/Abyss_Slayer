@@ -13,6 +13,7 @@ public class UIPopup : UIBase
 
     public override void Init()
     {
+        base.Init();
         // 팝업은 시작할 때 닫아두기
         this.gameObject.SetActive(false);
         if(canvasGroup == null)

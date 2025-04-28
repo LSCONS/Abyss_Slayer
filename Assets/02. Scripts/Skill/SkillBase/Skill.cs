@@ -47,6 +47,8 @@ public class Skill : ScriptableObject
     // 스킬 사용 추상 메서드
     public virtual void UseSkill() { }
 
+    public virtual void SkillUpgrade() { }
+
     // 플레이어 방향 반환
     public float PlayerFrontXNormalized()
     {

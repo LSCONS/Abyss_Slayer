@@ -21,6 +21,7 @@ public class ZoneAOE : BasePoolable
     public string       EffectName      { get; private set; }
     public Vector2      MovePosition    { get; private set; }
     public MeleeDamageCheckData Data { get; private set; }
+    public MeleeDamageCheck MeleeDamageCheck { get; private set; }
 
 
     public override void Init()
@@ -44,8 +45,10 @@ public class ZoneAOE : BasePoolable
         SetActiveAnimator();
 
         // meleedamagecheck 세팅
-        var meleeCheck = GetComponent<MeleeDamageCheck>();
-        meleeCheck.Init(Data);
+        if (MeleeDamageCheck == null)
+            MeleeDamageCheck = GetComponent<MeleeDamageCheck>();
+
+        MeleeDamageCheck.Init(Data);
         // duration 후 풀에 자동 반환
 
         if (Data.Skill != null && Data.Skill.SkillCategory == SkillCategory.Hold)
@@ -132,17 +135,4 @@ public class ZoneAOE : BasePoolable
     {
         return Resources.Load<RuntimeAnimatorController>("Effect/Animator/" + effectName);
     }
-
-
-    // 기즈모 범위 씬 뷰에서 범위 확인용
-    private void OnDrawGizmosSelected()
-    {
-        var col = GetComponent<BoxCollider2D>();
-        if (col == null) return;
-
-        Gizmos.color = Color.cyan;
-        Vector3 size = new Vector3(col.size.x, col.size.y, 0f);
-        Gizmos.DrawWireCube(transform.position, size);
-    }
-
 }

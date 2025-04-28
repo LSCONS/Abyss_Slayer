@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Unity.VisualScripting;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -31,7 +32,9 @@ public class UIManager : Singleton<UIManager>
 
     protected override void Awake() {   
         base.Awake();
-        if(canvas == null){
+        DontDestroyOnLoad(gameObject);
+
+        if (canvas == null){
             canvas = transform.GetGameObjectSameNameDFS("Canvas").GetComponent<Canvas>();
             if(canvas == null) return;
         }
@@ -354,18 +357,29 @@ public class UIManager : Singleton<UIManager>
 
 
     // ui정렬 깨짐현상을 해결하기 위한 레이아웃 빌드 딜레이
-    public void DelayRebuildLayout(UIPopup popup)
+    public void DelayRebuildLayout(UIBase uiBase)
     {
-        StartCoroutine(DelayRebuildLayoutCoroutine(popup));
+        StartCoroutine(DelayRebuildLayoutCoroutine(uiBase));
     }
 
-    private IEnumerator DelayRebuildLayoutCoroutine(UIPopup popup)
+    private IEnumerator DelayRebuildLayoutCoroutine(UIBase uiBase)
     {
-        popup.gameObject.SetActive(true);
+        uiBase.gameObject.SetActive(true);
         yield return null; // 한 프레임 대기 후
 
-        var layoutRoot = popup.GetComponentInChildren<VerticalLayoutGroup>()?.GetComponent<RectTransform>()
-                       ?? popup.GetComponent<RectTransform>();
+        RectTransform layoutRoot = null;
+
+        // VerticalLayoutGroup이나 HorizontalLayoutGroup이 있으면 그것을 기준으로
+        var layoutGroup = uiBase.GetComponentInChildren<LayoutGroup>(true);
+        if (layoutGroup != null)
+        {
+            layoutRoot = layoutGroup.GetComponent<RectTransform>();
+        }
+        else
+        {
+            // 없으면 자기 자신의 RectTransform 사용
+            layoutRoot = uiBase.GetComponent<RectTransform>();
+        }
 
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(layoutRoot);
