@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIPopupBotton : UIButton
+public class UIPopupButton : UIButton
 {
     [Header("닫기 버튼으로 사용하고 싶다면 체크해주세요.")]
     [SerializeField] private bool isClose = false;  // 닫기 버튼으로 사용하고 싶으면 체크
@@ -20,19 +20,15 @@ public class UIPopupBotton : UIButton
             popup = UIManager.Instance.FindPopupByName(popupName);  // 닫기 기능 수행하기 싫어야지 popupname으로 찾아서 그거 열기
         }
 
-        base.Init();
-    }
-
-    private void OnEnable()
-    {
-        if (button == null)
-        {
-            button = GetComponent<Button>();
-        }
+        if (button == null) button = GetComponent<Button>();
 
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnClickButton);
+
+        base.Init();
     }
+
+
 
     // 버튼 자동 연결 string으로 이름 받아서 그 이름의 버튼 찾아서 연결
     public void OnClickButton()
