@@ -49,12 +49,14 @@ public class UIPopupSettings : UIPopup
     public override void Open(params object[] args)
     {
         base.Open();
+
         // 팝업 시작할 때 정렬 깨짐 현상 정상화
-        if(!layoutRebuild)
-        {
-            UIManager.Instance.DelayRebuildLayout(this);
-            layoutRebuild = true;
-        }
+        //if(!layoutRebuild)
+        //{
+        //    UIManager.Instance.DelayRebuildLayout(this);
+        //    layoutRebuild = true;
+        //}
+
         // 슬라이더 값 동기화 (안전 위해?)
         masterSlider.value = SoundManager.Instance.MasterVolume;
         bgmSlider.value = SoundManager.Instance.BGMVolume;
