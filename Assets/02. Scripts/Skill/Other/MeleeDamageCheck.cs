@@ -17,8 +17,7 @@ public class MeleeDamageCheck : MonoBehaviour
 
     public MeleeDamageCheckData Data { get; private set; }
 
-
-    private void Awake()
+    private void OnValidate()
     {
         BoxCollider = GetComponent<BoxCollider2D>();
         IncludeLayer = LayerData.EnemyLayerMask;
@@ -41,11 +40,14 @@ public class MeleeDamageCheck : MonoBehaviour
     /// <param name="aliveTime">이펙트 지속 시간</param>
     public void Init(MeleeDamageCheckData data)
     {
-        Data = data;
-        float flag = data.Player.IsFlipX ? -1f : 1f;
 
-        BoxCollider.size = data.ColliderSize;
-        BoxCollider.offset = new Vector2(data.ColliderOffset.x * flag, data.ColliderOffset.y);
+        if(BoxCollider == null)
+            BoxCollider = GetComponent<BoxCollider2D>();
+        Data = data;
+        float flag = Data.Player.IsFlipX ? -1f : 1f;
+
+        BoxCollider.size = Data.ColliderSize;
+        BoxCollider.offset = new Vector2(Data.ColliderOffset.x * flag, Data.ColliderOffset.y);
 
         hitObjects.Clear();
         NextHitTime.Clear();
