@@ -15,7 +15,7 @@ public class UIManager : Singleton<UIManager>
     public Transform popupParent;
     public Transform topMidParent;
 
-    private Stack<UIPopup> popupStack = new();
+    public Stack<UIPopup> popupStack = new();
 
     private Dictionary<string, GameObject> UICachedMap = new();
     private Dictionary<string, GameObject> UIMap = new(); // 고정 ui 이름 맵
