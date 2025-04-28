@@ -12,7 +12,7 @@ public class InGameState : BaseGameState
     public override async Task OnEnter()
     {
         Debug.Log("InGameState OnEnter");
-        LoadSceneManager.Instance.LoadScene(SceneHelper.GetBossSceneName(stageIndex));     // 씬 로드 (일단 BossScene1)
+        LoadSceneManager.Instance.LoadScene("TestScene2");     // 씬 로드 (일단 BossScene1)
 
         UIManager.Instance.ClearUI(UIType.NonGamePlay);         // 비게임 플레이 UI 제거
         UIManager.Instance.CreateAllUI(UIType.GamePlay);       // 게임 플레이 UI 생성

@@ -132,17 +132,4 @@ public class ZoneAOE : BasePoolable
     {
         return Resources.Load<RuntimeAnimatorController>("Effect/Animator/" + effectName);
     }
-
-
-    // 기즈모 범위 씬 뷰에서 범위 확인용
-    private void OnDrawGizmosSelected()
-    {
-        var col = GetComponent<BoxCollider2D>();
-        if (col == null) return;
-
-        Gizmos.color = Color.cyan;
-        Vector3 size = new Vector3(col.size.x, col.size.y, 0f);
-        Gizmos.DrawWireCube(transform.position, size);
-    }
-
 }
