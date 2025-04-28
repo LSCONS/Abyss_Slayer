@@ -12,12 +12,19 @@ public class RestState : BaseGameState
     public override async Task OnEnter()
     {
         Debug.Log("RestState OnEnter");
-        await Task.CompletedTask;
+        await LoadSceneManager.Instance.LoadScene(SceneName.RestScene);
+        await UIManager.Instance.LoadAllUI(UIType.GamePlay);
+        UIManager.Instance.CreateAllUI(UIType.GamePlay);
+        UIManager.Instance.Init();
+        UIManager.Instance.CloseAllPermanent();
+        UIManager.Instance.CloseAllPopup();
+
+        UIManager.Instance.OpenUI(UISceneType.Rest);
     }
 
     public override async Task OnExit()
     {
-        Debug.Log("RestState OnExit");
+        UIManager.Instance.ClearUI(UIType.GamePlay);            // 게임 플레이 UI 제거
         await Task.CompletedTask;
     }
 }
