@@ -12,13 +12,22 @@ public class InGameState : BaseGameState
     public override async Task OnEnter()
     {
         Debug.Log("InGameState OnEnter");
-        LoadSceneManager.Instance.LoadScene("TestScene2");     // 씬 로드 (일단 BossScene1)
+        await LoadSceneManager.Instance.LoadScene("TestScene2");     // 씬 로드 (일단 BossScene1)
 
-        UIManager.Instance.ClearUI(UIType.NonGamePlay);         // 비게임 플레이 UI 제거
+        await UIManager.Instance.LoadAllUI(UIType.GamePlay);        
+
+        UIManager.Instance.ClearUI(UIType.NonGamePlay);    
+        // 비게임 플레이 UI 제거
         UIManager.Instance.CreateAllUI(UIType.GamePlay);       // 게임 플레이 UI 생성
+
+        UIManager.Instance.Init();
+
+        UIManager.Instance.CloseAllPermanent();
+        UIManager.Instance.CloseAllPopup();
+
         UIManager.Instance.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
-        UIManager.Instance.Init();                
-        await Task.CompletedTask;
+
+
     }
 
     public override async Task OnExit()
