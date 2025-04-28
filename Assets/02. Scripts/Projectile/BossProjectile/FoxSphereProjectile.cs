@@ -8,22 +8,32 @@ public class FoxSphereProjectile : BasePoolable
     [SerializeField] NormalDamageCollider damageCollider;
     int _damage;
     float _fireTime;
+    float _returnTime;
     float _endTime;
     Transform _target;
     float _v;           //출발속도
     float _a;           //가속도
 
     bool _fired;
+    bool _isReturn;
+    bool _end;
     Vector3 targetPosition;
     private void Update()
     {
         if (_fired)
         {
             Move();
-            if(Time.time >= _endTime)
+            if(!_isReturn && Time.time >= _returnTime)
+            {
+                damageCollider.ClearHitList();
+                _isReturn = true;
+            }
+            if (!_end && Time.time >= _endTime)
             {
                 animator.SetTrigger("End");
+                _end = true;
             }
+
         }
         else if(Time.time >= _fireTime)
         {
@@ -43,9 +53,12 @@ public class FoxSphereProjectile : BasePoolable
         _target = target;
         _v = speed;
         _a = _v * _v / (2 * distance);
+        _returnTime = _fireTime + (2 * distance / _v);
         _endTime = _fireTime + (3.9f * distance / _v);
 
         _fired = false;
+        _isReturn = false;
+        _end = false;
     }
 
     void Move()
@@ -53,8 +66,4 @@ public class FoxSphereProjectile : BasePoolable
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, (_v - (_a * Time.deltaTime)) * Time.deltaTime);
     }
 
-    public void ReturnDamageInit()
-    {
-
-    }
 }
