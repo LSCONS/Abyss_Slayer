@@ -18,7 +18,6 @@ public class ZoneAOE : BasePoolable
     private HashSet<IHasHealth> targetsInRange = new();
 
     [SerializeField] private GameObject effectPrefab; // 이펙트 프리팹
-    [SerializeField] private BoxCollider2D boxCollider;
 
     private Player player;
     private Skill skill;
@@ -26,17 +25,18 @@ public class ZoneAOE : BasePoolable
     {
 
     }
-    public override void Init(Vector3 spawnPos, Vector2 size, Vector2 offset, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
+    public override void Init(Vector3 spawnPos, Vector3 spawnSize, Vector2 colSize, Vector2 offset, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
     {
         // 기본 세팅
         this.duration = _duration;
         this.tickInterval = tickRate;
         this.damage = damage;
         this.targetLayer = targetLayer;
-        this.range = Mathf.Max(size.x, size.y);
+        this.range = Mathf.Max(colSize.x, colSize.y);
 
         // 위치 세팅
         transform.position = spawnPos;
+        transform.localScale = spawnSize;
 
         // 애니메이터 세팅
         SetActiveAnimator(effectName);
@@ -44,13 +44,13 @@ public class ZoneAOE : BasePoolable
         // 박스 콜라이더 세팅
         var col = GetComponent<BoxCollider2D>();
         col.isTrigger = true;
-        col.size = size;
+        col.size = colSize;
         col.offset = offset;
 
         // meleedamagecheck 세팅
         var meleeCheck = GetComponent<MeleeDamageCheck>();
         System.Type fxType = null;
-        meleeCheck.Init(player, skill, size, offset, damage, fxType, _duration);
+        meleeCheck.Init(player, skill, colSize, offset, damage, fxType, _duration);
         meleeCheck.SetRepeatMode(true, tickRate);
 
         gameObject.SetActive(true);
@@ -60,32 +60,17 @@ public class ZoneAOE : BasePoolable
         ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(_duration, targetLayer));
     }
 
-    public void Init(Player player, Vector3 spawnPos, Vector2 size, Vector2 offset, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
+    public void Init(Player player, Vector3 spawnPos, Vector3 spawnSize, Vector2 colSize, Vector2 offset, float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
     {
         this.player = player;
-        Init(spawnPos, size, offset, tickRate, _duration, damage, targetLayer, effectName);
+        Init(spawnPos, spawnSize, colSize, offset, tickRate, _duration, damage, targetLayer, effectName);
     }
 
-    public void Init(Player player, Skill skill, Vector3 spawnPos, Vector2 size, Vector2 offset,float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
+    public void Init(Player player, Skill skill, Vector3 spawnPos, Vector3 spawnSize, Vector2 colSize, Vector2 offset,float tickRate, float _duration, float damage, LayerMask targetLayer, string effectName)
     {
         this.player = player;
         this.skill = skill;
-        Init(player, spawnPos, size, offset, tickRate, _duration, damage, targetLayer, effectName);
-    }
-
-    /// <summary>
-    /// 위치를 옮긴 뒤에 콜라이더를 끄고 켜서
-    /// OnTriggerEnter 판정을 다시 일으키도록 합니다.
-    /// 내부 targetsInRange도 초기화합니다.
-    /// </summary>
-    public void ResetCollider()
-    {
-        if (boxCollider == null) boxCollider = GetComponent<BoxCollider2D>();
-        // 이미 잡혀있던 타깃 초기화
-        targetsInRange.Clear();
-        // 트리거 재발생을 위해 토글
-        boxCollider.enabled = false;
-        boxCollider.enabled = true;
+        Init(player, spawnPos, spawnSize, colSize, offset, tickRate, _duration, damage, targetLayer, effectName);
     }
 
     private IEnumerator ReturnTOPool(float seconds, LayerMask targetLayer)

@@ -10,6 +10,10 @@ public class LobbyState : BaseGameState
         await UIManager.Instance.LoadAllUI(UIType.NonGamePlay);
         UIManager.Instance.CreateAllUI(UIType.NonGamePlay);
         UIManager.Instance.Init();
+        UIManager.Instance.CloseAllPermanent();
+        UIManager.Instance.CloseAllPopup();
+
+
         UIManager.Instance.OpenUI(UISceneType.Lobby);
         await Task.CompletedTask;
     }
