@@ -287,7 +287,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5298400753651827520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 688d4d1a7e0d1fc4f97caf345fa86b4c, type: 3}
+  m_Script: {fileID: 11500000, guid: 864dd240af5115645ad666f37ae9124f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &2213206374257040454
@@ -384,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5467ef5c6b9406418694137a423cadb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  homingTime: 0
+  homingTime: 1
   speedCurve:
     serializedVersion: 2
     m_Curve:
@@ -451,5 +451,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _collider: {fileID: 102013105626635906}
+  hitCollider: {fileID: 102013105626635906}
   trailRenderer: {fileID: 6837992561685120541}

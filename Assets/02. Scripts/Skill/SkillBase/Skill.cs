@@ -1,3 +1,4 @@
+using System;
 using UniRx;
 using UnityEngine;
 
@@ -8,11 +9,13 @@ using UnityEngine;
 public class Skill : ScriptableObject
 {
     // 모든 스킬에 공통으로 적용되는 플레이어 변수
-    [HideInInspector] public Player player;
+    public Player player { get; set; }
     [field: Header("스킬 이름")]
     [field: SerializeField]public string SkillName { get; private set; } = "스킬 이름";
     [field: Header("스킬 설명")]
     [field: SerializeField] public string SkillDesription { get; private set; } = "스킬 설명";
+    [field: Header("스킬 타입")]
+    [field: SerializeField] public SkillCategory SkillCategory { get; private set; } = SkillCategory.None;
     [field: Header("스킬 아이콘")]
     [field: SerializeField] public Sprite SkillIcon {get; private set; } // 스킬 아이콘
     [field: Header("스킬 사용 가능 여부")]
@@ -26,19 +29,23 @@ public class Skill : ScriptableObject
     [field: SerializeField] public ReactiveProperty<float> CurCoolTime { get; private set; } // 현재 쿨타임
         = new ReactiveProperty<float>(0f);
     [field: Header("스킬을 사용하기 위해 연결할 State")]
-    [field: SerializeField] public ApplyState ApplyState { get; set; } // 연결해서 작동시킬 State 설정
+    [field: SerializeField] public ApplyState ApplyState { get; private set; } = ApplyState.IdleState;// 연결해서 작동시킬 State 설정
+    [field: Header("State에 진입할 때 실행할 Animation Enum")]
+    [field: SerializeField] public AnimationState SkillEnterState { get; private set; } = AnimationState.Idle1;
+    [field: Header("스킬을 사용할 때 실행할 Animation Enum")]
+    [field: SerializeField] public AnimationState SkillUseState { get; private set; } = AnimationState.Idle1;
+    [field: Header("Animation Sprite가 교체되는 딜레이 시간(1당 0.02초)")]
+    [field: SerializeField] public int AnimationChangeDelayTime { get; private set; } = 10;
+    [field: Header("이 스킬로 타격 시 쿨타임 감소 스킬에 영향을 줄 지에 대한 여부")]
+    [field: SerializeField] public bool IsConnectSkillCoolDown { get; private set; } = false;
+    //이 스킬이 적중할 때마다 실행하고 싶은 Action들을 저장
+    [field: SerializeField] public Action AttackAction { get; set; } = null;
 
     // 플레이어 초기화
-    public void Init(Player player)
-    {
-        this.player = player;
-    }
+    public virtual void Init() { }
 
     // 스킬 사용 추상 메서드
-    public virtual void UseSkill()
-    {
-
-    }
+    public virtual void UseSkill() { }
 
     // 플레이어 방향 반환
     public float PlayerFrontXNormalized()

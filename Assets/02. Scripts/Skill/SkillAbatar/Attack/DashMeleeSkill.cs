@@ -5,34 +5,30 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "NewDashMeleeSkill", menuName = "Skill/MeleeAttack/Dash")]
-public class DashMeleeSkill : MeleeAttackSkill
+public class DashMeleeSkill : RemoteZoneRangeSkill
 {
-    public float damage = 10f;
-    public float dashDuration = 0.5f;
-    public float dashDistance = 5f;
-    public float colliderDuration = 0.5f;
+    [field: Header("대시 시간")]
+    [field: SerializeField] public float DashTime { get; private set; } = 0.5f;
+    [field: Header("대시 거리")]
+    [field: SerializeField] public float DashDistance { get; private set; } = 5f;
 
-    public float skillDuration = 1f;    // 스킬 지속 시간
-
-    public GameObject dashColliderPrefab;
     public GameObject dashEffectPrefab;
-    public GameObject dashAttackEffectPrefab;
 
     public override void UseSkill()
-   {
+    {
         // 대시 방향 설정
         Vector2 dashDirection = player.IsFlipX ? Vector2.left : Vector2.right;
 
         // 대시 이후의 처리들 (데미지 넣을 콜라이더 이동 + )
-        player.StartCoroutine(DashCoroutine(dashDirection, dashDuration));
-   }
+        player.StartCoroutine(DashCoroutine(dashDirection, DashTime));
+    }
 
-   private IEnumerator DashCoroutine(Vector2 dashDirection, float dashDuration)
-   {
+    private IEnumerator DashCoroutine(Vector2 dashDirection, float dashDuration)
+    {
         // 시작 위치 타겟위치 설정
         float time = 0;
         Vector2 startPos = player.transform.position;
-        Vector2 targetPos = startPos + dashDirection * dashDistance;
+        Vector2 targetPos = startPos + dashDirection * DashDistance + Vector2.up * 0.01f; ;
 
         // 대쉬 이펙트 생성
         GameObject dashEffect = null;
@@ -47,7 +43,7 @@ public class DashMeleeSkill : MeleeAttackSkill
 
             // 이펙트 방향 설정
             SpriteRenderer effectSpriteRenderer = dashEffect.GetComponent<SpriteRenderer>();
-            if(effectSpriteRenderer != null)
+            if (effectSpriteRenderer != null)
             {
                 effectSpriteRenderer.flipX = dashDirection.x < 0;
             }
@@ -55,7 +51,7 @@ public class DashMeleeSkill : MeleeAttackSkill
 
 
         // dashDistance만큼을 dashDuration 시간동안 이동
-        while(time < dashDuration)
+        while (time < dashDuration)
         {
             player.playerRigidbody.MovePosition(Vector2.Lerp(startPos, targetPos, time / dashDuration));
             time += Time.fixedDeltaTime;
@@ -66,7 +62,7 @@ public class DashMeleeSkill : MeleeAttackSkill
         player.playerRigidbody.MovePosition(targetPos);
 
         // 이펙트 제거
-        if(dashEffect != null)
+        if (dashEffect != null)
         {
             GameObject.Destroy(dashEffect, 0.5f);
         }
@@ -77,19 +73,12 @@ public class DashMeleeSkill : MeleeAttackSkill
         float distance = Vector2.Distance(startPos, endPos);
 
         // 콜라이더 위치 저장 이동
-        Vector2 originalPos = player.playerMeleeCollider.transform.position;
+        Vector2 originalPos = player.PlayerMeleeCollider.transform.position;
         // player.playerMeleeCollider.transform.position = midPos;
 
-        // 콜라이더 세팅
-        GameObject colliderObj = GameObject.Instantiate(dashColliderPrefab, midPos, Quaternion.identity);
-        MeleeDamageCheck damageCheck = colliderObj.GetComponent<MeleeDamageCheck>();
-        if(damageCheck != null)
-        {
-            damageCheck.Init(player, this, new Vector2(distance, 1.0f), new Vector2(0,0), damage, typeof(BossHitEffect), skillDuration);
-        }
+        ColliderSize = new Vector2(distance, 1.0f);
+        ColliderOffset = Vector2.zero;
 
-        // 콜라이더 위치 원래대로 돌리기
-        yield return new WaitForSeconds(colliderDuration);
-        GameObject.Destroy(colliderObj);
+        PoolManager.Instance.Get<ZoneAOE>().Init(this, typeof(BossHitEffect));
     }
 }

@@ -7,15 +7,18 @@ public class PlayerGroundState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.groundParameterHash);
-        playerStateMachine.Player.playerData.PlayerAirData.ResetDashCount();
-        playerStateMachine.Player.playerData.PlayerAirData.ResetJumpCount();
+        playerStateMachine.Player.PlayerData.PlayerAirData.ResetDashCount();
+        playerStateMachine.Player.PlayerData.PlayerAirData.ResetJumpCount();
     }
 
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.groundParameterHash);
+    }
+
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
     }
 
     public override void Update()

@@ -31,8 +31,11 @@ public class BossController : MonoBehaviour
     Transform _targetCrosshair;
     GameObject _targetCrosshairObj;
     Transform _target;
-    [SerializeField] SpriteRenderer _sprite;
+    [SerializeField] public SpriteRenderer sprite;      //보스스프라이트
+    public Collider2D hitCollider;                      //보스 피격판정 콜라이더
+    [SerializeField] SpriteRenderer _effectSprite;
     [SerializeField] public float bossCenterHight;
+    public float mapWidth;
 
     [HideInInspector] public bool chasingTarget;
     bool _showTargetCrosshair;
@@ -56,7 +59,7 @@ public class BossController : MonoBehaviour
             if(_isLeft != value)
             {
                 _isLeft = value;
-                _sprite.flipX = value;
+                sprite.flipX = value;
             }
         }
     }
@@ -69,6 +72,7 @@ public class BossController : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        hitCollider = GetComponent<Collider2D>();
 
         for (int i = 0; i < allPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
         {
@@ -93,8 +97,12 @@ public class BossController : MonoBehaviour
         if (chasingTarget)
         {
             isLeft = (_target.position.x - transform.position.x < 0);
+        }
+        if (showTargetCrosshair)
+        {
             _targetCrosshair.position = _target.position;
         }
+        
     }
 
     /// <summary>

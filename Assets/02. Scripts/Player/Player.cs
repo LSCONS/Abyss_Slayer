@@ -22,35 +22,49 @@ public class Player : MonoBehaviour, IHasHealth
     public Rigidbody2D playerRigidbody;
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
-    public Animator PlayerAnimator { get; private set; }//TODO: 나중에 초기화 필요
-    public PlayerAnimationData playerAnimationData { get; private set; }
-    public PlayerStateMachine playerStateMachine { get; private set; }
-    public BoxCollider2D playerGroundCollider {  get; private set; }
-    public BoxCollider2D playerMeleeCollider { get; private set; }
-    [field: SerializeField] public PlayerData playerData { get; private set; }
-
-    [Header("스킬 관련")]
-    public Dictionary<SkillSlotKey, Skill> equippedSkills = new(); // 스킬 연결용 딕셔너리
-    public CharacterSkillSet skillSet; // 스킬셋 데이터
-    public IStopCoroutine SkillTrigger { get; private set; }
-
+    public PlayerSpriteData PlayerSpriteData { get; private set; }
+    public PlayerStateMachine PlayerStateMachine { get; private set; }
+    public BoxCollider2D PlayerGroundCollider {  get; private set; }
+    public BoxCollider2D PlayerMeleeCollider { get; private set; }
+    [field: SerializeField] public PlayerData PlayerData { get; private set; }
+    [field: Header("스킬 관련")]
+    public Dictionary<SkillSlotKey, Skill> EquippedSkills { get; private set; } = new(); // 스킬 연결용 딕셔너리
     public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
-
     public ReactiveProperty<int> Hp { get; set; } = new();
-
     public ReactiveProperty<int> MaxHp { get; set; } = new();
 
     public Action<BoxCollider2D, float> OnMeleeAttack;  // 근접 공격 콜라이더 ON/OFF 액션
 
     public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
     public bool IsFlipX { get; private set; } = false;
+    public SpriteChange PlayerSpriteChange { get; private set; }
+    public Coroutine HoldSkillCoroutine { get; private set; }
+    public Action HoldSkillCoroutineStopAction { get; private set; }
+
+    public void StartHoldSkillCoroutine(IEnumerator skill, Action action)
+    {
+        StopHoldSkillCoroutine();
+        HoldSkillCoroutine = StartCoroutine(skill);
+        HoldSkillCoroutineStopAction = action;
+    }
+
+    public void StopHoldSkillCoroutine()
+    {
+        if (HoldSkillCoroutine != null)
+        {
+            StopCoroutine(HoldSkillCoroutine);
+            HoldSkillCoroutineStopAction?.Invoke();
+            HoldSkillCoroutineStopAction = null;
+            HoldSkillCoroutine = null;
+        }
+    }
 
     private void Awake()
     {
         InitComponent();
-        InitPlayerData();
-        InitSkillData();
-        playerStateMachine = new PlayerStateMachine(this);
+        InitPlayerData(out CharacterSkillSet skillSet);
+        InitSkillData(skillSet);
+        PlayerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
         OnMeleeAttack += (collider, duration) => StartCoroutine(EnableMeleeCollider(collider, duration));
     }
@@ -58,19 +72,19 @@ public class Player : MonoBehaviour, IHasHealth
 
     private void Start()
     {
-        playerStateMachine.ChangeState(playerStateMachine.IdleState);
+        PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
     }
 
     private void Update()
     {
-        playerStateMachine.Update();
+        PlayerStateMachine.Update();
         SkillCoolTimeCompute();
         BuffDurationCompute();
     }
 
     private void FixedUpdate()
     {
-        playerStateMachine.FixedUpdate();
+        PlayerStateMachine.FixedUpdate();
     }
 
 
@@ -97,7 +111,7 @@ public class Player : MonoBehaviour, IHasHealth
     /// </summary>
     private void SkillCoolTimeCompute()
     {
-        foreach (var value in equippedSkills.Values)
+        foreach (var value in EquippedSkills.Values)
         {
             if (!(value.CanUse))
             {
@@ -115,37 +129,33 @@ public class Player : MonoBehaviour, IHasHealth
     /// <summary>
     /// 플레이어 데이터를 초기화하는 메서드
     /// </summary>
-    private void InitPlayerData()
+    private void InitPlayerData(out CharacterSkillSet skillSet)
     {
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
-        PlayerManager.Instance.SettingPlayerAnimator(playerCharacterClass, PlayerAnimator); // 클래스에 맞는 애니메이터 설정
-
-        playerAnimationData = PlayerManager.Instance.PlayerAnimationData;
-        playerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
-        playerData = Instantiate(playerData);
-        Hp.Value = playerData.PlayerStatusData.HP_Cur;
-        MaxHp.Value = playerData.PlayerStatusData.HP_Max;
+        //PlayerManager.Instance.SettingPlayerAnimator(playerCharacterClass, PlayerAnimator); // 클래스에 맞는 애니메이터 설정
+        skillSet = null;
+        PlayerSpriteData = PlayerManager.Instance.PlayerSpriteData;
+        PlayerSpriteChange.Init(PlayerSpriteData);
+        PlayerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
+        PlayerData = Instantiate(PlayerData);
+        Hp.Value = PlayerData.PlayerStatusData.HP_Cur;
+        MaxHp.Value = PlayerData.PlayerStatusData.HP_Max;
         //TODO: 여기서부터 임시 코드
         switch (playerCharacterClass)
         {
             case CharacterClass.Archer:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<ArcherSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
                 break;
             case CharacterClass.Healer:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<HealerSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/HealerSkillSet");
                 break;
             case CharacterClass.Mage:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MageSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MageSkillSet");
                 break;
             case CharacterClass.MagicalBlader:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<MagicalBladerSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
                 break;
             case CharacterClass.Tanker:
-                SkillTrigger = PlayerAnimator.gameObject.AddComponent<TankerSkillAnimationTrigger>() as IStopCoroutine;
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/TankerSkillSet");
                 break;
         }
@@ -158,35 +168,34 @@ public class Player : MonoBehaviour, IHasHealth
     private void InitComponent()
     {
         input = GetComponent<PlayerInput>();
+        input.InitDictionary();
         playerRigidbody = GetComponent<Rigidbody2D>();
+        PlayerSpriteChange = GetComponentInChildren<SpriteChange>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
-        playerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
-        playerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
-        PlayerAnimator = transform.GetComponentForTransformFindName<Animator>("Sprtie_Player");
+        PlayerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
+        PlayerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
     }
 
 
     /// <summary>
     /// 스킬 데이터를 딕셔너리 형태로 초기화하는 메서드
     /// </summary>
-    private void InitSkillData()
+    private void InitSkillData(CharacterSkillSet skillSet)
     {
         skillSet = Instantiate(skillSet);
         skillSet.InstantiateSkillData(this);
-        equippedSkills = new();
-        foreach (var slot in skillSet.skillSlots)
+        EquippedSkills = new();
+        foreach (CharacterSkillSlot slot in skillSet.skillSlots)
         {
             if (slot.skill != null)
             {
-                equippedSkills[slot.key] = slot.skill;
-            }
-            else
-            {
-                Debug.LogWarning($"Skill in slot {slot.key} is null!");
+                EquippedSkills[slot.key] = slot.skill;
             }
         }
-        SkillTrigger.Player = this;
-        SkillTrigger.SkillDictionary = equippedSkills;
+        foreach(Skill skill in EquippedSkills.Values)
+        {
+            skill.Init();
+        }
     }
 
 
@@ -196,9 +205,9 @@ public class Player : MonoBehaviour, IHasHealth
     /// <param name="slotKey">쿨타임 돌릴 스킬 키</param>
     public void SkillCoolTimeUpdate(SkillSlotKey slotKey)
     {
-        if (equippedSkills.ContainsKey(slotKey))
+        if (EquippedSkills.ContainsKey(slotKey))
         {
-            Skill skill = equippedSkills[slotKey];
+            Skill skill = EquippedSkills[slotKey];
             skill.CurCoolTime.Value = skill.MaxCoolTime.Value;
             skill.CanUse = false;
         }
@@ -210,7 +219,7 @@ public class Player : MonoBehaviour, IHasHealth
     /// </summary>
     private void PlayerColliderTriggerOff()
     {
-        playerGroundCollider.isTrigger = false;
+        PlayerGroundCollider.isTrigger = false;
     }
 
 
@@ -243,7 +252,7 @@ public class Player : MonoBehaviour, IHasHealth
     /// </summary>
     public void PlayerDie()
     {
-        playerStateMachine.ChangeState(playerStateMachine.DieState);
+        PlayerStateMachine.ChangeState(PlayerStateMachine.DieState);
     }
 
 
@@ -292,6 +301,7 @@ public class Player : MonoBehaviour, IHasHealth
         {
             IsFlipX = true;
         }
+        PlayerSpriteChange.SetFlipxSpriteRenderer(IsFlipX);
     }
 
 }

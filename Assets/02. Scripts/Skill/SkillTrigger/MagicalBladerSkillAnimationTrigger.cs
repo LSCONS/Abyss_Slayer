@@ -81,7 +81,7 @@ public class MagicalBladerSkillAnimationTrigger : MonoBehaviour, IStopCoroutine
     {
         if (HoldSkillCoroutine != null)
         {
-            StopCoroutine(HoldSkillCoroutine);
+            CoroutineManager.Instance.StopCoroutineExit(HoldSkillCoroutine);
             HoldSkillCoroutine = null;
         }
     }

@@ -4,7 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Pattern", menuName = "BossPattern/FoxClone")]
 public class FoxCloneData : BasePatternData
 {
-    [SerializeField] float mapWidth = 40f;
     [SerializeField] float hight = 0f;
     [SerializeField] float preDelayTime = 2f;
     [SerializeField] int cloneCount = 4;

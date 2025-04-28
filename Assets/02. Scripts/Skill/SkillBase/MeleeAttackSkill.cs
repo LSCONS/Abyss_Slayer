@@ -8,4 +8,6 @@ public class MeleeAttackSkill : Skill
     [field: SerializeField] public float Damage { get; private set; } = 10f;
     [field: Header("콜라이더 유지 시간")]
     [field: SerializeField] public float ColliderDuration { get; private set; } = 0.5f;
+    [field: Header("타겟팅할 레이어")]
+    [field: SerializeField] public LayerMask TargetMask { get; private set; }
 }

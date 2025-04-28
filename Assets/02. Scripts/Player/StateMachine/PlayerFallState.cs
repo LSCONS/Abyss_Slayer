@@ -3,6 +3,9 @@ using UnityEngine;
 public class PlayerFallState : PlayerAirState
 {
     public StoppableAction MoveAction = new();
+    private int animationNum = 0;
+    private float animationTime = 0;
+    private int animationDelay = 10;
     public PlayerFallState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -20,7 +23,9 @@ public class PlayerFallState : PlayerAirState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.fallParameterHash);
+        playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Fall, 0);
+        animationNum = 0;
+        animationTime = animationDelay;
 
 #if StateMachineDebug
         Debug.Log("FallState 진입");
@@ -30,16 +35,26 @@ public class PlayerFallState : PlayerAirState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.fallParameterHash);
 
 #if StateMachineDebug
         Debug.Log("FallState 해제");
 #endif
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        animationTime--;
+    }
+
     public override void Update()
     {
         base.Update();
+        if (animationTime <= 0)
+        {
+            animationTime = animationDelay;
+            if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Fall, ++animationNum)) return;
+        }
         MoveAction?.Invoke();
     }
 }
