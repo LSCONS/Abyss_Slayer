@@ -24,7 +24,9 @@ public class RestState : BaseGameState
 
     public override async Task OnExit()
     {
-        UIManager.Instance.ClearUI(UIType.GamePlay);            // 게임 플레이 UI 제거
+        UIManager.Instance.CloseUI(UISceneType.Rest);
+        UIManager.Instance.CleanupUIMap();
+        // UIManager.Instance.ClearUI(UIType.GamePlay);            // 게임 플레이 UI 제거
         await Task.CompletedTask;
     }
 }

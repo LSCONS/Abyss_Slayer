@@ -78,6 +78,7 @@ public class UIManager : Singleton<UIManager>
        // 모든 ui init 실행
        foreach(var ui in UIMap)
        {
+            if (ui.Value == null) continue;
             Debug.Log($"[Init] {ui.Key} 초기화 시작");
             ui.Value.GetComponentInChildren<UIBase>(true).Init();
        }
@@ -250,6 +251,27 @@ public class UIManager : Singleton<UIManager>
         foreach(var ui in uiList){
             UIMap.Remove(ui.name);
         }
+
+        CleanupUIMap();
+    }
+
+    public void CleanupUIMap()
+    {
+        List<string> keysToRemove = new List<string>();
+
+        foreach (var ui in UIMap)
+        {
+            if (ui.Value == null)
+            {
+                keysToRemove.Add(ui.Key);
+            }
+        }
+
+        foreach (var key in keysToRemove)
+        {
+            UIMap.Remove(key);
+            Debug.Log($"[CleanupUIMap] 삭제된 UI 제거: {key}");
+        }
     }
 
     // uiscenetype 에 따른 ui 오픈
@@ -274,14 +296,17 @@ public class UIManager : Singleton<UIManager>
     public void CloseUI(UISceneType type){
         foreach (var ui in UIMap)
         {
+            if (ui.Value == null) continue;
+
             var sceneType = ui.Value.GetComponentInChildren<UIBase>(true).uISceneType;
+
             if ((type & sceneType) != 0)
             {
                 ui.Value.SetActive(false);
             }
         }
     }
-    
+
     // 모든 고정 ui 켜기
     public void OpenAllPermanent(){
         foreach(var ui in UIMap){

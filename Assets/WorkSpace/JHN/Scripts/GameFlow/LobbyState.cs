@@ -22,6 +22,8 @@ public class LobbyState : BaseGameState
     {
         Debug.Log("LobbyState OnExit");
         UIManager.Instance.CloseUI(UISceneType.Lobby);
+        UIManager.Instance.CleanupUIMap();
+
         await Task.CompletedTask;
     }
 }
