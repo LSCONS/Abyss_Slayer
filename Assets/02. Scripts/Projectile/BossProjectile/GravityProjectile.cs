@@ -6,7 +6,7 @@ public class GravityProjectile : BasePoolable
 {
     Rigidbody2D _rigidbody;
     [SerializeField] ParticleSystem _particleSystem;
-    [SerializeField] BaseBossDamageCollider _bossProjectileCollider;
+    [SerializeField] NormalDamageCollider _bossProjectileCollider;
     [SerializeField] GameObject _sprite;
 
     float _gravity;

@@ -6,7 +6,7 @@ public class ShockWave : BasePoolable
 {
     int _damage;
     [SerializeField] Collider2D _collider;
-    [SerializeField] BaseBossDamageCollider _bossDamageCollider;
+    [SerializeField] NormalDamageCollider _bossDamageCollider;
     public override void Init()
     {
     }

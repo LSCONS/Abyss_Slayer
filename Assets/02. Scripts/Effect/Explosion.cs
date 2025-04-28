@@ -7,7 +7,7 @@ public class Explosion : BasePoolable
     [SerializeField] List<Sprite> _sprites;
     [SerializeField] SpriteRenderer _spriteRenderer;
     [SerializeField] Collider2D _collider;
-    [SerializeField] BaseBossDamageCollider _baseDamageCollider;
+    [SerializeField] NormalDamageCollider _baseDamageCollider;
     List<Player> hitPlayers = new List<Player>();
     int _damage;
 

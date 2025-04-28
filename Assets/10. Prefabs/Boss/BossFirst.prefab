@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 2532103652823677094}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.8, z: 0}
-  m_LocalScale: {x: 1.4, y: 1.4, z: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8802479938377772646}
@@ -72,13 +72,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 91
+  m_SortingOrder: 400
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4, y: 4.4375}
+  m_Size: {x: 11.3125, y: 11.3125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -251,9 +251,20 @@ MonoBehaviour:
     patternData: {fileID: 11400000, guid: ca4ceaddc4d5c8045b0b06622fd03155, type: 2}
     setActivePatternForTest: 0
     showGizmos: 1
+  - weight: 5
+    patternData: {fileID: 11400000, guid: 710d5774c9caa6949815aa772eb2c753, type: 2}
+    setActivePatternForTest: 0
+    showGizmos: 1
+  - weight: 5
+    patternData: {fileID: 11400000, guid: fe5d28197b926c14c9c9af3bd39eb5e1, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
   targetCrossHairPrefab: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
-  _sprite: {fileID: 7533442902988421679}
+  sprite: {fileID: 7533442902988421679}
+  hitCollider: {fileID: 0}
+  _effectSprite: {fileID: 1016348319747735812}
   bossCenterHight: 2
+  mapWidth: 40
   chasingTarget: 0
   jumpMoveTime: 0.8
   jumpMoveHight: 1.5
@@ -420,7 +431,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 90
+  m_SortingOrder: 300
   m_Sprite: {fileID: 171416399, guid: e4eff3e8af0670945b6ad312257d3277, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
