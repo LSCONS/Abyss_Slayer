@@ -16,7 +16,7 @@ public class UIHealthBar : UIPermanent, IView
     [SerializeField] private bool isPlayer;   // 플레이어인지 확인
 
 
-    private void Awake()
+    private void SettingPlayer()
     {
         string targetTag = isPlayer ? "Player" : "Boss";
         GameObject target = GameObject.FindWithTag(targetTag);
@@ -35,6 +35,7 @@ public class UIHealthBar : UIPermanent, IView
     }
     public override void Init()
     {
+        SettingPlayer();
         hpBar.fillAmount = 1;
         hpText.text = $"{100:F0}%";
         base.Init();
