@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIPopupBotton : UIButton
+public class UIPopupButton : UIButton
 {
     [Header("닫기 버튼으로 사용하고 싶다면 체크해주세요.")]
     [SerializeField] private bool isClose = false;  // 닫기 버튼으로 사용하고 싶으면 체크
