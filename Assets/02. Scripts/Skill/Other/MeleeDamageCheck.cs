@@ -10,17 +10,12 @@ public class MeleeDamageCheck : MonoBehaviour
 {
     public BoxCollider2D BoxCollider { get; private set; }
     public Dictionary<GameObject, float> NextHitTime { get; private set; } = new();    // 맞은 시간 저장하는 딕셔너리
-
-    public LayerMask IncludeLayer { get; private set; }
-
     public HashSet<GameObject> hitObjects { get; private set; } = new HashSet<GameObject>(); // 스킬 맞으면 여기다가 추가해서 중복 데미지 들어오지 않도록 막음
-
     public MeleeDamageCheckData Data { get; private set; }
 
     private void OnValidate()
     {
         BoxCollider = GetComponent<BoxCollider2D>();
-        IncludeLayer = LayerData.EnemyLayerMask;
     }
 
     private void OnDisable()
@@ -71,7 +66,7 @@ public class MeleeDamageCheck : MonoBehaviour
 
     private void TryHit(GameObject target)
     {
-        if (((1 << target.layer) & IncludeLayer) == 0) return;
+        if (((1 << target.layer) & Data.TargetLayer) == 0) return;
 
         //Debug.Log($"TryHit: {target.name} at {Time.time}");
 
