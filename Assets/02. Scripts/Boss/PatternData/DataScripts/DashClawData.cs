@@ -55,6 +55,7 @@ public class DashClawData : BasePatternData
         }
         bossAnimator.enabled = true;
         bossAnimator.SetTrigger("Dash3");
+        bossController.showTargetCrosshair = false;
         float time = Time.time + (postDelayTime/2);
         Vector3 targetposition = bossTransform.position + 2f * (isLeft ? Vector3.left : Vector3.right);
         while(time >= Time.time)

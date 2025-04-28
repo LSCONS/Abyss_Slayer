@@ -344,28 +344,44 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
-      propertyPath: allPatterns.Array.data[3].setActivePatternForTest
+      propertyPath: allPatterns.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: allPatterns.Array.data[9].weight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: allPatterns.Array.data[9].showGizmos
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
-      propertyPath: allPatterns.Array.data[6].setActivePatternForTest
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: allPatterns.Array.data[9].patternData
+      value: 
+      objectReference: {fileID: 11400000, guid: 25f316fd044ea4e488fc6acfa70cbaeb, type: 2}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
-      propertyPath: allPatterns.Array.data[7].setActivePatternForTest
+      propertyPath: allPatterns.Array.data[3].setActivePatternForTest
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[8].setActivePatternForTest
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: allPatterns.Array.data[9].setActivePatternForTest
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2893000285666796103, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: m_Name
       value: BossFirst
       objectReference: {fileID: 0}
+    - target: {fileID: 7533442902988421679, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1205540220, guid: 5a3c64fc1c0cdb240809843924028573, type: 3}
     - target: {fileID: 8802479938377772646, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.23
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8802479938377772646, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2301,7 +2317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1478598179
 Transform:
   m_ObjectHideFlags: 0
@@ -3563,7 +3579,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091e6a6f314bfe740bf23db387cda825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canRepeatHit: 0
 --- !u!4 &3013566628945084714
 Transform:
   m_ObjectHideFlags: 0
@@ -4174,8 +4189,7 @@ MonoBehaviour:
   playerRigidbody: {fileID: 2077261714520984324}
   playerCheckGround: {fileID: 4612124452326151165}
   mainCamera: {fileID: 0}
-  <playerData>k__BackingField: {fileID: 0}
-  skillSet: {fileID: 11400000, guid: b468639bbe4fdf14bacdd130716a5dc7, type: 2}
+  <PlayerData>k__BackingField: {fileID: 0}
 --- !u!114 &6239054882237142644
 MonoBehaviour:
   m_ObjectHideFlags: 0

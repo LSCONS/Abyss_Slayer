@@ -17,7 +17,12 @@ public class FoxSphereProjectile : BasePoolable
     bool _fired;
     bool _isReturn;
     bool _end;
-    Vector3 targetPosition;
+    Vector3 targetDirection;
+
+    private void Awake()
+    {
+        damageCollider.Init(_damage,null,int.MaxValue);
+    }
     private void Update()
     {
         if (_fired)
@@ -37,7 +42,7 @@ public class FoxSphereProjectile : BasePoolable
         }
         else if(Time.time >= _fireTime)
         {
-            targetPosition = _target.position;
+            targetDirection = (_target.position - transform.position).normalized;
             _fired = true;
         }
     }
@@ -63,7 +68,7 @@ public class FoxSphereProjectile : BasePoolable
 
     void Move()
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, (_v - (_a * Time.deltaTime)) * Time.deltaTime);
+        transform.position += targetDirection * ((_v - (_a * (Time.time - _fireTime))) * Time.deltaTime);
     }
 
 }
