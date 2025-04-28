@@ -62,4 +62,8 @@ public class NormalDamageCollider : MonoBehaviour
             return;
         }
     }
+    public void ClearHitList()
+    {
+        hitPlayers.Clear();
+    }
 }
