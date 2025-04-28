@@ -12,6 +12,7 @@ public class ClassSlot : MonoBehaviour
     [SerializeField] private Button button;
 
     private CharacterClass characterClass;
+    public CharacterClass CharacterClass => characterClass;
 
 
     private Subject<CharacterClass> onClickSubject = new Subject<CharacterClass>();
