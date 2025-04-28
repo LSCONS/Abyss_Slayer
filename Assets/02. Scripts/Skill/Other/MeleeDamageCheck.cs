@@ -1,3 +1,4 @@
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,7 +36,6 @@ public class MeleeDamageCheck : MonoBehaviour
     /// <param name="aliveTime">이펙트 지속 시간</param>
     public void Init(MeleeDamageCheckData data)
     {
-
         if(BoxCollider == null)
             BoxCollider = GetComponent<BoxCollider2D>();
         Data = data;
@@ -49,6 +49,13 @@ public class MeleeDamageCheck : MonoBehaviour
     }
 
 
+    public void Init(MeleeDamageCheckData data, float duration)
+    {
+        Init(data);
+        // 콜라이더 온오프
+        data.Player.PlayerMeleeCollider.enabled = true;
+        data.Player.StartCoroutine(data.Player.EnableMeleeCollider(data.Player.PlayerMeleeCollider, duration));
+    }
     private void OnTriggerEnter2D(Collider2D col)
     {
 
@@ -93,7 +100,7 @@ public class MeleeDamageCheck : MonoBehaviour
             enemy.Damage((int)Data.Damage, transform.position.x); // 데미지 전달
             Debug.Log($"Damage Applied at {Time.time}");
 
-            Data.Player.RaiseSkillHit(Data.Skill);    // 스킬이 적중하면 플레이어한테 알려줌
+            Data.Skill.AttackAction?.Invoke();    // 스킬이 적중하면 플레이어한테 알려줌
 
             if (Data.EffectType != null)
             {

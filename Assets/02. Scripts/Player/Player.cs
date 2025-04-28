@@ -43,17 +43,27 @@ public class Player : MonoBehaviour, IHasHealth
 
     public void StartHoldSkillCoroutine(IEnumerator skill, Action action)
     {
-        StopHoldSkillCoroutine();
+        StopHoldSkillActionCoroutine();
         HoldSkillCoroutine = StartCoroutine(skill);
         HoldSkillCoroutineStopAction = action;
     }
 
-    public void StopHoldSkillCoroutine()
+    public void StopHoldSkillActionCoroutine()
     {
         if (HoldSkillCoroutine != null)
         {
             StopCoroutine(HoldSkillCoroutine);
             HoldSkillCoroutineStopAction?.Invoke();
+            HoldSkillCoroutineStopAction = null;
+            HoldSkillCoroutine = null;
+        }
+    }
+
+    public void StopHoldSkillNoneCoroutine()
+    {
+        if (HoldSkillCoroutine != null)
+        {
+            StopCoroutine(HoldSkillCoroutine);
             HoldSkillCoroutineStopAction = null;
             HoldSkillCoroutine = null;
         }

@@ -53,12 +53,12 @@ public class ZoneAOE : BasePoolable
 
         if (Data.Skill != null && Data.Skill.SkillCategory == SkillCategory.Hold)
         {
-            Data.Player.StartHoldSkillCoroutine(ReturnTOPool(Data.Duration, Data.TargetLayer), Test);
+            Data.Player.StartHoldSkillCoroutine(ReturnTOPool(Data.Duration), Exit);
         }
         else
         {
             if (ReturnToPoolCoroutine != null) StopCoroutine(ReturnToPoolCoroutine);
-            ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(Data.Duration, Data.TargetLayer));
+            ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(Data.Duration));
         }
     }
 
@@ -81,18 +81,19 @@ public class ZoneAOE : BasePoolable
         MovePosition    = move;
         StartSkill();
     }
-    private IEnumerator ReturnTOPool(float seconds, LayerMask targetLayer)
+
+    private IEnumerator ReturnTOPool(float seconds)
     {
-            yield return new WaitForSeconds(seconds);
-            if (effectPrefab != null)
-                effectPrefab.SetActive(false);
-            ReturnToPool();
+        yield return new WaitForSeconds(seconds);
+        Exit();
     }
 
-    private void Test()
+    private void Exit()
     {
-        effectPrefab.SetActive(false);
+        if (effectPrefab != null)
+            effectPrefab.SetActive(false);
         ReturnToPool();
+        Data.Player.StopHoldSkillNoneCoroutine();
     }
 
     // 애니메이터 활성화
