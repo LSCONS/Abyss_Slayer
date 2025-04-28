@@ -93,7 +93,7 @@ public class Laser : BasePoolable
         }
         else
         {
-            if(_hit.transform.TryGetComponent<Player>(out Player player))
+            if(_hit.transform != null && _hit.transform.TryGetComponent<Player>(out Player player))
             {
                 player.Damage(_damage);
             }

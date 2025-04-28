@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 400
+  m_SortingOrder: 500
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -237,7 +237,7 @@ MonoBehaviour:
     showGizmos: 1
   - weight: 3
     patternData: {fileID: 11400000, guid: da2208074cc981a4192e7de10edaacf6, type: 2}
-    setActivePatternForTest: 1
+    setActivePatternForTest: 0
     showGizmos: 1
   - weight: 4
     patternData: {fileID: 11400000, guid: 6d77efd23e848994c989c255b8d141e9, type: 2}
@@ -258,6 +258,10 @@ MonoBehaviour:
   - weight: 5
     patternData: {fileID: 11400000, guid: fe5d28197b926c14c9c9af3bd39eb5e1, type: 2}
     setActivePatternForTest: 0
+    showGizmos: 1
+  - weight: 5
+    patternData: {fileID: 11400000, guid: 25f316fd044ea4e488fc6acfa70cbaeb, type: 2}
+    setActivePatternForTest: 1
     showGizmos: 1
   targetCrossHairPrefab: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
   sprite: {fileID: 7533442902988421679}
@@ -431,7 +435,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 300
+  m_SortingOrder: 200
   m_Sprite: {fileID: 171416399, guid: e4eff3e8af0670945b6ad312257d3277, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
