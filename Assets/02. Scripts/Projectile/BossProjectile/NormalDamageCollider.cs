@@ -16,7 +16,7 @@ public class NormalDamageCollider : MonoBehaviour
 
     private void Awake()
     {
-        hitLayerMask = LayerData.GroundPlaneLayerMask | LayerData.ShieldLayerMask;
+        hitLayerMask = LayerData.GroundPlaneLayerMask | LayerData.ShieldLayerMask | LayerData.GroundWallLayerMask;
     }
     /// <summary>
     /// 

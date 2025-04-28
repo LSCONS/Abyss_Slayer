@@ -28,4 +28,7 @@ public static class LayerData
 
     public static readonly LayerMask ShieldLayerIndex = LayerMask.NameToLayer("Shield");
     public static readonly LayerMask ShieldLayerMask = 1 << ShieldLayerIndex;
+
+    public static readonly LayerMask GroundWallLayerIndex = LayerMask.NameToLayer("GroundWall");
+    public static readonly LayerMask GroundWallLayerMask = 1 << GroundWallLayerIndex;
 }
