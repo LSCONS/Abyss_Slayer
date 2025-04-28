@@ -137,6 +137,7 @@ public class UIManager : Singleton<UIManager>
         Debug.Log($"[CreateUI] {name} UI 생성 시작");
         // 만약에 UIMap에 있으면 패스
         if(UIMap.ContainsKey(name)){
+            Debug.LogError($"{name}이 중복되었어...");
             return;
         }
         // 그리고 만약에 UICachedMap에 없어도 패스

@@ -19,17 +19,15 @@ public class UIPopupButton : UIButton
         {
             popup = UIManager.Instance.FindPopupByName(popupName);  // 닫기 기능 수행하기 싫어야지 popupname으로 찾아서 그거 열기
         }
-        base.Init();
-    }
 
-    public void Awake()
-    {
         if (button == null) button = GetComponent<Button>();
 
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnClickButton);
 
+        base.Init();
     }
+
 
 
     // 버튼 자동 연결 string으로 이름 받아서 그 이름의 버튼 찾아서 연결
