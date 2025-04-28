@@ -5,13 +5,21 @@ using UnityEngine.UI;
 
 public class UIPopupBotton : UIButton
 {
+    [Header("닫기 버튼으로 사용하고 싶다면 체크해주세요.")]
+    [SerializeField] private bool isClose = false;  // 닫기 버튼으로 사용하고 싶으면 체크
+
     [Header("열고싶은 팝업 이름을 적어주세요.")]
     [SerializeField] private string popupName;  // 열고싶은 팝업 이름
+
     private UIPopup popup;
    
     public override void Init()
     {
-        popup = UIManager.Instance.FindPopupByName(popupName);
+        if(!isClose)
+        {
+            popup = UIManager.Instance.FindPopupByName(popupName);  // 닫기 기능 수행하기 싫어야지 popupname으로 찾아서 그거 열기
+        }
+
         OnClickButton();
         base.Init();
     }
@@ -21,6 +29,22 @@ public class UIPopupBotton : UIButton
     {
         button.onClick.AddListener(() =>
         {
+            if (isClose)
+            {
+                // ui 팝업 스택에서 젤 위에 있는 팝업을 닫아줌
+                if (UIManager.Instance.isPopupOpen<UIPopup>())  //  팝업 열려있는지 검사 후 열려있어야지 수행 (그래야 팝업 있는거니꺠)
+                {
+                    var currentPopup = UIManager.Instance.popupStack.Peek();    // 젤 위에 있는거 꺼내옴
+                    UIManager.Instance.CloseCurrentPopup(currentPopup);
+                }
+                else
+                {
+                    Debug.Log("[UIPopupBotton(OnClickButton)] 뭐임 지금 팝업이 아무것도 안열려있는데? 뭘...누른거야?");
+                }
+                return;
+            }
+
+            // 닫기 버튼 아닐 때는 popupName 받아서 그 팝업 열기 기능 수행
             if (popup == null)
             {
                 popup = UIManager.Instance.FindPopupByName(popupName);
@@ -34,6 +58,8 @@ public class UIPopupBotton : UIButton
             {
                 Debug.LogError($"[UIPopupBotton] 팝업 {popupName} 을 찾을 수 없다요");
             }
+
+
         });
     }
 
