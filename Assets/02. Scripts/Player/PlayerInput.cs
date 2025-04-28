@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,14 +30,28 @@ public class PlayerInput : MonoBehaviour
 
     /// <summary>플레이어가 스킬D을 입력했는지 확인</summary>
     public bool IsSkillD        { get; private set; }
+    /// <summary>어떤 스킬키가 어떤 Input이랑 연결되는지 알려주는 Dictionary</summary>
+    public Dictionary<SkillSlotKey, Func<bool>> SkillInputKey { get; private set; } = new();
     #endregion
 
 
-    private void Awake() => inputs = new PlayerInputs();
+    private void Awake() 
+    {
+        inputs = new PlayerInputs();
+    }
 
     private void OnEnable() => InputEvent();
 
     private void OnDisable() => OutPutEvent();
+
+    public void InitDictionary()
+    {
+        SkillInputKey.Add(SkillSlotKey.X, () => IsSkillX);
+        SkillInputKey.Add(SkillSlotKey.Z, () => IsSkillZ);
+        SkillInputKey.Add(SkillSlotKey.A, () => IsSkillA);
+        SkillInputKey.Add(SkillSlotKey.S, () => IsSkillS);
+        SkillInputKey.Add(SkillSlotKey.D, () => IsSkillD);
+    }
 
 
     /// <summary>입력 이벤트 등록</summary>

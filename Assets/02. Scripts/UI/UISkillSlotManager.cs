@@ -24,7 +24,7 @@ public class UISkillSlotManager : MonoBehaviour
 
     private void CreateSkillSlots()
     {
-        foreach (var kvp in player.equippedSkills)
+        foreach (var kvp in player.EquippedSkills)
         {
             if (!IsASDKey(kvp.Key))
                 continue;

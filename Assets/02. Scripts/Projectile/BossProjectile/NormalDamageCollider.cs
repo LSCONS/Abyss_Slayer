@@ -41,7 +41,7 @@ public class NormalDamageCollider : MonoBehaviour
         }
 
         if(collision.transform.TryGetComponent<Player>(out Player player)&& 
-            !(player.playerStateMachine.IsDash) && 
+            !(player.PlayerStateMachine.IsDash) && 
             hitPlayers.Add(player))
         {
             player.Damage(_damage);            //데미지 입힘

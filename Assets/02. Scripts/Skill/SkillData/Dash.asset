@@ -16,6 +16,7 @@ MonoBehaviour:
   <SkillName>k__BackingField: "\uB300\uC26C"
   <SkillDesription>k__BackingField: "\uC77C\uC815\uAC70\uB9AC\uB97C \uBE60\uB974\uAC8C
     \uC774\uB3D9\uD558\uACE0 \uC7A0\uC2DC \uBB34\uC801 \uC0C1\uD0DC\uAC00 \uB41C\uB2E4."
+  <SkillCategory>k__BackingField: 5
   <SkillIcon>k__BackingField: {fileID: 0}
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 0
@@ -23,5 +24,8 @@ MonoBehaviour:
     value: 1
   <CurCoolTime>k__BackingField:
     value: 0
-  <ApplyState>k__BackingField: 8
-  <MovingForce>k__BackingField: 50
+  <ApplyState>k__BackingField: -1
+  <SkillEnterState>k__BackingField: 6
+  <SkillUseState>k__BackingField: 30
+  <AnimationChangeDelayTime>k__BackingField: 1
+  <MovingForce>k__BackingField: 30

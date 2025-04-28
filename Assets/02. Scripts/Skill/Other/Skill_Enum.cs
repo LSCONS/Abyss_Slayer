@@ -1,10 +1,14 @@
 public enum SkillCategory
 {
+    None,
     BasicAtk,
     Heal,
-    Attack, 
     Buff, 
-    Debuff
+    Debuff,
+    Dash,
+    Attack,
+    Hold,
+    Charge,
 }
 
 public enum SkillSlotKey
@@ -24,12 +28,6 @@ public enum DamageType
     Hybrid
 }
 
-public enum EvasionType
-{
-    Dash,
-    Teleport
-}
-
 [System.Flags]
 public enum ApplyState
 {
@@ -39,16 +37,4 @@ public enum ApplyState
     FallState = 1 << 2,      //공중에서 떨어지고 있는 상태
     DashState = 1 << 3,      //회피하고 있는 상태
     JumpState = 1 << 4,      //점프하고 있는 상태
-}
-
-public enum SkillAniamtionType
-{
-    None = 0,
-    Attack1,
-    Attack2,
-    Attack3,
-    AirAtk1,
-    AirAtk2,
-    Casting1,
-    Casting2
 }

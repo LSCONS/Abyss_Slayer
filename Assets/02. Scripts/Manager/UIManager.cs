@@ -15,7 +15,7 @@ public class UIManager : Singleton<UIManager>
     public Transform popupParent;
     public Transform topMidParent;
 
-    private Stack<UIPopup> popupStack = new();
+    public Stack<UIPopup> popupStack = new();
 
     private Dictionary<string, GameObject> UICachedMap = new();
     private Dictionary<string, GameObject> UIMap = new(); // 고정 ui 이름 맵
@@ -69,7 +69,7 @@ public class UIManager : Singleton<UIManager>
        foreach(var ui in UIMap)
        {
             Debug.Log($"[Init] {ui.Key} 초기화 시작");
-            ui.Value.GetComponentInChildren<UIBase>().Init();
+            ui.Value.GetComponentInChildren<UIBase>(true).Init();
        }
     }
 
@@ -240,7 +240,13 @@ public class UIManager : Singleton<UIManager>
     public void OpenUI(UISceneType type){
         foreach (var ui in UIMap)
         {
-            var sceneType = ui.Value.GetComponentInChildren<UIBase>().uISceneType;
+            UIBase uiBase = ui.Value.GetComponentInChildren<UIBase>(true);
+            if (uiBase == null)
+            {
+                Debug.LogError("범인은 누구 범인은 누구? : " + ui.Value.name);
+                continue;
+            }
+            var sceneType = ui.Value.GetComponentInChildren<UIBase>(true).uISceneType;
             if ((type & sceneType) != 0)
             {
                 ui.Value.SetActive(true);
@@ -252,7 +258,7 @@ public class UIManager : Singleton<UIManager>
     public void CloseUI(UISceneType type){
         foreach (var ui in UIMap)
         {
-            var sceneType = ui.Value.GetComponentInChildren<UIBase>().uISceneType;
+            var sceneType = ui.Value.GetComponentInChildren<UIBase>(true).uISceneType;
             if ((type & sceneType) != 0)
             {
                 ui.Value.SetActive(false);
@@ -279,21 +285,20 @@ public class UIManager : Singleton<UIManager>
     }
 
     // 모든 고정 ui 끄기
-    public void CloseAllPermanent(){
-        foreach(var ui in UIMap){
-            if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.Top) != 0){
-                ui.Value.SetActive(false);
-            }
-            else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.Bottom) != 0){
-                ui.Value.SetActive(false);
-            }
-            else if((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.TopMid) != 0){
-                ui.Value.SetActive(false);
-            }
-            else if ((ui.Value.GetComponentInChildren<UIBase>().uiType & UIType.Permanent) != 0)
+    public void CloseAllPermanent()
+    {
+        UIType tempType = UIType.Top | UIType.Bottom | UIType.TopMid | UIType.Permanent;
+
+        foreach(var ui in UIMap)
+        {
+            UIBase temp = ui.Value.GetComponentInChildren<UIBase>(true);
+            if(temp == null)
             {
-                ui.Value.SetActive(false);
+                Debug.LogError("범인은 누구 범인은 누구? : " + ui.Value.name);
+                continue;
             }
+            UIType type = ui.Value.GetComponentInChildren<UIBase>(true).uiType;
+            if((type & tempType) != 0) ui.Value.SetActive(false);
         }
     }
 

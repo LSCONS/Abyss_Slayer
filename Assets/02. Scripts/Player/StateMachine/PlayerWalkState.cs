@@ -3,6 +3,9 @@ using UnityEngine;
 public class PlayerWalkState : PlayerGroundState
 {
     public StoppableAction MoveAction = new();
+    private int animationNum = 0;
+    private float animationTime = 0;
+    private int animationDelay = 10;
     public PlayerWalkState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -22,7 +25,9 @@ public class PlayerWalkState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
-        StartAnimation(playerStateMachine.Player.playerAnimationData.walkParameterHash);
+        playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Run1, 0);
+        animationNum = 0;
+        animationTime = animationDelay;
 
 #if StateMachineDebug
         Debug.Log("WalkState 진입");
@@ -33,16 +38,26 @@ public class PlayerWalkState : PlayerGroundState
     public override void Exit()
     {
         base.Exit();
-        StopAnimation(playerStateMachine.Player.playerAnimationData.walkParameterHash);
 
 #if StateMachineDebug
         Debug.Log("WalkState 해제");
 #endif
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        animationTime--;
+    }
+
     public override void Update()
     {
         base.Update();
+        if (animationTime <= 0)
+        {
+            animationTime = animationDelay;
+            playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Run1, ++animationNum);
+        }
         MoveAction?.Invoke();
     }
 }

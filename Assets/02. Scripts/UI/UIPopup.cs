@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public abstract class UIPopup : UIBase
+public class UIPopup : UIBase
 {
     private CanvasGroup canvasGroup;
 

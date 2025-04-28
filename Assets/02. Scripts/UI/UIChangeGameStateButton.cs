@@ -11,8 +11,8 @@ public class UIChangeGameStateButton : UIButton
         base.Init();
         Debug.Log($"[UIChangeGameStateButton] Init 호출됨: {gameStartState}");
         gameObject.SetActive(true);
+        button.onClick.RemoveListener(ChangeState);
         button.onClick.AddListener(ChangeState);
-
     }
 
 
