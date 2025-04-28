@@ -86,7 +86,7 @@ public class MageProjectile : BasePoolable
     // 타겟과 충돌 시 행동
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<IHasHealth>(out IHasHealth enemy))
+        if (collision.TryGetComponent<IHasHealth>(out IHasHealth enemy) && enemy is Boss)
         {
             trailRenderer.enabled = false; // 투사체 궤적 비활성화
             fired = false; // 발사 여부 초기화
