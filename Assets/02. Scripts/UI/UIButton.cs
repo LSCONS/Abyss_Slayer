@@ -7,12 +7,10 @@ using UnityEngine.UI;
 public class UIButton : UIBase
 {
     protected Button button;
-    protected virtual void Awake()
-    {
-        button = GetComponent<Button>();
-    }
+
     public  override void Init()
     {
+        if(button == null) button = GetComponent<Button>();
         base.Init();
     }
 }
