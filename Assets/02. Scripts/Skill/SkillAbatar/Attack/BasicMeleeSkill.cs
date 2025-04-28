@@ -10,6 +10,7 @@ public class BasicMeleeSkill : MeleeAttackSkill
     [field: SerializeField] public Vector2 ColliderSize { get; private set; }
     [field: Header("콜라이더 위치")]
     [field: SerializeField] public Vector2 ColliderOffset {  get; private set; }
+    private MeleeDamageCheck meleeDamageCheck = null;
 
     public override void UseSkill()
     {
@@ -17,8 +18,13 @@ public class BasicMeleeSkill : MeleeAttackSkill
         player.PlayerMeleeCollider.enabled = true;
 
         // 콜라이더 초기화
-        MeleeDamageCheck damageCheck = player.PlayerMeleeCollider.GetComponent<MeleeDamageCheck>();
-        damageCheck.Init(player, this, ColliderSize, ColliderOffset, Damage, typeof(BossHitEffect), ColliderDuration);
+        if(meleeDamageCheck == null)
+            meleeDamageCheck = player.PlayerMeleeCollider.GetComponent<MeleeDamageCheck>();
+
+        MeleeDamageCheckData data = new MeleeDamageCheckData(player, this, ColliderSize, ColliderOffset, TargetMask, Damage, ColliderDuration, 0, false, typeof(BossHitEffect));
+
+
+        meleeDamageCheck.Init(data);
 
         // 콜라이더 온오프
         player.StartCoroutine(player.EnableMeleeCollider(player.PlayerMeleeCollider, ColliderDuration));

@@ -1,4 +1,5 @@
 using Photon.Realtime;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Tilemaps;
@@ -15,19 +16,11 @@ public class ZoneAOE : BasePoolable
 
     public SpriteRenderer SpriteRenderer {  get; private set; }
     public Animator     Animator        { get; private set; }
-
-    public Player       Player          { get; private set; }
-    public Skill        Skill           { get; private set; }
     public Vector2      SpawnOffset     { get; private set; }
     public Vector2      SpawnSize       { get; private set; }
-    public Vector2      ColliderSize    { get; private set; }
-    public Vector2      ColliderOffset  { get; private set; }
-    public float        TickRate        { get; private set; }
-    public float        Duration        { get; private set; }
-    public float        Damage          { get; private set; }
-    public LayerMask    TargetLayer     { get; private set; }
     public string       EffectName      { get; private set; }
     public Vector2      MovePosition    { get; private set; }
+    public MeleeDamageCheckData Data { get; private set; }
 
 
     public override void Init()
@@ -40,9 +33,9 @@ public class ZoneAOE : BasePoolable
         gameObject.SetActive(true);
 
         // 위치 세팅
-        float playerFlipX = Player.IsFlipX ? -1 : 1;
+        float playerFlipX = Data.Player.IsFlipX ? -1 : 1;
         SpawnOffset += MovePosition;
-        Vector3 spawnPosition = Player.transform.position + new Vector3(SpawnOffset.x * playerFlipX, SpawnOffset.y, 0);
+        Vector3 spawnPosition = Data.Player.transform.position + new Vector3(SpawnOffset.x * playerFlipX, SpawnOffset.y, 0);
 
         transform.position = spawnPosition;
         transform.localScale = (Vector3)SpawnSize;
@@ -52,67 +45,45 @@ public class ZoneAOE : BasePoolable
 
         // meleedamagecheck 세팅
         var meleeCheck = GetComponent<MeleeDamageCheck>();
-        System.Type fxType = null;
-        meleeCheck.Init(Player, Skill, ColliderSize, ColliderOffset, Damage, fxType, Duration);
-        meleeCheck.SetRepeatMode(true, TickRate);
+        meleeCheck.Init(Data);
         // duration 후 풀에 자동 반환
 
-        if (Skill != null && Skill.SkillCategory == SkillCategory.Hold)
+        if (Data.Skill != null && Data.Skill.SkillCategory == SkillCategory.Hold)
         {
-            Player.StartHoldSkillCoroutine(ReturnTOPool(Duration, TargetLayer), null);
+            Data.Player.StartHoldSkillCoroutine(ReturnTOPool(Data.Duration, Data.TargetLayer), Test);
         }
         else
         {
             if (ReturnToPoolCoroutine != null) StopCoroutine(ReturnToPoolCoroutine);
-            ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(Duration, TargetLayer));
+            ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(Data.Duration, Data.TargetLayer));
         }
     }
 
     public override void Init(RepeatRangeSkill repeatRangeSkill)
     {
-        Player          = repeatRangeSkill.player;
-        Skill           = repeatRangeSkill;
-        SpawnOffset     = repeatRangeSkill.SpawnOffset;
-        SpawnSize       = repeatRangeSkill.SpawnSize;
-        ColliderSize    = repeatRangeSkill.ColliderSize;
-        ColliderOffset  = repeatRangeSkill.ColliderOffset;
-        TickRate        = repeatRangeSkill.TickRate;
-        Duration        = repeatRangeSkill.Duration;
-        Damage          = repeatRangeSkill.Damage;
-        TargetLayer     = repeatRangeSkill.TargetLayer;
-        EffectName      = repeatRangeSkill.EffectName;
-        MovePosition    = repeatRangeSkill.MovePosition;
-        StartSkill();
+        Init((RemoteZoneRangeSkill)repeatRangeSkill, repeatRangeSkill.MovePosition, null);
     }
 
-    public override void Init(RemoteZoneRangeSkill remoteZoneRangeSkill)
+    public override void Init(DashMeleeSkill dashMeleeSkill, Type effectType)
     {
-        Player          = remoteZoneRangeSkill.player;
-        Skill           = remoteZoneRangeSkill;
-        SpawnOffset     = remoteZoneRangeSkill.SpawnOffset;
-        SpawnSize       = remoteZoneRangeSkill.SpawnSize;
-        ColliderSize    = remoteZoneRangeSkill.ColliderSize;
-        ColliderOffset  = remoteZoneRangeSkill.ColliderOffset;
-        TickRate        = remoteZoneRangeSkill.TickRate;
-        Duration        = remoteZoneRangeSkill.Duration;
-        Damage          = remoteZoneRangeSkill.Damage;
-        TargetLayer     = remoteZoneRangeSkill.TargetLayer;
+        Init((RemoteZoneRangeSkill)dashMeleeSkill, Vector2.zero, effectType);
+    }
+
+    public override void Init(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType)
+    {
+        Data = new MeleeDamageCheckData(remoteZoneRangeSkill, effectType);
+        SpawnOffset = remoteZoneRangeSkill.SpawnOffset;
+        SpawnSize = remoteZoneRangeSkill.SpawnSize;
         EffectName      = remoteZoneRangeSkill.EffectName;
+        MovePosition    = move;
         StartSkill();
     }
     private IEnumerator ReturnTOPool(float seconds, LayerMask targetLayer)
     {
-        if (Skill != null && Skill.SkillCategory == SkillCategory.Hold)
-        {
-            Player.StopHoldSkillCoroutine();
-        }
-        else
-        {
             yield return new WaitForSeconds(seconds);
             if (effectPrefab != null)
                 effectPrefab.SetActive(false);
             ReturnToPool();
-        }
     }
 
     private void Test()
@@ -141,7 +112,7 @@ public class ZoneAOE : BasePoolable
             //스프라이트 값 초기화
             SpriteRenderer.transform.localScale = Vector3.one;
             SpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            SpriteRenderer.flipX = Player.IsFlipX;
+            SpriteRenderer.flipX = Data.Player.IsFlipX;
 
             if (Animator != null && Animator.runtimeAnimatorController != null)
             {

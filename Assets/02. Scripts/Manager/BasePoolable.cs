@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,7 +41,8 @@ public abstract class BasePoolable : MonoBehaviour
         )
     { }
     public virtual void Init(RepeatRangeSkill repeatRangeSkill) { }
-    public virtual void Init(RemoteZoneRangeSkill remoteZoneRangeSkill) { }
+    public virtual void Init(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType) { }
+    public virtual void Init(DashMeleeSkill dashMeleeSkill, Type effectType) { }
 
 
     // aliveTime 후에 풀에 반환

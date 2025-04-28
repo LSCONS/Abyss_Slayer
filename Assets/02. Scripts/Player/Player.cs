@@ -29,7 +29,6 @@ public class Player : MonoBehaviour, IHasHealth
     [field: SerializeField] public PlayerData PlayerData { get; private set; }
     [field: Header("스킬 관련")]
     public Dictionary<SkillSlotKey, Skill> EquippedSkills { get; private set; } = new(); // 스킬 연결용 딕셔너리
-    public CharacterSkillSet SkillSet { get; private set; } // 스킬셋 데이터
     public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
     public ReactiveProperty<int> Hp { get; set; } = new();
     public ReactiveProperty<int> MaxHp { get; set; } = new();
@@ -63,8 +62,8 @@ public class Player : MonoBehaviour, IHasHealth
     private void Awake()
     {
         InitComponent();
-        InitPlayerData();
-        InitSkillData();
+        InitPlayerData(out CharacterSkillSet skillSet);
+        InitSkillData(skillSet);
         PlayerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
         OnMeleeAttack += (collider, duration) => StartCoroutine(EnableMeleeCollider(collider, duration));
@@ -130,11 +129,11 @@ public class Player : MonoBehaviour, IHasHealth
     /// <summary>
     /// 플레이어 데이터를 초기화하는 메서드
     /// </summary>
-    private void InitPlayerData()
+    private void InitPlayerData(out CharacterSkillSet skillSet)
     {
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
         //PlayerManager.Instance.SettingPlayerAnimator(playerCharacterClass, PlayerAnimator); // 클래스에 맞는 애니메이터 설정
-
+        skillSet = null;
         PlayerSpriteData = PlayerManager.Instance.PlayerSpriteData;
         PlayerSpriteChange.Init(PlayerSpriteData);
         PlayerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
@@ -145,19 +144,19 @@ public class Player : MonoBehaviour, IHasHealth
         switch (playerCharacterClass)
         {
             case CharacterClass.Archer:
-                SkillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
                 break;
             case CharacterClass.Healer:
-                SkillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/HealerSkillSet");
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/HealerSkillSet");
                 break;
             case CharacterClass.Mage:
-                SkillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MageSkillSet");
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MageSkillSet");
                 break;
             case CharacterClass.MagicalBlader:
-                SkillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
                 break;
             case CharacterClass.Tanker:
-                SkillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/TankerSkillSet");
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/TankerSkillSet");
                 break;
         }
     }
@@ -181,17 +180,21 @@ public class Player : MonoBehaviour, IHasHealth
     /// <summary>
     /// 스킬 데이터를 딕셔너리 형태로 초기화하는 메서드
     /// </summary>
-    private void InitSkillData()
+    private void InitSkillData(CharacterSkillSet skillSet)
     {
-        SkillSet = Instantiate(SkillSet);
-        SkillSet.InstantiateSkillData(this);
+        skillSet = Instantiate(skillSet);
+        skillSet.InstantiateSkillData(this);
         EquippedSkills = new();
-        foreach (var slot in SkillSet.skillSlots)
+        foreach (CharacterSkillSlot slot in skillSet.skillSlots)
         {
             if (slot.skill != null)
             {
                 EquippedSkills[slot.key] = slot.skill;
             }
+        }
+        foreach(Skill skill in EquippedSkills.Values)
+        {
+            skill.Init();
         }
     }
 

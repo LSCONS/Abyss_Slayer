@@ -8,35 +8,27 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class MeleeDamageCheck : MonoBehaviour
 {
-    private float aliveTime = 0f;
-    private BoxCollider2D boxCollider;
-    private float damage = 10f;
-    public System.Type effectType = null;      // typeof가 effectType
+    public BoxCollider2D BoxCollider { get; private set; }
+    public Dictionary<GameObject, float> NextHitTime { get; private set; } = new();    // 맞은 시간 저장하는 딕셔너리
 
-    [SerializeField] private bool canRepeatHit = false; // 다단히트 할거임?
-    private float repeatHitCoolTime = 0.5f;    // 반복 딜 쿨타임
-    private Dictionary<GameObject, float> nextHitTime = new();    // 맞은 시간 저장하는 딕셔너리
+    public LayerMask IncludeLayer { get; private set; }
 
-    private LayerMask includeLayer;
+    public HashSet<GameObject> hitObjects { get; private set; } = new HashSet<GameObject>(); // 스킬 맞으면 여기다가 추가해서 중복 데미지 들어오지 않도록 막음
 
-    private HashSet<GameObject> hitObjects = new HashSet<GameObject>(); // 스킬 맞으면 여기다가 추가해서 중복 데미지 들어오지 않도록 막음
-
-    private Skill skill; // 어떤 스킬이 이 데미지체크를 사용했는가
-    private Player player;
+    public MeleeDamageCheckData Data { get; private set; }
 
 
     private void Awake()
     {
-        boxCollider = GetComponent<BoxCollider2D>();
-        includeLayer = LayerData.EnemyLayerMask;
+        BoxCollider = GetComponent<BoxCollider2D>();
+        IncludeLayer = LayerData.EnemyLayerMask;
     }
 
     private void OnDisable()
     {
         hitObjects.Clear();
-        nextHitTime.Clear();
+        NextHitTime.Clear();
     }
-
 
     /// <summary>
     /// 위치, 크기, 데미지, 이펙트 타입, 이펙트 타임 설정
@@ -47,48 +39,23 @@ public class MeleeDamageCheck : MonoBehaviour
     /// <param name="damage">데미지</param>
     /// <param name="effectType">이펙트 타입</param>
     /// <param name="aliveTime">이펙트 지속 시간</param>
-    public void Init(Player player, Vector2 size, Vector2 offset, float damage, System.Type effectType, float aliveTime)
+    public void Init(MeleeDamageCheckData data)
     {
-        this.player = player;
+        Data = data;
+        float flag = data.Player.IsFlipX ? -1f : 1f;
 
-        boxCollider.size = size;
-        boxCollider.offset = offset;
-        this.damage = damage;
-        this.effectType = effectType;
-        this.aliveTime = aliveTime;
-
-
-        float flag = 1f;
-
-        flag = player.IsFlipX ? -1f : 1f;
-        boxCollider.offset = new Vector2(offset.x * flag, offset.y);
+        BoxCollider.size = data.ColliderSize;
+        BoxCollider.offset = new Vector2(data.ColliderOffset.x * flag, data.ColliderOffset.y);
 
         hitObjects.Clear();
-        nextHitTime.Clear();
-    }
-
-    public void Init(Player player, Skill skill, Vector2 size, Vector2 offset, float damage, System.Type effectType, float aliveTime)
-    {
-        this.skill = skill;
-        Init(player, size, offset, damage, effectType, aliveTime);
-    }
-
-    /// <summary>
-    /// 반복 여부와 쿨타임 설정
-    /// </summary>
-    public void SetRepeatMode(bool repeat, float cooldown)
-    {
-        canRepeatHit = repeat;
-        repeatHitCoolTime = cooldown;
-
-        Debug.Log($"aliveTime: {aliveTime} // repeatHitCoolTime: {repeatHitCoolTime} ");
+        NextHitTime.Clear();
     }
 
 
     private void OnTriggerEnter2D(Collider2D col)
     {
 
-        if (canRepeatHit)   // 진입하자마자 딜링
+        if (Data.CanRepeatHit)   // 진입하자마자 딜링
             TryHit(col.gameObject);
         else
             TryHit(col.gameObject);
@@ -96,18 +63,18 @@ public class MeleeDamageCheck : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D col)
     {
-        if (canRepeatHit)
+        if (Data.CanRepeatHit)
             TryHit(col.gameObject);
     }
 
     private void TryHit(GameObject target)
     {
-        if (((1 << target.layer) & includeLayer) == 0) return;
+        if (((1 << target.layer) & IncludeLayer) == 0) return;
 
         //Debug.Log($"TryHit: {target.name} at {Time.time}");
 
         // 반복 아니면 한 번만 처리하기
-        if (!canRepeatHit)
+        if (!Data.CanRepeatHit)
         {
             if (hitObjects.Contains(target)) return;
             hitObjects.Add(target);
@@ -115,25 +82,25 @@ public class MeleeDamageCheck : MonoBehaviour
         // 반복 아니면 다단 히트
         else
         {
-            if (nextHitTime.TryGetValue(target, out float allowTime))
+            if (NextHitTime.TryGetValue(target, out float allowTime))
             {
                 if (Time.time < allowTime) return; // 아직 쿨타임 안지났으면 return
             }
 
-            nextHitTime[target] = Time.time + repeatHitCoolTime; // 다음 가능 시간 기록
+            NextHitTime[target] = Time.time + Data.TickRate; // 다음 가능 시간 기록
         }
 
-            // 뎀지 처리
+        // 뎀지 처리
         if (target.TryGetComponent<IHasHealth>(out IHasHealth enemy))
         {
-            enemy.Damage((int)damage, transform.position.x); // 데미지 전달
+            enemy.Damage((int)Data.Damage, transform.position.x); // 데미지 전달
             Debug.Log($"Damage Applied at {Time.time}");
 
-            player.RaiseSkillHit(skill);    // 스킬이 적중하면 플레이어한테 알려줌
+            Data.Player.RaiseSkillHit(Data.Skill);    // 스킬이 적중하면 플레이어한테 알려줌
 
-            if (effectType != null)
+            if (Data.EffectType != null)
             {
-                BasePoolable effect = PoolManager.Instance.Get(effectType);
+                BasePoolable effect = PoolManager.Instance.Get(Data.EffectType);
                 if (effect != null)
                 {
                     if (enemy is MonoBehaviour mb)
@@ -142,15 +109,15 @@ public class MeleeDamageCheck : MonoBehaviour
                         effect.transform.position = enemyTransform.transform.position;
                         effect.transform.SetParent(enemyTransform);
                         effect.Init();
-                        effect.AutoReturn(aliveTime);
+                        effect.AutoReturn(Data.Duration);
                     }
-                    
+
                 }
             }
         }
 
         // 단타이면 콜라이더 종료
-        if (!canRepeatHit)
+        if (!Data.CanRepeatHit)
         {
             var poolable = GetComponent<BasePoolable>();
             if (poolable != null)
@@ -164,16 +131,70 @@ public class MeleeDamageCheck : MonoBehaviour
     // 공격 기즈모로 확인해보기
     private void OnDrawGizmosSelected()
     {
-        if (boxCollider == null)
-            boxCollider = GetComponent<BoxCollider2D>();
+        if (BoxCollider == null)
+            BoxCollider = GetComponent<BoxCollider2D>();
 
         // 사이즈나 오프셋 적용된 박스 정보
-        Vector3 worldCenter = transform.TransformPoint(boxCollider.offset);
+        Vector3 worldCenter = transform.TransformPoint(BoxCollider.offset);
         // 로컬 크기를 월드 벡터로 변환
-        Vector3 worldSize = transform.TransformVector(boxCollider.size);
+        Vector3 worldSize = transform.TransformVector(BoxCollider.size);
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(worldCenter, worldSize);
     }
 
+}
+
+
+public class MeleeDamageCheckData
+{
+    public Player Player            { get; private set; }
+    public Skill Skill              { get; private set; }
+    public Type EffectType          { get; private set; }
+    public Vector2 ColliderSize     { get; private set; }
+    public Vector2 ColliderOffset   { get; private set; }
+    public LayerMask TargetLayer    { get; private set; }
+    public float Damage             { get; private set; }
+    public float Duration           { get; private set; }
+    public float TickRate           { get; private set; }
+    public bool CanRepeatHit        { get; private set; } 
+    public MeleeDamageCheckData(RemoteZoneRangeSkill _remoteZoneRangeSkill, Type _effectType)
+    {
+        Player = _remoteZoneRangeSkill.player;
+        Skill = _remoteZoneRangeSkill;
+        ColliderSize = _remoteZoneRangeSkill.ColliderSize;
+        ColliderOffset = _remoteZoneRangeSkill.ColliderOffset;
+        TargetLayer = _remoteZoneRangeSkill.TargetLayer;
+        Damage = _remoteZoneRangeSkill.Damage;
+        Duration = _remoteZoneRangeSkill.ColliderDuration;
+        TickRate = _remoteZoneRangeSkill.TickRate;
+        CanRepeatHit = _remoteZoneRangeSkill.CanRepeatHit;
+        EffectType = _effectType;
+    }
+
+    public MeleeDamageCheckData
+        (
+            Player _player,  
+            Skill _skill, 
+            Vector2 _size, 
+            Vector2 _offset, 
+            LayerMask _layer, 
+            float _damage, 
+            float _duration,
+            float _tickRate,
+            bool _canRepeatHit,
+            Type _effectType
+        )
+    {
+        Player = _player;
+        Skill = _skill;
+        ColliderSize = _size;
+        ColliderOffset = _offset;
+        TargetLayer = _layer;
+        Damage = _damage;
+        Duration = _duration;
+        TickRate = _tickRate;
+        CanRepeatHit = _canRepeatHit;
+        EffectType = _effectType;
+    }
 }
