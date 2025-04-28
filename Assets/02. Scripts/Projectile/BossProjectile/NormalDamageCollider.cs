@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseBossDamageCollider : MonoBehaviour
+public class NormalDamageCollider : MonoBehaviour
 {
     HashSet<Player> hitPlayers = new HashSet<Player>();
 
@@ -22,7 +22,7 @@ public class BaseBossDamageCollider : MonoBehaviour
     /// 
     /// </summary>
     /// <param name="hit">플레이어 맞췄을때(데미지주는 액션)</param>
-    /// <param name="destroy">지정된 수 만큼 데미지 준 뒤 없어지는 액션</param>
+    /// <param name="destroy">지정된 수 만큼 데미지 주거나 벽/바닥 충돌시 파괴되는 액션 삽입, 비파괴공격시 null</param>
     /// <param name="piercingAttackCount">관통 횟수(int.maxvalue 면 완전 관통)</param>
     public void Init(int damage,Action destroy, int piercingAttackCount = 1)
     {
@@ -33,7 +33,7 @@ public class BaseBossDamageCollider : MonoBehaviour
         hitPlayers.Clear();
     }
 
-    protected virtual void OnTriggerStay2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (_destroyed)
         {

@@ -7,7 +7,7 @@ public class HomingProjectile : BasePoolable
     [SerializeField] float homingTime;
     [SerializeField] AnimationCurve speedCurve;
     [SerializeField] AnimationCurve homingCurve;
-    [SerializeField] BaseBossDamageCollider _collider;
+    [SerializeField] NormalDamageCollider hitCollider;
     [SerializeField] TrailRenderer trailRenderer;
     int _damage;
     Transform _target;
@@ -73,7 +73,7 @@ public class HomingProjectile : BasePoolable
         if(speedCurve != null)
             this.speedCurve = speedCurve;
 
-        _collider.Init(0,Destroy);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
+        hitCollider.Init(0,Destroy);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
         trailRenderer.enabled = true;   //탄 궤적 활성화
     }
 

@@ -10,6 +10,7 @@ public abstract class BasePatternData : ScriptableObject
     protected BossController bossController;
     protected Animator bossAnimator;
     protected float bossCenterHight;
+    protected float mapWidth;
 
     [Header("패턴 공통 정보")]
     public Transform target;
@@ -24,6 +25,7 @@ public abstract class BasePatternData : ScriptableObject
         this.bossController = controller;
         bossAnimator = animator;
         bossCenterHight = controller.bossCenterHight;
+        mapWidth = controller.mapWidth;
     }
 
     /// <summary>
