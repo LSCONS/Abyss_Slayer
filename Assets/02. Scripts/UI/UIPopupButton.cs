@@ -20,13 +20,15 @@ public class UIPopupButton : UIButton
             popup = UIManager.Instance.FindPopupByName(popupName);  // 닫기 기능 수행하기 싫어야지 popupname으로 찾아서 그거 열기
         }
         base.Init();
+    }
 
+    public void Awake()
+    {
         if (button == null) button = GetComponent<Button>();
 
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnClickButton);
 
-        Debug.Log($"{gameObject.name} init 실행됨?");
     }
 
 
