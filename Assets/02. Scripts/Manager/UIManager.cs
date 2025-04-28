@@ -15,6 +15,8 @@ public class UIManager : Singleton<UIManager>
     public Transform bottomParent;
     public Transform popupParent;
     public Transform topMidParent;
+    public Transform followParent;
+
 
     public Stack<UIPopup> popupStack = new();
 
@@ -59,6 +61,11 @@ public class UIManager : Singleton<UIManager>
         {
             topMidParent = canvas.transform.GetGameObjectSameNameDFS("UI_TopMid")?.transform
                     ?? new GameObject("UI_TopMid", typeof(RectTransform)).transform;
+        }
+        if (followParent == null)
+        {
+            followParent = canvas.transform.GetGameObjectSameNameDFS("UI_Follow")?.transform
+                    ?? new GameObject("UI_Follow", typeof(RectTransform)).transform;
         }
 
     }
@@ -160,8 +167,13 @@ public class UIManager : Singleton<UIManager>
         else if((uiBase.uiType & UIType.Bottom) != 0){
             parent = bottomParent;
         }
-        else if((uiBase.uiType & UIType.TopMid) != 0){
+        else if ((uiBase.uiType & UIType.TopMid) != 0)
+        {
             parent = topMidParent;
+        }
+        else if ((uiBase.uiType & UIType.Follow) != 0)
+        {
+            parent = followParent;
         }
 
         Debug.Log($"[CreateUI] {uiBase.uiType} 타입의 UI 생성 완료");    
@@ -276,7 +288,7 @@ public class UIManager : Singleton<UIManager>
             var uiBase = ui.Value.GetComponentInChildren<UIBase>(true);
             if (uiBase == null) continue;
 
-            if ((uiBase.uiType & (UIType.Top | UIType.Bottom | UIType.Permanent | UIType.TopMid)) != 0)
+            if ((uiBase.uiType & (UIType.Top | UIType.Bottom | UIType.Follow | UIType.Permanent | UIType.TopMid)) != 0)
             {
                 ui.Value.SetActive(true);
             }
@@ -286,7 +298,7 @@ public class UIManager : Singleton<UIManager>
     // 모든 고정 ui 끄기
     public void CloseAllPermanent()
     {
-        UIType tempType = UIType.Top | UIType.Bottom | UIType.TopMid | UIType.Permanent;
+        UIType tempType = UIType.Top | UIType.Bottom | UIType.TopMid | UIType.Follow | UIType.Permanent;
 
         foreach(var ui in UIMap)
         {

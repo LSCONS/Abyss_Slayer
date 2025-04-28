@@ -422,6 +422,7 @@ MonoBehaviour:
   bottomParent: {fileID: 1542731942}
   popupParent: {fileID: 1542731941}
   topMidParent: {fileID: 1911160386}
+  followParent: {fileID: 1688749988}
 --- !u!1 &598972582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1685,6 +1686,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!224 &1688749988 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7552189523452309683, guid: 54283dbe4ace6bf40ba96e576213dec1, type: 3}
+  m_PrefabInstance: {fileID: 1542731940}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1754136891
 GameObject:
   m_ObjectHideFlags: 3
