@@ -9,10 +9,11 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class MeleeDamageCheck : MonoBehaviour
 {
-    public BoxCollider2D BoxCollider { get; private set; }
+    public BoxCollider2D BoxCollider { get; set; }
     public Dictionary<GameObject, float> NextHitTime { get; private set; } = new();    // 맞은 시간 저장하는 딕셔너리
     public HashSet<GameObject> hitObjects { get; private set; } = new HashSet<GameObject>(); // 스킬 맞으면 여기다가 추가해서 중복 데미지 들어오지 않도록 막음
     public MeleeDamageCheckData Data { get; private set; }
+    public Coroutine ColliderStartCoroutine { get; private set; }
 
     private void OnValidate()
     {
@@ -46,22 +47,41 @@ public class MeleeDamageCheck : MonoBehaviour
 
         hitObjects.Clear();
         NextHitTime.Clear();
+        ColliderStartCoroutine = StartCoroutine(SetColliderDelay(data.DelayTime));
     }
 
-
-    public void Init(MeleeDamageCheckData data, float duration)
+    public void BasicInit(MeleeDamageCheckData data)
     {
         Init(data);
-        // 콜라이더 온오프
-        data.Player.PlayerMeleeCollider.enabled = true;
-        data.Player.StartCoroutine(data.Player.EnableMeleeCollider(data.Player.PlayerMeleeCollider, duration));
+        StartCoroutine(ExitColliderDelay(data.Duration));
     }
+
+    public void Exit()
+    {
+        if(ColliderStartCoroutine != null)
+            StopCoroutine(ColliderStartCoroutine);
+        ColliderStartCoroutine = null;
+        BoxCollider.enabled = false;
+    }
+
+    private IEnumerator SetColliderDelay(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        BoxCollider.enabled = true;
+        ColliderStartCoroutine = null;
+    }
+
+    private IEnumerator ExitColliderDelay(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        Exit();
+    }
+
     private void OnTriggerEnter2D(Collider2D col)
     {
-
-        if (Data.CanRepeatHit)   // 진입하자마자 딜링
+        if (Data.CanRepeatHit)
             TryHit(col.gameObject);
-        else
+        else 
             TryHit(col.gameObject);
     }
 
@@ -97,26 +117,25 @@ public class MeleeDamageCheck : MonoBehaviour
         // 뎀지 처리
         if (target.TryGetComponent<IHasHealth>(out IHasHealth enemy))
         {
-            enemy.Damage((int)Data.Damage, transform.position.x); // 데미지 전달
-            Debug.Log($"Damage Applied at {Time.time}");
-
-            Data.Skill.AttackAction?.Invoke();    // 스킬이 적중하면 플레이어한테 알려줌
-
             if (Data.EffectType != null)
             {
                 BasePoolable effect = PoolManager.Instance.Get(Data.EffectType);
-                if (effect != null)
+                if (effect != null && enemy is MonoBehaviour mb)
                 {
-                    if (enemy is MonoBehaviour mb)
-                    {
-                        Transform enemyTransform = mb.transform;
-                        effect.transform.position = enemyTransform.transform.position;
-                        effect.transform.SetParent(enemyTransform);
-                        effect.Init();
-                        effect.AutoReturn(Data.Duration);
-                    }
-
+                    Transform enemyTransform = mb.transform;
+                    effect.transform.position = enemyTransform.transform.position;
+                    effect.transform.SetParent(enemyTransform);
+                    effect.Init();
+                    effect.AutoReturn(Data.Duration);
                 }
+            }
+            if(Data.Skill.SkillCategory == SkillCategory.DashAttack)
+            {
+                Data.Player.StartCoroutine(AttackEnemyCombo(enemy, 0.1f, 10));
+            }
+            else
+            {
+                AttackEnemy(enemy);
             }
         }
 
@@ -130,8 +149,23 @@ public class MeleeDamageCheck : MonoBehaviour
 
             //Destroy(gameObject, 10); // 풀 객체가 아니면 그냥 파괴
         }
-
     }
+
+    private void AttackEnemy(IHasHealth enemy)
+    {
+        enemy.Damage((int)Data.Damage, transform.position.x); // 데미지 전달
+        Data.Skill.AttackAction?.Invoke();    // 스킬이 적중하면 플레이어한테 알려줌
+    }
+
+    private IEnumerator AttackEnemyCombo(IHasHealth enemy, float delayTime, int attackCount)
+    {
+        for(int i = 0; i < attackCount; i++)
+        {
+            AttackEnemy(enemy);
+            yield return new WaitForSeconds(delayTime);
+        }
+    }
+
     // 공격 기즈모로 확인해보기
     private void OnDrawGizmosSelected()
     {
@@ -146,7 +180,6 @@ public class MeleeDamageCheck : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(worldCenter, worldSize);
     }
-
 }
 
 
@@ -155,9 +188,10 @@ public class MeleeDamageCheckData
     public Player Player            { get; private set; }
     public Skill Skill              { get; private set; }
     public Type EffectType          { get; private set; }
-    public Vector2 ColliderSize     { get; private set; }
-    public Vector2 ColliderOffset   { get; private set; }
+    public Vector2 ColliderSize     { get; set; }
+    public Vector2 ColliderOffset   { get; set; }
     public LayerMask TargetLayer    { get; private set; }
+    public float DelayTime          {  get; private set; }
     public float Damage             { get; private set; }
     public float Duration           { get; private set; }
     public float TickRate           { get; private set; }
@@ -169,6 +203,7 @@ public class MeleeDamageCheckData
         ColliderSize = _remoteZoneRangeSkill.ColliderSize;
         ColliderOffset = _remoteZoneRangeSkill.ColliderOffset;
         TargetLayer = _remoteZoneRangeSkill.TargetLayer;
+        DelayTime = _remoteZoneRangeSkill.ColliderSetDelayTime;
         Damage = _remoteZoneRangeSkill.Damage;
         Duration = _remoteZoneRangeSkill.ColliderDuration;
         TickRate = _remoteZoneRangeSkill.TickRate;
@@ -183,6 +218,7 @@ public class MeleeDamageCheckData
             Vector2 _size, 
             Vector2 _offset, 
             LayerMask _layer, 
+            float _delayTime,
             float _damage, 
             float _duration,
             float _tickRate,
@@ -195,6 +231,7 @@ public class MeleeDamageCheckData
         ColliderSize = _size;
         ColliderOffset = _offset;
         TargetLayer = _layer;
+        DelayTime = _delayTime;
         Damage = _damage;
         Duration = _duration;
         TickRate = _tickRate;

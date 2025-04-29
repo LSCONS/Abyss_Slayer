@@ -74,15 +74,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 200
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1042030862, guid: 45af1fc792989f342a52c605b1f11890, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.90625, y: 13.96875}
+  m_Size: {x: 0.1, y: 0.1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &302454312105063854
@@ -95,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 5884940485109588886}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0444f0fdc8524c944aba0773b6dfb15e, type: 2}
+  m_Controller: {fileID: 9100000, guid: a51c6e6ac510b694788c62e8db68a61f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -226,7 +226,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091e6a6f314bfe740bf23db387cda825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canRepeatHit: 0
 --- !u!114 &6827139483093492416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,4 +239,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectPrefab: {fileID: 7843340872266542274}
-  boxCollider: {fileID: 0}
