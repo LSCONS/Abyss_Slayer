@@ -6,40 +6,49 @@ using System.Threading.Tasks;
 
 public class SoundManager : Singleton<SoundManager>
 {
+    [Header("사운드 데이터")]
     public SoundLibrary soundLibrary; // 사운드 라이브러리
-    private AudioSource[] bgmSources = new AudioSource[2];
-    private int currentBgmIndex = 0;
+    private Dictionary<EGameState, List<SoundData>> stateToSoundList = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
+
+    [Header("오디오 소스 풀")]
     private Queue<AudioSource> sfxPool = new Queue<AudioSource>(); // sfx 풀
     private List<AudioSource> activeSources = new List<AudioSource>(); // 활성화된 소스
     [SerializeField] private int poolSize = 10; // 풀 크기
 
-    private float masterVolume = 0f; // 마스터 볼륨
 
+    [Header("브금 소스")]
+    private AudioSource[] bgmSources = new AudioSource[2];
+    [SerializeField] private int currentBgmIndex = 0;
+    private Coroutine bgmCoroutine; // 페이드인아웃에 쓸 브금 코루틴
+    [SerializeField] private float bgmFadeTime = 1f; // 브금 페이드 시간
+
+
+    [Header("볼륨")]
+    private float masterVolume = 0f; // 마스터 볼륨
     private float bgmVolume = 0f; // 브금 볼륨
     private float sfxVolume = 0f; // sfx 볼륨
 
     public float MasterVolume => masterVolume;
     public float BGMVolume => bgmVolume;
     public float SFXVolume => sfxVolume;
-    private float bgmFadeTime = 1f; // 브금 페이드 시간
 
-    private Coroutine bgmCoroutine; // 페이드인아웃에 쓸 브금 코루틴
 
     /// <summary>
-    /// 사운드라이브러리 로드 + 풀 초기화
+    /// 초기화
     /// </summary>
+    /// <param name="gameState"></param>
     /// <returns></returns>
-    public async Task Init(string sceneSfxLabel)
+    public async Task Init(EGameState gameState)
     {
         InitBGM();
         InitPool();
         soundLibrary = ScriptableObject.CreateInstance<SoundLibrary>();
 
         // 씬 전용 SFX 라벨
-        await soundLibrary.LoadSoundsByLabel(sceneSfxLabel);
+        List<SoundData> loadedSounds = await soundLibrary.LoadSoundsByLabel(gameState);
 
-        // 공통 UI 사운드도 추가로 로드 가능
-        // await soundLibrary.LoadSoundsByLabel("SFX_UI"); // 예시
+        // 딕셔너리에 저장
+        stateToSoundList[gameState] = loadedSounds;
     }
 
     /// <summary>
@@ -206,6 +215,17 @@ public class SoundManager : Singleton<SoundManager>
         if (data == null) return;
         StartCoroutine(PlayBGMAsync(data)); // 브금 재생
     }
+
+    /// <summary>
+    /// 게임 스테이트에 따라서 playBGM 하는 오버로드 메서드
+    /// </summary>
+    /// <param name="gameState"></param>
+    public void PlayBGM(EGameState gameState, int i)
+    {
+        string bgmName = $"BGM_{gameState}{i}";
+        PlayBGM(bgmName);
+    }
+
 
     private IEnumerator PlayBGMAsync(SoundData data)
     {
