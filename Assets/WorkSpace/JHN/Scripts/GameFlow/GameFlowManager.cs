@@ -20,7 +20,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
     [SerializeField] private GameStartState startStateEnum = GameStartState.Intro;
 
-    private int currentStageIndex = 1; // 보스 생성할 때 쓸 index
+    private int currentStageIndex = 0; // 보스 생성할 때 쓸 index
 
     protected override void Awake() 
     {

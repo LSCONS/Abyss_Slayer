@@ -17,7 +17,9 @@ public class InGameState : BaseGameState
     public override async Task OnEnter()
     {
         Debug.Log("InGameState OnEnter");
-        await LoadSceneManager.Instance.LoadScene("TestScene2");     // 씬 로드 (일단 BossScene1)
+        // await LoadSceneManager.Instance.LoadScene("TestScene2");     // 씬 로드 (일단 BossScene1)
+        await LoadSceneManager.Instance.LoadScene(SceneHelper.GetBossSceneName(stageIndex));
+
 
         await UIManager.Instance.LoadAllUI(UIType.GamePlay);
 
