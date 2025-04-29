@@ -13,8 +13,11 @@ public class LobbyState : BaseGameState
         UIManager.Instance.CloseAllPermanent();
         UIManager.Instance.CloseAllPopup();
 
-
         UIManager.Instance.OpenUI(UISceneType.Lobby);
+
+        await SoundManager.Instance.Init(EGameState.Lobby);
+        SoundManager.Instance.PlayBGM(EGameState.Lobby, 1);
+
         await Task.CompletedTask;
     }
 
@@ -23,6 +26,8 @@ public class LobbyState : BaseGameState
         Debug.Log("LobbyState OnExit");
         UIManager.Instance.CloseUI(UISceneType.Lobby);
         UIManager.Instance.CleanupUIMap();
+        SoundManager.Instance.UnloadAllSounds();
+
 
         await Task.CompletedTask;
     }
