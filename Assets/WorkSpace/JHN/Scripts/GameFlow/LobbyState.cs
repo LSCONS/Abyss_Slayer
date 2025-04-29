@@ -26,7 +26,8 @@ public class LobbyState : BaseGameState
         Debug.Log("LobbyState OnExit");
         UIManager.Instance.CloseUI(UISceneType.Lobby);
         UIManager.Instance.CleanupUIMap();
-        SoundManager.Instance.UnloadAllSounds();
+        SoundManager.Instance.UnloadSoundsByState(EGameState.Lobby);
+
 
 
         await Task.CompletedTask;

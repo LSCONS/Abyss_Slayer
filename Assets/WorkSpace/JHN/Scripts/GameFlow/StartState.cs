@@ -26,7 +26,8 @@ public class StartState : BaseGameState
     {
         Debug.Log("StartState OnExit");
         UIManager.Instance.CloseUI(UISceneType.Start);
-        SoundManager.Instance.UnloadAllSounds();
+
+        SoundManager.Instance.UnloadSoundsByState(EGameState.Start);
         await Task.CompletedTask;
     }
 

@@ -579,23 +579,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[2].setActivePatternForTest
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[3].setActivePatternForTest
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[4].setActivePatternForTest
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[5].setActivePatternForTest
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[6].setActivePatternForTest
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[7].setActivePatternForTest
@@ -9936,6 +9936,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundLibrary: {fileID: 0}
   poolSize: 10
+  currentBgmIndex: 0
+  bgmFadeTime: 1
 --- !u!223 &1005519359085607847
 Canvas:
   m_ObjectHideFlags: 0

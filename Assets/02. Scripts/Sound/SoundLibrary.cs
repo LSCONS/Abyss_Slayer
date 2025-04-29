@@ -59,4 +59,42 @@ public class SoundLibrary : ScriptableObject      // 오디오 클립을 관리�
         }
         soundMap.Clear();
     }
+
+
+    /// <summary>
+    /// 하나하나 등록
+    /// </summary>
+    /// <param name="sound"></param>
+    public void Add(SoundData sound)
+    {
+        if (!soundMap.ContainsKey(sound.soundName))
+        {
+            soundMap[sound.soundName] = sound;
+        }
+    }
+
+    /// <summary>
+    /// 언로드하면 사운드 제거
+    /// </summary>
+    /// <param name="soundName"></param>
+    public void Remove(string soundName)
+    {
+        if(soundMap.TryGetValue(soundName, out var sound))
+        {
+            sound.audioClip.ReleaseAsset();
+            sound.cachedClip = null;
+            soundMap.Remove(soundName);
+        }
+    }
+
+    /// <summary>
+    /// 이름으로 있는지 확인
+    /// </summary>
+    /// <param name="soundName"></param>
+    /// <returns></returns>
+    public bool Contains(string soundName)
+    {
+        return soundMap.ContainsKey(soundName);
+    }
+
 }

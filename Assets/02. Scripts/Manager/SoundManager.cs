@@ -15,13 +15,11 @@ public class SoundManager : Singleton<SoundManager>
     private List<AudioSource> activeSources = new List<AudioSource>(); // 활성화된 소스
     [SerializeField] private int poolSize = 10; // 풀 크기
 
-
     [Header("브금 소스")]
     private AudioSource[] bgmSources = new AudioSource[2];
     [SerializeField] private int currentBgmIndex = 0;
     private Coroutine bgmCoroutine; // 페이드인아웃에 쓸 브금 코루틴
     [SerializeField] private float bgmFadeTime = 1f; // 브금 페이드 시간
-
 
     [Header("볼륨")]
     private float masterVolume = 0f; // 마스터 볼륨
@@ -44,13 +42,31 @@ public class SoundManager : Singleton<SoundManager>
         InitPool();
         soundLibrary = ScriptableObject.CreateInstance<SoundLibrary>();
 
-        // 씬 전용 SFX 라벨
-        List<SoundData> loadedSounds = await soundLibrary.LoadSoundsByLabel(gameState);
-
-        // 딕셔너리에 저장
-        stateToSoundList[gameState] = loadedSounds;
+        List<SoundData> loadedSounds = await soundLibrary.LoadSoundsByLabel(gameState);         // 씬 전용 SFX 라벨
+        stateToSoundList[gameState] = loadedSounds;        // 딕셔너리에 저장
     }
 
+    /// <summary>
+    /// gameState 별로 언로드
+    /// </summary>
+    /// <param name="gameState"></param>
+    public void UnloadSoundsByState(EGameState gameState)
+    {
+        if (!stateToSoundList.TryGetValue(gameState, out var soundList)) return;
+
+        foreach(var sound in soundList)
+        {
+            sound.audioClip.ReleaseAsset();
+            sound.cachedClip = null;
+            soundLibrary.Remove(sound.soundName);
+        }
+        stateToSoundList.Remove(gameState);
+    }
+
+
+    //==================== 오디오 소스 풀 ====================
+
+    #region 오디오 소스 풀
     /// <summary>
     /// 오디오소스 풀 초기화
     /// </summary>
@@ -61,6 +77,23 @@ public class SoundManager : Singleton<SoundManager>
             var src = CreateAudioSource();
             src.gameObject.SetActive(false);
             sfxPool.Enqueue(src);
+        }
+    }
+
+    /// <summary>
+    /// 브금 소스 초기화
+    /// </summary>
+    private void InitBGM()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject bgmObj = new GameObject($"BGM_AudioSource_{i}");
+            bgmObj.transform.SetParent(this.transform);
+            AudioSource src = bgmObj.AddComponent<AudioSource>();
+            src.playOnAwake = false;
+            src.loop = true;
+            src.volume = 0f;
+            bgmSources[i] = src;
         }
     }
 
@@ -78,38 +111,11 @@ public class SoundManager : Singleton<SoundManager>
         return src;
     }
 
-    /// <summary>
-    /// 풀에서 오디오 소스 가져오기
-    /// </summary>
-    /// <returns>오디오 소스</returns>
-    private AudioSource GetPooledSource()
-    {
-        AudioSource src;
-        if (sfxPool.Count > 0)
-        {
-            src = sfxPool.Dequeue();
-        }
-        else
-        {
-            src = CreateAudioSource();
-        }
+    #endregion
 
-        src.gameObject.SetActive(true);
-        activeSources.Add(src);
-        return src;
-    }
-    /// <summary>
-    /// 오디오 소스 풀로 반환
-    /// </summary>
-    /// <param name="src"></param>
-    private void ReturnSource(AudioSource src)
-    {
-        src.Stop();
-        src.clip = null;
-        src.gameObject.SetActive(false);
-        activeSources.Remove(src);
-        sfxPool.Enqueue(src);
-    }
+
+    //==================== SFX 재생 ====================
+    #region SFX 재생
 
     /// <summary>
     /// 이름으로 사운드 재생
@@ -118,10 +124,7 @@ public class SoundManager : Singleton<SoundManager>
     public void PlaySound(string soundName)
     {
         var data = soundLibrary.GetSoundData(soundName);
-        if (data == null)
-        {
-            return;
-        }
+        if (data == null) return;
 
         StartCoroutine(PlaySoundAsync(data));
     }
@@ -151,7 +154,7 @@ public class SoundManager : Singleton<SoundManager>
 
         AudioSource audioSource = GetPooledSource();
         audioSource.clip = data.cachedClip;
-        audioSource.volume = data.volume * sfxVolume;
+        audioSource.volume = data.volume * sfxVolume * MasterVolume;
         audioSource.loop = data.loop;
         audioSource.Play();
 
@@ -163,21 +166,37 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     /// <summary>
-    /// 사운드 정지
+    /// 풀에서 오디오 소스 가져오기
     /// </summary>
-    /// <param name="soundName">사운드 이름</param>
-    public void StopSound(string soundName)
+    /// <returns>오디오 소스</returns>
+    private AudioSource GetPooledSource()
     {
-        for (int i = activeSources.Count - 1; i >= 0; i--)
+        AudioSource src;
+        if (sfxPool.Count > 0)
         {
-            var src = activeSources[i];
-            if (src.isPlaying && src.clip != null && src.clip.name == soundName)
-            {
-                src.Stop();
-                ReturnSource(src);
-                break;
-            }
+            src = sfxPool.Dequeue();
         }
+        else
+        {
+            src = CreateAudioSource();
+        }
+
+        src.gameObject.SetActive(true);
+        activeSources.Add(src);
+        return src;
+    }
+
+    /// <summary>
+    /// 오디오 소스 풀로 반환
+    /// </summary>
+    /// <param name="src"></param>
+    private void ReturnSource(AudioSource src)
+    {
+        src.Stop();
+        src.clip = null;
+        src.gameObject.SetActive(false);
+        activeSources.Remove(src);
+        sfxPool.Enqueue(src);
     }
 
     /// <summary>
@@ -188,23 +207,12 @@ public class SoundManager : Singleton<SoundManager>
         soundLibrary.UnloadAllSounds();
     }
 
+    #endregion
 
-    /// <summary>
-    /// 브금 소스 초기화
-    /// </summary>
-    private void InitBGM()
-    {
-        for (int i = 0; i < 2; i++)
-        {
-            GameObject bgmObj = new GameObject($"BGM_AudioSource_{i}");
-            bgmObj.transform.SetParent(this.transform);
-            AudioSource src = bgmObj.AddComponent<AudioSource>();
-            src.playOnAwake = false;
-            src.loop = true;
-            src.volume = 0f;
-            bgmSources[i] = src;
-        }
-    }
+    //==================== 브금 설정 ====================
+
+    #region 브금 설정
+
     /// <summary>
     /// 브금 이름을 넣어서 브금 재생
     /// </summary>
@@ -224,6 +232,24 @@ public class SoundManager : Singleton<SoundManager>
     {
         string bgmName = $"BGM_{gameState}{i}";
         PlayBGM(bgmName);
+    }
+
+    /// <summary>
+    /// 사운드 정지
+    /// </summary>
+    /// <param name="soundName">사운드 이름</param>
+    public void StopSound(string soundName)
+    {
+        for (int i = activeSources.Count - 1; i >= 0; i--)
+        {
+            var src = activeSources[i];
+            if (src.isPlaying && src.clip != null && src.clip.name == soundName)
+            {
+                src.Stop();
+                ReturnSource(src);
+                break;
+            }
+        }
     }
 
 
@@ -327,9 +353,10 @@ private void ApplyBGMVolume()
     {
         foreach (var src in activeSources)
         {
-            src.volume = sfxVolume * masterVolume;
+            src.volume = src.volume *sfxVolume * masterVolume;
         }
     }
 
+    #endregion
 }
 
