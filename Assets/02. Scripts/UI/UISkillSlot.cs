@@ -19,10 +19,11 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
         iconImage.sprite = icon;
     }
 
-    public void SetCoolTime(float coolTime)
+    public void SetCoolTime(float curCoolTime, float maxCoolTime)
     {
-        coolTimeOverlay.fillAmount = coolTime;
-        coolTimeText.text = coolTime.ToString("F0");
+        coolTimeOverlay.fillAmount = curCoolTime / maxCoolTime;
+        if(curCoolTime == 0) coolTimeText.text = "";
+        else coolTimeText.text = (curCoolTime).ToString("F1");
     }
 
     public void SetPresenter(IPresenter presenter)

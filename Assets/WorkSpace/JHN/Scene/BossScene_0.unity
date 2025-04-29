@@ -566,6 +566,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: allPatterns.Array.data[1].showGizmos
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[5].showGizmos
       value: 1
       objectReference: {fileID: 0}
@@ -603,6 +607,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.data[8].setActivePatternForTest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: allPatterns.Array.data[9].setActivePatternForTest
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2893000285666796103, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
