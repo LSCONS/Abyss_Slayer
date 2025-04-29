@@ -55,6 +55,6 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
             // 다음 화살 발사까지 대기
             yield return wait;
         }
-        player.StopHoldSkillCoroutine();
+        player.StopHoldSkillActionCoroutine();
     }
 }

@@ -39,7 +39,7 @@ public class PlayerSkillUseState : PlayerBaseState
         animationNum = 0;
         animationTime = animationDelay;
 
-        if (SkillData.SkillCategory == SkillCategory.Dash)
+        if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {
             PoolManager.Instance.Get<DashPlayerSilhouette>().Init
                 (
@@ -64,7 +64,7 @@ public class PlayerSkillUseState : PlayerBaseState
     {
         base.Exit();
         SkillExit();
-        if (SkillData.SkillCategory == SkillCategory.Dash)
+        if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {
             ResetZeroVelocity();
             ResetDefaultGravityForce();
@@ -101,14 +101,15 @@ public class PlayerSkillUseState : PlayerBaseState
         {
 
         }
-        else if (SkillData.SkillCategory == SkillCategory.Dash)
+        else if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {
             if (animationTime > 0) return;
 
             animationTime = animationDelay;
             if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, ++animationNum))
             {
-                if (animationNum % 2 == 0)
+                if ((SkillData.SkillCategory == SkillCategory.Dash && animationNum % 2 == 0) ||
+                    SkillData.SkillCategory == SkillCategory.DashAttack)
                 {
                     PoolManager.Instance.Get<DashPlayerSilhouette>().Init
                     (
@@ -119,7 +120,7 @@ public class PlayerSkillUseState : PlayerBaseState
                         playerStateMachine.Player.IsFlipX
                     );
                 }
-                return;
+                    return;
             }
             playerStateMachine.EndAttackAction?.Invoke();
         }

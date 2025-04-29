@@ -5,8 +5,8 @@ using UnityEngine;
 public class DashPlayerSilhouette : BasePoolable
 {
     [field: SerializeField]private SpriteChange SpriteChange;
-    private Color color = new Color(1, 1, 1, 0.2f);
-    private WaitForSeconds waitSeconds = new WaitForSeconds(0.16f);
+    private Color color = new(1, 1, 1, 0.4f);
+    private readonly WaitForSeconds waitSeconds = new(0.24f);
 
     public override void Init() { }
 
@@ -19,11 +19,13 @@ public class DashPlayerSilhouette : BasePoolable
             bool flipX
         )
     {
+        //잔상의 Sprite에 포지션값, Icon, FlipX, Color값을 지정하고 활성화 시킴
         transform.position = position;
         SpriteChange.SetSpriteCopy(spriteChange);
         SpriteChange.SetFlipXCopy(flipX);
         SpriteChange.SetSpriteColor(color);
         gameObject.SetActive(true);
+        //특정 시간 이후 사라지게 만듦.
         StartCoroutine(ReturnPoolObject());
     }
 

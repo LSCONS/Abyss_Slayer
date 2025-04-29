@@ -32,7 +32,7 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
             PoolManager.Instance.Get<ZoneAOE>().Init(this);
             yield return wait;
         }
-        player.StopHoldSkillCoroutine();
+        player.StopHoldSkillActionCoroutine();
     }
     public override void SkillUpgrade()
     {

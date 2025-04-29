@@ -9,6 +9,7 @@ public enum SkillCategory
     Attack,
     Hold,
     Charge,
+    DashAttack,
 }
 
 public enum SkillSlotKey
