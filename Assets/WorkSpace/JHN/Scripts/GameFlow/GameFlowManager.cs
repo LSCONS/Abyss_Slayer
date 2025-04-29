@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 
-public enum GameStartState  // 게임 시작 상태
+public enum EGameState  // 게임 시작 상태
 {
     Intro,
     Start,
     Lobby,
     Rest,
     Loading,
-    Boss
+    Battle
 }
 
 public class GameFlowManager : Singleton<GameFlowManager>
@@ -18,7 +18,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
     public IGameState currentState;
     private IGameState startState;
 
-    [SerializeField] private GameStartState startStateEnum = GameStartState.Intro;
+    [SerializeField] private EGameState startStateEnum = EGameState.Intro;
 
     private int currentStageIndex = 0; // 보스 생성할 때 쓸 index
 
@@ -71,16 +71,16 @@ public class GameFlowManager : Singleton<GameFlowManager>
     }
 
 
-    private IGameState CreateStateFromEnum(GameStartState state)
+    private IGameState CreateStateFromEnum(EGameState state)
     {
         return state switch
         {
-            GameStartState.Intro => new IntroState(),
-            GameStartState.Start => new StartState(),
-            GameStartState.Lobby => new LobbyState(),
-            GameStartState.Rest => new RestState(currentStageIndex),
+            EGameState.Intro => new IntroState(),
+            EGameState.Start => new StartState(),
+            EGameState.Lobby => new LobbyState(),
+            EGameState.Rest => new RestState(currentStageIndex),
             // GameStartState.Loading => new LoadingState(),
-            GameStartState.Boss => new InGameState(currentStageIndex),
+            EGameState.Battle => new InGameState(currentStageIndex),
             _ => null
         };
     }

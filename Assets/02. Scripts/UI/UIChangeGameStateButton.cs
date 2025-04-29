@@ -5,7 +5,7 @@ using UnityEngine;
 public class UIChangeGameStateButton : UIButton
 {
     [Header("전환하고 싶은 스테이트를 선택해 보아요!")]
-    [SerializeField] GameStartState gameStartState;
+    [SerializeField] EGameState gameStartState;
     public override void Init()
     {
         base.Init();
@@ -20,19 +20,19 @@ public class UIChangeGameStateButton : UIButton
     {
         switch (gameStartState)
         {
-            case GameStartState.Intro:
+            case EGameState.Intro:
                 await GameFlowManager.Instance.ChangeState(new IntroState());
                 break;
-            case GameStartState.Start:
+            case EGameState.Start:
                 await GameFlowManager.Instance.ChangeState(new StartState());
                 break;
-            case GameStartState.Lobby:
+            case EGameState.Lobby:
                 await GameFlowManager.Instance.GoToLobby();
                 break;
-            case GameStartState.Rest:
+            case EGameState.Rest:
                 await GameFlowManager.Instance.GoToRestState();
                 break;
-            case GameStartState.Boss:
+            case EGameState.Battle:
                 await GameFlowManager.Instance.GoToNextBoss();
                 break;
             default:

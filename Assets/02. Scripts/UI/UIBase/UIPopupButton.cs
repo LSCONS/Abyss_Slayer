@@ -33,8 +33,6 @@ public class UIPopupButton : UIButton
     // 버튼 자동 연결 string으로 이름 받아서 그 이름의 버튼 찾아서 연결
     public void OnClickButton()
     {
-        Test();
-
         if (isClose)
         {
             // ui 팝업 스택에서 젤 위에 있는 팝업을 닫아줌
@@ -65,12 +63,5 @@ public class UIPopupButton : UIButton
         {
             Debug.LogError($"[UIPopupBotton] 팝업 {popupName} 을 찾을 수 없다요");
         }
-
     }
-
-    public void Test()
-    {
-        Debug.Log("눌렸어.......ㅈㅂ");
-    }
-
 }

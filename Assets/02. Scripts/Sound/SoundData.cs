@@ -6,6 +6,7 @@ public enum ESoundType
     SFX,
 }
 
+
 [CreateAssetMenu(fileName = "SoundData", menuName = "Audio/SoundData")]
 public class SoundData : ScriptableObject   
 {
