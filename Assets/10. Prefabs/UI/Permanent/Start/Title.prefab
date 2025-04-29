@@ -719,6 +719,7 @@ GameObject:
   - component: {fileID: 7487750339379685258}
   - component: {fileID: 4468300683491550695}
   - component: {fileID: 5971355515172120346}
+  - component: {fileID: 4155485190497222911}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -828,6 +829,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4155485190497222911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3839572052026232964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e04396ada859041a7ff17b8475166f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiType: 5
+  uISceneType: 2
+  isClose: 0
+  popupName: UIPopupSettings
 --- !u!1 &3965404251556851737
 GameObject:
   m_ObjectHideFlags: 0
