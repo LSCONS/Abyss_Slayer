@@ -23,11 +23,9 @@ public class HomingMissaileData : BasePatternData
     [SerializeField] AnimationCurve speedCurve;
     public override IEnumerator ExecutePattern()
     {
-        bossAnimator.SetTrigger("HomingMissaile1");
         yield return bossController.StartCoroutine(bossController.JumpMove(startPosition));
-        bossController.isLeft = true;
-        bossAnimator.SetTrigger("HomingMissaile2");
-        yield return new WaitForSeconds(preDelayTime);
+        bossAnimator.SetTrigger("Attack2");
+        yield return new WaitForSeconds(preDelayTime/2);
         bool isLeft = bossController.isLeft;
         for(int i = 0; i < missaileCount; i++)
         {
@@ -39,7 +37,7 @@ public class HomingMissaileData : BasePatternData
             Vector3 position = new Vector3(Mathf.Cos(degree), Mathf.Sin(degree)) * startCircleR;   //라디우스로 위치계산
             position = bossTransform.TransformPoint(position);
 
-            PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, 1.3f - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
+            PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
 
             yield return new WaitForSeconds(0.1f);
         }

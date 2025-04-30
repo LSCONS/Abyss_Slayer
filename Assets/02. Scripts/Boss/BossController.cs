@@ -254,19 +254,24 @@ public class BossController : MonoBehaviour
         float jumpGravity = 2 * deltaY1 / (hightestTime * hightestTime);
         float startVelocityY = jumpGravity * hightestTime;
 
+        isLeft = targetPosition.x - transform.position.x <= 0;
         animator.SetTrigger("Jump");
+        yield return new WaitForSeconds(0.2f);
+        PoolManager.Instance.Get<JumpEffect>().Init(transform.position + Vector3.down * bossCenterHight);
         float time = 0f;
         while(time < _jumpMoveTime)
         {
             float x = Mathf.Lerp(startPosition.x, targetPosition.x, time / _jumpMoveTime);
-            animator.SetBool("Fall",time >= hightestTime);
+            if(time >= hightestTime)
+                animator.SetTrigger("Fall");
             float y = startPosition.y + (startVelocityY * time) - (0.5f * jumpGravity * time * time);
             transform.position = new Vector3(x, y, 0);
             time += Time.deltaTime;
             yield return null;
         }
-        animator.SetBool("Fall",false);
+        animator.SetTrigger("Land");
         transform.position = targetPosition;
+        yield return new WaitForSeconds(0.4f);
     }
 
     public void OnDead()

@@ -414,6 +414,8 @@ public class UIManager : Singleton<UIManager>
 
         // VerticalLayoutGroup이나 HorizontalLayoutGroup이 있으면 그것을 기준으로
         var layoutGroup = uiBase.GetComponentInChildren<LayoutGroup>(true);
+        var verticalGroups = uiBase.GetComponentsInChildren<VerticalLayoutGroup>(true);
+        var horizontalGroups = uiBase.GetComponentsInChildren<HorizontalLayoutGroup>(true);
         if (layoutGroup != null)
         {
             layoutRoot = layoutGroup.GetComponent<RectTransform>();
@@ -427,6 +429,14 @@ public class UIManager : Singleton<UIManager>
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(layoutRoot);
 
+        foreach(var group in verticalGroups)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(group.GetComponent<RectTransform>());
+        }
+        foreach(var group in horizontalGroups)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(group.GetComponent<RectTransform>());
+        }
     }
 
     /// <summary>
