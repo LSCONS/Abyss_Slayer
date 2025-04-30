@@ -15,7 +15,7 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
 
     private void Awake()
     {
-        player = GameObject.Find("Player")?.GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
     }
 
     private void Start()
@@ -25,6 +25,8 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
 
     public void Init()
     {
+        player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
+
         // Player의 모든 스킬 중 BuffSkill만 감지
         foreach (var skill in player.EquippedSkills.Values)
         {
