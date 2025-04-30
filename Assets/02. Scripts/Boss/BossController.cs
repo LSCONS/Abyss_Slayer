@@ -271,6 +271,7 @@ public class BossController : MonoBehaviour
         }
         animator.SetTrigger("Land");
         transform.position = targetPosition;
+        yield return new WaitForSeconds(0.4f);
     }
 
     public void OnDead()
