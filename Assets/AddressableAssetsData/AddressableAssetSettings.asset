@@ -92,7 +92,6 @@ MonoBehaviour:
     - default
     - BGM
     - SFX
-    - Scene1
     - UI_Popup
     - UIPopupSettings
     - PlayerState
@@ -101,11 +100,16 @@ MonoBehaviour:
     - NonGamePlay
     - GamePlay
     - Permanent
+    - Follow
     - Top
     - Bottom
     - Popup
     - TopMid
     - PlayerAnimations
+    - Start
+    - Lobby
+    - Battle
+    - Rest
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 34d877ec853ce1e40987ad922d126888, type: 2}

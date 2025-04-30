@@ -21,6 +21,8 @@ public class IntroState : BaseGameState
     {
         Debug.Log("IntroState OnExit");
         UIManager.Instance.CloseUI(UISceneType.Intro);
+        UIManager.Instance.CleanupUIMap();
+
         await Task.CompletedTask;   // 아무 일도 안함
     }
 

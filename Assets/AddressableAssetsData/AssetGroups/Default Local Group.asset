@@ -32,12 +32,17 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - SFX
+    - Start
+    - Lobby
+    - Rest
+    - Battle
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9aff741223bd8a741ab53f84f344b220
     m_Address: Assets/08. Datas/Audio/BGM 1.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - BGM
+    - Lobby
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 682af4711971fd343afd1b34774dd246
     m_Address: Assets/10. Prefabs/UI/Popups/UIPopupSettings.prefab
@@ -45,6 +50,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - Popup
     - GamePlay
+    - NonGamePlay
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6895cd51b5fa48b4ba01576d8c3ecd53
     m_Address: Assets/10. Prefabs/UI/Popups/PlayerState.prefab
@@ -135,12 +141,12 @@ MonoBehaviour:
     - NonGamePlay
     - Permanent
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 76b50cec767932b4381855f7df61a7b7
-    m_Address: Assets/10. Prefabs/UI/Popups/QuitGamePopup.prefab
+  - m_GUID: c85266a5d817cd147bf76c66e7bada7a
+    m_Address: Assets/10. Prefabs/UI/Permanent/Rest/NextGameButtons.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
-    - NonGamePlay
-    - Popup
+    - GamePlay
+    - Permanent
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}

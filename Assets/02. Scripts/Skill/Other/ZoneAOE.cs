@@ -14,14 +14,13 @@ public class ZoneAOE : BasePoolable
 
     [SerializeField] private GameObject effectPrefab; // 이펙트 프리팹
 
-    public SpriteRenderer SpriteRenderer {  get; private set; }
-    public Animator     Animator        { get; private set; }
-    public Vector2      SpawnOffset     { get; private set; }
-    public Vector2      SpawnSize       { get; private set; }
-    public string       EffectName      { get; private set; }
-    public Vector2      MovePosition    { get; private set; }
-    public MeleeDamageCheckData Data { get; private set; }
-    public MeleeDamageCheck MeleeDamageCheck { get; private set; }
+    public SpriteRenderer SpriteRenderer        { get; private set; }
+    public Animator     Animator                { get; private set; }
+    public Vector2      SpawnOffset             { get; private set; }
+    public Vector2      SpawnSize               { get; private set; }
+    public Vector2      MovePosition            { get; private set; }
+    public MeleeDamageCheckData Data            { get; private set; }
+    public MeleeDamageCheck MeleeDamageCheck    { get; set; }
 
 
     public override void Init()
@@ -29,10 +28,8 @@ public class ZoneAOE : BasePoolable
 
     }
 
-    public void StartSkill()
+    public void StartSkill(string colliderEffectName)
     {
-        gameObject.SetActive(true);
-
         // 위치 세팅
         float playerFlipX = Data.Player.IsFlipX ? -1 : 1;
         SpawnOffset += MovePosition;
@@ -42,23 +39,18 @@ public class ZoneAOE : BasePoolable
         transform.localScale = (Vector3)SpawnSize;
 
         // 애니메이터 세팅
-        SetActiveAnimator();
-
-        // meleedamagecheck 세팅
-        if (MeleeDamageCheck == null)
-            MeleeDamageCheck = GetComponent<MeleeDamageCheck>();
-
+        SetActiveAnimator(colliderEffectName);
         MeleeDamageCheck.Init(Data);
         // duration 후 풀에 자동 반환
 
         if (Data.Skill != null && Data.Skill.SkillCategory == SkillCategory.Hold)
         {
-            Data.Player.StartHoldSkillCoroutine(ReturnTOPool(Data.Duration, Data.TargetLayer), Test);
+            Data.Player.StartHoldSkillCoroutine(ReturnTOPool(Data.Duration), Exit);
         }
         else
         {
             if (ReturnToPoolCoroutine != null) StopCoroutine(ReturnToPoolCoroutine);
-            ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(Data.Duration, Data.TargetLayer));
+            ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(Data.Duration));
         }
     }
 
@@ -67,51 +59,72 @@ public class ZoneAOE : BasePoolable
         Init((RemoteZoneRangeSkill)repeatRangeSkill, repeatRangeSkill.MovePosition, null);
     }
 
-    public override void Init(DashMeleeSkill dashMeleeSkill, Type effectType)
+    public override void Init(DashMeleeSkill dashMeleeSkill, Type effectType, GameObject effectPrefab)
     {
-        Init((RemoteZoneRangeSkill)dashMeleeSkill, Vector2.zero, effectType);
+        DataInit(dashMeleeSkill, Vector2.zero, effectType); 
+        Vector2 dashDirection = Data.Player.IsFlipX ? Vector2.left : Vector2.right;
+        StartCoroutine(DashCoroutine(dashDirection, dashMeleeSkill, effectPrefab));
     }
 
     public override void Init(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType)
     {
+        DataInit(remoteZoneRangeSkill, move, effectType);
+        StartSkill(remoteZoneRangeSkill.EffectName);
+    }
+
+    private void DataInit(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType)
+    {
         Data = new MeleeDamageCheckData(remoteZoneRangeSkill, effectType);
         SpawnOffset = remoteZoneRangeSkill.SpawnOffset;
         SpawnSize = remoteZoneRangeSkill.SpawnSize;
-        EffectName      = remoteZoneRangeSkill.EffectName;
-        MovePosition    = move;
-        StartSkill();
-    }
-    private IEnumerator ReturnTOPool(float seconds, LayerMask targetLayer)
-    {
-            yield return new WaitForSeconds(seconds);
-            if (effectPrefab != null)
-                effectPrefab.SetActive(false);
-            ReturnToPool();
+        MovePosition = move;
+        SetActiveFalseInit();
     }
 
-    private void Test()
+    private void SetActiveFalseInit()
     {
-        effectPrefab.SetActive(false);
+        // meleedamagecheck 세팅
+        if (MeleeDamageCheck == null)
+            MeleeDamageCheck = GetComponent<MeleeDamageCheck>();
+        if (MeleeDamageCheck.BoxCollider == null)
+        {
+            MeleeDamageCheck.BoxCollider = GetComponent<BoxCollider2D>();
+        }
+        if (SpriteRenderer == null)
+            SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (Animator == null)
+            Animator = GetComponentInChildren<Animator>();
+
+        MeleeDamageCheck.BoxCollider.enabled = false;
+        Animator.enabled = false;
+    }
+
+    private IEnumerator ReturnTOPool(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Exit();
+    }
+
+    private void Exit()
+    {
+        if (effectPrefab != null)
+            effectPrefab.SetActive(false);
         ReturnToPool();
+        Animator.enabled = false;
+        MeleeDamageCheck.Exit();
+        Data.Player.StopHoldSkillNoneCoroutine();
     }
 
     // 애니메이터 활성화
-    private void SetActiveAnimator()
+    private void SetActiveAnimator(string colliderEffectName)
     {
         //EffectName과 관련된 애니메이터가 있는지 확인하고 가져오고 실행.
-        RuntimeAnimatorController pathAnimator = ChangeAnimatior(EffectName);
+        RuntimeAnimatorController pathAnimator = ChangeAnimatior(colliderEffectName);
         if(pathAnimator != null)
         {
-            //SpriteRenderer와 연결이 안 되어 있을 경우 가져옴
-            if(SpriteRenderer == null) 
-                SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            //Animator와 연결이 안되어 있을 경우 가져옴
-            if(Animator == null)
-                Animator = GetComponentInChildren<Animator>();
-
-            //찾아둔 애니메이터와 연결
+            //찾아둔 애니메이터와 연결하고 활성화
             Animator.runtimeAnimatorController = pathAnimator;
-
+            Animator.enabled = true;
             //스프라이트 값 초기화
             SpriteRenderer.transform.localScale = Vector3.one;
             SpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
@@ -134,5 +147,62 @@ public class ZoneAOE : BasePoolable
     private RuntimeAnimatorController ChangeAnimatior(string effectName)
     {
         return Resources.Load<RuntimeAnimatorController>("Effect/Animator/" + effectName);
+    }
+
+    private IEnumerator DashCoroutine(Vector2 dashDirection, DashMeleeSkill dashMeleeSkill, GameObject dashEffectPrefab)
+    {
+        // 시작 위치 타겟위치 설정
+        float time = 0;
+        Vector2 startPos = Data.Player.transform.position;
+        Vector2 targetPos = startPos + dashDirection * dashMeleeSkill.DashDistance + Vector2.up * 0.01f; ;
+
+        // 대쉬 이펙트 생성
+        GameObject dashEffect = null;
+        if (dashEffectPrefab != null)
+        {
+            // 위치 설정
+            Vector3 effectOffset = new Vector3(-dashDirection.x, -0.5f, 0);   // 플립되어있으면 1f, 아니면 -1f
+            Vector3 effectPos = (Vector3)startPos + effectOffset;
+
+            dashEffect = GameObject.Instantiate(dashEffectPrefab, effectPos, Quaternion.identity, Data.Player.transform);
+            dashEffect.transform.right = dashDirection;
+
+            // 이펙트 방향 설정
+            SpriteRenderer effectSpriteRenderer = dashEffect.GetComponent<SpriteRenderer>();
+            if (effectSpriteRenderer != null)
+            {
+                effectSpriteRenderer.flipX = Data.Player.IsFlipX;
+            }
+        }
+
+
+        // dashDistance만큼을 dashDuration 시간동안 이동
+        while (time < dashMeleeSkill.DashTime)
+        {
+            Data.Player.playerRigidbody.MovePosition(Vector2.Lerp(startPos, targetPos, time / dashMeleeSkill.DashTime));
+            time += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        // 대시 이후 위치
+        Data.Player.playerRigidbody.MovePosition(targetPos);
+
+        // 이펙트 제거
+        if (dashEffect != null)
+        {
+            GameObject.Destroy(dashEffect, 0.5f);
+        }
+
+        // 끝/중간 위치 설정
+        Vector2 endPos = Data.Player.transform.position;
+        float distance = Vector2.Distance(startPos, endPos);
+
+        // 콜라이더 위치 저장 이동
+        Vector2 originalPos = Data.Player.PlayerMeleeCollider.transform.position;
+
+        Data.ColliderSize = new Vector2(distance, 1.0f);
+        Data.ColliderOffset = new Vector2(-distance / 2, 0);
+        Debug.Log("켜짐");
+        StartSkill(dashMeleeSkill.EffectName);
     }
 }

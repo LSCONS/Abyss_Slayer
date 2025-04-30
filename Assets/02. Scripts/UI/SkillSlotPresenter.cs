@@ -15,12 +15,11 @@ public class SkillSlotPresenter : IPresenter
 
         view.SetSkillData(model);
         view.SetIcon(model.SkillIcon);
-        view.SetCoolTime(model.CurCoolTime.Value);
+        view.SetCoolTime(model.CurCoolTime.Value, model.MaxCoolTime.Value);
         view.SetPresenter(this);
 
         model.CurCoolTime
-            .CombineLatest(model.MaxCoolTime, (cur, max) => max <= 0 ? 0f : cur / max)  // 0 나누면 non됨 0이하로 나누면 0으로 처리
-            .Subscribe(view.SetCoolTime)
+            .Subscribe(cur => view.SetCoolTime(cur, model.MaxCoolTime.Value))
             .AddTo(disposable);
     }
 

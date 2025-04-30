@@ -41,7 +41,8 @@ public class PlayerBaseState : IPlayerState
     protected void SkillExit()
     {
         playerStateMachine.MovementSpeed = playerStateMachine.Player.PlayerData.PlayerGroundData.BaseSpeed;
-        playerStateMachine.Player.StopHoldSkillCoroutine();
+        ResetDefaultGravityForce();
+        playerStateMachine.Player.StopHoldSkillActionCoroutine();
     }
 
 

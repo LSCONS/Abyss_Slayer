@@ -25,21 +25,26 @@ public class SoundLibrary : ScriptableObject      // 오디오 클립을 관리�
     /// <summary>
     /// 라벨을 기반으로 오디오 클립을 로드하고 라벨에 해당하는 오디오 클립을 모두 추가   
     /// </summary>
-    /// <param name="label">오디오 클립을 로드할 라벨</param>
+    /// <param name="soundKey">오디오 클립을 로드할 라벨</param>
     /// <returns>비동기 작업 결과</returns>
-    public async Task LoadSoundsByLabel(string label)
+    public async Task<List<SoundData>> LoadSoundsByLabel(EGameState soundKey)    // 게임 스테이트에 따라서 불러올거니까 그걸로 라벨 정기반
     {   
-        var handle = Addressables.LoadAssetsAsync<SoundData>(label, null);
+        var handle = Addressables.LoadAssetsAsync<SoundData>(soundKey.ToString(), null);
         await handle.Task;
-        
+
+        List<SoundData> loadedList = new(); //  반환용 리스트
+
         foreach (var sound in handle.Result)
         {
             if (!soundMap.ContainsKey(sound.soundName))
             {
                 soundMap[sound.soundName] = sound;
+                loadedList.Add(sound);
                 Debug.Log($"[SoundLibrary] Loaded: {sound.soundName}");
             }
         }
+
+        return loadedList;
     }
 
     /// <summary>
@@ -54,4 +59,42 @@ public class SoundLibrary : ScriptableObject      // 오디오 클립을 관리�
         }
         soundMap.Clear();
     }
+
+
+    /// <summary>
+    /// 하나하나 등록
+    /// </summary>
+    /// <param name="sound"></param>
+    public void Add(SoundData sound)
+    {
+        if (!soundMap.ContainsKey(sound.soundName))
+        {
+            soundMap[sound.soundName] = sound;
+        }
+    }
+
+    /// <summary>
+    /// 언로드하면 사운드 제거
+    /// </summary>
+    /// <param name="soundName"></param>
+    public void Remove(string soundName)
+    {
+        if(soundMap.TryGetValue(soundName, out var sound))
+        {
+            sound.audioClip.ReleaseAsset();
+            sound.cachedClip = null;
+            soundMap.Remove(soundName);
+        }
+    }
+
+    /// <summary>
+    /// 이름으로 있는지 확인
+    /// </summary>
+    /// <param name="soundName"></param>
+    /// <returns></returns>
+    public bool Contains(string soundName)
+    {
+        return soundMap.ContainsKey(soundName);
+    }
+
 }

@@ -33,8 +33,6 @@ public class Player : MonoBehaviour, IHasHealth
     public ReactiveProperty<int> Hp { get; set; } = new();
     public ReactiveProperty<int> MaxHp { get; set; } = new();
 
-    public Action<BoxCollider2D, float> OnMeleeAttack;  // 근접 공격 콜라이더 ON/OFF 액션
-
     public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
     public bool IsFlipX { get; private set; } = false;
     public SpriteChange PlayerSpriteChange { get; private set; }
@@ -43,17 +41,27 @@ public class Player : MonoBehaviour, IHasHealth
 
     public void StartHoldSkillCoroutine(IEnumerator skill, Action action)
     {
-        StopHoldSkillCoroutine();
+        StopHoldSkillActionCoroutine();
         HoldSkillCoroutine = StartCoroutine(skill);
         HoldSkillCoroutineStopAction = action;
     }
 
-    public void StopHoldSkillCoroutine()
+    public void StopHoldSkillActionCoroutine()
     {
         if (HoldSkillCoroutine != null)
         {
             StopCoroutine(HoldSkillCoroutine);
             HoldSkillCoroutineStopAction?.Invoke();
+            HoldSkillCoroutineStopAction = null;
+            HoldSkillCoroutine = null;
+        }
+    }
+
+    public void StopHoldSkillNoneCoroutine()
+    {
+        if (HoldSkillCoroutine != null)
+        {
+            StopCoroutine(HoldSkillCoroutine);
             HoldSkillCoroutineStopAction = null;
             HoldSkillCoroutine = null;
         }
@@ -66,7 +74,6 @@ public class Player : MonoBehaviour, IHasHealth
         InitSkillData(skillSet);
         PlayerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
-        OnMeleeAttack += (collider, duration) => StartCoroutine(EnableMeleeCollider(collider, duration));
     }
 
 
@@ -269,13 +276,6 @@ public class Player : MonoBehaviour, IHasHealth
             buffSkill.IsApply = true;
             BuffDuration[buffSkill.Type] = buffSkill; 
         }
-    }
-
-    public IEnumerator EnableMeleeCollider(BoxCollider2D collider, float duration)
-    {
-        collider.enabled = true;
-        yield return new WaitForSeconds(duration);
-        collider.enabled = false;
     }
 
     /// <summary>

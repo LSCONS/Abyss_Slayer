@@ -15,6 +15,8 @@ public class UIManager : Singleton<UIManager>
     public Transform bottomParent;
     public Transform popupParent;
     public Transform topMidParent;
+    public Transform followParent;
+
 
     public Stack<UIPopup> popupStack = new();
 
@@ -60,6 +62,11 @@ public class UIManager : Singleton<UIManager>
             topMidParent = canvas.transform.GetGameObjectSameNameDFS("UI_TopMid")?.transform
                     ?? new GameObject("UI_TopMid", typeof(RectTransform)).transform;
         }
+        if (followParent == null)
+        {
+            followParent = canvas.transform.GetGameObjectSameNameDFS("UI_Follow")?.transform
+                    ?? new GameObject("UI_Follow", typeof(RectTransform)).transform;
+        }
 
     }
 
@@ -71,6 +78,7 @@ public class UIManager : Singleton<UIManager>
        // 모든 ui init 실행
        foreach(var ui in UIMap)
        {
+            if (ui.Value == null) continue;
             Debug.Log($"[Init] {ui.Key} 초기화 시작");
             ui.Value.GetComponentInChildren<UIBase>(true).Init();
        }
@@ -137,6 +145,7 @@ public class UIManager : Singleton<UIManager>
         Debug.Log($"[CreateUI] {name} UI 생성 시작");
         // 만약에 UIMap에 있으면 패스
         if(UIMap.ContainsKey(name)){
+            Debug.LogError($"{name}이 중복되었어...");
             return;
         }
         // 그리고 만약에 UICachedMap에 없어도 패스
@@ -159,8 +168,13 @@ public class UIManager : Singleton<UIManager>
         else if((uiBase.uiType & UIType.Bottom) != 0){
             parent = bottomParent;
         }
-        else if((uiBase.uiType & UIType.TopMid) != 0){
+        else if ((uiBase.uiType & UIType.TopMid) != 0)
+        {
             parent = topMidParent;
+        }
+        else if ((uiBase.uiType & UIType.Follow) != 0)
+        {
+            parent = followParent;
         }
 
         Debug.Log($"[CreateUI] {uiBase.uiType} 타입의 UI 생성 완료");    
@@ -237,6 +251,27 @@ public class UIManager : Singleton<UIManager>
         foreach(var ui in uiList){
             UIMap.Remove(ui.name);
         }
+
+        CleanupUIMap();
+    }
+
+    public void CleanupUIMap()
+    {
+        List<string> keysToRemove = new List<string>();
+
+        foreach (var ui in UIMap)
+        {
+            if (ui.Value == null)
+            {
+                keysToRemove.Add(ui.Key);
+            }
+        }
+
+        foreach (var key in keysToRemove)
+        {
+            UIMap.Remove(key);
+            Debug.Log($"[CleanupUIMap] 삭제된 UI 제거: {key}");
+        }
     }
 
     // uiscenetype 에 따른 ui 오픈
@@ -261,21 +296,24 @@ public class UIManager : Singleton<UIManager>
     public void CloseUI(UISceneType type){
         foreach (var ui in UIMap)
         {
+            if (ui.Value == null) continue;
+
             var sceneType = ui.Value.GetComponentInChildren<UIBase>(true).uISceneType;
+
             if ((type & sceneType) != 0)
             {
                 ui.Value.SetActive(false);
             }
         }
     }
-    
+
     // 모든 고정 ui 켜기
     public void OpenAllPermanent(){
         foreach(var ui in UIMap){
             var uiBase = ui.Value.GetComponentInChildren<UIBase>(true);
             if (uiBase == null) continue;
 
-            if ((uiBase.uiType & (UIType.Top | UIType.Bottom | UIType.Permanent | UIType.TopMid)) != 0)
+            if ((uiBase.uiType & (UIType.Top | UIType.Bottom | UIType.Follow | UIType.Permanent | UIType.TopMid)) != 0)
             {
                 ui.Value.SetActive(true);
             }
@@ -285,7 +323,7 @@ public class UIManager : Singleton<UIManager>
     // 모든 고정 ui 끄기
     public void CloseAllPermanent()
     {
-        UIType tempType = UIType.Top | UIType.Bottom | UIType.TopMid | UIType.Permanent;
+        UIType tempType = UIType.Top | UIType.Bottom | UIType.TopMid | UIType.Follow | UIType.Permanent;
 
         foreach(var ui in UIMap)
         {
@@ -376,6 +414,8 @@ public class UIManager : Singleton<UIManager>
 
         // VerticalLayoutGroup이나 HorizontalLayoutGroup이 있으면 그것을 기준으로
         var layoutGroup = uiBase.GetComponentInChildren<LayoutGroup>(true);
+        var verticalGroups = uiBase.GetComponentsInChildren<VerticalLayoutGroup>(true);
+        var horizontalGroups = uiBase.GetComponentsInChildren<HorizontalLayoutGroup>(true);
         if (layoutGroup != null)
         {
             layoutRoot = layoutGroup.GetComponent<RectTransform>();
@@ -389,6 +429,14 @@ public class UIManager : Singleton<UIManager>
         Canvas.ForceUpdateCanvases();
         LayoutRebuilder.ForceRebuildLayoutImmediate(layoutRoot);
 
+        foreach(var group in verticalGroups)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(group.GetComponent<RectTransform>());
+        }
+        foreach(var group in horizontalGroups)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(group.GetComponent<RectTransform>());
+        }
     }
 
     /// <summary>

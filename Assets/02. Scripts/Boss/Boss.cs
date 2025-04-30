@@ -9,7 +9,7 @@ public class Boss : MonoBehaviour, IHasHealth
     public BossController bossController;
     public ReactiveProperty<int> Hp { get; } = new ReactiveProperty<int>(1000);
     public ReactiveProperty<int> MaxHp { get; } = new ReactiveProperty<int> (1000);
-    bool isDead;
+    public bool isDead;
     Action bossDeath;
     Animator animator;
 

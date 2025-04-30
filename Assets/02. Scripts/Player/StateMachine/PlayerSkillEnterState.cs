@@ -30,6 +30,7 @@ public class PlayerSkillEnterState : PlayerBaseState
         {
             playerStateMachine.MovementSpeed = 0f;
             ResetZeroVelocity();
+            ResetZeroGravityForce();
         }
         animationNum = 0;
         animationTime = animationDelay;

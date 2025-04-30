@@ -361,7 +361,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SelectAnimation
+  m_Name: Air
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -406,10 +406,10 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 180, y: -60, z: 0}
-  m_EntryPosition: {x: 180, y: -10, z: 0}
-  m_ExitPosition: {x: 180, y: 140, z: 0}
-  m_ParentStateMachinePosition: {x: 420, y: 10, z: 0}
+  m_AnyStatePosition: {x: 180, y: -50, z: 0}
+  m_EntryPosition: {x: 180, y: 0, z: 0}
+  m_ExitPosition: {x: 180, y: 130, z: 0}
+  m_ParentStateMachinePosition: {x: 420, y: 0, z: 0}
   m_DefaultState: {fileID: 5724135728516402356}
 --- !u!1101 &-1037619898667008977
 AnimatorStateTransition:
@@ -884,7 +884,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SelectAnimation
+  m_Name: Ground
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1006,10 +1006,10 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 530, y: -50, z: 0}
-  m_EntryPosition: {x: 350, y: -70, z: 0}
+  m_AnyStatePosition: {x: 350, y: -100, z: 0}
+  m_EntryPosition: {x: 350, y: -50, z: 0}
   m_ExitPosition: {x: 350, y: 70, z: 0}
-  m_ParentStateMachinePosition: {x: 330, y: -150, z: 0}
+  m_ParentStateMachinePosition: {x: 620, y: -60, z: 0}
   m_DefaultState: {fileID: -2961105365564008575}
 --- !u!1101 &6519319297627374111
 AnimatorStateTransition:
@@ -1083,10 +1083,10 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 630, y: 60, z: 0}
-  m_EntryPosition: {x: 410, y: 60, z: 0}
+  m_AnyStatePosition: {x: 410, y: 20, z: 0}
+  m_EntryPosition: {x: 410, y: 70, z: 0}
   m_ExitPosition: {x: 410, y: 190, z: 0}
-  m_ParentStateMachinePosition: {x: 390, y: -10, z: 0}
+  m_ParentStateMachinePosition: {x: 640, y: 60, z: 0}
   m_DefaultState: {fileID: 9083276758693756886}
 --- !u!1102 &7030418044593315010
 AnimatorState:
@@ -1095,7 +1095,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SelectAnimation
+  m_Name: Skill
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1177,10 +1177,10 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 850, y: -60, z: 0}
+  m_AnyStatePosition: {x: 670, y: -110, z: 0}
   m_EntryPosition: {x: 670, y: -60, z: 0}
   m_ExitPosition: {x: 670, y: 110, z: 0}
-  m_ParentStateMachinePosition: {x: 650, y: -130, z: 0}
+  m_ParentStateMachinePosition: {x: 940, y: -70, z: 0}
   m_DefaultState: {fileID: 7030418044593315010}
 --- !u!1107 &7699910323458953556
 AnimatorStateMachine:
@@ -1210,16 +1210,16 @@ AnimatorStateMachine:
   - first: {fileID: -2408610965767447067}
     second:
     - {fileID: 8409122185025870776}
-  - first: {fileID: 6443822662803270874}
-    second:
-    - {fileID: 8775559249318075703}
   - first: {fileID: 7324720915335307640}
     second:
     - {fileID: 8191530206779209627}
+  - first: {fileID: 6443822662803270874}
+    second:
+    - {fileID: 8775559249318075703}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: 240, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 50, y: 180, z: 0}
+  m_AnyStatePosition: {x: 90, y: 250, z: 0}
+  m_EntryPosition: {x: 90, y: 110, z: 0}
+  m_ExitPosition: {x: 90, y: 180, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -119101062140186562}
 --- !u!1101 &7918110463622284329
@@ -1330,7 +1330,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SelectedState
+  m_Name: Abnomal
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

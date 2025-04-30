@@ -5,6 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 특정 스킬이 적중할 경우 이 스킬의 쿨타임을 줄이는 기능
 /// </summary>
+[CreateAssetMenu(fileName = "NewCoolDownZonewSkill", menuName = "Skill/RangeAttack/CoolDownZone")]
 public class CoolDownZonewSkill : RemoteZoneRangeSkill
 {
     [field: Header("타격 시 줄이고 싶은 쿨타임 시간")]

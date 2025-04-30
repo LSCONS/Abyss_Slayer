@@ -27,7 +27,6 @@ public static class SpriteAnimationData
         { AnimationState.Block, 5 },
         { AnimationState.Roll, 8 }
     };
-
 }
 
 
@@ -82,7 +81,6 @@ public static class SpriteSlicer
         result[AnimationState.Casting2Use] = result[AnimationState.Casting2].AsSpan(2, 3).ToArray();
         return result;
     }
-
 }
 
 
