@@ -73,7 +73,7 @@ public class RecursiveSpriteImporter : EditorWindow
             ti.spriteImportMode = SpriteImportMode.Single;
             ti.spritePixelsPerUnit = 32;
             ti.filterMode = FilterMode.Point;
-            ti.spriteBorder = new Vector4(16, 16, 16, 16);
+            ti.spriteBorder = new Vector4(22, 22, 22, 22);
             ti.textureCompression = TextureImporterCompression.Uncompressed;
             // ---------------------------------
 
