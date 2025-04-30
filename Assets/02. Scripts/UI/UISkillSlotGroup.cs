@@ -9,5 +9,7 @@ public class UISkillSlotGroup : UIPermanent
     {
         base.Init();
         this.gameObject.SetActive(true);
+        UISkillSlotManager.Instance.Init();
+        UIBuffSlotManager.Instance.Init();
     }
 }

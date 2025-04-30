@@ -14,6 +14,7 @@ public enum UIType
     TopMid = 1 << 5,
     Follow = 1 << 6,
     Popup = 1 << 7,
+    Background = 1 << 8,
     All = ~0,
 }
 

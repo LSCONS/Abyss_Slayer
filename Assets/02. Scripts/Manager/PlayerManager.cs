@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
+    [SerializeField] private Player player;
     public PlayerSpriteData PlayerSpriteData {  get; private set; }
 
     public CharacterClass selectedCharacterClass;

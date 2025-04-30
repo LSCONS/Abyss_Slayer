@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class UIBuffSlotManager : MonoBehaviour
+public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
 {
     [SerializeField] private Player player;
     [SerializeField] private GameObject buffSlotPrefab;
@@ -19,6 +19,11 @@ public class UIBuffSlotManager : MonoBehaviour
     }
 
     private void Start()
+    {
+        Init();
+    }
+
+    public void Init()
     {
         // Player의 모든 스킬 중 BuffSkill만 감지
         foreach (var skill in player.EquippedSkills.Values)

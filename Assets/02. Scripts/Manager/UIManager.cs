@@ -11,6 +11,7 @@ public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private Canvas canvas;
     public Transform permanentParent;
+    public Transform background;
     public Transform topParent;
     public Transform bottomParent;
     public Transform popupParent;
@@ -49,7 +50,12 @@ public class UIManager : Singleton<UIManager>
             permanentParent = canvas.transform.GetGameObjectSameNameDFS("UI_Permanent")?.transform
                       ?? new GameObject("UI_Permanent", typeof(RectTransform)).transform;
         }
-        if(topParent == null){
+        if (background == null)
+        {
+            background = canvas.transform.GetGameObjectSameNameDFS("UI_Background")?.transform
+                      ?? new GameObject("UI_Background", typeof(RectTransform)).transform;
+        }
+        if (topParent == null){
             topParent = canvas.transform.GetGameObjectSameNameDFS("UI_Top")?.transform
                  ?? new GameObject("UI_Top", typeof(RectTransform)).transform;
         }   
@@ -161,6 +167,10 @@ public class UIManager : Singleton<UIManager>
         Transform parent = permanentParent; // 기본
         if((uiBase.uiType & UIType.Popup) != 0){
             parent = popupParent;
+        }
+        else if ((uiBase.uiType & UIType.Background) != 0)
+        {
+            parent = background;
         }
         else if((uiBase.uiType & UIType.Top) != 0){
             parent = topParent;
@@ -313,7 +323,7 @@ public class UIManager : Singleton<UIManager>
             var uiBase = ui.Value.GetComponentInChildren<UIBase>(true);
             if (uiBase == null) continue;
 
-            if ((uiBase.uiType & (UIType.Top | UIType.Bottom | UIType.Follow | UIType.Permanent | UIType.TopMid)) != 0)
+            if ((uiBase.uiType & (UIType.Top | UIType.Bottom | UIType.Follow | UIType.Permanent | UIType.TopMid | UIType.Background)) != 0)
             {
                 ui.Value.SetActive(true);
             }
@@ -323,7 +333,7 @@ public class UIManager : Singleton<UIManager>
     // 모든 고정 ui 끄기
     public void CloseAllPermanent()
     {
-        UIType tempType = UIType.Top | UIType.Bottom | UIType.TopMid | UIType.Follow | UIType.Permanent;
+        UIType tempType = UIType.Top | UIType.Bottom | UIType.TopMid | UIType.Follow | UIType.Permanent | UIType.Background;
 
         foreach(var ui in UIMap)
         {

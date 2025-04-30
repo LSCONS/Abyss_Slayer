@@ -2,24 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UniRx;
+using UnityEditor.Presets;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public class UISkillSlotManager : MonoBehaviour
+public class UISkillSlotManager : Singleton<UISkillSlotManager>
 {
     [SerializeField] private Player player;
     [SerializeField] private GameObject skillSlotPrefab;
     [SerializeField] private Transform skillSlotParent;
 
     private readonly List<SkillSlotPresenter> presenters = new();
+    private readonly Dictionary<SkillSlotKey, UISkillSlot> slotsViews = new();
 
     private void Awake()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
     private void Start()
     {
         CreateSkillSlots();
+        BindSlots();
+    }
+
+    public void Init()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        BindSlots();
     }
 
     private void CreateSkillSlots()
@@ -31,8 +40,31 @@ public class UISkillSlotManager : MonoBehaviour
 
             var skillSlot = Instantiate(skillSlotPrefab, skillSlotParent);
             var slotView = skillSlot.GetComponent<UISkillSlot>();
-            var presenter = new SkillSlotPresenter(kvp.Value, slotView);
-            presenters.Add(presenter);
+            slotsViews[kvp.Key] = slotView;
+        }
+    }
+
+    // 슬롯 바인딩
+    private void BindSlots()
+    {
+        // 기존에 있는 그 머냐 presenter를 제거함
+        foreach (var presenter in presenters)
+        {
+            presenter.Dispose();
+        }
+        presenters.Clear();
+
+
+        // 이제 플레이어 스킬 다시 돌면서 재연결
+        foreach (var kvp in player.EquippedSkills)
+        {
+            if (!IsASDKey(kvp.Key))
+                continue;
+            if(slotsViews.TryGetValue(kvp.Key, out var slotView))
+            {
+                var presenter = new SkillSlotPresenter(kvp.Value, slotView);
+                presenters.Add(presenter);
+            }
         }
     }
 
