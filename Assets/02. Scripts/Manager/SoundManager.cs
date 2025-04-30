@@ -30,6 +30,11 @@ public class SoundManager : Singleton<SoundManager>
     public float BGMVolume => bgmVolume;
     public float SFXVolume => sfxVolume;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        DontDestroyOnLoad(gameObject);
+    }
 
     /// <summary>
     /// 초기화
@@ -54,7 +59,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         if (!stateToSoundList.TryGetValue(gameState, out var soundList)) return;
 
-        foreach(var sound in soundList)
+        foreach (var sound in soundList)
         {
             sound.audioClip.ReleaseAsset();
             sound.cachedClip = null;
@@ -72,6 +77,7 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     private void InitPool()
     {
+        if (sfxPool.Count > 0) return;
         for (int i = 0; i < poolSize; i++)
         {
             var src = CreateAudioSource();
@@ -85,6 +91,8 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     private void InitBGM()
     {
+        if (bgmSources[0] != null && bgmSources[1] != null) return;
+
         for (int i = 0; i < 2; i++)
         {
             GameObject bgmObj = new GameObject($"BGM_AudioSource_{i}");
@@ -109,6 +117,22 @@ public class SoundManager : Singleton<SoundManager>
         src.playOnAwake = false;
         src.loop = false;
         return src;
+    }
+
+    /// <summary>
+    /// 풀 초기화
+    /// </summary>
+    public void ClearPool()
+    {
+        foreach(var src in activeSources)
+        {
+            Destroy(src);
+        }
+        while (sfxPool.Count > 0)
+        {
+            Destroy(sfxPool.Dequeue());
+        }
+        activeSources.Clear();
     }
 
     #endregion
