@@ -608,6 +608,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossFirst
       objectReference: {fileID: 0}
+    - target: {fileID: 4068889471639930373, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: maxHP
+      value: 10000
+      objectReference: {fileID: 0}
     - target: {fileID: 8802479938377772646, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.23
@@ -943,7 +947,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8415242470785358575, guid: a69a150819598c64397d9a7cf477a3c7, type: 3}
       propertyPath: playerCharacterClass
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8712555468594278461, guid: a69a150819598c64397d9a7cf477a3c7, type: 3}
       propertyPath: m_Name
@@ -8174,6 +8178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundLibrary: {fileID: 0}
   poolSize: 10
+  currentBgmIndex: 0
+  bgmFadeTime: 1
 --- !u!4 &1414702886
 Transform:
   m_ObjectHideFlags: 0
@@ -8671,6 +8677,7 @@ MonoBehaviour:
   bottomParent: {fileID: 1245952165}
   popupParent: {fileID: 1245952163}
   topMidParent: {fileID: 0}
+  followParent: {fileID: 0}
 --- !u!4 &1981527764
 Transform:
   m_ObjectHideFlags: 0
