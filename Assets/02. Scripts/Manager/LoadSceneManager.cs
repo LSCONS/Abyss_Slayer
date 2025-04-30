@@ -6,43 +6,62 @@ using System.Threading.Tasks;
 public class LoadSceneManager : Singleton<LoadSceneManager>
 {
     private ProgressBar progressBar;
+    private string targetSceneName;
+    private TaskCompletionSource<bool> tcs;
 
     private void Start()
     {
         DontDestroyOnLoad(this);
     }
-    // private void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.Space))
-    //     {
-    //         Debug.Log("[LoadSceneManager] LoadScene");
-    //         LoadScene("UITestScene");
-    //     }
-    // }
-    public Task LoadScene(string sceneName)
+
+
+    public async Task LoadScene(string sceneName)
     {
-        var tcs = new TaskCompletionSource<bool>();
-        StartCoroutine(LoadingAsync(sceneName, tcs));
-        return tcs.Task;
+        targetSceneName = sceneName;
+        tcs = new TaskCompletionSource<bool>();
+
+        // 콜백 등록을 해
+        SceneManager.sceneLoaded += OnLoadingSceneLoaded;
+
+        // 붙여서 로드해
+        SceneManager.LoadSceneAsync("LoadingScene", LoadSceneMode.Additive);
+
+        // 로딩 완료 대기
+        await tcs.Task;
     }
 
-    private IEnumerator LoadingAsync(string sceneName, TaskCompletionSource<bool> tcs)
+    private async void OnLoadingSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        yield return SceneManager.LoadSceneAsync("LoadingScene");
-        progressBar = GameObject.Find("ProgressBar").GetComponent<ProgressBar>();
+        // 로딩씬은 무시해
+        if (scene.name != "LoadingScene") return;
 
-        AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
+        // 콜백은 한 번만 실행
+        SceneManager.sceneLoaded -= OnLoadingSceneLoaded;
+
+        // 프로그래스바 연결해
+        progressBar = GameObject.Find("ProgressBar")?.GetComponent<ProgressBar>();
+        if (progressBar == null)
+        {
+            return;
+        }
+
+        // 이제 진짜 씬 로드해
+        var op = SceneManager.LoadSceneAsync(targetSceneName);
         op.allowSceneActivation = false;
 
         while (op.progress < 0.9f)
         {
             progressBar.SetProgress(op.progress);
-            yield return null;
+            await Task.Yield();
         }
+
         progressBar.SetProgress(1f);
-        yield return null;
 
         op.allowSceneActivation = true;
+
+        // 로딩씬 언로드해
+        SceneManager.UnloadSceneAsync("LoadingScene");
+
         tcs.SetResult(true);
     }
 }
