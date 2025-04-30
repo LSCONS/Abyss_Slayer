@@ -79,7 +79,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2947686549074493290}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1.2406118, z: 1}
   m_ConstrainProportionsScale: 0
@@ -115,15 +115,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+  m_Color: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 0caab7442de494acb952be290ca9664b, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -243,38 +243,53 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC5EC\uAE30\uB294 \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4. \uC81C \uB9C8\uC74C\uB300\uB85C
-    \uD560 \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294 \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4.
-    \uC81C \uB9C8\uC74C\uB300\uB85C \uD560 \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294
-    \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4. \uC81C \uB9C8\uC74C\uB300\uB85C \uD560
-    \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294 \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4.
-    \uC81C \uB9C8\uC74C\uB300\uB85C \uD560 \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294
-    \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4. \uC81C \uB9C8\uC74C\uB300\uB85C \uD560
-    \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294 \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4.
-    \uC81C \uB9C8\uC74C\uB300\uB85C \uD560 \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294
-    \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4. \uC81C \uB9C8\uC74C\uB300\uB85C \uD560
-    \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294 \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4.
-    \uC81C \uB9C8\uC74C\uB300\uB85C \uD560 \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294
-    \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4. \uC81C \uB9C8\uC74C\uB300\uB85C \uD560
-    \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294 \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4.
-    \uC81C \uB9C8\uC74C\uB300\uB85C \uD560 \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294
-    \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4. \uC81C \uB9C8\uC74C\uB300\uB85C \uD560
-    \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294 \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4.
-    \uC81C \uB9C8\uC74C\uB300\uB85C \uD560 \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294
-    \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4. \uC81C \uB9C8\uC74C\uB300\uB85C \uD560
-    \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294 \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4.
-    \uC81C \uB9C8\uC74C\uB300\uB85C \uD560 \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294
-    \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4. \uC81C \uB9C8\uC74C\uB300\uB85C \uD560
-    \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294 \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4.
-    \uC81C \uB9C8\uC74C\uB300\uB85C \uD560 \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294
-    \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4. \uC81C \uB9C8\uC74C\uB300\uB85C \uD560
-    \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294 \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4.
-    \uC81C \uB9C8\uC74C\uB300\uB85C \uD560 \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294
-    \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4. \uC81C \uB9C8\uC74C\uB300\uB85C \uD560
-    \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294 \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4.
-    \uC81C \uB9C8\uC74C\uB300\uB85C \uD560 \uC218 \uC788\uC8E0.\uC5EC\uAE30\uB294
-    \uCC44\uD305\uCC3D \uC785\uB2C8\uB2E4. \uC81C \uB9C8\uC74C\uB300\uB85C \uD560
-    \uC218 \uC788\uC8E0."
+  m_text: "\uBBF8\uC548\uD558\uB2E4 \uC774\uAC70 \uBCF4\uC5EC\uC8FC\uB824\uACE0 \uC5B4\uADF8\uB85C\uB04C\uC5C8\uB2E4..
+    \uB098\uB8E8\uD1A0 \uC0AC\uC2A4\uCF00 \uC2F8\uC6C0\uC218\uC900 \u3139\u3147\uC2E4\uD654\uB0D0?
+    \uC9C4\uC9DC \uC138\uACC4\uAD00\uCD5C\uAC15\uC790\uB4E4\uC758 \uC2F8\uC6C0\uC774\uB2E4..
+    \uADF8\uCC10\uB530\uAC19\uB358 \uB098\uB8E8\uD1A0\uAC00 \uB9DE\uB098? \uC9C4\uC9DC
+    \uB098\uB8E8\uD1A0\uB294 \uC804\uC124\uC774\uB2E4..\uC9C4\uC9DC\uC61B\uB0A0\uC5D0
+    \uB9E8\uB0A0\uB098\uB8E8\uD1A0\uBD18\uB294\uB370 \uC655\uAC19\uC740\uC874\uC7AC\uC778
+    \uD638\uCE74\uAC8C \uB418\uC11C \uC138\uACC4\uCD5C\uAC15 \uC804\uC124\uC801\uC778
+    \uC601\uC6C5\uC774\uB41C\uB098\uB8E8\uD1A0\uBCF4\uBA74 \uC9C4\uC9DC\uB0B4\uAC00\uB2E4
+    \uAC10\uACA9\uC2A4\uB7FD\uACE0 \uB098\uB8E8\uD1A0 \uB178\uB798\uBD80\uD130 \uBA85\uC7A5\uBA74\uAE4C\uC9C0
+    \uAC00\uC2B4\uC6B8\uB9AC\uB294\uC7A5\uBA74\uB4E4\uC774 \uB1CC\uB9AC\uC5D0 \uC2A4\uCE58\uBA74\uC11C
+    \uAC00\uC2B4\uC774 \uC6C5\uC7A5\uD574\uC9C4\uB2E4.. \uADF8\uB9AC\uACE0 \uADF9\uC7A5\uD310
+    \uC5D0 \uCE74\uCE74\uC2DC\uC55E\uC5D0 \uC6B4\uC11D\uB0A0\uB77C\uC624\uB294 \uAC70\uB300\uD55C
+    \uAC78 \uC0AC\uC2A4\uCF00\uAC00 \uAC11\uC790\uAE30 \uC21C\uC2DD\uAC04\uC5D0 \uB098\uD0C0\uB098\uC11C
+    \uBD80\uC234\uBC84\uB9AC\uACE4 \uAC1C\uAC04\uC9C0\uB098\uAC8C \uB098\uB8E8\uD1A0\uAC00
+    \uC5C6\uB2E4\uBA74 \uB9C8\uC744\uC744 \uC9C0\uD0AC \uC790\uB294 \uB098\uBC16\uC5D0
+    \uC5C6\uB2E4 \uB77C\uBA70 \uBC14\uB78C\uCC98\uB7FC \uC0AC\uB77C\uC9C4\uC7A5\uBA74\uC740
+    \uC9C4\uC9DC \uB098\uB8E8\uD1A0\uCC98\uC74C\uBD80\uD130 \uBCF8\uC0AC\uB78C\uC774\uBA74
+    \uC548\uC6B8\uC218\uAC00\uC5C6\uB354\uB77C \uC9C4\uC9DC \uB108\uBB34 \uAC10\uACA9\uC2A4\uB7FD\uACE0
+    \uBCF4\uB8E8\uD1A0\uB97C \uCD5C\uADFC\uC5D0 \uC54C\uC558\uB294\uB370 \uBBF8\uC548\uD558\uB2E4..
+    \uC9C0\uAE0820\uD654\uBCF4\uB294\uB370 \uC9C4\uC9DC \uB098\uB8E8\uD1A0\uC138\uB300\uB098\uC640\uC11C
+    \uB108\uBB34 \uAC10\uACA9\uC2A4\uB7FD\uACE0 \uBAA8\uB450\uC5B4\uC5FF\uD558\uAC8C
+    \uD070\uAC70\uBCF4\uB2C8 \uB0B4\uAC00 \uB2E4 \uBB54\uAC00 \uC54C\uC218\uC5C6\uB294
+    \uCD94\uC5B5\uC774\uB77C\uD574\uC57C\uB418\uB098 \uADF8\uB7F0\uAC10\uC815\uC774
+    \uC774\uC0C1\uD558\uAC8C \uC5BD\uD600\uC788\uB2E4.. \uC2DC\uB178\uB294 \uB9D0\uC774\uB9CE\uC544\uC9C4\uAC70\uAC19\uB2E4
+    \uC88B\uC740\uC120\uC0DD\uC774\uACE0..\uADF8\uB9AC\uACE0 \uBCF4\uB8E8\uD1A0\uC65C\uC695\uD558\uB0D0
+    \uADC0\uC5EC\uC6B4\uB370 \uB098\uB8E8\uD1A0\uB97C\uBCF4\uB294\uAC83\uAC19\uB2E4
+    \uC131\uACA9\uB3C4 \uB2EE\uC558\uC5B4 \uADF8\uB9AC\uACE0\uBC84\uB8E8\uD1A0\uC5D0
+    \uB098\uB8E8\uD1A0\uC0AC\uC2A4\uCF00 \uB458\uC774\uC2F8\uC6CC\uB3C4 \uC774\uAE30\uB294
+    \uC2E0\uAC19\uC740\uC874\uC7AC \uB098\uC628\uB2E4\uB294\uAC8C \uC0AC\uC2E4\uC784??
+    \uADF8\uB9AC\uACE0\uC778\uD130\uB2DB\uC5D0 \uCCD0\uBD23\uB294\uB514 \uC774\uAC70
+    \u3139\u3147\u3139\u3147 \uC9C4\uC9DC\uD329\uD2B8\uB0D0?? \uC800\uC801\uC774
+    \uBCF4\uB8E8\uD1A0\uC5D0 \uB098\uC624\uB294 \uC2E0\uAE09\uAD34\uBB3C\uC784?\u3161
+    \uB098\uB8E8\uD1A0\uC0AC\uC2A4\uCF00 \uD569\uCCB4\uD55C\uAC70\uBD10\uB77C \uC9C4\uC9DC
+    \u3146\u3142 \uC774\uAC70\uBCF4\uACE0 \uAC1C\uCDA9\uACA9\uBA39\uC5B4\uAC00\uC9C0\uACE0
+    \uC640 \uC18C\uB9AC \uC800\uC808\uB85C \uB098\uC624\uB354\uB77C ;; \uC9C4\uC9DC
+    \uC800\uAC74 \uAC1C\uC624\uC9C0\uB294\uB370.. \uC800\uAC8C \u3139\u3147\uC774\uBA74
+    \uC9C4\uC9DC \uAF2D\uBD10\uC57C\uB3FC \uC9C4\uC9DC \uC138\uACC4\uB3C4 \uD30C\uAD34\uC2DC\uD0A4\uB294\uAC70\uC544\uB2C8\uC57C
+    .. \uC640 \uC9C4\uC9DC \uB098\uB8E8\uD1A0\uC0AC\uC2A4\uCF00\uAC00 \uC800\uB807\uAC8C
+    \uB418\uB2E4\uB2C8 \uC9C4\uC9DC \uB208\uBB3C\uB098\uB824\uACE0\uD588\uB2E4..
+    \uBC84\uB8E8\uD1A0\uADF8\uB77C\uC11C \uACC4\uC18D\uBCF4\uB294\uC911\uC778\uB370
+    \uC800\uAC70 \u3139\u3147\uC774\uB0D0..? \uD558.. \u3146\u3142 \uC0AC\uC2A4\uCF00
+    \uBCF4\uACE0\uC2F6\uB2E4..  \uC9C4\uC9DC\uC5B8\uC81C \uC774\uB807\uAC8C \uC2E0\uAE09
+    \uCD5C\uAC15\uB4E4\uC774 \uB418\uC5C8\uC744\uAE4C \uC61B\uB0A0\uC0DD\uAC01\uB098\uACE0
+    \uB098 \uC911\uB529\uB54C\uC0DD\uAC01\uB098\uACE0 \uBB54\uAC00 \uC2AC\uD504\uAE30\uB3C4\uD558\uACE0
+    \uC88B\uAE30\uB3C4\uD558\uACE0 \uAC10\uACA9\uB3C4\uD558\uACE0 \uC5EC\uB7EC\uAC00\uC9C0\uAC10\uC815\uC774
+    \uBCF5\uC7A1\uD558\uB124.. \uC544\uBB34\uD2BC \uB098\uB8E8\uD1A0\uB294 \uC9C4\uC9DC
+    \uC560\uB2C8\uC911\uCD5C\uAC70\uBA85\uC791\uC784.."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1c5f6e36bde31c46927f795005825ec, type: 2}
   m_sharedMaterial: {fileID: 7365228660458261627, guid: b1c5f6e36bde31c46927f795005825ec, type: 2}
@@ -393,8 +408,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -7.5, y: 25}
-  m_SizeDelta: {x: -45, y: -80}
+  m_AnchoredPosition: {x: -7.5, y: 20}
+  m_SizeDelta: {x: -45, y: -70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &21173858670286970
 CanvasRenderer:
@@ -417,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
+  m_Color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -512,7 +527,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 5749d94ee42ae49baa491709f751c310, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -934,8 +949,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: a1c9da091e5b84641a187ebd2cd5a4f4, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -993,8 +1008,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: 0}
-  m_SizeDelta: {x: 20, y: -30}
+  m_AnchoredPosition: {x: -7.5, y: 0}
+  m_SizeDelta: {x: 20, y: -20}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &8008858838445634274
 CanvasRenderer:
@@ -1024,7 +1039,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 8f56213fb46c54e7a9c1ad0b90a14b91, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1078,7 +1093,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3200265638532460204}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.74656355
+  m_Size: 0.5081874
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
