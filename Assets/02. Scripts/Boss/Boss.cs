@@ -11,6 +11,7 @@ public class Boss : MonoBehaviour, IHasHealth
     public ReactiveProperty<int> MaxHp { get; } = new ReactiveProperty<int> (1000);
     bool isDead;
     Action bossDeath;
+    Animator animator;
 
     [SerializeField] int maxHP;
     public void ChangeHP(int value)
@@ -40,6 +41,7 @@ public class Boss : MonoBehaviour, IHasHealth
         if (attackPosX == -1000 || (attackPosX - transform.position.x < 0) == bossController.isLeft)
         {
             ChangeHP(-damage);
+            animator.SetTrigger("Damaged");
         }
         else
         {
@@ -55,6 +57,7 @@ public class Boss : MonoBehaviour, IHasHealth
         Hp.Value = MaxHp.Value;
         isDead = false;
         bossController = GetComponent<BossController>();
+        animator = GetComponent<Animator>();
         AddBossDeathAction(bossController.OnDead);
     }
 }

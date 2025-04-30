@@ -58,6 +58,7 @@ public class DashClawData : BasePatternData
         bossController.showTargetCrosshair = false;
         float time = Time.time + (postDelayTime/2);
         Vector3 targetposition = bossTransform.position + 2f * (isLeft ? Vector3.left : Vector3.right);
+        targetposition = new Vector3(Mathf.Clamp(targetposition.x, -mapWidth / 2 + 1, mapWidth / 2 - 1), targetposition.y, targetposition.z);
         while(time >= Time.time)
         {
             bossTransform.position = Vector3.Lerp(bossTransform.position, targetposition, 2 * 0.9f * Time.deltaTime);
