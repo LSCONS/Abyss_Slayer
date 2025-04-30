@@ -5,23 +5,28 @@ public class PlayerManager : Singleton<PlayerManager>
 {
     public PlayerSpriteData PlayerSpriteData {  get; private set; }
 
-    private Dictionary<CharacterClass, AnimatorOverrideController> animatorMap;    // 클래스마다 변경될 오버라이드 컨트롤러 가져야됨
-
-    [SerializeField, ReadOnly] private CharacterClass selectedCharacterClass;
-    public CharacterClass SelectedCharacterClass => selectedCharacterClass;
+    public CharacterClass selectedCharacterClass;
 
     protected override void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
         PlayerSpriteData = Resources.Load<PlayerSpriteData>("Player/PlayerSpriteData/PlayerSpriteData");
-
-        animatorMap = new Dictionary<CharacterClass, AnimatorOverrideController>();
     }
 
     // 클래스 세팅해주는 메서드
     public void SetSelectedClass(CharacterClass selectedCalss)
     {
         selectedCharacterClass = selectedCalss;
+    }
+
+    /// <summary>
+    /// 선택된 클래스 반환해줌
+    /// </summary>
+    /// <param name="selectedCalss"></param>
+    /// <returns></returns>
+    public CharacterClass GetSelectedClass()
+    {
+        return selectedCharacterClass;
     }
 }

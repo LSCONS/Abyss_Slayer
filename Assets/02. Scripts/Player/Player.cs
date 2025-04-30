@@ -139,7 +139,7 @@ public class Player : MonoBehaviour, IHasHealth
     private void InitPlayerData(out CharacterSkillSet skillSet)
     {
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
-        //PlayerManager.Instance.SettingPlayerAnimator(playerCharacterClass, PlayerAnimator); // 클래스에 맞는 애니메이터 설정
+        playerCharacterClass = PlayerManager.Instance.GetSelectedClass();
         skillSet = null;
         PlayerSpriteData = PlayerManager.Instance.PlayerSpriteData;
         PlayerSpriteChange.Init(PlayerSpriteData);
