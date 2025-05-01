@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcherProjectile : BasePoolable
+public class RougeProjectile : BasePoolable
 {
     // Init으로 전달받은 화살 데이터 저장용 변수
     private float damage, speed, maxRange;
     private Vector3 direction, initPos;
-    [SerializeField] List<Sprite> sprites;
+    [SerializeField] Sprite sprite;
     [SerializeField] SpriteRenderer spriteRenderer;
 
     private LayerMask includeLayer; // 화살 충돌 레이어
@@ -42,15 +42,15 @@ public class ArcherProjectile : BasePoolable
     /// <param name="speed">화살 이동 속도</param>
     /// <param name="spriteNum">화살 스프라이트 인덱스</param>
     /// <param name="damage">화살 데미지</param>
-    public override void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, int spriteNum, float damage)
+    public void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, float damage)
     {
         transform.position = spawnPos; // 실제 화살 위치
         initPos = spawnPos; // 최대 거리 체크용 초기 위치
         direction = dir.normalized; // 방향 정규화
         maxRange = range; // 최대 거리
         this.speed = speed; // 이동 속도
-        spriteRenderer.sprite = sprites[spriteNum]; // 스프라이트 설정
         this.damage = damage; // 데미지
+        spriteRenderer.sprite = sprite;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

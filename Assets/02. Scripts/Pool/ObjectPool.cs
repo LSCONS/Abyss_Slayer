@@ -34,7 +34,8 @@ public class ObjectPool<T> where T : BasePoolable
         return obj;
     }
 
-    public T Get()      //프리펩을 (생성)활성화, 해당 프리펩의 스크립트를 제네릭T를 이용해 반환
+    //프리펩을 (생성)활성화, 해당 프리펩의 스크립트를 제네릭T를 이용해 반환
+    public T Get()      
     {
         if(pool.Count == 0)
         {
@@ -45,6 +46,8 @@ public class ObjectPool<T> where T : BasePoolable
         obj.gameObject.SetActive(true);
         return obj;
     }
+
+
     public void ReturnToPool(T obj)
     {
         pool.Enqueue(obj);

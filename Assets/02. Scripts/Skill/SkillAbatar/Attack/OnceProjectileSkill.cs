@@ -17,12 +17,12 @@ public class OnceProjectileSkill : ProjectileAttackSkill
         // 버프 상태일 경우 추가 화살 생성
         if (player.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot) && player.BuffDuration[BuffType.ArcherDoubleShot].IsApply)
         {
-            ThrowProjectile<ArcherProjectile>(spawnPos + distanceY, dirX, 0.8f); 
-            ThrowProjectile<ArcherProjectile>(spawnPos - distanceY, dirX, 0.8f);
+            ThrowProjectile(spawnPos + distanceY, dirX, 0.8f); 
+            ThrowProjectile(spawnPos - distanceY, dirX, 0.8f);
         }
         else
         {
-            ThrowProjectile<ArcherProjectile>(spawnPos, dirX);
+            ThrowProjectile(spawnPos, dirX);
         }
     }
 }

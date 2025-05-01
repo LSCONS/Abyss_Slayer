@@ -12,6 +12,10 @@ public class PoolConfig     //새로 풀을 추가할때 필요한 정보
     public Transform parent;        //해당 오브젝트를 생성할 부모
     public int initialSize;
 }
+
+/// <summary>
+/// 
+/// </summary>
 public class PoolManager : Singleton<PoolManager>
 {
     private Dictionary<Type, ObjectPool<BasePoolable>> poolDict = new();    //리스트의 풀을 저장하는 딕셔너리
