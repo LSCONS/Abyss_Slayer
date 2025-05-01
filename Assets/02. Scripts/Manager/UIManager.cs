@@ -125,6 +125,7 @@ public class UIManager : Singleton<UIManager>
             // Debug.LogError($"[LoadAllUI] {type} 로드 실패");
             return;
         }
+        
 
         foreach(var prefab in handle.Result){
             // 타입 찾아

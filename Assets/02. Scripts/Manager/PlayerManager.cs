@@ -8,7 +8,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
-    [SerializeField] private Player player;
+    public Player Player { get; set; }
+    public PlayerSpriteData PlayerSpriteData {  get; private set; }
 
     public CharacterClass selectedCharacterClass;
     public Dictionary<CharacterClass, SpriteData> CharacterSpriteDicitonary { get; set; } = new();
@@ -38,6 +39,15 @@ public class PlayerManager : Singleton<PlayerManager>
 
     }
 
+    /// <summary>
+    /// 현재 씬에서 플레이어를 찾고 등록하는 메서드
+    /// 플레이어가 있는 씬으로 이동할 때마다 호출해야함.
+    /// </summary>
+    public void FindPlayer()
+    {
+        Player = GameObject.FindWithTag("Player").GetComponent<Player>();
+    }
+
     // 클래스 세팅해주는 메서드
     public void SetSelectedClass(CharacterClass selectedCalss)
     {
@@ -50,6 +60,22 @@ public class PlayerManager : Singleton<PlayerManager>
         {
             CharacterSpriteDicitonary[character] = new SpriteData();
         }
+    }
+
+    /// <summary>
+    /// 플레이어의 입력을 연결하는 메서드
+    /// </summary>
+    public void PlayerOnConnected()
+    {
+        Player.input.InputEvent();
+    }
+
+    /// <summary>
+    /// 플레이어의 입력을 해제하는 메서드
+    /// </summary>
+    public void PlayerOffConnected()
+    {
+        Player.input.OutPutEvent();
     }
 
     /// <summary>
