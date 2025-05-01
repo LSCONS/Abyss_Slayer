@@ -37,7 +37,7 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
             Vector3 spawnPos = player.transform.position + (Vector3)(dir * 1.5f) + new Vector3(0, randomYSpawn, 0);
 
             // 버프 상태일 경우 추가 화살 생성
-            if (player.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot) && player.BuffDuration[BuffType.ArcherDoubleShot].IsApply)
+            if (player.BuffDuration.ContainsKey(BuffType.RogueDoubleShot) && player.BuffDuration[BuffType.RogueDoubleShot].IsApply)
             {
                 float x = Random.Range(-1f, 1f);
                 Vector3 distanceX = new Vector3(x, 0, 0);

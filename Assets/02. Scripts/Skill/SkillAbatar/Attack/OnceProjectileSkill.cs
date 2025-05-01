@@ -15,7 +15,7 @@ public class OnceProjectileSkill : ProjectileAttackSkill
         Vector3 spawnPos = PlayerPosition() + dirX; // 화살 생성 위치
 
         // 버프 상태일 경우 추가 화살 생성
-        if (player.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot) && player.BuffDuration[BuffType.ArcherDoubleShot].IsApply)
+        if (player.BuffDuration.ContainsKey(BuffType.RogueDoubleShot) && player.BuffDuration[BuffType.RogueDoubleShot].IsApply)
         {
             ThrowProjectile(spawnPos + distanceY, dirX, 0.8f); 
             ThrowProjectile(spawnPos - distanceY, dirX, 0.8f);
