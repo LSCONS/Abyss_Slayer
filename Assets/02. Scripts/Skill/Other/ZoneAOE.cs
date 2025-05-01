@@ -69,7 +69,7 @@ public class ZoneAOE : BasePoolable
 
     public void Init(RepeatRangeSkill repeatRangeSkill, float flipX, Vector3 playerPosition)
     {
-        Init((RemoteZoneRangeSkill)repeatRangeSkill, repeatRangeSkill.MovePosition, null);
+        Init((RemoteZoneRangeSkill)repeatRangeSkill, repeatRangeSkill.MovePosition, null, flipX, playerPosition);
     }
 
     public void Init(DashMeleeSkill dashMeleeSkill, Type effectType, GameObject effectPrefab)
