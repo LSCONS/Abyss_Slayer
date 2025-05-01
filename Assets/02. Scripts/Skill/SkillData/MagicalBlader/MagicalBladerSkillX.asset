@@ -19,18 +19,18 @@ MonoBehaviour:
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 1
   <MaxCoolTime>k__BackingField:
-    value: 1
+    value: 0.7
   <CurCoolTime>k__BackingField:
     value: 0
   <ApplyState>k__BackingField: -1
   <SkillEnterState>k__BackingField: 8
   <SkillUseState>k__BackingField: 9
-  <AnimationChangeDelayTime>k__BackingField: 4
+  <AnimationChangeDelayTime>k__BackingField: 1
   <IsConnectSkillCoolDown>k__BackingField: 1
-  <Damage>k__BackingField: 5
-  <ColliderDuration>k__BackingField: 0.5
+  <Damage>k__BackingField: 45
+  <ColliderDuration>k__BackingField: 0.2
   <TargetMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <ColliderSize>k__BackingField: {x: 2, y: 1.5}
-  <ColliderOffset>k__BackingField: {x: 1, y: 0}
+  <ColliderSize>k__BackingField: {x: 2, y: 1.2}
+  <ColliderOffset>k__BackingField: {x: 1, y: 0.4}
