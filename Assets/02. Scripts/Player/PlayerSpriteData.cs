@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewPlayerSpriteData", menuName = "Player/SpriteData")]
-public class PlayerSpriteData : ScriptableObject
+public class PlayerSpriteData
 {
     [field: Header("어드레서블 스프라이트 이름")]
     [field: SerializeField] public string WeaponTopName { get; private set; }
@@ -11,7 +11,7 @@ public class PlayerSpriteData : ScriptableObject
     [field: SerializeField] public string HairBottomName { get; private set; }
     [field: SerializeField] public string FaceName { get; private set; }
     [field: SerializeField] public string SkinName { get; private set; }
-    [field: SerializeField] public string WeaponBottomName { get; private set; }               
+    [field: SerializeField] public string WeaponBottomName { get; private set; }     
     
     public void ChangeSpriteName(CharacterClass characterClass)
     {

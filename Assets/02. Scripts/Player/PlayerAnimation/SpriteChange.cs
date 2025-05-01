@@ -18,20 +18,22 @@ public class SpriteChange : MonoBehaviour
     [field: SerializeField] public SpriteRenderer Face { get; set; }
     [field: SerializeField] public SpriteRenderer Skin { get; set; }
     [field: SerializeField] public SpriteRenderer WeaponBottom { get; set; }
+    [field: SerializeField] public PlayerSpriteData SpriteData { get; set; } = new PlayerSpriteData();
 
     public Dictionary<SpriteRenderer, Dictionary<AnimationState, Sprite[]>> DictAnimationState { get; set; } = new();
     private List<Sprite> sortedFrames = new();
 
-    public async void Init(PlayerSpriteData data)
+    public async void Init(CharacterClass playerClass)
     {
-        await LoadAndSortSprites(WeaponTop, data.WeaponTopName);
-        await LoadAndSortSprites(ClothTop, data.ClothTopName);
-        await LoadAndSortSprites(HairTop, data.HairTopName);
-        await LoadAndSortSprites(ClothBottom, data.ClothBottomName);
-        await LoadAndSortSprites(HairBottom, data.HairBottomName);
-        await LoadAndSortSprites(Face, data.FaceName);
-        await LoadAndSortSprites(Skin, data.SkinName);
-        await LoadAndSortSprites(WeaponBottom, data.WeaponBottomName);
+        SpriteData.ChangeSpriteName(playerClass);
+        await LoadAndSortSprites(WeaponTop, SpriteData.WeaponTopName);
+        await LoadAndSortSprites(ClothTop, SpriteData.ClothTopName);
+        await LoadAndSortSprites(HairTop, SpriteData.HairTopName);
+        await LoadAndSortSprites(ClothBottom, SpriteData.ClothBottomName);
+        await LoadAndSortSprites(HairBottom, SpriteData.HairBottomName);
+        await LoadAndSortSprites(Face, SpriteData.FaceName);
+        await LoadAndSortSprites(Skin, SpriteData.SkinName);
+        await LoadAndSortSprites(WeaponBottom, SpriteData.WeaponBottomName);
     }
     // 스프라이트 로드한 다음에 정렬해줌
     private async System.Threading.Tasks.Task LoadAndSortSprites(SpriteRenderer renderer, string addressKey)
