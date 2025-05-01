@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class HomingProjectile : BasePoolable
 {
+    Animator _animator;
+    NormalDamageCollider hitCollider;
     [SerializeField] float homingTime;
     [SerializeField] AnimationCurve speedCurve;
-    [SerializeField] AnimationCurve homingCurve;
-    [SerializeField] NormalDamageCollider hitCollider;
+    [SerializeField] AnimationCurve homingCurve;     
     [SerializeField] TrailRenderer trailRenderer;
     int _damage;
     Transform _target;
@@ -41,6 +42,8 @@ public class HomingProjectile : BasePoolable
     private void Awake()
     {
          trailRenderer.enabled = false; //탄 궤적 비활성
+        _animator = GetComponent<Animator>();
+        hitCollider = GetComponent<NormalDamageCollider>();
     }
     public override void Init()
     {
@@ -58,6 +61,7 @@ public class HomingProjectile : BasePoolable
     /// <param name="homingPower">전체적인 유도력(비례하여 유동적으로 변화)</param>
     public void Init(int damage, Vector3 position, Quaternion rotate, Transform target, float speed, float delayFireTime = 0f, float homingPower = 10f, float homingTime = 3f, float explosionSize = 0.5f, AnimationCurve homingCurve = null, AnimationCurve speedCurve = null)
     { 
+        transform.localScale = Vector3.one;
         _damage = damage;
         transform.position = position;
         transform.rotation = rotate;
@@ -98,7 +102,17 @@ public class HomingProjectile : BasePoolable
     {
         trailRenderer.enabled = false;  //탄궤적 비활성화(오브젝트풀 사용하기에 안끄면 생성시 마지막 위치에서 생성위치까지 궤적생김)
         _fired = false;
-        PoolManager.Instance.Get<Explosion>().Init(transform.position, _damage, _explosionSize);
-        ReturnToPool();
+        transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
+        _animator.SetTrigger("Explosion");
+        transform.localScale = Vector3.one * (_explosionSize / 0.7f);
+    }
+    public void GiveDamage()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _explosionSize, LayerData.PlayerLayerMask);
+        if(hits.Length <=0) return;
+        for (int i = 0; i < hits.Length; i++)
+        {
+            hits[i].GetComponent<Player>().Damage(_damage);
+        }
     }
 }

@@ -81,7 +81,7 @@ public class BossController : MonoBehaviour
         {
             allPatterns[i].patternData.Init(transform,this,animator);
         }
-        appearPattern.Init(transform, this, animator);
+        appearPattern?.Init(transform, this, animator);
 
         _targetCrosshair = Instantiate(targetCrossHairPrefab).transform;
         _targetCrosshairObj = _targetCrosshair.gameObject;
@@ -109,7 +109,14 @@ public class BossController : MonoBehaviour
     }
     IEnumerator startLoop()
     {
-        yield return appearPattern.ExecutePattern();
+        if(appearPattern != null)
+        {
+            yield return appearPattern.ExecutePattern();
+        }
+        else
+        {
+            Debug.Log("시작 연출 패턴이 null입니다");
+        }
         StartCoroutine(PatternLoop());
     }
 
