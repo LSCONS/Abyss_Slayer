@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcherProjectile : BasePoolable
+public class RougeProjectile : BasePoolable
 {
     // Init으로 전달받은 화살 데이터 저장용 변수
     private float damage, speed, maxRange;

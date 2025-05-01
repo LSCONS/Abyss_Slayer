@@ -20,7 +20,7 @@ public class ProjectileAttackSkill : Skill
     /// <param name="dir">투사체 방향</param>
     public void ThrowProjectile(Vector3 startPos, Vector3 dir)
     {
-        PoolManager.Instance.Get<ArcherProjectile>().Init(startPos, dir, Range, Speed, Damage);
+        PoolManager.Instance.Get<RougeProjectile>().Init(startPos, dir, Range, Speed, Damage);
     }
 
     /// <summary>
@@ -32,6 +32,6 @@ public class ProjectileAttackSkill : Skill
     /// <param name="damageMultiple">투사체 데미지 배율</param>
     public void ThrowProjectile(Vector3 startPos, Vector3 dir, float damageMultiple)
     {
-        PoolManager.Instance.Get<ArcherProjectile>().Init(startPos, dir, Range, Speed, Damage * damageMultiple);
+        PoolManager.Instance.Get<RougeProjectile>().Init(startPos, dir, Range, Speed, Damage * damageMultiple);
     }
 }

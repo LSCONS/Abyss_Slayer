@@ -6,7 +6,7 @@ using System.Collections;
 using UniRx;
 public enum CharacterClass
 {
-    Archer,
+    Rogue,
     Healer,
     Mage,
     MagicalBlader,
@@ -150,7 +150,7 @@ public class Player : MonoBehaviour, IHasHealth
         //TODO: 여기서부터 임시 코드
         switch (playerCharacterClass)
         {
-            case CharacterClass.Archer:
+            case CharacterClass.Rogue:
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
                 break;
             case CharacterClass.Healer:
