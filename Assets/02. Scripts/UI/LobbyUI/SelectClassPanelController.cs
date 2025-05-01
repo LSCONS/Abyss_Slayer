@@ -11,6 +11,7 @@ public class SelectClassPanelController : UIPopup
     [SerializeField] private Button selectButton;
     [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI descText;
+    [SerializeField] public SpriteImageChange spriteImageChange;
 
     private CompositeDisposable disposables = new CompositeDisposable();
     private ClassSlotController controller;
@@ -53,6 +54,7 @@ public class SelectClassPanelController : UIPopup
 
         // 설명 갱신
         descText.text = cc.GetDescription();
+        spriteImageChange.Init(cc);
     }
 
     private void OnSelect()
