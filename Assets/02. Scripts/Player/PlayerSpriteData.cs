@@ -13,7 +13,7 @@ public class PlayerSpriteData
     [field: SerializeField] public string SkinName { get; private set; }
     [field: SerializeField] public string WeaponBottomName { get; private set; }     
     
-    public void ChangeSpriteName(CharacterClass characterClass)
+    public void SetSpriteName(CharacterClass characterClass)
     {
         switch (characterClass)
         {
@@ -58,7 +58,7 @@ public class PlayerSpriteData
                 WeaponBottomName = "weapon5_c2_bot";
                 break;
             case CharacterClass.Rogue:
-                WeaponTopName = "weapon5_c2_top";
+                WeaponTopName = "weapon5_c2_bot";
                 ClothTopName = "cloth11_c5_top";
                 HairTopName = "f2_c6_top";
                 ClothBottomName = "cloth11_c5_bot";

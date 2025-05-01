@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 특정 스킬이 적중할 경우 이 스킬의 쿨타임을 줄이는 기능
+/// 특정 스킬이 적중할 경우 이 스킬의 쿨타임을 줄이는 기능이 있는 스킬
 /// </summary>
 [CreateAssetMenu(fileName = "NewCoolDownZonewSkill", menuName = "Skill/RangeAttack/CoolDownZone")]
 public class CoolDownZonewSkill : RemoteZoneRangeSkill
