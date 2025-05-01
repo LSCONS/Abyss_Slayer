@@ -54,19 +54,19 @@ public class ZoneAOE : BasePoolable
         }
     }
 
-    public override void Init(RepeatRangeSkill repeatRangeSkill)
+    public void Init(RepeatRangeSkill repeatRangeSkill)
     {
         Init((RemoteZoneRangeSkill)repeatRangeSkill, repeatRangeSkill.MovePosition, null);
     }
 
-    public override void Init(DashMeleeSkill dashMeleeSkill, Type effectType, GameObject effectPrefab)
+    public void Init(DashMeleeSkill dashMeleeSkill, Type effectType, GameObject effectPrefab)
     {
         DataInit(dashMeleeSkill, Vector2.zero, effectType); 
         Vector2 dashDirection = Data.Player.IsFlipX ? Vector2.left : Vector2.right;
         StartCoroutine(DashCoroutine(dashDirection, dashMeleeSkill, effectPrefab));
     }
 
-    public override void Init(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType)
+    public void Init(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType)
     {
         DataInit(remoteZoneRangeSkill, move, effectType);
         StartSkill(remoteZoneRangeSkill.EffectName);

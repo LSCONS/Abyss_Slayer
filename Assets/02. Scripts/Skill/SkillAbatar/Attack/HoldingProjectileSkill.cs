@@ -41,15 +41,15 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
             {
                 float x = Random.Range(-1f, 1f);
                 Vector3 distanceX = new Vector3(x, 0, 0);
-                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos + distanceY + distanceX, dir, Range, Speed, SpriteNum, Damage * 0.8f);
+                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos + distanceY + distanceX, dir, Range, Speed, Damage * 0.8f);
 
                 x = Random.Range(-1f, 1f);
                 distanceX = new Vector3(x, 0, 0);
-                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos - distanceY + distanceX, dir, Range, Speed, SpriteNum, Damage * 0.8f);
+                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos - distanceY + distanceX, dir, Range, Speed, Damage * 0.8f);
             }
             else
             {
-                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos, dir, Range, Speed, SpriteNum, Damage);
+                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos, dir, Range, Speed, Damage);
             }
 
             // 다음 화살 발사까지 대기

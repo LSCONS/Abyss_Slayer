@@ -16,34 +16,6 @@ public abstract class BasePoolable : MonoBehaviour
     //반드시 오버로딩하여 사용
     public abstract void Init();
 
-    public virtual void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, int spriteNum, float damage)
-    {
-
-    }
-
-    public virtual void Init(Vector3 spawnPos, Vector3 spawnSize, Vector2 size, Vector2 offset, float tickRate, float duration, float damage, LayerMask targetLayer)
-    {
-
-    }
-
-    public virtual void Init(Vector3 spawnPos, Vector3 spawnSize, Vector2 size, Vector2 offset, float tickRate, float duration, float damage, LayerMask targetLayer, string effetName)
-    {
-
-    }
-
-    public virtual void Init
-        (
-            SpriteChange spriteChange,
-            AnimationState state,
-            int num,
-            Vector3 position,
-            bool flipX
-        )
-    { }
-    public virtual void Init(RepeatRangeSkill repeatRangeSkill) { }
-    public virtual void Init(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType) { }
-    public virtual void Init(DashMeleeSkill dashMeleeSkill, Type effectType, GameObject effectPrefab) { }
-
 
     // aliveTime 후에 풀에 반환
     public virtual void AutoReturn(float aliveTime){}
