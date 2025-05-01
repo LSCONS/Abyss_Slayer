@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewPlayerSpriteData", menuName = "Player/SpriteData")]
-public class PlayerSpriteData : ScriptableObject
+public class PlayerSpriteData
 {
     [field: Header("어드레서블 스프라이트 이름")]
     [field: SerializeField] public string WeaponTopName { get; private set; }
@@ -11,9 +11,9 @@ public class PlayerSpriteData : ScriptableObject
     [field: SerializeField] public string HairBottomName { get; private set; }
     [field: SerializeField] public string FaceName { get; private set; }
     [field: SerializeField] public string SkinName { get; private set; }
-    [field: SerializeField] public string WeaponBottomName { get; private set; }               
+    [field: SerializeField] public string WeaponBottomName { get; private set; }     
     
-    public void ChangeSpriteName(CharacterClass characterClass)
+    public void SetSpriteName(CharacterClass characterClass)
     {
         switch (characterClass)
         {
@@ -58,14 +58,14 @@ public class PlayerSpriteData : ScriptableObject
                 WeaponBottomName = "weapon5_c2_bot";
                 break;
             case CharacterClass.Rogue:
-                WeaponTopName = "weapon5_c2_top";
+                WeaponTopName = "cloth2_c1_top";
                 ClothTopName = "cloth11_c5_top";
                 HairTopName = "f2_c6_top";
                 ClothBottomName = "cloth11_c5_bot";
                 HairBottomName = "f2_c6_bot";
                 FaceName = "face_c6";
                 SkinName = "skin_c1";
-                WeaponBottomName = "weapon5_c2_bot";
+                WeaponBottomName = "cloth2_c1_top";
                 break;
 
         }

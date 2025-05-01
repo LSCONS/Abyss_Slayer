@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675f2f7d9895c054c92ed5b3270c7c85, type: 3}
   m_Name: MageSkillA
   m_EditorClassIdentifier: 
-  <SkillName>k__BackingField: "\uC720\uB3C4\uD0C4"
-  <SkillDesription>k__BackingField: "\uB530\uB77C\uAC10"
+  <SkillName>k__BackingField: "\uC5B4\uB460 \uAD6C\uCCB4"
+  <SkillDesription>k__BackingField: "25\uC758 \uD53C\uD574\uB97C \uAC00\uC9C4 \uC790\uB3D9
+    \uCD94\uC801 \uAD6C\uCCB4 5\uAC1C\uB97C \uC0AC\uCD9C\uD569\uB2C8\uB2E4."
   <SkillCategory>k__BackingField: 0
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: 42f5bd98483b47d4da4acbaca330e629, type: 3}
   <CanUse>k__BackingField: 1
@@ -22,16 +23,15 @@ MonoBehaviour:
     value: 5
   <CurCoolTime>k__BackingField:
     value: 0
-  <ApplyState>k__BackingField: 23
+  <ApplyState>k__BackingField: -1
   <SkillEnterState>k__BackingField: 8
   <SkillUseState>k__BackingField: 9
   <AnimationChangeDelayTime>k__BackingField: 4
   <IsConnectSkillCoolDown>k__BackingField: 0
-  <Damage>k__BackingField: 30
+  <Damage>k__BackingField: 25
   <Range>k__BackingField: 15
   <Speed>k__BackingField: 10
-  <SpriteNum>k__BackingField: 0
-  <ProjectileCount>k__BackingField: 4
+  <ProjectileCount>k__BackingField: 5
   <StartCircleR>k__BackingField: 2
   <FireDegree>k__BackingField: 60
   <SpreadDegree>k__BackingField: 220

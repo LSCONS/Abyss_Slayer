@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using UniRx;
+using System.Threading.Tasks;
 public enum CharacterClass
 {
     Rogue,
@@ -22,7 +23,6 @@ public class Player : MonoBehaviour, IHasHealth
     public Rigidbody2D playerRigidbody;
     public PlayerCheckGround playerCheckGround;
     public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
-    public PlayerSpriteData PlayerSpriteData { get; private set; }
     public PlayerStateMachine PlayerStateMachine { get; private set; }
     public BoxCollider2D PlayerGroundCollider {  get; private set; }
     public BoxCollider2D PlayerMeleeCollider { get; private set; }
@@ -70,8 +70,7 @@ public class Player : MonoBehaviour, IHasHealth
     private void Awake()
     {
         InitComponent();
-        InitPlayerData(out CharacterSkillSet skillSet);
-        InitSkillData(skillSet);
+        InitPlayerData();
         PlayerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
     }
@@ -136,13 +135,12 @@ public class Player : MonoBehaviour, IHasHealth
     /// <summary>
     /// 플레이어 데이터를 초기화하는 메서드
     /// </summary>
-    private void InitPlayerData(out CharacterSkillSet skillSet)
+    private void InitPlayerData()
     {
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
         playerCharacterClass = PlayerManager.Instance.GetSelectedClass();
-        skillSet = null;
-        PlayerSpriteData = PlayerManager.Instance.PlayerSpriteData;
-        PlayerSpriteChange.Init(PlayerSpriteData);
+        CharacterSkillSet skillSet = null;
+        PlayerSpriteChange.Init(playerCharacterClass);
         PlayerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
         PlayerData = Instantiate(PlayerData);
         Hp.Value = PlayerData.PlayerStatusData.HP_Cur;
@@ -166,6 +164,21 @@ public class Player : MonoBehaviour, IHasHealth
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/TankerSkillSet");
                 break;
         }
+
+        skillSet = Instantiate(skillSet);
+        skillSet.InstantiateSkillData(this);
+        EquippedSkills = new();
+        foreach (CharacterSkillSlot slot in skillSet.skillSlots)
+        {
+            if (slot.skill != null)
+            {
+                EquippedSkills[slot.key] = slot.skill;
+            }
+        }
+        foreach (Skill skill in EquippedSkills.Values)
+        {
+            skill.Init();
+        }
     }
 
 
@@ -181,28 +194,6 @@ public class Player : MonoBehaviour, IHasHealth
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
         PlayerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
         PlayerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
-    }
-
-
-    /// <summary>
-    /// 스킬 데이터를 딕셔너리 형태로 초기화하는 메서드
-    /// </summary>
-    private void InitSkillData(CharacterSkillSet skillSet)
-    {
-        skillSet = Instantiate(skillSet);
-        skillSet.InstantiateSkillData(this);
-        EquippedSkills = new();
-        foreach (CharacterSkillSlot slot in skillSet.skillSlots)
-        {
-            if (slot.skill != null)
-            {
-                EquippedSkills[slot.key] = slot.skill;
-            }
-        }
-        foreach(Skill skill in EquippedSkills.Values)
-        {
-            skill.Init();
-        }
     }
 
 
