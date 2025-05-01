@@ -32,11 +32,14 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
     {
         WaitForSeconds wait = new WaitForSeconds(SkillRepeatDelayTime);
         Vector2 temp = MovePosition;
+        Vector3 playerPosition = PlayerPosition();
+        float flipX = PlayerFrontXNormalized();
+
         // 풀에서 ZoneAOE 꺼내기
         for (int i = 0; i < 5; i++)
         {
             MovePosition = temp * i;
-            PoolManager.Instance.Get<ZoneAOE>().Init(this);
+            PoolManager.Instance.Get<ZoneAOE>().Init(this, flipX, playerPosition);
             yield return wait;
         }
         if(SkillCategory == SkillCategory.Hold)

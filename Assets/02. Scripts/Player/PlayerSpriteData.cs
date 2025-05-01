@@ -58,14 +58,14 @@ public class PlayerSpriteData
                 WeaponBottomName = "weapon5_c2_bot";
                 break;
             case CharacterClass.Rogue:
-                WeaponTopName = "weapon5_c2_bot";
+                WeaponTopName = "cloth2_c1_top";
                 ClothTopName = "cloth11_c5_top";
                 HairTopName = "f2_c6_top";
                 ClothBottomName = "cloth11_c5_bot";
                 HairBottomName = "f2_c6_bot";
                 FaceName = "face_c6";
                 SkinName = "skin_c1";
-                WeaponBottomName = "weapon5_c2_bot";
+                WeaponBottomName = "cloth2_c1_top";
                 break;
 
         }
