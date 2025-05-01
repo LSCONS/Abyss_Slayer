@@ -40,10 +40,6 @@ public class PlayerInput : MonoBehaviour
         inputs = new PlayerInputs();
     }
 
-    private void OnEnable() => InputEvent();
-
-    private void OnDisable() => OutPutEvent();
-
     public void InitDictionary()
     {
         SkillInputKey.Add(SkillSlotKey.X, () => IsSkillX);
@@ -55,7 +51,7 @@ public class PlayerInput : MonoBehaviour
 
 
     /// <summary>입력 이벤트 등록</summary>
-    private void InputEvent()
+    public void InputEvent()
     {
         inputs.Enable();
         var playerAction = inputs.Player;
@@ -77,7 +73,7 @@ public class PlayerInput : MonoBehaviour
 
 
     /// <summary>입력 이벤트 해제</summary>
-    private void OutPutEvent()
+    public void OutPutEvent()
     {
         inputs.Disable();
         var playerAction = inputs.Player;

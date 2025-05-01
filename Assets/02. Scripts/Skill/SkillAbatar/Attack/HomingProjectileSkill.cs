@@ -53,7 +53,8 @@ public class HomingProjectileSkill : ProjectileAttackSkill
         // 탐색 후에도 타겟이 없다면 스킬 발동 취소
         if (target == null)
         {
-            Debug.LogAssertion("타겟이 없습니다.");
+            CurCoolTime.Value = 0.5f;
+            CanUse = false;
             return;
         }
 
