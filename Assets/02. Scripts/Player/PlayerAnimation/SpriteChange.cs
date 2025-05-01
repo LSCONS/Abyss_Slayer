@@ -21,7 +21,6 @@ public class SpriteChange : MonoBehaviour
     [field: SerializeField] public SpriteRenderer WeaponBottom { get; set; }
     [field: SerializeField] public SpriteData  SpriteData { get; set; }
     public Dictionary<SpriteRenderer, Dictionary<AnimationState, Sprite[]>> DictAnimationState { get; set; } = new();
-    private List<Sprite> sortedFrames = new();
 
     public void Init(CharacterClass character)
     {
