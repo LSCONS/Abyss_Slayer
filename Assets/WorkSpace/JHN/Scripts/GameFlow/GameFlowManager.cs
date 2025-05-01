@@ -20,12 +20,13 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
     [SerializeField] private EGameState startStateEnum = EGameState.Intro;
 
-    private int currentStageIndex = 0; // 보스 생성할 때 쓸 index
+    public int CurrentStageIndex { get; private set; } // 보스 생성할 때 쓸 index
 
     protected override void Awake() 
     {
         base.Awake();
         DontDestroyOnLoad(this);
+        CurrentStageIndex = 0;
     }
 
     private async void Start()
@@ -56,8 +57,8 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
     public async Task GoToNextBoss()
     {
-        currentStageIndex++;
-        await ChangeState(new InGameState(currentStageIndex));
+        CurrentStageIndex++;
+        await ChangeState(new InGameState(CurrentStageIndex));
     }
 
     public async Task GoToLobby()
@@ -67,7 +68,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
     public async Task GoToRestState()
     {
-        await ChangeState(new RestState(currentStageIndex));
+        await ChangeState(new RestState(CurrentStageIndex));
     }
 
 
@@ -78,9 +79,9 @@ public class GameFlowManager : Singleton<GameFlowManager>
             EGameState.Intro => new IntroState(),
             EGameState.Start => new StartState(),
             EGameState.Lobby => new LobbyState(),
-            EGameState.Rest => new RestState(currentStageIndex),
+            EGameState.Rest => new RestState(CurrentStageIndex),
             // GameStartState.Loading => new LoadingState(),
-            EGameState.Battle => new InGameState(currentStageIndex),
+            EGameState.Battle => new InGameState(CurrentStageIndex),
             _ => null
         };
     }
