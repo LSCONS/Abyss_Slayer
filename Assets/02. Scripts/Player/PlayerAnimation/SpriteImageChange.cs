@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -21,6 +22,7 @@ public class SpriteImageChange : MonoBehaviour
     [field: SerializeField] public Image Skin { get; set; }
     [field: SerializeField] public Image WeaponBottom { get; set; }
     [field: SerializeField] public SpriteData  SpriteData { get; set; }
+    private Color color = new Color(1,1,1,1);   
     public Dictionary<Image, Dictionary<AnimationState, Sprite[]>> DictAnimationState { get; set; } = new();
     private int animationNum = 0;
     private int maxtemp = 5;
@@ -51,6 +53,10 @@ public class SpriteImageChange : MonoBehaviour
         DictAnimationState[Face] = PlayerManager.Instance.CharacterSpriteDicitonary[character].Face;
         DictAnimationState[Skin] = PlayerManager.Instance.CharacterSpriteDicitonary[character].Skin;
         DictAnimationState[WeaponBottom] = PlayerManager.Instance.CharacterSpriteDicitonary[character].WeaponBottom;
+        foreach(var image in DictAnimationState.Keys)
+        {
+            image.color = color;
+        }
         SetLoopAnimation(AnimationState.Idle1, animationNum);
     }
 

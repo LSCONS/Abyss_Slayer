@@ -12,6 +12,8 @@ public class SelectClassPanelController : UIPopup
     [SerializeField] private Button closeButton;
     [SerializeField] private TextMeshProUGUI descText;
     [SerializeField] public SpriteImageChange spriteImageChange;
+    [SerializeField] private SpriteImageChange LobbyImage;
+    [SerializeField] private Transform chracterImage;
 
     private CompositeDisposable disposables = new CompositeDisposable();
     private ClassSlotController controller;
@@ -60,6 +62,9 @@ public class SelectClassPanelController : UIPopup
     private void OnSelect()
     {
         PlayerManager.Instance.SetSelectedClass(selectedCharacterClass);
+        if (chracterImage == null) chracterImage = GameObject.Find("PlayerClass").transform;
+        if (LobbyImage == null) LobbyImage = chracterImage.GetComponentInChildren<SpriteImageChange>();
+        LobbyImage.Init(selectedCharacterClass);
         OnClose();
     }
 
