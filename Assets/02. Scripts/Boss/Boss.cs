@@ -45,7 +45,7 @@ public class Boss : MonoBehaviour, IHasHealth
         }
         else
         {
-            ChangeHP((int)(-damage * 1.5f));
+            ChangeHP((int)(-damage * 1.1f));
         }
         Debug.Log(Hp.Value);
         //피해입을때 효과,소리
