@@ -9,13 +9,10 @@ public class RogueProjectile : BasePoolable
     [SerializeField] Sprite sprite;
     [SerializeField] SpriteRenderer spriteRenderer;
 
-    private Skill skill;
-
     private LayerMask includeLayer; // 화살 충돌 레이어
 
     private void Awake()
     {
-        skill = GetComponent<Skill>();
         includeLayer = LayerData.EnemyLayerMask | LayerData.GroundPlaneLayerMask; 
     }
 
@@ -53,11 +50,8 @@ public class RogueProjectile : BasePoolable
         this.speed = speed; // 이동 속도
         this.damage = damage; // 데미지
         spriteRenderer.sprite = sprite;
-
-        if (skill.PlayerFrontXNormalized() == -1)
-        {
-            spriteRenderer.flipX = true;
-        }
+        spriteRenderer.flipX = direction.x < 0 ? true : false;
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
