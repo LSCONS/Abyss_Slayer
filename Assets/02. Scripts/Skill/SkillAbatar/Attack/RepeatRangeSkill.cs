@@ -18,7 +18,14 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
     public override void UseSkill()
     {
         Vector2 temp = MovePosition;
-        player.StartHoldSkillCoroutine(Repeat(), () => MovePosition = temp);
+        if (SkillCategory == SkillCategory.Hold)
+        {
+            player.StartHoldSkillCoroutine(Repeat(), () => MovePosition = temp);
+        }
+        else 
+        {
+            player.StartCoroutine(Repeat());
+        }
     }
 
     public IEnumerator Repeat()
@@ -32,7 +39,14 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
             PoolManager.Instance.Get<ZoneAOE>().Init(this);
             yield return wait;
         }
-        player.StopHoldSkillActionCoroutine();
+        if(SkillCategory == SkillCategory.Hold)
+        {
+            player.StopHoldSkillActionCoroutine();
+        }
+        else
+        {
+            MovePosition = temp;
+        }
     }
     public override void SkillUpgrade()
     {
