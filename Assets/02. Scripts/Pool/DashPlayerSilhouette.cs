@@ -10,7 +10,7 @@ public class DashPlayerSilhouette : BasePoolable
 
     public override void Init() { }
 
-    public override void Init
+    public void Init
         (
             SpriteChange spriteChange,
             AnimationState state, 

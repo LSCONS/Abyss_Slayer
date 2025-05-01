@@ -37,19 +37,19 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
             Vector3 spawnPos = player.transform.position + (Vector3)(dir * 1.5f) + new Vector3(0, randomYSpawn, 0);
 
             // 버프 상태일 경우 추가 화살 생성
-            if (player.BuffDuration.ContainsKey(BuffType.ArcherDoubleShot) && player.BuffDuration[BuffType.ArcherDoubleShot].IsApply)
+            if (player.BuffDuration.ContainsKey(BuffType.RogueDoubleShot) && player.BuffDuration[BuffType.RogueDoubleShot].IsApply)
             {
                 float x = Random.Range(-1f, 1f);
                 Vector3 distanceX = new Vector3(x, 0, 0);
-                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos + distanceY + distanceX, dir, Range, Speed, SpriteNum, Damage * 0.8f);
+                PoolManager.Instance.Get<RogueProjectile>().Init(spawnPos + distanceY + distanceX, dir, Range, Speed, Damage * 0.8f);
 
                 x = Random.Range(-1f, 1f);
                 distanceX = new Vector3(x, 0, 0);
-                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos - distanceY + distanceX, dir, Range, Speed, SpriteNum, Damage * 0.8f);
+                PoolManager.Instance.Get<RogueProjectile>().Init(spawnPos - distanceY + distanceX, dir, Range, Speed, Damage * 0.8f);
             }
             else
             {
-                PoolManager.Instance.Get<ArcherProjectile>().Init(spawnPos, dir, Range, Speed, SpriteNum, Damage);
+                PoolManager.Instance.Get<RogueProjectile>().Init(spawnPos, dir, Range, Speed, Damage);
             }
 
             // 다음 화살 발사까지 대기

@@ -85,7 +85,7 @@ public class UIManager : Singleton<UIManager>
        foreach(var ui in UIMap)
        {
             if (ui.Value == null) continue;
-            Debug.Log($"[Init] {ui.Key} 초기화 시작");
+            // Debug.Log($"[Init] {ui.Key} 초기화 시작");
             ui.Value.GetComponentInChildren<UIBase>(true).Init();
        }
     }
@@ -113,7 +113,7 @@ public class UIManager : Singleton<UIManager>
 
     // 라벨로 모든 ui 로드
     public async Task LoadAllUI(UIType type){
-        Debug.Log($"[LoadAllUI] {type} 타입의 UI 로드 시작");
+        // Debug.Log($"[LoadAllUI] {type} 타입의 UI 로드 시작");
         var label = type.ToString();
         var handle = Addressables.LoadAssetsAsync<GameObject>(label, null);
     
@@ -122,7 +122,7 @@ public class UIManager : Singleton<UIManager>
         // 로드 실패 체크
         if (handle.Status != AsyncOperationStatus.Succeeded)
         {
-            Debug.LogError($"[LoadAllUI] {type} 로드 실패");
+            // Debug.LogError($"[LoadAllUI] {type} 로드 실패");
             return;
         }
 
@@ -135,7 +135,7 @@ public class UIManager : Singleton<UIManager>
            if(!UICachedMap.ContainsKey(prefab.name))
             {
                 UICachedMap.Add(prefab.name, prefab);
-                Debug.Log($"[LoadAllUI] {prefab.name} 로드 완료");
+               // Debug.Log($"[LoadAllUI] {prefab.name} 로드 완료");
             }
         }
     }
@@ -148,15 +148,15 @@ public class UIManager : Singleton<UIManager>
     /// <returns></returns>
     public void CreateUI(string name)
     {
-        Debug.Log($"[CreateUI] {name} UI 생성 시작");
+        // Debug.Log($"[CreateUI] {name} UI 생성 시작");
         // 만약에 UIMap에 있으면 패스
         if(UIMap.ContainsKey(name)){
-            Debug.LogError($"{name}이 중복되었어...");
+            // Debug.LogError($"{name}이 중복되었어...");
             return;
         }
         // 그리고 만약에 UICachedMap에 없어도 패스
         if(!UICachedMap.TryGetValue(name, out var prefab)){     // 타입에 따른 프리펩 가져오기
-            Debug.LogError($"[CreateUI] {name} UI가 없달까?");
+            // Debug.LogError($"[CreateUI] {name} UI가 없달까?");
             return;
         }
 
@@ -187,7 +187,7 @@ public class UIManager : Singleton<UIManager>
             parent = followParent;
         }
 
-        Debug.Log($"[CreateUI] {uiBase.uiType} 타입의 UI 생성 완료");    
+        // Debug.Log($"[CreateUI] {uiBase.uiType} 타입의 UI 생성 완료");    
         // 부모에 만들기
         var ui = Instantiate(prefab, parent);
         ui.name = name; // 원래 프리팹 이름으로 나오게 설정 => clone 안뜨게
@@ -201,7 +201,7 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     /// <param name="type"></param>
     public void CreateAllUI(UIType type){
-        Debug.Log($"[CreateAllUI] {type} 타입의 UI 생성 시작");
+       // Debug.Log($"[CreateAllUI] {type} 타입의 UI 생성 시작");
         foreach(var ui in UICachedMap){
             var prefab = ui.Value;
             var uiBase = prefab.GetComponentInChildren<UIBase>();
@@ -280,7 +280,7 @@ public class UIManager : Singleton<UIManager>
         foreach (var key in keysToRemove)
         {
             UIMap.Remove(key);
-            Debug.Log($"[CleanupUIMap] 삭제된 UI 제거: {key}");
+           // Debug.Log($"[CleanupUIMap] 삭제된 UI 제거: {key}");
         }
     }
 
@@ -291,7 +291,7 @@ public class UIManager : Singleton<UIManager>
             UIBase uiBase = ui.Value.GetComponentInChildren<UIBase>(true);
             if (uiBase == null)
             {
-                Debug.LogError("범인은 누구 범인은 누구? : " + ui.Value.name);
+                // Debug.LogError("범인은 누구 범인은 누구? : " + ui.Value.name);
                 continue;
             }
             var sceneType = ui.Value.GetComponentInChildren<UIBase>(true).uISceneType;
@@ -340,7 +340,7 @@ public class UIManager : Singleton<UIManager>
             UIBase temp = ui.Value.GetComponentInChildren<UIBase>(true);
             if(temp == null)
             {
-                Debug.LogError("범인은 누구 범인은 누구? : " + ui.Value.name);
+                // Debug.LogError("범인은 누구 범인은 누구? : " + ui.Value.name);
                 continue;
             }
             UIType type = ui.Value.GetComponentInChildren<UIBase>(true).uiType;
@@ -364,7 +364,7 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     public void CloseCurrentPopup(UIPopup popup)
     {
-        Debug.Log($"[CloseCurrentPopup] stackCount={popupStack.Count} target={popup.name}");
+       // Debug.Log($"[CloseCurrentPopup] stackCount={popupStack.Count} target={popup.name}");
         if (popupStack.Count == 0) return;
 
         if(popupStack.Peek() == popup){
@@ -373,7 +373,7 @@ public class UIManager : Singleton<UIManager>
         }
         else
         {
-            Debug.Log("현재 팝업이 아님. 못닫는다.");
+           // Debug.Log("현재 팝업이 아님. 못닫는다.");
         }
     }
 

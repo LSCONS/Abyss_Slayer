@@ -67,7 +67,10 @@ public class MageProjectile : BasePoolable
     void Move()
     {
         trailRenderer.enabled = true;
-        speed = inputSpeed * speedCurve.Evaluate((Time.time - fireTime)/homingTime); // animationCurve와 시간 에따라 속도 유동적으로 변경
+
+        // animationCurve와 시간에 따라 유동적으로 속도 변경
+        speed = inputSpeed * speedCurve.Evaluate((Time.time - fireTime)/homingTime);
+
         transform.Translate(Vector3.right * 10 * speed * Time.deltaTime);
     }
 
@@ -77,10 +80,11 @@ public class MageProjectile : BasePoolable
         Vector3 targetDirection = target.position - transform.position; // 타겟 방향 계산          
         float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg; // 목표물과의 각도 계산
 
-        float homingSpeed = homingPower * homingCurve.Evaluate((Time.time - fireTime) / homingTime); // animationCurve와 시간 에따라 유도력 유동적으로 변경
+        // animationCurve와 시간에 따라 유동적으로 유도력 변경
+        float homingSpeed = homingPower * homingCurve.Evaluate((Time.time - fireTime) / homingTime);
 
         float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * homingSpeed * Time.deltaTime); // 각도 계산    
-        transform.rotation = Quaternion.Euler(0, 0, newAngle); // 유동적인 유도력에 따라 자신을 회전
+        transform.rotation = Quaternion.Euler(0, 0, newAngle);
     }
 
     // 타겟과 충돌 시 행동

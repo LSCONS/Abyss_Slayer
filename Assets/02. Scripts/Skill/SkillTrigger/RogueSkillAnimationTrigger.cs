@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 
-public class ArcherSkillAnimationTrigger : MonoBehaviour, IStopCoroutine
+public class RogueSkillAnimationTrigger : MonoBehaviour, IStopCoroutine
 {
     public Dictionary<SkillSlotKey, Skill> SkillDictionary {  get; set; }
     public Player Player {  get; set; }

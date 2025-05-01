@@ -47,7 +47,7 @@ public class Boss : MonoBehaviour, IHasHealth
         }
         else
         {
-            ChangeHP((int)(-damage * 1.5f));
+            ChangeHP((int)(-damage * 1.1f));
             Damaged();
             animator.SetTrigger("Damaged");
         }
