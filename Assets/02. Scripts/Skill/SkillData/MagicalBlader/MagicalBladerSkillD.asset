@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: MagicalBladerSkillD
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: "\uADF9\uB51C\uAE30"
-  <SkillDesription>k__BackingField: "\uD3C9\uD0C0 \uB54C\uB9AC\uBA74 \uCFE8\uD0C0\uC784
-    \uC904\uC5B4\uB4DC\uB294 \uC2A4\uD0AC"
+  <SkillDesription>k__BackingField: "\uAC80\uC744 \uC18C\uD658\uD574 1080\uC758 \uD53C\uD574\uB97C
+    \uC90D\uB2C8\uB2E4. \uAE30\uBCF8 \uACF5\uACA9 \uC801\uC911 \uC2DC \uCFE8\uD0C0\uC784
+    1\uCD08 \uAC10\uC18C"
   <SkillCategory>k__BackingField: 0
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: d5da1a910a31265449fc5920b4cadf85, type: 3}
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 0
   <MaxCoolTime>k__BackingField:
-    value: 20
+    value: 40
   <CurCoolTime>k__BackingField:
     value: 0
   <ApplyState>k__BackingField: -1
@@ -28,8 +29,7 @@ MonoBehaviour:
   <SkillUseState>k__BackingField: 27
   <AnimationChangeDelayTime>k__BackingField: 4
   <IsConnectSkillCoolDown>k__BackingField: 0
-  <Damage>k__BackingField: 5
-  <Range>k__BackingField: 0
+  <Damage>k__BackingField: 1080
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
@@ -38,8 +38,8 @@ MonoBehaviour:
   <ColliderOffset>k__BackingField: {x: 0, y: 0}
   <SpawnOffset>k__BackingField: {x: 5, y: 1}
   <ColliderDuration>k__BackingField: 3.6
-  <TickRate>k__BackingField: 1
+  <TickRate>k__BackingField: 0.2
   <EffectName>k__BackingField: Skill_D
-  <ColliderSetDelayTime>k__BackingField: 0
-  <CanRepeatHit>k__BackingField: 1
+  <ColliderSetDelayTime>k__BackingField: 1.4
+  <CanRepeatHit>k__BackingField: 0
   <CoolDownTime>k__BackingField: 1

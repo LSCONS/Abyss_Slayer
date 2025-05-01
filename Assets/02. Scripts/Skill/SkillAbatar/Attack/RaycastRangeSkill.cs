@@ -11,8 +11,8 @@ public class RaycastRangeSkill : RangeAttackSkill
         base.UseSkill();
         Vector3 dir = new Vector3(PlayerFrontXNormalized() * 1.5f, 0 ,0); // 플레이어 방향 계산
 
-        Debug.DrawRay(PlayerPosition() + dir, dir * Range, Color.red);
-        RaycastHit2D hit = Physics2D.Raycast(PlayerPosition() + dir, dir, Range, TargetLayer);
+        Debug.DrawRay(PlayerPosition() + dir, dir * 8, Color.red);
+        RaycastHit2D hit = Physics2D.Raycast(PlayerPosition() + dir, dir, 8, TargetLayer);
         if (hit.collider != null)
         {
             Debug.Log(hit.collider.gameObject.name);

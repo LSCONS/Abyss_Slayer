@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 public class IntroState : BaseGameState
 {
     private bool isTransitioning = false;
-
+    public override UIType StateUIType => UIType.None;
 
     public override async Task OnEnter()
     {

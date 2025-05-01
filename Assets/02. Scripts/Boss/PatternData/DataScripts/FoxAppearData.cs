@@ -24,6 +24,7 @@ public class FoxAppearData : BasePatternData
 
         yield return new WaitForSeconds(postDelayTime);
         bossController.virtualCamera.m_Lens.OrthographicSize = 5f;
+        PlayerManager.Instance.PlayerOnConnected();
     }
 
 }

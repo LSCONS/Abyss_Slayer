@@ -14,25 +14,24 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
 
     private readonly List<SkillSlotPresenter> presenters = new();
     private readonly Dictionary<SkillSlotKey, UISkillSlot> slotsViews = new();
+    private bool init = false;
 
-    private void Awake()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-    }
-    private void Start()
-    {
-        CreateSkillSlots();
-        BindSlots();
-    }
 
     public void Init()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        if (!init)
+        {
+            CreateSkillSlots();
+        }
+
         BindSlots();
     }
 
     private void CreateSkillSlots()
-    {
+    { 
+        init = true;
+
         foreach (var kvp in player.EquippedSkills)
         {
             if (!IsASDKey(kvp.Key))

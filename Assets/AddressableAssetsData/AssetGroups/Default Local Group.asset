@@ -120,13 +120,6 @@ MonoBehaviour:
     - Permanent
     - NonGamePlay
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f865cdabf773b0341ad472c6cbc6a513
-    m_Address: Assets/WorkSpace/JHN/Start.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - NonGamePlay
-    - Permanent
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4220149aa1f6a18408391eb2c4a9a419
     m_Address: Assets/10. Prefabs/UI/Popups/RoomMakerPopup.prefab
     m_ReadOnly: 0
@@ -161,6 +154,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - GamePlay
     - Top
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5241572010fbeaa44ac03e297636feff
+    m_Address: Assets/10. Prefabs/UI/Loading.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - None
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}

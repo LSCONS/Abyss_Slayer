@@ -4,20 +4,15 @@ using UnityEngine;
 using System.Threading.Tasks;
 public class StartState : BaseGameState
 {
+    public override UIType StateUIType => UIType.NonGamePlay;
     public override async Task OnEnter()
     {
         Debug.Log("StartState OnEnter");
-        await LoadSceneManager.Instance.LoadScene(SceneName.StartScene);
-        await UIManager.Instance.LoadAllUI(UIType.NonGamePlay);
-        UIManager.Instance.CreateAllUI(UIType.NonGamePlay);
         UIManager.Instance.Init();
-        UIManager.Instance.CloseAllPermanent();
-        UIManager.Instance.CloseAllPopup();
 
         UIManager.Instance.OpenUI(UISceneType.Start);
 
-        await SoundManager.Instance.Init(EGameState.Start);
-        SoundManager.Instance.PlayBGM(EGameState.Start, 1);
+        //SoundManager.Instance.PlayBGM(EGameState.Start, 1);
 
         await Task.CompletedTask;
     }
@@ -26,7 +21,6 @@ public class StartState : BaseGameState
     {
         Debug.Log("StartState OnExit");
         UIManager.Instance.CloseUI(UISceneType.Start);
-
         SoundManager.Instance.UnloadSoundsByState(EGameState.Start);
         await Task.CompletedTask;
     }
@@ -37,7 +31,7 @@ public class StartState : BaseGameState
             await ChangeState(new IntroState());
         }
         if(Input.GetKeyDown(KeyCode.Alpha2)){
-            await ChangeState(new LobbyState());
+            await GameFlowManager.Instance.ChangeState(EGameState.Lobby);
         }
     }
 }

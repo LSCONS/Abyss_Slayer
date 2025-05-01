@@ -4,7 +4,9 @@ using UnityEngine;
 using System.Threading.Tasks;
 public class InGameState : BaseGameState
 {
-    private int stageIndex;
+    public override UIType StateUIType => UIType.GamePlay;
+
+    public int stageIndex;
     private Boss boss;  // 보스 체크해줘야됨
     private bool isBossDead = false; // 보스 죽음?
     private float deadTimer = 0.0f; // 보스 죽고 몇초 지남?
@@ -17,20 +19,8 @@ public class InGameState : BaseGameState
     public override async Task OnEnter()
     {
         Debug.Log("InGameState OnEnter");
-        // await LoadSceneManager.Instance.LoadScene("TestScene2");     // 씬 로드 (일단 BossScene1)
-        await LoadSceneManager.Instance.LoadScene(SceneHelper.GetBossSceneName(stageIndex));
-
-
-        await UIManager.Instance.LoadAllUI(UIType.GamePlay);
-
-        UIManager.Instance.ClearUI(UIType.NonGamePlay);
-        // 비게임 플레이 UI 제거
-        UIManager.Instance.CreateAllUI(UIType.GamePlay);       // 게임 플레이 UI 생성
-
+        PlayerManager.Instance.FindPlayer();
         UIManager.Instance.Init();
-
-        UIManager.Instance.CloseAllPermanent();
-        UIManager.Instance.CloseAllPopup();
 
         UIManager.Instance.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
 
@@ -59,7 +49,7 @@ public class InGameState : BaseGameState
     public override async Task OnExit()
     {
         UIManager.Instance.CloseUI(UISceneType.Boss);
-        UIManager.Instance.CleanupUIMap();
+       // UIManager.Instance.CleanupUIMap();
 
 
         // UIManager.Instance.ClearUI(UIType.GamePlay);            // 게임 플레이 UI 제거
@@ -75,7 +65,7 @@ public class InGameState : BaseGameState
         if (boss.isDead)
         {
             deadTimer += Time.deltaTime;
-            Debug.Log($"{deadTimer} 시간은 똑딱똑딱 {changeSceneTime} 까지");
+           // Debug.Log($"{deadTimer} 시간은 똑딱똑딱 {changeSceneTime} 까지");
             if (deadTimer >= changeSceneTime)
             {
                 Debug.Log("보스 죽었다고 넘어가라고");

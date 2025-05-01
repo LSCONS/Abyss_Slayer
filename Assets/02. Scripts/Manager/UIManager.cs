@@ -37,42 +37,6 @@ public class UIManager : Singleton<UIManager>
         base.Awake();
         DontDestroyOnLoad(gameObject);
 
-        if (canvas == null){
-            canvas = transform.GetGameObjectSameNameDFS("Canvas").GetComponent<Canvas>();
-            if(canvas == null) return;
-        }
-        if (popupParent == null)
-        {
-            popupParent = canvas.transform.GetGameObjectSameNameDFS("UI_Popup")?.transform
-                    ?? new GameObject("UI_Popup", typeof(RectTransform)).transform;
-        }
-        if (permanentParent == null){
-            permanentParent = canvas.transform.GetGameObjectSameNameDFS("UI_Permanent")?.transform
-                      ?? new GameObject("UI_Permanent", typeof(RectTransform)).transform;
-        }
-        if (background == null)
-        {
-            background = canvas.transform.GetGameObjectSameNameDFS("UI_Background")?.transform
-                      ?? new GameObject("UI_Background", typeof(RectTransform)).transform;
-        }
-        if (topParent == null){
-            topParent = canvas.transform.GetGameObjectSameNameDFS("UI_Top")?.transform
-                 ?? new GameObject("UI_Top", typeof(RectTransform)).transform;
-        }   
-        if(bottomParent == null){
-            bottomParent = canvas.transform.GetGameObjectSameNameDFS("UI_Bottom")?.transform
-                    ?? new GameObject("UI_Bottom", typeof(RectTransform)).transform;
-        }
-        if (topMidParent == null)
-        {
-            topMidParent = canvas.transform.GetGameObjectSameNameDFS("UI_TopMid")?.transform
-                    ?? new GameObject("UI_TopMid", typeof(RectTransform)).transform;
-        }
-        if (followParent == null)
-        {
-            followParent = canvas.transform.GetGameObjectSameNameDFS("UI_Follow")?.transform
-                    ?? new GameObject("UI_Follow", typeof(RectTransform)).transform;
-        }
 
     }
 
@@ -88,6 +52,50 @@ public class UIManager : Singleton<UIManager>
             // Debug.Log($"[Init] {ui.Key} 초기화 시작");
             ui.Value.GetComponentInChildren<UIBase>(true).Init();
        }
+    }
+    public void Start()
+    {
+
+        if (canvas == null)
+        {
+            canvas = transform.GetGameObjectSameNameDFS("Canvas").GetComponent<Canvas>();
+            if (canvas == null) return;
+        }
+        if (popupParent == null)
+        {
+            popupParent = canvas.transform.GetGameObjectSameNameDFS("UI_Popup")?.transform
+                    ?? new GameObject("UI_Popup", typeof(RectTransform)).transform;
+        }
+        if (permanentParent == null)
+        {
+            permanentParent = canvas.transform.GetGameObjectSameNameDFS("UI_Permanent")?.transform
+                      ?? new GameObject("UI_Permanent", typeof(RectTransform)).transform;
+        }
+        if (background == null)
+        {
+            background = canvas.transform.GetGameObjectSameNameDFS("UI_Background")?.transform
+                      ?? new GameObject("UI_Background", typeof(RectTransform)).transform;
+        }
+        if (topParent == null)
+        {
+            topParent = canvas.transform.GetGameObjectSameNameDFS("UI_Top")?.transform
+                 ?? new GameObject("UI_Top", typeof(RectTransform)).transform;
+        }
+        if (bottomParent == null)
+        {
+            bottomParent = canvas.transform.GetGameObjectSameNameDFS("UI_Bottom")?.transform
+                    ?? new GameObject("UI_Bottom", typeof(RectTransform)).transform;
+        }
+        if (topMidParent == null)
+        {
+            topMidParent = canvas.transform.GetGameObjectSameNameDFS("UI_TopMid")?.transform
+                    ?? new GameObject("UI_TopMid", typeof(RectTransform)).transform;
+        }
+        if (followParent == null)
+        {
+            followParent = canvas.transform.GetGameObjectSameNameDFS("UI_Follow")?.transform
+                    ?? new GameObject("UI_Follow", typeof(RectTransform)).transform;
+        }
     }
 
     /// <summary>
@@ -125,6 +133,7 @@ public class UIManager : Singleton<UIManager>
             // Debug.LogError($"[LoadAllUI] {type} 로드 실패");
             return;
         }
+        
 
         foreach(var prefab in handle.Result){
             // 타입 찾아
@@ -236,30 +245,27 @@ public class UIManager : Singleton<UIManager>
     /// <param name="type"></param>
     public void ClearUI(UIType type)
     {
-        List<UIBase> uiList = new();    // 제거할 ui 리스트
-
-        foreach(Transform child in popupParent)
+        // 삭제할 GameObject 모아두기
+        var toDestroy = new List<string>();
+        foreach (var kv in UIMap)
         {
-            if(child.TryGetComponent<UIBase>(out var ui) && (ui.uiType & type) != 0)
+            var go = kv.Value;
+            if (go == null) continue;
+            var uiBase = go.GetComponentInChildren<UIBase>(true);
+            if (uiBase != null && (uiBase.uiType & type) != 0)
             {
-                Destroy(child.gameObject);
-                uiList.Add(ui);
+                toDestroy.Add(kv.Key);
             }
         }
-        foreach(Transform child in permanentParent)
-        {
-            if(child.TryGetComponent<UIBase>(out var ui) && (ui.uiType & type) != 0)
-            {
-                Destroy(child.gameObject);
-                uiList.Add(ui);
 
-                // uimap에서도 제거
-                UIMap.Remove(ui.name);
+        // 한꺼번에 파괴 & 맵에서 제거
+        foreach (var name in toDestroy)
+        {
+            if (UIMap.TryGetValue(name, out var go))
+            {
+                Destroy(go);
+                UIMap.Remove(name);
             }
-        }
-        // 제거할 ui 리스트에 있는 ui 제거
-        foreach(var ui in uiList){
-            UIMap.Remove(ui.name);
         }
 
         CleanupUIMap();
