@@ -151,7 +151,7 @@ public class Player : MonoBehaviour, IHasHealth
         switch (playerCharacterClass)
         {
             case CharacterClass.Rogue:
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/ArcherSkillSet");
+                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/RogueSkillSet");
                 break;
             case CharacterClass.Healer:
                 skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/HealerSkillSet");
