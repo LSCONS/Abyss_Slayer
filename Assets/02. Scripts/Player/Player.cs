@@ -251,8 +251,15 @@ public class Player : MonoBehaviour, IHasHealth
     public void PlayerDie()
     {
         PlayerStateMachine.ChangeState(PlayerStateMachine.DieState);
+        StartCoroutine(PlayerDieCo());
     }
 
+    private IEnumerator PlayerDieCo()
+    {
+        yield return new WaitForSeconds(3);
+        GameFlowManager.Instance.ChangeState(EGameState.Lobby);
+
+    }
 
     /// <summary>
     /// 버프 활성화 메서드
