@@ -25,7 +25,14 @@ public class LoadingState : BaseGameState
         while (!loadingOp.isDone)
             await Task.Yield();
 
-        await Task.Yield();
+        // 프로그래스바 가져와
+        ProgressBar progressBar = null;
+        
+        while((progressBar = GameObject.Find("ProgressBar")?.GetComponent<ProgressBar>()) == null)
+        {
+            await Task.Yield();
+        }
+
 
         // 2. 다음 상태와 UIType 결정
         var nextState = GameFlowManager.Instance.CreateStateForPublic(nextStateEnum) as BaseGameState;
@@ -34,35 +41,13 @@ public class LoadingState : BaseGameState
 
         UIType nextUIType = nextState.StateUIType;
 
-
+        // 이제 유아이 타입 바뀌면 옛날 유아이타입은 다 삭제해야됨
         if (prevUIType !=UIType.None && prevUIType != nextUIType)
         {
             UIManager.Instance.ClearUI(prevUIType);
         }
 
-        // 3. 씬 로드
-        string nextSceneName = GetSceneNameFromState(nextState);
-        var sceneOp = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Single);
-        sceneOp.allowSceneActivation = false;
-
-        // 4. 프로그래스바 업데이트
-        var progressBar = GameObject.Find("ProgressBar")?.GetComponent<ProgressBar>();
-        while (sceneOp.progress < 0.9f)
-        {
-            progressBar?.SetProgress(sceneOp.progress);
-            await Task.Yield();
-        }
-        progressBar?.SetProgress(1f);
-        await Task.Yield();
-
-        // 5. UI 로드 여부 결정
-        sceneOp.allowSceneActivation = true;
-
-        while (!sceneOp.isDone) await Task.Yield();
-
-        await Task.Yield();
-
-        // 6. 진짜 생성해
+        // 3. 다음 ui를 미리 로드 생성
         bool needLoadUI = (prevUIType == UIType.None) || (prevUIType != nextUIType);
 
         if (needLoadUI)
@@ -72,11 +57,28 @@ public class LoadingState : BaseGameState
             UIManager.Instance.CreateAllUI(nextUIType);
         }
 
+        // 4. 씬 로드
+        string nextSceneName = GetSceneNameFromState(nextState);
+        var sceneOp = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Single);
+        sceneOp.allowSceneActivation = false;
+
+        // 4. 프로그래스바 업데이트
+        while (sceneOp.progress < 0.9f)
+        {
+            progressBar?.SetProgress(sceneOp.progress);
+            await Task.Yield();
+        }
+        progressBar?.SetProgress(1f);
+
+        // 5. UI 로드 여부 결정
+        sceneOp.allowSceneActivation = true;
+        while (!sceneOp.isDone) await Task.Yield();
+
         // 7. 최종 상태 진입
         await GameFlowManager.Instance.ChangeState(nextState);
     }
 
-private string GetSceneNameFromState(IGameState state)
+    private string GetSceneNameFromState(IGameState state)
     {
         return state switch
         {
