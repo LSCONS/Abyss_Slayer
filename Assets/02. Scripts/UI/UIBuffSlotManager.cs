@@ -21,6 +21,7 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
 
     public void Init()
     {
+        ClearSlot();    
         player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
 
         // Player의 모든 스킬 중 BuffSkill만 감지
@@ -83,6 +84,20 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
             slotInstances.Remove(buffType);
         }
     }
+
+    // 슬롯 초기화 해줌 기존에 남아있는 프레젠터랑 슬롯을 정리해줘야됨
+    private void ClearSlot()
+    {
+        foreach (var presenter in activePresenters.Values)
+            presenter.Dispose();
+        activePresenters.Clear();
+
+        foreach (var slot in slotInstances.Values)
+            Destroy(slot);
+        slotInstances.Clear();
+    }
+        
+        
 
     private void OnDestroy()
     {
