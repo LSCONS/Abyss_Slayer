@@ -78,7 +78,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 11.3125, y: 11.3125}
+  m_Size: {x: 4, y: 4.4375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -210,6 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossController: {fileID: 0}
   isDead: 0
+  sprite: {fileID: 7533442902988421679}
   maxHP: 100
 --- !u!114 &2290308739379278194
 MonoBehaviour:
@@ -223,6 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be781b50b434d904c9749a0d6892a593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  appearPattern: {fileID: 11400000, guid: bc723c8dc9e8b584db8fdd0589ff2888, type: 2}
   allPatterns:
   - weight: 3
     patternData: {fileID: 11400000, guid: da2208074cc981a4192e7de10edaacf6, type: 2}
@@ -238,7 +240,7 @@ MonoBehaviour:
     showGizmos: 1
   - weight: 5
     patternData: {fileID: 11400000, guid: 25f316fd044ea4e488fc6acfa70cbaeb, type: 2}
-    setActivePatternForTest: 0
+    setActivePatternForTest: 1
     showGizmos: 1
   targetCrossHairPrefab: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
   sprite: {fileID: 7533442902988421679}
@@ -246,6 +248,7 @@ MonoBehaviour:
   _effectSprite: {fileID: 1016348319747735812}
   bossCenterHight: 2
   mapWidth: 40
+  virtualCamera: {fileID: 0}
   chasingTarget: 0
   jumpMoveTime: 0.8
   jumpMoveHight: 1.5

@@ -11,6 +11,7 @@ public class Boss : MonoBehaviour, IHasHealth
     public ReactiveProperty<int> MaxHp { get; } = new ReactiveProperty<int> (1000);
     public bool isDead;
     Action bossDeath;
+    [SerializeField] SpriteRenderer sprite;
     Animator animator;
 
     [SerializeField] int maxHP;
@@ -41,14 +42,27 @@ public class Boss : MonoBehaviour, IHasHealth
         if (attackPosX == -1000 || (attackPosX - transform.position.x < 0) == bossController.isLeft)
         {
             ChangeHP(-damage);
+            Damaged();
             animator.SetTrigger("Damaged");
         }
         else
         {
             ChangeHP((int)(-damage * 1.5f));
+            Damaged();
+            animator.SetTrigger("Damaged");
         }
         Debug.Log(Hp.Value);
         //피해입을때 효과,소리
+    }
+    void Damaged()
+    {
+        CancelInvoke("DamagedEnd");
+        sprite.color = Color.red;
+        Invoke("DamagedEnd", 0.1f);
+    }
+    void DamagedEnd()
+    {
+        sprite.color = Color.white;
     }
 
     private void Awake()
