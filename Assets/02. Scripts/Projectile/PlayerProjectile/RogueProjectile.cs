@@ -56,7 +56,7 @@ public class RogueProjectile : BasePoolable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<IHasHealth>(out IHasHealth enemy) && enemy is Boss)
+        if (collision.gameObject.layer == LayerData.EnemyLayerIndex && collision.TryGetComponent<IHasHealth>(out IHasHealth enemy))
         {
             enemy.Damage((int)damage,transform.position.x); // 데미지 전달
         }
