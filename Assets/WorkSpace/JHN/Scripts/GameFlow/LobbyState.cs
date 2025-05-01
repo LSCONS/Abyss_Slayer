@@ -1,17 +1,14 @@
 using System.Threading.Tasks;
 using UnityEngine;
 public class LobbyState : BaseGameState
-{   
+{
+    public override UIType StateUIType => UIType.NonGamePlay;
+
     public override async Task OnEnter()
     {
         Debug.Log("LobbyState OnEnter");
 
-        await LoadSceneManager.Instance.LoadScene(SceneName.LobbyScene);
-        await UIManager.Instance.LoadAllUI(UIType.NonGamePlay);
-        UIManager.Instance.CreateAllUI(UIType.NonGamePlay);
         UIManager.Instance.Init();
-        UIManager.Instance.CloseAllPermanent();
-        UIManager.Instance.CloseAllPopup();
 
         UIManager.Instance.OpenUI(UISceneType.Lobby);
 
@@ -25,7 +22,7 @@ public class LobbyState : BaseGameState
     {
         Debug.Log("LobbyState OnExit");
         UIManager.Instance.CloseUI(UISceneType.Lobby);
-        UIManager.Instance.CleanupUIMap();
+       // UIManager.Instance.CleanupUIMap();
         SoundManager.Instance.UnloadSoundsByState(EGameState.Lobby);
 
 

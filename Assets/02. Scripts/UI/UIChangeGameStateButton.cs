@@ -21,10 +21,10 @@ public class UIChangeGameStateButton : UIButton
         switch (gameStartState)
         {
             case EGameState.Intro:
-                await GameFlowManager.Instance.ChangeState(new IntroState());
+                await GameFlowManager.Instance.ChangeState(gameStartState);
                 break;
             case EGameState.Start:
-                await GameFlowManager.Instance.ChangeState(new StartState());
+                await GameFlowManager.Instance.ChangeState(gameStartState);
                 break;
             case EGameState.Lobby:
                 await GameFlowManager.Instance.GoToLobby();
