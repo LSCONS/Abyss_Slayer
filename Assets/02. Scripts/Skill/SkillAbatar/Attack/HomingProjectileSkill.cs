@@ -4,7 +4,7 @@ using UnityEngine;
 /// 특정 타겟을 향해 유도 탄환을 발사하는 기능
 /// </summary>
 [CreateAssetMenu(fileName = "NewHomingBombProjectileSkill", menuName = "Skill/ProjectileAttack/HomingBomb")]
-public class HomingBombProjectileSkill : ProjectileAttackSkill
+public class HomingProjectileSkill : ProjectileAttackSkill
 {
     [field: Header("투사체 개수")]
     [field: SerializeField] public int ProjectileCount { get; private set; } = 1;       // 투사체 개수
