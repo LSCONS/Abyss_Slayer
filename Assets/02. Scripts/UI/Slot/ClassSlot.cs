@@ -30,7 +30,6 @@ public class ClassSlot : MonoBehaviour
         button.OnClickAsObservable()
               .Subscribe(_ => onClickSubject.OnNext(characterClass))
               .AddTo(this);
-
     }
 }
 

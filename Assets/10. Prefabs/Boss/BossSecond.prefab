@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossController: {fileID: 0}
   isDead: 0
+  sprite: {fileID: 0}
   maxHP: 100
 --- !u!114 &7533524700751186556
 MonoBehaviour:
@@ -139,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be781b50b434d904c9749a0d6892a593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  appearPattern: {fileID: 0}
   allPatterns:
   - weight: 5
     patternData: {fileID: 11400000, guid: f1c7e98faf85eda4fbe0f400ebcf2af4, type: 2}
@@ -170,6 +172,7 @@ MonoBehaviour:
   _effectSprite: {fileID: 3432303376087082259}
   bossCenterHight: 2
   mapWidth: 40
+  virtualCamera: {fileID: 0}
   chasingTarget: 0
   jumpMoveTime: 0.8
   jumpMoveHight: 1.5
@@ -236,7 +239,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!95 &6134627098719050673
