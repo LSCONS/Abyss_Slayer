@@ -8,8 +8,6 @@ public class ProjectileAttackSkill : Skill
     [field: SerializeField] public float Range { get; private set; } // 사거리
     [field: Header("탄환 속도")]
     [field: SerializeField] public float Speed { get; private set; } // 투사체 속도
-    [field: Header("탄환 이미지 번호")]
-    [field: SerializeField] public int SpriteNum { get; private set; } // Sprite 인덱스 번호
 
 
     /// <summary>

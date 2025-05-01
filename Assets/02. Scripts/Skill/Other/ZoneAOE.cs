@@ -28,13 +28,26 @@ public class ZoneAOE : BasePoolable
 
     }
 
-    public void StartSkill(string colliderEffectName)
+    public void UseSkillSetting(string colliderEffectName)
     {
         // 위치 세팅
         float playerFlipX = Data.Player.IsFlipX ? -1 : 1;
         SpawnOffset += MovePosition;
         Vector3 spawnPosition = Data.Player.transform.position + new Vector3(SpawnOffset.x * playerFlipX, SpawnOffset.y, 0);
+        UseSkillStart(colliderEffectName, playerFlipX, spawnPosition);
+    }
 
+    public void UseSkillSetting(string colliderEffectName, float flipX, Vector3 playerPosition)
+    {
+        // 위치 세팅
+        SpawnOffset += MovePosition;
+        Vector3 spawnPosition = playerPosition + new Vector3(SpawnOffset.x * flipX, SpawnOffset.y, 0);
+        UseSkillStart(colliderEffectName, flipX, spawnPosition);
+    }
+
+
+    public void UseSkillStart(string colliderEffectName, float playerFlipX, Vector3 spawnPosition)
+    {
         transform.position = spawnPosition;
         transform.localScale = (Vector3)SpawnSize;
 
@@ -54,7 +67,7 @@ public class ZoneAOE : BasePoolable
         }
     }
 
-    public void Init(RepeatRangeSkill repeatRangeSkill)
+    public void Init(RepeatRangeSkill repeatRangeSkill, float flipX, Vector3 playerPosition)
     {
         Init((RemoteZoneRangeSkill)repeatRangeSkill, repeatRangeSkill.MovePosition, null);
     }
@@ -69,7 +82,13 @@ public class ZoneAOE : BasePoolable
     public void Init(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType)
     {
         DataInit(remoteZoneRangeSkill, move, effectType);
-        StartSkill(remoteZoneRangeSkill.EffectName);
+        UseSkillSetting(remoteZoneRangeSkill.EffectName);
+    }
+
+    public void Init(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType, float flipX, Vector3 playerPosition)
+    {
+        DataInit(remoteZoneRangeSkill, move, effectType);
+        UseSkillSetting(remoteZoneRangeSkill.EffectName, flipX, playerPosition);
     }
 
     private void DataInit(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType)
@@ -203,6 +222,6 @@ public class ZoneAOE : BasePoolable
         Data.ColliderSize = new Vector2(distance, 1.0f);
         Data.ColliderOffset = new Vector2(-distance / 2, 0);
         Debug.Log("켜짐");
-        StartSkill(dashMeleeSkill.EffectName);
+        UseSkillSetting(dashMeleeSkill.EffectName);
     }
 }

@@ -25,6 +25,7 @@ public class BossPattern
 }
 public class BossController : MonoBehaviour
 {
+    [SerializeField] BasePatternData appearPattern;
     [SerializeField] List<BossPattern> allPatterns;
     [SerializeField] GameObject targetCrossHairPrefab;
     Animator animator;
@@ -36,6 +37,7 @@ public class BossController : MonoBehaviour
     [SerializeField] SpriteRenderer _effectSprite;
     [SerializeField] public float bossCenterHight;
     public float mapWidth;
+    public CinemachineVirtualCamera virtualCamera;
 
     [HideInInspector] public bool chasingTarget;
     bool _showTargetCrosshair;
@@ -73,11 +75,13 @@ public class BossController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         hitCollider = GetComponent<Collider2D>();
+        virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
 
         for (int i = 0; i < allPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
         {
             allPatterns[i].patternData.Init(transform,this,animator);
         }
+        appearPattern.Init(transform, this, animator);
 
         _targetCrosshair = Instantiate(targetCrossHairPrefab).transform;
         _targetCrosshairObj = _targetCrosshair.gameObject;
@@ -88,8 +92,7 @@ public class BossController : MonoBehaviour
 
     private void Start()
     {
-        //보스시작연출 패턴 만들면 추가
-        StartCoroutine(PatternLoop());
+        StartCoroutine(startLoop());
     }
 
     private void Update()
@@ -103,6 +106,11 @@ public class BossController : MonoBehaviour
             _targetCrosshair.position = _target.position;
         }
         
+    }
+    IEnumerator startLoop()
+    {
+        yield return appearPattern.ExecutePattern();
+        StartCoroutine(PatternLoop());
     }
 
     /// <summary>
@@ -285,8 +293,7 @@ public class BossController : MonoBehaviour
         //yield return StartCoroutine(Landing(true));
         Time.timeScale = 0.2f;
         animator.SetTrigger("Dead");
-        CinemachineVirtualCamera camera = GetComponentInChildren<CinemachineVirtualCamera>();
-        camera.Priority = 20;
+        virtualCamera.Priority = 20;
         yield return new WaitForSeconds(0.2f);
 
         while (Time.timeScale < 1f)
@@ -297,7 +304,7 @@ public class BossController : MonoBehaviour
         Time.timeScale = 1f;
 
         yield return new WaitForSeconds(2f);
-        camera.Priority = 5;
+        virtualCamera.Priority = 5;
         yield return new WaitForSeconds(2f);
         gameObject.SetActive(false);
     }

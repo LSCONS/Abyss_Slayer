@@ -38,10 +38,9 @@ public class RogueProjectile : BasePoolable
     /// </summary>
     /// <param name="spawnPos">화살 생성 위치</param>
     /// <param name="dir">화살 이동 방향</param>
-    /// <param name="range">화살 최대 이동 거리</param>
-    /// <param name="speed">화살 이동 속도</param>
-    /// <param name="spriteNum">화살 스프라이트 인덱스</param>
-    /// <param name="damage">화살 데미지</param>
+    /// <param name="range">표창 최대 이동 거리</param>
+    /// <param name="speed">표창 이동 속도</param>
+    /// <param name="damage">표창 데미지</param>
     public void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, float damage)
     {
         transform.position = spawnPos; // 실제 화살 위치
@@ -51,6 +50,8 @@ public class RogueProjectile : BasePoolable
         this.speed = speed; // 이동 속도
         this.damage = damage; // 데미지
         spriteRenderer.sprite = sprite;
+        spriteRenderer.flipX = direction.x < 0 ? true : false;
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
