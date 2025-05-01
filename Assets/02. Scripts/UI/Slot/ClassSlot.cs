@@ -44,7 +44,7 @@ public static class CharacterClassExtensions
     {
         return cls switch
         {
-            CharacterClass.Rogue => "궁수",
+            CharacterClass.Rogue => "도적",
             CharacterClass.Healer => "힐러",
             CharacterClass.Mage => "마법사",
             CharacterClass.MagicalBlader => "마검사",
@@ -57,7 +57,7 @@ public static class CharacterClassExtensions
     {
         return cls switch
         {
-            CharacterClass.Rogue => "원거리에서 빠르게 공격하는 궁수입니다.",
+            CharacterClass.Rogue => "원거리에서 빠르게 공격하는 도적입니다.",
             CharacterClass.Healer => "팀을 치유하고 보호하는 힐러입니다.",
             CharacterClass.Mage => "강력한 마법을 사용하는 마법사입니다.",
             CharacterClass.MagicalBlader => "검과 마법을 함께 사용하는 마검사입니다.",
