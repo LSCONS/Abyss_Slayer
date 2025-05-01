@@ -10,6 +10,10 @@ public class RogueProjectile : BasePoolable
     [SerializeField] SpriteRenderer spriteRenderer;
 
     private LayerMask includeLayer; // 화살 충돌 레이어
+    public override void Init()
+    {
+        // BasePoolable의 추상 메서드 구현
+    }
 
     private void Awake()
     {
@@ -28,10 +32,6 @@ public class RogueProjectile : BasePoolable
         transform.Translate(direction * speed * Time.deltaTime);
     }
 
-    public override void Init()
-    {
-        // BasePoolable의 추상 메서드 구현
-    }
 
     /// <summary>
     /// 각 스킬 클래스에서 전달받은 데이터로 화살을 초기화하는 메서드
@@ -49,9 +49,8 @@ public class RogueProjectile : BasePoolable
         maxRange = range; // 최대 거리
         this.speed = speed; // 이동 속도
         this.damage = damage; // 데미지
-        spriteRenderer.sprite = sprite;
-        spriteRenderer.flipX = direction.x < 0 ? true : false;
-        
+        spriteRenderer.sprite = sprite; // 이미지
+        spriteRenderer.flipX = direction.x < 0 ? true : false; // 이미지 좌우 반전        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
