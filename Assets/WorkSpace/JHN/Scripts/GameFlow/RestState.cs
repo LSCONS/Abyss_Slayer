@@ -14,10 +14,11 @@ public class RestState : BaseGameState
     public override async Task OnEnter()
     {
         Debug.Log("RestState OnEnter");
+        PlayerManager.Instance.FindPlayer();
+        PlayerManager.Instance.PlayerOnConnected();
         UIManager.Instance.Init();
         UIManager.Instance.OpenUI(UISceneType.Rest);
         await Task.CompletedTask;
-
     }
 
     public override async Task OnExit()

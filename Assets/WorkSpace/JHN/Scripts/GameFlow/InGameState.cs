@@ -19,6 +19,7 @@ public class InGameState : BaseGameState
     public override async Task OnEnter()
     {
         Debug.Log("InGameState OnEnter");
+        PlayerManager.Instance.FindPlayer();
         UIManager.Instance.Init();
 
         UIManager.Instance.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
