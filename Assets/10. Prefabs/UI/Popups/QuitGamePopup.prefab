@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5651866150972767902}
   - component: {fileID: 4257599488941654915}
   - component: {fileID: 6568691252703413713}
-  - component: {fileID: 6865306690836800767}
   - component: {fileID: 7751553520217041145}
   m_Layer: 5
   m_Name: QuitYesBtn
@@ -135,21 +134,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6865306690836800767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 692361744014710781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b6fc04a11af12446beef54802e80ac2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiType: 65
-  uISceneType: 2
-  gameStartState: 2
 --- !u!114 &7751553520217041145
 MonoBehaviour:
   m_ObjectHideFlags: 0
