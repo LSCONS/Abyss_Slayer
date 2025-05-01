@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: "\uC9C8\uD48D\uCC38"
   <SkillDesription>k__BackingField: "\uC55E\uC73C\uB85C \uB3CC\uC9C4\uD558\uBA74\uC11C
-    \uC801\uC744 \uACF5\uACA9\uD55C\uB2E4."
+    140\uC758 \uD53C\uD574\uB97C \uC785\uD78C\uB2E4."
   <SkillCategory>k__BackingField: 9
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: 272f0587fb91ea34ba611929285ed2ab, type: 3}
   <CanUse>k__BackingField: 1
@@ -26,10 +26,9 @@ MonoBehaviour:
   <ApplyState>k__BackingField: -1
   <SkillEnterState>k__BackingField: 11
   <SkillUseState>k__BackingField: 12
-  <AnimationChangeDelayTime>k__BackingField: 1
+  <AnimationChangeDelayTime>k__BackingField: 2
   <IsConnectSkillCoolDown>k__BackingField: 0
   <Damage>k__BackingField: 140
-  <Range>k__BackingField: 0
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
@@ -37,7 +36,7 @@ MonoBehaviour:
   <SpawnSize>k__BackingField: {x: 1, y: 1}
   <ColliderOffset>k__BackingField: {x: 1, y: 1}
   <SpawnOffset>k__BackingField: {x: 0, y: 0}
-  <ColliderDuration>k__BackingField: 0.5
+  <ColliderDuration>k__BackingField: 0.3
   <TickRate>k__BackingField: 0.2
   <EffectName>k__BackingField: Null
   <ColliderSetDelayTime>k__BackingField: 0

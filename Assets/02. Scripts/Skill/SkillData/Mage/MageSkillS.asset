@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37dde014a4932e84181cc9f60a73359d, type: 3}
   m_Name: MageSkillS
   m_EditorClassIdentifier: 
-  <SkillName>k__BackingField: "\uBC88\uAC1C"
-  <SkillDesription>k__BackingField: "\uBC88\uAC1C \uC2A4\uD0AC"
+  <SkillName>k__BackingField: "\uB77C\uC774\uD2B8\uB2DD \uBCFC\uD2B8"
+  <SkillDesription>k__BackingField: "1.6\uCD08 \uB3D9\uC548 10\uD68C\uC5D0 \uAC78\uCCD0
+    \uC801\uC5D0\uAC8C 390\uC758 \uD53C\uD574\uB97C \uC785\uD78C\uB2E4."
   <SkillCategory>k__BackingField: 7
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: 9e52eed8852b5f14eb21580180085b2f, type: 3}
   <CanUse>k__BackingField: 1
@@ -22,13 +23,12 @@ MonoBehaviour:
     value: 12
   <CurCoolTime>k__BackingField:
     value: 0
-  <ApplyState>k__BackingField: 1
+  <ApplyState>k__BackingField: 3
   <SkillEnterState>k__BackingField: 26
   <SkillUseState>k__BackingField: 27
   <AnimationChangeDelayTime>k__BackingField: 4
   <IsConnectSkillCoolDown>k__BackingField: 0
-  <Damage>k__BackingField: 36
-  <Range>k__BackingField: 10
+  <Damage>k__BackingField: 39
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
