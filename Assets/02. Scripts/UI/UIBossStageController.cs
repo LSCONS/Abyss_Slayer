@@ -9,8 +9,8 @@ public class UIBossStageController : UIBase
     public override void Init()
     {
         base.Init();
-        bossText = GetComponent<TextMeshProUGUI>();
-        bossText.text = $"보스_{GameFlowManager.Instance.currentState}";
+
+        bossText.text = $"보스{GameFlowManager.Instance.CurrentStageIndex}";
 
     }
 
