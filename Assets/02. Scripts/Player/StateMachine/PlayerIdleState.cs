@@ -5,7 +5,7 @@ public class PlayerIdleState : PlayerGroundState
     public StoppableAction MoveAction = new();
     private int animationNum = 0;
     private float animationTime = 0;
-    private int animationDelay = 10;
+    private int animationDelay = 5;
     public PlayerIdleState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
