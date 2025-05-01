@@ -7,7 +7,5 @@ public class RangeAttackSkill : Skill
     [field: Header("스킬 데미지")]
     [field: SerializeField] public int Damage { get; private set; } // 데미지
     [field: Header("스킬 사거리")]
-    [field: SerializeField] public float Range { get; private set; } // 사거리
-    [field: Header("스킬을 적용할 타겟 레이어")]
     [field: SerializeField] public LayerMask TargetLayer { get; private set; } // 타겟 레이어
 }
