@@ -16,6 +16,12 @@ public class LobbyState : BaseGameState
         SoundManager.Instance.PlayBGM(EGameState.Lobby, 1);
 
         await Task.CompletedTask;
+
+        SpriteImageChange[] imageChanges = Util.FindObjectsByTypeDebug<SpriteImageChange>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (SpriteImageChange imageChange in imageChanges)
+        {
+            imageChange.Init(PlayerManager.Instance.selectedCharacterClass);
+        }
     }
 
     public override async Task OnExit()

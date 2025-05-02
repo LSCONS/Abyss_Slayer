@@ -12,7 +12,8 @@ public class StartState : BaseGameState
 
         UIManager.Instance.OpenUI(UISceneType.Start);
 
-        //SoundManager.Instance.PlayBGM(EGameState.Start, 1);
+        await SoundManager.Instance.Init(EGameState.Start);
+        SoundManager.Instance.PlayBGM(EGameState.Start, 1);
 
         await Task.CompletedTask;
     }

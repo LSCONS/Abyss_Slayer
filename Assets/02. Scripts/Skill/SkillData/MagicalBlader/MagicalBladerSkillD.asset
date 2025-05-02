@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f733e3f38d726b4fba212bc2d9d2631, type: 3}
   m_Name: MagicalBladerSkillD
   m_EditorClassIdentifier: 
-  <SkillName>k__BackingField: "\uADF9\uB51C\uAE30"
+  <SkillName>k__BackingField: "\uB9C8\uAC80\uC0AC D"
   <SkillDesription>k__BackingField: "\uAC80\uC744 \uC18C\uD658\uD574 1080\uC758 \uD53C\uD574\uB97C
     \uC90D\uB2C8\uB2E4. \uAE30\uBCF8 \uACF5\uACA9 \uC801\uC911 \uC2DC \uCFE8\uD0C0\uC784
     1\uCD08 \uAC10\uC18C"
@@ -33,13 +33,13 @@ MonoBehaviour:
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <ColliderSize>k__BackingField: {x: 1, y: 1}
+  <ColliderSize>k__BackingField: {x: 3.8, y: 4}
   <SpawnSize>k__BackingField: {x: 1, y: 1}
   <ColliderOffset>k__BackingField: {x: 0, y: 0}
-  <SpawnOffset>k__BackingField: {x: 5, y: 1}
-  <ColliderDuration>k__BackingField: 3.6
+  <SpawnOffset>k__BackingField: {x: 2.5, y: 1}
+  <ColliderDuration>k__BackingField: 1.8
   <TickRate>k__BackingField: 0.2
   <EffectName>k__BackingField: Skill_D
-  <ColliderSetDelayTime>k__BackingField: 1.4
-  <CanRepeatHit>k__BackingField: 0
+  <ColliderSetDelayTime>k__BackingField: 1
+  <CanRepeatHit>k__BackingField: 1
   <CoolDownTime>k__BackingField: 1
