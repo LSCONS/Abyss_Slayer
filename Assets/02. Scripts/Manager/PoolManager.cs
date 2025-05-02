@@ -18,7 +18,7 @@ public class PoolConfig     //새로 풀을 추가할때 필요한 정보
 /// </summary>
 public class PoolManager : Singleton<PoolManager>
 {
-    private Dictionary<Type, ObjectPool<BasePoolable>> poolDict = new();    //리스트의 풀을 저장하는 딕셔너리
+    private Dictionary<Type, ObjectPool> poolDict = new();    //리스트의 풀을 저장하는 딕셔너리
 
 
     protected override void Awake()
@@ -44,7 +44,7 @@ public class PoolManager : Singleton<PoolManager>
             newObject.parent = transform;
 
             //TODO: 임시로 풀링할 오브젝트 5개씩 모두 생성후 Dictionary에 추가
-            ObjectPool<BasePoolable> pool = new ObjectPool<BasePoolable>(poolable, newObject, 5);
+            ObjectPool pool = new ObjectPool(poolable, newObject, 5);
             poolDict.Add(poolable.GetType(), pool);
         }
     }
