@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     public static BasicSpawner Instance { get; private set; }
-    private NetworkRunner _runner;
+    public NetworkRunner _runner { get; private set; }
     [SerializeField] private NetworkPrefabRef playerPrefab;
     private Dictionary<PlayerRef, NetworkObject> spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
     private PlayerInput localInput;
@@ -37,7 +37,7 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
             SessionName = "TestRoom",
             Scene = scene,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(),
-            ObjectProvider = new PooledNetworkObjectProvider(),
+            ObjectProvider = new FusionPoolProvider(),
         });
     }
 
