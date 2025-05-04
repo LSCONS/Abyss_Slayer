@@ -10,6 +10,6 @@ public class SpawnManager : SingletonNetwork<SpawnManager>
     {
         if (!Object.HasStateAuthority) return;
 
-        var netobj = Runner.Spawn(basePoolable);
+        //var netobj = Runner.Spawn(basePoolable);
     }
 }
