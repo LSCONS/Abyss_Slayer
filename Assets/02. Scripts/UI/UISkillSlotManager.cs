@@ -1,10 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using UniRx;
-using UnityEditor.Presets;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class UISkillSlotManager : Singleton<UISkillSlotManager>
 {

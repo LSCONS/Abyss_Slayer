@@ -161,12 +161,26 @@ MonoBehaviour:
     m_SerializedLabels:
     - None
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4a0df3ddf0f1a474aa0fdbfb13c285ce
-    m_Address: Assets/10. Prefabs/UI/Popups/QuitGamePopup.prefab
+  - m_GUID: 23d25d0949cdef74988e6c0062dcdcfe
+    m_Address: Assets/10. Prefabs/UI/Popups/Img_CreateRoomPanel.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
+    - UI_Popup
     - NonGamePlay
-    - Popup
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 04d9efccd0a49b4489bd8cdc3f30e07a
+    m_Address: Assets/10. Prefabs/UI/Popups/Img_RoomSearch.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI_Popup
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2cb4cd51b96c5f243b738ee39d12a0f5
+    m_Address: Assets/10. Prefabs/UI/Popups/Img_InputNamePanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI_Popup
+    - NonGamePlay
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}

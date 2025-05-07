@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5651866150972767902}
   - component: {fileID: 4257599488941654915}
   - component: {fileID: 6568691252703413713}
-  - component: {fileID: 6865306690836800767}
+  - component: {fileID: 5817620394104177875}
   m_Layer: 5
   m_Name: YesBtn
   m_TagString: Untagged
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6865306690836800767
+--- !u!114 &5817620394104177875
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,12 +131,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 692361744014710781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b6fc04a11af12446beef54802e80ac2, type: 3}
+  m_Script: {fileID: 11500000, guid: 26e04396ada859041a7ff17b8475166f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiType: 65
+  uiType: 1
   uISceneType: 2
-  gameStartState: 2
+  isClose: 0
+  popupName: Img_CreateRoomPanel
 --- !u!1 &1083797366660062246
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e04396ada859041a7ff17b8475166f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiType: 65
+  uiType: 1
   uISceneType: 2
   isClose: 1
   popupName: 

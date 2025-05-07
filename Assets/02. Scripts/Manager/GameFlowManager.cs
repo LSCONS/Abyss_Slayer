@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using Fusion;
 
 public enum EGameState  // 게임 시작 상태
 {
@@ -13,9 +14,9 @@ public enum EGameState  // 게임 시작 상태
     Battle
 }
 
-public class GameFlowManager : Singleton<GameFlowManager>
+public class GameFlowManager : SingletonNetwork<GameFlowManager>
 {
-    [HideInInspector] public IGameState currentState;   // 지금 스테이트
+    public IGameState currentState { get; set; }   // 지금 스테이트
     [SerializeField] private EGameState startStateEnum = EGameState.Intro;   // 시작 스테이트 인스펙터 창에서 설정가능하게 해줌
 
     public int CurrentStageIndex { get; private set; } = 0; // 보스 생성할 때 쓸 index
@@ -26,9 +27,9 @@ public class GameFlowManager : Singleton<GameFlowManager>
         DontDestroyOnLoad(this);
     }
 
-    private async void Start()
+    private void Start()
     {
-        await ChangeState(startStateEnum);    // 시작은 introstate
+        ClientSceneLoad(startStateEnum);    // 시작은 introstate
     }
 
 
@@ -45,6 +46,18 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
         // 2) 무조건 LoadingState로 경유
         await ChangeState(new LoadingState(nextEnum, prevUIType));
+    }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public async void RpcServerSceneLoad(EGameState nextStateEnum)
+    {
+        await ChangeState(nextStateEnum);
+    }
+
+    public async void ClientSceneLoad(EGameState nextStateEnum)
+    {
+        await ChangeState(nextStateEnum);
     }
 
 
@@ -78,7 +91,6 @@ public class GameFlowManager : Singleton<GameFlowManager>
     //    }
     //}
 
-
     /// <summary>
     /// 상태 변경
     /// </summary>
@@ -86,14 +98,14 @@ public class GameFlowManager : Singleton<GameFlowManager>
     /// <returns>상태 변경 작업의 결과</returns>
     public async Task ChangeState(IGameState newState)
     {
-        if(currentState != null)
+        if (currentState != null)
         {
             await currentState.OnExit();
         }
 
         currentState = newState;
 
-        if(currentState != null)
+        if (currentState != null)
         {
             await currentState.OnEnter();
         }
@@ -105,20 +117,20 @@ public class GameFlowManager : Singleton<GameFlowManager>
         return CreateStateFromEnum(stateEnum);
     }
 
-    public async Task GoToNextBoss()
+    public void GoToNextBoss()
     {
         CurrentStageIndex++;
-        await ChangeState(EGameState.Battle);
+        RpcServerSceneLoad(EGameState.Battle);
     }
 
-    public async Task GoToLobby()
+    public void GoToLobby()
     {
-        await ChangeState(EGameState.Lobby);
+        RpcServerSceneLoad(EGameState.Lobby);
     }
 
-    public async Task GoToRestState()
+    public void GoToRestState()
     {
-        await ChangeState(EGameState.Rest);
+        RpcServerSceneLoad(EGameState.Rest);
     }
 
 

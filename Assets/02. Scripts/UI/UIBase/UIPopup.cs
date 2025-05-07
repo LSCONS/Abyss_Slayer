@@ -10,7 +10,7 @@ public class UIPopup : UIBase
     private Tween popTween;
     private Tween openTween;
     private Tween closeTween;
-
+     
     public override void Init()
     {
         base.Init();
@@ -34,6 +34,14 @@ public class UIPopup : UIBase
     /// </summary>
     public override void Open(params object[] args)
     {
+        if (canvasGroup == null)
+        {
+            canvasGroup = GetComponent<CanvasGroup>();
+            if (canvasGroup == null)
+            {
+                canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            }
+        }
         base.Open(args);
         transform.SetAsLastSibling();   // 제일 위로 올려줌
 

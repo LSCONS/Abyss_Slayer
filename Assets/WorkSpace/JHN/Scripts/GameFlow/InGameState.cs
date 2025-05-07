@@ -70,7 +70,7 @@ public class InGameState : BaseGameState
             {
                 Debug.Log("보스 죽었다고 넘어가라고");
 
-               await GameFlowManager.Instance.GoToRestState();
+               GameFlowManager.Instance.GoToRestState();
             }
         }
     }

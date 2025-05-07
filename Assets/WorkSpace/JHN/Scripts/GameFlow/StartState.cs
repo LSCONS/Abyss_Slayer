@@ -32,7 +32,7 @@ public class StartState : BaseGameState
             await ChangeState(new IntroState());
         }
         if(Input.GetKeyDown(KeyCode.Alpha2)){
-            await GameFlowManager.Instance.ChangeState(EGameState.Lobby);
+            GameFlowManager.Instance.RpcServerSceneLoad(EGameState.Lobby);
         }
     }
 }

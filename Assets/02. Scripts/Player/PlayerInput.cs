@@ -1,14 +1,15 @@
+using Fusion;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : NetworkBehaviour
 {
 
     #region 프로퍼티 선언
     /// <summary>InputSystem의 C# 제너레이터로 만든 스크립트 저장</summary>
-    private PlayerInputs inputs { get; set; }
+    public PlayerInputs Inputs { get; private set; }
 
     /// <summary> 플레이어가 입력한 움직임을 벡터로 변환</summary>
     public Vector2 MoveDir      { get; private set; }
@@ -37,7 +38,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Awake() 
     {
-        inputs = new PlayerInputs();
+        Inputs = new PlayerInputs();
     }
 
     public void InitDictionary()
@@ -53,8 +54,8 @@ public class PlayerInput : MonoBehaviour
     /// <summary>입력 이벤트 등록</summary>
     public void InputEvent()
     {
-        inputs.Enable();
-        var playerAction = inputs.Player;
+        Inputs.Enable();
+        var playerAction = Inputs.Player;
         playerAction.Move.performed     += StartMove;
         playerAction.Move.canceled      += StopMove;
         playerAction.Jump.started       += StartJump;
@@ -75,8 +76,8 @@ public class PlayerInput : MonoBehaviour
     /// <summary>입력 이벤트 해제</summary>
     public void OutPutEvent()
     {
-        inputs.Disable();
-        var playerAction = inputs.Player;
+        Inputs.Disable();
+        var playerAction = Inputs.Player;
         playerAction.Move.performed     -= StartMove;
         playerAction.Move.canceled      -= StopMove;
         playerAction.Jump.started       -= StartJump;

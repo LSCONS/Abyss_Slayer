@@ -9,7 +9,6 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class PlayerManager : Singleton<PlayerManager>
 {
     public Player Player { get; set; }
-    public PlayerSpriteData PlayerSpriteData {  get; private set; }
 
     public CharacterClass selectedCharacterClass = CharacterClass.Rogue;
     public Dictionary<CharacterClass, SpriteData> CharacterSpriteDicitonary { get; set; } = new();

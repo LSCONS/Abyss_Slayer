@@ -1,8 +1,6 @@
-using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 // 범위 공격에 쓰일 장판 스크립트

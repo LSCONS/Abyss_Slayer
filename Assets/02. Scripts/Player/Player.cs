@@ -39,6 +39,12 @@ public class Player : MonoBehaviour, IHasHealth
     public Coroutine HoldSkillCoroutine { get; private set; }
     public Action HoldSkillCoroutineStopAction { get; private set; }
 
+
+    /// <summary>
+    /// 코루틴과 Action을 등록시키고 실행시키는 메서드
+    /// </summary>
+    /// <param name="skill">실행 시킬 코루틴</param>
+    /// <param name="action">종료할 때 실행시킬 Action</param>
     public void StartHoldSkillCoroutine(IEnumerator skill, Action action)
     {
         StopHoldSkillActionCoroutine();
@@ -46,6 +52,9 @@ public class Player : MonoBehaviour, IHasHealth
         HoldSkillCoroutineStopAction = action;
     }
 
+    /// <summary>
+    /// 등록해둔 Action을 실행시키며 코루틴을 종료시키는 메서드
+    /// </summary>
     public void StopHoldSkillActionCoroutine()
     {
         if (HoldSkillCoroutine != null)
@@ -57,6 +66,9 @@ public class Player : MonoBehaviour, IHasHealth
         }
     }
 
+    /// <summary>
+    /// 등록해둔 Action을 무시하고 코루틴을 종료시키는 메서드
+    /// </summary>
     public void StopHoldSkillNoneCoroutine()
     {
         if (HoldSkillCoroutine != null)
@@ -94,6 +106,9 @@ public class Player : MonoBehaviour, IHasHealth
     }
 
 
+    /// <summary>
+    /// 실행 중인 버프가 있을 경우 자동으로 카운트 해주는 메서드
+    /// </summary>
     private void BuffDurationCompute()
     {
         foreach (var value in BuffDuration.Values)
@@ -251,13 +266,17 @@ public class Player : MonoBehaviour, IHasHealth
     public void PlayerDie()
     {
         PlayerStateMachine.ChangeState(PlayerStateMachine.DieState);
-        StartCoroutine(PlayerDieCo());
+        StartCoroutine(PlayerDieCoroutine());
     }
 
-    private IEnumerator PlayerDieCo()
+    /// <summary>
+    /// 플레이어가 사망하면 특정 시간 이후 실행할 코루틴
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PlayerDieCoroutine()
     {
         yield return new WaitForSeconds(3);
-        GameFlowManager.Instance.ChangeState(EGameState.Lobby);
+        GameFlowManager.Instance.RpcServerSceneLoad(EGameState.Lobby);
 
     }
 

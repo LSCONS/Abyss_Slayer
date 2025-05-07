@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIChangeGameStateButton : UIButton
 {
     [Header("전환하고 싶은 스테이트를 선택해 보아요!")]
     [SerializeField] EGameState gameStartState;
-    public override void Init()
+    public void Awake()
     {
-        base.Init();
         Debug.Log($"[UIChangeGameStateButton] Init 호출됨: {gameStartState}");
         gameObject.SetActive(true);
-        button.onClick.RemoveListener(ChangeState);
+        button = GetComponent<Button>();
         button.onClick.AddListener(ChangeState);
+        Debug.Log("이거 등록 안되는거에요?");
     }
 
 
@@ -21,19 +22,19 @@ public class UIChangeGameStateButton : UIButton
         switch (gameStartState)
         {
             case EGameState.Intro:
-                await GameFlowManager.Instance.ChangeState(gameStartState);
+                GameFlowManager.Instance.RpcServerSceneLoad(gameStartState);
                 break;
             case EGameState.Start:
-                await GameFlowManager.Instance.ChangeState(gameStartState);
+                GameFlowManager.Instance.RpcServerSceneLoad(gameStartState);
                 break;
             case EGameState.Lobby:
-                await GameFlowManager.Instance.GoToLobby();
+                GameFlowManager.Instance.GoToLobby();
                 break;
             case EGameState.Rest:
-                await GameFlowManager.Instance.GoToRestState();
+                GameFlowManager.Instance.GoToRestState();
                 break;
             case EGameState.Battle:
-                await GameFlowManager.Instance.GoToNextBoss();
+                GameFlowManager.Instance.GoToNextBoss();
                 break;
             default:
                 Debug.LogWarning($"[UIChangeGameStateButton] 알 수 없는 상태: {gameStartState}");
