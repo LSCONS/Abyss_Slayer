@@ -11,6 +11,14 @@ public class UIPopup : UIBase
     private Tween openTween;
     private Tween closeTween;
 
+    public void OnDisable()
+    {
+        if (UIManager.Instance != null && UIManager.Instance.popupStack.Contains(this))
+        {
+            UIManager.Instance.CloseCurrentPopup(this);
+        }
+    }
+
     public override void Init()
     {
         base.Init();
