@@ -49,11 +49,7 @@ public class UIPopupButton : UIButton
             return;
         }
 
-        // 닫기 버튼 아닐 때는 popupName 받아서 그 팝업 열기 기능 수행
-        if (popup == null)
-        {
-            popup = UIManager.Instance.FindPopupByName(popupName);
-        }
+        popup = UIManager.Instance.FindPopupByName(popupName);
 
         if (popup != null)
         {
