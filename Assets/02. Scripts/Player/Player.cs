@@ -42,6 +42,7 @@ public class Player : MonoBehaviour, IHasHealth
     public Action HoldSkillCoroutineStopAction { get; private set; }
 
     public int StatPoint { get; private set; } = 10;
+    public int SkillPoint { get; private set; } = 10;
 
     public void StartHoldSkillCoroutine(IEnumerator skill, Action action)
     {
