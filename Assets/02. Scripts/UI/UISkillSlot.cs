@@ -8,8 +8,12 @@ using UnityEngine.EventSystems;
 public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image iconImage;
+    [SerializeField] private TextMeshProUGUI skillName;
+
     [SerializeField] private Image coolTimeOverlay;
     [SerializeField] private TextMeshProUGUI coolTimeText;
+    [SerializeField] private TextMeshProUGUI skillLevelText;
+
     private IPresenter presenter;
 
     private Skill skillData;
@@ -17,6 +21,11 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
     public void SetIcon(Sprite icon)
     {
         iconImage.sprite = icon;
+    }
+
+    public void SetName(Skill skillData)
+    {
+        skillName.text = skillData.SkillName;
     }
 
     public void SetCoolTime(float curCoolTime, float maxCoolTime)
@@ -34,6 +43,11 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
     public void SetSkillData(Skill skillData)
     {
         this.skillData = skillData;
+    }
+
+    public void SetSkillLevel(int level)
+    {
+        skillLevelText.text = $"Lv.{level}";
     }
 
     // 스킬 툴팁 위치 설정
