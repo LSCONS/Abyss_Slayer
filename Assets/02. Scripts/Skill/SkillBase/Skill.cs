@@ -41,6 +41,8 @@ public class Skill : ScriptableObject
     //이 스킬이 적중할 때마다 실행하고 싶은 Action들을 저장
     [field: SerializeField] public Action AttackAction { get; set; } = null;
 
+    public ReactiveProperty<int> Level = new ReactiveProperty<int>(1); // 스킬 레벨
+
     // 플레이어 초기화
     public virtual void Init() { }
 
