@@ -23,7 +23,13 @@ public class DebuffAreaSkill : AreaSkill
                 boss.ApplyDebuff(
                     debuffType,
                     debuffDuration,
-                   onApply: () => effect.Apply(boss, effectAmount),
+                    onApply: () =>
+                    {
+                        effect.Apply(boss, effectAmount);   // 디버프 효과 적용시킴
+                        // ui등록 해줘야됨
+                        var data = boss.GetDebuffData(debuffType);
+                        UIBossBuffSlotManager.Instance.CreateSlot(debuffType, data, SkillIcon);
+                    },
                     onExpire: () => effect.Expire(boss)
                 );
             }
