@@ -34,14 +34,11 @@ public class WeakenDebuff : IDebuff
     {
         // 보스 받는 데미지 배율 증가
         boss.DamageMultiplier = amount;
-        Debug.Log($"amount: {amount}");
     }
 
     public void Expire(Boss boss)
     {
         // 보스 받는 데미지 배율 되돌리기
         boss.DamageMultiplier = 1.0f;
-        Debug.Log($"디버프 끝!");
-
     }
 }
