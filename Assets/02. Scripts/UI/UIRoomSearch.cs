@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 
 /// <summary>
-/// 방들을 관리하는 UI
+/// 방 참가 팝업에서 방을 선택하고 관리하는 UI
 /// </summary>
 public class UIRoomSearch : UIPopup
 {
@@ -25,7 +25,7 @@ public class UIRoomSearch : UIPopup
     
     private void Awake()
     {
-        ServerManager.Instance.ListUpdateAction += UpdateRoomList;
+        ServerManager.Instance.RoomSearch = this;
         BtnJoin.onClick.AddListener(TryJoinRoom);
         BtnSearchAgain.onClick.AddListener(UpdateRoomList);
     }
@@ -35,11 +35,10 @@ public class UIRoomSearch : UIPopup
         BtnJoin.interactable = false;
     }
 
-    private void OnDestroy()
-    {
-        ServerManager.Instance.ListUpdateAction -= UpdateRoomList;
-    }
 
+    /// <summary>
+    /// 서버에 저장된 세션 정보를 기준으로 새로고침 해주는 메서드
+    /// </summary>
     public void UpdateRoomList()
     {
         foreach (SessionInfo sessionInfo in ServerManager.Instance.CurrentSessionList)
@@ -68,29 +67,29 @@ public class UIRoomSearch : UIPopup
     /// List에서 사라진 세션을 Dict에서 삭제하는 메서드
     /// </summary>
     /// <param name="sessionInfos"></param>
-    public void RemoveRoomList(List<SessionInfo> sessionInfos)
+    private void RemoveRoomList(List<SessionInfo> sessionInfos)
     {
         var sessionSet = new HashSet<SessionInfo>(sessionInfos);
-
         var keysRemove = new List<SessionInfo>();
 
         foreach(SessionInfo key in DictSessionObject.Keys)
         {
             if (!sessionSet.Contains(key))
-            {
                 keysRemove.Add(key);
-            }
         }
 
         foreach(SessionInfo key in keysRemove)
         {
             UIRoomPrefab obj = DictSessionObject[key];
             Destroy(obj.gameObject);
-
             DictSessionObject.Remove(key);
         }
     }
 
+
+    /// <summary>
+    /// 선택한 방에 참가하기를 시도하는 메서드
+    /// </summary>
     private void TryJoinRoom()
     {
         //새로고침 한 번 실행

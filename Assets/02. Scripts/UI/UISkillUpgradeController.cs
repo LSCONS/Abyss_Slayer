@@ -12,8 +12,11 @@ public class UISkillUpgradeController : UIPopup
     [SerializeField] private Transform upgradeSlotParent;
 
     [SerializeField] private TextMeshProUGUI skillPointText;
-    [ReadOnlyAttribute] private int skillPoint = 0;
 
+#if UNITY_EDITOR
+    [ReadOnlyAttribute]
+#endif
+    private int skillPoint = 0;
 
 
     private Dictionary<Skill, UISkillSlot> upgradeSlots = new();

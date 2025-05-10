@@ -57,6 +57,7 @@ public class UICreateRoom : UIPopup
         else
         {
             ServerManager.Instance.CreateRoom(roomName);
+            InputRoomName.text = string.Empty;
         }
     }
 }

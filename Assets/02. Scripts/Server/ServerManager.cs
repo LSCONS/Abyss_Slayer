@@ -3,85 +3,77 @@ using Fusion.Sockets;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
 public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 {
-    private string playerName = "Empty";
+    [SerializeField]private string playerName = "Empty";
     public string PlayerName 
     {
-        get 
-        { 
-            return playerName;
-        }
-        
+        get   { return playerName; }
         set 
         { 
             playerName = value;
             ChangeNameAction?.Invoke();
         }
     }
+    public byte[] PlayerNameBytes
+    {
+        get
+        {
+            byte[] temp = new byte[8];
+            byte[] nameArray = System.Text.Encoding.UTF8.GetBytes(playerName);
+            int arrayLenght = nameArray.Length;
+            for (int i = 0; i < temp.Length; i++)
+            {
+                temp[i] = (byte)((i < arrayLenght) ? nameArray[i] : 0);
+            }
+            return temp;
+        }
+    }
+    public string RoomName { get; private set; } = "Empty";
     //플레이어의 이름이 바뀔 때 실행할 Action
     public Action ChangeNameAction { get; set; }
     public List<SessionInfo> CurrentSessionList { get; private set; }= new List<SessionInfo>();
-
-    public NetworkRunner _runner { get; private set; }
     [SerializeField] private NetworkPrefabRef playerPrefab;
-    private Dictionary<PlayerRef, NetworkObject> spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+
+    //플레이어의 다양한 정보가 담겨있는 NetworkData를 딕셔너리로 저장함.
+    public Dictionary<PlayerRef, NetworkData> DictPlayerDatas { get; private set; } =  new();
+
+    //현재 접속한 플레이어의 정보를 담고 있는 PlayerRef
+    public PlayerRef ThisPlayerRef { get; set; }
+
+    [field: SerializeField] public NetworkData DataPrefab { get; private set; }
 
     //플레이어의 입력을 담당할 인풋
     public PlayerInput LocalInput { get; private set; }
-    
-    //플레이어가 서버에 접속할 때마다 등록할 딕션너리
-    public Dictionary<PlayerRef, NetworkRunner> PlayerDict { get; private set; }
-
-    //플레이어가 준비되었는지 확인할 때 쓸 리스트1
-    public HashSet<PlayerRef> PlayerReadyCount = new HashSet<PlayerRef>();
-
     //방에 참가 할 수 있는 최대 인원 수
     public int MaxHeadCount { get; private set; } = 5;
-
-    //세션이 업데이트 될 때마다 실행할 Action 모음
-    public Action ListUpdateAction { get; set; }
+    public UIChatController ChattingTextController { get; set; }
+    public UILobbyMainPanel LobbyMainPanel { get; set; }
+    public UILobbySelectPanel LobbySelectPanel { get; set; }
+    public UIRoomSearch RoomSearch { get; set; }
 
     protected override void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
-        if (_runner == null)
-            _runner = gameObject.AddComponent<NetworkRunner>();
-    }
-
-    public void RpcSendReady(PlayerRef player)
-    {
-        PlayerReadyCount.Add(player);
-
-        if(PlayerReadyCount.Count == PlayerDict.Count)
-        {
-            
-        }
-    }
-
-    /// <summary>
-    /// 호스트에게 서버의 씬을 바꾸라는 명령을 주는 메서드
-    /// 근데 씬을 이름으로는 못 바꿈
-    /// 
-    /// </summary>
-    public async void ServerSceneChange(string SceneName, LoadSceneMode mode)
-    {
-        await _runner.LoadScene(SceneRef.FromPath(SceneName), mode);
     }
 
     public async void CreateRoom(string roomName)
     {
-        // Create the Fusion runner and let it know that we will be providing user input
-        _runner.ProvideInput = true;
+        LobbySelectPanel.SetServerInit();
+        ChattingTextController.TextChattingRecord.text = "";//채팅 초기화
+        RoomName = roomName;
+        LobbyMainPanel.ChangeRoomText();
+        var runner = RunnerManager.Instance.GetRunner();
+        runner.ProvideInput = true;
 
         GameFlowManager.Instance.ClientSceneLoad(EGameState.Lobby);
 
-        // Create the NetworkSceneInfo from the current scene
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
         var sceneInfo = new NetworkSceneInfo();
         if (scene.IsValid)
@@ -89,15 +81,32 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
             sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
         }
 
-        // Start or join (depends on gamemode) a session with a specific name
-        await _runner.StartGame(new StartGameArgs()
+        await runner.StartGame(new StartGameArgs()
         {
             GameMode = GameMode.Host,
             SessionName = roomName,
             Scene = scene,
-            SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
+            SceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>(),
         });
     }
+
+    //public async void CreateRoom(string roomName)
+    //{
+    //    ChattingTextController.TextChattingRecord.text = "";//채팅 초기화
+    //    RoomName = roomName;
+    //    LobbyMainPanel.ChangeRoomText();
+    //    var runner = RunnerManager.Instance.GetRunner();
+    //    runner.ProvideInput = true;
+
+    //    LobbySelectPanel.SetServerInit();
+
+    //    await runner.StartGame(new StartGameArgs()
+    //    {
+    //        GameMode = GameMode.Host,
+    //        SessionName = roomName,
+    //        SceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>(),
+    //    });
+    //}
 
     /// <summary>
     /// 같은 이름의 세션 이름의 방이 있는지 확인하는 메서드
@@ -119,12 +128,13 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// <param name="info"></param>
     public async void JoinRoom(SessionInfo info)
     {
-        // Create the Fusion runner and let it know that we will be providing user input
-        _runner.ProvideInput = true;
-
+        ChattingTextController.TextChattingRecord.text = "";//채팅 초기화
+        RoomName = info.Name;
+        LobbyMainPanel.ChangeRoomText();
+        var runner = RunnerManager.Instance.GetRunner();
+        runner.ProvideInput = true;
         GameFlowManager.Instance.ClientSceneLoad(EGameState.Lobby);
 
-        // Create the NetworkSceneInfo from the current scene
         var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
         var sceneInfo = new NetworkSceneInfo();
         if (scene.IsValid)
@@ -132,14 +142,45 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
             sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
         }
 
-        // Start or join (depends on gamemode) a session with a specific name
-        await _runner.StartGame(new StartGameArgs()
+        await runner.StartGame(new StartGameArgs()
         {
             GameMode = GameMode.Client,
             SessionName = info.Name,
             Scene = scene,
-            SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
+            SceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
+        LobbySelectPanel.SetClientInit();
+    }
+
+    //public async void JoinRoom(SessionInfo info)
+    //{
+    //    ChattingTextController.TextChattingRecord.text = "";//채팅 초기화
+    //    RoomName = info.Name;
+    //    LobbyMainPanel.ChangeRoomText();
+    //    var runner = RunnerManager.Instance.GetRunner();
+    //    runner.ProvideInput = true;
+
+    //    LobbySelectPanel.SetClientInit();
+
+    //    await runner.StartGame(new StartGameArgs()
+    //    {
+    //        GameMode = GameMode.Client,
+    //        SessionName = info.Name,
+    //        SceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>()
+    //    });
+    //}
+
+    /// <summary>
+    /// 방을 떠날 때 사용 할 메서드
+    /// </summary>
+    public async void ExitRoom()
+    {
+        var runner = RunnerManager.Instance.GetRunner();
+        await runner.Shutdown();
+        Destroy(runner.gameObject);
+        await Task.Yield();
+        await ConnectRoomSearch();
+        GameFlowManager.Instance.ClientSceneLoad(EGameState.Start);
     }
 
     /// <summary>
@@ -147,12 +188,12 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// </summary>
     public async Task ConnectRoomSearch()
     {
-        if (_runner == null)
-            _runner = gameObject.AddComponent<NetworkRunner>();
-        _runner.ProvideInput = false;
-        _runner.AddCallbacks(this);
-        await _runner.JoinSessionLobby(SessionLobby.ClientServer);
+        var runner = RunnerManager.Instance.GetRunner();
+        runner.AddCallbacks(this);
+        runner.ProvideInput = false;
+        await runner.JoinSessionLobby(SessionLobby.ClientServer);
     }
+
 
     public void OnConnectedToServer(NetworkRunner runner){}
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason){}
@@ -160,7 +201,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data){}
     public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
     {
-
+        ExitRoom();
     }
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken){}
     public void OnInput(NetworkRunner runner, NetworkInput input)
@@ -186,14 +227,42 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player){}
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
+        if(runner.LocalPlayer == player) ThisPlayerRef = player;
 
+        // 호스트만 실행
+        if (!runner.IsServer) return;
+
+        // Spawn: 네 번째 인자로 player를 넘기면 이 오브젝트에
+        // 그 player가 Input Authority를 갖도록 자동 설정됩니다.
+        runner.Spawn(
+            DataPrefab,           // NetworkPrefabRef
+            Vector3.zero,         // 초기 위치
+            Quaternion.identity,  // 초기 회전
+            player,               // ★ Input Authority 지정
+            (r, spawnedObj) => {
+                // ─── 여기서 딱 한 번만 초기화 ───
+                var data = spawnedObj.GetComponent<NetworkData>();
+
+                // 1) 이 오브젝트가 누구의 데이터인지 기록
+                data.PlayerDataRef = player;
+                data.IsServer = (player == runner.LocalPlayer);
+                data.IsReady = (player == runner.LocalPlayer);
+            }
+        );
+        LobbySelectPanel.CheckAllPlayerIsReady();
     }
 
     //플레이어가 나갔을 때 다른 플레이어들에게 실행되는 메서드. runner.SessionInfo는 유효하지만 해당 세션의 인원수는 감소된 형태로 적용된다.
     //나간 플레이어는 해당 메서드를 실행시키지 못한다.
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-
+        //누군가 방에서 나갔을 때 서버가 해당 플레이어의 데이터를 삭제하고 모든 플레이어에게 업데이트 하는 메서드
+        if(runner.IsServer)
+        {
+            DictPlayerDatas[player].IsReady = false;
+            runner.Despawn(DictPlayerDatas[player].GetComponent<NetworkObject>());
+            LobbySelectPanel.CheckAllPlayerIsReady();
+        }
     }
 
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress){}
@@ -213,8 +282,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
             temp.Add(sessionInfo);
         }
         CurrentSessionList = temp;
-        if (ListUpdateAction == null) Debug.Log("비어있었네요");
-        ListUpdateAction?.Invoke();
+        RoomSearch.UpdateRoomList();
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason){}

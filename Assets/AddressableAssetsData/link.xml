@@ -1,22 +1,22 @@
 <linker>
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-    <type fullname="ChatController" preserve="all" />
     <type fullname="ClassSlot" preserve="all" />
     <type fullname="ClassSlotController" preserve="all" />
     <type fullname="InvitationPopup" preserve="all" />
     <type fullname="SelectClassPanelController" preserve="all" />
-    <type fullname="SelectLevelController" preserve="all" />
     <type fullname="SoundData" preserve="all" />
     <type fullname="SpriteImageChange" preserve="all" />
     <type fullname="UIBossStageController" preserve="all" />
     <type fullname="UIBuffSlot" preserve="all" />
     <type fullname="UIBuffSlotManager" preserve="all" />
     <type fullname="UIChangeGameStateButton" preserve="all" />
+    <type fullname="UIChatController" preserve="all" />
     <type fullname="UICreateRoom" preserve="all" />
     <type fullname="UIHealthBar" preserve="all" />
     <type fullname="UIImage" preserve="all" />
     <type fullname="UIInputName" preserve="all" />
-    <type fullname="UILobbyPanel" preserve="all" />
+    <type fullname="UILobbyMainPanel" preserve="all" />
+    <type fullname="UILobbySelectPanel" preserve="all" />
     <type fullname="UINameSpace" preserve="all" />
     <type fullname="UIPopup" preserve="all" />
     <type fullname="UIPopupButton" preserve="all" />
@@ -27,6 +27,8 @@
     <type fullname="UISkillSlotGroup" preserve="all" />
     <type fullname="UISkillSlotManager" preserve="all" />
     <type fullname="UISkillTooltip" preserve="all" />
+    <type fullname="UISkillUpgradeController" preserve="all" />
+    <type fullname="UIStatStore" preserve="all" />
     <type fullname="PlayerRoomData" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">

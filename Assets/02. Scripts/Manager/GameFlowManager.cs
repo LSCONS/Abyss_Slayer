@@ -14,7 +14,7 @@ public enum EGameState  // 게임 시작 상태
     Battle
 }
 
-public class GameFlowManager : SingletonNetwork<GameFlowManager>
+public class GameFlowManager : Singleton<GameFlowManager>
 {
     public IGameState currentState { get; set; }   // 지금 스테이트
     [SerializeField] private EGameState startStateEnum = EGameState.Intro;   // 시작 스테이트 인스펙터 창에서 설정가능하게 해줌
@@ -49,7 +49,6 @@ public class GameFlowManager : SingletonNetwork<GameFlowManager>
     }
 
 
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public async void RpcServerSceneLoad(EGameState nextStateEnum)
     {
         await ChangeState(nextStateEnum);

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIInputName : UIPopup
+public class UIInputName : UIPermanent
 {
     [field: SerializeField] public Button BtnCreateName { get; private set; }
     [field: SerializeField] public TextMeshProUGUI TextError { get; private set; }
@@ -16,7 +16,6 @@ public class UIInputName : UIPopup
         InputNameField.onValueChanged.AddListener(CheckNameError);
         BtnCreateName.onClick.AddListener(CreateName);
         BtnCreateName.interactable = false;
-        UIManager.Instance.OpenPopup(this);
     }
 
     private void CheckNameError(string text)

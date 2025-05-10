@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -266,5 +268,21 @@ public static class Util
     public static bool ComputeProbability(float value)
     {
         return rand.NextDouble() < value / 100.0f;
+    }
+
+    public static byte[] StringToBytes(this string s)
+    {
+        return System.Text.Encoding.UTF8.GetBytes(s);
+    }
+
+    public static string BytesToString(this byte[] bytes)
+    {
+        var temp = new System.Collections.Generic.List<byte>();
+        foreach (var b in bytes)
+        {
+            if (b == 0) continue;
+            temp.Add(b);
+        }
+        return Encoding.UTF8.GetString(temp.ToArray());
     }
 }

@@ -12,6 +12,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public CharacterClass selectedCharacterClass = CharacterClass.Rogue;
     public Dictionary<CharacterClass, SpriteData> CharacterSpriteDicitonary { get; set; } = new();
+    public Action ChangeClassAction { get; set; }
 
     protected override void Awake()
     {
@@ -35,7 +36,6 @@ public class PlayerManager : Singleton<PlayerManager>
         {
             Debug.LogError($"초기화 실패: {ex}");
         }
-
     }
 
     /// <summary>
@@ -51,6 +51,7 @@ public class PlayerManager : Singleton<PlayerManager>
     public void SetSelectedClass(CharacterClass selectedCalss)
     {
         selectedCharacterClass = selectedCalss;
+        ServerManager.Instance.DictPlayerDatas[ServerManager.Instance.ThisPlayerRef].Rpc_ChangeClass(selectedCalss);
     }
 
     public void AddCharacterSprite(CharacterClass character)
