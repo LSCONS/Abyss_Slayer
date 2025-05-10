@@ -140,4 +140,14 @@ public class Boss : MonoBehaviour, IHasHealth
     {
         return activeDebuffs.ContainsKey(type);
     }
+
+    /// <summary>
+    /// 디버프 데이터 반환
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public DebuffData GetDebuffData(DebuffType type)
+    {
+        return activeDebuffs.TryGetValue(type, out var data) ? data : null;
+    }
 }
