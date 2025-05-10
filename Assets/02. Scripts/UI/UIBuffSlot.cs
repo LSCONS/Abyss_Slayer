@@ -16,10 +16,11 @@ public class UIBuffSlot : MonoBehaviour, IView
         iconImage.sprite = icon;
     }
 
-    public void SetCoolTime(float coolTime)
+    public void SetCoolTime(float curCoolTime, float maxCoolTime)
     {
-        coolTimeOverlay.fillAmount = coolTime;
-        coolTimeText.text = coolTime.ToString("F0");
+        coolTimeOverlay.fillAmount = curCoolTime / maxCoolTime;
+        if (curCoolTime == 0) coolTimeText.text = "";
+        else coolTimeText.text = (curCoolTime).ToString("F0");
     }
 
     public void SetPresenter(IPresenter presenter)
