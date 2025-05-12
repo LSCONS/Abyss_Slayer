@@ -664,6 +664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8526757203223560125}
   - component: {fileID: 4948018937257452886}
+  - component: {fileID: 5780861897243566784}
   m_Layer: 5
   m_Name: BuffNDebuffSpace
   m_TagString: Untagged
@@ -706,6 +707,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buffSlotPrefab: {fileID: 15802679098227996, guid: bd7db4189a92b6145a544bfbb5ea43c3, type: 3}
   buffSlotParent: {fileID: 8530890018278582572}
+--- !u!114 &5780861897243566784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8733083916645948986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80f17e8e461f34d4f9760dee9e2ff4de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiType: 34
+  uISceneType: 24
 --- !u!1 &8834065667119862158
 GameObject:
   m_ObjectHideFlags: 0

@@ -67,4 +67,16 @@ public class UIBossBuffSlotManager : Singleton<UIBossBuffSlotManager>
         }
     }
 
+    // 슬롯 클리어해주는 메서드
+    public void ClearAllSlots()
+    {
+        foreach(var kvp in debuffSlot)
+        {
+            if (kvp.Value != null)
+            {
+                Destroy(kvp.Value);
+            }
+        }
+        debuffSlot.Clear();
+    }
 }
