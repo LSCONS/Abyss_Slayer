@@ -59,6 +59,10 @@ public class Boss : MonoBehaviour, IHasHealth
         }
         Debug.Log(Hp.Value);
         //피해입을때 효과,소리
+
+        // attackPosX를 기준으로 화면에 텍스트 띄우기
+        Vector3 worldPos = new Vector3(attackPosX, transform.position.y + 1f, transform.position.z);
+        DamageTextSpawner.Show((int)finalDamage, worldPos);
     }
     void Damaged()
     {
