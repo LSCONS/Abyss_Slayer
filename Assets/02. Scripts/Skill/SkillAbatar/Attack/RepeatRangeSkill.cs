@@ -51,8 +51,4 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
             MovePosition = temp;
         }
     }
-    public override void SkillUpgrade()
-    {
-
-    }
 }

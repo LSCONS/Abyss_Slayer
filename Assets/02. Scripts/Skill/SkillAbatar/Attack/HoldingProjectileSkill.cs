@@ -11,6 +11,7 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
     [field: SerializeField] public int ProjectileCount { get; private set; } = 50;
     [field: Header("발사 지연 시간")]
     [field: SerializeField] public float ShotDelay { get; private set; } = 0.1f;
+
     private Vector3 distanceY = new Vector3(0, 0.25f, 0);
 
     public override void UseSkill()
@@ -41,11 +42,11 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
             {
                 float x = Random.Range(-1f, 1f);
                 Vector3 distanceX = new Vector3(x, 0, 0);
-                PoolManager.Instance.Get<RogueProjectile>().Init(spawnPos + distanceY + distanceX, dir, Range, Speed, Damage * 0.8f);
+                PoolManager.Instance.Get<RogueProjectile>().Init(spawnPos + distanceY + distanceX, dir, Range, Speed, Damage);
 
                 x = Random.Range(-1f, 1f);
                 distanceX = new Vector3(x, 0, 0);
-                PoolManager.Instance.Get<RogueProjectile>().Init(spawnPos - distanceY + distanceX, dir, Range, Speed, Damage * 0.8f);
+                PoolManager.Instance.Get<RogueProjectile>().Init(spawnPos - distanceY + distanceX, dir, Range, Speed, Damage * DamageMultiple);
             }
             else
             {
