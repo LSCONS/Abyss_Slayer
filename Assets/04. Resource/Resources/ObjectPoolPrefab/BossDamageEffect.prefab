@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 9102600192686204394}
   - component: {fileID: 6105949883837936522}
   m_Layer: 0
-  m_Name: DashAttackDamageEffect
+  m_Name: BossDamageEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,3 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e4b8fc536017f542bd369c704a693da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 9024824725861373548}
+  hitEffects:
+  - type: 1
+    clip: {fileID: 7400000, guid: 64be78158b81a534c944e0233aec93e7, type: 2}
+  - type: 0
+    clip: {fileID: 7400000, guid: af6458c28f1c6624fbdbf5b5e1c51753, type: 2}

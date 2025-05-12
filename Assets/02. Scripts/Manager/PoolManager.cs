@@ -82,6 +82,27 @@ public class PoolManager : Singleton<PoolManager>
         return null;
     }
 
+    /// <summary>
+    /// 오브젝트풀로 관리되는 오브젝트를 생성,호출
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="parentTransform">붙일 부모 오브젝트 위치</param>
+    /// <returns></returns>
+    public T Get<T>(Transform parentTransform) where T : BasePoolable
+    {
+        var type = typeof(T);
+
+        if (!poolDict.TryGetValue(type, out var pool))
+        {
+            Debug.LogWarning($"{type}에 대한 풀을 찾을 수 없습니다.");
+            return null;
+        }
+
+        T instance = (T)pool.Get();
+        instance.transform.SetParent(parentTransform, false);
+
+        return instance;
+    }
 
     /// <summary>
     /// 풀 타입을 받아 풀에서 오브젝트를 가져오는 메서드
