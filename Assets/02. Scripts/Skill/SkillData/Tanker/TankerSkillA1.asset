@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37dde014a4932e84181cc9f60a73359d, type: 3}
-  m_Name: TankerSkillA
+  m_Script: {fileID: 11500000, guid: e5e33ab7bd5ecf949b808dbfa3220fc0, type: 3}
+  m_Name: TankerSkillA1
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: "\uCFE8 \uC9E7\uC740 \uB51C\uB9C1\uAE30"
   <SkillDesription>k__BackingField: "\uCFE8 \uC9E7\uC740 \uB51C\uB9C1\uAE30\uC784"
@@ -27,19 +27,12 @@ MonoBehaviour:
   <SkillUseState>k__BackingField: 9
   <AnimationChangeDelayTime>k__BackingField: 1
   <IsConnectSkillCoolDown>k__BackingField: 0
-  <HitEffectType>k__BackingField: 0
   Level:
     value: 1
-  <Damage>k__BackingField: 20
-  <TargetLayer>k__BackingField:
+  <Damage>k__BackingField: 45
+  <ColliderDuration>k__BackingField: 1
+  <TargetMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <ColliderSize>k__BackingField: {x: 3, y: 3}
-  <SpawnSize>k__BackingField: {x: 1, y: 1}
-  <ColliderOffset>k__BackingField: {x: 0, y: 0}
-  <SpawnOffset>k__BackingField: {x: 2, y: 1}
-  <ColliderDuration>k__BackingField: 2
-  <TickRate>k__BackingField: 0.5
-  <EffectName>k__BackingField: TankerSkill_A
-  <ColliderSetDelayTime>k__BackingField: 0.4
-  <CanRepeatHit>k__BackingField: 1
+  <ColliderSize>k__BackingField: {x: 2, y: 1.2}
+  <ColliderOffset>k__BackingField: {x: 1, y: 0.4}
