@@ -74,7 +74,7 @@ public class ZoneAOE : BasePoolable
 
     public void Init(DashMeleeSkill dashMeleeSkill, Type effectType, GameObject effectPrefab)
     {
-        DataInit(dashMeleeSkill, Vector2.zero, effectType); 
+        DataInit(dashMeleeSkill, Vector2.zero, effectType, EHitEffectType.Dash); 
         Vector2 dashDirection = Data.Player.IsFlipX ? Vector2.left : Vector2.right;
         StartCoroutine(DashCoroutine(dashDirection, dashMeleeSkill, effectPrefab));
     }
@@ -91,9 +91,9 @@ public class ZoneAOE : BasePoolable
         UseSkillSetting(remoteZoneRangeSkill.EffectName, flipX, playerPosition);
     }
 
-    private void DataInit(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType)
+    private void DataInit(RemoteZoneRangeSkill remoteZoneRangeSkill, Vector2 move, Type effectType, EHitEffectType eHitEffectType = EHitEffectType.Normal)
     {
-        Data = new MeleeDamageCheckData(remoteZoneRangeSkill, effectType);
+        Data = new MeleeDamageCheckData(remoteZoneRangeSkill, effectType, eHitEffectType);
         SpawnOffset = remoteZoneRangeSkill.SpawnOffset;
         SpawnSize = remoteZoneRangeSkill.SpawnSize;
         MovePosition = move;

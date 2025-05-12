@@ -126,6 +126,12 @@ public class MeleeDamageCheck : MonoBehaviour
                     effect.transform.position = enemyTransform.transform.position;
                     effect.transform.SetParent(enemyTransform);
                     effect.Init();
+
+                    // 히트 이펙트 출력
+                    if (effect is BossHitEffect bhe)
+                    {
+                        bhe.PlayEffect(Data.EffectAnimationType);
+                    }
                     effect.AutoReturn(Data.Duration);
                 }
             }
@@ -195,8 +201,9 @@ public class MeleeDamageCheckData
     public float Damage             { get; private set; }
     public float Duration           { get; private set; }
     public float TickRate           { get; private set; }
-    public bool CanRepeatHit        { get; private set; } 
-    public MeleeDamageCheckData(RemoteZoneRangeSkill _remoteZoneRangeSkill, Type _effectType)
+    public bool CanRepeatHit        { get; private set; }
+    public EHitEffectType EffectAnimationType { get; private set; }  // 히트 이펙트 정보
+    public MeleeDamageCheckData(RemoteZoneRangeSkill _remoteZoneRangeSkill, Type _effectType, EHitEffectType _eHitEffectType)
     {
         Player = _remoteZoneRangeSkill.player;
         Skill = _remoteZoneRangeSkill;
@@ -209,6 +216,7 @@ public class MeleeDamageCheckData
         TickRate = _remoteZoneRangeSkill.TickRate;
         CanRepeatHit = _remoteZoneRangeSkill.CanRepeatHit;
         EffectType = _effectType;
+        EffectAnimationType = _eHitEffectType;
     }
 
     public MeleeDamageCheckData
