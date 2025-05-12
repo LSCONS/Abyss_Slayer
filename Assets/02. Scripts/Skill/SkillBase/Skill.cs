@@ -40,6 +40,10 @@ public class Skill : ScriptableObject
     [field: SerializeField] public bool IsConnectSkillCoolDown { get; private set; } = false;
     //이 스킬이 적중할 때마다 실행하고 싶은 Action들을 저장
     [field: SerializeField] public Action AttackAction { get; set; } = null;
+    [field: Header("원하는 스킬 이펙트 프리팹")]
+    [field: SerializeField] public Type SkillEffects { get; set; }
+    [field: Header("스킬 이펙트 지속시간")]
+    [field: SerializeField] public float SkillEffectsDuration { get; set; } = 1.0f;
 
     [field: Header("원하는 히트 이펙트 타입")]
     [field: SerializeField] public EHitEffectType HitEffectType { get; set; }
@@ -76,5 +80,20 @@ public class Skill : ScriptableObject
             CurCoolTime.Value = Mathf.Max(CurCoolTime.Value - amount, 0);
             if (CurCoolTime.Value == 0) CanUse = true;
         }
+    }
+
+    // 스킬 이펙트 재생
+    public void PlaySkillEffect()
+    {
+        if (this.SkillEffects == null) return;
+
+        BasePoolable effect = PoolManager.Instance.Get(this.SkillEffects);
+        if (effect == null) return;
+
+        // 이제 이펙트 설정해주기
+        effect.transform.position = this.PlayerPosition();
+        effect.transform.localScale = Vector3.one;
+        effect.Init();
+        effect.AutoReturn(SkillEffectsDuration);
     }
 }
