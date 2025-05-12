@@ -46,7 +46,7 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
 
                 x = Random.Range(-1f, 1f);
                 distanceX = new Vector3(x, 0, 0);
-                PoolManager.Instance.Get<RogueProjectile>().Init(spawnPos - distanceY + distanceX, dir, Range, Speed, Damage * DamageMultiple);
+                PoolManager.Instance.Get<RogueProjectile>().Init(spawnPos - distanceY + distanceX, dir, Range, Speed, Damage * CurDamageMultiple);
             }
             else
             {
