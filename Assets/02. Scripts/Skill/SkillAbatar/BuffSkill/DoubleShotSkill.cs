@@ -17,7 +17,7 @@ public class DoubleShotSkill : BuffSkill
     {
         base.SkillUpgrade();
         Level.Value++;
-        projectileAttackSkill.DamageMultiple = projectileAttackSkill.BaseDamageMultiple + (Level.Value - 1) * 0.1f;
-        Debug.LogAssertion($"배율 업그레이드: {projectileAttackSkill.DamageMultiple}");
+        projectileAttackSkill.CurDamageMultiple = projectileAttackSkill.BaseDamageMultiple + (Level.Value - 1) * Magnification;
+        Debug.LogAssertion($"배율 업그레이드: {projectileAttackSkill.CurDamageMultiple}");
     }
 }

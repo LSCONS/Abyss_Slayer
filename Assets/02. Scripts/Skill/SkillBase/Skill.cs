@@ -60,7 +60,7 @@ public class Skill : ScriptableObject
     public ReactiveProperty<int> Level = new ReactiveProperty<int>(1); // 스킬 레벨
 
     [field: Header("스킬 레벨별 배율")]
-    [field: SerializeField] public float Magnification { get; private set; } = 0.1f;
+    [field: SerializeField] public float Magnification { get; private set; } = 0.1f; // 배율
 
     // 플레이어 초기화
     public virtual void Init() { }
