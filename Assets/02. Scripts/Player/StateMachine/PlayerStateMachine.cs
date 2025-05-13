@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ public class PlayerStateMachine : StateMachine
 
     public bool IsDash { get; set; } = false;       //플레이어가 현재 대시 상태인지 출력하는 변수
     public bool CanMove { get; set; } = true;
+    public bool DidDownJump { get; set; } = false;  // 플레이어가 아랫점프 중인지 확인
+    public bool WasJumpPressedLastFrame { get; set; } = false;
     public AnimatorStateInfo AnimatorInfo { get; set; }
     public bool IsCompareState { get; set; }
     public float MovementSpeed { get; set; }
@@ -210,8 +213,7 @@ public class PlayerStateMachine : StateMachine
     public bool ConnectJumpState()
     {
         if(Player.input.IsJump &&           //점프키를 입력했다면
-            IsCanJump() &&                  //점프가 가능한 상태라면
-            IsZeroVelocityY())              //Y축으로 이동하는 힘이 0이라면
+            Player.PlayerData.PlayerAirData.CanJump())  //  남은 점프 횟수가 있다면
         {
             if (!(IsDownMoveDirY()))        //아래키를 입력하고 있지 않다면
             {
@@ -257,5 +259,21 @@ public class PlayerStateMachine : StateMachine
                 return;
             }
         }
+    }
+
+    private Coroutine downJumpCooldownCoroutine;
+
+    public void StartDownJumpCooldown(float delay = 0.1f)
+    {
+        if (downJumpCooldownCoroutine != null)
+            Player.StopCoroutine(downJumpCooldownCoroutine);
+
+        downJumpCooldownCoroutine = Player.StartCoroutine(ResetDownJump(delay));
+    }
+
+    private IEnumerator ResetDownJump(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        DidDownJump = false;
     }
 }

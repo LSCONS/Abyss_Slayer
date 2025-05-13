@@ -27,6 +27,9 @@ MonoBehaviour:
   <SkillUseState>k__BackingField: 9
   <AnimationChangeDelayTime>k__BackingField: 1
   <IsConnectSkillCoolDown>k__BackingField: 0
+  <SkillEffectsClipName>k__BackingField: 
+  <SkillEffectsDuration>k__BackingField: 1
+  <HitEffectType>k__BackingField: 0
   Level:
     value: 1
   <Damage>k__BackingField: 45
@@ -34,5 +37,5 @@ MonoBehaviour:
   <TargetMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <ColliderSize>k__BackingField: {x: 2, y: 1.2}
+  <ColliderSize>k__BackingField: {x: 3, y: 1.2}
   <ColliderOffset>k__BackingField: {x: 1, y: 0.4}

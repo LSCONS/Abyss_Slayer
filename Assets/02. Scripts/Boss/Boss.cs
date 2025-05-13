@@ -45,20 +45,30 @@ public class Boss : MonoBehaviour, IHasHealth
 
         float finalDamage = damage * DamageMultiplier;  // 데미지 배율 적용
 
+        
+        Vector3 worldPos = new Vector3(attackPosX, transform.position.y + 1f, transform.position.z);        // attackPosX를 기준으로 worldPos 잡아주기 (데미지 인디케이터를 위한)
+
         if (attackPosX == -1000 || (attackPosX - transform.position.x < 0) == bossController.isLeft)
         {
             ChangeHP(-(int)finalDamage);
             Damaged();
             animator.SetTrigger("Damaged");
+            DamageTextSpawner.Show((int)finalDamage, worldPos);                                             // 데미지 인디케이터 스폰
+
         }
         else
         {
-            ChangeHP((int)(-finalDamage * 1.1f));
+            int totalFinalDamage = (int)(finalDamage * 1.1f);
+            ChangeHP((int)(-totalFinalDamage));
             Damaged();
             animator.SetTrigger("Damaged");
+            DamageTextSpawner.Show((int)(totalFinalDamage), worldPos);                                    // 데미지 인디케이터 스폰
+
         }
         Debug.Log(Hp.Value);
         //피해입을때 효과,소리
+
+
     }
     void Damaged()
     {

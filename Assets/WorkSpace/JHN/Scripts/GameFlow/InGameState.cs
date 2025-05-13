@@ -50,8 +50,6 @@ public class InGameState : BaseGameState
     {
         UIManager.Instance.CloseUI(UISceneType.Boss);
        // UIManager.Instance.CleanupUIMap();
-
-
         // UIManager.Instance.ClearUI(UIType.GamePlay);            // 게임 플레이 UI 제거
         await Task.CompletedTask;
     }

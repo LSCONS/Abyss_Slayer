@@ -18,6 +18,7 @@ public class PlayerFallState : PlayerAirState
         MoveAction.AddListener(playerStateMachine.ConnectWalkState);
         //Dash State 진입 가능 여부 확인
         MoveAction.AddListener(playerStateMachine.ConnectDashState);
+
     }
 
     public override void Enter()
@@ -50,11 +51,24 @@ public class PlayerFallState : PlayerAirState
     public override void Update()
     {
         base.Update();
-        if (animationTime <= 0)
-        {
-            animationTime = animationDelay;
-            if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Fall, ++animationNum)) return;
-        }
+
+
+        CheckDownJump();                        // 밑점프 체크
+        CheckDoubleJump();                      // 2단 점프 체크
+        UpdateJumpInputMemory();                // 점프 키 입력 상태 저장
+        UpdateFallAnimation();                  // 밑점 애니메이션 업데이트
+
         MoveAction?.Invoke();
+    }
+
+    /// <summary>
+    /// fall 애니메이션 업데이트
+    /// </summary>
+    private void UpdateFallAnimation()
+    {
+        if (animationTime > 0) return;
+
+        animationTime = animationDelay;
+        playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Fall, ++animationNum);
     }
 }

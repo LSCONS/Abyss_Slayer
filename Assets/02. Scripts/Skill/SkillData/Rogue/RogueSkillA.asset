@@ -15,7 +15,7 @@ MonoBehaviour:
   <SkillName>k__BackingField: "\uAC15\uD654 \uC218\uB9AC\uAC80"
   <SkillDesription>k__BackingField: "\uAC15\uD55C \uB370\uBBF8\uC9C0\uB97C \uAC00\uC9C4
     \uC218\uB9AC\uAC80\uC744 \uD22C\uCC99\uD55C\uB2E4."
-  <SkillCategory>k__BackingField: 0
+  <SkillCategory>k__BackingField: 6
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: 953288f5942deac49844dcfdb92b3410, type: 3}
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 1
@@ -26,8 +26,15 @@ MonoBehaviour:
   <ApplyState>k__BackingField: 23
   <SkillEnterState>k__BackingField: 8
   <SkillUseState>k__BackingField: 9
-  <AnimationChangeDelayTime>k__BackingField: 1
+  <AnimationChangeDelayTime>k__BackingField: 2
   <IsConnectSkillCoolDown>k__BackingField: 0
-  <Damage>k__BackingField: 110
+  <HitEffectType>k__BackingField: 0
+  Level:
+    value: 1
+  <Magnification>k__BackingField: 0.1
+  <BaseDamage>k__BackingField: 130
+  <Damage>k__BackingField: 130
   <Range>k__BackingField: 10
   <Speed>k__BackingField: 30
+  <BaseDamageMultiple>k__BackingField: 0.6
+  <DamageMultiple>k__BackingField: 0.6

@@ -19,4 +19,17 @@ public class BuffSkill : Skill
     [field: SerializeField] public bool IsApply { get; set; } = false; // 현재 버프 적용 여부
     [field: Header("버프 타입")]
     [field: SerializeField] public BuffType Type { get; private set; } = BuffType.None; // 버프 타입
+
+    [SerializeField] private ProjectileAttackSkill projectileAttackSkill; // 임시 참조
+
+    public override void SkillUpgrade()
+    {
+        base.SkillUpgrade();
+        Level.Value++;
+        if (projectileAttackSkill != null)
+        {
+            projectileAttackSkill.DamageMultiple = projectileAttackSkill.BaseDamageMultiple + (Level.Value - 1) * Magnification;
+            Debug.LogAssertion($"배율 업그레이드: {projectileAttackSkill.DamageMultiple}");
+        }
+    }
 }

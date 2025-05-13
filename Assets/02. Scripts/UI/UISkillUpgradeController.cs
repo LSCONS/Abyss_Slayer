@@ -49,7 +49,7 @@ public class UISkillUpgradeController : UIPopup
             {
                 if (skillPoint > 0)
                 {
-                    skill.Level.Value++;
+                    skill.SkillUpgrade();
                     skillPoint--;
                     slot.SetSkillLevel(skill.Level.Value);
                     UpdateSkillPointText();
