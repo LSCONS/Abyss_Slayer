@@ -16,7 +16,6 @@ public class RangeAttackSkill : Skill
     public override void SkillUpgrade()
     {
         base.SkillUpgrade();
-        Level.Value++;
         Damage = BaseDamage * (1.0f + (Level.Value - 1) * Magnification);
     }
 }
