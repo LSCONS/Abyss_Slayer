@@ -101,11 +101,8 @@ public class Skill : ScriptableObject
     // 스킬 이펙트 재생
     public void PlaySkillEffect()
     {
-        if (SkillEffectsClipName.Trim() == "") {
-            Debug.Log("SkillEffectsClipName null이잖아");
-            return; 
-        }
-
+        if (string.IsNullOrWhiteSpace(SkillEffectsClipName)) return; 
+        
         BasePoolable effectObj = PoolManager.Instance.Get(typeof(SkillEffectController));
         if(effectObj == null) return;
 
