@@ -15,6 +15,8 @@ public class MeleeDamageCheck : MonoBehaviour
     public MeleeDamageCheckData Data { get; private set; }
     public Coroutine ColliderStartCoroutine { get; private set; }
 
+    bool IsBackAttack = false;
+
     private void OnValidate()
     {
         BoxCollider = GetComponent<BoxCollider2D>();
@@ -45,6 +47,8 @@ public class MeleeDamageCheck : MonoBehaviour
         BoxCollider.size = Data.ColliderSize;
         BoxCollider.offset = new Vector2(Data.ColliderOffset.x * flag, Data.ColliderOffset.y);
 
+        IsBackAttack = false ;
+
         hitObjects.Clear();
         NextHitTime.Clear();
         ColliderStartCoroutine = StartCoroutine(SetColliderDelay(data.DelayTime));
@@ -53,6 +57,7 @@ public class MeleeDamageCheck : MonoBehaviour
     public void BasicInit(MeleeDamageCheckData data)
     {
         Init(data);
+        IsBackAttack = true;
         StartCoroutine(ExitColliderDelay(data.Duration));
     }
 
@@ -159,7 +164,10 @@ public class MeleeDamageCheck : MonoBehaviour
 
     private void AttackEnemy(IHasHealth enemy)
     {
-        enemy.Damage((int)Data.Damage, transform.position.x); // 데미지 전달
+        if(IsBackAttack)
+            enemy.Damage((int)Data.Damage, transform.position.x); // 백어택 계산하는 데미지 전달
+        else
+            enemy.Damage((int)Data.Damage); // 백어택 없는 데미지 전달
         Data.Skill.AttackAction?.Invoke();    // 스킬이 적중하면 플레이어한테 알려줌
     }
 
