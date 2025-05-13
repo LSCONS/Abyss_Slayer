@@ -33,6 +33,7 @@ MonoBehaviour:
   Level:
     value: 1
   <Magnification>k__BackingField: 0.1
+  <BaseDamage>k__BackingField: 1080
   <Damage>k__BackingField: 1080
   <TargetLayer>k__BackingField:
     serializedVersion: 2
@@ -42,8 +43,8 @@ MonoBehaviour:
   <ColliderOffset>k__BackingField: {x: 0, y: 0}
   <SpawnOffset>k__BackingField: {x: 2.5, y: 1}
   <ColliderDuration>k__BackingField: 1.8
-  <TickRate>k__BackingField: 0.2
+  <TickRate>k__BackingField: 1
   <EffectName>k__BackingField: Skill_D
   <ColliderSetDelayTime>k__BackingField: 1
-  <CanRepeatHit>k__BackingField: 0
+  <CanRepeatHit>k__BackingField: 1
   <CoolDownTime>k__BackingField: 1

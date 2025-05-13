@@ -36,6 +36,7 @@ public class RemoteZoneRangeSkill : RangeAttackSkill
 
     public override void UseSkill()
     {
+        base.UseSkill();
         // 풀에서 ZoneAOE 꺼내기
         PoolManager.Instance.Get<ZoneAOE>().Init(this, Vector2.zero, null);
     }
