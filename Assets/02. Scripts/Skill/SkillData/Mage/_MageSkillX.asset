@@ -9,32 +9,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5e33ab7bd5ecf949b808dbfa3220fc0, type: 3}
-  m_Name: MagicalBladerSkillX
+  m_Script: {fileID: 11500000, guid: 1e0aee84bedc23941b976b575a170e55, type: 3}
+  m_Name: _MageSkillX
   m_EditorClassIdentifier: 
-  <SkillName>k__BackingField: "\uC77C\uBC18\uACF5\uACA9"
-  <SkillDesription>k__BackingField: "\uC77C\uBC18 \uBB3C\uB9AC \uACF5\uACA9\uC784"
+  <SkillName>k__BackingField: "\uC2A4\uD0AC \uC774\uB984"
+  <SkillDesription>k__BackingField: "\uC2A4\uD0AC \uC124\uBA85"
   <SkillCategory>k__BackingField: 1
   <SkillIcon>k__BackingField: {fileID: 0}
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 1
   <MaxCoolTime>k__BackingField:
-    value: 0.6
+    value: 0.8
   <CurCoolTime>k__BackingField:
     value: 0
   <ApplyState>k__BackingField: -1
-  <SkillEnterState>k__BackingField: 11
-  <SkillUseState>k__BackingField: 12
-  <AnimationChangeDelayTime>k__BackingField: 2
-  <IsConnectSkillCoolDown>k__BackingField: 1
+  <SkillEnterState>k__BackingField: 8
+  <SkillUseState>k__BackingField: 9
+  <AnimationChangeDelayTime>k__BackingField: 4
+  <IsConnectSkillCoolDown>k__BackingField: 0
   <HitEffectType>k__BackingField: 0
   Level:
     value: 1
   <Magnification>k__BackingField: 0.1
-  <Damage>k__BackingField: 45
-  <ColliderDuration>k__BackingField: 0.2
-  <TargetMask>k__BackingField:
+  <BaseDamage>k__BackingField: 30
+  <Damage>k__BackingField: 30
+  <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <ColliderSize>k__BackingField: {x: 3, y: 1.2}
-  <ColliderOffset>k__BackingField: {x: 1, y: 0.4}

@@ -17,8 +17,9 @@ public class OnceProjectileSkill : ProjectileAttackSkill
         // 버프 상태일 경우 추가 화살 생성
         if (player.BuffDuration.ContainsKey(BuffType.RogueDoubleShot) && player.BuffDuration[BuffType.RogueDoubleShot].IsApply)
         {
-            ThrowProjectile(spawnPos + distanceY, dirX, 0.85f); 
-            ThrowProjectile(spawnPos - distanceY, dirX, 0.85f);
+            ThrowProjectile(spawnPos + distanceY, dirX); 
+            ThrowProjectile(spawnPos - distanceY, dirX, DamageMultiple);
+            Debug.LogAssertion($"추가 투사체 배율: {DamageMultiple}");
         }
         else
         {

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: MagicalBladerSkillS
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: "\uB9C8\uAC80\uC0AC S"
-  <SkillDesription>k__BackingField: "\uAC80\uC744 \uC18C\uD658\uD574 20 \uD53C\uD574\uB97C
+  <SkillDesription>k__BackingField: "\uAC80\uC744 \uC18C\uD658\uD574 40 \uD53C\uD574\uB97C
     9\uD68C \uC785\uD78C\uB2E4."
-  <SkillCategory>k__BackingField: 0
+  <SkillCategory>k__BackingField: 6
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: 8dc86d2f8919d044ca02159453c2832c, type: 3}
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 0
@@ -28,7 +28,12 @@ MonoBehaviour:
   <SkillUseState>k__BackingField: 24
   <AnimationChangeDelayTime>k__BackingField: 2
   <IsConnectSkillCoolDown>k__BackingField: 0
-  <Damage>k__BackingField: 20
+  <HitEffectType>k__BackingField: 0
+  Level:
+    value: 1
+  <Magnification>k__BackingField: 0.1
+  <BaseDamage>k__BackingField: 0
+  <Damage>k__BackingField: 40
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
@@ -36,8 +41,8 @@ MonoBehaviour:
   <SpawnSize>k__BackingField: {x: 1, y: 1}
   <ColliderOffset>k__BackingField: {x: 0, y: 0}
   <SpawnOffset>k__BackingField: {x: 3, y: 1}
-  <ColliderDuration>k__BackingField: 1.28
-  <TickRate>k__BackingField: 0.09
+  <ColliderDuration>k__BackingField: 1.3
+  <TickRate>k__BackingField: 0.085
   <EffectName>k__BackingField: Skill_S
-  <ColliderSetDelayTime>k__BackingField: 0.4
+  <ColliderSetDelayTime>k__BackingField: 0.45
   <CanRepeatHit>k__BackingField: 1
