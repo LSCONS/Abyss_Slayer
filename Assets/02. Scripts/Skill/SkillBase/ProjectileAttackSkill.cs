@@ -18,7 +18,7 @@ public class ProjectileAttackSkill : Skill
     [field: SerializeField] public float BaseDamageMultiple { get; private set; } = 0.6f; // 추가 투사체 초기 데미지 배율
 
     [field: Header(("추가 투사체 데미지 배율"))]
-    [field: SerializeField] public float CurDamageMultiple { get; set; } = 0.6f; // 추가 투사체 데미지 배율
+    [field: SerializeField] public float DamageMultiple { get; set; } = 0.6f; // 추가 투사체 데미지 배율
 
 
     /// <summary>
@@ -38,10 +38,10 @@ public class ProjectileAttackSkill : Skill
     /// <typeparam name="T">투사체 타입</typeparam>
     /// <param name="startPos">투사체 시작 위치</param>
     /// <param name="dir">투사체 방향</param>
-    /// <param name="DamageMultiple">투사체 데미지 배율</param>
+    /// <param name="Damage">투사체 데미지</param>
     public void ThrowProjectile(Vector3 startPos, Vector3 dir, float Damage)
     {
-        PoolManager.Instance.Get<RogueProjectile>().Init(startPos, dir, Range, Speed, Damage * CurDamageMultiple);
+        PoolManager.Instance.Get<RogueProjectile>().Init(startPos, dir, Range, Speed, Damage * DamageMultiple);
     }
 
     public override void SkillUpgrade()
