@@ -14,6 +14,7 @@ public class BasicMeleeSkill : MeleeAttackSkill
 
     public override void UseSkill()
     {
+        base.UseSkill();
         // 콜라이더 초기화
         if(meleeDamageCheck == null)
             meleeDamageCheck = player.PlayerMeleeCollider.GetComponent<MeleeDamageCheck>();

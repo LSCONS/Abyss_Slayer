@@ -40,8 +40,8 @@ public class Skill : ScriptableObject
     [field: SerializeField] public bool IsConnectSkillCoolDown { get; private set; } = false;
     //이 스킬이 적중할 때마다 실행하고 싶은 Action들을 저장
     [field: SerializeField] public Action AttackAction { get; set; } = null;
-    [field: Header("원하는 스킬 이펙트 프리팹")]
-    [field: SerializeField] public Type SkillEffects { get; set; }
+    [field: Header("원하는 스킬 이펙트 클립 이름")]
+    [field: SerializeField] public string SkillEffectsClipName { get; set; } = "";
     [field: Header("스킬 이펙트 지속시간")]
     [field: SerializeField] public float SkillEffectsDuration { get; set; } = 1.0f;
 
@@ -54,7 +54,7 @@ public class Skill : ScriptableObject
     public virtual void Init() { }
 
     // 스킬 사용 추상 메서드
-    public virtual void UseSkill() { }
+    public virtual void UseSkill() { PlaySkillEffect(); }
 
     public virtual void SkillUpgrade() { }
 
@@ -85,15 +85,23 @@ public class Skill : ScriptableObject
     // 스킬 이펙트 재생
     public void PlaySkillEffect()
     {
-        if (this.SkillEffects == null) return;
+        if (SkillEffectsClipName.Trim() == "") {
+            Debug.Log("SkillEffectsClipName null이잖아");
+            return; 
+        }
 
-        BasePoolable effect = PoolManager.Instance.Get(this.SkillEffects);
+        BasePoolable effectObj = PoolManager.Instance.Get(typeof(SkillEffectController));
+        if(effectObj == null) return;
+
+
+        SkillEffectController effect = effectObj as SkillEffectController;
         if (effect == null) return;
 
         // 이제 이펙트 설정해주기
         effect.transform.position = this.PlayerPosition();
         effect.transform.localScale = Vector3.one;
         effect.Init();
+        effect.PlayClip(SkillEffectsClipName);
         effect.AutoReturn(SkillEffectsDuration);
     }
 }
