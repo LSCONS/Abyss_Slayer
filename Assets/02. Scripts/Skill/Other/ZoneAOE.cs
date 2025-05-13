@@ -58,6 +58,7 @@ public class ZoneAOE : BasePoolable
 
         if (Data.Skill != null && Data.Skill.SkillCategory == SkillCategory.Hold)
         {
+            Debug.Log("홀드 스킬 코루틴 등록 완료");
             Data.Player.StartHoldSkillCoroutine(ReturnTOPool(Data.Duration), Exit);
         }
         else
@@ -131,6 +132,7 @@ public class ZoneAOE : BasePoolable
         ReturnToPool();
         Animator.enabled = false;
         MeleeDamageCheck.Exit();
+        if (Data.Skill.SkillCategory == SkillCategory.Hold)
         Data.Player.StopHoldSkillNoneCoroutine();
     }
 
