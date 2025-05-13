@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: "\uC2A4\uD0AC \uC774\uB984"
   <SkillDesription>k__BackingField: "\uC2A4\uD0AC \uC124\uBA85"
-  <SkillCategory>k__BackingField: 0
+  <SkillCategory>k__BackingField: 1
   <SkillIcon>k__BackingField: {fileID: 0}
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 1
@@ -27,8 +27,11 @@ MonoBehaviour:
   <SkillUseState>k__BackingField: 9
   <AnimationChangeDelayTime>k__BackingField: 4
   <IsConnectSkillCoolDown>k__BackingField: 0
+  <HitEffectType>k__BackingField: 0
+  Level:
+    value: 1
+  <Magnification>k__BackingField: 0.1
   <Damage>k__BackingField: 30
-  <Range>k__BackingField: 7
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256

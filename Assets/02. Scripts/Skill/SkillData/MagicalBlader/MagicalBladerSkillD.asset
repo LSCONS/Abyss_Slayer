@@ -16,7 +16,7 @@ MonoBehaviour:
   <SkillDesription>k__BackingField: "\uAC80\uC744 \uC18C\uD658\uD574 1080\uC758 \uD53C\uD574\uB97C
     \uC90D\uB2C8\uB2E4. \uAE30\uBCF8 \uACF5\uACA9 \uC801\uC911 \uC2DC \uCFE8\uD0C0\uC784
     1\uCD08 \uAC10\uC18C"
-  <SkillCategory>k__BackingField: 0
+  <SkillCategory>k__BackingField: 6
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: d5da1a910a31265449fc5920b4cadf85, type: 3}
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 0
@@ -29,6 +29,10 @@ MonoBehaviour:
   <SkillUseState>k__BackingField: 27
   <AnimationChangeDelayTime>k__BackingField: 4
   <IsConnectSkillCoolDown>k__BackingField: 0
+  <HitEffectType>k__BackingField: 0
+  Level:
+    value: 1
+  <Magnification>k__BackingField: 0.1
   <Damage>k__BackingField: 1080
   <TargetLayer>k__BackingField:
     serializedVersion: 2
