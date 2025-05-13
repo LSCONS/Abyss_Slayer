@@ -17,7 +17,7 @@ MonoBehaviour:
   <SkillCategory>k__BackingField: 1
   <SkillIcon>k__BackingField: {fileID: 0}
   <CanUse>k__BackingField: 1
-  <CanMove>k__BackingField: 1
+  <CanMove>k__BackingField: 0
   <MaxCoolTime>k__BackingField:
     value: 0.8
   <CurCoolTime>k__BackingField:
@@ -27,6 +27,8 @@ MonoBehaviour:
   <SkillUseState>k__BackingField: 27
   <AnimationChangeDelayTime>k__BackingField: 4
   <IsConnectSkillCoolDown>k__BackingField: 0
+  <SkillEffectsClipName>k__BackingField: 
+  <SkillEffectsDuration>k__BackingField: 0.8
   <HitEffectType>k__BackingField: 0
   Level:
     value: 1
@@ -36,12 +38,12 @@ MonoBehaviour:
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <ColliderSize>k__BackingField: {x: 13.4, y: 2.3}
-  <SpawnSize>k__BackingField: {x: 1, y: 1}
+  <ColliderSize>k__BackingField: {x: 9, y: 2.5}
+  <SpawnSize>k__BackingField: {x: 1.2, y: 1.2}
   <ColliderOffset>k__BackingField: {x: 0, y: 0}
-  <SpawnOffset>k__BackingField: {x: 7.9, y: 0}
-  <ColliderDuration>k__BackingField: 0.5
-  <TickRate>k__BackingField: 0.5
-  <EffectName>k__BackingField: MageSkill02
-  <ColliderSetDelayTime>k__BackingField: 0
+  <SpawnOffset>k__BackingField: {x: 1.6, y: 0}
+  <ColliderDuration>k__BackingField: 0.8
+  <TickRate>k__BackingField: 1
+  <EffectName>k__BackingField: MageSkill_X
+  <ColliderSetDelayTime>k__BackingField: 0.2
   <CanRepeatHit>k__BackingField: 1
