@@ -56,50 +56,12 @@ public class PlayerJumpState : PlayerAirState
     {
         base.Update();
 
-        CheckDownJump();                // 밑점프 체크
-        CheckDoubleJump();              // 2단 점프 체크
-        UpdateJumpAnimation();          // 점프 애니메이션 업데이트
-        CheckFallTransition();          // fallState 상태로 전환 확인
+        CheckDownJump();                                    // 밑점프 체크
+        CheckDoubleJump(ref hasJumpedInThisFrame);          // 2단 점프 체크
+        UpdateJumpAnimation();                              // 점프 애니메이션 업데이트
+        CheckFallTransition();                              // fallState 상태로 전환 확인
 
         MoveAction?.Invoke();
-    }
-
-    /// <summary>
-    /// 아래 키 + 점프 입력 시 밑점
-    /// </summary>
-    private void CheckDownJump()
-    {
-        var input = playerStateMachine.Player.input;
-
-        if (input.IsJump &&
-            input.MoveDir.y < 0f &&
-            playerStateMachine.Player.playerCheckGround.GroundPlatformCount > 0)
-        {
-            playerStateMachine.Player.PlayerGroundCollider.isTrigger = true;
-            playerStateMachine.ChangeState(playerStateMachine.FallState);
-        }
-    }
-
-    /// <summary>
-    /// 점프 키 새로 눌리고, 점프 횟수 남아있을 때 2단 점프 실행
-    /// </summary>
-    private void CheckDoubleJump()
-    {
-        var input = playerStateMachine.Player.input;
-
-        if (!playerStateMachine.DidDownJump &&
-            !hasJumpedInThisFrame &&
-            input.IsJump &&
-            playerStateMachine.Player.PlayerData.PlayerAirData.CanJump())
-        {
-            hasJumpedInThisFrame = true;
-            playerStateMachine.ChangeState(playerStateMachine.JumpState);
-        }
-
-        if (!input.IsJump)
-        {
-            hasJumpedInThisFrame = false;
-        }
     }
 
     /// <summary>
@@ -120,7 +82,6 @@ public class PlayerJumpState : PlayerAirState
     {
         playerStateMachine.ConnectRigidbodyFallState();
     }
-
 
     /// <summary>
     /// 플레이어가 점프를 실행할 때 실행할 메서드
