@@ -486,4 +486,12 @@ public class UIManager : Singleton<UIManager>
         return null;
     }
 
+    /// <summary>
+    /// 팝업 스택 클리어
+    /// </summary>
+    public void ResetPopupState()
+    {
+        popupStack.Clear();
+    }
+
 }

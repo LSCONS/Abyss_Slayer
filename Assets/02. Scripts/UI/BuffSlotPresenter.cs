@@ -14,13 +14,15 @@ public class BuffSlotPresenter : IPresenter
         this.view = view;
         //TODO: 버프 UI출력 교체 필요
         view.SetIcon(GetBuffIcon()); // 버프 아이콘 설정
-        view.SetCoolTime(model.CurBuffDuration.Value / model.MaxBuffDuration.Value);
+        view.SetCoolTime(model.CurBuffDuration.Value, model.MaxBuffDuration.Value);
         view.SetPresenter(this);
 
         // 지속 시간에 따라 fillAmount 업데이트
         model.CurBuffDuration
-           .CombineLatest(model.MaxBuffDuration, (cur, max) => cur / max)
-           .Subscribe(view.SetCoolTime)
+           .Subscribe(cur =>
+           {
+               view.SetCoolTime(cur, model.MaxBuffDuration.Value);
+           })
            .AddTo(disposable);
 
         // 지속 시간이 0 이하가 되면 UI만 끔 (SetActive(false)하기)

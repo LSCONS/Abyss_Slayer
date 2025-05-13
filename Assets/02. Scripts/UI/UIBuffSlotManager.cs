@@ -22,7 +22,7 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
     public void Init()
     {
         ClearSlot();    
-        player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Player>();
+        player = PlayerManager.Instance.Player;
 
         // Player의 모든 스킬 중 BuffSkill만 감지
         foreach (var skill in player.EquippedSkills.Values)

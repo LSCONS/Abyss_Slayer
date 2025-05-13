@@ -2,13 +2,30 @@ using UnityEngine;
 
 public class ProjectileAttackSkill : Skill
 {
-    [field: Header("탄환 데미지")]
+    [field: Header("투사체 초기 데미지")]
+    [field: SerializeField] public float BaseDamage { get; private set; } // 초기 데미지
+
+    [field: Header("투사체 데미지")]
     [field: SerializeField] public float Damage { get; private set; } // 데미지
-    [field: Header("탄환 사거리")]
+
+    [field: Header("투사체 사거리")]
     [field: SerializeField] public float Range { get; private set; } // 사거리
-    [field: Header("탄환 속도")]
+
+    [field: Header("투사체 속도")]
     [field: SerializeField] public float Speed { get; private set; } // 투사체 속도
 
+    [field: Header(("추가 투사체 초기 데미지 배율"))]
+    [field: SerializeField] public float BaseDamageMultiple { get; private set; } = 0.6f; // 추가 투사체 초기 데미지 배율
+
+    [field: Header(("추가 투사체 데미지 배율"))]
+    [field: SerializeField] public float CurDamageMultiple { get; set; } = 0.6f; // 추가 투사체 데미지 배율
+
+    public override void SkillUpgrade()
+    {
+        base.SkillUpgrade();
+        Level.Value++;
+        Damage = BaseDamage * (1.0f + (Level.Value - 1) * Magnification);
+    }
 
     /// <summary>
     /// 투사체 발사
@@ -27,9 +44,9 @@ public class ProjectileAttackSkill : Skill
     /// <typeparam name="T">투사체 타입</typeparam>
     /// <param name="startPos">투사체 시작 위치</param>
     /// <param name="dir">투사체 방향</param>
-    /// <param name="damageMultiple">투사체 데미지 배율</param>
-    public void ThrowProjectile(Vector3 startPos, Vector3 dir, float damageMultiple)
+    /// <param name="DamageMultiple">투사체 데미지 배율</param>
+    public void ThrowProjectile(Vector3 startPos, Vector3 dir, float Damage)
     {
-        PoolManager.Instance.Get<RogueProjectile>().Init(startPos, dir, Range, Speed, Damage * damageMultiple);
+        PoolManager.Instance.Get<RogueProjectile>().Init(startPos, dir, Range, Speed, Damage * CurDamageMultiple);
     }
 }
