@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class RangeAttackSkill : Skill
 {
-    [field: Header("투사체 초기 데미지")]
-    public float BaseDamage { get; private set; } // 초기 데미지
+    [field: Header("초기 데미지")]
+    [field: SerializeField] public float BaseDamage { get; private set; } // 초기 데미지
 
-    [field: Header("스킬 데미지")]
+    [field: Header("최종 데미지")]
     [field: SerializeField] public float Damage { get; private set; } // 데미지
 
     [field: Header("스킬을 적용할 타겟 레이어")]

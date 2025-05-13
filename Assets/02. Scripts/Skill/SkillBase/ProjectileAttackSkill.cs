@@ -5,7 +5,7 @@ public class ProjectileAttackSkill : Skill
     [field: Header("투사체 초기 데미지")]
     [field: SerializeField] public float BaseDamage { get; private set; } // 초기 데미지
 
-    [field: Header("투사체 데미지")]
+    [field: Header("투사체 최종 데미지")]
     [field: SerializeField] public float Damage { get; private set; } // 데미지
 
     [field: Header("투사체 사거리")]

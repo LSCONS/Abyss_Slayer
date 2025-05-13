@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37dde014a4932e84181cc9f60a73359d, type: 3}
-  m_Name: MageSkillX
+  m_Script: {fileID: 11500000, guid: 1e0aee84bedc23941b976b575a170e55, type: 3}
+  m_Name: _MageSkillX
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: "\uC2A4\uD0AC \uC774\uB984"
   <SkillDesription>k__BackingField: "\uC2A4\uD0AC \uC124\uBA85"
@@ -36,12 +36,3 @@ MonoBehaviour:
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <ColliderSize>k__BackingField: {x: 13.4, y: 2.3}
-  <SpawnSize>k__BackingField: {x: 1, y: 1}
-  <ColliderOffset>k__BackingField: {x: 0, y: 0}
-  <SpawnOffset>k__BackingField: {x: 7.9, y: 0}
-  <ColliderDuration>k__BackingField: 0.5
-  <TickRate>k__BackingField: 0.5
-  <EffectName>k__BackingField: MageSkill02
-  <ColliderSetDelayTime>k__BackingField: 0
-  <CanRepeatHit>k__BackingField: 1
