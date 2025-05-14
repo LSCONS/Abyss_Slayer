@@ -65,7 +65,7 @@ public class Boss : MonoBehaviour, IHasHealth
             DamageTextSpawner.Show((int)(totalFinalDamage), worldPos);                                    // 데미지 인디케이터 스폰
 
         }
-        Debug.Log(Hp.Value);
+        Debug.Log(finalDamage);
         //피해입을때 효과,소리
 
 
