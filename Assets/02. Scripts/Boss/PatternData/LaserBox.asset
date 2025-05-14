@@ -22,12 +22,15 @@ MonoBehaviour:
     height: 20
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
   damage: 1
+  isPiercing: 1
+  fireCount: 3
   preDelayTime: 1.5
+  spawnPoint: {x: 0, y: 0, z: 0}
   firePositions:
   - {x: -10, y: 8, z: 0}
   - {x: 0, y: 10, z: 0}
   - {x: 10, y: 8, z: 0}
+  spawnTime: 1
   moveTime: 1.2
   chasingTime: 1
-  delayTime: 0.3
   postDelayTime: 5

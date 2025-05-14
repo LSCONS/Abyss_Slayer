@@ -18,10 +18,11 @@ public class LaserBoxProjectile : BasePoolable
     float _delayTime;
     bool _randomRotation;
     int _fireCount;
+    bool _isPiercing;
     public override void Init()
     {
     }
-    public void Init(int damage, Transform target, Vector3 startPosition, float scale, Vector3 firePosition, float moveTime, float chasingTime, float delayTime, int fireCount = 1)
+    public void Init(int damage, Transform target, Vector3 startPosition, float scale, Vector3 firePosition, float moveTime, float chasingTime, float delayTime,bool isPiercing, int fireCount = 1)
     {
         _damage = damage;
         _target = target;
@@ -34,6 +35,7 @@ public class LaserBoxProjectile : BasePoolable
         _chasingTime = chasingTime;
         _delayTime = delayTime;
         _fireCount = fireCount;
+        _isPiercing = isPiercing;
 
         _randomRotation = UnityEngine.Random.value > 0.5f;
 
@@ -42,19 +44,20 @@ public class LaserBoxProjectile : BasePoolable
 
     IEnumerator BoxStart()
     {
-        while ( transform.localScale.x < _scale - 0.05f)
+        float time = 0;
+        while ( time < 0.5f * _delayTime)
         {
-            
-            transform.localScale = Vector3.Lerp(transform.localScale,Vector3.one * _scale, 30 * Time.deltaTime);
+            transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one * _scale, time / (0.5f * _delayTime));
+            time += Time.deltaTime;
             yield return null;
         }
         transform.localScale = Vector3.one * _scale;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f * _delayTime);
 
         Vector3 startPos = transform.position;
         Vector3 deltaPos = _firePosition - startPos;
-        float time = 0f;
+        time = 0f;
         while (time < _moveTime)
         {
             
@@ -81,7 +84,7 @@ public class LaserBoxProjectile : BasePoolable
             }
             for (int j = 0; j < 4; j++)
             {
-                PoolManager.Instance.Get<Laser>().Init(_damage, transform.position, transforms[j], 0.5f, 0.5f, _chasingTime,false);
+                PoolManager.Instance.Get<Laser>().Init(_damage, transform.position, transforms[j], 0.5f, 0.5f, _chasingTime,_isPiercing);
             }
 
             time = 0f;

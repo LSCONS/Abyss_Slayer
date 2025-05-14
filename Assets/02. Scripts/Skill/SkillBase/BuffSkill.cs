@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -27,9 +28,9 @@ public class BuffSkill : Skill
     public override void Init()
     {
         base.Init();
-        if (Type == BuffType.RogueDoubleShot && player != null)
+        if (Type == BuffType.RogueDoubleShot)
         {
-            var foundSkills = new System.Collections.Generic.List<ProjectileAttackSkill>();
+            var foundSkills = new List<ProjectileAttackSkill>();
             
             foreach (var skill in player.EquippedSkills.Values)
             {

@@ -73,7 +73,7 @@ public class Laser : BasePoolable
         _chasingEnd = false;
 
         _isPiercing = isPiercing;
-        _layerMask = isPiercing? LayerMask.GetMask("GroundPlane","Shield") : LayerMask.GetMask("GroundPlane", "Shield","Player");
+        _layerMask = isPiercing? LayerMask.GetMask("GroundPlane", "GroundWall","Shield") : LayerMask.GetMask("GroundWall","GroundPlane", "Shield","Player");
 
 
     }
