@@ -72,7 +72,10 @@ public class Skill : ScriptableObject
     // 스킬 사용 추상 메서드
     public virtual void UseSkill() { PlaySkillEffect(); }
 
-    public virtual void SkillUpgrade() { }
+    public virtual void SkillUpgrade()
+    {
+        Level.Value++;
+    }
 
     // 플레이어 방향 반환
     public float PlayerFrontXNormalized()
