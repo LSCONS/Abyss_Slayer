@@ -37,7 +37,7 @@ public class UIBossBuffSlotManager : Singleton<UIBossBuffSlotManager>
 
         // 슬롯 업데이트 해줌
         StartCoroutine(UpdateSlot(slot, type, data));
-        slot.SetDebuffInfo(data.Name, data.Description);
+        slot.SetBuffInfo(data.Name, data.Description);
 
     }
 

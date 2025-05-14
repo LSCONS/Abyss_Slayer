@@ -51,7 +51,7 @@ public class UIBuffSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerEx
         this.presenter = presenter;
     }
 
-    public void SetDebuffInfo(string name, string description)
+    public void SetBuffInfo(string name, string description)
     {
         buffName = name;
         buffDescription = description;
