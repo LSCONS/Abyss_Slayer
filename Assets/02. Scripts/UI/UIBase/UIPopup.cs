@@ -42,6 +42,8 @@ public class UIPopup : UIBase
     /// </summary>
     public override void Open(params object[] args)
     {
+        popTween?.Kill();
+
         if (canvasGroup == null)
         {
             canvasGroup = GetComponent<CanvasGroup>();
@@ -61,7 +63,6 @@ public class UIPopup : UIBase
         canvasGroup.blocksRaycasts = false;
         transform.localScale = Vector3.one * 0.8f;
 
-        popTween?.Kill();
         popTween = DOTween.Sequence()
             .Append(transform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack))
             .Join(canvasGroup.DOFade(1, 0.25f))
@@ -69,6 +70,7 @@ public class UIPopup : UIBase
             {
                 canvasGroup.interactable = true;
                 canvasGroup.blocksRaycasts = true;
+                popTween = null;
             });
     }
 

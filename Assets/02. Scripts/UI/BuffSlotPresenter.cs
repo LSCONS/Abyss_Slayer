@@ -13,6 +13,7 @@ public class BuffSlotPresenter : IPresenter
         this.model = model;
         this.view = view;
         //TODO: 버프 UI출력 교체 필요
+        view.SetBuffInfo(model.Info.Name, model.Info.Description);    // 버프 인포 설정
         view.SetIcon(GetBuffIcon()); // 버프 아이콘 설정
         view.SetCoolTime(model.CurBuffDuration.Value, model.MaxBuffDuration.Value);
         view.SetPresenter(this);

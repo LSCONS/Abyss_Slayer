@@ -13,6 +13,8 @@ public class UIDamageText : BasePoolable
     private Vector3 worldPosition;                  // 기준 월드 좌표
     private float offsetY = 0f;                     // 위로 올라가는 애니메이션에 쓸 offset
     private bool follow = false;                    // 따라다닐지?
+    public int OffsetIndex { get; set; }            // 몇 번째 줄인지 저장
+
 
     public override void Init()
     {

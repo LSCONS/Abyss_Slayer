@@ -46,7 +46,7 @@ public class Boss : MonoBehaviour, IHasHealth
         float finalDamage = damage * DamageMultiplier;  // 데미지 배율 적용
 
         
-        Vector3 worldPos = new Vector3(attackPosX, transform.position.y + 1f, transform.position.z);        // attackPosX를 기준으로 worldPos 잡아주기 (데미지 인디케이터를 위한)
+        Vector3 worldPos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);        // 보스 위치 기준으로 worldPos 잡아주기 (데미지 인디케이터를 위한)
 
         if (attackPosX == -1000 || (attackPosX - transform.position.x < 0) == bossController.isLeft)
         {
@@ -65,7 +65,7 @@ public class Boss : MonoBehaviour, IHasHealth
             DamageTextSpawner.Show((int)(totalFinalDamage), worldPos);                                    // 데미지 인디케이터 스폰
 
         }
-        Debug.Log(Hp.Value);
+        Debug.Log(finalDamage);
         //피해입을때 효과,소리
 
 
@@ -108,13 +108,17 @@ public class Boss : MonoBehaviour, IHasHealth
             return;
         }
 
+        // 디버프 인터페이스 넣어줌
+        IDebuff debuffeffect = DebuffEffectFactory.Create(type);
+
         // 새 디버프 데이터 생성 및 등록
         var debuff = new DebuffData
         {
             Duration = duration,
             StartTime = Time.time,
             OnApply = onApply,
-            OnExpire = onExpire
+            OnExpire = onExpire,
+            debuff = debuffeffect,
         };
         activeDebuffs[type] = debuff;
 

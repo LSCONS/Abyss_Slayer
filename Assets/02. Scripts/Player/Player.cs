@@ -35,6 +35,11 @@ public class Player : NetworkBehaviour, IHasHealth
     public ReactiveProperty<int> Hp { get; set; } = new();
     public ReactiveProperty<int> MaxHp { get; set; } = new();
     public ReactiveProperty<int> DamageValue { get; set; } = new(1);
+    public float ArmorAmount { get; set; } = 1.0f;                   // 방어력 계수
+
+    public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
+    public bool IsFlipX { get; private set; } = false;
+    public SpriteChange PlayerSpriteChange { get; private set; }
     public Coroutine HoldSkillCoroutine { get; private set; }
     public Action HoldSkillCoroutineStopAction { get; private set; }
     public int StatPoint { get; private set; } = 10;
@@ -267,7 +272,10 @@ public class Player : NetworkBehaviour, IHasHealth
     /// <param name="value">변환을 줄 값. +를 넣어야 체력이 깎임.</param>
     public void Damage(int value, float attackPosX = -1000)
     {
-        Hp.Value = Hp.Value.PlusAndIntClamp(-value, MaxHp.Value);
+        float reduceDamage = value * ArmorAmount;
+        int finalDamage = (int)MathF.Ceiling(reduceDamage);
+
+        Hp.Value = Hp.Value.PlusAndIntClamp(-finalDamage, MaxHp.Value);
         if (Hp.Value == 0)
         {
             PlayerDie();

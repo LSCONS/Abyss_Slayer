@@ -14,6 +14,24 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
     [SerializeField] private TextMeshProUGUI coolTimeText;
     [SerializeField] private TextMeshProUGUI skillLevelText;
 
+    RectTransform slotRect;
+    private UISkillTooltip tooltip;
+
+    private void Start()
+    {
+        tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+        slotRect = GetComponent<RectTransform>();
+    }
+    private void OnDisable()
+    {
+        var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+        if (tooltip != null && tooltip.gameObject.activeSelf)
+        {
+            tooltip.Close();
+        }
+    }
+
+
     private IPresenter presenter;
 
     private Skill skillData;
@@ -50,28 +68,12 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
         skillLevelText.text = $"Lv.{level}";
     }
 
-    // 스킬 툴팁 위치 설정
-    public void SetTooltipPosition(Vector3 position)
-    {
-        var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
-
-        // position의 위치에 더해서 툴팁 표시
-        tooltip.transform.position = position + new Vector3(150f, 150f);
-    }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
-        var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
-        tooltip.Open();
-
-        // 툴팁이 열려있지 않으면 열기
-        if (!tooltip.gameObject.activeSelf)
-            tooltip.Open();
-
-        tooltip.SetSkill(skillData);
+        tooltip.ShowTooltip(skillData, slotRect);
 
         // 마우스 위치를 기준으로 툴팁 설정
-        SetTooltipPosition(eventData.position);
+        tooltip.SetTooltipPosition(slotRect);
     }
 
     public void OnPointerExit(PointerEventData eventData)

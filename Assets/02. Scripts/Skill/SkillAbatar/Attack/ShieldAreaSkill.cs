@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 public class ShieldAreaSkill : AreaSkill
 {
     [SerializeField] private GameObject shieldPrefab;
-    [SerializeField] private float duration = 3f;
+    
 
     private GameObject shieldInstance;
     private float originAlpha;
@@ -20,6 +20,7 @@ public class ShieldAreaSkill : AreaSkill
     }
     public override void UseSkill()
     {
+        player.ArmorAmount += effectAmount;
         if (shieldInstance == null)
         {
             shieldInstance = GameObject.Instantiate(shieldPrefab, player.transform);
@@ -46,8 +47,14 @@ public class ShieldAreaSkill : AreaSkill
                   .Subscribe(_ =>
                   {
                       if (fadeController != null)
-                          fadeController?.FadeOut(() => shieldInstance.SetActive(false)); // 페이드 컨트롤러 있으면 페이드 아웃 이후에 액티브 폴스
-                      else shieldPrefab.SetActive(false);                               // 컨트롤러 없으면 걍 바로 끔
+                          fadeController?.FadeOut(() => {
+                              shieldInstance.SetActive(false);  // 페이드 컨트롤러 있으면 페이드 아웃 이후에 액티브 폴스
+                              player.ArmorAmount -= effectAmount;
+                          }); 
+                      else {                                    // 컨트롤러 없으면 걍 바로 끔
+                          shieldPrefab.SetActive(false);
+                          player.ArmorAmount -= effectAmount;
+                      }                               
                   })
                   .AddTo(shieldInstance); // 쉴드에 붙여둠
     }
