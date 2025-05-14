@@ -20,6 +20,9 @@ public class BuffSkill : Skill
     [field: Header("버프 타입")]
     [field: SerializeField] public BuffType Type { get; private set; } = BuffType.None; // 버프 타입
 
+    [field: Header("적용된 버프의 정보")]
+    [field: SerializeField] public BuffInfo Info { get; set; }
+
     [SerializeField] private ProjectileAttackSkill projectileAttackSkill; // 임시 참조
 
     public override void SkillUpgrade()

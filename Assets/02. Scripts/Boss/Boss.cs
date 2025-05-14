@@ -108,13 +108,17 @@ public class Boss : MonoBehaviour, IHasHealth
             return;
         }
 
+        // 디버프 인터페이스 넣어줌
+        IDebuff debuffeffect = DebuffEffectFactory.Create(type);
+
         // 새 디버프 데이터 생성 및 등록
         var debuff = new DebuffData
         {
             Duration = duration,
             StartTime = Time.time,
             OnApply = onApply,
-            OnExpire = onExpire
+            OnExpire = onExpire,
+            debuff = debuffeffect,
         };
         activeDebuffs[type] = debuff;
 
