@@ -38,8 +38,6 @@ public class Player : NetworkBehaviour, IHasHealth
     public float ArmorAmount { get; set; } = 1.0f;                   // 방어력 계수
 
     public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
-    public bool IsFlipX { get; private set; } = false;
-    public SpriteChange PlayerSpriteChange { get; private set; }
     public Coroutine HoldSkillCoroutine { get; private set; }
     public Action HoldSkillCoroutineStopAction { get; private set; }
     public int StatPoint { get; private set; } = 10;

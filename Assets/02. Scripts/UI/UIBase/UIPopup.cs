@@ -44,14 +44,6 @@ public class UIPopup : UIBase
     {
         popTween?.Kill();
 
-        if (canvasGroup == null)
-        {
-            canvasGroup = GetComponent<CanvasGroup>();
-            if (canvasGroup == null)
-            {
-                canvasGroup = gameObject.AddComponent<CanvasGroup>();
-            }
-        }
         base.Open(args);
         transform.SetAsLastSibling();   // 제일 위로 올려줌
 
