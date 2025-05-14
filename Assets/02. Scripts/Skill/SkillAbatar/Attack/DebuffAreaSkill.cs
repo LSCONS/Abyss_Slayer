@@ -5,7 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/AreaSkill/DebuffAreaSkill")]
 public class DebuffAreaSkill : AreaSkill
 {
+    [Header("디버프 타입 설정")] 
     [SerializeField] private DebuffType debuffType;
+    [Header("디버프 지속시간 설정")]
     [SerializeField] private float debuffDuration = 3f;
 
     public override void UseSkill()
