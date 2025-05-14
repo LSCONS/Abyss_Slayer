@@ -46,7 +46,7 @@ public class Boss : MonoBehaviour, IHasHealth
         float finalDamage = damage * DamageMultiplier;  // 데미지 배율 적용
 
         
-        Vector3 worldPos = new Vector3(attackPosX, transform.position.y + 1f, transform.position.z);        // attackPosX를 기준으로 worldPos 잡아주기 (데미지 인디케이터를 위한)
+        Vector3 worldPos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);        // 보스 위치 기준으로 worldPos 잡아주기 (데미지 인디케이터를 위한)
 
         if (attackPosX == -1000 || (attackPosX - transform.position.x < 0) == bossController.isLeft)
         {
