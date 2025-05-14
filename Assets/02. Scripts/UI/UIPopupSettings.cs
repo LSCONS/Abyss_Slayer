@@ -6,6 +6,7 @@ using TMPro;
 
 public class UIPopupSettings : UIPopup
 {
+    [Header("설정창 세팅")]
     [SerializeField] private Slider masterSlider;
     [SerializeField] private Slider bgmSlider;
     [SerializeField] private Slider sfxSlider;
