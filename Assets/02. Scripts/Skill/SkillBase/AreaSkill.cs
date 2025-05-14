@@ -9,6 +9,7 @@ public abstract class AreaSkill : Skill
     [field: Header("대상 레이어")]
     [SerializeField] protected LayerMask targetLayer; // 대상 레이어
     [field: Header("스킬이 적용할 효과 수치 (디버프의 강도 등)")]
+    [SerializeField] protected float BaseEffectAmount = 1.2f;
     [SerializeField] protected float effectAmount = 1.2f;
 
     /// <summary>
@@ -17,5 +18,11 @@ public abstract class AreaSkill : Skill
     protected Collider2D[] GetTargetsInArea()
     {
         return Physics2D.OverlapCircleAll(PlayerPosition(), radius, targetLayer);
+    }
+
+    public override void SkillUpgrade()
+    {
+        base.SkillUpgrade();
+        effectAmount = BaseEffectAmount * (1.0f + (Level.Value -1) * Magnification);
     }
 }
