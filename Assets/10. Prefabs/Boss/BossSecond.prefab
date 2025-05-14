@@ -92,7 +92,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8099383189341560462
 Transform:
   m_ObjectHideFlags: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
   allPatterns:
   - weight: 5
     patternData: {fileID: 11400000, guid: f1c7e98faf85eda4fbe0f400ebcf2af4, type: 2}
-    setActivePatternForTest: 1
+    setActivePatternForTest: 0
     showGizmos: 1
   - weight: 5
     patternData: {fileID: 11400000, guid: 14e37b6adf587b14ab4574a89a929725, type: 2}
@@ -164,7 +164,7 @@ MonoBehaviour:
     showGizmos: 1
   - weight: 5
     patternData: {fileID: 11400000, guid: b30074fd7051e8e478bb212713a4c796, type: 2}
-    setActivePatternForTest: 1
+    setActivePatternForTest: 0
     showGizmos: 1
   targetCrossHairPrefab: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
   sprite: {fileID: 8431086270117351461}
@@ -212,8 +212,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.05, y: 0}
-  m_Size: {x: 1.3, y: 4}
+  m_Offset: {x: 0.3, y: -0.3}
+  m_Size: {x: 1.5, y: 5.4}
   m_Direction: 0
 --- !u!50 &4827209912360187871
 Rigidbody2D:
@@ -395,25 +395,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &867619857457093610
-RectTransform:
+--- !u!4 &867619857457093610
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6992398092722117492}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8099383189341560462}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: 8, y: 8}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &8431086270117351461
 SpriteRenderer:
   m_ObjectHideFlags: 0

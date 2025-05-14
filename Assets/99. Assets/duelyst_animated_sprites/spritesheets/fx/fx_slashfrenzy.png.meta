@@ -132,11 +132,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fx_slashfrenzy_01
+      name: 11
       rect:
         serializedVersion: 2
         x: 0
@@ -157,7 +170,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_08
+      name: 04
       rect:
         serializedVersion: 2
         x: 128
@@ -178,7 +191,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_02
+      name: 10
       rect:
         serializedVersion: 2
         x: 0
@@ -199,7 +212,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_09
+      name: 03
       rect:
         serializedVersion: 2
         x: 128
@@ -220,7 +233,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_03
+      name: 09
       rect:
         serializedVersion: 2
         x: 0
@@ -241,7 +254,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_10
+      name: 02
       rect:
         serializedVersion: 2
         x: 128
@@ -262,7 +275,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_04
+      name: 08
       rect:
         serializedVersion: 2
         x: 0
@@ -283,7 +296,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_11
+      name: 01
       rect:
         serializedVersion: 2
         x: 128
@@ -304,7 +317,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_05
+      name: 07
       rect:
         serializedVersion: 2
         x: 0
@@ -325,7 +338,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_06
+      name: 06
       rect:
         serializedVersion: 2
         x: 128
@@ -346,7 +359,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_12
+      name: 00
       rect:
         serializedVersion: 2
         x: 0
@@ -367,7 +380,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_07
+      name: 05
       rect:
         serializedVersion: 2
         x: 0
@@ -388,15 +401,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fx_slashfrenzy_00
+      name: 12
       rect:
         serializedVersion: 2
-        x: 128
-        y: 258
+        x: 130
+        y: 251
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -419,19 +432,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      fx_slashfrenzy_00: 864928868
-      fx_slashfrenzy_01: -1525716021
-      fx_slashfrenzy_02: 564605571
-      fx_slashfrenzy_03: -1241762501
-      fx_slashfrenzy_04: -1783148099
-      fx_slashfrenzy_05: -179627411
-      fx_slashfrenzy_06: 1101673718
-      fx_slashfrenzy_07: 1757652576
-      fx_slashfrenzy_08: -816179405
-      fx_slashfrenzy_09: -1971599374
-      fx_slashfrenzy_10: -1974709649
-      fx_slashfrenzy_11: 269469194
-      fx_slashfrenzy_12: -270715216
+      00: -270715216
+      01: 269469194
+      02: -1974709649
+      03: -1971599374
+      04: -816179405
+      05: 1757652576
+      06: 1101673718
+      07: -179627411
+      08: -1783148099
+      09: -1241762501
+      10: 564605571
+      11: -1525716021
+      12: 864928868
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

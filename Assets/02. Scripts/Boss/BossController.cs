@@ -5,6 +5,7 @@ using System.Linq;
 using Cinemachine;
 using TreeEditor;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static UnityEngine.UI.Image;
 
@@ -65,8 +66,22 @@ public class BossController : MonoBehaviour
             }
         }
     }
+    bool _isRun;
+    public bool isRun
+    {
+        get { return _isRun; }
+        set
+        {
+            if (_isRun != value)
+            {
+                _isRun = value;
+                animator.SetBool("Run",value);
+            }
+        }
+    }
 
     [Header("움직임 관련")]
+    [SerializeField] float runSpeed;
     [SerializeField] float jumpMoveTime;
     [SerializeField] float jumpMoveHight;
     [SerializeField] float gravityMultiplier;
@@ -88,6 +103,7 @@ public class BossController : MonoBehaviour
 
         chasingTarget = false;
         showTargetCrosshair = false;
+        _isRun = false;
     }
 
     private void Start()
@@ -257,11 +273,11 @@ public class BossController : MonoBehaviour
     /// <param name="inputJumpMoveTime">도착까지 걸리는 시간 (음수입력시 기본값)</param>
     /// <param name="inputJumpMoveHight">점프높이(더 높은쪽에 +되는 높이, 음수입력시 기본값)</param>
     /// <returns></returns>
-    public IEnumerator JumpMove(Vector3 targetPosition, float inputJumpMoveTime = -1f, float inputJumpMoveHight = -1f)
+    public IEnumerator JumpMove(Vector3 targetPosition, float inputJumpMoveTime = -1f, float inputJumpMoveHight = -10f)
     {
         Vector3 startPosition = transform.position;
         float _jumpMoveTime = (inputJumpMoveTime <= 0)? jumpMoveTime : inputJumpMoveTime;
-        float _jumpMoveHight = (inputJumpMoveHight < 0)? jumpMoveHight : inputJumpMoveHight;
+        float _jumpMoveHight = (inputJumpMoveHight <= -10)? jumpMoveHight : inputJumpMoveHight;
         float maxY = Mathf.Max(targetPosition.y, startPosition.y) + _jumpMoveHight;
         float deltaY1 = maxY - startPosition.y;
         float deltaY2 = maxY - targetPosition.y;
@@ -284,9 +300,48 @@ public class BossController : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
+        animator.ResetTrigger("Fall");
         animator.SetTrigger("Land");
         transform.position = targetPosition;
         yield return new WaitForSeconds(0.4f);
+    }
+    public IEnumerator RunMove(bool isleft, float speed = -1f)
+    {
+        bool isfall = false;
+        float startHight = transform.position.y;
+        float time = 0f;
+
+        float _speed;
+        if (speed <= 0f) _speed = isleft ? -runSpeed : runSpeed;
+        else _speed = isleft ? -speed : speed;
+        isLeft = isleft;
+        isRun = true;
+        
+        while (isRun)
+        {
+            float x = Mathf.Clamp(transform.position.x + _speed * Time.deltaTime, -mapWidth / 2 + 0.7f, mapWidth / 2 - 0.7f);
+            transform.position = new Vector3 (x, transform.position.y, 0);
+
+            if (!Physics2D.Raycast(transform.position, Vector3.down, bossCenterHight + 0.01f, LayerMask.GetMask("GroundPlane", "GroundPlatform")))
+            {
+                if (!isfall)
+                {
+                    startHight = transform.position.y;
+                    time = 0f;
+                    isfall = true;
+                }
+                transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * gravityMultiplier * time * time));
+                time += Time.deltaTime;
+            }
+            else
+            {
+                if (isfall)
+                {
+                    isfall = false;
+                }
+            }
+            yield return null;
+        }
     }
 
     public void OnDead()
