@@ -28,7 +28,6 @@ public class BuffSkill : Skill
     public override void SkillUpgrade()
     {
         base.SkillUpgrade();
-        Level.Value++;
         if (projectileAttackSkill != null)
         {
             projectileAttackSkill.DamageMultiple = projectileAttackSkill.BaseDamageMultiple + (Level.Value - 1) * Magnification;
