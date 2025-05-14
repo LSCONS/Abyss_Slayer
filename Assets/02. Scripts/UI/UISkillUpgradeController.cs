@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,14 +7,13 @@ public class UISkillUpgradeController : UIPopup
 {
     [SerializeField] private GameObject skillSlotPrefab;
     [SerializeField] private Transform upgradeSlotParent;
-
     [SerializeField] private TextMeshProUGUI skillPointText;
-
+    
 #if UNITY_EDITOR
     [ReadOnlyAttribute]
 #endif
     private int skillPoint = 0;
-
+    private bool isInit = false;
 
     private Dictionary<Skill, UISkillSlot> upgradeSlots = new();
 
@@ -27,6 +22,8 @@ public class UISkillUpgradeController : UIPopup
         base.Init();
 
         Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+
+        if (isInit) return;
 
         skillPoint = player.SkillPoint;
         UpdateSkillPointText();
@@ -72,6 +69,7 @@ public class UISkillUpgradeController : UIPopup
 
             upgradeSlots.Add(skill, slot);
         }
+        isInit = true;
     }
 
     private void UpdateSkillPointText()

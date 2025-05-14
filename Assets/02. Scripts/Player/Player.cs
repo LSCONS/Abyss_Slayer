@@ -108,6 +108,14 @@ public class Player : NetworkBehaviour, IHasHealth
         }
     }
 
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        gameObject.SetActive(false);
+        if (ServerManager.Instance.DictRefToPlayer[PlayerRef] != this)
+        ServerManager.Instance.DictRefToPlayer.Remove(PlayerRef);
+        base.Despawned(runner, hasState);
+    }
+
     private void Update()
     {
         if (!(IsThisRunner)
@@ -324,18 +332,64 @@ public class Player : NetworkBehaviour, IHasHealth
     }
 
 
+    /// <summary>
+    /// 해당 플레이어의 모든 상태를 초기화하는 메서드
+    /// </summary>
+    public void ResetPlayerStatus()
+    {
+        //비활성화
+        gameObject.SetActive(false);
+
+        if(PlayerRef == Runner.LocalPlayer)
+        {
+            //IdleState로 변환
+            PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
+            //체력 Max로 변환
+            Hp.Value = MaxHp.Value;
+            //모든 스킬 쿨타임 0으로 변환
+            //모든 버프 스킬 유지시간 0으로 변환
+            foreach (Skill skill in EquippedSkills.Values)
+            {
+                skill.CurCoolTime.Value = 0;
+                BuffSkill buffSkill = skill as BuffSkill;
+                if (buffSkill != null)
+                {
+                    buffSkill.CurBuffDuration.Value = 0;
+                }
+            }
+            //위치 값 0으로 초기화
+            transform.position = Vector3.zero;
+            Rpc_PlayerPositionSynchro(Vector2.zero);
+        }
+    }
+
+
+    /// <summary>
+    /// 플레이어의 상태를 공유하는 메서드
+    /// </summary>
+    /// <param name="stateIndex"></param>
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void Rpc_ChagneState(int stateIndex)
     {
         PlayerStateIndex = stateIndex;
     }
 
+
+    /// <summary>
+    /// 플레이어의 포지션을 공유하는 메서드
+    /// </summary>
+    /// <param name="playerPosition"></param>
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void Rpc_PlayerPositionSynchro(Vector2 playerPosition)
     {
         PlayerPosition = playerPosition;
     }
 
+
+    /// <summary>
+    /// 플레이어의 좌우 뒤집힌 상태를 공유하는 메서드
+    /// </summary>
+    /// <param name="flipX"></param>
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void Rpc_SpriteFlipXSynchro(bool flipX)
     {

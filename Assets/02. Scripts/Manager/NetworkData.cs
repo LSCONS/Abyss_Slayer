@@ -124,7 +124,7 @@ public class NetworkData : NetworkBehaviour
     /// 모든 플레이어들에게 채팅창에 메시지를 보내는 메서드
     /// </summary>
     /// <param name="bytes"></param>
-    [Rpc(RpcSources.All, RpcTargets.All)] 
+    [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_EnterToChatting(byte[] bytes)
     {
         ServerManager.Instance.ChattingTextController.SendChatMessage(bytes);
@@ -161,6 +161,10 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_MoveScene(ESceneName enumScene)
     {
+        foreach (var item in ServerManager.Instance.DictRefToPlayer.Values)
+        {
+            item.ResetPlayerStatus();
+        }
         GameFlowManager.Instance.RpcServerSceneLoad(enumScene);
         ESceneName = enumScene;
     }
@@ -198,7 +202,7 @@ public class NetworkData : NetworkBehaviour
 
     private IEnumerator ActivePlayer()
     {
-        while(ServerManager.Instance.DictRefToPlayer.Count != ServerManager.Instance.DictRefToNetData.Count)
+        while (ServerManager.Instance.DictRefToPlayer.Count != ServerManager.Instance.DictRefToNetData.Count)
         {
             yield return null;
         }
@@ -211,7 +215,7 @@ public class NetworkData : NetworkBehaviour
         }
     }
 
-    
+
     /// <summary>
     /// 클라이언트들이 래디 버튼을 누를 경우 실행할 메서드
     /// </summary>
@@ -227,9 +231,6 @@ public class NetworkData : NetworkBehaviour
             bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReady();
             ServerManager.Instance.IsAllReadyAction(isAllReday);
         }
-        else
-        {
-            ServerManager.Instance.UITeamStatus?.ChangeIsReadyPlayerText(PlayerDataRef, isReady);
-        }
+        ServerManager.Instance.UITeamStatus?.ChangeIsReadyPlayerText(PlayerDataRef, isReady);
     }
 }

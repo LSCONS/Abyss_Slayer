@@ -47,6 +47,8 @@ public class UIReadyBossStage : UIPermanent
                 }
                 data.Value.IsReady = false;
             }
+            bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReady();
+            ServerManager.Instance.IsAllReadyAction(isAllReday);
         }
         gameObject.SetActive(true);
     }
@@ -64,7 +66,7 @@ public class UIReadyBossStage : UIPermanent
     {
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (!(runner.IsServer)) return;
-
+        ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.Battle0);
     }
 
     private void SetActiveButton(bool isAllReady)
