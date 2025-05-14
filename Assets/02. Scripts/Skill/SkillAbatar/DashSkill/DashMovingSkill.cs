@@ -11,7 +11,7 @@ public class DashMovingSkill : MovingSkill
     public override void UseSkill()
     {
         base.UseSkill();
-        Vector2 DashVector = player.input.MoveDir.normalized;
+        Vector2 DashVector = player.PlayerInput.MoveDir.normalized;
         player.FlipRenderer(DashVector.x);
         if (DashVector == Vector2.zero) DashVector = new Vector2(PlayerFrontXNormalized(), 0).normalized;
         DashVector *= MovingForce;

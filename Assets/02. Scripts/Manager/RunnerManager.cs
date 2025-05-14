@@ -2,6 +2,8 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using static Unity.Collections.Unicode;
 
 public class RunnerManager : Singleton<RunnerManager>
 {
@@ -10,7 +12,11 @@ public class RunnerManager : Singleton<RunnerManager>
     {
         get 
         {
-            if(mainRunner == null) mainRunner = gameObject.AddComponent<NetworkRunner>();
+            if(mainRunner == null) 
+            {
+                mainRunner = gameObject.GetComponent<NetworkRunner>() 
+                    ?? gameObject.AddComponent<NetworkRunner>();
+            }
             return mainRunner;
         }
     }
@@ -23,6 +29,7 @@ public class RunnerManager : Singleton<RunnerManager>
 
     public NetworkRunner GetRunner()
     {
+        
         return MainRunner;
     }
 }

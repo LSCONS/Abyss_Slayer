@@ -8,29 +8,20 @@ public class ParallaxScrolling : MonoBehaviour
     // 낮을수록 멀리 있는 배경처럼 느껴짐 (느리게 움직임)
     public float parallaxSpeed = 0.5f;
 
-    private Player player;
-
     // 이전 프레임의 카메라 위치 저장용
     private Vector3 previousCamPos;
-    void Start()
+    private Player player = null;
+    private async void Awake()
     {
-        SetCamera();
-    }
-
-
-    void LateUpdate()
-    {
-        ParallaxBackground();
-    }
-
-    private void SetCamera()
-    {
-        // 시작 시점에 카메라 위치 저장
-        if(player == null)
-        {
-            player = GameObject.Find("Player").GetComponent<Player>();
-        }
+        player = await ServerManager.Instance.WaitForThisPlayerAsync();
         previousCamPos = player.transform.position;
+    }
+
+
+    private void LateUpdate()
+    {
+        if (player == null) return;
+        ParallaxBackground();
     }
     /// <summary>
     /// 배경 이미지 움직이게하는 메서드

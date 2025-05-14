@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class UINameSpace : UIPermanent
+public class UIStartTitle : UIPermanent
 {
     [field: SerializeField] public TextMeshProUGUI TextName { get; private set;}
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,14 +22,16 @@ public class UISkillUpgradeController : UIPopup
 
     private Dictionary<Skill, UISkillSlot> upgradeSlots = new();
 
-    public override void Init()
+    public override async void Init()
     {
         base.Init();
 
-        skillPoint = PlayerManager.Instance.Player.SkillPoint;
+        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+
+        skillPoint = player.SkillPoint;
         UpdateSkillPointText();
 
-        foreach (var skill in PlayerManager.Instance.Player.EquippedSkills.Values)
+        foreach (var skill in player.EquippedSkills.Values)
         {
             var go = Instantiate(skillSlotPrefab, upgradeSlotParent);
             var slot = go.GetComponent<UISkillSlot>();

@@ -19,7 +19,7 @@ public class PlayerSkillUseState : PlayerBaseState
     {
         Slotkey = key;
         SkillData = playerStateMachine.Player.EquippedSkills[key];
-        SkillInputKey = playerStateMachine.Player.input.SkillInputKey[key];
+        SkillInputKey = SlotKeyConvertFunc(key);
         animationDelay = SkillData.AnimationChangeDelayTime;
     }
     public void Init()
@@ -63,7 +63,7 @@ public class PlayerSkillUseState : PlayerBaseState
     public override void Exit()
     {
         base.Exit();
-        SkillExit();
+        SkillExit(SkillData);
         if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {
             ResetZeroVelocity();
@@ -83,12 +83,13 @@ public class PlayerSkillUseState : PlayerBaseState
 
     public override void Update()
     {
-        base.Update();
         if (SkillData.SkillCategory == SkillCategory.Hold)
         {
             if (!(SkillInputKey()) || playerStateMachine.Player.HoldSkillCoroutine == null)
             {
-                playerStateMachine.ChangeState(playerStateMachine.IdleState);
+
+                if (playerStateMachine.Player.IsThisRunner)
+                    playerStateMachine.ChangeState(playerStateMachine.IdleState);
                 return;
             }
 
@@ -120,9 +121,11 @@ public class PlayerSkillUseState : PlayerBaseState
                         playerStateMachine.Player.IsFlipX
                     );
                 }
-                    return;
+                return;
             }
-            playerStateMachine.EndAttackAction?.Invoke();
+
+            if (playerStateMachine.Player.IsThisRunner)
+                playerStateMachine.EndAttackAction?.Invoke();
         }
         else
         {
@@ -131,7 +134,8 @@ public class PlayerSkillUseState : PlayerBaseState
             animationTime = animationDelay;
             if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, ++animationNum)) return;
 
-            playerStateMachine.EndAttackAction?.Invoke();
+            if (playerStateMachine.Player.IsThisRunner)
+                playerStateMachine.EndAttackAction?.Invoke();
         }
     }
 }

@@ -58,7 +58,7 @@ public class UILobbyMainPanel : UIPermanent
     public void UIUpdateSprite()
     {
         //서버에 연결되어 있는 데이터 순회
-        foreach (var item in ServerManager.Instance.DictPlayerDatas)
+        foreach (var item in ServerManager.Instance.DictRefToNetData)
         {
             SetChangeClassSubSprite(item.Key);   //CharacterClass의 Sprite를 바꿔주는 메서드
         }
@@ -73,12 +73,12 @@ public class UILobbyMainPanel : UIPermanent
     {
         AddDictRefToRoomData(playerRef);
         PlayerRoomData roomData = DictRefToRoomData[playerRef];
-        DictRoomDataToNetworkData[roomData] = ServerManager.Instance.DictPlayerDatas[playerRef];
+        DictRoomDataToNetworkData[roomData] = ServerManager.Instance.DictRefToNetData[playerRef];
         roomData.TextPlayerName.gameObject.SetActive(true);
         roomData.PlayerSpriteChange.gameObject.SetActive(true);
         roomData.TextPlayerState.gameObject.SetActive(true);
-        roomData.TextPlayerName.text = ServerManager.Instance.DictPlayerDatas[playerRef].GetName();
-        roomData.PlayerSpriteChange.Init((CharacterClass)DictRoomDataToNetworkData[roomData].PlayerCharacter);
+        roomData.TextPlayerName.text = ServerManager.Instance.DictRefToNetData[playerRef].GetName();
+        roomData.PlayerSpriteChange.Init((CharacterClass)DictRoomDataToNetworkData[roomData].IntPlayerClass);
     }
 
 
@@ -96,8 +96,8 @@ public class UILobbyMainPanel : UIPermanent
     private void SetChangeClassSubSprite(PlayerRef playerRef)
     {
         PlayerRoomData roomData = DictRefToRoomData[playerRef];
-        NetworkData networkData = ServerManager.Instance.DictPlayerDatas[playerRef];
-        roomData.PlayerSpriteChange.Init((CharacterClass)networkData.PlayerCharacter);
+        NetworkData networkData = ServerManager.Instance.DictRefToNetData[playerRef];
+        roomData.PlayerSpriteChange.Init((CharacterClass)networkData.IntPlayerClass);
     }
 
 

@@ -49,14 +49,14 @@ public class SpriteImageChange : MonoBehaviour
             SelectedClass = (int)character;
             animationNum = 0;
             tempTime = maxtemp;
-            DictAnimationState[WeaponTop] = PlayerManager.Instance.CharacterSpriteDicitonary[character].WeaponTop;
-            DictAnimationState[ClothTop] = PlayerManager.Instance.CharacterSpriteDicitonary[character].ClothTop;
-            DictAnimationState[HairTop] = PlayerManager.Instance.CharacterSpriteDicitonary[character].HairTop;
-            DictAnimationState[ClothBottom] = PlayerManager.Instance.CharacterSpriteDicitonary[character].ClothBottom;
-            DictAnimationState[HairBottom] = PlayerManager.Instance.CharacterSpriteDicitonary[character].HairBottom;
-            DictAnimationState[Face] = PlayerManager.Instance.CharacterSpriteDicitonary[character].Face;
-            DictAnimationState[Skin] = PlayerManager.Instance.CharacterSpriteDicitonary[character].Skin;
-            DictAnimationState[WeaponBottom] = PlayerManager.Instance.CharacterSpriteDicitonary[character].WeaponBottom;
+            DictAnimationState[WeaponTop] = PlayerManager.Instance.DictClassToSpriteData[character].WeaponTop;
+            DictAnimationState[ClothTop] = PlayerManager.Instance.DictClassToSpriteData[character].ClothTop;
+            DictAnimationState[HairTop] = PlayerManager.Instance.DictClassToSpriteData[character].HairTop;
+            DictAnimationState[ClothBottom] = PlayerManager.Instance.DictClassToSpriteData[character].ClothBottom;
+            DictAnimationState[HairBottom] = PlayerManager.Instance.DictClassToSpriteData[character].HairBottom;
+            DictAnimationState[Face] = PlayerManager.Instance.DictClassToSpriteData[character].Face;
+            DictAnimationState[Skin] = PlayerManager.Instance.DictClassToSpriteData[character].Skin;
+            DictAnimationState[WeaponBottom] = PlayerManager.Instance.DictClassToSpriteData[character].WeaponBottom;
             foreach (var image in DictAnimationState.Keys)
             {
                 image.color = color;

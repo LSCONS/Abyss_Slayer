@@ -50,6 +50,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bf8eb598a5a215a45a8f3884fb8edcab, type: 2}
   - {fileID: 11400000, guid: 6ee6dfad999cf2e4cae71d675362d24f, type: 2}
   - {fileID: 11400000, guid: b62ce2900650ece4da075f20cbe661a9, type: 2}
+  - {fileID: 11400000, guid: e33aeb5c3dc1b734c95c634ed09b6961, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -112,6 +113,8 @@ MonoBehaviour:
     - Battle
     - Rest
     - FusionScenes
+    - CharacterClass
+    - CharacterSkillSet
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 34d877ec853ce1e40987ad922d126888, type: 2}

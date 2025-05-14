@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3efcea43e5ef1364486fb96d0fb51de7, type: 3}
-  m_Name: MageSkillSet
+  m_Name: TankerSkillSet
   m_EditorClassIdentifier: 
-  className: Mage
+  <Class>k__BackingField: 4
   skillSlots:
   - key: 0
-    skill: {fileID: 11400000, guid: 186feac91d4ff244cbdf84f06ca0788b, type: 2}
+    skill: {fileID: 11400000, guid: 80cfa9cd387940f48acdd558ba4c7aa6, type: 2}
   - key: 1
-    skill: {fileID: 11400000, guid: 3830fbd5b52f95243916ddae276230f1, type: 2}
+    skill: {fileID: 11400000, guid: 346cc86f268d6fb4da5ef346e5cc775d, type: 2}
   - key: 2
-    skill: {fileID: 11400000, guid: b53b2cb28e7758c44bb3c5549ecc2a69, type: 2}
+    skill: {fileID: 11400000, guid: 47f7f17b42df9fe4c83392c077fb744d, type: 2}
   - key: 3
-    skill: {fileID: 11400000, guid: a98ad6cd468e4d444beddfcbf2b0a65c, type: 2}
+    skill: {fileID: 11400000, guid: 11083eff1ffbf7342ace65162e872e5d, type: 2}
   - key: 4
     skill: {fileID: 11400000, guid: 4351947970d924044971ddf767645525, type: 2}

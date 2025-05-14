@@ -30,13 +30,12 @@ public class UIStatStore : UIPopup
     private int baseMaxHp;
     private int baseDamage;
 
-    public override void Init()
+    public override async void Init()
     {
         base.Init();
+        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+        remainingPointValue = player.StatPoint;
 
-        remainingPointValue = PlayerManager.Instance.Player.StatPoint;
-
-        var player = PlayerManager.Instance.Player;
         baseMaxHp = player.MaxHp.Value;
         baseDamage = player.DamageValue.Value;
 
@@ -119,7 +118,7 @@ public class UIStatStore : UIPopup
 
     void ApplyStatsToPlayer()
     {
-        var player = PlayerManager.Instance.Player;
+        var player = ServerManager.Instance.ThisPlayer;
 
         int hpIncrease = hpLevel > 0
             ? Mathf.RoundToInt(baseMaxHp * 0.1f * hpLevel)

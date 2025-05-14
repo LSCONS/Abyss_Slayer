@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInput : NetworkBehaviour
+public class PlayerInput : MonoBehaviour
 {
 
     #region 프로퍼티 선언
@@ -39,15 +39,6 @@ public class PlayerInput : NetworkBehaviour
     private void Awake() 
     {
         Inputs = new PlayerInputs();
-    }
-
-    public void InitDictionary()
-    {
-        SkillInputKey.Add(SkillSlotKey.X, () => IsSkillX);
-        SkillInputKey.Add(SkillSlotKey.Z, () => IsSkillZ);
-        SkillInputKey.Add(SkillSlotKey.A, () => IsSkillA);
-        SkillInputKey.Add(SkillSlotKey.S, () => IsSkillS);
-        SkillInputKey.Add(SkillSlotKey.D, () => IsSkillD);
     }
 
 

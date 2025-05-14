@@ -16,6 +16,7 @@ public class UIInputName : UIPermanent
         InputNameField.onValueChanged.AddListener(CheckNameError);
         BtnCreateName.onClick.AddListener(CreateName);
         BtnCreateName.interactable = false;
+        gameObject.SetActive(true);
     }
 
     private void CheckNameError(string text)
@@ -37,13 +38,13 @@ public class UIInputName : UIPermanent
         }
     }
 
-    private void CreateName()
+    private async void CreateName()
     {
         //서버에 연결
-        ServerManager.Instance.ConnectRoomSearch();
+        await ServerManager.Instance.ConnectRoomSearch();
         //이름 저장
         ServerManager.Instance.PlayerName = PlayerName;
         //씬 이동
-        GameFlowManager.Instance.ClientSceneLoad(EGameState.Start);
+        GameFlowManager.Instance.ClientSceneLoad(ESceneName.Start);
     }
 }

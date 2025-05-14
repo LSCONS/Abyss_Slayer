@@ -1,11 +1,33 @@
 <linker>
   <assembly fullname="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="BasicMeleeSkill" preserve="all" />
+    <type fullname="CharacterSkillSet" preserve="all" />
     <type fullname="ClassSlot" preserve="all" />
     <type fullname="ClassSlotController" preserve="all" />
+    <type fullname="CoolDownZonewSkill" preserve="all" />
+    <type fullname="DashMeleeSkill" preserve="all" />
+    <type fullname="DashMovingSkill" preserve="all" />
+    <type fullname="DebuffAreaSkill" preserve="all" />
+    <type fullname="DoubleShotSkill" preserve="all" />
+    <type fullname="FadeController" preserve="all" />
+    <type fullname="HoldingProjectileSkill" preserve="all" />
+    <type fullname="HomingProjectileSkill" preserve="all" />
     <type fullname="InvitationPopup" preserve="all" />
+    <type fullname="MeleeDamageCheck" preserve="all" />
+    <type fullname="OnceProjectileSkill" preserve="all" />
+    <type fullname="Player" preserve="all" />
+    <type fullname="PlayerCheckGround" preserve="all" />
+    <type fullname="PlayerData" preserve="all" />
+    <type fullname="PlayerInput" preserve="all" />
+    <type fullname="RemoteZoneRangeSkill" preserve="all" />
+    <type fullname="RepeatRangeSkill" preserve="all" />
     <type fullname="SelectClassPanelController" preserve="all" />
+    <type fullname="ShieldAreaSkill" preserve="all" />
     <type fullname="SoundData" preserve="all" />
+    <type fullname="SpriteChange" preserve="all" />
     <type fullname="SpriteImageChange" preserve="all" />
+    <type fullname="UIBossBuffSlotGroup" preserve="all" />
+    <type fullname="UIBossBuffSlotManager" preserve="all" />
     <type fullname="UIBossStageController" preserve="all" />
     <type fullname="UIBuffSlot" preserve="all" />
     <type fullname="UIBuffSlotManager" preserve="all" />
@@ -17,7 +39,6 @@
     <type fullname="UIInputName" preserve="all" />
     <type fullname="UILobbyMainPanel" preserve="all" />
     <type fullname="UILobbySelectPanel" preserve="all" />
-    <type fullname="UINameSpace" preserve="all" />
     <type fullname="UIPopup" preserve="all" />
     <type fullname="UIPopupButton" preserve="all" />
     <type fullname="UIPopupSettings" preserve="all" />
@@ -28,8 +49,19 @@
     <type fullname="UISkillSlotManager" preserve="all" />
     <type fullname="UISkillTooltip" preserve="all" />
     <type fullname="UISkillUpgradeController" preserve="all" />
+    <type fullname="UIStartTitle" preserve="all" />
     <type fullname="UIStatStore" preserve="all" />
+    <type fullname="CharacterSkillSlot" preserve="nothing" serialized="true" />
+    <type fullname="PlayerAirData" preserve="nothing" serialized="true" />
+    <type fullname="PlayerGroundData" preserve="nothing" serialized="true" />
     <type fullname="PlayerRoomData" preserve="nothing" serialized="true" />
+    <type fullname="PlayerStatusData" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="Fusion.Runtime, Version=2.0.5.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="Fusion.NetworkObject" preserve="all" />
+    <type fullname="Fusion.NetworkObjectPrefabData" preserve="all" />
+    <type fullname="Fusion.NetworkObjectGuid" preserve="nothing" serialized="true" />
+    <type fullname="Fusion.PlayerRef" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" preserve="all">
     <type fullname="UnityEngine.AddressableAssets.Addressables" preserve="all" />
@@ -73,13 +105,23 @@
   <assembly fullname="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.GameObject" preserve="all" />
     <type fullname="UnityEngine.Material" preserve="all" />
+    <type fullname="UnityEngine.MonoBehaviour" preserve="all" />
     <type fullname="UnityEngine.Object" preserve="all" />
     <type fullname="UnityEngine.RectTransform" preserve="all" />
     <type fullname="UnityEngine.Shader" preserve="all" />
     <type fullname="UnityEngine.Sprite" preserve="all" />
+    <type fullname="UnityEngine.SpriteRenderer" preserve="all" />
     <type fullname="UnityEngine.Texture2D" preserve="all" />
+    <type fullname="UnityEngine.Transform" preserve="all" />
     <type fullname="UnityEngine.Events.PersistentCallGroup" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.RectOffset" preserve="nothing" serialized="true" />
+  </assembly>
+  <assembly fullname="UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <type fullname="UnityEngine.BoxCollider2D" preserve="all" />
+    <type fullname="UnityEngine.CapsuleCollider2D" preserve="all" />
+    <type fullname="UnityEngine.CircleCollider2D" preserve="all" />
+    <type fullname="UnityEngine.PhysicsMaterial2D" preserve="all" />
+    <type fullname="UnityEngine.Rigidbody2D" preserve="all" />
   </assembly>
   <assembly fullname="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.Font" preserve="all" />
@@ -110,6 +152,10 @@
   <assembly fullname="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.CanvasGroup" preserve="all" />
     <type fullname="UnityEngine.CanvasRenderer" preserve="all" />
+  </assembly>
+  <assembly fullname="UniRx">
+    <type fullname="UniRx.ReactiveProperty`1[System.Int32]" preserve="nothing" serialized="true" />
+    <type fullname="UniRx.ReactiveProperty`1[System.Single]" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="UnityEngine.TextCoreFontEngineModule">
     <type fullname="UnityEngine.TextCore.FaceInfo" preserve="nothing" serialized="true" />

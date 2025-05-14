@@ -8,7 +8,7 @@ public class SoundManager : Singleton<SoundManager>
 {
     [Header("사운드 데이터")]
     public SoundLibrary soundLibrary; // 사운드 라이브러리
-    private Dictionary<EGameState, List<SoundData>> stateToSoundList = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
+    private Dictionary<ESceneName, List<SoundData>> stateToSoundList = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
 
     [Header("오디오 소스 풀")]
     private Queue<AudioSource> sfxPool = new Queue<AudioSource>(); // sfx 풀
@@ -41,7 +41,7 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     /// <param name="gameState"></param>
     /// <returns></returns>
-    public async Task Init(EGameState gameState)
+    public async Task Init(ESceneName gameState)
     {
         InitBGM();
         InitPool();
@@ -55,7 +55,7 @@ public class SoundManager : Singleton<SoundManager>
     /// gameState 별로 언로드
     /// </summary>
     /// <param name="gameState"></param>
-    public void UnloadSoundsByState(EGameState gameState)
+    public void UnloadSoundsByState(ESceneName gameState)
     {
         if (!stateToSoundList.TryGetValue(gameState, out var soundList)) return;
 
@@ -252,7 +252,7 @@ public class SoundManager : Singleton<SoundManager>
     /// 게임 스테이트에 따라서 playBGM 하는 오버로드 메서드
     /// </summary>
     /// <param name="gameState"></param>
-    public void PlayBGM(EGameState gameState, int i)
+    public void PlayBGM(ESceneName gameState, int i)
     {
         string bgmName = $"BGM_{gameState}{i}";
         PlayBGM(bgmName);

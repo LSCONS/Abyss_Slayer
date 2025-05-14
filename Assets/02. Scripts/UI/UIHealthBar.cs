@@ -35,11 +35,11 @@ public class UIHealthBar : UIPermanent, IView
     }
     public override void Init()
     {
+        gameObject.SetActive(true);
         SettingPlayer();
         hpBar.fillAmount = 1;
         hpText.text = $"{100:F0}%";
         base.Init();
-
     }
 
     private int currentHp = 0;  // 애니메이션에 쓰일 현재 hp

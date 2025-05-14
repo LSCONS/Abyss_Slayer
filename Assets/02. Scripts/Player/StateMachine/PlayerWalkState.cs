@@ -52,12 +52,13 @@ public class PlayerWalkState : PlayerGroundState
 
     public override void Update()
     {
-        base.Update();
         if (animationTime <= 0)
         {
             animationTime = animationDelay;
             playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Run1, ++animationNum);
         }
-        MoveAction?.Invoke();
+
+        if (playerStateMachine.Player.IsThisRunner)
+            MoveAction?.Invoke();
     }
 }

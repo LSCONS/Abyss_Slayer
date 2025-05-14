@@ -24,7 +24,7 @@ public class UILobbySelectPanel : UIPermanent
 
     private Level currentLevel = Level.Easy;
 
-    private void Start()
+    private void Awake()
     {
         UpdateUI();
 
@@ -39,16 +39,6 @@ public class UILobbySelectPanel : UIPermanent
         BtnStartGame.onClick.RemoveAllListeners();
     }
 
-
-    /// <summary>
-    /// 데이터를 초기화할 때 실행할 메서드
-    /// </summary>
-    public override void Init()
-    {
-        base.Init();
-        Debug.Log("난이도 init됐나요?");
-        gameObject.gameObject.SetActive(true);
-    }
 
     /// <summary>
     /// 순환함. 2되면 hard 0 되면 easy로 순환됨
@@ -69,7 +59,11 @@ public class UILobbySelectPanel : UIPermanent
     /// </summary>
     private void StartGame()
     {
-
+        if (RunnerManager.Instance.GetRunner().IsServer)
+        {
+            ServerManager.Instance.InstantiatePlayer();
+            ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.Rest);
+        }
     }
 
 
@@ -78,7 +72,7 @@ public class UILobbySelectPanel : UIPermanent
     /// </summary>
     private void ReadyGame()
     {
-        ServerManager.Instance.DictPlayerDatas[ServerManager.Instance.ThisPlayerRef].Rpc_ClickReadyBtn();
+        ServerManager.Instance.ThisPlayerData.Rpc_ClickReadyBtn();
     }
 
 
@@ -98,11 +92,9 @@ public class UILobbySelectPanel : UIPermanent
     /// </summary>
     public void SetClientInit()
     {
-        Debug.Log("등록 중");
         TextStartGame.text = "준비하기";
         BtnStartGame.interactable = true;
         BtnStartGame.onClick.AddListener(ReadyGame);
-        BtnStartGame.onClick.AddListener(() => Debug.Log("눌리고 있어용 오홍홍 오홍홍"));
     }
 
 
@@ -111,7 +103,7 @@ public class UILobbySelectPanel : UIPermanent
     /// </summary>
     public void CheckAllPlayerIsReady()
     {
-        foreach (NetworkData data in ServerManager.Instance.DictPlayerDatas.Values)
+        foreach (NetworkData data in ServerManager.Instance.DictRefToNetData.Values)
         {
             if (!(data.IsReady))
             {

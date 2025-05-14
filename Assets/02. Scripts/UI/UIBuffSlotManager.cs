@@ -5,7 +5,6 @@ using UniRx;
 
 public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
 {
-    [SerializeField] private Player player;
     [SerializeField] private GameObject buffSlotPrefab;
     [SerializeField] private Transform buffSlotParent;
 
@@ -13,17 +12,16 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
     private Dictionary<BuffType, GameObject> slotInstances = new();
     private Dictionary<BuffType, BuffSlotPresenter> activePresenters = new();
 
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
     }
 
 
-    public void Init()
+    public async void Init()
     {
-        ClearSlot();    
-        player = PlayerManager.Instance.Player;
-
+        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+        ClearSlot();
         // Player의 모든 스킬 중 BuffSkill만 감지
         foreach (var skill in player.EquippedSkills.Values)
         {

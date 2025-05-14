@@ -5,7 +5,7 @@ public class PlayerJumpState : PlayerAirState
     public StoppableAction MoveAction = new();
     private int animationNum = 0;
     private float animationTime = 0;
-    private int animationDelay = 10;
+    private int animationDelay = 5;
 
     private bool hasJumpedInThisFrame = false;
     public PlayerJumpState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
@@ -20,7 +20,8 @@ public class PlayerJumpState : PlayerAirState
         MoveAction.AddListener(playerStateMachine.ConnectIdleState);
         //Walk State 진입 가능 여부 확인
         MoveAction.AddListener(playerStateMachine.ConnectWalkState);
-
+        //Fall State 진입 가능 여부 확인
+        MoveAction.AddListener(playerStateMachine.ConnectRigidbodyFallState);
     }
 
     public override void Enter()
@@ -52,6 +53,7 @@ public class PlayerJumpState : PlayerAirState
         animationTime--;
     }
 
+
     public override void Update()
     {
         base.Update();
@@ -59,7 +61,6 @@ public class PlayerJumpState : PlayerAirState
         CheckDownJump();                                    // 밑점프 체크
         CheckDoubleJump(ref hasJumpedInThisFrame);          // 2단 점프 체크
         UpdateJumpAnimation();                              // 점프 애니메이션 업데이트
-        CheckFallTransition();                              // fallState 상태로 전환 확인
 
         MoveAction?.Invoke();
     }
@@ -73,14 +74,6 @@ public class PlayerJumpState : PlayerAirState
 
         animationTime = animationDelay;
         playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Jump, ++animationNum);
-    }
-
-    /// <summary>
-    /// 떨어지는 상태면 fallState로 전환
-    /// </summary>
-    private void CheckFallTransition()
-    {
-        playerStateMachine.ConnectRigidbodyFallState();
     }
 
     /// <summary>

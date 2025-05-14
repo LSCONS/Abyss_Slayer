@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 9210208129286660657}
   - component: {fileID: 1274622332315534941}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextExit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 8664466510054852329}
   - component: {fileID: 409938290624110945}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextInvite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -779,7 +779,6 @@ GameObject:
   - component: {fileID: 4487963696022569102}
   - component: {fileID: 8503672544815742640}
   - component: {fileID: 8815792595196019036}
-  - component: {fileID: 8164591841099414276}
   m_Layer: 5
   m_Name: InviteSpaceButton
   m_TagString: Untagged
@@ -889,22 +888,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8164591841099414276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7524442599080978045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26e04396ada859041a7ff17b8475166f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiType: 5
-  uISceneType: 4
-  isClose: 0
-  popupName: InvitationWindow
 --- !u!1 &8299697778924936290
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,7 +900,7 @@ GameObject:
   - component: {fileID: 8051735383149431666}
   - component: {fileID: 4981064784998761542}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

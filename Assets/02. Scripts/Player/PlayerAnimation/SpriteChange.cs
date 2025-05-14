@@ -19,22 +19,24 @@ public class SpriteChange : MonoBehaviour
     [field: SerializeField] public SpriteRenderer Face { get; set; }
     [field: SerializeField] public SpriteRenderer Skin { get; set; }
     [field: SerializeField] public SpriteRenderer WeaponBottom { get; set; }
-    [field: SerializeField] public SpriteData  SpriteData { get; set; }
     public Dictionary<SpriteRenderer, Dictionary<AnimationState, Sprite[]>> DictAnimationState { get; set; } = new();
 
     public void Init(CharacterClass character)
     {
-        SpriteData newData = null;
-        if (PlayerManager.Instance.CharacterSpriteDicitonary.TryGetValue(character, out newData))
+        if (PlayerManager.Instance.DictClassToSpriteData.TryGetValue(character, out SpriteData newData))
         {
-            DictAnimationState[WeaponTop] = newData.WeaponTop;
-            DictAnimationState[ClothTop] = newData.ClothTop;
-            DictAnimationState[HairTop] = newData.HairTop;
-            DictAnimationState[ClothBottom] = newData.ClothBottom;
-            DictAnimationState[HairBottom] = newData.HairBottom;
-            DictAnimationState[Face] = newData.Face;
-            DictAnimationState[Skin] = newData.Skin;
-            DictAnimationState[WeaponBottom] = newData.WeaponBottom;
+            DictAnimationState[WeaponTop]       = newData.InstantiateDictionary(newData.WeaponTop);
+            DictAnimationState[ClothTop]        = newData.InstantiateDictionary(newData.ClothTop);
+            DictAnimationState[HairTop]         = newData.InstantiateDictionary(newData.HairTop);
+            DictAnimationState[ClothBottom]     = newData.InstantiateDictionary(newData.ClothBottom);
+            DictAnimationState[HairBottom]      = newData.InstantiateDictionary(newData.HairBottom);
+            DictAnimationState[Face]            = newData.InstantiateDictionary(newData.Face);
+            DictAnimationState[Skin]            = newData.InstantiateDictionary(newData.Skin);
+            DictAnimationState[WeaponBottom]    = newData.InstantiateDictionary(newData.WeaponBottom);
+        }
+        else
+        {
+            Debug.LogError("초기화 실패");
         }
     }
 

@@ -45,7 +45,7 @@ public class UIChatController : MonoBehaviour
         textBuilder.Clear();
 
         //TODO: 여기에 네트워크로 메시지 전달
-        ServerManager.Instance.DictPlayerDatas[ServerManager.Instance.ThisPlayerRef].Rpc_EnterToChatting(bytes);
+        ServerManager.Instance.ThisPlayerData.Rpc_EnterToChatting(bytes);
     }
 
 

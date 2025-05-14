@@ -1,7 +1,9 @@
 using Fusion;
 using Photon.Realtime;
+using System.Collections;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static Unity.Collections.Unicode;
 
 /// <summary>
@@ -14,7 +16,9 @@ public class NetworkData : NetworkBehaviour
     [Networked] public PlayerRef PlayerDataRef { get; set; }    //플레이어 정보
     [Networked] public bool IsServer { get; set; } = false; //플레이어의 서버 권한 여부
     [Networked] public bool IsReady { get; set; } = false; //플레이어 레디 여부
-    [Networked] public int PlayerCharacter { get; set; } = (int)CharacterClass.Rogue; //플레이어 직업
+    [Networked] public int IntPlayerClass { get; set; } = (int)CharacterClass.Rogue; //플레이어 직업
+    public CharacterClass Class => (CharacterClass)IntPlayerClass;
+    private ESceneName ESceneName { get; set; }
 
     public override void Spawned()
     {
@@ -29,7 +33,7 @@ public class NetworkData : NetworkBehaviour
         {
             ServerManager.Instance.ThisPlayerRef = PlayerDataRef;
         }
-        ServerManager.Instance.DictPlayerDatas[PlayerDataRef] = this;
+        ServerManager.Instance.DictRefToNetData[PlayerDataRef] = this;
         ServerManager.Instance.LobbyMainPanel.UpdateNewData(PlayerDataRef);
 
         if (IsServer) ServerManager.Instance.LobbyMainPanel.SetServerText(PlayerDataRef);
@@ -46,7 +50,7 @@ public class NetworkData : NetworkBehaviour
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
         base.Despawned(runner, hasState);
-        ServerManager.Instance.DictPlayerDatas.Remove(PlayerDataRef);
+        ServerManager.Instance.DictRefToNetData.Remove(PlayerDataRef);
         ServerManager.Instance.LobbyMainPanel.SetActiveFalseRef(PlayerDataRef);
         PlayerEixtRoomText();
     }
@@ -111,7 +115,7 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_ChangeClass(CharacterClass characterClass)
     {
-        PlayerCharacter = (int)characterClass;
+        IntPlayerClass = (int)characterClass;
         ServerManager.Instance.LobbyMainPanel.UIUpdateSprite();
     }
 
@@ -147,5 +151,63 @@ public class NetworkData : NetworkBehaviour
     public void Rpc_SetReadyText(bool isActive)
     {
         ServerManager.Instance.LobbyMainPanel.SetReadyText(PlayerDataRef, isActive);
+    }
+
+
+    /// <summary>
+    /// 씬을 이동할 때 사용할 메서드
+    /// </summary>
+    /// <param name="enumScene"></param>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_MoveScene(ESceneName enumScene)
+    {
+        GameFlowManager.Instance.RpcServerSceneLoad(enumScene);
+        ESceneName = enumScene;
+    }
+
+
+    /// <summary>
+    /// 플레이어들의 입력을 활성화 시킬 메서드
+    /// </summary>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public async void Rpc_ConnectInput()
+    {
+        await ServerManager.Instance.WaitForThisInputAsync();
+        ServerManager.Instance.ThisPlayerInput.InputEvent();
+    }
+
+
+    /// <summary>
+    /// 플레이어들의 입력을 비활성화 시킬 메서드
+    /// </summary>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_DisconnectInput()
+    {
+        ServerManager.Instance.ThisPlayerInput.OutPutEvent();
+    }
+
+
+    /// <summary>
+    /// 모든 플레이어 활성화
+    /// </summary>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_PlayerActiveTrue()
+    {
+        StartCoroutine(ActivePlayer());
+    }
+
+    private IEnumerator ActivePlayer()
+    {
+        while(ServerManager.Instance.DictRefToPlayer.Count != ServerManager.Instance.DictRefToNetData.Count)
+        {
+            yield return null;
+        }
+
+        foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
+        {
+            player.gameObject.SetActive(true);
+            SceneManager.MoveGameObjectToScene(player.gameObject, SceneManager.GetActiveScene());
+            player.PlayerData.PlayerDataInit(player);
+        }
     }
 }

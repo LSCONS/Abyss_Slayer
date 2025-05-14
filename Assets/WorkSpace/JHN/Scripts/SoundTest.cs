@@ -17,7 +17,7 @@ public class SoundTest : MonoBehaviour
 
     private async void Start()
     {
-        await SoundManager.Instance.Init(EGameState.Start);
+        await SoundManager.Instance.Init(ESceneName.Start);
         SoundManager.Instance.PlayBGM("BGM1");
     }
 
