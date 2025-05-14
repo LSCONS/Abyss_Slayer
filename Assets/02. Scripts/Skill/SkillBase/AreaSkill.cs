@@ -35,7 +35,7 @@ public abstract class AreaSkill : Skill
     public override void SkillUpgrade()
     {
         base.SkillUpgrade();
-        effectAmount = baseEffectAmount * (1.0f + (Level.Value - 1) * Magnification);
-        duration = baseDuration * (1.0f + (Level.Value - 1) * Magnification);
+        effectAmount = baseEffectAmount + (Level.Value - 1) * Magnification;
+        duration = baseDuration + (Level.Value - 1) * Magnification;
     }
 }
