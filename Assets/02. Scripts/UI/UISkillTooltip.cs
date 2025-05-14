@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 public class UISkillTooltip : UIPopup
 {
     [SerializeField] private TextMeshProUGUI skillNameText;
@@ -92,18 +93,20 @@ public class UISkillTooltip : UIPopup
     }
 
 
-    public void ShowTooltip(string name, string desc)
+    public void ShowTooltip(string name, string desc, RectTransform target)
     {
+        this.gameObject.SetActive(false);
         SetBuff(name, desc);                 // 이름 설명 세팅
-        Canvas.ForceUpdateCanvases();        // 레이아웃 강제 업데이트
         Open();                              // 툴팁 열기
+        SetTooltipPosition(target);
     }
 
-    public void ShowTooltip(Skill skillData)
+    public void ShowTooltip(Skill skillData, RectTransform target)
     {
+        this.gameObject.SetActive(false);
         SetSkill(skillData);                 // 이름 설명 세팅
-        Canvas.ForceUpdateCanvases();        // 레이아웃 강제 업데이트
         Open();                              // 툴팁 열기
+        SetTooltipPosition(target);
     }
 
 }

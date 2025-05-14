@@ -70,7 +70,7 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tooltip.ShowTooltip(skillData);
+        tooltip.ShowTooltip(skillData, slotRect);
 
         // 마우스 위치를 기준으로 툴팁 설정
         tooltip.SetTooltipPosition(slotRect);

@@ -60,10 +60,7 @@ public class UIBuffSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerEx
     public void OnPointerEnter(PointerEventData eventData)
     {
         var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
-        tooltip.ShowTooltip(buffName, buffDescription);
-
-        // 툴팁 위치 세팅
-        tooltip.SetTooltipPosition(slotRect);
+        tooltip.ShowTooltip(buffName, buffDescription, slotRect);
     }
 
     public void OnPointerExit(PointerEventData eventData)
