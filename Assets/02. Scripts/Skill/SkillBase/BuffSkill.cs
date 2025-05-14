@@ -20,15 +20,36 @@ public class BuffSkill : Skill
     [field: Header("버프 타입")]
     [field: SerializeField] public BuffType Type { get; private set; } = BuffType.None; // 버프 타입
 
-    [SerializeField] private ProjectileAttackSkill projectileAttackSkill; // 임시 참조
+    private ProjectileAttackSkill[] projectileAttackSkills; // 투사체 스킬 참조 배열
+
+    public override void Init()
+    {
+        base.Init();
+        if (Type == BuffType.RogueDoubleShot && player != null)
+        {
+            var foundSkills = new System.Collections.Generic.List<ProjectileAttackSkill>();
+            
+            foreach (var skill in player.EquippedSkills.Values)
+            {
+                if (skill is ProjectileAttackSkill projectileSkill)
+                {
+                    foundSkills.Add(projectileSkill);
+                }
+            }
+            
+            projectileAttackSkills = foundSkills.ToArray();
+        }
+    }
 
     public override void SkillUpgrade()
     {
         base.SkillUpgrade();
-        if (projectileAttackSkill != null)
+        if (projectileAttackSkills != null)
         {
-            projectileAttackSkill.DamageMultiple = projectileAttackSkill.BaseDamageMultiple + (Level.Value - 1) * Magnification;
-            Debug.LogAssertion($"배율 업그레이드: {projectileAttackSkill.DamageMultiple}");
+            foreach (var skill in projectileAttackSkills)
+            {
+                skill.DamageMultiple = skill.BaseDamageMultiple + (Level.Value - 1) * Magnification;
+            }
         }
     }
 }
