@@ -23,12 +23,13 @@ public class DebuffData
     public string Description => debuff?.Info.Description ?? "정보 없음";
 }
 
-public struct DebuffInfo
+[System.Serializable]
+public struct BuffInfo
 {
     public string Name;
     public string Description;
 
-    public DebuffInfo(string name, string description)
+    public BuffInfo(string name, string description)
     {
         Name = name;
         Description = description;
@@ -40,7 +41,7 @@ public struct DebuffInfo
 /// </summary>
 public interface IDebuff
 {
-    DebuffInfo Info { get; }    // 디버프의 이름과 설명
+    BuffInfo Info { get; }    // 디버프의 이름과 설명
 
     void Apply(Boss boss, float amount);
     void Expire(Boss boss);
@@ -48,7 +49,7 @@ public interface IDebuff
 
 public class WeakenDebuff : IDebuff
 {
-    public DebuffInfo Info => new DebuffInfo("약화", "받는 피해량이 증가합니다.");
+    public BuffInfo Info => new BuffInfo("약화", "받는 피해량이 증가합니다.");
     public void Apply(Boss boss, float amount)
     {
         // 보스 받는 데미지 배율 증가
