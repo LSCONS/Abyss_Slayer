@@ -18,8 +18,8 @@ public class OnceProjectileSkill : ProjectileAttackSkill
         if (player.BuffDuration.ContainsKey(BuffType.RogueDoubleShot) && player.BuffDuration[BuffType.RogueDoubleShot].IsApply)
         {
             ThrowProjectile(spawnPos + distanceY, dirX); 
-            ThrowProjectile(spawnPos - distanceY, dirX, CurDamageMultiple);
-            Debug.LogAssertion($"추가 투사체 배율: {CurDamageMultiple}");
+            ThrowProjectile(spawnPos - distanceY, dirX, Damage);
+            Debug.LogAssertion($"추가 투사체 배율: {DamageMultiple}");
         }
         else
         {

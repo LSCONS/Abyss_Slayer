@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -19,4 +20,39 @@ public class BuffSkill : Skill
     [field: SerializeField] public bool IsApply { get; set; } = false; // 현재 버프 적용 여부
     [field: Header("버프 타입")]
     [field: SerializeField] public BuffType Type { get; private set; } = BuffType.None; // 버프 타입
+    [field: Header("적용된 버프의 정보")]
+    [field: SerializeField] public BuffInfo Info { get; set; }
+
+    private ProjectileAttackSkill[] projectileAttackSkills; // 투사체 스킬 참조 배열
+
+    public override void Init()
+    {
+        base.Init();
+        if (Type == BuffType.RogueDoubleShot)
+        {
+            var foundSkills = new List<ProjectileAttackSkill>();
+            
+            foreach (var skill in player.EquippedSkills.Values)
+            {
+                if (skill is ProjectileAttackSkill projectileSkill)
+                {
+                    foundSkills.Add(projectileSkill);
+                }
+            }
+            
+            projectileAttackSkills = foundSkills.ToArray();
+        }
+    }
+
+    public override void SkillUpgrade()
+    {
+        base.SkillUpgrade();
+        if (projectileAttackSkills != null)
+        {
+            foreach (var skill in projectileAttackSkills)
+            {
+                skill.DamageMultiple = skill.BaseDamageMultiple + (Level.Value - 1) * Magnification;
+            }
+        }
+    }
 }

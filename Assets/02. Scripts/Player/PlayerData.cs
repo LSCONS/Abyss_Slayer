@@ -20,6 +20,8 @@ public class PlayerAirData
     [field: SerializeField] public int MaxJumpCount { get; private set; } = 1;
     [field: SerializeField] public int CurJumpCount { get; set; } = 1;
     public void ResetJumpCount() => CurJumpCount = MaxJumpCount;
+    public void UseJump() => CurJumpCount--;
+    public bool CanJump() => CurJumpCount > 0;
 
     [field: Header("DashData")]
     [field: SerializeField] public float DashForce { get; private set; } = 5f;

@@ -25,7 +25,6 @@ public class BossHitEffect : BasePoolable
         {
             if (!effectMap.ContainsKey(entry.type))
                 effectMap.Add(entry.type, entry.clip);
-            Debug.Log($"등록된 이펙트: {entry.type} -> {entry.clip?.name}");
 
         }
     }
@@ -38,12 +37,10 @@ public class BossHitEffect : BasePoolable
     {
         if(effectMap.TryGetValue(type, out AnimationClip clip) && animator != null)
         {
-            Debug.Log($"[BossHitEffect] {type} 재생 → 클립 이름: {clip.name}");
             animator.Play(clip.name);
         }
         else
         {
-            Debug.LogWarning($"[BossHitEffect] {type}에 해당하는 클립이 없습니다.");
         }
     }
 
