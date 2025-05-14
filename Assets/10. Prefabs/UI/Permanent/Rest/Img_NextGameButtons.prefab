@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 3133095118309554429}
   - component: {fileID: 943078251058456818}
   - component: {fileID: 5283085861020683614}
-  - component: {fileID: 4488737455287449133}
   m_Layer: 5
-  m_Name: NextGameButton
+  m_Name: Btn_ReadyOrStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -122,21 +121,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4488737455287449133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 341057757710759525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b6fc04a11af12446beef54802e80ac2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiType: 6
-  uISceneType: 16
-  gameStartState: 5
 --- !u!1 &3143701907654768685
 GameObject:
   m_ObjectHideFlags: 0
@@ -149,7 +133,7 @@ GameObject:
   - component: {fileID: 945855128107315235}
   - component: {fileID: 3911400409436200949}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text_ReadyOrStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -282,8 +266,9 @@ GameObject:
   - component: {fileID: 4180905598204607184}
   - component: {fileID: 1342614413079824709}
   - component: {fileID: 8005517092683318184}
+  - component: {fileID: 5489369029962832189}
   m_Layer: 5
-  m_Name: NextGameButtons
+  m_Name: Img_NextGameButtons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -348,6 +333,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5489369029962832189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3330415599797595180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4557778841128a43b8f880bb25264c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiType: 2
+  uISceneType: 16
+  <BtnReadyOrStart>k__BackingField: {fileID: 5283085861020683614}
+  <TextBtnReadyOrStart>k__BackingField: {fileID: 3911400409436200949}
+  <ImgBossIcon>k__BackingField: {fileID: 9183013460778227447}
+  <ImgBtnColor>k__BackingField: {fileID: 943078251058456818}
+  <OnReadyColor>k__BackingField: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 0}
+  <OffReadyColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0}
 --- !u!1 &7344434670414883570
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +365,7 @@ GameObject:
   - component: {fileID: 7175596964465234449}
   - component: {fileID: 9183013460778227447}
   m_Layer: 5
-  m_Name: BossIcon
+  m_Name: Img_BossIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

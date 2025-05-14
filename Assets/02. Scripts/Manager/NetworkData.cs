@@ -210,4 +210,26 @@ public class NetworkData : NetworkBehaviour
             player.PlayerData.PlayerDataInit(player);
         }
     }
+
+    
+    /// <summary>
+    /// 클라이언트들이 래디 버튼을 누를 경우 실행할 메서드
+    /// </summary>
+    /// <param name="isReady"></param>
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void Rpc_PlayerIsReady(bool isReady)
+    {
+        if (Runner.LocalPlayer == PlayerDataRef) return;
+
+        if (Runner.IsServer)
+        {
+            IsReady = isReady;
+            bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReady();
+            ServerManager.Instance.IsAllReadyAction(isAllReday);
+        }
+        else
+        {
+            ServerManager.Instance.UITeamStatus?.ChangeIsReadyPlayerText(PlayerDataRef, isReady);
+        }
+    }
 }

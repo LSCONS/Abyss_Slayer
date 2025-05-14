@@ -20,6 +20,8 @@ public class RunnerManager : Singleton<RunnerManager>
             return mainRunner;
         }
     }
+    public bool IsThisRunner
+        => ServerManager.Instance.ThisPlayerRef == MainRunner.LocalPlayer;
 
     protected override void Awake()
     {
@@ -29,7 +31,6 @@ public class RunnerManager : Singleton<RunnerManager>
 
     public NetworkRunner GetRunner()
     {
-        
         return MainRunner;
     }
 }

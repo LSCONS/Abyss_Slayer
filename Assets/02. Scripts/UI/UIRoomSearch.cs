@@ -2,6 +2,7 @@ using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 
 
@@ -23,11 +24,14 @@ public class UIRoomSearch : UIPopup
     [field: SerializeField] public UIRoomPrefab RoomPrefabs { get; private set; }
     public SessionInfo SelectRoomSession { get; set; } = null;
     
-    private void Awake()
+    private async void Awake()
     {
         ServerManager.Instance.RoomSearch = this;
         BtnJoin.onClick.AddListener(TryJoinRoom);
         BtnSearchAgain.onClick.AddListener(UpdateRoomList);
+        var data = Addressables.LoadAssetAsync<GameObject>("RoomPrefab");
+        await data.Task;
+        RoomPrefabs = data.Result.GetComponent<UIRoomPrefab>();
     }
 
     private void OnEnable()
