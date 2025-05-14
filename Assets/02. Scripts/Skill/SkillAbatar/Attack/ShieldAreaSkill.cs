@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 public class ShieldAreaSkill : AreaSkill
 {
     [SerializeField] private GameObject shieldPrefab;
-    [SerializeField] private float duration = 3f;
+    
 
     private GameObject shieldInstance;
     private float originAlpha;
