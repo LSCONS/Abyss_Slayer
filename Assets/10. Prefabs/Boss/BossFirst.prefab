@@ -250,6 +250,7 @@ MonoBehaviour:
   mapWidth: 40
   virtualCamera: {fileID: 0}
   chasingTarget: 0
+  runSpeed: 0
   jumpMoveTime: 0.8
   jumpMoveHight: 1.5
   gravityMultiplier: 3
@@ -416,7 +417,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 200
-  m_Sprite: {fileID: 171416399, guid: e4eff3e8af0670945b6ad312257d3277, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -424,7 +425,7 @@ SpriteRenderer:
   m_Size: {x: 8, y: 8}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5262710971150155264
