@@ -18,8 +18,8 @@ public class UISkillUpgradeController : UIPopup
     [Header("적용하기 버튼")]
     [SerializeField] private Button applyButton;
 
-    private int skillPoint = 0;
-    private int tempLevel = 0;
+    private int SkillPoint { get; set; } = 0;
+    private int OriginalSkillPoint { get; set; } = 0;    // 원래 스킬 포인트
     private Dictionary<Skill, UISkillSlot> upgradeSlots = new();
 
     private class SkillUpgradeData
@@ -33,7 +33,8 @@ public class UISkillUpgradeController : UIPopup
     {
         base.Init();
         // 스킬 포인트 초기화
-        skillPoint = PlayerManager.Instance.Player.SkillPoint;
+        OriginalSkillPoint = PlayerManager.Instance.Player.SkillPoint;      // 저장
+        SkillPoint = OriginalSkillPoint;
         UpdateSkillPointText();
 
         // 슬롯이 이미 생성되어 있으면 초기화 생략해야됨
@@ -53,13 +54,26 @@ public class UISkillUpgradeController : UIPopup
             upgradeData[skill] = new SkillUpgradeData
             {
                 skill = skill,
-                TempLevel = tempLevel
+                TempLevel = skill.Level.Value,  // 스킬 레벨 설정
             };
         }
 
         // 버튼 초기화
         applyButton.onClick.RemoveAllListeners();
-        applyButton.onClick.AddListener(ApplayUpgrade);
+        applyButton.onClick.AddListener(ApplyUpgrade);
+    }
+
+    public override void Close()
+    {
+        base.Close();
+        ResetUnappliedChange(); // 적용 안된 것들 초기화
+
+    }
+
+    public override void OnDisable()
+    {
+        ResetUnappliedChange();
+        base.OnDisable();
     }
 
     /// <summary>
@@ -87,10 +101,10 @@ public class UISkillUpgradeController : UIPopup
         upgradeButton.onClick.AddListener(() =>
         {
             var data = upgradeData[skill];
-            if (skillPoint > 0)
+            if (SkillPoint > 0)
             {
                 data.TempLevel++;                         // 임시 레벨 올림
-                skillPoint--;                             // 스킬 포인트 낮춤
+                SkillPoint--;                             // 스킬 포인트 낮춤
                 slot.SetSkillLevel(data.TempLevel);       // 슬롯의 레벨 텍스트 수정
                 UpdateSkillPointText();                   // 상점의 스킬 포인트 수정
             }                                            
@@ -103,7 +117,7 @@ public class UISkillUpgradeController : UIPopup
             if (data.TempLevel > skill.Level.Value)      
             {                                            
                 data.TempLevel--;                         // 임시 레벨 올림
-                skillPoint++;                             // 스킬 포인트 낮춤
+                SkillPoint++;                             // 스킬 포인트 낮춤
                 slot.SetSkillLevel(data.TempLevel);       // 슬롯의 레벨 텍스트 수정
                 UpdateSkillPointText();                   // 상점의 스킬 포인트 수정
             }
@@ -114,10 +128,10 @@ public class UISkillUpgradeController : UIPopup
 
     private void UpdateSkillPointText()
     {
-        skillPointText.text = $"스킬 포인트: {skillPoint}";
+        skillPointText.text = $"스킬 포인트: {SkillPoint}";
     }
 
-    private void ApplayUpgrade()
+    private void ApplyUpgrade()
     {
         foreach ( var upData in upgradeData )
         {
@@ -133,7 +147,32 @@ public class UISkillUpgradeController : UIPopup
         }
 
         // 스킬 포인트 반영해줌
-        PlayerManager.Instance.Player.SkillPoint = skillPoint;
+        PlayerManager.Instance.Player.SkillPoint = SkillPoint;
+        OriginalSkillPoint = SkillPoint;
+        UpdateSkillPointText();
     }
+
+    // 닫을 때 적용안한 것들 초기화
+    private void ResetUnappliedChange()
+    {
+        // 포인트 돌려놓기
+        SkillPoint = OriginalSkillPoint;
+        UpdateSkillPointText();
+
+        // 스킬 레벨 돌려놓기
+        foreach(var upData in upgradeData )
+        {
+            var skill = upData.Key;
+            var data = upData.Value;
+
+            data.TempLevel = skill.Level.Value;
+
+            if(upgradeSlots.TryGetValue(skill, out var slot))
+            {
+                slot.SetSkillLevel(data.TempLevel);
+            }
+        }
+    }
+
 }
     
