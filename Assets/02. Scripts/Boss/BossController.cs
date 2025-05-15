@@ -17,40 +17,43 @@ public class BossPattern
     [Tooltip("끄면 패턴 비활성화")]
     public bool setActivePatternForTest;
     public bool showGizmos;
-   
-    
 }
+
+
 public class BossController : MonoBehaviour
 {
-    [SerializeField] BasePatternData appearPattern;
-    [SerializeField] List<BossPattern> allPatterns;
-    [SerializeField] GameObject targetCrossHairPrefab;
-    Animator animator;
-    Transform _targetCrosshair;
-    GameObject _targetCrosshairObj;
-    Transform _target;
-    [SerializeField] public SpriteRenderer sprite;      //보스스프라이트
-    public Collider2D hitCollider;                      //보스 피격판정 콜라이더
-    [SerializeField] SpriteRenderer _effectSprite;
-    [SerializeField] public float bossCenterHight;
-    public float mapWidth;
-    public CinemachineVirtualCamera virtualCamera;
+    [field: SerializeField] private BasePatternData     AppearPattern           { get; set; }
+    [field: SerializeField] private List<BossPattern>   AllPatterns             { get; set; }
+    [field: SerializeField] private GameObject          TargetCrossHairPrefab   { get; set; }
+    [field: SerializeField] public Boss                 Boss                    { get; private set; }
+    [field: SerializeField] public float                BossCenterHight         { get; private set; }
+    private Transform                                   TargetCrosshair         { get; set; }
+    private GameObject                                  TargetCrosshairObj      { get; set; }
+    private Transform                                   Target                  { get; set; }
+    public float                                        MapWidth                { get; set; }
+    public bool                                         ChasingTarget           { get; set; }
 
-    [HideInInspector] public bool chasingTarget;
-    bool _showTargetCrosshair;
-    public bool showTargetCrosshair
+
+    public CinemachineVirtualCamera                     VirtualCamera           => Boss.VirtualCamera;
+    public Collider2D                                   HitCollider             => Boss.HitCollider; //보스 피격판정 콜라이더
+    public Animator                                     Animator                => Boss.Animator;
+    public SpriteRenderer                               Sprite                  => Boss.Sprite; //보스스프라이트
+
+
+    private bool _showTargetCrosshair;
+    public bool ShowTargetCrosshair
     {
         get { return _showTargetCrosshair; }
         set 
         {
-            if (value && _target != null) _targetCrosshair.position = _target.position;
-            _targetCrosshairObj.SetActive(value);
+            if (value && Target != null) TargetCrosshair.position = Target.position;
+            TargetCrosshairObj.SetActive(value);
             _showTargetCrosshair = value;
         }
     }
     
-    bool _isLeft;
-    public bool isLeft
+    private bool _isLeft;
+    public bool IsLeft
     {
         get { return _isLeft; }
         set 
@@ -58,33 +61,29 @@ public class BossController : MonoBehaviour
             if(_isLeft != value)
             {
                 _isLeft = value;
-                sprite.flipX = value;
+                Sprite.flipX = value;
             }
         }
     }
 
-    [Header("움직임 관련")]
-    [SerializeField] float jumpMoveTime;
-    [SerializeField] float jumpMoveHight;
-    [SerializeField] float gravityMultiplier;
+    [field: Header("움직임 관련")]
+    [field: SerializeField] private float JumpMoveTime      { get; set; }
+    [field: SerializeField] private float JumpMoveHight     { get; set; }
+    [field: SerializeField] private float GravityMultiplier { get; set; }
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-        hitCollider = GetComponent<Collider2D>();
-        virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
-
-        for (int i = 0; i < allPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
+        for (int i = 0; i < AllPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
         {
-            allPatterns[i].patternData.Init(transform,this,animator);
+            AllPatterns[i].patternData.Init(this);
         }
-        appearPattern?.Init(transform, this, animator);
+        AppearPattern?.Init(this);
 
-        _targetCrosshair = Instantiate(targetCrossHairPrefab).transform;
-        _targetCrosshairObj = _targetCrosshair.gameObject;
+        TargetCrosshair = Instantiate(TargetCrossHairPrefab).transform;
+        TargetCrosshairObj = TargetCrosshair.gameObject;
 
-        chasingTarget = false;
-        showTargetCrosshair = false;
+        ChasingTarget = false;
+        ShowTargetCrosshair = false;
     }
 
     private void Start()
@@ -94,21 +93,21 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
-        if (chasingTarget)
+        if (ChasingTarget)
         {
-            isLeft = (_target.position.x - transform.position.x < 0);
+            IsLeft = (Target.position.x - transform.position.x < 0);
         }
-        if (showTargetCrosshair)
+        if (ShowTargetCrosshair)
         {
-            _targetCrosshair.position = _target.position;
+            TargetCrosshair.position = Target.position;
         }
         
     }
     IEnumerator startLoop()
     {
-        if(appearPattern != null)
+        if(AppearPattern != null)
         {
-            yield return appearPattern.ExecutePattern();
+            yield return AppearPattern.ExecutePattern();
         }
         else
         {
@@ -129,7 +128,7 @@ public class BossController : MonoBehaviour
             BossPattern next = GetRandomPattern();
             if (next != null)
             {
-                _target = next.patternData.target;
+                Target = next.patternData.target;
                 yield return StartCoroutine(next.patternData.ExecutePattern());
             }
             else
@@ -145,11 +144,11 @@ public class BossController : MonoBehaviour
     /// </summary>
     private void OnDrawGizmos()
     {
-        if(allPatterns.Count == 0)
+        if(AllPatterns.Count == 0)
             return;
-        for(int i = 0; i < allPatterns.Count; i++)
+        for(int i = 0; i < AllPatterns.Count; i++)
         {
-            BossPattern pattern = allPatterns[i];
+            BossPattern pattern = AllPatterns[i];
 
             if (pattern == null || (pattern.patternData.attackableAreas.Count == 0 && pattern.patternData.globalAttackableAreas.Count == 0))
                 return;
@@ -188,7 +187,7 @@ public class BossController : MonoBehaviour
     BossPattern GetRandomPattern()
     {
         // 가능한 패턴만 필터링, 테스트용 활성화 값이 참인경우만 포함
-        List<BossPattern> availablePatterns = allPatterns.Where(p =>p.setActivePatternForTest && p.patternData.IsAvailable()).ToList();
+        List<BossPattern> availablePatterns = AllPatterns.Where(p =>p.setActivePatternForTest && p.patternData.IsAvailable()).ToList();
 
         if (availablePatterns.Count == 0)
             return null;
@@ -217,31 +216,33 @@ public class BossController : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f,_groundLayerMask);
 
-        if (hit.point.y > transform.position.y - bossCenterHight + 0.05f)
+        if (hit.point.y > transform.position.y - BossCenterHight + 0.05f)
         {
-            while (hit.point.y >= transform.position.y - bossCenterHight + 0.05f)
+            while (hit.point.y >= transform.position.y - BossCenterHight + 0.05f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, hit.point + (Vector2.up * bossCenterHight), 8f * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, hit.point + (Vector2.up * BossCenterHight), 8f * Time.deltaTime);
                 yield return null;
             }
-            transform.position = hit.point + (Vector2.up * bossCenterHight);
+            transform.position = hit.point + (Vector2.up * BossCenterHight);
         }
-        else if (hit.point.y < transform.position.y - bossCenterHight - 0.05f)
+        else if (hit.point.y < transform.position.y - BossCenterHight - 0.05f)
         {
-            animator.SetTrigger(isDeath? "DeathFall" : "Fall");
+            int hash = isDeath ? BossAnimationHash.DeadParameterHash : BossAnimationHash.FallParameterHash;
+            Boss.Rpc_SetAnimationHash(hash);
+
             float time = 0f;
             float startHight = transform.position.y;
-            while (hit.point.y <= transform.position.y - bossCenterHight - 0.05f)
+            while (hit.point.y <= transform.position.y - BossCenterHight - 0.05f)
             {
-                transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * gravityMultiplier * time * time));
+                transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * GravityMultiplier * time * time));
                 time += Time.deltaTime;
                 yield return null;
             }
-            transform.position = hit.point + (Vector2.up * bossCenterHight);
+            transform.position = hit.point + (Vector2.up * BossCenterHight);
 
             if (!isDeath)
             {
-                animator.SetTrigger("Land");
+                Boss.Rpc_SetAnimationHash(BossAnimationHash.LandParameterHash);
                 yield return new WaitForSeconds(0.2f);
             }
         }
@@ -257,8 +258,8 @@ public class BossController : MonoBehaviour
     public IEnumerator JumpMove(Vector3 targetPosition, float inputJumpMoveTime = -1f, float inputJumpMoveHight = -1f)
     {
         Vector3 startPosition = transform.position;
-        float _jumpMoveTime = (inputJumpMoveTime <= 0)? jumpMoveTime : inputJumpMoveTime;
-        float _jumpMoveHight = (inputJumpMoveHight < 0)? jumpMoveHight : inputJumpMoveHight;
+        float _jumpMoveTime = (inputJumpMoveTime <= 0)? JumpMoveTime : inputJumpMoveTime;
+        float _jumpMoveHight = (inputJumpMoveHight < 0)? JumpMoveHight : inputJumpMoveHight;
         float maxY = Mathf.Max(targetPosition.y, startPosition.y) + _jumpMoveHight;
         float deltaY1 = maxY - startPosition.y;
         float deltaY2 = maxY - targetPosition.y;
@@ -266,22 +267,22 @@ public class BossController : MonoBehaviour
         float jumpGravity = 2 * deltaY1 / (hightestTime * hightestTime);
         float startVelocityY = jumpGravity * hightestTime;
 
-        isLeft = targetPosition.x - transform.position.x <= 0;
-        animator.SetTrigger("Jump");
+        IsLeft = targetPosition.x - transform.position.x <= 0;
+        Boss.Rpc_SetAnimationHash(BossAnimationHash.JumpParameterHash);
         yield return new WaitForSeconds(0.2f);
-        PoolManager.Instance.Get<JumpEffect>().Init(transform.position + Vector3.down * bossCenterHight);
+        PoolManager.Instance.Get<JumpEffect>().Init(transform.position + Vector3.down * BossCenterHight);
         float time = 0f;
         while(time < _jumpMoveTime)
         {
             float x = Mathf.Lerp(startPosition.x, targetPosition.x, time / _jumpMoveTime);
             if(time >= hightestTime)
-                animator.SetTrigger("Fall");
+                Boss.Rpc_SetAnimationHash(BossAnimationHash.FallParameterHash);
             float y = startPosition.y + (startVelocityY * time) - (0.5f * jumpGravity * time * time);
             transform.position = new Vector3(x, y, 0);
             time += Time.deltaTime;
             yield return null;
         }
-        animator.SetTrigger("Land");
+        Boss.Rpc_SetAnimationHash(BossAnimationHash.LandParameterHash);
         transform.position = targetPosition;
         yield return new WaitForSeconds(0.4f);
     }
@@ -296,8 +297,8 @@ public class BossController : MonoBehaviour
     {
         //yield return StartCoroutine(Landing(true));
         Time.timeScale = 0.2f;
-        animator.SetTrigger("Dead");
-        virtualCamera.Priority = 20;
+        Boss.Rpc_SetAnimationHash(BossAnimationHash.DeadParameterHash);
+        VirtualCamera.Priority = 20;
         yield return new WaitForSeconds(0.2f);
 
         while (Time.timeScale < 1f)
@@ -308,7 +309,7 @@ public class BossController : MonoBehaviour
         Time.timeScale = 1f;
 
         yield return new WaitForSeconds(2f);
-        virtualCamera.Priority = 5;
+        VirtualCamera.Priority = 5;
         yield return new WaitForSeconds(2f);
         gameObject.SetActive(false);
     }

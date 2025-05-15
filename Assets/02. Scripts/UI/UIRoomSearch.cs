@@ -98,9 +98,19 @@ public class UIRoomSearch : UIPopup
     {
         //새로고침 한 번 실행
         UpdateRoomList();
-        if(SelectRoomSession.PlayerCount < ServerManager.Instance.MaxHeadCount)
+
+        if (SelectRoomSession.PlayerCount >= ServerManager.Instance.MaxHeadCount)
         {
-            ServerManager.Instance.JoinRoom(SelectRoomSession);
+            //TODO: 인원 수 초과 알림 필요
+            return;
         }
+
+        if (!(SelectRoomSession.IsOpen))
+        {
+            //TODO: 이미 시작하거나 파괴된 방입니다.
+            return;
+        }
+
+        ServerManager.Instance.JoinRoom(SelectRoomSession);
     }
 }

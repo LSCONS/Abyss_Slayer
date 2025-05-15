@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,25 +33,10 @@ public static class UIBinder
     /// <typeparam name="TPresenter">프리젠터 타입</typeparam>
     /// <param name="targetName">모델 이름</param>
     /// <param name="_view">뷰 오브젝트</param>
-    public static bool Bind<TModel, TView, TPresenter>(string targetName, GameObject _view)
-    where TModel : IHasHealth
+    public static bool Bind<TView, TPresenter>(IHasHealth health, GameObject _view)
     where TView : IView
     where TPresenter : IPresenter
     {
-        var targetObject = GameObject.Find(targetName);
-        if (targetObject == null)
-        {
-            Debug.LogWarning($"[UIBinder] 타겟 오브젝트 {targetName}을 찾을 수 없다");
-            return false;
-        }
-
-        var model = targetObject.GetComponent<TModel>();
-        if (model == null)
-        {
-            Debug.LogWarning($"[UIBinder] {targetName}에 {typeof(TModel)} 컴포넌트가 없다");
-            return false;
-        }
-
         var view = _view.GetComponent<TView>();
         if (view == null)
         {
@@ -58,8 +44,40 @@ public static class UIBinder
             return false;
         }
 
-        var presenter = (IPresenter)System.Activator.CreateInstance(typeof(TPresenter), model, view);
+        var presenter = (IPresenter)System.Activator.CreateInstance(typeof(TPresenter), health, view);
         view.SetPresenter(presenter);
+
+        return true;
+    }
+
+    public static bool BindBoss<TModel, TView, TPresenter>(Boss boss, GameObject _view)
+where TModel : IHasHealth
+where TView : IView
+where TPresenter : IPresenter
+    {
+        if (boss is not IHasHealth model)
+        {
+            Debug.LogWarning($"[UIBinder] {boss.name}에 {typeof(TModel)} 컴포넌트가 없다");
+            return false;
+        }
+        if (!(Bind<TView, TPresenter>(model, _view))) return false;
+
+        return true;
+    }
+
+
+    public static bool BindPlayer<TModel, TView, TPresenter>(Player player, GameObject _view)
+where TModel : IHasHealth
+where TView : IView
+where TPresenter : IPresenter
+    {
+        if (player is not TModel model)
+        {
+            Debug.LogWarning($"[UIBinder] Player에 {typeof(TModel)} 컴포넌트가 없다");
+            return false;
+        }
+
+        if (!(Bind<TView, TPresenter>(model, _view))) return false;
 
         return true;
     }

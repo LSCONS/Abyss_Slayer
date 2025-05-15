@@ -164,6 +164,30 @@ public static class Util
 
 
     /// <summary>
+    /// 자신의 컴포넌트를 특정 컴포넌트에서 찾고 반환 받는 메서드 이미 들어있다면 찾지 않음.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="component"></param>
+    /// <param name="parent"></param>
+    /// <returns></returns>
+    public static T GetComponentInChildren<T>(this T component, Component parent)
+    {
+        if (component != null) return component;
+        var temp = parent.GetComponentInChildren<T>();
+        if (temp != null)
+        {
+            Debug.Log($"{typeof(Component)}타입의 자동 할당에 성공했습니다. 컴포넌트를 미리 넣어주세요.");
+            return temp;
+        }
+        else
+        {
+            Debug.Log($"{typeof(Component)}타입의 자동 할당을 실패했습니다. 컴포넌트를 찾을 수 없습니다.");
+            return default;
+        }
+    }
+
+
+    /// <summary>
     /// 부모오브젝트를 재귀적으로 찾으며 특정 이름의 Transform을 찾아오는 메서드
     /// </summary>
     /// <param name="parent">검색을 시작할 오브젝트</param>

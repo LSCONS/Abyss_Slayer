@@ -11,15 +11,18 @@ public class ThrowRockData : BasePatternData
     [SerializeField] float postDelayTime = 1f;
     public override IEnumerator ExecutePattern()
     {
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("ThrowRock1");
-        bossController.chasingTarget = true;
-        bossController.showTargetCrosshair = true;
+        bossController.ChasingTarget = true;
+        bossController.ShowTargetCrosshair = true;
         yield return new WaitForSeconds(preDelayTime);
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("ThrowRock2");
         PoolManager.Instance.Get<GravityProjectile>().Init(damage, bossTransform.position + Vector3.up * 2, rockSpeed, target.position, int.MaxValue,rockSize, 1);
-        bossController.chasingTarget = false;
-        bossController.showTargetCrosshair = false;
+        bossController.ChasingTarget = false;
+        bossController.ShowTargetCrosshair = false;
         yield return new WaitForSeconds(postDelayTime);
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("ThrowRock3");
     }
 }

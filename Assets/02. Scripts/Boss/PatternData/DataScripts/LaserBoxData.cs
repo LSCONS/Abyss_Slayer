@@ -14,6 +14,7 @@ public class LaserBoxData : BasePatternData
 
     public override IEnumerator ExecutePattern()
     {
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("LaserBox1");
         yield return new WaitForSeconds(preDelayTime);
 

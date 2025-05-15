@@ -37,6 +37,8 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
             return temp;
         }
     }
+    [field: SerializeField] public List<NetworkObject> BossObject { get; private set; }
+    public Boss NowBoss { get; private set; }
     public string RoomName { get; private set; } = "Empty";
     //플레이어의 이름이 바뀔 때 실행할 Action
     public Action ChangeNameAction { get; set; }
@@ -130,12 +132,23 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 
     public async Task<bool> WaitForAllPlayerLoadingAsync(CancellationToken ct = default)
     {
-        while(DictRefToNetData.Count != DictRefToPlayer.Count)
+        while (DictRefToNetData.Count != DictRefToPlayer.Count)
         {
             ct.ThrowIfCancellationRequested();
             await Task.Yield();
         }
         return true;
+    }
+
+    public async Task<Boss> WaitForBossObjectAsync(CancellationToken ct = default)
+    {
+        Boss boss = null;
+        while ((boss = NowBoss) == null)
+        {
+            ct.ThrowIfCancellationRequested();
+            await Task.Yield();
+        }
+        return boss;
     }
 
     public void InstantiatePlayer()
@@ -318,16 +331,15 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public void OnSceneLoadStart(NetworkRunner runner) { }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        Debug.Log("방이 무언가 변했나요?");
         //플레이어가 없는 터진 방은 보이지 않도록 함.
         List<SessionInfo> temp = new List<SessionInfo>();
         foreach (SessionInfo sessionInfo in sessionList)
         {
-            Debug.Log("추가 할까요?");
             if (sessionInfo.PlayerCount == 0) continue;
-            Debug.Log("temp에 추가 됐습니다!!");
+            if (!(sessionInfo.IsOpen)) continue;
             temp.Add(sessionInfo);
         }
+
         CurrentSessionList = temp;
         RoomSearch.UpdateRoomList(); 
     }

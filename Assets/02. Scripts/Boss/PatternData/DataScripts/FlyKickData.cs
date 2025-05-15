@@ -15,9 +15,10 @@ public class FlyKickData : BasePatternData
     [SerializeField] float postDelayTime = 1f;
     public override IEnumerator ExecutePattern()
     {
+        //TODO: 나중에 Rpc 추가. 지금은 해당 애니메이션 트리거가 안보임
         bossAnimator.SetTrigger("kick1");       //날아오르는 애니메이션 재생
-        bossController.chasingTarget = true;        //타겟따라 방향전환
-        bossController.showTargetCrosshair = true;  //타겟 조준선 활성화
+        bossController.ChasingTarget = true;        //타겟따라 방향전환
+        bossController.ShowTargetCrosshair = true;  //타겟 조준선 활성화
         float elapsed = 0f;
         while (elapsed < flyupTime)         //일정시간동안,일정높이로 날아오름
         {
@@ -30,7 +31,7 @@ public class FlyKickData : BasePatternData
         }
         yield return new WaitForSeconds(flyingTime);    //공중에서 일정시간 대기
 
-        bossController.chasingTarget = false;           //찍기직전 방향전환고정
+        bossController.ChasingTarget = false;           //찍기직전 방향전환고정
         Vector3 targetPosition = target.position;       //찍기직전 타겟 추적중지, 찍을장소 고정
         while (true)
         {
@@ -40,7 +41,7 @@ public class FlyKickData : BasePatternData
             {
                 PoolManager.Instance.Get<Explosion>().Init(targetPosition + (Vector3.down * 1f), damage, explosionSize);    //폭발이펙트 생성
 
-                bossController.showTargetCrosshair = false; //타겟 조준선 비활성화
+                bossController.ShowTargetCrosshair = false; //타겟 조준선 비활성화
                 bossTransform.position = targetPosition; // 위치 보정
                 break;
             }

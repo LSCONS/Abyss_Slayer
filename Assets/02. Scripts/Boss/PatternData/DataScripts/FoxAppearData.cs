@@ -10,20 +10,20 @@ public class FoxAppearData : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         bossTransform.position = appearPosition;
-        bossController.isLeft = true;
-        bossAnimator.SetTrigger("Appear");
+        bossController.IsLeft = true;
+        boss.Rpc_SetAnimationHash(BossAnimationHash.AppearParameterHash);
         yield return new WaitForSeconds(1f); 
         
-        bossController.virtualCamera.m_Lens.OrthographicSize = 5f;
-        bossController.virtualCamera.Priority = 20;
+        bossController.VirtualCamera.m_Lens.OrthographicSize = 5f;
+        bossController.VirtualCamera.Priority = 20;
         yield return new WaitForSeconds(preDelayTime);
 
         
         yield return new WaitForSeconds(4f);
-        bossController.virtualCamera.Priority = 5;
+        bossController.VirtualCamera.Priority = 5;
 
         yield return new WaitForSeconds(postDelayTime);
-        bossController.virtualCamera.m_Lens.OrthographicSize = 5f;
+        bossController.VirtualCamera.m_Lens.OrthographicSize = 5f;
         ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
     }
 

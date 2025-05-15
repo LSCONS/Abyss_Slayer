@@ -24,9 +24,9 @@ public class HomingMissaileData : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         yield return bossController.StartCoroutine(bossController.JumpMove(startPosition));
-        bossAnimator.SetTrigger("Attack2");
+        boss.Rpc_SetAnimationHash(BossAnimationHash.Attack2ParameterHash);
         yield return new WaitForSeconds(preDelayTime/2);
-        bool isLeft = bossController.isLeft;
+        bool isLeft = bossController.IsLeft;
         for(int i = 0; i < missaileCount; i++)
         {
             float degree = fireDegree - ((spreadDegree / 2) - (i * spreadDegree / (missaileCount - 1)));
@@ -41,6 +41,7 @@ public class HomingMissaileData : BasePatternData
 
             yield return new WaitForSeconds(0.1f);
         }
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("HomingMissaile3");
         yield return new WaitForSeconds(postDelayTime);
     }

@@ -5,10 +5,10 @@ using UnityEngine;
 
 public abstract class BasePatternData : ScriptableObject
 {
-
     protected Transform bossTransform;
     protected BossController bossController;
     protected Animator bossAnimator;
+    protected Boss boss;
     protected float bossCenterHight;
     protected float mapWidth;
 
@@ -19,13 +19,14 @@ public abstract class BasePatternData : ScriptableObject
     [SerializeField] public List<Rect> globalAttackableAreas;
     [SerializeField] public Color gizmoColor = new Color(1, 0, 0, 0.3f);
 
-    public void Init(Transform boss, BossController controller, Animator animator)
+    public void Init(BossController controller)
     {
-        this.bossTransform = boss;
+        this.bossTransform = controller.transform;
         this.bossController = controller;
-        bossAnimator = animator;
-        bossCenterHight = controller.bossCenterHight;
-        mapWidth = controller.mapWidth;
+        boss = controller.Boss;
+        bossAnimator = controller.Animator;
+        bossCenterHight = controller.BossCenterHight;
+        mapWidth = controller.MapWidth;
     }
 
     /// <summary>

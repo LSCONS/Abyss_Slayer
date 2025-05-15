@@ -17,11 +17,13 @@ public class UppercutData : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         Vector3 targetPosition = target.position;
-        bossController.chasingTarget = true;
+        bossController.ChasingTarget = true;
         yield return new WaitForSeconds(preDelayTime);
-        bossController.showTargetCrosshair = true;
+        bossController.ShowTargetCrosshair = true;
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Uppercut1");
         yield return new WaitForSeconds(0.2f);
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Uppercut2");
         
         while (Mathf.Abs(targetPosition.x - bossTransform.position.x) >= 0.05f)
@@ -30,14 +32,17 @@ public class UppercutData : BasePatternData
             bossTransform.position = new Vector3(x, bossTransform.position.y, 0);
             yield return null;
         }
-        bossController.chasingTarget = false;
-        bossController.showTargetCrosshair = false;
+        bossController.ChasingTarget = false;
+        bossController.ShowTargetCrosshair = false;
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Uppercut3");
         PoolManager.Instance.Get<Tornado>().Init(bossTransform.position + Vector3.down * bossCenterHight, damage, duration, attackPerSec, warningTime, width);
         yield return new WaitForSeconds(warningTime);
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Uppercut4");
         yield return bossController.StartCoroutine(bossController.JumpMove(targetPosition + Vector3.up * jumpHight, jumpTime, 0f));
         yield return bossController.StartCoroutine(bossController.Landing());
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Uppercut5");
         yield return new WaitForSeconds(postDelayTime);
     }

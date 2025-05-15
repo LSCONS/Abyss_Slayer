@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using System.Threading.Tasks;
 public class UIHealthBar : UIPermanent, IView
 {
     [SerializeField] private Image hpBar;
@@ -18,24 +19,30 @@ public class UIHealthBar : UIPermanent, IView
 
     private void SettingPlayer()
     {
-        string targetTag = isPlayer ? "Player" : "Boss";
-        GameObject target = GameObject.FindWithTag(targetTag);
-
-        if (target == null)
+        if (isPlayer)
         {
-            Debug.LogWarning($"[UIHealthBar] 태그 '{targetTag}'에 해당하는 오브젝트를 찾을 수 없습니다.");
-            return;
+            bool bindSuccess = UIBinder.BindPlayer<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.ThisPlayer, this.gameObject);
+            if (!bindSuccess)
+            {
+                Debug.LogWarning($"[UIHealthBar] 플레이어 바인딩 실패: {ServerManager.Instance.ThisPlayer}");
+            }
+        }
+        else
+        {
+            bool bindSuccess = UIBinder.BindBoss<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.NowBoss, this.gameObject);
+            if (!bindSuccess)
+            {
+                Debug.LogWarning($"[UIHealthBar] 보스 바인딩 실패: {ServerManager.Instance.ThisPlayer}");
+            }
         }
 
-        bool bindSuccess = UIBinder.Bind<IHasHealth, UIHealthBar, HealthPresenter>(target.name, this.gameObject);
-        if (!bindSuccess)
-        {
-            Debug.LogWarning($"[UIHealthBar] 바인딩 실패: {target.name}");
-        }
     }
-    public override void Init()
+
+    public async override void Init()
     {
         base.Init();
+        await ServerManager.Instance.WaitForThisPlayerAsync();
+        await ServerManager.Instance.WaitForBossObjectAsync();
         gameObject.SetActive(true);
         SettingPlayer();
         hpBar.fillAmount = 1;

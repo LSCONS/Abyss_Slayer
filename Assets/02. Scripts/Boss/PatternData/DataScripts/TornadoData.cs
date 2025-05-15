@@ -19,9 +19,11 @@ public class TornadoData : BasePatternData
 
     public override IEnumerator ExecutePattern()
     {
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Tornado1");                    //공격모션 애니메이션 삽입                              
         yield return new WaitForSeconds(preDelayTime);      //공격모션 선딜
 
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Tornado2");                    //공격 애니메이션 삽입
 
         //자신위치에 토네이도 한개 생성
@@ -34,6 +36,7 @@ public class TornadoData : BasePatternData
         }
 
         yield return new WaitForSeconds(warningTime + durationTime);
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Tornado3");
         yield return new WaitForSeconds(postDelayTime);
     }

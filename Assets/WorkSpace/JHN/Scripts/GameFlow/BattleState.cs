@@ -56,7 +56,7 @@ public class BattleState : BaseGameState
 
         if (boss == null) return;
        
-        if (boss.isDead)
+        if (boss.IsDead)
         {
             deadTimer += Time.deltaTime;
            // Debug.Log($"{deadTimer} 시간은 똑딱똑딱 {changeSceneTime} 까지");

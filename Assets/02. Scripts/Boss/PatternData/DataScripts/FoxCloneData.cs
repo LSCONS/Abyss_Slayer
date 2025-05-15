@@ -19,7 +19,7 @@ public class FoxCloneData : BasePatternData
     List<FoxClone> clones = new List<FoxClone>();
     public override IEnumerator ExecutePattern()
     {
-        bossAnimator.SetTrigger("TeleportIn");
+        boss.Rpc_SetAnimationHash(BossAnimationHash.TeleportInParameterHash);
         yield return new WaitForSeconds(preDelayTime);
 
         int realPosition = UnityEngine.Random.Range(0, cloneCount + 1);
@@ -34,7 +34,7 @@ public class FoxCloneData : BasePatternData
             if(i == realPosition)
             {
                 bossTransform.position = position;
-                bossAnimator.SetTrigger("TeleportOut");
+                boss.Rpc_SetAnimationHash(BossAnimationHash.TeleportOutParameterHash);
             }
             else
             {
@@ -52,13 +52,13 @@ public class FoxCloneData : BasePatternData
         
         if(clones.Count <= 0)
         {
-            bossAnimator.SetTrigger("Stun");
+            boss.Rpc_SetAnimationHash(BossAnimationHash.StunParameterHash);
             yield return new WaitForSeconds(stunTime);
-            bossAnimator.SetTrigger("Idle");
+            boss.Rpc_SetAnimationHash(BossAnimationHash.IdleParameterHash);
         }
         else
         {
-            bossAnimator.SetTrigger("CloneExplosion");
+            boss.Rpc_SetAnimationHash(BossAnimationHash.CloneExplosionParameterHash);
 
             for(int i = 0 ; i < clones.Count ; i++)
             {
