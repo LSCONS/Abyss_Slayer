@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Threading.Tasks;
+using UnityEngine.Audio;
 
 public class SoundManager : Singleton<SoundManager>
 {
+    [Header("오디오 믹서 그룹")]
+    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private AudioMixerGroup bgmGroup;
+    [SerializeField] private AudioMixerGroup sfxGroup;
+
     [Header("사운드 데이터")]
     public SoundLibrary soundLibrary; // 사운드 라이브러리
     private Dictionary<EGameState, List<SoundData>> stateToSoundList = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
@@ -34,6 +40,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
+        LoadVolumeSettings();
     }
 
     /// <summary>
@@ -101,6 +108,7 @@ public class SoundManager : Singleton<SoundManager>
             src.playOnAwake = false;
             src.loop = true;
             src.volume = 0f;
+            src.outputAudioMixerGroup = bgmGroup;          // 오디오 믹서 그룹 연결
             bgmSources[i] = src;
         }
     }
@@ -116,6 +124,7 @@ public class SoundManager : Singleton<SoundManager>
         var src = go.AddComponent<AudioSource>();
         src.playOnAwake = false;
         src.loop = false;
+        src.outputAudioMixerGroup = sfxGroup;               // 오디오 믹서 그룹 연결
         return src;
     }
 
@@ -338,36 +347,24 @@ public class SoundManager : Singleton<SoundManager>
     public void SetBGMVolume(float value)
     {
         bgmVolume = value;
-        if (bgmSources[currentBgmIndex] != null)
-            bgmSources[currentBgmIndex].volume = value;
+        audioMixer.SetFloat("BGMVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f);
     }
 
     // sfx 볼륨 설정
     public void SetSFXVolume(float value)
     {
         sfxVolume = value;
-        foreach (var src in activeSources)
-        {
-            if (src.clip != null)
-            {
-                var data = soundLibrary.GetSoundData(src.clip.name);
-                if (data != null)
-                    src.volume = data.volume * sfxVolume;
-            }
-        }
+        audioMixer.SetFloat("SFXVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f);
     }
     // 마스터 볼륨 설정 
     public void SetMasterVolume(float value)
     {
         masterVolume = value;
-        ApplyBGMVolume();
-        ApplySFXVolume();
+        audioMixer.SetFloat("MasterVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f);
     }
 
-
-
-// 브금 볼륨 적용
-private void ApplyBGMVolume()
+    // 브금 볼륨 적용
+    private void ApplyBGMVolume()
     {
         bgmSources[currentBgmIndex].volume = bgmVolume * masterVolume;
     }
@@ -382,5 +379,32 @@ private void ApplyBGMVolume()
     }
 
     #endregion
+
+
+    /// <summary>
+    /// 볼륨 설정 저장 
+    /// </summary>
+    public void SaveVolumeSettings()
+    {
+        PlayerPrefs.SetFloat("Volume_Master", masterVolume);
+        PlayerPrefs.SetFloat("Volume_BGM", bgmVolume);
+        PlayerPrefs.SetFloat("Volume_SFX", sfxVolume);
+        PlayerPrefs.Save();
+    }
+
+    /// <summary>
+    /// 볼륨 설정 불러오기
+    /// </summary>
+    public void LoadVolumeSettings()
+    {
+        masterVolume = PlayerPrefs.GetFloat("Volume_Master", 1f); // 기본값 1
+        bgmVolume = PlayerPrefs.GetFloat("Volume_BGM", 1f);
+        sfxVolume = PlayerPrefs.GetFloat("Volume_SFX", 1f);
+
+        // AudioMixer에도 즉시 반영
+        SetMasterVolume(masterVolume);
+        SetBGMVolume(bgmVolume);
+        SetSFXVolume(sfxVolume);
+    }
 }
 
