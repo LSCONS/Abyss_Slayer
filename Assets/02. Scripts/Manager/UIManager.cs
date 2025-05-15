@@ -17,7 +17,7 @@ public class UIManager : Singleton<UIManager>
     public Transform popupParent;
     public Transform topMidParent;
     public Transform followParent;
-
+    public GameObject popupBG;
 
     public Stack<UIPopup> popupStack = new();
 
@@ -95,6 +95,26 @@ public class UIManager : Singleton<UIManager>
         {
             followParent = canvas.transform.GetGameObjectSameNameDFS("UI_Follow")?.transform
                     ?? new GameObject("UI_Follow", typeof(RectTransform)).transform;
+        }
+        if(popupBG == null)
+        {
+            var bgGO = new GameObject("PopupBG", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            popupBG = bgGO;
+
+            var rect = popupBG.GetComponent<RectTransform>();
+            rect.SetParent(background, false);   // 부모를 popupParent로 설정
+            rect.anchorMin = Vector2.zero; 
+            rect.anchorMax = Vector2.one;    
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.localScale = Vector3.one;
+
+            var img = popupBG.GetComponent<Image>();
+            img.color = new Color(0f, 0f, 0f, 0.627f);
+            img.raycastTarget = true;
+
+            popupBG.SetActive(false);
         }
     }
 
@@ -362,6 +382,9 @@ public class UIManager : Singleton<UIManager>
         if(popup==null) return;
         if(popupStack.Contains(popup)) return;
         popupStack.Push(popup);
+
+        if(popupBG != null) popupBG.SetActive(true);
+
         popup.Open();
     }
 
@@ -381,6 +404,10 @@ public class UIManager : Singleton<UIManager>
         {
            // Debug.Log("현재 팝업이 아님. 못닫는다.");
         }
+
+        // 팝업 스택이 비워지면 팝업 bg 꺼줌
+        if (popupStack.Count == 0 && popupBG != null) popupBG.SetActive(false);
+
     }
 
     public void CloseAllPopup(){

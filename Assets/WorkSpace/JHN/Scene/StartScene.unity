@@ -321,12 +321,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1542731945}
   permanentParent: {fileID: 1542731944}
-  background: {fileID: 0}
+  background: {fileID: 1683273163}
   topParent: {fileID: 1542731943}
   bottomParent: {fileID: 1542731942}
   popupParent: {fileID: 1542731941}
   topMidParent: {fileID: 1911160386}
   followParent: {fileID: 0}
+  popupBG: {fileID: 1866008240}
 --- !u!1 &842289314
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,6 +498,16 @@ RectTransform:
 --- !u!223 &1542731945 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 8781060177894199553, guid: 54283dbe4ace6bf40ba96e576213dec1, type: 3}
+  m_PrefabInstance: {fileID: 1542731940}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1683273163 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 724961812542226461, guid: 54283dbe4ace6bf40ba96e576213dec1, type: 3}
+  m_PrefabInstance: {fileID: 1542731940}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1866008240 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3024784324015751137, guid: 54283dbe4ace6bf40ba96e576213dec1, type: 3}
   m_PrefabInstance: {fileID: 1542731940}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1894218570
