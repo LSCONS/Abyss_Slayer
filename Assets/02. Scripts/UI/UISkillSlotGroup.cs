@@ -8,8 +8,10 @@ public class UISkillSlotGroup : UIPermanent
     public override void Init()
     {
         base.Init();
-        this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
         UISkillSlotManager.Instance.Init();
         UIBuffSlotManager.Instance.Init();
+        RectTransform rect = transform.parent.GetComponent<RectTransform>();
+        if (rect != null) LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
     }
 }

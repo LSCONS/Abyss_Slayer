@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using System.Threading.Tasks;
 
 public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
 {
@@ -18,10 +19,10 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
         base.Awake();
     }
 
-    public void Init()
+    public async void Init()
     {
         ClearSlot();    
-        player = PlayerManager.Instance.Player;
+        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
 
         // Player의 모든 스킬 중 BuffSkill만 감지
         foreach (var skill in player.EquippedSkills.Values)

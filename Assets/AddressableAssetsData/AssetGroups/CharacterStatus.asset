@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: CharacterStatus
+  m_EditorClassIdentifier: 
+  m_GroupName: CharacterStatus
+  m_Data:
+    m_SerializedData: []
+  m_GUID: dcff532f4c8444943a49849a266f27ac
+  m_SerializeEntries:
+  - m_GUID: f1b3a15f9c042304789b5aef43249899
+    m_Address: Assets/08. Datas/PlayerData/MagicalBladerData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 71d4b9a76e0c60344a6eb21fcb0897c6
+    m_Address: Assets/08. Datas/PlayerData/RogueData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ed154abb81ebbc24f8fa7ad648d9f67f
+    m_Address: Assets/08. Datas/PlayerData/TankerData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 96ef07ac8f67ca84aaf1d770034f6052
+    m_Address: Assets/08. Datas/PlayerData/HealerData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterData
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 506f42da3ed54394d92d4623fffcf201
+    m_Address: Assets/08. Datas/PlayerData/MageData.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - CharacterData
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 303dd97ba4dff9a4eb78859c296ccea2, type: 2}
+    - {fileID: 11400000, guid: 81491cb250baeeb46917d468c5170f02, type: 2}

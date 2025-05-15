@@ -9,7 +9,7 @@ public class CrossSlash1Data : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         bool isleft = 0 > target.position.x - bossTransform.position.x;
-        bossController.isLeft = isleft;
+        boss.IsLeft = isleft;
         bossController.StartCoroutine(bossController.RunMove(isleft));
         yield return null;
 
@@ -17,7 +17,7 @@ public class CrossSlash1Data : BasePatternData
         {
             yield return null;
         }
-        bossAnimator.SetBool("AttackJump", true);
+        boss.Rpc_SetBoolAnimationHash(BossAnimationHash.AttackJumpParameterHash, true);
         Coroutine jump = bossController.StartCoroutine(bossController.JumpMove(target.position,-1,jumpHight));
         
         yield return null;
@@ -32,15 +32,17 @@ public class CrossSlash1Data : BasePatternData
             time += Time.deltaTime;
             yield return null;
         }
-        bossAnimator.SetBool("AttackJump", false);
+        boss.Rpc_SetBoolAnimationHash(BossAnimationHash.AttackJumpParameterHash, false);
+        
         bossController.StopCoroutine(jump);
         if(time > 1f) yield break;
 
-        bossAnimator.ResetTrigger("Fall");
-        PoolManager.Instance.Get<CrossSlash>().Init(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);
+        boss.Rpc_ResetTriggerAnimationHash(BossAnimationHash.FallParameterHash);
+        ServerManager.Instance.InitManager.Rpc_StartCrossSlashInit(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);
+        //PoolManager.Instance.Get<CrossSlash>().Init(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);
         yield return new WaitForSeconds(0.1f);
 
-        bossController.sprite.enabled = false;
+        bossController.Sprite.enabled = false;
         yield return new WaitForSeconds(0.2f);
 
         RaycastHit2D[] hits = Physics2D.RaycastAll(bossTransform.position, dir, 50, LayerMask.GetMask("GroundPlane", "GroundPlatform"));
@@ -55,9 +57,9 @@ public class CrossSlash1Data : BasePatternData
         }
         float x = hit.point.x + (isleft ? 3 : -3);
         bossTransform.position = new Vector3(x, hit.point.y + bossCenterHight);
-        bossAnimator.SetTrigger("SlashEnd");
-        bossController.sprite.enabled = true;
+        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.SlashEndParameterHash);
+        bossController.Sprite.enabled = true;
         yield return new WaitForSeconds(1.5f);
-        bossAnimator.ResetTrigger("SlashEnd");
+        boss.Rpc_ResetTriggerAnimationHash(BossAnimationHash.SlashEndParameterHash);
     }
 }

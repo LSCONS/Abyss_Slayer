@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerBaseState : IPlayerState
 {
@@ -23,9 +25,16 @@ public class PlayerBaseState : IPlayerState
 
     public virtual void FixedUpdate()
     {
+        if (!(playerStateMachine.Player.IsThisRunner)) return;
+
         if (playerStateMachine.MovementSpeed != 0f)
         {
             Move();
+        }
+
+        if(playerStateMachine.Player.PlayerPosition != (Vector2)playerStateMachine.Player.transform.position)
+        {
+            playerStateMachine.Player.Rpc_PlayerPositionSynchro(playerStateMachine.Player.transform.position);
         }
     }
 
@@ -38,10 +47,11 @@ public class PlayerBaseState : IPlayerState
     /// <summary>
     /// SkillState에서 해제될 경우 필수적으로 실행해야하는 메서드
     /// </summary>
-    protected void SkillExit()
+    protected void SkillExit(Skill skill)
     {
         playerStateMachine.MovementSpeed = playerStateMachine.Player.PlayerData.PlayerGroundData.BaseSpeed;
         ResetDefaultGravityForce();
+        if(skill.SkillCategory == SkillCategory.Hold)
         playerStateMachine.Player.StopHoldSkillActionCoroutine();
     }
 
@@ -80,7 +90,7 @@ public class PlayerBaseState : IPlayerState
     /// </summary>
     private void Move()
     {
-        float newMoveX = playerStateMachine.Player.input.MoveDir.x * GetMovementSpeed();
+        float newMoveX = playerStateMachine.Player.PlayerInput.MoveDir.x * GetMovementSpeed();
         float nowMoveY = playerStateMachine.Player.playerRigidbody.velocity.y;
         playerStateMachine.Player.playerRigidbody.velocity = new Vector2(newMoveX, nowMoveY);
         playerStateMachine.Player.FlipRenderer(newMoveX); //플레이어의 바라보는 방향을 바꿔주는 메서드
@@ -123,5 +133,19 @@ public class PlayerBaseState : IPlayerState
     {
         playerStateMachine.Player.playerRigidbody.gravityScale = 
             playerStateMachine.Player.PlayerData.PlayerStatusData.GravityForce;
+    }
+
+    protected Func<bool> SlotKeyConvertFunc(SkillSlotKey key)
+    {
+        Func<bool> temp = key switch
+        {
+            SkillSlotKey.X => () => playerStateMachine.Player.PlayerInput.IsSkillX,
+            SkillSlotKey.Z => () => playerStateMachine.Player.PlayerInput.IsSkillZ,
+            SkillSlotKey.A => () => playerStateMachine.Player.PlayerInput.IsSkillA,
+            SkillSlotKey.S => () => playerStateMachine.Player.PlayerInput.IsSkillS,
+            SkillSlotKey.D => () => playerStateMachine.Player.PlayerInput.IsSkillD,
+            _ => () => false
+        };
+        return temp;
     }
 }

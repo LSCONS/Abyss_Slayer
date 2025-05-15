@@ -1,7 +1,7 @@
 {
     "Version": 1,
     "TypeId": "NetworkProjectConfig",
-    "PeerMode": 0,
+    "PeerMode": 1,
     "LagCompensation": {
         "Enabled": false,
         "HitboxBufferLengthInMs": 200,
@@ -28,7 +28,7 @@
         }
     },
     "Network": {
-        "ConnectionTimeout": 10.0,
+        "ConnectionTimeout": 1.0,
         "ConnectionShutdownTime": 1.0,
         "ReliableDataTransferModes": 3
     },

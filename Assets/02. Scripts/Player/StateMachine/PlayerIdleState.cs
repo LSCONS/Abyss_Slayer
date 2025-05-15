@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Unity.Collections.Unicode;
 
 public class PlayerIdleState : PlayerGroundState
 {
@@ -54,12 +55,13 @@ public class PlayerIdleState : PlayerGroundState
 
     public override void Update()
     {
-        base.Update();
         if (animationTime <= 0)
         {
             animationTime = animationDelay;
             playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Idle1, ++animationNum);
         }
-        MoveAction?.Invoke();
+
+        if (playerStateMachine.Player.IsThisRunner)
+            MoveAction?.Invoke();
     }
 }

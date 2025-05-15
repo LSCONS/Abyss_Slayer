@@ -46,7 +46,6 @@ public class PlayerDeadState : PlayerAbnomalState
 
     public override void Update()
     {
-        base.Update();
         if (animationTime <= 0)
         {
             animationTime = animationDelay;

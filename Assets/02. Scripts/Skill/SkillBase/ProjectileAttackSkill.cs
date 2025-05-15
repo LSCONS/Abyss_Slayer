@@ -29,7 +29,7 @@ public class ProjectileAttackSkill : Skill
     /// <param name="dir">투사체 방향</param>
     public void ThrowProjectile(Vector3 startPos, Vector3 dir)
     {
-        PoolManager.Instance.Get<RogueProjectile>().Init(startPos, dir, Range, Speed, Damage);
+        PoolManager.Instance.Get<RogueProjectile>().Init(player, startPos, dir, Range, Speed, Damage);
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class ProjectileAttackSkill : Skill
     /// <param name="Damage">투사체 데미지</param>
     public void ThrowProjectile(Vector3 startPos, Vector3 dir, float Damage)
     {
-        PoolManager.Instance.Get<RogueProjectile>().Init(startPos, dir, Range, Speed, Damage * DamageMultiple);
+        PoolManager.Instance.Get<RogueProjectile>().Init(player, startPos, dir, Range, Speed, Damage * DamageMultiple);
     }
 
     public override void SkillUpgrade()

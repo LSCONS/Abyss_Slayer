@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: f42c4174a27bcb943a07de2faef1fd1d
   m_currentHash:
     serializedVersion: 2
-    Hash: 373dc726749494462e10fa6fdb2ce7d6
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -49,6 +49,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b08ad2a171968e24bab0c5e47912f613, type: 2}
   - {fileID: 11400000, guid: bf8eb598a5a215a45a8f3884fb8edcab, type: 2}
   - {fileID: 11400000, guid: b62ce2900650ece4da075f20cbe661a9, type: 2}
+  - {fileID: 11400000, guid: 02368ff726384ba4295c854f836d50b5, type: 2}
+  - {fileID: 11400000, guid: 5b3342ea9f15d5b4ba415e7bd421910e, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -107,6 +109,8 @@ MonoBehaviour:
     - Battle
     - Rest
     - Background
+    - CharacterData
+    - CharacterSkillSet
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 34d877ec853ce1e40987ad922d126888, type: 2}

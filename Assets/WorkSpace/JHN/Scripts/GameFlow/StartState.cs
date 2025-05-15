@@ -12,8 +12,8 @@ public class StartState : BaseGameState
 
         UIManager.Instance.OpenUI(UISceneType.Start);
 
-        await SoundManager.Instance.Init(EGameState.Start);
-        SoundManager.Instance.PlayBGM(EGameState.Start, 1);
+        await SoundManager.Instance.Init(ESceneName.Start);
+        SoundManager.Instance.PlayBGM(ESceneName.Start, 1);
 
         await Task.CompletedTask;
     }
@@ -22,7 +22,20 @@ public class StartState : BaseGameState
     {
         Debug.Log("StartState OnExit");
         UIManager.Instance.CloseUI(UISceneType.Start);
-        SoundManager.Instance.UnloadSoundsByState(EGameState.Start);
+        SoundManager.Instance.UnloadSoundsByState(ESceneName.Start);
+        await Task.CompletedTask;
+    }
+
+    public override async Task OnRunnerEnter()
+    {
+        Debug.Log("StartState OnEnter");
+        UIManager.Instance.Init();
+
+        UIManager.Instance.OpenUI(UISceneType.Start);
+
+        await SoundManager.Instance.Init(ESceneName.Start);
+        SoundManager.Instance.PlayBGM(ESceneName.Start, 1);
+
         await Task.CompletedTask;
     }
 
@@ -32,7 +45,7 @@ public class StartState : BaseGameState
             await ChangeState(new IntroState());
         }
         if(Input.GetKeyDown(KeyCode.Alpha2)){
-            await GameFlowManager.Instance.ChangeState(EGameState.Lobby);
+            GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.Lobby);
         }
     }
 }

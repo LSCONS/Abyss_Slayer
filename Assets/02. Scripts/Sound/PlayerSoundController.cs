@@ -7,10 +7,9 @@ public class PlayerSoundController : MonoBehaviour
 {
     [SerializeField] private Player player;
 
-    private void Awake()
+    private async void Awake()
     {
-        if(player == null)
-            player = PlayerManager.Instance.Player;
+        player = await ServerManager.Instance.WaitForThisPlayerAsync();
     }
 
     // enter 부분 딕셔너리에 매핑해놓기
