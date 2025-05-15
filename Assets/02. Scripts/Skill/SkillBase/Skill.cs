@@ -22,6 +22,9 @@ public class Skill : ScriptableObject
     [field: Header("스킬 아이콘")]
     [field: SerializeField] public Sprite SkillIcon {get; private set; } // 스킬 아이콘
 
+    [field: Header("스킬 사운드")]
+    [field: SerializeField] public AudioClip SkillSound { get; private set; } // 스킬 클립
+
     [field: Header("스킬 사용 가능 여부")]
     [field: SerializeField] public bool CanUse { get; set; } = true; // 스킬 사용 가능 여부
 
@@ -70,7 +73,10 @@ public class Skill : ScriptableObject
     public virtual void Init() { }
 
     // 스킬 사용 추상 메서드
-    public virtual void UseSkill() { PlaySkillEffect(); }
+    public virtual void UseSkill() 
+    { 
+        PlaySkillEffect(); 
+    }
 
     public virtual void SkillUpgrade()
     {

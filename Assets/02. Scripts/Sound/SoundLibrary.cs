@@ -93,6 +93,7 @@ public enum ESFXType
     Walk,
     Dash,
     Attack,
+    MeleeAttack,
     Hit,
     Jump,
     Land,

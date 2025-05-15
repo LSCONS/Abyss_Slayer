@@ -32,6 +32,10 @@ public class PlayerJumpState : PlayerAirState
         Jump();
         hasJumpedInThisFrame = true;
 
+        // 사운드 재생
+        SoundManager.Instance.PlaySFX(ESFXType.Jump);
+
+
 #if StateMachineDebug
         Debug.Log("JumpState 진입");
 #endif
@@ -40,6 +44,8 @@ public class PlayerJumpState : PlayerAirState
     public override void Exit()
     {
         base.Exit();
+        // 사운드 멈춤
+        SoundManager.Instance.StopSFX(ESFXType.Jump);
 
 #if StateMachineDebug
         Debug.Log("JumpState 해제");
