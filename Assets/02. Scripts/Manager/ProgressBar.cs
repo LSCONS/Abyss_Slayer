@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ProgressBar : MonoBehaviour
 {
-    [SerializeField] private Slider progressBar;
+    [field: SerializeField] public Slider progressBar { get; private set; }
 
     private void OnValidate()
     {
@@ -29,9 +29,18 @@ public class ProgressBar : MonoBehaviour
     /// <summary>
     /// 프로그레스바 값 설정해주는 메서드
     /// </summary>
-    /// <param name="progress"></param>
-    public void SetProgress(float progress)
+    /// <param name="value"></param>
+    public void SetProgressValue(float value)
     {
-        progressBar.value = progress;
+        progressBar.value = value;
+    }
+
+    /// <summary>
+    /// 프로그래스바 값을 더해주는 메서드
+    /// </summary>
+    /// <param name="value"></param>
+    public void AddProgressValue(float value)
+    {
+        progressBar.value += value;
     }
 }

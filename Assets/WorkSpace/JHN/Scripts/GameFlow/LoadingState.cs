@@ -106,6 +106,9 @@ public class LoadingState : BaseGameState
             await Task.Yield();
         }
 
+        progressBar.SetProgressValue(0);
+        SetProgressBar(progressBar);
+
         // 2. 다음 상태와 UIType 결정
         var nextState = GameFlowManager.Instance.CreateStateForPublic(nextStateEnum) as BaseGameState;
         if (nextState == null)
@@ -137,30 +140,17 @@ public class LoadingState : BaseGameState
             ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
         }
 
-        //Op = SceneManager.LoadSceneAsync((int)nextStateEnum, LoadSceneMode.Single);
-        //Op.allowSceneActivation = false;
-
-        //// 4. 프로그래스바 업데이트
-        //while (Op.progress < 0.9f)
-        //{
-        //    progressBar?.SetProgress(Op.progress);
-        //    await Task.Yield();
-        //}
-        //progressBar?.SetProgress(1f);
-
-        // 5. UI 로드 여부 결정
-        //Op.allowSceneActivation = true;
-
-        //Op.completed += _ =>
-        //{
-        //    var runner = RunnerManager.Instance.GetRunner();
-        //    Scene loadScene = SceneManager.GetActiveScene();
-        //    runner.InvokeSceneLoadDone(new SceneLoadDoneArgs(SceneRef.FromIndex((int)nextStateEnum), null));
-        //};
-        //while (!Op.isDone) await Task.Yield();
-
         // 7. 최종 상태 진입
         await GameFlowManager.Instance.ChangeRunnerState(nextState);
+    }
+
+    private async void SetProgressBar(ProgressBar progressBar)
+    {
+        while (progressBar.progressBar.value > 0.99f)
+        {
+            await Task.Delay(100);
+            progressBar.AddProgressValue(0.04f);
+        }
     }
 
     private string GetSceneNameFromState(IGameState state)
