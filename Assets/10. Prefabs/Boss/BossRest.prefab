@@ -53,7 +53,13 @@ MonoBehaviour:
   <BossController>k__BackingField: {fileID: 8699129708664049348}
   <Sprite>k__BackingField: {fileID: 5020678927261565717}
   <Animator>k__BackingField: {fileID: 708503559936102309}
-  <MaxHP>k__BackingField: 0
+  <HitCollider>k__BackingField: {fileID: 0}
+  <VirtualCamera>k__BackingField: {fileID: 0}
+  <MaxHp>k__BackingField:
+    value: 1000
+  <IsMove>k__BackingField: 0
+  _IsLeft: 0
+  _Position: {x: 0, y: 0}
 --- !u!114 &8699129708664049348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,35 +72,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be781b50b434d904c9749a0d6892a593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appearPattern: {fileID: 0}
-  allPatterns:
-  - weight: 3
-    patternData: {fileID: 11400000, guid: da2208074cc981a4192e7de10edaacf6, type: 2}
-    setActivePatternForTest: 0
-    showGizmos: 1
-  - weight: 5
-    patternData: {fileID: 11400000, guid: 710d5774c9caa6949815aa772eb2c753, type: 2}
-    setActivePatternForTest: 0
-    showGizmos: 1
-  - weight: 5
-    patternData: {fileID: 11400000, guid: fe5d28197b926c14c9c9af3bd39eb5e1, type: 2}
-    setActivePatternForTest: 0
-    showGizmos: 1
-  - weight: 5
-    patternData: {fileID: 11400000, guid: 25f316fd044ea4e488fc6acfa70cbaeb, type: 2}
-    setActivePatternForTest: 0
-    showGizmos: 1
-  targetCrossHairPrefab: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
-  sprite: {fileID: 5020678927261565717}
-  hitCollider: {fileID: 0}
-  _effectSprite: {fileID: 0}
-  bossCenterHight: 2
-  mapWidth: 40
-  virtualCamera: {fileID: 0}
-  chasingTarget: 0
-  jumpMoveTime: 0.8
-  jumpMoveHight: 1.5
-  gravityMultiplier: 3
+  <AppearPattern>k__BackingField: {fileID: 0}
+  <AllPatterns>k__BackingField: []
+  <TargetCrossHairPrefab>k__BackingField: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
+  <Boss>k__BackingField: {fileID: 8667110271714357386}
+  <BossCenterHight>k__BackingField: 0
+  <JumpMoveTime>k__BackingField: 0
+  <JumpMoveHight>k__BackingField: 0
+  <GravityMultiplier>k__BackingField: 0
+  <runSpeed>k__BackingField: 0
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 576

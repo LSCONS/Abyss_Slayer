@@ -27,9 +27,9 @@ public class BossController : MonoBehaviour
     [field: SerializeField] private GameObject          TargetCrossHairPrefab   { get; set; }
     [field: SerializeField] public Boss                 Boss                    { get; private set; }
     [field: SerializeField] public float                BossCenterHight         { get; private set; }
-    private Transform                                   TargetCrosshair         { get; set; }
     private GameObject                                  TargetCrosshairObj      { get; set; }
-    private Transform                                   Target                  { get; set; }
+    public Transform                                    TargetCrosshair         { get; private set; }
+    public Transform                                    Target                  { get; private set; }
     public float                                        MapWidth                { get; set; }
     public bool                                         ChasingTarget           { get; set; }
 
@@ -51,20 +51,8 @@ public class BossController : MonoBehaviour
             _showTargetCrosshair = value;
         }
     }
-    
-    private bool _isLeft;
-    public bool IsLeft
-    {
-        get { return _isLeft; }
-        set 
-        {
-            if(_isLeft != value)
-            {
-                _isLeft = value;
-                Sprite.flipX = value;
-            }
-        }
-    }
+
+
     bool _isRun;
     public bool isRun
     {
@@ -74,7 +62,7 @@ public class BossController : MonoBehaviour
             if (_isRun != value)
             {
                 _isRun = value;
-                animator.SetBool("Run",value);
+                Boss.Rpc_SetBoolAnimationHash(BossAnimationHash.RunSlashParameterHash ,value);
             }
         }
     }
@@ -103,21 +91,11 @@ public class BossController : MonoBehaviour
 
     private void Start()
     {
+        if(Boss.IsMove && RunnerManager.Instance.GetRunner().IsServer)
         StartCoroutine(startLoop());
     }
 
-    private void Update()
-    {
-        if (ChasingTarget)
-        {
-            IsLeft = (Target.position.x - transform.position.x < 0);
-        }
-        if (ShowTargetCrosshair)
-        {
-            TargetCrosshair.position = Target.position;
-        }
-        
-    }
+
     IEnumerator startLoop()
     {
         if(AppearPattern != null)
@@ -243,7 +221,7 @@ public class BossController : MonoBehaviour
         else if (hit.point.y < transform.position.y - BossCenterHight - 0.05f)
         {
             int hash = isDeath ? BossAnimationHash.DeadParameterHash : BossAnimationHash.FallParameterHash;
-            Boss.Rpc_SetAnimationHash(hash);
+            Boss.Rpc_SetTriggerAnimationHash(hash);
 
             float time = 0f;
             float startHight = transform.position.y;
@@ -257,7 +235,7 @@ public class BossController : MonoBehaviour
 
             if (!isDeath)
             {
-                Boss.Rpc_SetAnimationHash(BossAnimationHash.LandParameterHash);
+                Boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.LandParameterHash);
                 yield return new WaitForSeconds(0.2f);
             }
         }
@@ -282,8 +260,8 @@ public class BossController : MonoBehaviour
         float jumpGravity = 2 * deltaY1 / (hightestTime * hightestTime);
         float startVelocityY = jumpGravity * hightestTime;
 
-        IsLeft = targetPosition.x - transform.position.x <= 0;
-        Boss.Rpc_SetAnimationHash(BossAnimationHash.JumpParameterHash);
+        Boss.IsLeft = targetPosition.x - transform.position.x <= 0;
+        Boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.JumpParameterHash);
         yield return new WaitForSeconds(0.2f);
         PoolManager.Instance.Get<JumpEffect>().Init(transform.position + Vector3.down * BossCenterHight);
         float time = 0f;
@@ -291,14 +269,14 @@ public class BossController : MonoBehaviour
         {
             float x = Mathf.Lerp(startPosition.x, targetPosition.x, time / _jumpMoveTime);
             if(time >= hightestTime)
-                Boss.Rpc_SetAnimationHash(BossAnimationHash.FallParameterHash);
+                Boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.FallParameterHash);
             float y = startPosition.y + (startVelocityY * time) - (0.5f * jumpGravity * time * time);
             transform.position = new Vector3(x, y, 0);
             time += Time.deltaTime;
             yield return null;
         }
-        Boss.Rpc_SetAnimationHash(BossAnimationHash.LandParameterHash);
-        animator.ResetTrigger("Fall");//TODO: Reset트리거 기능 추가해야할듯?
+        Boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.LandParameterHash);
+        Boss.Rpc_ResetTriggerAnimationHash(BossAnimationHash.FallParameterHash);
         transform.position = targetPosition;
         yield return new WaitForSeconds(0.4f);
     }
@@ -311,15 +289,15 @@ public class BossController : MonoBehaviour
         float _speed;
         if (speed <= 0f) _speed = isleft ? -runSpeed : runSpeed;
         else _speed = isleft ? -speed : speed;
-        isLeft = isleft;
+        Boss.IsLeft = isleft;
         isRun = true;
         
         while (isRun)
         {
-            float x = Mathf.Clamp(transform.position.x + _speed * Time.deltaTime, -mapWidth / 2 + 0.7f, mapWidth / 2 - 0.7f);
+            float x = Mathf.Clamp(transform.position.x + _speed * Time.deltaTime, -MapWidth / 2 + 0.7f, MapWidth / 2 - 0.7f);
             transform.position = new Vector3 (x, transform.position.y, 0);
 
-            if (!Physics2D.Raycast(transform.position, Vector3.down, bossCenterHight + 0.01f, LayerMask.GetMask("GroundPlane", "GroundPlatform")))
+            if (!Physics2D.Raycast(transform.position, Vector3.down, BossCenterHight + 0.01f, LayerMask.GetMask("GroundPlane", "GroundPlatform")))
             {
                 if (!isfall)
                 {
@@ -327,7 +305,7 @@ public class BossController : MonoBehaviour
                     time = 0f;
                     isfall = true;
                 }
-                transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * gravityMultiplier * time * time));
+                transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * GravityMultiplier * time * time));
                 time += Time.deltaTime;
             }
             else
@@ -341,17 +319,26 @@ public class BossController : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 몬스터의 체력이 전부 닳았을 때 실행할 메서드
+    /// </summary>
     public void OnDead()
     {
         StopAllCoroutines();
         StartCoroutine(Dead());
     }
 
+
+    /// <summary>
+    /// 몬스터의 체력이 전부 닳았을 때 실행할 코루틴
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Dead()
     {
         //yield return StartCoroutine(Landing(true));
         Time.timeScale = 0.2f;
-        Boss.Rpc_SetAnimationHash(BossAnimationHash.DeadParameterHash);
+        Boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.DeadParameterHash);
         VirtualCamera.Priority = 20;
         yield return new WaitForSeconds(0.2f);
 

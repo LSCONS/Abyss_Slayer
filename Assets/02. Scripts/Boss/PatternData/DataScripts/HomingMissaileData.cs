@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,15 +20,15 @@ public class HomingMissaileData : BasePatternData
     [SerializeField] float missailSpeed = 10;
     [SerializeField] float homingTime = 3f;
     [SerializeField] float explosionSize = 0.5f;
-    [SerializeField] AnimationCurve homingCurve;
-    [SerializeField] AnimationCurve speedCurve;
+    [SerializeField] EAniamtionCurve homingCurve;
+    [SerializeField] EAniamtionCurve speedCurve;
     public override IEnumerator ExecutePattern()
     {
         yield return bossController.StartCoroutine(bossController.JumpMove(startPosition));
-        boss.Rpc_SetAnimationHash(BossAnimationHash.Attack2ParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.Attack2ParameterHash);
         yield return new WaitForSeconds(preDelayTime/2);
-        bool isLeft = bossController.IsLeft;
-        for(int i = 0; i < missaileCount; i++)
+        bool isLeft = boss.IsLeft;
+        for (int i = 0; i < missaileCount; i++)
         {
             float degree = fireDegree - ((spreadDegree / 2) - (i * spreadDegree / (missaileCount - 1)));
             degree = isLeft ? 180 - degree : degree;
@@ -37,7 +38,8 @@ public class HomingMissaileData : BasePatternData
             Vector3 position = new Vector3(Mathf.Cos(degree), Mathf.Sin(degree)) * startCircleR;   //라디우스로 위치계산
             position = bossTransform.TransformPoint(position);
 
-            PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
+            ServerManager.Instance.InitManager.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, (int)homingCurve, (int)speedCurve);
+            //PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
 
             yield return new WaitForSeconds(0.1f);
         }

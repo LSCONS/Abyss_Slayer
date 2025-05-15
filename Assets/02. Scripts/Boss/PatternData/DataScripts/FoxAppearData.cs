@@ -11,8 +11,8 @@ public class FoxAppearData : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         bossTransform.position = appearPosition;
-        bossController.IsLeft = true;
-        boss.Rpc_SetAnimationHash(BossAnimationHash.AppearParameterHash);
+        boss.IsLeft = true;
+        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.AppearParameterHash);
         yield return new WaitForSeconds(1f); 
         
         bossController.VirtualCamera.m_Lens.OrthographicSize = 10/zoomScale;

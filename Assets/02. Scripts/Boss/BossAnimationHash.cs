@@ -23,4 +23,11 @@ public static class BossAnimationHash
     public static int LandParameterHash           {get; private set;} = Animator.StringToHash("Land");
     public static int Attack2ParameterHash        {get; private set;} = Animator.StringToHash("Attack2");
     public static int AppearParameterHash         {get; private set;} = Animator.StringToHash("Appear");
+    public static int ParameterHash               { get; private set; } = Animator.StringToHash("Run");
+    public static int AttackJumpParameterHash     { get; private set; } = Animator.StringToHash("AttackJump");
+    public static int RunSlashParameterHash       { get; private set; } = Animator.StringToHash("RunSlash");
+    public static int SlashEndParameterHash       { get; private set; } = Animator.StringToHash("SlashEnd");
+    public static int SpawnParameterHash          { get; private set; } = Animator.StringToHash("Spawn");
+    public static int ThrowParameterHash          { get; private set; } = Animator.StringToHash("Throw");
+    public static int SlashReadyParameterHash     { get; private set; } = Animator.StringToHash("SlashReady");
 }

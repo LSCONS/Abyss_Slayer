@@ -40,8 +40,6 @@ public class Player : NetworkBehaviour, IHasHealth
     public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
     public Coroutine HoldSkillCoroutine { get; private set; }
     public Action HoldSkillCoroutineStopAction { get; private set; }
-    public int StatPoint { get; private set; } = 10;
-    public int SkillPoint { get; private set; } = 10;
     public NetworkData NetworkData { get; set; }
     public bool IsFlip
         => PlayerSpriteChange.WeaponBottom.flipX;

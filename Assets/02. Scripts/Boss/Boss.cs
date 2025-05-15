@@ -16,7 +16,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     [field: SerializeField] public Collider2D               HitCollider       { get; private set; } //보스 피격판정 콜라이더
     [field: SerializeField] public CinemachineVirtualCamera VirtualCamera     { get; private set; }
     [field: SerializeField] public ReactiveProperty<int>    MaxHp             { get; private set; } = new ReactiveProperty<int> (1000);
-    private Action                                          BossDeath         { get; set; }
+    [field: SerializeField] public bool                     IsMove            { get; set; }         = true;
     private Dictionary<DebuffType, DebuffData>              ActiveDebuffs     { get; set; }         = new();   // 디버프 상태를 저장              
     public ReactiveProperty<int>                            Hp                { get; private set; } = new ReactiveProperty<int>(1000);
     public bool                                             IsDead            { get; private set;}  = false;
@@ -24,36 +24,21 @@ public class Boss : NetworkBehaviour, IHasHealth
 
     [field: Header("네트워크에 공유할 데이터들")]
     [Networked] public bool IsLeft { get; set; }
-    [Networked] public Vector2 Position { get; set; }
-    private int AnimationHash = 0;
-    
+    [Networked] public Vector2 BossPosition { get; set; }
+    [Networked] public Vector2 CrosshairPosition { get; set; }
 
 
-    private void Awake()
+    public override void Spawned()
     {
+        base.Spawned();
         Hp.Value = MaxHp.Value;
-        AddBossDeathAction(BossController.OnDead);
     }
 
 
     private void Update()
     {
-        CheckAndStartAnimation();
         ServerUpdate();
         ClientUpdate();
-    }
-
-
-    /// <summary>
-    /// 보스가 실행할 AnimationTrigger가 있는 지 검사하고 실행하는 메서드
-    /// </summary>
-    private void CheckAndStartAnimation()
-    {
-        if (AnimationHash != 0)
-        {
-            Animator.SetTrigger(AnimationHash);
-            AnimationHash = 0;
-        }
     }
 
 
@@ -62,18 +47,30 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// </summary>
     private void ServerUpdate()
     {
-        if (!(Runner.IsServer)) return;
+        if (!(RunnerManager.Instance.GetRunner().IsServer)) return;
 
         //서버에서 현재의 보스 포지션을 공유
-        if ((Vector2)transform.position != Position)
+        if ((Vector2)transform.position != BossPosition)
         {
-            Position = (Vector2)transform.position;
+            BossPosition = (Vector2)transform.position;
         }
 
-        //서버에서 현재 보스 SpriteFlipX를 공유
-        if (IsLeft != Sprite.flipX)
+        if (BossController.ChasingTarget)
         {
-            IsLeft = Sprite.flipX;
+            bool temp = BossController.Target.position.x - transform.position.x < 0;
+            if (IsLeft != temp)
+            {
+                IsLeft = temp;
+                Sprite.flipX = temp;
+            }
+        }
+
+        if (!(BossController.ChasingTarget)) return;
+        BossController.TargetCrosshair.position = BossController.Target.position;
+
+        if(CrosshairPosition != (Vector2)BossController.Target.position)
+        {
+            CrosshairPosition = (Vector2)BossController.Target.position;
         }
     }
 
@@ -92,10 +89,17 @@ public class Boss : NetworkBehaviour, IHasHealth
         }
 
         //서버에서 공유 받은 포지션을 적용
-        if ((Vector2)transform.position != Position)
+        if ((Vector2)transform.position != BossPosition)
         {
             //TODO: 보간을 하며 점점 따라갈 수 있도록 만듦.
-            transform.position = Position;
+            transform.position = BossPosition;
+        }
+
+        if (!(BossController.ChasingTarget)) return;
+
+        if (CrosshairPosition != (Vector2)BossController.TargetCrosshair.position)
+        {
+            BossController.TargetCrosshair.position = CrosshairPosition;
         }
     }
 
@@ -106,21 +110,42 @@ public class Boss : NetworkBehaviour, IHasHealth
         if (Hp.Value == 0)
         {
             IsDead = true;
-            BossDeath?.Invoke();
+            BossController.OnDead();
         }
     }
 
 
-    public void AddBossDeathAction(Action deatAction)
+    /// <summary>
+    /// 애니메이터 ReSetTrigger를 공유할 Rpc 메서드
+    /// </summary>
+    /// <param name="hash">공유할 애니메이션 해시</param>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_ResetTriggerAnimationHash(int hash)
     {
-        BossDeath += deatAction;
+        Animator.ResetTrigger(hash);
     }
 
 
+    /// <summary>
+    /// 애니메이터 SetTrigger를 공유할 Rpc 메서드
+    /// </summary>
+    /// <param name="hash">공유할 애니메이션 해시</param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_SetAnimationHash(int hash)
+    public void Rpc_SetTriggerAnimationHash(int hash)
     {
-        AnimationHash = hash; ;
+        Animator.SetTrigger(hash);
+    }
+
+
+    /// <summary>
+    /// 애니메이터 SetBool을 공유하는 Rpc 메서드
+    /// </summary>
+    /// <param name="hash">공유할 애니메이션 해시</param>
+    /// <param name="isSet">활성화 여부</param>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_SetBoolAnimationHash(int hash, bool isSet)
+    {
+        Animator.SetBool(hash, isSet);
     }
 
 

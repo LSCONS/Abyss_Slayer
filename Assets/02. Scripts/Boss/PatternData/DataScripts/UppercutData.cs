@@ -36,7 +36,8 @@ public class UppercutData : BasePatternData
         bossController.ShowTargetCrosshair = false;
         //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Uppercut3");
-        PoolManager.Instance.Get<Tornado>().Init(bossTransform.position + Vector3.down * bossCenterHight, damage, duration, attackPerSec, warningTime, width);
+        ServerManager.Instance.InitManager.Rpc_StartTornadoInit(bossTransform.position + Vector3.down * bossCenterHight, damage, duration, attackPerSec, warningTime, width);
+        //PoolManager.Instance.Get<Tornado>().Init(bossTransform.position + Vector3.down * bossCenterHight, damage, duration, attackPerSec, warningTime, width);
         yield return new WaitForSeconds(warningTime);
         //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Uppercut4");

@@ -31,14 +31,9 @@ public class UISkillUpgradeController : UIPopup
     {
         base.Init();
         // 스킬 포인트 초기화
-        OriginalSkillPoint = PlayerManager.Instance.Player.SkillPoint;      // 저장
-        SkillPoint = OriginalSkillPoint;
-
         Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
-
-        if (isInit) return;
-
-        skillPoint = player.SkillPoint;
+        OriginalSkillPoint = player.SkillPoint;      // 저장
+        SkillPoint = OriginalSkillPoint;
         UpdateSkillPointText();
 
         // 슬롯이 이미 생성되어 있으면 초기화 생략해야됨
@@ -46,7 +41,7 @@ public class UISkillUpgradeController : UIPopup
 
 
         // 슬롯 설정
-        foreach (var skill in PlayerManager.Instance.Player.EquippedSkills.Values)
+        foreach (var skill in player.EquippedSkills.Values)
         {
             var go = Instantiate(skillSlotPrefab, upgradeSlotParent);
             var slot = go.GetComponent<UISkillSlot>();
@@ -71,7 +66,6 @@ public class UISkillUpgradeController : UIPopup
     {
         base.Close();
         ResetUnappliedChange(); // 적용 안된 것들 초기화
-
     }
 
     public override void OnDisable()
@@ -135,8 +129,9 @@ public class UISkillUpgradeController : UIPopup
         skillPointText.text = $"스킬 포인트: {SkillPoint}";
     }
 
-    private void ApplyUpgrade()
+    private async void ApplyUpgrade()
     {
+        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
         foreach ( var upData in upgradeData )
         {
             var skill = upData.Key;
@@ -151,13 +146,10 @@ public class UISkillUpgradeController : UIPopup
         }
 
         // 스킬 포인트 반영해줌
-        PlayerManager.Instance.Player.SkillPoint = SkillPoint;
+        player.SkillPoint = SkillPoint;
         OriginalSkillPoint = SkillPoint;
         UpdateSkillPointText();
-        }
-        isInit = true;
     }
-
     // 닫을 때 적용안한 것들 초기화
     private void ResetUnappliedChange()
     {
@@ -166,7 +158,7 @@ public class UISkillUpgradeController : UIPopup
         UpdateSkillPointText();
 
         // 스킬 레벨 돌려놓기
-        foreach(var upData in upgradeData )
+        foreach(var upData in upgradeData)
         {
             var skill = upData.Key;
             var data = upData.Value;
@@ -179,6 +171,5 @@ public class UISkillUpgradeController : UIPopup
             }
         }
     }
-
 }
     

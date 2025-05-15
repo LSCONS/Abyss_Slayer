@@ -41,7 +41,6 @@ public class UIStatStore : UIPopup
     {
         base.Init();
         Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
-        remainingPointValue = player.StatPoint;
 
         OriginalStatPoint = player.StatPoint;       // 저장
         RemainingPoint = OriginalStatPoint;

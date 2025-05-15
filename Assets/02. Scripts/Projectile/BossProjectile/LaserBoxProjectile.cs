@@ -1,3 +1,4 @@
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,10 +23,10 @@ public class LaserBoxProjectile : BasePoolable
     public override void Init()
     {
     }
-    public void Init(int damage, Transform target, Vector3 startPosition, float scale, Vector3 firePosition, float moveTime, float chasingTime, float delayTime,bool isPiercing, int fireCount = 1)
+    public void Init(int damage, PlayerRef target, Vector3 startPosition, float scale, Vector3 firePosition, float moveTime, float chasingTime, float delayTime,bool isPiercing, int fireCount = 1)
     {
         _damage = damage;
-        _target = target;
+        _target = ServerManager.Instance.DictRefToPlayer[target].transform;
         transform.position = startPosition;
         _scale = scale;
         transform.localScale = Vector3.zero;

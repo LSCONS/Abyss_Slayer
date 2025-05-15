@@ -11,7 +11,7 @@ public class CrossSlash2Data : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         bool isleft = 0 > (target.position.x - bossTransform.position.x);
-        bossController.isLeft = isleft;
+        boss.IsLeft = isleft;
         bossController.StartCoroutine(bossController.RunMove(isleft));
 
         while((Mathf.Abs(target.position.x - bossTransform.position.x) > attackDistance))
@@ -19,13 +19,14 @@ public class CrossSlash2Data : BasePatternData
             yield return null;
         }
 
-        bossAnimator.SetTrigger("RunSlash");
+        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.RunSlashParameterHash);
         yield return new WaitForSeconds(0.1f * speed);
 
         bossController.isRun = false;
         yield return new WaitForSeconds(0.05f * speed);
 
-        PoolManager.Instance.Get<CrossSlash>().Init(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, 2, speed);
+        ServerManager.Instance.InitManager.Rpc_StartCrossSlashInit(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, 2, speed);
+        //PoolManager.Instance.Get<CrossSlash>().Init(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, 2, speed);
         yield return new WaitForSeconds((1/ 6) * speed);
 
         float x = Mathf.Clamp(bossTransform.position.x + (isleft ? -14 : 14), -mapWidth / 2 + 0.7f, mapWidth / 2 - 0.7f);
@@ -33,11 +34,9 @@ public class CrossSlash2Data : BasePatternData
 
         if (Physics2D.Raycast(bossTransform.position, Vector3.down, bossCenterHight + 0.1f, LayerMask.GetMask("GroundPlane", "GroundPlatform")))
         {
-            bossAnimator.SetTrigger("SlashEnd");
+            boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.SlashEndParameterHash);
             yield return new WaitForSeconds(1f);
-            bossAnimator.ResetTrigger("SlashEnd");
+            boss.Rpc_ResetTriggerAnimationHash(BossAnimationHash.SlashEndParameterHash);
         }
-        
-
     }
 }

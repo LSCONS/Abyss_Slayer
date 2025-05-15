@@ -14,13 +14,14 @@ public class DashClawData : BasePatternData
     [SerializeField] float postDelayTime = 2f;
     public override IEnumerator ExecutePattern()
     {
-        boss.Rpc_SetAnimationHash(BossAnimationHash.Dash1ParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.Dash1ParameterHash);
 
         bossController.ShowTargetCrosshair = true;
 
         bool isLeft = target.transform.position.x - bossTransform.position.x < 0;
-        bossController.IsLeft = isLeft;
-        PoolManager.Instance.Get<DashClawEffect>().Init(damage, bossTransform.position + 2 * (isLeft? Vector3.right : Vector3.left), isLeft, distance, preDelayTime, attackDuration);
+        boss.IsLeft = isLeft;
+        ServerManager.Instance.InitManager.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, preDelayTime, attackDuration);
+        //PoolManager.Instance.Get<DashClawEffect>().Init(damage, bossTransform.position + 2 * (isLeft? Vector3.right : Vector3.left), isLeft, distance, preDelayTime, attackDuration);
         bossController.ChasingTarget = false;
 
         yield return new WaitForSeconds(preDelayTime);
@@ -29,7 +30,7 @@ public class DashClawData : BasePatternData
         bossController.HitCollider.enabled = false;
 
         yield return new WaitForSeconds(0.3f * attackDuration);
-        float positionX = Mathf.Clamp(bossController.transform.position.x + (bossController.IsLeft? -distance : distance), -mapWidth / 2 + 1, mapWidth / 2 - 1);
+        float positionX = Mathf.Clamp(bossController.transform.position.x + (boss.IsLeft ? -distance : distance), -mapWidth / 2 + 1, mapWidth / 2 - 1);
         bossTransform.position = new Vector3(positionX,bossTransform.position.y,0);
         bossController.Sprite.enabled = true;
         bossController.HitCollider.enabled = true;
@@ -38,22 +39,23 @@ public class DashClawData : BasePatternData
         while(i < comboAttackCount)
         {
             isLeft = target.transform.position.x - bossTransform.position.x < 0;
-            PoolManager.Instance.Get<DashClawEffect>().Init(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, comboDelayTime, attackDuration);
+            ServerManager.Instance.InitManager.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, comboDelayTime, attackDuration);
+            //PoolManager.Instance.Get<DashClawEffect>().Init(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, comboDelayTime, attackDuration);
 
             yield return new WaitForSeconds(comboDelayTime);
             bossController.Sprite.enabled = false;
             bossController.HitCollider.enabled = false;
-            bossController.IsLeft = isLeft;
+            boss.IsLeft = isLeft;
 
             yield return new WaitForSeconds(0.3f * attackDuration);
-            positionX = Mathf.Clamp(bossController.transform.position.x + (bossController.IsLeft ? -distance : distance), -mapWidth / 2 + 1, mapWidth / 2 - 1);
+            positionX = Mathf.Clamp(bossController.transform.position.x + (boss.IsLeft ? -distance : distance), -mapWidth / 2 + 1, mapWidth / 2 - 1);
             bossTransform.position = new Vector3(positionX, bossTransform.position.y, 0);
             bossController.Sprite.enabled = true;
             bossController.HitCollider.enabled = true;
             i++;
         }
         bossAnimator.enabled = true;
-        boss.Rpc_SetAnimationHash(BossAnimationHash.Dash3ParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.Dash3ParameterHash);
         bossController.ShowTargetCrosshair = false;
         float time = Time.time + (postDelayTime/2);
         Vector3 targetposition = bossTransform.position + 2f * (isLeft ? Vector3.left : Vector3.right);

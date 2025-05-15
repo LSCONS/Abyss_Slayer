@@ -70,7 +70,7 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         try
         {
-            var data = Addressables.LoadAssetsAsync<PlayerData>("CharacterClass", null);
+            var data = Addressables.LoadAssetsAsync<PlayerData>("CharacterData", null);
             await data.Task;
             foreach (PlayerData character in data.Result)
             {

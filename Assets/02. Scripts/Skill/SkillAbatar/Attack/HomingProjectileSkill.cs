@@ -72,7 +72,7 @@ public class HomingProjectileSkill : ProjectileAttackSkill
             position = player.transform.TransformPoint(position);
 
             // 유도탄 초기화 데이터 투사체에 전달
-            PoolManager.Instance.Get<MageProjectile>().Init(Damage, position, rotate, target.transform, Speed, HomingPower, HomingTime, HomingCurve);
+            PoolManager.Instance.Get<MageProjectile>().Init(player, Damage, position, rotate, target.transform, Speed, HomingPower, HomingTime, HomingCurve);
         }
         target = null;
     }

@@ -67,6 +67,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public UILobbySelectPanel LobbySelectPanel { get; set; }
     public UIRoomSearch RoomSearch { get; set; }
     public UITeamStatus UITeamStatus { get; set; }
+    public InitManager InitManager { get; set; }
     public Vector3 Vec3PlayerBattlePosition { get; private set; } = new Vector3(-18, 1.5f, 0);
     public Vector3 Vec3PlayerRestPosition { get; private set; } = new Vector3(-5, 1.5f, 0);
     public Action<bool> IsAllReadyAction { get; set; }

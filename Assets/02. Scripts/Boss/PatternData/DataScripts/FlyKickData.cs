@@ -39,7 +39,8 @@ public class FlyKickData : BasePatternData
 
             if (Vector3.Distance(bossTransform.position, targetPosition) < 0.01f)               // 목표 지점 도달 여부 체크
             {
-                PoolManager.Instance.Get<Explosion>().Init(targetPosition + (Vector3.down * 1f), damage, explosionSize);    //폭발이펙트 생성
+                ServerManager.Instance.InitManager.Rpc_StartExplosionInit(targetPosition + (Vector3.down * 1f), damage, explosionSize);
+                //PoolManager.Instance.Get<Explosion>().Init(targetPosition + (Vector3.down * 1f), damage, explosionSize);    //폭발이펙트 생성
 
                 bossController.ShowTargetCrosshair = false; //타겟 조준선 비활성화
                 bossTransform.position = targetPosition; // 위치 보정
