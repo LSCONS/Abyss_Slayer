@@ -44,8 +44,8 @@ public class Player : MonoBehaviour, IHasHealth
     public int HpStatLevel = 1;
     public int DamageStatLevel = 1;
 
-    public int StatPoint { get; set; } = 10;
-    public int SkillPoint { get; set; } = 10;
+    public ReactiveProperty <int> StatPoint { get; set; } = new(10);
+    public ReactiveProperty <int> SkillPoint { get; set; } = new(10);
 
     public void StartHoldSkillCoroutine(IEnumerator skill, Action action)
     {
