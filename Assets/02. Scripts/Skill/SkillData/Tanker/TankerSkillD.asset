@@ -33,10 +33,13 @@ MonoBehaviour:
   <HitEffectType>k__BackingField: 0
   Level:
     value: 1
+  <Magnification>k__BackingField: 0.1
   radius: 1.5
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
+  baseEffectAmount: 1
   effectAmount: 1
-  shieldPrefab: {fileID: 4607254346907308908, guid: 92fec74cf58d0fa42882ad42e9b70eca, type: 3}
+  baseDuration: 7
   duration: 7
+  shieldPrefab: {fileID: 4607254346907308908, guid: 92fec74cf58d0fa42882ad42e9b70eca, type: 3}

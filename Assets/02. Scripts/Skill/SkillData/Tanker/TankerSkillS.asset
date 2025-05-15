@@ -33,10 +33,14 @@ MonoBehaviour:
   <HitEffectType>k__BackingField: 0
   Level:
     value: 1
+  <Magnification>k__BackingField: 0.1
   radius: 10
   targetLayer:
     serializedVersion: 2
     m_Bits: 256
+  baseEffectAmount: 1.2
   effectAmount: 1.2
+  baseDuration: 0
+  duration: 0
   debuffType: 1
   debuffDuration: 15

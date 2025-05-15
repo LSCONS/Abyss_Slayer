@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: f42c4174a27bcb943a07de2faef1fd1d
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 373dc726749494462e10fa6fdb2ce7d6
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -48,10 +48,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d11cf931c0eb9db42bb43801b8b48fcb, type: 2}
   - {fileID: 11400000, guid: b08ad2a171968e24bab0c5e47912f613, type: 2}
   - {fileID: 11400000, guid: bf8eb598a5a215a45a8f3884fb8edcab, type: 2}
-  - {fileID: 11400000, guid: 6ee6dfad999cf2e4cae71d675362d24f, type: 2}
   - {fileID: 11400000, guid: b62ce2900650ece4da075f20cbe661a9, type: 2}
-  - {fileID: 11400000, guid: e33aeb5c3dc1b734c95c634ed09b6961, type: 2}
-  - {fileID: 11400000, guid: 2e40fa0d6f13ed14fba76d6f85672f16, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -95,10 +92,6 @@ MonoBehaviour:
     - default
     - BGM
     - SFX
-    - UI_Popup
-    - UIPopupSettings
-    - PlayerState
-    - SkillSlot
     - None
     - NonGamePlay
     - GamePlay
@@ -113,9 +106,7 @@ MonoBehaviour:
     - Lobby
     - Battle
     - Rest
-    - FusionScenes
-    - CharacterClass
-    - CharacterSkillSet
+    - Background
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 34d877ec853ce1e40987ad922d126888, type: 2}

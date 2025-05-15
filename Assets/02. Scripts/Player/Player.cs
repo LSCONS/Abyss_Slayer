@@ -34,7 +34,7 @@ public class Player : NetworkBehaviour, IHasHealth
     public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
     public ReactiveProperty<int> Hp { get; set; } = new();
     public ReactiveProperty<int> MaxHp { get; set; } = new();
-    public ReactiveProperty<int> DamageValue { get; set; } = new(1);
+    public ReactiveProperty<float> DamageValue { get; set; } = new(1);
     public float ArmorAmount { get; set; } = 1.0f;                   // 방어력 계수
 
     public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
@@ -52,6 +52,12 @@ public class Player : NetworkBehaviour, IHasHealth
     [Networked] public Vector2 PlayerPosition { get; set; }
     public int tempSmooth = 5;
     public bool IsThisRunner => PlayerRef == Runner.LocalPlayer;
+
+    public int HpStatLevel = 1;
+    public int DamageStatLevel = 1;
+
+    public int StatPoint { get; set; } = 10;
+    public int SkillPoint { get; set; } = 10;
 
     /// <summary>
     /// 코루틴과 Action을 등록시키고 실행시키는 메서드

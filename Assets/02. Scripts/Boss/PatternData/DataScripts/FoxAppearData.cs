@@ -7,6 +7,7 @@ public class FoxAppearData : BasePatternData
     [SerializeField] Vector3 appearPosition;
     [SerializeField] float preDelayTime;
     [SerializeField] float postDelayTime;
+    [SerializeField] float zoomScale;
     public override IEnumerator ExecutePattern()
     {
         bossTransform.position = appearPosition;
@@ -14,7 +15,7 @@ public class FoxAppearData : BasePatternData
         boss.Rpc_SetAnimationHash(BossAnimationHash.AppearParameterHash);
         yield return new WaitForSeconds(1f); 
         
-        bossController.VirtualCamera.m_Lens.OrthographicSize = 5f;
+        bossController.VirtualCamera.m_Lens.OrthographicSize = 10/zoomScale;
         bossController.VirtualCamera.Priority = 20;
         yield return new WaitForSeconds(preDelayTime);
 
@@ -23,7 +24,7 @@ public class FoxAppearData : BasePatternData
         bossController.VirtualCamera.Priority = 5;
 
         yield return new WaitForSeconds(postDelayTime);
-        bossController.VirtualCamera.m_Lens.OrthographicSize = 5f;
+        bossController.VirtualCamera.m_Lens.OrthographicSize = 10f;
         ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
     }
 

@@ -85,7 +85,7 @@ public class UISkillTooltip : UIPopup
         // 만약 툴팁이 화면 상단을 넘을 경우 -> 아래로 배치
         if (desiredPos.y + tooltipHeight > screenHeight)
         {
-            desiredPos = slotBottomLeft - new Vector3(0f, heightOffset);     // 아래쪽 배치
+            desiredPos = slotBottomLeft - new Vector3(0f, heightOffset/2);     // 아래쪽 배치
         }
 
         // 최종 계산 된 
