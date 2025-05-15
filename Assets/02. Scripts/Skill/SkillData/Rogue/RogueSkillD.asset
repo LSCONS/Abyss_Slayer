@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: RogueSkillD
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: "\uBC84\uD504 \uC2A4\uD0AC"
-  <SkillDesription>k__BackingField: "\uBAA8\uB4E0 \uD22C\uC0AC\uCCB4\uAC00 80%\uC758
-    \uB370\uBBF8\uC9C0\uB85C 2\uBC88 \uBC1C\uC0AC\uB41C\uB2E4."
+  <SkillDesription>k__BackingField: "\uC9C0\uC18D\uC2DC\uAC04 \uB3D9\uC548 80%\uC758
+    \uB370\uBBF8\uC9C0\uB97C \uAC00\uC9C4 \uD22C\uC0AC\uCCB4\uB97C \uCD94\uAC00\uB85C
+    \uBC1C\uC0AC\uD55C\uB2E4."
   <SkillCategory>k__BackingField: 3
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: 109bacc3a598fc949b5f41dd31e7eba2, type: 3}
   <CanUse>k__BackingField: 1
@@ -35,7 +36,7 @@ MonoBehaviour:
     value: 1
   <Magnification>k__BackingField: 0.1
   <MaxBuffDuration>k__BackingField:
-    value: 25
+    value: 30
   <CurBuffDuration>k__BackingField:
     value: 0
   <IsApply>k__BackingField: 0
@@ -44,4 +45,3 @@ MonoBehaviour:
     Name: "\uBE60\uB974\uAC8C \uB358\uC9C0\uAE30"
     Description: "\uBAA8\uB4E0 \uD22C\uC0AC\uCCB4\uAC00 80%\uC758 \uB370\uBBF8\uC9C0\uB85C
       2\uBC88 \uBC1C\uC0AC"
-  projectileAttackSkill: {fileID: 11400000, guid: ba83090a6eaf2fc4b9dbcd4a63722056, type: 2}
