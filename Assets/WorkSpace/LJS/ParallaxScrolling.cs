@@ -8,14 +8,11 @@ public class ParallaxScrolling : MonoBehaviour
     // 낮을수록 멀리 있는 배경처럼 느껴짐 (느리게 움직임)
     public float parallaxSpeed = 0.5f;
 
-    // 메인 카메라 Transform
-    private Transform cam;
-
     // 이전 프레임의 카메라 위치 저장용
     private Vector3 previousCamPos;
     void Start()
     {
-        SetCamera();
+        
     }
 
 
@@ -24,11 +21,6 @@ public class ParallaxScrolling : MonoBehaviour
         ParallaxBackground();
     }
 
-    private void SetCamera()
-    {
-        // 시작 시점에 카메라 위치 저장
-        previousCamPos = PlayerManager.Instance.Player.transform.position;
-    }
     /// <summary>
     /// 배경 이미지 움직이게하는 메서드
     /// </summary>
