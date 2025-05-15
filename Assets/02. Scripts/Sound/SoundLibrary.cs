@@ -85,5 +85,22 @@ public class SoundLibrary : ScriptableObject      // 오디오 클립을 관리�
     {
         return soundMap.ContainsKey(soundName);
     }
+}
 
+public enum ESFXType
+{
+    None,
+    Walk,
+    Dash,
+    Attack,
+    Hit,
+    Jump,
+    Land,
+    Die
+}
+public enum ESoundType
+{
+    BGM,
+    SFX,
+    UI
 }

@@ -149,7 +149,22 @@ public class SoundManager : Singleton<SoundManager>
     //==================== SFX 재생 ====================
     #region SFX 재생
 
-    public async void PlaySound(string clipKey, bool loop = false)
+    /// <summary>
+    /// 효과음 재생 (클립이 SFX_타입 형식으로 어드레서블 등록 되어있어야됨)
+    /// </summary>
+    /// <param name="sfxType">ESFXType 타입</param>
+    public void PlaySFX(ESFXType sfxType, bool loop = false)
+    {
+        string clipName = $"SFX_{sfxType}";
+        PlaySound(clipName, loop);
+    }
+
+    /// <summary>
+    /// 이름으로 사운드 재생
+    /// </summary>
+    /// <param name="clipKey"></param>
+    /// <param name="loop">루프 할 건지</param>
+    private async void PlaySound(string clipKey, bool loop = false)
     {
         var handle = Addressables.LoadAssetAsync<AudioClip>(clipKey);
         await handle.Task;
@@ -169,7 +184,11 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
-
+    /// <summary>
+    /// 끝나면 다시 돌려놓기
+    /// </summary>
+    /// <param name="src"></param>
+    /// <returns></returns>
     private IEnumerator ReturnWhenDone(AudioSource src)
     {
         yield return new WaitUntil(() => !src.isPlaying);
@@ -240,7 +259,7 @@ public class SoundManager : Singleton<SoundManager>
     /// <summary>
     /// 게임 스테이트에 따라서 playBGM 하는 오버로드 메서드
     /// </summary>
-    /// <param name="gameState"></param>
+    /// <param name="gameState">어떤 게임 스테이트의 브금을 로드할 건지</param>
     public void PlayBGM(EGameState gameState, int i)
     {
         string bgmName = $"BGM_{gameState}{i}";
@@ -250,7 +269,7 @@ public class SoundManager : Singleton<SoundManager>
     /// <summary>
     /// 사운드 정지
     /// </summary>
-    /// <param name="soundName">사운드 이름</param>
+    /// <param name="soundName">멈출 사운드 이름</param>
     public void StopSound(string soundName)
     {
         for (int i = activeSources.Count - 1; i >= 0; i--)
@@ -265,11 +284,10 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
-
     /// <summary>
     /// 브금 페이드 인아웃
     /// </summary>
-    /// <param name="newClip"></param>
+    /// <param name="newClip">다음에 재생 시킬 오디오 클립</param>
     /// <returns></returns>
     private IEnumerator FadeInOutBGM(AudioClip newClip)
     {
@@ -341,7 +359,6 @@ public class SoundManager : Singleton<SoundManager>
 
     #endregion
 
-
     /// <summary>
     /// 볼륨 설정 저장 
     /// </summary>
@@ -367,5 +384,6 @@ public class SoundManager : Singleton<SoundManager>
         SetBGMVolume(bgmVolume);
         SetSFXVolume(sfxVolume);
     }
+
 }
 

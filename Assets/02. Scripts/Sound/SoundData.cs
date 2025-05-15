@@ -1,12 +1,5 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-public enum ESoundType
-{
-    BGM,
-    SFX,
-    UI
-}
-
 
 [CreateAssetMenu(fileName = "SoundData", menuName = "Audio/SoundData")]
 public class SoundData : ScriptableObject   
