@@ -18,6 +18,10 @@ public class RestState : BaseGameState
         PlayerManager.Instance.PlayerOnConnected();
         UIManager.Instance.Init();
         UIManager.Instance.OpenUI(UISceneType.Rest);
+
+        // 브금 init
+        await SoundManager.Instance.Init(EGameState.Rest);
+
         await Task.CompletedTask;
     }
 

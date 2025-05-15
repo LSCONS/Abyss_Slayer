@@ -14,7 +14,7 @@ public class UIPopup : UIBase
 
     [Header("설명을 바꾸고싶다면 설정해주세요.")]
     [SerializeField] private TextMeshProUGUI desc;
-    private string descText;
+    private string descriptionText;
 
 
     public virtual void OnDisable()
@@ -28,7 +28,7 @@ public class UIPopup : UIBase
     public override void Init()
     {
         base.Init();
-        if(!string.IsNullOrWhiteSpace(descText)) SetDesc(descText);
+        if(!string.IsNullOrWhiteSpace(descriptionText)) SetDesc(descriptionText);
         // 팝업은 시작할 때 닫아두기
         this.gameObject.SetActive(false);
         if(canvasGroup == null)
@@ -111,6 +111,6 @@ public class UIPopup : UIBase
 
     private void SetDesc(string text)
     {
-        descText = text;
+        descriptionText = text;
     }
 }

@@ -24,6 +24,9 @@ public class InGameState : BaseGameState
 
         UIManager.Instance.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
 
+        // 브금 init
+        await SoundManager.Instance.Init(EGameState.Battle);
+
 
         // 보스 찾기
         var bossObj = GameObject.FindWithTag("Boss");

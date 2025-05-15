@@ -44,5 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47da850d93b93c2499b0044c532bd235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: 96e17e5b4dccd95419c4c775afcdd486, type: 2}
+  bgmGroup: {fileID: 3739638401709886002, guid: 96e17e5b4dccd95419c4c775afcdd486, type: 2}
+  sfxGroup: {fileID: 7830712248622768174, guid: 96e17e5b4dccd95419c4c775afcdd486, type: 2}
   soundLibrary: {fileID: 0}
   poolSize: 10
+  currentBgmIndex: 0
+  bgmFadeTime: 1
