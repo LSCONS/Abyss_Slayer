@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49d23e7837458654fb44be960fb2fd1e, type: 3}
   m_Name: RogueSkillX
   m_EditorClassIdentifier: 
-  <SkillName>k__BackingField: "\uC2A4\uD0AC \uC774\uB984"
-  <SkillDesription>k__BackingField: "\uC2A4\uD0AC \uC124\uBA85"
+  <SkillName>k__BackingField: "\uB3C4\uC801 \uAE30\uBCF8\uACF5\uACA9"
+  <SkillDesription>k__BackingField: "\uAE30\uBCF8\uACF5\uACA9"
   <SkillCategory>k__BackingField: 1
   <SkillIcon>k__BackingField: {fileID: 0}
   <CanUse>k__BackingField: 1
@@ -22,11 +22,13 @@ MonoBehaviour:
     value: 0.7
   <CurCoolTime>k__BackingField:
     value: 0
-  <ApplyState>k__BackingField: 23
+  <ApplyState>k__BackingField: -1
   <SkillEnterState>k__BackingField: 8
   <SkillUseState>k__BackingField: 9
   <AnimationChangeDelayTime>k__BackingField: 2
   <IsConnectSkillCoolDown>k__BackingField: 0
+  <SkillEffectsClipName>k__BackingField: 
+  <SkillEffectsDuration>k__BackingField: 1
   <HitEffectType>k__BackingField: 0
   Level:
     value: 1
@@ -36,4 +38,4 @@ MonoBehaviour:
   <Range>k__BackingField: 10
   <Speed>k__BackingField: 20
   <BaseDamageMultiple>k__BackingField: 0.6
-  <CurDamageMultiple>k__BackingField: 0.8
+  <DamageMultiple>k__BackingField: 0.6

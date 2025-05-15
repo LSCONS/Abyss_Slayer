@@ -280,8 +280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e04396ada859041a7ff17b8475166f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiType: 65
-  uISceneType: 2
+  uiType: 131
+  uISceneType: 26
   isClose: 1
   popupName: 
 --- !u!1 &1325425646434569545
@@ -1064,8 +1064,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 001a670eb6946c54db918c180e695c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiType: 129
-  uISceneType: 2
+  uiType: 131
+  uISceneType: 26
+  desc: {fileID: 5759031063648683856}
 --- !u!1 &5661963077779733272
 GameObject:
   m_ObjectHideFlags: 0

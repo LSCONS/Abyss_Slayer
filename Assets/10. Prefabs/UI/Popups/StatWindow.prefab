@@ -228,16 +228,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiType: 130
   uISceneType: 16
+  desc: {fileID: 0}
   hpLevelText: {fileID: 5414051937196846200}
   damageLevelText: {fileID: 3456686531902817226}
   hpFigure: {fileID: 8800153997857969026}
   damageFigure: {fileID: 1222009963510619517}
-  remainingPoint: {fileID: 4701711506386226679}
+  remainingPointText: {fileID: 4701711506386226679}
   hpUpgradeButton: {fileID: 4003430666701523077}
   hpDowngradeButton: {fileID: 6203712217986565883}
   damageUpgradeButton: {fileID: 8868753874398161982}
   damageDowngradeButton: {fileID: 512546075558397658}
   applyButton: {fileID: 1849231991482041837}
+  Amount: 0.1
 --- !u!1 &669155538254083575
 GameObject:
   m_ObjectHideFlags: 0

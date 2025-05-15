@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,7 @@ public class UIStatStore : UIPopup
     [SerializeField] TextMeshProUGUI hpFigure;
     [SerializeField] TextMeshProUGUI damageFigure;
 
-    [SerializeField] TextMeshProUGUI remainingPoint;
+    [SerializeField] TextMeshProUGUI remainingPointText;
 
     [SerializeField] Button hpUpgradeButton;
     [SerializeField] Button hpDowngradeButton;
@@ -22,118 +23,161 @@ public class UIStatStore : UIPopup
 
     [SerializeField] Button applyButton;
 
+    [Header("증가량")]
+    [SerializeField] float Amount = 0.1f;
 
-    private int hpLevel = 0;
-    private int damageLevel = 0;
-    private int remainingPointValue;
 
-    private int baseMaxHp;
-    private int baseDamage;
+    private int AppliedHpLevel { get; set; } = 0;
+    private int TempHpLevel { get; set; } = 0;
+    private int AppliedDamageLevel { get; set; } = 0;
+    private int TempDamageLevel { get; set; } = 0;
+    private int RemainingPoint { get; set; } = 0;
+    private int OriginalStatPoint { get; set; } = 0;    // 원본 저장
+
+    private int BaseMaxHp { get; set; } = 0;
+    private float BaseDamage { get; set; } = 0;
 
     public override void Init()
     {
         base.Init();
-
-        remainingPointValue = PlayerManager.Instance.Player.StatPoint;
-
         var player = PlayerManager.Instance.Player;
-        baseMaxHp = player.MaxHp.Value;
-        baseDamage = player.DamageValue.Value;
 
+        OriginalStatPoint = player.StatPoint;       // 저장
+        RemainingPoint = OriginalStatPoint;
+
+        BaseMaxHp = player.MaxHp.Value;
+        BaseDamage = player.DamageValue.Value;
+
+        // 처음 시작할 때 이전 레벨 저장해야됨
+        AppliedHpLevel = player.HpStatLevel;
+        AppliedDamageLevel = player.DamageStatLevel;
+
+        TempHpLevel = player.HpStatLevel;
+        TempDamageLevel = player.DamageStatLevel;
+
+        // 버튼 해제
+        OffConnectButton();
+        // 버튼 저장
+        OnConnectButton();
+        // 업데이트 UI
+        UpdateUI();
+    }
+    
+    public override void OnDisable()
+    {
+        base.OnDisable();
+    }
+
+    public override void Close()
+    {
+        base.Close();
+        ResetUnappliedChange();
+
+    }
+
+    private void OnConnectButton()
+    {
         hpUpgradeButton.onClick.AddListener(OnHpUpgrade);
         hpDowngradeButton.onClick.AddListener(OnHpDowngrade);
         damageUpgradeButton.onClick.AddListener(OnDamageUpgrade);
         damageDowngradeButton.onClick.AddListener(OnDamageDowngrade);
         applyButton.onClick.AddListener(ApplyStatsToPlayer);
-
-        UpdateUI();
     }
-    private void OnDestroy()
+    private void OffConnectButton()
     {
         hpUpgradeButton.onClick.RemoveListener(OnHpUpgrade);
         hpDowngradeButton.onClick.RemoveListener(OnHpDowngrade);
         damageUpgradeButton.onClick.RemoveListener(OnDamageUpgrade);
         damageDowngradeButton.onClick.RemoveListener(OnDamageDowngrade);
         applyButton.onClick.RemoveListener(ApplyStatsToPlayer);
-
     }
 
     private void UpdateUI()
     {
-        hpLevelText.text = $"lv. {hpLevel}";
-        damageLevelText.text = $"lv. {damageLevel}";
+        hpLevelText.text = $"lv.{TempHpLevel}";
+        damageLevelText.text = $"lv.{TempDamageLevel}";
 
-        int hpIncrease = Mathf.RoundToInt(baseMaxHp * 0.1f * hpLevel);
+        int hpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * (TempHpLevel - AppliedHpLevel));
         hpFigure.text = $"+{hpIncrease}";
 
-        int damageIncrease = 0;
-        for (int i = 0; i < damageLevel; i++)
-        {
-            damageIncrease += Mathf.Max(1, Mathf.RoundToInt(baseDamage * 0.1f));
-        }
-        damageFigure.text = $"+{damageIncrease}";
+        float damageIncrease = (BaseDamage * Amount * (TempDamageLevel - AppliedDamageLevel));
+        damageFigure.text = $"+{damageIncrease:f1}";
 
-
-        remainingPoint.text = $"남은 포인트: {remainingPointValue}";
+        remainingPointText.text = $"남은 포인트: {RemainingPoint}";
     }
 
     void OnHpUpgrade()
     {
-        if (remainingPointValue > 0)
+        if (RemainingPoint > 0)
         {
-            hpLevel++;
-            remainingPointValue--;
+            TempHpLevel++;
+            RemainingPoint--;
             UpdateUI();
         }
     }
 
     void OnHpDowngrade()
     {
-        if (hpLevel > 0)
+        if (TempHpLevel > AppliedHpLevel)
         {
-            hpLevel--;
-            remainingPointValue++;
+            TempHpLevel--;
+            RemainingPoint++;
             UpdateUI();
         }
     }
 
     void OnDamageUpgrade()
     {
-        if (remainingPointValue > 0)
+        if (RemainingPoint > 0)
         {
-            damageLevel++;
-            remainingPointValue--;
+            TempDamageLevel++;
+            RemainingPoint--;
             UpdateUI();
         }
     }
 
     void OnDamageDowngrade()
     {
-        if (damageLevel > 0)
+        if (TempDamageLevel > AppliedDamageLevel)
         {
-            damageLevel--;
-            remainingPointValue++;
+            TempDamageLevel--;
+            RemainingPoint++;
             UpdateUI();
         }
     }
 
-    void ApplyStatsToPlayer()
+    private void ApplyStatsToPlayer()
     {
         var player = PlayerManager.Instance.Player;
 
-        int hpIncrease = hpLevel > 0
-            ? Mathf.RoundToInt(baseMaxHp * 0.1f * hpLevel)
-            : 0;
+        // 차이 계산
+        int hpDiff = TempHpLevel - AppliedHpLevel;
+        int damageDiff = TempDamageLevel - AppliedDamageLevel;
 
-        int damageIncrease = 0;
-        for (int i = 0; i < damageLevel; i++)
-        {
-            damageIncrease += Mathf.Max(1, Mathf.RoundToInt(baseDamage * 0.1f));
-        }
-        player.DamageValue.Value = baseDamage + damageIncrease;
+        // 증가량 계산
+        int hpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * hpDiff);
+        int damageIncrease = Mathf.RoundToInt(BaseDamage * Amount * damageDiff);
 
-        player.MaxHp.Value = baseMaxHp + hpIncrease;
-        player.DamageValue.Value = baseDamage + damageIncrease;
+        // 능력치 반영
+        player.MaxHp.Value = hpIncrease + BaseMaxHp;
+        player.DamageValue.Value = damageIncrease + BaseDamage;
+
+        // 스텟 포인트 반영
+        OriginalStatPoint = RemainingPoint;
+        AppliedHpLevel = TempHpLevel;
+        AppliedDamageLevel = TempDamageLevel;
+        player.StatPoint = RemainingPoint;
+
+        UpdateUI();
+    }
+
+    private void ResetUnappliedChange()
+    {
+        RemainingPoint = OriginalStatPoint;
+
+        TempHpLevel = AppliedHpLevel;
+        TempDamageLevel = AppliedDamageLevel;
+        UpdateUI();
     }
 
 }

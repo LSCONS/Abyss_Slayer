@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class UIPopup : UIBase
 {
@@ -11,7 +12,12 @@ public class UIPopup : UIBase
     private Tween openTween;
     private Tween closeTween;
 
-    public void OnDisable()
+    [Header("설명을 바꾸고싶다면 설정해주세요.")]
+    [SerializeField] private TextMeshProUGUI desc;
+    private string descText;
+
+
+    public virtual void OnDisable()
     {
         if (UIManager.Instance != null && UIManager.Instance.popupStack.Contains(this))
         {
@@ -22,6 +28,7 @@ public class UIPopup : UIBase
     public override void Init()
     {
         base.Init();
+        if(!string.IsNullOrWhiteSpace(descText)) SetDesc(descText);
         // 팝업은 시작할 때 닫아두기
         this.gameObject.SetActive(false);
         if(canvasGroup == null)
@@ -83,8 +90,6 @@ public class UIPopup : UIBase
             {
                 base.Close();
             });
-
-
     }
 
     /// <summary>
@@ -104,5 +109,8 @@ public class UIPopup : UIBase
         UIManager.Instance.CloseCurrentPopup(this);
     }
 
-
+    private void SetDesc(string text)
+    {
+        descText = text;
+    }
 }
