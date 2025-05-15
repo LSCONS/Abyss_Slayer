@@ -15,11 +15,7 @@ public class UIPopupSettings : UIPopup
     [SerializeField] private TMP_InputField bgmInputField; 
     [SerializeField] private TMP_InputField sfxInputField; 
 
-
     [SerializeField] private Button closeButton;
-
-    private bool layoutRebuild = false;
-
 
     private void OnValidate()
     {

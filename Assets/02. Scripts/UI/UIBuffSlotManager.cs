@@ -13,11 +13,10 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
     private Dictionary<BuffType, GameObject> slotInstances = new();
     private Dictionary<BuffType, BuffSlotPresenter> activePresenters = new();
 
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
     }
-
 
     public void Init()
     {
