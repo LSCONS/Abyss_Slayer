@@ -32,7 +32,7 @@ public class Player : MonoBehaviour, IHasHealth
     public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
     public ReactiveProperty<int> Hp { get; set; } = new();
     public ReactiveProperty<int> MaxHp { get; set; } = new();
-    public ReactiveProperty<int> DamageValue { get; set; } = new(1);
+    public ReactiveProperty<float> DamageValue { get; set; } = new(1);
     public float ArmorAmount { get; set; } = 1.0f;                   // 방어력 계수
 
     public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
@@ -41,8 +41,11 @@ public class Player : MonoBehaviour, IHasHealth
     public Coroutine HoldSkillCoroutine { get; private set; }
     public Action HoldSkillCoroutineStopAction { get; private set; }
 
-    public int StatPoint { get; private set; } = 10;
-    public int SkillPoint { get; private set; } = 10;
+    public int HpStatLevel = 1;
+    public int DamageStatLevel = 1;
+
+    public int StatPoint { get; set; } = 10;
+    public int SkillPoint { get; set; } = 10;
 
     public void StartHoldSkillCoroutine(IEnumerator skill, Action action)
     {

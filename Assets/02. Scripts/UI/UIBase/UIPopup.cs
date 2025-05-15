@@ -17,7 +17,7 @@ public class UIPopup : UIBase
     private string descText;
 
 
-    public void OnDisable()
+    public virtual void OnDisable()
     {
         if (UIManager.Instance != null && UIManager.Instance.popupStack.Contains(this))
         {
