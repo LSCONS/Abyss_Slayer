@@ -27,7 +27,7 @@ public class SoundLibrary : ScriptableObject      // 오디오 클립을 관리�
     /// </summary>
     /// <param name="soundKey">오디오 클립을 로드할 라벨</param>
     /// <returns>비동기 작업 결과</returns>
-    public async Task<List<AudioClip>> LoadSoundsByLabel(EGameState soundKey)    // 게임 스테이트에 따라서 불러올거니까 그걸로 라벨 정기반
+    public async Task<List<AudioClip>> LoadSoundsByLabel(ESceneName soundKey)    // 게임 스테이트에 따라서 불러올거니까 그걸로 라벨 정기반
     {
         var labelHandle = Addressables.LoadAssetsAsync<AudioClip>(soundKey.ToString(), null);
         await labelHandle.Task;

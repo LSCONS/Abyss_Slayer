@@ -15,7 +15,7 @@ public class SoundManager : Singleton<SoundManager>
 
     [Header("사운드 데이터")]
     public SoundLibrary soundLibrary; // 사운드 라이브러리
-    private Dictionary<EGameState, List<AudioClip>> stateToSoundList = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
+    private Dictionary<ESceneName, List<AudioClip>> stateToSoundList = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
     private readonly Dictionary<string, AudioSource> loopingSources = new();    // 현재 루프 중인 클립 저장
 
 
@@ -303,7 +303,7 @@ public class SoundManager : Singleton<SoundManager>
     /// 게임 스테이트에 따라서 playBGM 하는 오버로드 메서드
     /// </summary>
     /// <param name="gameState">어떤 게임 스테이트의 브금을 로드할 건지</param>
-    public void PlayBGM(EGameState gameState, int i)
+    public void PlayBGM(ESceneName gameState, int i)
     {
         string bgmName = $"BGM_{gameState}{i}";
         PlayBGM(bgmName);

@@ -12,7 +12,7 @@ public class RestState : BaseGameState
         UIManager.Instance.OpenUI(UISceneType.Rest);
 
         // 브금 init
-        await SoundManager.Instance.Init(EGameState.Rest);
+        await SoundManager.Instance.Init(ESceneName.Rest);
 
         await Task.CompletedTask;
     }
