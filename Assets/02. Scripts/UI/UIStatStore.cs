@@ -23,6 +23,9 @@ public class UIStatStore : UIPopup
 
     [SerializeField] Button applyButton;
 
+    [Header("증가량")]
+    [SerializeField] float Amount = 0.1f;
+
 
     private int AppliedHpLevel { get; set; } = 0;
     private int TempHpLevel { get; set; } = 0;
@@ -94,10 +97,10 @@ public class UIStatStore : UIPopup
         hpLevelText.text = $"lv.{TempHpLevel}";
         damageLevelText.text = $"lv.{TempDamageLevel}";
 
-        int hpIncrease = Mathf.RoundToInt(BaseMaxHp * 0.1f * (TempHpLevel - AppliedHpLevel));
+        int hpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * (TempHpLevel - AppliedHpLevel));
         hpFigure.text = $"+{hpIncrease}";
 
-        float damageIncrease = (BaseDamage * 0.1f * (TempDamageLevel - AppliedDamageLevel));
+        float damageIncrease = (BaseDamage * Amount * (TempDamageLevel - AppliedDamageLevel));
         damageFigure.text = $"+{damageIncrease:f1}";
 
         remainingPointText.text = $"남은 포인트: {RemainingPoint}";
@@ -152,8 +155,8 @@ public class UIStatStore : UIPopup
         int damageDiff = TempDamageLevel - AppliedDamageLevel;
 
         // 증가량 계산
-        int hpIncrease = Mathf.RoundToInt(BaseMaxHp * 0.1f * hpDiff);
-        int damageIncrease = Mathf.RoundToInt(BaseDamage * 0.1f * damageDiff);
+        int hpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * hpDiff);
+        int damageIncrease = Mathf.RoundToInt(BaseDamage * Amount * damageDiff);
 
         // 능력치 반영
         player.MaxHp.Value = hpIncrease + BaseMaxHp;
