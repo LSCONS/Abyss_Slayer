@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: MagicalBladerSkillS
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: "\uB9C8\uAC80\uC0AC S"
-  <SkillDesription>k__BackingField: "\uAC80\uC744 \uC18C\uD658\uD574 40 \uD53C\uD574\uB97C
-    9\uD68C \uC785\uD78C\uB2E4."
+  <SkillDesription>k__BackingField: "\uAC80\uC744 \uC18C\uD658\uD574 \uD53C\uD574\uB97C
+    9\uD68C \uC785\uD799\uB2C8\uB2E4."
   <SkillCategory>k__BackingField: 6
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: 8dc86d2f8919d044ca02159453c2832c, type: 3}
   <CanUse>k__BackingField: 1
@@ -28,6 +28,8 @@ MonoBehaviour:
   <SkillUseState>k__BackingField: 24
   <AnimationChangeDelayTime>k__BackingField: 2
   <IsConnectSkillCoolDown>k__BackingField: 0
+  <SkillEffectsClipName>k__BackingField: 
+  <SkillEffectsDuration>k__BackingField: 1
   <HitEffectType>k__BackingField: 0
   Level:
     value: 1

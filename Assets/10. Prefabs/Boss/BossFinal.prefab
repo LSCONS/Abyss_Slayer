@@ -168,7 +168,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 200
-  m_Sprite: {fileID: 315388054, guid: 391dde0d75bb86a489b16e352b50c208, type: 3}
+  m_Sprite: {fileID: -1416077691, guid: b0418791ec75cd4428670e3545c42f7b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -205,11 +205,11 @@ Transform:
   m_GameObject: {fileID: 1116730151690063520}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 10}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7805906894152454117}
+  m_Father: {fileID: 531210389306606361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6845481455852870931
 SpriteRenderer:
@@ -300,6 +300,7 @@ Transform:
   - {fileID: 841347178120548290}
   - {fileID: 89415634535349745}
   - {fileID: 7805906894152454117}
+  - {fileID: 2685160893601955428}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3758152715141030970
@@ -330,35 +331,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be781b50b434d904c9749a0d6892a593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appearPattern: {fileID: 0}
+  appearPattern: {fileID: 11400000, guid: b686ac285e252b243841532942d34a71, type: 2}
   allPatterns:
-  - weight: 5
-    patternData: {fileID: 11400000, guid: f1c7e98faf85eda4fbe0f400ebcf2af4, type: 2}
-    setActivePatternForTest: 0
-    showGizmos: 1
-  - weight: 5
-    patternData: {fileID: 11400000, guid: 14e37b6adf587b14ab4574a89a929725, type: 2}
-    setActivePatternForTest: 0
-    showGizmos: 1
-  - weight: 4
-    patternData: {fileID: 11400000, guid: 6d77efd23e848994c989c255b8d141e9, type: 2}
-    setActivePatternForTest: 0
-    showGizmos: 1
-  - weight: 5
-    patternData: {fileID: 11400000, guid: cbe368fc93fa82641a9d9d30729d2607, type: 2}
-    setActivePatternForTest: 0
-    showGizmos: 1
   - weight: 5
     patternData: {fileID: 11400000, guid: ca4ceaddc4d5c8045b0b06622fd03155, type: 2}
     setActivePatternForTest: 1
     showGizmos: 1
   - weight: 5
     patternData: {fileID: 11400000, guid: 48db344ef5578754b88b99bc1ba5d2ad, type: 2}
-    setActivePatternForTest: 0
+    setActivePatternForTest: 1
     showGizmos: 1
   - weight: 5
     patternData: {fileID: 11400000, guid: 4487b72fa1ef5d0408539677f83f3fae, type: 2}
-    setActivePatternForTest: 0
+    setActivePatternForTest: 1
     showGizmos: 1
   - weight: 5
     patternData: {fileID: 11400000, guid: 589feabd1741bf14794d8a767c2a0d43, type: 2}
@@ -524,7 +509,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4385296898786515255}
-  - {fileID: 2685160893601955428}
   m_Father: {fileID: 531210389306606361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5484115957593844158
