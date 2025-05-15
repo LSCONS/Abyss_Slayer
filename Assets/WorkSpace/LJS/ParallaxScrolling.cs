@@ -10,32 +10,30 @@ public class ParallaxScrolling : MonoBehaviour
 
     // 이전 프레임의 카메라 위치 저장용
     private Vector3 previousCamPos;
-    private Player player = null;
-    private async void Awake()
+    void Start()
     {
-        player = await ServerManager.Instance.WaitForThisPlayerAsync();
-        previousCamPos = player.transform.position;
+        
     }
 
 
-    private void LateUpdate()
+    void LateUpdate()
     {
-        if (player == null) return;
         ParallaxBackground();
     }
+
     /// <summary>
     /// 배경 이미지 움직이게하는 메서드
     /// </summary>
     private void ParallaxBackground()
     {
         // 현재 카메라 위치와 이전 위치의 차이 계산
-        Vector3 deltaMovement = player.transform.position - previousCamPos;
+        Vector3 deltaMovement = PlayerManager.Instance.Player.transform.position - previousCamPos;
         // 해당 차이값에 parallaxSpeed를 곱해서 배경을 이동시킴
         // x와 y 방향 모두 적용 가능 (예: 위아래 움직임도 가능)
         transform.position += new Vector3(deltaMovement.x * parallaxSpeed,
                                           deltaMovement.y * parallaxSpeed * 0,
                                           0);
         // 다음 프레임을 위해 현재 카메라 위치를 저장해둠
-        previousCamPos = player.transform.position;
+        previousCamPos = PlayerManager.Instance.Player.transform.position;
     }
 }

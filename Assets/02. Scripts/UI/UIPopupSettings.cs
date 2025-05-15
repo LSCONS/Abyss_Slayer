@@ -15,11 +15,7 @@ public class UIPopupSettings : UIPopup
     [SerializeField] private TMP_InputField bgmInputField; 
     [SerializeField] private TMP_InputField sfxInputField; 
 
-
     [SerializeField] private Button closeButton;
-
-    private bool layoutRebuild = false;
-
 
     private void OnValidate()
     {
@@ -31,9 +27,6 @@ public class UIPopupSettings : UIPopup
         masterInputField = transform.GetGameObjectSameNameDFS("Master Volume InputField").GetComponent<TMP_InputField>();
         bgmInputField = transform.GetGameObjectSameNameDFS("BGM Volume InputField").GetComponent<TMP_InputField>();
         sfxInputField = transform.GetGameObjectSameNameDFS("SFX Volume InputField").GetComponent<TMP_InputField>();
-
-
-       
     }
     public override void Init()
     {
@@ -44,6 +37,11 @@ public class UIPopupSettings : UIPopup
         bgmSlider.value = SoundManager.Instance.BGMVolume;
         sfxSlider.value = SoundManager.Instance.SFXVolume;
 
+        // 믹서에 값 반영
+        SoundManager.Instance.SetMasterVolume(masterSlider.value);
+        SoundManager.Instance.SetBGMVolume(bgmSlider.value);
+        SoundManager.Instance.SetSFXVolume(sfxSlider.value);
+
         closeButton = transform.GetGameObjectSameNameDFS("Close").GetComponent<Button>();
     }
 
@@ -51,22 +49,10 @@ public class UIPopupSettings : UIPopup
     {
         base.Open();
 
-        // 팝업 시작할 때 정렬 깨짐 현상 정상화
-        //if(!layoutRebuild)
-        //{
-        //    UIManager.Instance.DelayRebuildLayout(this);
-        //    layoutRebuild = true;
-        //}
-
         // 슬라이더 값 동기화 (안전 위해?)
         masterSlider.value = SoundManager.Instance.MasterVolume;
         bgmSlider.value = SoundManager.Instance.BGMVolume;
         sfxSlider.value = SoundManager.Instance.SFXVolume;
-
-
-        // masterSlider.onValueChanged.AddListener(SoundManager.Instance.SetMasterVolume);
-        // bgmSlider.onValueChanged.AddListener(SoundManager.Instance.SetBGMVolume);
-        // sfxSlider.onValueChanged.AddListener(SoundManager.Instance.SetSFXVolume);
 
         masterSlider.onValueChanged.AddListener(val =>{
             SoundManager.Instance.SetMasterVolume(val);
@@ -95,9 +81,9 @@ public class UIPopupSettings : UIPopup
     public override void Close()
     {
         base.Close();
-        masterSlider.onValueChanged.RemoveListener(SoundManager.Instance.SetMasterVolume);
-        bgmSlider.onValueChanged.RemoveListener(SoundManager.Instance.SetBGMVolume);
-        sfxSlider.onValueChanged.RemoveListener(SoundManager.Instance.SetSFXVolume);
+        masterSlider.onValueChanged.RemoveAllListeners();
+        bgmSlider.onValueChanged.RemoveAllListeners();
+        sfxSlider.onValueChanged.RemoveAllListeners();
 
         masterInputField.onEndEdit.RemoveAllListeners();
         bgmInputField.onEndEdit.RemoveAllListeners();
@@ -106,7 +92,7 @@ public class UIPopupSettings : UIPopup
 
     public override void OnClose()
     {
-        Debug.Log("OnClose");
+        SoundManager.Instance.SaveVolumeSettings();
         base.OnClose();
     }
 

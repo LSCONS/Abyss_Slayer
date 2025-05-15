@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e33ab7bd5ecf949b808dbfa3220fc0, type: 3}
   m_Name: TankerSkillX
   m_EditorClassIdentifier: 
-  <SkillName>k__BackingField: "\uC77C\uBC18\uACF5\uACA9"
-  <SkillDesription>k__BackingField: "\uC77C\uBC18 \uBB3C\uB9AC \uACF5\uACA9\uC784"
+  <SkillName>k__BackingField: "\uD0F1\uCEE4 \uAE30\uBCF8\uACF5\uACA9"
+  <SkillDesription>k__BackingField: "\uAE30\uBCF8\uACF5\uACA9"
   <SkillCategory>k__BackingField: 0
   <SkillIcon>k__BackingField: {fileID: 0}
+  <SkillSound>k__BackingField: {fileID: 8300000, guid: 349ba3ce78018d24aaceb4dcc47985d0, type: 3}
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 1
   <MaxCoolTime>k__BackingField:
@@ -32,6 +33,8 @@ MonoBehaviour:
   <HitEffectType>k__BackingField: 0
   Level:
     value: 1
+  <Magnification>k__BackingField: 0.1
+  <BaseDamage>k__BackingField: 45
   <Damage>k__BackingField: 45
   <ColliderDuration>k__BackingField: 0.2
   <TargetMask>k__BackingField:

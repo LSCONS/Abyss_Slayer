@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UniRx;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 using UnityEngine.UI;
 
 public class SelectClassPanelController : UIPopup

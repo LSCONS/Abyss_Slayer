@@ -10,6 +10,10 @@ public class RestState : BaseGameState
         Debug.Log("RestState OnEnter");
         UIManager.Instance.Init();
         UIManager.Instance.OpenUI(UISceneType.Rest);
+
+        // 브금 init
+        await SoundManager.Instance.Init(EGameState.Rest);
+
         await Task.CompletedTask;
     }
 

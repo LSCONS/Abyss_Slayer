@@ -29,6 +29,9 @@ public class PlayerWalkState : PlayerGroundState
         animationNum = 0;
         animationTime = animationDelay;
 
+        // 걷기 사운드 재생
+        SoundManager.Instance.PlaySFX(ESFXType.Walk, true, 1.3f);
+
 #if StateMachineDebug
         Debug.Log("WalkState 진입");
 #endif
@@ -37,6 +40,9 @@ public class PlayerWalkState : PlayerGroundState
 
     public override void Exit()
     {
+        // 걷기 사운드 끝
+        SoundManager.Instance.StopSFX(ESFXType.Walk);
+
         base.Exit();
 
 #if StateMachineDebug

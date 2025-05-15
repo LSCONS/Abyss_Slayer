@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: f42c4174a27bcb943a07de2faef1fd1d
   m_SerializeEntries:
-  - m_GUID: 07887ab7aae1d9243bb0d02c6b42a156
-    m_Address: Assets/11.Audio/LobbyBGM.mp3
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ed6f95591d6d06644b05c16c34a7857d
     m_Address: Assets/11.Audio/Impact Grenade.wav
     m_ReadOnly: 0
@@ -189,66 +184,20 @@ MonoBehaviour:
     - GamePlay
     - Permanent
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: df74d9373a2a00b409b2d147734e361e
-    m_Address: PlayerPrefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 2cb4cd51b96c5f243b738ee39d12a0f5
-    m_Address: Assets/10. Prefabs/UI/Popups/Img_InputNamePanel.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Permanent
-    - NonGamePlay
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 23d25d0949cdef74988e6c0062dcdcfe
-    m_Address: Assets/10. Prefabs/UI/Popups/Img_CreateRoomPanel.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - NonGamePlay
-    - Popup
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 04d9efccd0a49b4489bd8cdc3f30e07a
-    m_Address: Assets/10. Prefabs/UI/Popups/Img_RoomSearch.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - NonGamePlay
-    - Popup
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 76b50cec767932b4381855f7df61a7b7
+  - m_GUID: 4a0df3ddf0f1a474aa0fdbfb13c285ce
     m_Address: Assets/10. Prefabs/UI/Popups/QuitGamePopup.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
-    - GamePlay
     - NonGamePlay
+    - GamePlay
     - Popup
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f51f7f9bf4fb79946b9edc91a34029a5
-    m_Address: Assets/10. Prefabs/UI/Permanent/TeamStatus.prefab
+  - m_GUID: 80ce2ba2b4100814abd57ee01d3aa049
+    m_Address: BGM_Lobby1
     m_ReadOnly: 0
     m_SerializedLabels:
-    - GamePlay
-    - Permanent
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0c0cd4d75897ae140a879ddf6d786a37
-    m_Address: RoomPrefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a8b689fb140cd784790ab6a582360be5
-    m_Address: TeamStatusSlot
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: dbe8bdace8307974aa6a9970c6cd4dea
-    m_Address: AnimationCurveData
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5d5f4ceb4f327cc43b95dfca09b55232
-    m_Address: BossPrefabData
-    m_ReadOnly: 0
-    m_SerializedLabels: []
+    - BGM
+    - Lobby
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}
