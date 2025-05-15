@@ -75,7 +75,6 @@ public class SoundManager : Singleton<SoundManager>
         stateToSoundList.Remove(gameState);
     }
 
-
     //==================== 오디오 소스 풀 ====================
 
     #region 오디오 소스 풀
@@ -368,9 +367,5 @@ public class SoundManager : Singleton<SoundManager>
         SetBGMVolume(bgmVolume);
         SetSFXVolume(sfxVolume);
     }
-
-
-    //========================= 리팩토링 중 =============================
-
 }
 

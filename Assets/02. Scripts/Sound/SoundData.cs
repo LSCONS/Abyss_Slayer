@@ -4,6 +4,7 @@ public enum ESoundType
 {
     BGM,
     SFX,
+    UI
 }
 
 
