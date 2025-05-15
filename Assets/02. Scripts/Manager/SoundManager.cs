@@ -16,26 +16,30 @@ public class SoundManager : Singleton<SoundManager>
     [Header("사운드 데이터")]
     public SoundLibrary soundLibrary; // 사운드 라이브러리
     private Dictionary<EGameState, List<AudioClip>> stateToSoundList = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
+    private readonly Dictionary<string, AudioSource> loopingSources = new();    // 현재 루프 중인 클립 저장
+
 
     [Header("오디오 소스 풀")]
-    private Queue<AudioSource> sfxPool = new Queue<AudioSource>(); // sfx 풀
-    private List<AudioSource> activeSources = new List<AudioSource>(); // 활성화된 소스
+    private Queue<AudioSource> sfxPool = new Queue<AudioSource>();      // sfx 풀
+    private List<AudioSource> activeSources = new List<AudioSource>();  // 활성화된 소스
     [SerializeField] private int poolSize = 10; // 풀 크기
 
     [Header("브금 소스")]
     private AudioSource[] bgmSources = new AudioSource[2];
     [SerializeField] private int currentBgmIndex = 0;
-    private Coroutine bgmCoroutine; // 페이드인아웃에 쓸 브금 코루틴
-    [SerializeField] private float bgmFadeTime = 1f; // 브금 페이드 시간
+    private Coroutine bgmCoroutine;                         // 페이드인아웃에 쓸 브금 코루틴
+    [SerializeField] private float bgmFadeTime = 1f;        // 브금 페이드 시간
 
     [Header("볼륨")]
-    private float masterVolume = 0f; // 마스터 볼륨
-    private float bgmVolume = 0f; // 브금 볼륨
-    private float sfxVolume = 0f; // sfx 볼륨
+    [SerializeField] private float masterVolume = 0f;    // 마스터 볼륨
+    [SerializeField] private float bgmVolume = 0f;       // 브금 볼륨
+    [SerializeField] private float sfxVolume = 0f;       // sfx 볼륨
 
     public float MasterVolume => masterVolume;
     public float BGMVolume => bgmVolume;
     public float SFXVolume => sfxVolume;
+
+
 
     protected override void Awake()
     {
@@ -152,11 +156,13 @@ public class SoundManager : Singleton<SoundManager>
     /// <summary>
     /// 효과음 재생 (클립이 SFX_타입 형식으로 어드레서블 등록 되어있어야됨)
     /// </summary>
-    /// <param name="sfxType">ESFXType 타입</param>
-    public void PlaySFX(ESFXType sfxType, bool loop = false)
+    /// <param name="sfxType">효과음 타입</param>
+    /// <param name="loop">효과음 루프 할 건지</param>
+    /// <param name="pitch">효과음 속도</param>
+    public void PlaySFX(ESFXType sfxType, bool loop = false, float pitch = 1f)
     {
         string clipName = $"SFX_{sfxType}";
-        PlaySound(clipName, loop);
+        PlaySound(clipName, loop, pitch);
     }
 
     /// <summary>
@@ -164,23 +170,39 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     /// <param name="clipKey"></param>
     /// <param name="loop">루프 할 건지</param>
-    private async void PlaySound(string clipKey, bool loop = false)
+    private async void PlaySound(string clipKey, bool loop = false, float pitch = 1f)
     {
-        var handle = Addressables.LoadAssetAsync<AudioClip>(clipKey);
-        await handle.Task;
+        // 이미 루프중인 사운드면 리턴
+        if (loop && loopingSources.ContainsKey(clipKey)) return;
 
-        if (handle.Status == AsyncOperationStatus.Succeeded)
+        AudioClip clip = soundLibrary.GetSoundClip(clipKey);    // 라이브러리에 캐싱 된 클립을 먼저 시도
+
+        // 없으면 다시 로드
+        if (clip == null)
         {
-            var clip = handle.Result;
-            var src = GetPooledSource();
-            src.clip = clip;
-            src.loop = loop;
-            src.Play();
-
-            if (!loop)
+            var handle = Addressables.LoadAssetAsync<AudioClip>(clipKey);
+            await handle.Task;
+            if (handle.Status == AsyncOperationStatus.Succeeded)
             {
-                StartCoroutine(ReturnWhenDone(src));
+                clip = handle.Result;
             }
+        }
+
+        if (clip == null) return;
+
+        var src = GetPooledSource();
+        src.clip = clip;
+        src.loop = loop;
+        src.pitch = pitch;
+        src.Play();
+
+        if (!loop)
+        {
+            StartCoroutine(ReturnWhenDone(src));
+        }
+        else
+        {
+            loopingSources[clipKey] = src;  // 루프면 딕셔너리에 저장
         }
     }
 
@@ -267,7 +289,7 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     /// <summary>
-    /// 사운드 정지
+    /// 클립 이름으로 사운드 정지
     /// </summary>
     /// <param name="soundName">멈출 사운드 이름</param>
     public void StopSound(string soundName)
@@ -282,6 +304,24 @@ public class SoundManager : Singleton<SoundManager>
                 break;
             }
         }
+    }
+
+    /// <summary>
+    /// 효과음 타입으로 사운드 정지
+    /// </summary>
+    /// <param name="type">효과음 타입</param>
+    public void StopSFX(ESFXType type)
+    {
+        string soundName = $"SFX_{type}";
+
+        if(loopingSources.TryGetValue(soundName, out var src))
+        {
+            src.Stop();
+            ReturnSource(src);
+            loopingSources.Remove(soundName);
+            return;
+        }
+        else StopSound(soundName);
     }
 
     /// <summary>
