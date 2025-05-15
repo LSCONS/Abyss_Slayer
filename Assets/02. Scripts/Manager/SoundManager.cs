@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Threading.Tasks;
 using UnityEngine.Audio;
+using UnityEngine.AddressableAssets;
 
 public class SoundManager : Singleton<SoundManager>
 {
@@ -14,7 +15,7 @@ public class SoundManager : Singleton<SoundManager>
 
     [Header("사운드 데이터")]
     public SoundLibrary soundLibrary; // 사운드 라이브러리
-    private Dictionary<EGameState, List<SoundData>> stateToSoundList = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
+    private Dictionary<EGameState, List<AudioClip>> stateToSoundList = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
 
     [Header("오디오 소스 풀")]
     private Queue<AudioSource> sfxPool = new Queue<AudioSource>(); // sfx 풀
@@ -54,7 +55,7 @@ public class SoundManager : Singleton<SoundManager>
         InitPool();
         soundLibrary = ScriptableObject.CreateInstance<SoundLibrary>();
 
-        List<SoundData> loadedSounds = await soundLibrary.LoadSoundsByLabel(gameState);         // 씬 전용 SFX 라벨
+        List<AudioClip> loadedSounds = await soundLibrary.LoadSoundsByLabel(gameState);         // 씬 전용 SFX 라벨
         stateToSoundList[gameState] = loadedSounds;        // 딕셔너리에 저장
     }
 
@@ -68,9 +69,8 @@ public class SoundManager : Singleton<SoundManager>
 
         foreach (var sound in soundList)
         {
-            sound.audioClip.ReleaseAsset();
-            sound.cachedClip = null;
-            soundLibrary.Remove(sound.soundName);
+            Addressables.Release(sound);
+            soundLibrary.Remove(sound.name);
         }
         stateToSoundList.Remove(gameState);
     }
@@ -150,52 +150,31 @@ public class SoundManager : Singleton<SoundManager>
     //==================== SFX 재생 ====================
     #region SFX 재생
 
-    /// <summary>
-    /// 이름으로 사운드 재생
-    /// </summary>
-    /// <param name="soundName">사운드 이름</param>
-    public void PlaySound(string soundName)
+    public async void PlaySound(string clipKey, bool loop = false)
     {
-        var data = soundLibrary.GetSoundData(soundName);
-        if (data == null) return;
+        var handle = Addressables.LoadAssetAsync<AudioClip>(clipKey);
+        await handle.Task;
 
-        StartCoroutine(PlaySoundAsync(data));
+        if (handle.Status == AsyncOperationStatus.Succeeded)
+        {
+            var clip = handle.Result;
+            var src = GetPooledSource();
+            src.clip = clip;
+            src.loop = loop;
+            src.Play();
+
+            if (!loop)
+            {
+                StartCoroutine(ReturnWhenDone(src));
+            }
+        }
     }
 
-    /// <summary>
-    /// 사운드 재생하는 코루틴  
-    /// </summary>
-    /// <param name="data">사운드 데이터</param>
-    /// <returns></returns>
-    private IEnumerator PlaySoundAsync(SoundData data)
+
+    private IEnumerator ReturnWhenDone(AudioSource src)
     {
-        if (data.cachedClip == null)
-        {
-            var handle = data.audioClip.LoadAssetAsync<AudioClip>();
-            yield return handle;
-            // 실제 재생
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                data.cachedClip = handle.Result;
-            }
-            else
-            {
-                Debug.LogError($"Failed to load audio clip: {data.soundName}");
-                yield break;
-            }
-        }
-
-        AudioSource audioSource = GetPooledSource();
-        audioSource.clip = data.cachedClip;
-        audioSource.volume = data.volume * sfxVolume * MasterVolume;
-        audioSource.loop = data.loop;
-        audioSource.Play();
-
-        if (!data.loop)
-        {
-            yield return new WaitUntil(() => !audioSource.isPlaying);
-            ReturnSource(audioSource);
-        }
+        yield return new WaitUntil(() => !src.isPlaying);
+        ReturnSource(src);
     }
 
     /// <summary>
@@ -252,9 +231,11 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="soundName">브금 이름</param>
     public void PlayBGM(string soundName)
     {
-        var data = soundLibrary.GetSoundData(soundName);
-        if (data == null) return;
-        StartCoroutine(PlayBGMAsync(data)); // 브금 재생
+        var clip = soundLibrary.GetSoundClip(soundName);
+        if (clip == null) return;
+
+        if (bgmCoroutine != null) StopCoroutine(bgmCoroutine);
+        bgmCoroutine = StartCoroutine(FadeInOutBGM(clip));
     }
 
     /// <summary>
@@ -286,34 +267,15 @@ public class SoundManager : Singleton<SoundManager>
     }
 
 
-    private IEnumerator PlayBGMAsync(SoundData data)
-    {
-        if (data.cachedClip == null)
-        {
-            var handle = data.audioClip.LoadAssetAsync<AudioClip>();
-            yield return handle;
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                data.cachedClip = handle.Result;
-            }
-            else
-            {
-                Debug.LogError($"Failed to load audio clip: {data.soundName}");
-                yield break;
-            }
-        }
-
-        if (bgmCoroutine != null) StopCoroutine(bgmCoroutine);
-        bgmCoroutine = StartCoroutine(FadeInOutBGM(data.cachedClip, data.volume * bgmVolume));
-    }
-
     /// <summary>
     /// 브금 페이드 인아웃
     /// </summary>
     /// <param name="newClip"></param>
     /// <returns></returns>
-    private IEnumerator FadeInOutBGM(AudioClip newClip, float volume)
+    private IEnumerator FadeInOutBGM(AudioClip newClip)
     {
+        float volume = bgmVolume * masterVolume;
+
         int nextIndex = 1 - currentBgmIndex;
         AudioSource current = bgmSources[currentBgmIndex];
         AudioSource next = bgmSources[nextIndex];
@@ -406,5 +368,9 @@ public class SoundManager : Singleton<SoundManager>
         SetBGMVolume(bgmVolume);
         SetSFXVolume(sfxVolume);
     }
+
+
+    //========================= 리팩토링 중 =============================
+
 }
 

@@ -21,25 +21,6 @@ public class SoundTest : MonoBehaviour
         SoundManager.Instance.PlayBGM("BGM1");
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            PlayTestSound();
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            PlayTestSound2();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            PlayBGM1();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            PlayBGM2();
-        }
-    }
 
     private void PlayTestSound()
     {
