@@ -51,11 +51,11 @@ public class LoadSceneManager : Singleton<LoadSceneManager>
 
         while (op.progress < 0.9f)
         {
-            progressBar.SetProgress(op.progress);
+            progressBar.SetProgressValue(op.progress);
             await Task.Yield();
         }
 
-        progressBar.SetProgress(1f);
+        progressBar.SetProgressValue(1f);
 
         op.allowSceneActivation = true;
 

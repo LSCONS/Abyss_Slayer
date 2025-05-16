@@ -32,8 +32,9 @@ public class RestState : BaseGameState
         UIManager.Instance.OpenUI(UISceneType.Rest);
         await Task.CompletedTask;
         var runner = RunnerManager.Instance.GetRunner();
-        if (runner.IsServer && await ServerManager.Instance.WaitForAllPlayerLoadingAsync())
+        if (runner.IsServer)
         {
+            await ServerManager.Instance.WaitForAllPlayerLoadingAsync();
             ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
         }
     }

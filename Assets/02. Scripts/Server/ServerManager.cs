@@ -1,5 +1,6 @@
 using Fusion;
 using Fusion.Sockets;
+using Photon.Realtime;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -82,12 +83,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 
     private async void Init()
     {
-        //if (LocalInput == null)
-        //{
-        //    LocalInput = gameObject.GetComponent<PlayerInput>()
-        //        ?? gameObject.AddComponent<PlayerInput>();
-        //}
-
         if (PlayerPrefab == null)
         {
             var handle = Addressables.LoadAssetAsync<GameObject>("PlayerPrefab");
@@ -96,7 +91,12 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         }
     }
 
-    public bool CheckAllPlayerIsReady()
+
+    /// <summary>
+    /// 모든 플레이어가 준비가 되었는지 서버에서 확인하는 메서드
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckAllPlayerIsReadyInServer()
     {
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (!(runner.IsServer)) return false;
@@ -109,6 +109,65 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     }
 
 
+    /// <summary>
+    /// 모든 플레이어가 준비 되었는지 클라이언트에서 확인하는 메서드
+    /// </summary>
+    /// <returns></returns>
+    public bool CheckAllPlayerIsReadyInClient()
+    {
+        foreach (NetworkData data in DictRefToNetData.Values)
+        {
+            if (!(data.IsReady)) return false;
+        }
+        return true;
+    }
+
+
+    /// <summary>
+    /// 모든 플레이어의 준비 상태를 false로 초기화하는 메서드
+    /// </summary>
+    public void AllPlayerIsReadyFalse()
+    {
+        if (RunnerManager.Instance.GetRunner().IsServer)
+        {
+            foreach(NetworkData data in DictRefToNetData.Values)
+            {
+                data.IsReady = false;
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// 모든 플레이어의 준비가 true가 될 때까지 대기하는 메서드
+    /// </summary>
+    /// <returns></returns>
+    public async Task WaitForAllPlayerIsReady()
+    {
+        while (true)
+        {
+            int sessionPlayerCount = RunnerManager.Instance.GetRunner().SessionInfo.PlayerCount;
+            int isReadyPlayerCount = 0;
+            foreach (NetworkData data in DictRefToNetData.Values)
+            {
+                if(data.IsReady) isReadyPlayerCount++;
+            }
+
+            await Task.Delay(1000);
+            if(sessionPlayerCount == isReadyPlayerCount)
+            {
+                break;
+            }
+        }
+        return;
+    }
+
+
+    /// <summary>
+    /// 자신의 Player에 값이 들어올 때까지 대기하고 반환하는 메서드
+    /// </summary>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<Player> WaitForThisPlayerAsync(CancellationToken ct = default)
     {
         Player player;
@@ -120,6 +179,12 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         return player;
     }
 
+
+    /// <summary>
+    /// 자신의 Input에 값이 들어올 때까지 대기하고 반환하는 메서드
+    /// </summary>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     public async Task<PlayerInput> WaitForThisInputAsync(CancellationToken ct = default)
     {
         Player player = await WaitForThisPlayerAsync();
@@ -131,14 +196,20 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         return player.PlayerInput;
     }
 
-    public async Task<bool> WaitForAllPlayerLoadingAsync(CancellationToken ct = default)
+
+    /// <summary>
+    /// 모든 플레어의 Player에 값이 들어올 때까지 대기하는 메서드
+    /// </summary>
+    /// <param name="ct"></param>
+    /// <returns></returns>
+    public async Task WaitForAllPlayerLoadingAsync(CancellationToken ct = default)
     {
         while (DictRefToNetData.Count != DictRefToPlayer.Count)
         {
             ct.ThrowIfCancellationRequested();
             await Task.Yield();
         }
-        return true;
+        return;
     }
 
     public async Task<Boss> WaitForBossObjectAsync(CancellationToken ct = default)
@@ -152,6 +223,10 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         return boss;
     }
 
+
+    /// <summary>
+    /// 플레이어의 수 만큼 Player를 생성하는 메서드
+    /// </summary>
     public void InstantiatePlayer()
     {
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
@@ -177,6 +252,10 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     }
 
 
+    /// <summary>
+    /// 호스트가 되어 방을 만드는 메서드
+    /// </summary>
+    /// <param name="roomName"></param>
     public async void CreateRoom(string roomName)
     {
         ChattingTextController.TextChattingRecord.text = "";//채팅 초기화
@@ -191,7 +270,8 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         {
             GameMode = GameMode.Host,
             SessionName = roomName,
-            Scene = SceneRef.FromIndex((int)ESceneName.Lobby)
+            Scene = SceneRef.FromIndex((int)ESceneName.Lobby),
+            AuthValues = new Fusion.Photon.Realtime.AuthenticationValues(PlayerName)
         });
         LobbySelectPanel.SetServerInit();
     }
@@ -229,7 +309,8 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         {
             GameMode = GameMode.Client,
             SessionName = RoomName,
-            Scene = SceneRef.FromIndex((int)ESceneName.Lobby)
+            Scene = SceneRef.FromIndex((int)ESceneName.Lobby),
+            AuthValues = new Fusion.Photon.Realtime.AuthenticationValues(PlayerName)
         });
         LobbySelectPanel.SetClientInit();
 
@@ -253,12 +334,13 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// <summary>
     /// 방을 찾기 위해서는 이 메서드를 호출해야함.
     /// </summary>
-    public async Task ConnectRoomSearch()
+    public Task ConnectRoomSearch()
     {
         var runner = RunnerManager.Instance.GetRunner();
         runner.AddCallbacks(this);
         runner.ProvideInput = false;
-        await runner.JoinSessionLobby(SessionLobby.ClientServer);
+        runner.JoinSessionLobby(SessionLobby.ClientServer);
+        return Task.CompletedTask;
     }
 
 
