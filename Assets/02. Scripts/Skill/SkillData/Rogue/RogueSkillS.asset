@@ -14,9 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: "\uB3C4\uC801 S"
   <SkillDesription>k__BackingField: "20\uAC1C\uC758 \uC218\uB9AC\uAC80\uC744 \uBE60\uB974\uAC8C
-    \uB358\uC9D1\uB2C8\uB2E4."
+    \uD22C\uCC99\uD569\uB2C8\uB2E4."
   <SkillCategory>k__BackingField: 7
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: 3470248b14cfc4144a1cf55ffd1af7e6, type: 3}
+  <SkillSound>k__BackingField:
+    clip: {fileID: 0}
+    volume: 2
+    pitch: 1
+    loop: 0
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 0
   <MaxCoolTime>k__BackingField:
@@ -34,8 +39,8 @@ MonoBehaviour:
   Level:
     value: 1
   <Magnification>k__BackingField: 0.1
-  <BaseDamage>k__BackingField: 20
-  <Damage>k__BackingField: 20
+  <BaseDamage>k__BackingField: 22
+  <Damage>k__BackingField: 22
   <Range>k__BackingField: 10
   <Speed>k__BackingField: 50
   <BaseDamageMultiple>k__BackingField: 0.6
