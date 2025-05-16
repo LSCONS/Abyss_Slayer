@@ -70,7 +70,7 @@ public class LoadingState : BaseGameState
         while (!sceneOp.isDone) await Task.Yield();
 
         // 7. 최종 상태 진입
-        await GameFlowManager.Instance.ChangeState(nextState);
+        GameFlowManager.Instance.ChangeState(nextState);
     }
 
 
@@ -139,7 +139,7 @@ public class LoadingState : BaseGameState
         await isProgressEnd;
         await ServerManager.Instance.WaitForAllPlayerIsReady();
 
-        await GameFlowManager.Instance.ChangeRunnerState(nextState);
+        GameFlowManager.Instance.ChangeRunnerState(nextState);
     }
 
     private async Task SetProgressBar(ProgressBar progressBar)

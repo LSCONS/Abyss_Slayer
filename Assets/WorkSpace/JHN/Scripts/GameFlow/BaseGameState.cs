@@ -22,9 +22,10 @@ public abstract class BaseGameState : IGameState
     /// </summary>
     /// <param name="newState">변경할 상태</param>
     /// <returns></returns>
-    protected async Task ChangeState(IGameState newState)
+    protected Task ChangeState(IGameState newState)
     {
-        await GameFlowManager.Instance.ChangeState(newState);
+        GameFlowManager.Instance.ChangeState(newState);
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -33,7 +34,7 @@ public abstract class BaseGameState : IGameState
     protected async Task ChangeStateWithDelay(IGameState newState, int msDelay)
     {
         await Task.Delay(msDelay);
-        await GameFlowManager.Instance.ChangeState(newState);
+        GameFlowManager.Instance.ChangeState(newState);
     }
 
     public virtual void OnUpdate()

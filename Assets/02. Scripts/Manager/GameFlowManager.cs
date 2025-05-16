@@ -42,7 +42,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
 
     // loadingstate로 가서 상태 변경하게 하기
-    public async Task ChangeState(ESceneName nextEnum)
+    public void ChangeState(ESceneName nextEnum)
     {
         if (nextEnum == ESceneName.Loading)
             return;
@@ -53,12 +53,12 @@ public class GameFlowManager : Singleton<GameFlowManager>
             prevUIType = prevBase.StateUIType;
 
         // 2) 무조건 LoadingState로 경유
-        await ChangeState(new LoadingState(nextEnum, prevUIType));
+        ChangeState(new LoadingState(nextEnum, prevUIType));
     }
 
 
     // loadingstate로 가서 상태 변경하게 하기
-    public async Task ChangeRunnerState(ESceneName nextEnum)
+    public void ChangeRunnerState(ESceneName nextEnum)
     {
         if (nextEnum == ESceneName.Loading)
             return;
@@ -69,18 +69,20 @@ public class GameFlowManager : Singleton<GameFlowManager>
             prevUIType = prevBase.StateUIType;
 
         // 2) 무조건 LoadingState로 경유
-        await ChangeRunnerState(new LoadingState(nextEnum, prevUIType));
+        ChangeRunnerState(new LoadingState(nextEnum, prevUIType));
     }
 
 
-    public async void RpcServerSceneLoad(ESceneName nextStateEnum)
+    public Task RpcServerSceneLoad(ESceneName nextStateEnum)
     {
-        await ChangeRunnerState(nextStateEnum);
+        ChangeRunnerState(nextStateEnum);
+        return Task.CompletedTask;
     }
 
-    public async void ClientSceneLoad(ESceneName nextStateEnum)
+    public Task ClientSceneLoad(ESceneName nextStateEnum)
     {
-        await ChangeState(nextStateEnum);
+        ChangeState(nextStateEnum);
+        return Task.CompletedTask;
     }
 
 
@@ -119,33 +121,33 @@ public class GameFlowManager : Singleton<GameFlowManager>
     /// </summary>
     /// <param name="newState">새로운 상태</param>
     /// <returns>상태 변경 작업의 결과</returns>
-    public async Task ChangeState(IGameState newState)
+    public void ChangeState(IGameState newState)
     {
         if (currentState != null)
         {
-            await currentState.OnExit();
+            currentState.OnExit();
         }
 
         currentState = newState;
 
         if (currentState != null)
         {
-            await currentState.OnEnter();
+            currentState.OnEnter();
         }
     }
 
-    public async Task ChangeRunnerState(IGameState newState)
+    public void ChangeRunnerState(IGameState newState)
     {
         if (currentState != null)
         {
-            await currentState.OnExit();
+            currentState.OnExit();
         }
 
         currentState = newState;
 
         if (currentState != null)
         {
-            await currentState.OnRunnerEnter();
+            currentState.OnRunnerEnter();
         }
     }
 

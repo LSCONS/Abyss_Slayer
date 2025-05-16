@@ -264,7 +264,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         var runner = RunnerManager.Instance.GetRunner();
         runner.ProvideInput = true;
 
-        GameFlowManager.Instance.ClientSceneLoad(ESceneName.Lobby);
+        await GameFlowManager.Instance.ClientSceneLoad(ESceneName.Lobby);
+
+        await Task.Delay(1000);
 
         await runner.StartGame(new StartGameArgs()
         {
