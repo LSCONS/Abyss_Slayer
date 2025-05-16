@@ -17,13 +17,18 @@ MonoBehaviour:
     30% \uC99D\uAC00\uC2DC\uD0A4\uB294 \uB514\uBC84\uD504\uB97C \uAC81\uB2C8\uB2E4."
   <SkillCategory>k__BackingField: 4
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: 86d981a8742aea349ad18e8b929ca7ff, type: 3}
+  <SkillSound>k__BackingField:
+    clip: {fileID: 8300000, guid: cb7ced7207aeecc49926e6dbdd8cf223, type: 3}
+    volume: 2
+    pitch: 1
+    loop: 0
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 1
   <MaxCoolTime>k__BackingField:
     value: 20
   <CurCoolTime>k__BackingField:
     value: 0
-  <ApplyState>k__BackingField: 3
+  <ApplyState>k__BackingField: -1
   <SkillEnterState>k__BackingField: 0
   <SkillUseState>k__BackingField: 0
   <AnimationChangeDelayTime>k__BackingField: 1
