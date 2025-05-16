@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+
 public class BattleState : BaseGameState
 {
     public static int BossSceneCount { get; private set; } = 4;
@@ -12,6 +13,8 @@ public class BattleState : BaseGameState
     private bool isBossDead = false; // 보스 죽음?
     private float deadTimer = 0.0f; // 보스 죽고 몇초 지남?
     private float changeSceneTime = 5.0f; // 보스 죽고 몇초 지나야 씬 넘어갈거임?
+    private float timeLimit = 300f; // 5분 제한 시간
+    private float currentTime = 0f;
 
     public override async Task OnEnter()
     {
@@ -23,6 +26,8 @@ public class BattleState : BaseGameState
         // 브금 init
         await SoundManager.Instance.Init(ESceneName.Battle0);
 
+        // 스테이지 시작 시간 기록
+        PartyAnalytics.RecordStageStart(ServerManager.Instance.PlayerName);
 
         // 보스 찾기
         var bossObj = GameObject.FindWithTag("Boss");
@@ -43,6 +48,7 @@ public class BattleState : BaseGameState
 
         isBossDead = false; // 씬 넘어가고 나면 다시 안타게 막아두자
         deadTimer = 0;
+        currentTime = 0f;
         return;
     }
 
@@ -63,12 +69,27 @@ public class BattleState : BaseGameState
         if (boss.IsDead)
         {
             deadTimer += Time.deltaTime;
-           // Debug.Log($"{deadTimer} 시간은 똑딱똑딱 {changeSceneTime} 까지");
+            // Debug.Log($"{deadTimer} 시간은 똑딱똑딱 {changeSceneTime} 까지");
             if (deadTimer >= changeSceneTime)
             {
                 Debug.Log("보스 죽었다고 넘어가라고");
-
-               GameFlowManager.Instance.GoToRestState();
+                GameFlowManager.Instance.GoToRestState();
+            }
+        }
+        else
+        {
+            // 제한 시간 체크
+            currentTime += Time.deltaTime;
+            if (currentTime >= timeLimit)
+            {
+                // 제한 시간 초과로 게임오버
+                PartyAnalytics.SendPartyGameOver(
+                    ServerManager.Instance.PlayerName,
+                    stageIndex,
+                    GameOverReason.TimeOut,
+                    remainingTime: 0f
+                );
+                GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.Lobby);
             }
         }
     }
@@ -101,6 +122,7 @@ public class BattleState : BaseGameState
 
         isBossDead = false; // 씬 넘어가고 나면 다시 안타게 막아두자
         deadTimer = 0;
+        currentTime = 0f;
         return Task.CompletedTask;
     }
 }

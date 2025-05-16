@@ -241,6 +241,10 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             skill.Init();
         }
+
+        // 직업 선택 시 애널리틱스 전송
+        PlayerAnalytics.SendPlayerClassSelection(ServerManager.Instance.PlayerName, 
+            PlayerData.PlayerStatusData.Class.ToString());
     }
 
 
@@ -301,6 +305,28 @@ public class Player : NetworkBehaviour, IHasHealth
     public void PlayerDie()
     {
         PlayerStateMachine.ChangeState(PlayerStateMachine.DieState);
+        
+        // 게임오버 애널리틱스 전송
+        int deadPlayerCount = 0;
+        foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+        {
+            if (player.Hp.Value <= 0)
+            {
+                deadPlayerCount++;
+            }
+        }
+
+        // 모든 플레이어가 죽었는지 확인
+        if (deadPlayerCount == ServerManager.Instance.DictRefToPlayer.Count)
+        {
+            PartyAnalytics.SendPartyGameOver(
+                ServerManager.Instance.PlayerName,
+                GameFlowManager.Instance.CurrentStageIndex,
+                GameOverReason.AllPlayerDead,
+                deadMembers: deadPlayerCount
+            );
+        }
+
         StartCoroutine(PlayerDieCoroutine());
     }
 
