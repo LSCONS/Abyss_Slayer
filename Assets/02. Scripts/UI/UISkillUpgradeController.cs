@@ -29,9 +29,9 @@ public class UISkillUpgradeController : UIPopup
     {
         base.Init();
         // 스킬 포인트 초기화
+<<<<<<<<< Temporary merge branch 1
         Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
         OriginalSkillPoint = player.SkillPoint.Value;      // 저장
-
         SkillPoint = OriginalSkillPoint;
         UpdateSkillPointText();
 
@@ -145,7 +145,9 @@ public class UISkillUpgradeController : UIPopup
         }
 
         // 스킬 포인트 반영해줌
+
         player.SkillPoint.Value = SkillPoint;
+
         OriginalSkillPoint = SkillPoint;
         UpdateSkillPointText();
     }
