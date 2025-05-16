@@ -33,7 +33,7 @@ public class UISkillUpgradeController : UIPopup
     {
         base.Init();
         // 스킬 포인트 초기화
-        OriginalSkillPoint = PlayerManager.Instance.Player.SkillPoint;      // 저장
+        OriginalSkillPoint = PlayerManager.Instance.Player.SkillPoint.Value;      // 저장
         SkillPoint = OriginalSkillPoint;
         UpdateSkillPointText();
 
@@ -147,7 +147,7 @@ public class UISkillUpgradeController : UIPopup
         }
 
         // 스킬 포인트 반영해줌
-        PlayerManager.Instance.Player.SkillPoint = SkillPoint;
+        PlayerManager.Instance.Player.SkillPoint.Value = SkillPoint;
         OriginalSkillPoint = SkillPoint;
         UpdateSkillPointText();
     }

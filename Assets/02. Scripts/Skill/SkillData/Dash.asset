@@ -17,7 +17,11 @@ MonoBehaviour:
     \uC774\uB3D9\uD558\uACE0 \uC7A0\uC2DC \uBB34\uC801 \uC0C1\uD0DC\uAC00 \uB41C\uB2E4."
   <SkillCategory>k__BackingField: 5
   <SkillIcon>k__BackingField: {fileID: 0}
-  <SkillSound>k__BackingField: {fileID: 8300000, guid: d26bad866acb49a4ea5dc5a68fca048e, type: 3}
+  <SkillSound>k__BackingField:
+    clip: {fileID: 8300000, guid: d26bad866acb49a4ea5dc5a68fca048e, type: 3}
+    volume: 1
+    pitch: 0.9
+    loop: 0
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 0
   <MaxCoolTime>k__BackingField:

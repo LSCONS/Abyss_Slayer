@@ -105,3 +105,21 @@ public enum ESoundType
     SFX,
     UI
 }
+
+[System.Serializable]
+public class SkillSoundData
+{
+    [Header("사운드 클립")]
+    public AudioClip clip;
+
+    [Header("볼륨 (0~2)")]
+    [Range(0f, 2f)]
+    public float volume = 2f;
+
+    [Header("피치 (0.1~5)")]
+    [Range(0.1f, 5f)]
+    public float pitch = 1f;
+
+    [Header("루프 여부")]
+    public bool loop = false;
+}

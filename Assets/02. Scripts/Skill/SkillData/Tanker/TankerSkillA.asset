@@ -16,6 +16,11 @@ MonoBehaviour:
   <SkillDesription>k__BackingField: "\uCFE8 \uC9E7\uC740 \uB51C\uB9C1\uAE30\uC784"
   <SkillCategory>k__BackingField: 0
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: fe77b778dcbf2344aa21fa65347166c9, type: 3}
+  <SkillSound>k__BackingField:
+    clip: {fileID: 8300000, guid: 111b4ec310c1171429dfb95ff203f4a4, type: 3}
+    volume: 2
+    pitch: 1
+    loop: 0
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 1
   <MaxCoolTime>k__BackingField:
@@ -33,17 +38,17 @@ MonoBehaviour:
   Level:
     value: 1
   <Magnification>k__BackingField: 0.1
-  <BaseDamage>k__BackingField: 70
-  <Damage>k__BackingField: 70
+  <BaseDamage>k__BackingField: 190
+  <Damage>k__BackingField: 190
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
   <ColliderSize>k__BackingField: {x: 5.5, y: 5.5}
   <SpawnSize>k__BackingField: {x: 1, y: 1}
   <ColliderOffset>k__BackingField: {x: 0, y: 0}
-  <SpawnOffset>k__BackingField: {x: 1.9, y: 0.5}
-  <ColliderDuration>k__BackingField: 1.5
-  <TickRate>k__BackingField: 0.5
+  <SpawnOffset>k__BackingField: {x: 1, y: 0.5}
+  <ColliderDuration>k__BackingField: 0.7
+  <TickRate>k__BackingField: 1
   <EffectName>k__BackingField: TankerSkill_A
-  <ColliderSetDelayTime>k__BackingField: 0.5
+  <ColliderSetDelayTime>k__BackingField: 0
   <CanRepeatHit>k__BackingField: 1
