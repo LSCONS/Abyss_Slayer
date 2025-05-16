@@ -9,23 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d12db35df1b3b8e49875af6fa7cfbeca, type: 3}
-  m_Name: CrossSlash2
+  m_Script: {fileID: 11500000, guid: 7fff22fb233e8ea47951d9b25134686a, type: 3}
+  m_Name: SquareLaser
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  attackableAreas:
+  attackableAreas: []
+  globalAttackableAreas:
   - serializedVersion: 2
-    x: 7
-    y: -2
+    x: -20
+    y: 0
     width: 40
-    height: 3
-  - serializedVersion: 2
-    x: -47
-    y: -2
-    width: 40
-    height: 3
-  globalAttackableAreas: []
+    height: 20
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
-  damage: 20
-  speed: 1
-  attackDistance: 9
+  damage: 2
+  damageIntervalTime: 0.02
+  projectileCount: 6
+  projectileGap: 2
+  delayFireTime: 1
+  intervalFireTime: 0.05
+  effectSpeed: 1
+  postDelayTime: 2

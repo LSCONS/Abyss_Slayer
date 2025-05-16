@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
 [CreateAssetMenu(fileName = "Pattern", menuName = "BossPattern/HomingMissaile")]
 public class HomingMissaileData : BasePatternData
 {
+    
     [Header("패턴정보")]
     [SerializeField] int damage;
-    [SerializeField] Vector3 startPosition = new Vector3(9f, -3.5f, 0);
+    [SerializeField] List<Vector3> startPositions = new List<Vector3>();
     [SerializeField] float preDelayTime = 1f;
     [SerializeField] float postDelayTime = 3f;
+    [SerializeField] bool isMultyTarget;
     [Header("발사정보")]
     [SerializeField] float startCircleR = 1.5f;
     [SerializeField] float fireDegree = 60f;
@@ -21,9 +25,16 @@ public class HomingMissaileData : BasePatternData
     [SerializeField] float explosionSize = 0.5f;
     [SerializeField] AnimationCurve homingCurve;
     [SerializeField] AnimationCurve speedCurve;
+    [SerializeField] HomingProjectileType projectileType;
     public override IEnumerator ExecutePattern()
     {
-        yield return bossController.StartCoroutine(bossController.JumpMove(startPosition));
+        if(startPositions.Count > 0)
+        {
+            Vector3 startPosition;
+            startPosition = startPositions[Random.Range(0, startPositions.Count)];
+            yield return bossController.StartCoroutine(bossController.JumpMove(startPosition));
+        }
+        bossController.isLeft = bossTransform.position.x > 0;
         bossAnimator.SetTrigger("Attack2");
         yield return new WaitForSeconds(preDelayTime/2);
         bool isLeft = bossController.isLeft;
@@ -37,7 +48,12 @@ public class HomingMissaileData : BasePatternData
             Vector3 position = new Vector3(Mathf.Cos(degree), Mathf.Sin(degree)) * startCircleR;   //라디우스로 위치계산
             position = bossTransform.TransformPoint(position);
 
-            PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
+            if (isMultyTarget)
+            {
+                Collider2D[] players = Physics2D.OverlapAreaAll(new Vector2(-mapWidth / 2, 0), new Vector2(mapWidth / 2, 20), LayerMask.GetMask("Player"));
+                target = players[Random.Range(0, players.Length)].transform;
+            }
+            PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, projectileType,(preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower * Random.Range(0.8f,1.2f), homingTime, explosionSize, homingCurve,speedCurve);
 
             yield return new WaitForSeconds(0.1f);
         }
