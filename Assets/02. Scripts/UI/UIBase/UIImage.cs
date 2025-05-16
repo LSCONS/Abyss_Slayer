@@ -8,6 +8,4 @@ public class UIImage : UIPermanent
     {
         base.Init();
     }
-
-
 }

@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,13 @@ using UnityEngine;
 
 public abstract class BasePatternData : ScriptableObject
 {
-
     protected Transform bossTransform;
     protected BossController bossController;
     protected Animator bossAnimator;
+    protected Boss boss;
     protected float bossCenterHight;
     protected float mapWidth;
+    protected PlayerRef playerRef => target.GetComponent<Player>().PlayerRef;
 
     [Header("패턴 공통 정보")]
     public Transform target;
@@ -19,13 +21,14 @@ public abstract class BasePatternData : ScriptableObject
     [SerializeField] public List<Rect> globalAttackableAreas;
     [SerializeField] public Color gizmoColor = new Color(1, 0, 0, 0.3f);
 
-    public void Init(Transform boss, BossController controller, Animator animator)
+    public void Init(BossController controller)
     {
-        this.bossTransform = boss;
+        this.bossTransform = controller.transform;
         this.bossController = controller;
-        bossAnimator = animator;
-        bossCenterHight = controller.bossCenterHight;
-        mapWidth = controller.mapWidth;
+        boss = controller.Boss;
+        bossAnimator = controller.Animator;
+        bossCenterHight = controller.BossCenterHight;
+        mapWidth = controller.MapWidth;
     }
 
     /// <summary>
@@ -42,8 +45,6 @@ public abstract class BasePatternData : ScriptableObject
             pointA = bossTransform.TransformPoint(pointA);
             pointB = bossTransform.TransformPoint(pointB);
 
-            //수정 송제우: 필드에서 Layer정의로 오류가 생겨서 바꿨습니다.
-            //레이어 데이터를 정리해둔 클래스가 있으니 해당 스크립트의 LEADME 참고 바랍니다.
             Collider2D hit = Physics2D.OverlapArea(pointA, pointB, LayerData.PlayerLayerMask);
 
             if (hit != null)
@@ -58,8 +59,7 @@ public abstract class BasePatternData : ScriptableObject
             Vector2 pointA = new Vector2(globalAttackableAreas[i].xMin, globalAttackableAreas[i].yMin);
             Vector2 pointB = new Vector2(globalAttackableAreas[i].xMax, globalAttackableAreas[i].yMax);
 
-            //수정 송제우: 필드에서 Layer정의로 오류가 생겨서 바꿨습니다.
-            //레이어 데이터를 정리해둔 클래스가 있으니 해당 스크립트의 LEADME 참고 바랍니다.
+
             Collider2D hit = Physics2D.OverlapArea(pointA, pointB, LayerData.PlayerLayerMask);
 
             if (hit != null)

@@ -30,7 +30,7 @@ public class PlayerAirState : PlayerBaseState
     /// </summary>
     protected void CheckDownJump(bool changeToFall = true)
     {
-        var input = playerStateMachine.Player.input;
+        var input = playerStateMachine.Player.PlayerInput;
 
         if (input.IsJump &&
             input.MoveDir.y < 0f &&
@@ -50,7 +50,7 @@ public class PlayerAirState : PlayerBaseState
     /// </summary>
     protected void CheckDoubleJump(ref bool hasJumpedInThisFrame)
     {
-        var input = playerStateMachine.Player.input;
+        var input = playerStateMachine.Player.PlayerInput;
 
         if (playerStateMachine.DidDownJump)
         {
@@ -79,7 +79,7 @@ public class PlayerAirState : PlayerBaseState
     /// </summary>
     protected void CheckDoubleJump()
     {
-        var input = playerStateMachine.Player.input;
+        var input = playerStateMachine.Player.PlayerInput;
 
         if (playerStateMachine.DidDownJump)
         {
@@ -102,6 +102,6 @@ public class PlayerAirState : PlayerBaseState
     /// </summary>
     protected void UpdateJumpInputMemory()
     {
-        playerStateMachine.WasJumpPressedLastFrame = playerStateMachine.Player.input.IsJump;
+        playerStateMachine.WasJumpPressedLastFrame = playerStateMachine.Player.PlayerInput.IsJump;
     }
 }

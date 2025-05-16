@@ -12,15 +12,15 @@ public class LobbyState : BaseGameState
 
         UIManager.Instance.OpenUI(UISceneType.Lobby);
 
-        await SoundManager.Instance.Init(EGameState.Lobby);
-        SoundManager.Instance.PlayBGM(EGameState.Lobby, 1);
+        await SoundManager.Instance.Init(ESceneName.Lobby);
+        SoundManager.Instance.PlayBGM(ESceneName.Lobby, 1);
 
         await Task.CompletedTask;
 
         SpriteImageChange[] imageChanges = Util.FindObjectsByTypeDebug<SpriteImageChange>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (SpriteImageChange imageChange in imageChanges)
         {
-            imageChange.Init(PlayerManager.Instance.selectedCharacterClass);
+            imageChange.Init(PlayerManager.Instance.CharacterClass);
         }
     }
 
@@ -29,10 +29,30 @@ public class LobbyState : BaseGameState
         Debug.Log("LobbyState OnExit");
         UIManager.Instance.CloseUI(UISceneType.Lobby);
        // UIManager.Instance.CleanupUIMap();
-        SoundManager.Instance.UnloadSoundsByState(EGameState.Lobby);
+        SoundManager.Instance.UnloadSoundsByState(ESceneName.Lobby);
 
 
 
         await Task.CompletedTask;
+    }
+
+    public override async Task OnRunnerEnter()
+    {
+        Debug.Log("LobbyState OnEnter");
+
+        UIManager.Instance.Init();
+
+        UIManager.Instance.OpenUI(UISceneType.Lobby);
+
+        await SoundManager.Instance.Init(ESceneName.Lobby);
+        SoundManager.Instance.PlayBGM(ESceneName.Lobby, 1);
+
+        await Task.CompletedTask;
+
+        SpriteImageChange[] imageChanges = Util.FindObjectsByTypeDebug<SpriteImageChange>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (SpriteImageChange imageChange in imageChanges)
+        {
+            imageChange.Init(PlayerManager.Instance.CharacterClass);
+        }
     }
 }

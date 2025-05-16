@@ -37,10 +37,10 @@ public class UIStatStore : UIPopup
     private int BaseMaxHp { get; set; } = 0;
     private float BaseDamage { get; set; } = 0;
 
-    public override void Init()
+    public override async void Init()
     {
         base.Init();
-        var player = PlayerManager.Instance.Player;
+        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
 
         OriginalStatPoint = player.StatPoint;       // 저장
         RemainingPoint = OriginalStatPoint;
@@ -148,7 +148,7 @@ public class UIStatStore : UIPopup
 
     private void ApplyStatsToPlayer()
     {
-        var player = PlayerManager.Instance.Player;
+        var player = ServerManager.Instance.ThisPlayer;
 
         // 차이 계산
         int hpDiff = TempHpLevel - AppliedHpLevel;

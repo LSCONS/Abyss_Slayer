@@ -1,3 +1,4 @@
+using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class RogueProjectile : BasePoolable
     private Vector3 direction, initPos;
     [SerializeField] Sprite sprite;
     [SerializeField] SpriteRenderer spriteRenderer;
+    private Player Player { get; set; }
 
     private LayerMask includeLayer; // 화살 충돌 레이어
 
@@ -41,7 +43,7 @@ public class RogueProjectile : BasePoolable
     /// <param name="range">표창 최대 이동 거리</param>
     /// <param name="speed">표창 이동 속도</param>
     /// <param name="damage">표창 데미지</param>
-    public void Init(Vector3 spawnPos, Vector3 dir, float range, float speed, float damage)
+    public void Init(Player player, Vector3 spawnPos, Vector3 dir, float range, float speed, float damage)
     {
         transform.position = spawnPos; // 실제 화살 위치
         initPos = spawnPos; // 최대 거리 체크용 초기 위치
@@ -51,14 +53,14 @@ public class RogueProjectile : BasePoolable
         this.damage = damage; // 데미지
         spriteRenderer.sprite = sprite;
         spriteRenderer.flipX = direction.x < 0 ? true : false;
-        
+        Player = player;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerData.EnemyLayerIndex && collision.TryGetComponent<IHasHealth>(out IHasHealth enemy))
         {
-            enemy.Damage((int)(damage * PlayerManager.Instance.Player.DamageValue.Value), transform.position.x); // 데미지 전달
+            enemy.Damage((int)(damage * Player.DamageValue.Value), transform.position.x); // 데미지 전달
         }
 
         if((1 << collision.gameObject.layer | includeLayer) == includeLayer)

@@ -1,25 +1,21 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using UniRx;
-using UnityEditor.Presets;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 public class UISkillSlotManager : Singleton<UISkillSlotManager>
 {
-    [SerializeField] private Player player;
     [SerializeField] private GameObject skillSlotPrefab;
     [SerializeField] private Transform skillSlotParent;
+    private Player player = null;
 
     private readonly List<SkillSlotPresenter> presenters = new();
     private readonly Dictionary<SkillSlotKey, UISkillSlot> slotsViews = new();
     private bool init = false;
 
 
-    public void Init()
+    public async void Init()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = await ServerManager.Instance.WaitForThisPlayerAsync();
+
         if (!init)
         {
             CreateSkillSlots();
@@ -32,7 +28,7 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
     { 
         init = true;
 
-        foreach (var kvp in player.EquippedSkills)
+        foreach (var kvp in ServerManager.Instance.ThisPlayer.EquippedSkills)
         {
             if (!IsASDKey(kvp.Key))
                 continue;
@@ -55,7 +51,7 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
 
 
         // 이제 플레이어 스킬 다시 돌면서 재연결
-        foreach (var kvp in player.EquippedSkills)
+        foreach (var kvp in ServerManager.Instance.ThisPlayer.EquippedSkills)
         {
             if (!IsASDKey(kvp.Key))
                 continue;

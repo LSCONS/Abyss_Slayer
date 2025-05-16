@@ -26,6 +26,18 @@ public class IntroState : BaseGameState
         await Task.CompletedTask;   // 아무 일도 안함
     }
 
+    public override async Task OnRunnerEnter()
+    {
+        Debug.Log("IntroState OnEnter");
+        await LoadSceneManager.Instance.LoadScene(SceneName.IntroScene);
+
+        // 모든 UI Addressables 로드
+        await UIManager.Instance.LoadAllUI(UIType.NonGamePlay);
+        UIManager.Instance.CreateAllUI(UIType.NonGamePlay);
+        UIManager.Instance.Init();
+        UIManager.Instance.OpenUI(UISceneType.Intro);
+    }
+
     public override async void OnUpdate()
     {
         if(isTransitioning){

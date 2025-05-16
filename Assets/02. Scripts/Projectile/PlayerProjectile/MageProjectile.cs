@@ -13,6 +13,7 @@ public class MageProjectile : BasePoolable
     Transform target;
     float damage, inputSpeed, speed, homingPower, fireTime;
     bool fired = false;
+    Player Player { get; set; }
 
     private void Update()
     {
@@ -47,8 +48,9 @@ public class MageProjectile : BasePoolable
     /// <param name="homingPower">투사체 유도력(비례하여 유동적으로 변경)</param>
     /// <param name="homingTime">투사체 유도시간</param>
     /// <param name="homingCurve">투사체 유도곡선</param>
-    public void Init(float damage, Vector3 position, Quaternion rotation, Transform target, float speed, float homingPower, float homingTime, AnimationCurve homingCurve)
+    public void Init(Player player, float damage, Vector3 position, Quaternion rotation, Transform target, float speed, float homingPower, float homingTime, AnimationCurve homingCurve)
     {
+        Player = player;
         transform.position = position; // 투사체 위치
         transform.rotation = rotation; // 투사체 회전
         this.damage = damage; // 데미지
@@ -94,7 +96,7 @@ public class MageProjectile : BasePoolable
         {
             trailRenderer.enabled = false; // 투사체 궤적 비활성화
             fired = false; // 발사 여부 초기화
-            enemy.Damage((int)(damage * PlayerManager.Instance.Player.DamageValue.Value), transform.position.x); // 데미지 전달
+            enemy.Damage((int)(damage * Player.DamageValue.Value), transform.position.x); // 데미지 전달
             ReturnToPool(); // 투사체 반환
         }
     }

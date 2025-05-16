@@ -14,7 +14,7 @@ public class PlayerSkillEnterState : PlayerBaseState
     {
         Slotkey = key;
         SkillData = playerStateMachine.Player.EquippedSkills[key];
-        SkillInputKey = playerStateMachine.Player.input.SkillInputKey[key];
+        SkillInputKey = SlotKeyConvertFunc(key);
         animationDelay = SkillData.AnimationChangeDelayTime;
     }
     public void Init()
@@ -44,7 +44,7 @@ public class PlayerSkillEnterState : PlayerBaseState
     public override void Exit()
     {
         base.Exit();
-        SkillExit();
+        SkillExit(SkillData);
 
 #if StateMachineDebug
         Debug.Log("SkillAState 해제");
@@ -59,18 +59,19 @@ public class PlayerSkillEnterState : PlayerBaseState
 
     public override void Update()
     {
-        base.Update();
         if (SkillData.SkillCategory == SkillCategory.Hold && !(SkillInputKey()))
         {
             playerStateMachine.ChangeState(playerStateMachine.IdleState);
             return;
         }
 
-
         if (animationTime > 0) return;
         animationTime = animationDelay;
 
         if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillEnterState, ++animationNum)) return;
-        playerStateMachine.ChangeState(playerStateMachine.PlayerSkillUseStateDict[Slotkey]);
+
+
+        if (playerStateMachine.Player.IsThisRunner)
+            playerStateMachine.ChangeState(playerStateMachine.PlayerSkillUseStateDict[Slotkey]);
     }
 }

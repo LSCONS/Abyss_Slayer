@@ -12,19 +12,19 @@ public class UIPopupButton : UIButton
     [SerializeField] private string popupName;  // 열고싶은 팝업 이름
 
     private UIPopup popup;
-   
+
+    public void Awake()
+    {
+        if (button == null) button = GetComponent<Button>();
+        button.onClick.AddListener(OnClickButton);
+    }
+
     public override void Init()
     {
-        if(!isClose)
+        if (!isClose)
         {
             popup = UIManager.Instance.FindPopupByName(popupName);  // 닫기 기능 수행하기 싫어야지 popupname으로 찾아서 그거 열기
         }
-
-        if (button == null) button = GetComponent<Button>();
-
-        button.onClick.RemoveAllListeners();
-        button.onClick.AddListener(OnClickButton);
-
         base.Init();
     }
 
@@ -58,6 +58,7 @@ public class UIPopupButton : UIButton
         else
         {
             Debug.LogError($"[UIPopupBotton] 팝업 {popupName} 을 찾을 수 없다요");
+
         }
     }
 }

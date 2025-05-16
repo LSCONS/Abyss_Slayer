@@ -19,6 +19,7 @@ public class UIManager : Singleton<UIManager>
     public Transform followParent;
     public GameObject popupBG;
 
+
     public Stack<UIPopup> popupStack = new();
 
     private Dictionary<string, GameObject> UICachedMap = new();
@@ -36,8 +37,6 @@ public class UIManager : Singleton<UIManager>
     protected override void Awake() {   
         base.Awake();
         DontDestroyOnLoad(gameObject);
-
-
     }
 
     /// <summary>
@@ -55,7 +54,6 @@ public class UIManager : Singleton<UIManager>
     }
     public void Start()
     {
-
         if (canvas == null)
         {
             canvas = transform.GetGameObjectSameNameDFS("Canvas").GetComponent<Canvas>();

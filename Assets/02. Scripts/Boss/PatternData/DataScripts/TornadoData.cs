@@ -19,21 +19,26 @@ public class TornadoData : BasePatternData
 
     public override IEnumerator ExecutePattern()
     {
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Tornado1");                    //공격모션 애니메이션 삽입                              
         yield return new WaitForSeconds(preDelayTime);      //공격모션 선딜
 
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Tornado2");                    //공격 애니메이션 삽입
 
         //자신위치에 토네이도 한개 생성
-        PoolManager.Instance.Get<Tornado>().Init(new Vector3(bossTransform.position.x, groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
+        ServerManager.Instance.InitManager.Rpc_StartTornadoInit(new Vector3(bossTransform.position.x, groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
+        //PoolManager.Instance.Get<Tornado>().Init(new Vector3(bossTransform.position.x, groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
 
         //지정된 위치(기본 맵양끝)에 전부 토네이도 생성
         for (int i = 0; i < spawnPositionsX.Count; i++)
         {
-            PoolManager.Instance.Get<Tornado>().Init(new Vector3(spawnPositionsX[i], groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
+            ServerManager.Instance.InitManager.Rpc_StartTornadoInit(new Vector3(spawnPositionsX[i], groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
+            //PoolManager.Instance.Get<Tornado>().Init(new Vector3(spawnPositionsX[i], groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
         }
 
         yield return new WaitForSeconds(warningTime + durationTime);
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Tornado3");
         yield return new WaitForSeconds(postDelayTime);
     }
