@@ -56,14 +56,7 @@ public class PlayerSkillUseState : PlayerBaseState
 
         if (SkillData.SkillSound != null)
         {
-            if (SkillData.SkillCategory.Equals(SkillCategory.Hold))
-            {
-                SoundManager.Instance.PlaySFX(SkillData.SkillSound, true);
-            }
-            else
-            {
-                SoundManager.Instance.PlaySFX(SkillData.SkillSound, false);
-            }
+            SoundManager.Instance.PlaySFX(SkillData.SkillSound.clip, SkillData.SkillSound.loop, SkillData.SkillSound.pitch, SkillData.SkillSound.volume);
         }
 
 
@@ -82,9 +75,9 @@ public class PlayerSkillUseState : PlayerBaseState
             ResetDefaultGravityForce();
         }
 
-        if (SkillData.SkillSound != null)
+        if (SkillData.SkillSound != null && SkillData.SkillSound.loop)
         {
-            SoundManager.Instance.StopSFX(SkillData.SkillSound);
+            SoundManager.Instance.StopSFX(SkillData.SkillSound.clip);
         }
 
 #if StateMachineDebug
