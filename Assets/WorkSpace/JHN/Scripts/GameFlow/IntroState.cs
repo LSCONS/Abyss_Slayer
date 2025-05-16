@@ -8,13 +8,16 @@ public class IntroState : BaseGameState
 
     public override async Task OnEnter()
     {
-        // 모든 UI Addressables 로드
+#if MoveSceneDebug
+        Debug.Log("IntroState OnEnter 실행");
+#endif
         await UIManager.Instance.LoadAllUI(UIType.NonGamePlay);
         UIManager.Instance.CreateAllUI(UIType.NonGamePlay);
         UIManager.Instance.Init();
 
-
-
+#if MoveSceneDebug
+        Debug.Log("프로그래스바 끝날 때까지 대기");
+#endif
         LoadingState state = GameFlowManager.Instance.prevLodingState;
         if (state != null)
         {
@@ -22,7 +25,13 @@ public class IntroState : BaseGameState
             await state.TaskProgressBar;
         }
 
+#if MoveSceneDebug
+        Debug.Log("IntroState 오픈");
+#endif
         UIManager.Instance.OpenUI(UISceneType.Intro);
+#if MoveSceneDebug
+        Debug.Log("LoadingScene 삭제");
+#endif
         SceneManager.UnloadSceneAsync(SceneName.LoadingScene);
     }
 

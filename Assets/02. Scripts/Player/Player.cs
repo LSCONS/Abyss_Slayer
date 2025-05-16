@@ -311,7 +311,7 @@ public class Player : NetworkBehaviour, IHasHealth
     private IEnumerator PlayerDieCoroutine()
     {
         yield return new WaitForSeconds(3);
-        GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.Lobby);
+        GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.LobbyScene);
 
     }
 
@@ -347,6 +347,9 @@ public class Player : NetworkBehaviour, IHasHealth
     /// </summary>
     public void ResetPlayerStatus()
     {
+#if AllMethodDebug
+        Debug.Log("ResetPlayerStatus");
+#endif
         //비활성화
         gameObject.SetActive(false);
 

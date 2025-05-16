@@ -131,6 +131,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// </summary>
     public void AllPlayerIsReadyFalse()
     {
+#if AllMethodDebug
+        Debug.Log("AllPlayerIsReadyFalse");
+#endif
         if (RunnerManager.Instance.GetRunner().IsServer)
         {
             foreach(NetworkData data in DictRefToNetData.Values)
@@ -244,6 +247,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// </summary>
     public void InstantiatePlayer()
     {
+#if AllMethodDebug
+        Debug.Log("InstantiatePlayer");
+#endif
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
 
         Vector3 tempVec3 = Vec3PlayerBattlePosition;
@@ -279,7 +285,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         var runner = RunnerManager.Instance.GetRunner();
         runner.ProvideInput = true;
         IsServer = true;
-        GameFlowManager.Instance.ClientSceneLoad(ESceneName.Lobby);
+        GameFlowManager.Instance.ClientSceneLoad(ESceneName.LobbyScene);
     }
 
 
@@ -309,7 +315,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         var runner = RunnerManager.Instance.GetRunner();
         runner.ProvideInput = true;
         IsServer = true;
-        GameFlowManager.Instance.ClientSceneLoad(ESceneName.Lobby);
+        GameFlowManager.Instance.ClientSceneLoad(ESceneName.LobbyScene);
     }
 
     public async Task InitHost()
@@ -320,7 +326,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         {
             GameMode = GameMode.Host,
             SessionName = RoomName,
-            Scene = SceneRef.FromIndex((int)ESceneName.Lobby),
+            Scene = SceneRef.FromIndex((int)ESceneName.LobbyScene),
             AuthValues = new Fusion.Photon.Realtime.AuthenticationValues(PlayerName)
         });
         await temp;
@@ -335,7 +341,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         {
             GameMode = GameMode.Client,
             SessionName = RoomName,
-            Scene = SceneRef.FromIndex((int)ESceneName.Lobby),
+            Scene = SceneRef.FromIndex((int)ESceneName.LobbyScene),
             AuthValues = new Fusion.Photon.Realtime.AuthenticationValues(PlayerName)
         });
         await temp;
@@ -354,7 +360,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         Destroy(runner.gameObject);
         await Task.Yield();
         await ConnectRoomSearch();
-        GameFlowManager.Instance.ClientSceneLoad(ESceneName.Start);
+        GameFlowManager.Instance.ClientSceneLoad(ESceneName.StartScene);
     }
 
 

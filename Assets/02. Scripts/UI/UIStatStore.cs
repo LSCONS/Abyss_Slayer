@@ -149,7 +149,7 @@ public class UIStatStore : UIPopup
     private void ApplyStatsToPlayer()
     {
         var player = ServerManager.Instance.ThisPlayer;
-
+        
         // 차이 계산
         int hpDiff = TempHpLevel - AppliedHpLevel;
         int damageDiff = TempDamageLevel - AppliedDamageLevel;

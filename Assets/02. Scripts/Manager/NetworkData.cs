@@ -161,6 +161,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_MoveScene(ESceneName enumScene)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_MoveScene");
+#endif
         ServerManager.Instance.AllPlayerIsReadyFalse();
         foreach (var item in ServerManager.Instance.DictRefToPlayer.Values)
         {

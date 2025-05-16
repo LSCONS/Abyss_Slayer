@@ -60,10 +60,13 @@ public class UILobbySelectPanel : UIPermanent
     /// </summary>
     private void StartGame()
     {
+#if AllMethodDebug
+        Debug.Log("StartGame");
+#endif
         if (RunnerManager.Instance.GetRunner().IsServer)
         {
             ServerManager.Instance.InstantiatePlayer();
-            ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.Rest);
+            ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
             RunnerManager.Instance.GetRunner().SessionInfo.IsOpen = false;
         }
     }

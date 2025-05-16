@@ -43,6 +43,6 @@ public class UIInputName : UIPermanent
         //이름 저장
         ServerManager.Instance.PlayerName = PlayerName;
         //씬 이동
-        GameFlowManager.Instance.ClientSceneLoad(ESceneName.Start);
+        GameFlowManager.Instance.ClientSceneLoad(ESceneName.StartScene);
     }
 }

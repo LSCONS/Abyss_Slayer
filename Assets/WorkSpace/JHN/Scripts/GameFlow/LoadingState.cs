@@ -106,29 +106,32 @@ public class LoadingState : BaseGameState
             await temp;
         }
 
-        // 2. 프로그래스바 가져와서 설정
+#if MoveSceneDebug
         Debug.Log("프로그래스 바 가져와서 설정하자");
+#endif
+        // 2. 프로그래스바 가져와서 설정
         ProgressBar progressBar = null;
         while ((progressBar = GameObject.Find("ProgressBar")?.GetComponent<ProgressBar>()) == null)
         {
             await Task.Yield();
         }
+
         progressBar.SetProgressValue(0);
-        var isProgressEnd = SetProgressBar(progressBar);
+        TaskProgressBar = SetProgressBar(progressBar);
 
-
-
-        // 3.. 다음 상태와 UIType 결정
+#if MoveSceneDebug
         Debug.Log("UIType 결정하자");
+#endif
+        // 3.. 다음 상태와 UIType 결정
         var nextState = GameFlowManager.Instance.CreateStateForPublic(nextStateEnum) as BaseGameState;
         if (nextState == null)
             throw new System.Exception($"Unknown state: {nextStateEnum}");
         UIType nextUIType = nextState.StateUIType;
 
-
-
-        // 이제 유아이 타입 바뀌면 옛날 유아이타입은 다 삭제해야됨
+#if MoveSceneDebug
         Debug.Log("유아이타입 삭제하자");
+#endif
+        // 이제 유아이 타입 바뀌면 옛날 유아이타입은 다 삭제해야됨
         if (prevUIType != UIType.None && prevUIType != nextUIType)
         {
             UIManager.Instance.ClearUI(prevUIType);
@@ -136,7 +139,9 @@ public class LoadingState : BaseGameState
 
 
 
+#if MoveSceneDebug
         Debug.Log("ui가 없다면 로드하자");
+#endif
         // 3. 다음 ui를 미리 로드 생성
         bool needLoadUI = (prevUIType == UIType.None) || (prevUIType != nextUIType);
 
@@ -147,9 +152,9 @@ public class LoadingState : BaseGameState
             UIManager.Instance.CreateAllUI(nextUIType);
         }
 
-
-
+#if MoveSceneDebug
         Debug.Log("씬을 불러오자");
+#endif
         // 4. 씬 로드
         if (runner.IsServer)
         {
@@ -157,14 +162,16 @@ public class LoadingState : BaseGameState
             await temp;
         }
 
+#if MoveSceneDebug
         Debug.Log("씬을 바꿔보자");
+#endif
         // 7. 최종 상태 진입
         await GameFlowManager.Instance.ChangeRunnerState(nextState);
     }
 
     private async Task SetProgressBar(ProgressBar progressBar)
     {
-        while (progressBar.progressBar.value < 0.99f)
+        while (!(Mathf.Approximately(progressBar.progressBar.value, 1)))
         {
             int delayTime = Random.Range(10, 15);
             float varValue = Random.Range(0.003f, 0.005f);
@@ -176,6 +183,9 @@ public class LoadingState : BaseGameState
             await Task.Delay(delayTime);
             progressBar.AddProgressValue(varValue);
         };
+#if MoveSceneDebug
+        Debug.Log("프로그래스바 종료");
+#endif
         return;
     }
 

@@ -6,15 +6,15 @@ using Fusion;
 
 public enum ESceneName  // 게임 시작 상태
 {
-    Loading = 0,
-    Intro = 1,
-    Start = 2,
-    Lobby = 3,
-    Rest = 4,
-    Battle0 = 5,
-    Battle1 = 6,
-    Battle2 = 7,
-    Battle3 = 8,
+    LoadingScene = 0,
+    IntroScene = 1,
+    StartScene = 2,
+    LobbyScene = 3,
+    RestScene = 4,
+    Battle0Scene = 5,
+    Battle1Scene = 6,
+    Battle2Scene = 7,
+    Battle3Scene = 8,
 }
 
 public class GameFlowManager : Singleton<GameFlowManager>
@@ -22,7 +22,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
     public LoadingState prevLodingState { get; set; }
     public IGameState PrevState { get; set; }
     public IGameState CurrentState { get; set; }   // 지금 스테이트
-    [SerializeField] private ESceneName startStateEnum = ESceneName.Intro;   // 시작 스테이트 인스펙터 창에서 설정가능하게 해줌
+    [SerializeField] private ESceneName startStateEnum = ESceneName.IntroScene;   // 시작 스테이트 인스펙터 창에서 설정가능하게 해줌
     public int CurrentStageIndex { get; private set; } = 0; // 보스 생성할 때 쓸 index
 
     IntroState  IntroSceneState     { get; set; } = new IntroState();
@@ -47,7 +47,10 @@ public class GameFlowManager : Singleton<GameFlowManager>
     // loadingstate로 가서 상태 변경하게 하기
     public void ChangeStateWithLoading(ESceneName nextEnum)
     {
-        if (nextEnum == ESceneName.Loading)
+#if AllMethodDebug || MoveSceneDebug
+        Debug.Log("ChangeStateWithLoading");
+#endif
+        if (nextEnum == ESceneName.LoadingScene)
             return;
 
         PrevState = CurrentState;
@@ -65,7 +68,10 @@ public class GameFlowManager : Singleton<GameFlowManager>
     // loadingstate로 가서 상태 변경하게 하기
     public void ChangeRunnerStateWithLoading(ESceneName nextEnum)
     {
-        if (nextEnum == ESceneName.Loading)
+#if AllMethodDebug || MoveSceneDebug
+        Debug.Log("ChangeRunnerStateWithLoading");
+#endif
+        if (nextEnum == ESceneName.LoadingScene)
             return;
 
         PrevState = CurrentState;
@@ -82,12 +88,18 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
     public void RpcServerSceneLoad(ESceneName nextStateEnum)
     {
+#if AllMethodDebug || MoveSceneDebug
+        Debug.Log("RpcServerSceneLoad");
+#endif
         ChangeRunnerStateWithLoading(nextStateEnum);
         return;
     }
 
     public void ClientSceneLoad(ESceneName nextStateEnum)
     {
+#if AllMethodDebug || MoveSceneDebug
+        Debug.Log("ClientSceneLoad");
+#endif
         ChangeStateWithLoading(nextStateEnum);
         return;
     }
@@ -130,6 +142,9 @@ public class GameFlowManager : Singleton<GameFlowManager>
     /// <returns>상태 변경 작업의 결과</returns>
     public Task ChangeState(IGameState newState)
     {
+#if AllMethodDebug || MoveSceneDebug
+        Debug.Log("ChangeState");
+#endif
         CurrentState?.OnExit();
         CurrentState = newState;
         CurrentState?.OnEnter();
@@ -138,6 +153,9 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
     public Task ChangeRunnerState(IGameState newState)
     {
+#if AllMethodDebug || MoveSceneDebug
+        Debug.Log("ChangeRunnerState");
+#endif
         CurrentState?.OnExit();
         CurrentState = newState;
         CurrentState?.OnRunnerEnter();
@@ -147,27 +165,36 @@ public class GameFlowManager : Singleton<GameFlowManager>
     // 상태 생성가능하게
     public IGameState CreateStateForPublic(ESceneName stateEnum)
     {
+#if AllMethodDebug || MoveSceneDebug
+        Debug.Log("CreateStateForPublic");
+#endif
         return CreateStateFromEnum(stateEnum);
     }
 
     public void GoToRestState()
     {
-        RpcServerSceneLoad(ESceneName.Rest);
+#if AllMethodDebug || MoveSceneDebug
+        Debug.Log("GoToRestState");
+#endif
+        RpcServerSceneLoad(ESceneName.RestScene);
     }
 
 
     private IGameState CreateStateFromEnum(ESceneName state)
     {
+#if AllMethodDebug || MoveSceneDebug
+        Debug.Log("CreateStateFromEnum");
+#endif
         return state switch
         {
-            ESceneName.Intro => IntroSceneState,
-            ESceneName.Start => StartSceneState,
-            ESceneName.Lobby => LobbySceneState,
-            ESceneName.Rest => RestSceneState,
-            ESceneName.Battle0 => BattleSceneState,
-            ESceneName.Battle1 => BattleSceneState,
-            ESceneName.Battle2 => BattleSceneState,
-            ESceneName.Battle3 => BattleSceneState,
+            ESceneName.IntroScene => IntroSceneState,
+            ESceneName.StartScene => StartSceneState,
+            ESceneName.LobbyScene => LobbySceneState,
+            ESceneName.RestScene => RestSceneState,
+            ESceneName.Battle0Scene => BattleSceneState,
+            ESceneName.Battle1Scene => BattleSceneState,
+            ESceneName.Battle2Scene => BattleSceneState,
+            ESceneName.Battle3Scene => BattleSceneState,
             // EGameState.Loading => new LoadingState(state), // 애초에 로딩으로 씬 전환하면 그게 문제지
 
             _ => null

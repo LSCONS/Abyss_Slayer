@@ -35,7 +35,7 @@ public class HomingMissaileData : BasePatternData
             startPosition = startPositions[Random.Range(0, startPositions.Count)];
             yield return bossController.StartCoroutine(bossController.JumpMove(startPosition));
         }
-        bossController.isLeft = bossTransform.position.x > 0;
+        boss.IsLeft = bossTransform.position.x > 0;
         boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.Attack2ParameterHash);
         yield return new WaitForSeconds(preDelayTime/2);
         bool isLeft = boss.IsLeft;
@@ -54,7 +54,7 @@ public class HomingMissaileData : BasePatternData
                 Collider2D[] players = Physics2D.OverlapAreaAll(new Vector2(-mapWidth / 2, 0), new Vector2(mapWidth / 2, 20), LayerMask.GetMask("Player"));
                 target = players[Random.Range(0, players.Length)].transform;
             }
-            ServerManager.Instance.InitManager.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, (int)homingCurve, (int)speedCurve);
+            ServerManager.Instance.InitManager.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed, projectileType, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, (int)homingCurve, (int)speedCurve);
             //PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
 
             yield return new WaitForSeconds(0.1f);

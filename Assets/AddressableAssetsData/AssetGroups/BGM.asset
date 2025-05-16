@@ -17,19 +17,19 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 8d7c01ee6666f78449b49b303bf1f5cf
   m_SerializeEntries:
-  - m_GUID: 2315fdb9e384c6b4b810961876afd399
-    m_Address: Assets/08. Datas/Audio/BGM.asset
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - BGM
-    - Start
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 07887ab7aae1d9243bb0d02c6b42a156
     m_Address: BGM_Start1
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Start
-    - SFX
+    - StartScene
+    - BGM
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80ce2ba2b4100814abd57ee01d3aa049
+    m_Address: BGM_Lobby1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - BGM
+    - LobbyScene
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}
