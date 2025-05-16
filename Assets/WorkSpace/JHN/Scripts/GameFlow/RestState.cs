@@ -41,7 +41,7 @@ public class RestState : BaseGameState
             await state.TaskProgressBar;
         }
 
-        Debug.Log($"{ServerManager.Instance.ThisPlayerRef}: 준비 완료");
+        
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
         await ServerManager.Instance.WaitForAllPlayerIsReady();
 
