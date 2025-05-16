@@ -1247,6 +1247,7 @@ MonoBehaviour:
   popupParent: {fileID: 1542731941}
   topMidParent: {fileID: 1911160386}
   followParent: {fileID: 1688749988}
+  popupBG: {fileID: 0}
 --- !u!1 &591665289
 GameObject:
   m_ObjectHideFlags: 0
@@ -9275,6 +9276,7 @@ GameObject:
   - component: {fileID: 8100969031404381268}
   - component: {fileID: 199868392297397545}
   - component: {fileID: 3617460969017204725}
+  - component: {fileID: 8100969031404381269}
   m_Layer: 8
   m_Name: BossFirst
   m_TagString: Boss
@@ -9314,7 +9316,7 @@ MonoBehaviour:
   bossController: {fileID: 0}
   isDead: 0
   sprite: {fileID: 5128484440579798486}
-  maxHP: 50000
+  maxHP: 300
 --- !u!114 &3488298137964199563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9353,6 +9355,7 @@ MonoBehaviour:
   mapWidth: 40
   virtualCamera: {fileID: 0}
   chasingTarget: 0
+  runSpeed: 0
   jumpMoveTime: 0.8
   jumpMoveHight: 1.5
   gravityMultiplier: 3
@@ -9483,6 +9486,22 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 3, y: 3.2}
   m_Direction: 0
+--- !u!114 &8100969031404381269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542159751218884030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d820353c992fdd438ed612c6d5077db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoverySeconds: 10
+  takeDamageSeconds: 3
+  recoveryAmounts: 10
+  recoveryTerm: 0.1
 --- !u!1001 &8796510974933554164
 PrefabInstance:
   m_ObjectHideFlags: 0
