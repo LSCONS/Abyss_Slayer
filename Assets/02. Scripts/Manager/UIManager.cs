@@ -96,6 +96,8 @@ public class UIManager : Singleton<UIManager>
         }
         if(popupBG == null)
         {
+            popupBG = canvas.transform.GetGameObjectSameNameDFS("PopupBG").gameObject;
+            if (popupBG != null) return;
             var bgGO = new GameObject("PopupBG", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
             popupBG = bgGO;
 

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90f57709d9479134ab73ddfda399421e, type: 3}
-  m_Name: HominMissaile
+  m_Script: {fileID: 11500000, guid: 7fff22fb233e8ea47951d9b25134686a, type: 3}
+  m_Name: SquareLaser
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   attackableAreas: []
@@ -20,18 +20,12 @@ MonoBehaviour:
     y: 0
     width: 40
     height: 20
-  gizmoColor: {r: 0, g: 0.98978424, b: 1, a: 0.3}
-  damage: 1
-  startPosition: {x: 0, y: 2, z: 0}
-  preDelayTime: 1
-  postDelayTime: 3
-  startCircleR: 4
-  fireDegree: 90
-  spreadDegree: 200
-  missaileCount: 8
-  homingPower: 10
-  missailSpeed: 1
-  homingTime: 2.5
-  explosionSize: 1
-  homingCurve: 1
-  speedCurve: 2
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  damage: 2
+  damageIntervalTime: 0.02
+  projectileCount: 6
+  projectileGap: 2
+  delayFireTime: 1
+  intervalFireTime: 0.05
+  effectSpeed: 1
+  postDelayTime: 2
