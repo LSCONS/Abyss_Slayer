@@ -16,6 +16,11 @@ MonoBehaviour:
   <SkillDesription>k__BackingField: "\uD3ED\uBC1C\uC744 5\uD68C \uC2DC\uC804\uD569\uB2C8\uB2E4."
   <SkillCategory>k__BackingField: 6
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: d6a3762da6d9df74eaf282f68c3cf364, type: 3}
+  <SkillSound>k__BackingField:
+    clip: {fileID: 0}
+    volume: 2
+    pitch: 1
+    loop: 0
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 0
   <MaxCoolTime>k__BackingField:
@@ -33,8 +38,8 @@ MonoBehaviour:
   Level:
     value: 1
   <Magnification>k__BackingField: 0.1
-  <BaseDamage>k__BackingField: 300
-  <Damage>k__BackingField: 300
+  <BaseDamage>k__BackingField: 330
+  <Damage>k__BackingField: 330
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
