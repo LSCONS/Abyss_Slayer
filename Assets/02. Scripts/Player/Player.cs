@@ -54,8 +54,8 @@ public class Player : NetworkBehaviour, IHasHealth
     public int HpStatLevel = 1;
     public int DamageStatLevel = 1;
 
-    public int StatPoint { get; set; } = 10;
-    public int SkillPoint { get; set; } = 10;
+    public ReactiveProperty <int> StatPoint { get; set; } = new(10);
+    public ReactiveProperty <int> SkillPoint { get; set; } = new(10);
 
     /// <summary>
     /// 코루틴과 Action을 등록시키고 실행시키는 메서드
