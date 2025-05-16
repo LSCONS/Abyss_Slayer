@@ -161,6 +161,7 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_MoveScene(ESceneName enumScene)
     {
+        ServerManager.Instance.AllPlayerIsReadyFalse();
         foreach (var item in ServerManager.Instance.DictRefToPlayer.Values)
         {
             item.ResetPlayerStatus();
@@ -228,9 +229,16 @@ public class NetworkData : NetworkBehaviour
         if (Runner.IsServer)
         {
             IsReady = isReady;
-            bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReady();
+            bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReadyInServer();
             ServerManager.Instance.IsAllReadyAction(isAllReday);
         }
         ServerManager.Instance.UITeamStatus?.ChangeIsReadyPlayerText(PlayerDataRef, isReady);
+    }
+
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void Rpc_SetReady(bool isReady)
+    {
+        IsReady = isReady;
     }
 }

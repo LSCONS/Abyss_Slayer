@@ -10,6 +10,9 @@ public class UIPopupButton : UIButton
 
     [Header("열고싶은 팝업 이름을 적어주세요.")]
     [SerializeField] private string popupName;  // 열고싶은 팝업 이름
+    
+    [Header("알람 아이콘 세팅")]
+    [SerializeField] private GameObject alarmIcon;  // 알람 아이콘
 
     private UIPopup popup;
 
@@ -28,6 +31,17 @@ public class UIPopupButton : UIButton
         base.Init();
     }
 
+
+    /// <summary>
+    /// 알람 아이콘 세팅
+    /// </summary>
+    /// <param name="On">킬 건지</param>
+    public void OnAlarmIcon(bool On)
+    {
+        if (alarmIcon == null) return;
+        if(On ==  true) alarmIcon.SetActive(true);
+        else alarmIcon.SetActive(false);
+    }
 
 
     // 버튼 자동 연결 string으로 이름 받아서 그 이름의 버튼 찾아서 연결

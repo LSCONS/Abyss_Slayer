@@ -42,7 +42,7 @@ public class UIStatStore : UIPopup
         base.Init();
         Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
 
-        OriginalStatPoint = player.StatPoint;       // 저장
+        OriginalStatPoint = player.StatPoint.Value;       // 저장
         RemainingPoint = OriginalStatPoint;
 
         BaseMaxHp = player.MaxHp.Value;
@@ -166,7 +166,7 @@ public class UIStatStore : UIPopup
         OriginalStatPoint = RemainingPoint;
         AppliedHpLevel = TempHpLevel;
         AppliedDamageLevel = TempDamageLevel;
-        player.StatPoint = RemainingPoint;
+        player.StatPoint.Value = RemainingPoint;
 
         UpdateUI();
     }

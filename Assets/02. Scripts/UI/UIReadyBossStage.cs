@@ -47,7 +47,7 @@ public class UIReadyBossStage : UIPermanent
                 }
                 data.Value.IsReady = false;
             }
-            bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReady();
+            bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReadyInServer();
             ServerManager.Instance.IsAllReadyAction(isAllReday);
         }
         gameObject.SetActive(true);
