@@ -68,6 +68,26 @@ public class BattleState : BaseGameState
        
         if (boss.IsDead)
         {
+            if (!isBossDead)
+            {
+                isBossDead = true;
+                // 보스 사망 시 클리어 애널리틱스 전송
+                int survivingMembers = 0;
+                foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+                {
+                    if (player.Hp.Value > 0)
+                    {
+                        survivingMembers++;
+                    }
+                }
+
+                PartyAnalytics.SendPartyClear(
+                    ServerManager.Instance.PlayerName,
+                    stageIndex,
+                    survivingMembers
+                );
+            }
+
             deadTimer += Time.deltaTime;
             // Debug.Log($"{deadTimer} 시간은 똑딱똑딱 {changeSceneTime} 까지");
             if (deadTimer >= changeSceneTime)
