@@ -19,7 +19,9 @@ public enum ESceneName  // 게임 시작 상태
 
 public class GameFlowManager : Singleton<GameFlowManager>
 {
-    public IGameState currentState { get; set; }   // 지금 스테이트
+    public LoadingState prevLodingState { get; set; }
+    public IGameState PrevState { get; set; }
+    public IGameState CurrentState { get; set; }   // 지금 스테이트
     [SerializeField] private ESceneName startStateEnum = ESceneName.Intro;   // 시작 스테이트 인스펙터 창에서 설정가능하게 해줌
     public int CurrentStageIndex { get; private set; } = 0; // 보스 생성할 때 쓸 index
 
@@ -37,35 +39,38 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
     private void Start()
     {
+        CurrentState = null;
         ClientSceneLoad(startStateEnum);    // 시작은 introstate
     }
 
 
     // loadingstate로 가서 상태 변경하게 하기
-    public void ChangeState(ESceneName nextEnum)
+    public void ChangeStateWithLoading(ESceneName nextEnum)
     {
         if (nextEnum == ESceneName.Loading)
             return;
 
+        PrevState = CurrentState;
+
         // 1) 이전 UIType 캐시
         UIType prevUIType = UIType.None;
-        if (currentState is BaseGameState prevBase)
+        if (CurrentState is BaseGameState prevBase)
             prevUIType = prevBase.StateUIType;
 
         // 2) 무조건 LoadingState로 경유
-        ChangeState(new LoadingState(nextEnum, prevUIType));
+        ChangeState(prevLodingState = new LoadingState(nextEnum, prevUIType));
     }
 
 
     // loadingstate로 가서 상태 변경하게 하기
-    public void ChangeRunnerState(ESceneName nextEnum)
+    public void ChangeRunnerStateWithLoading(ESceneName nextEnum)
     {
         if (nextEnum == ESceneName.Loading)
             return;
 
         // 1) 이전 UIType 캐시
         UIType prevUIType = UIType.None;
-        if (currentState is BaseGameState prevBase)
+        if (CurrentState is BaseGameState prevBase)
             prevUIType = prevBase.StateUIType;
 
         // 2) 무조건 LoadingState로 경유
@@ -73,16 +78,16 @@ public class GameFlowManager : Singleton<GameFlowManager>
     }
 
 
-    public Task RpcServerSceneLoad(ESceneName nextStateEnum)
+    public void RpcServerSceneLoad(ESceneName nextStateEnum)
     {
-        ChangeRunnerState(nextStateEnum);
-        return Task.CompletedTask;
+        ChangeRunnerStateWithLoading(nextStateEnum);
+        return;
     }
 
-    public Task ClientSceneLoad(ESceneName nextStateEnum)
+    public void ClientSceneLoad(ESceneName nextStateEnum)
     {
-        ChangeState(nextStateEnum);
-        return Task.CompletedTask;
+        ChangeStateWithLoading(nextStateEnum);
+        return;
     }
 
 
@@ -121,34 +126,20 @@ public class GameFlowManager : Singleton<GameFlowManager>
     /// </summary>
     /// <param name="newState">새로운 상태</param>
     /// <returns>상태 변경 작업의 결과</returns>
-    public void ChangeState(IGameState newState)
+    public Task ChangeState(IGameState newState)
     {
-        if (currentState != null)
-        {
-            currentState.OnExit();
-        }
-
-        currentState = newState;
-
-        if (currentState != null)
-        {
-            currentState.OnEnter();
-        }
+        CurrentState?.OnExit();
+        CurrentState = newState;
+        CurrentState?.OnEnter();
+        return Task.CompletedTask;
     }
 
-    public void ChangeRunnerState(IGameState newState)
+    public Task ChangeRunnerState(IGameState newState)
     {
-        if (currentState != null)
-        {
-            currentState.OnExit();
-        }
-
-        currentState = newState;
-
-        if (currentState != null)
-        {
-            currentState.OnRunnerEnter();
-        }
+        CurrentState?.OnExit();
+        CurrentState = newState;
+        CurrentState?.OnRunnerEnter();
+        return Task.CompletedTask;
     }
 
     // 상태 생성가능하게
@@ -183,7 +174,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
     private void Update()
     {
-        if (currentState is BaseGameState baseState)
+        if (CurrentState is BaseGameState baseState)
         {
             baseState.OnUpdate();
         }

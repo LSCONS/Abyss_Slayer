@@ -21,7 +21,7 @@ public class BattleState : BaseGameState
         UIManager.Instance.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
 
         // 브금 init
-        await SoundManager.Instance.Init(ESceneName.Battle0);
+        SoundManager.Instance.Init(ESceneName.Battle0);
 
 
         // 보스 찾기

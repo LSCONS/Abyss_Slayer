@@ -12,8 +12,8 @@ public class LoadingState : BaseGameState
     private ESceneName nextStateEnum;
     private readonly UIType prevUIType;
     private NetworkSceneAsyncOp NetworkSceneAsyncOp { get; set; }
-    
-
+    public bool IsLoadFast { get; set; } = false;
+    public Task TaskProgressBar { get; set; } = null;
     public LoadingState(ESceneName nextState, UIType prevUIType)
     {
         this.nextStateEnum = nextState;
@@ -22,15 +22,21 @@ public class LoadingState : BaseGameState
 
     public override async Task OnEnter()
     {
-        Debug.Log("LoadingState OnEnter");
+        IsLoadFast = false;
+        TaskProgressBar = null;
+        if (GameFlowManager.Instance.PrevState != null)
+        {
+            // 1. 로딩씬 로드 (Additive or Single 방식 중 선택)
+            var loadingOp = SceneManager.LoadSceneAsync(SceneName.LoadingScene, LoadSceneMode.Additive);
+            while (!loadingOp.isDone)
+                await Task.Yield();
 
-        // 1. 로딩씬 로드 (Additive or Single 방식 중 선택)
-        var loadingOp = SceneManager.LoadSceneAsync(SceneName.LoadingScene, LoadSceneMode.Additive);
-        while (!loadingOp.isDone)
-            await Task.Yield();
+            SceneManager.UnloadSceneAsync(GetSceneNameFromState(GameFlowManager.Instance.PrevState));
+        }
 
         // 프로그래스바 가져와
         ProgressBar progressBar = null;
+
         
         while((progressBar = GameObject.Find("ProgressBar")?.GetComponent<ProgressBar>()) == null)
         {
@@ -38,14 +44,17 @@ public class LoadingState : BaseGameState
         }
 
         progressBar.SetProgressValue(0);
-        var isProgressEnd = SetProgressBar(progressBar);
+        TaskProgressBar = SetProgressBar(progressBar);
+
+
 
         // 2. 다음 상태와 UIType 결정
         var nextState = GameFlowManager.Instance.CreateStateForPublic(nextStateEnum) as BaseGameState;
         if (nextState == null)
             throw new System.Exception($"Unknown state: {nextStateEnum}");
-
         UIType nextUIType = nextState.StateUIType;
+
+
 
         // 이제 유아이 타입 바뀌면 옛날 유아이타입은 다 삭제해야됨
         if (prevUIType !=UIType.None && prevUIType != nextUIType)
@@ -56,6 +65,8 @@ public class LoadingState : BaseGameState
         // 3. 다음 ui를 미리 로드 생성
         bool needLoadUI = (prevUIType == UIType.None) || (prevUIType != nextUIType);
 
+
+
         if (needLoadUI)
         {
             // 첫 진입이거나 UIType이 바뀔 때만 로드/생성
@@ -65,12 +76,11 @@ public class LoadingState : BaseGameState
 
         // 4. 씬 로드
         string nextSceneName = GetSceneNameFromState(nextState);
-        await isProgressEnd;
-        var sceneOp = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Single);
+        var sceneOp = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
         while (!sceneOp.isDone) await Task.Yield();
 
-        // 7. 최종 상태 진입
-        GameFlowManager.Instance.ChangeState(nextState);
+        //다음 state로 이동
+        await GameFlowManager.Instance.ChangeState(nextState);
     }
 
 
@@ -81,6 +91,9 @@ public class LoadingState : BaseGameState
     /// <exception cref="System.Exception"></exception>
     public override async Task OnRunnerEnter()
     {
+        IsLoadFast = false;
+        TaskProgressBar = null;
+
         // 1. 로딩씬 로드 (Additive or Single 방식 중 선택)
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
@@ -88,32 +101,41 @@ public class LoadingState : BaseGameState
             NetworkSceneAsyncOp = runner.LoadScene(SceneName.LoadingScene, LoadSceneMode.Additive);
             while (!NetworkSceneAsyncOp.IsDone)
                 await Task.Yield();
+
+            var temp = runner.UnloadScene(GetSceneNameFromState(GameFlowManager.Instance.PrevState));
         }
 
-        // 프로그래스바 가져와
+        // 2. 프로그래스바 가져와서 설정
+        Debug.Log("프로그래스 바 가져와서 설정하자");
         ProgressBar progressBar = null;
-
         while ((progressBar = GameObject.Find("ProgressBar")?.GetComponent<ProgressBar>()) == null)
         {
             await Task.Yield();
         }
-
         progressBar.SetProgressValue(0);
         var isProgressEnd = SetProgressBar(progressBar);
 
-        // 2. 다음 상태와 UIType 결정
+
+
+        // 3.. 다음 상태와 UIType 결정
+        Debug.Log("UIType 결정하자");
         var nextState = GameFlowManager.Instance.CreateStateForPublic(nextStateEnum) as BaseGameState;
         if (nextState == null)
             throw new System.Exception($"Unknown state: {nextStateEnum}");
-
         UIType nextUIType = nextState.StateUIType;
 
+
+
         // 이제 유아이 타입 바뀌면 옛날 유아이타입은 다 삭제해야됨
+        Debug.Log("유아이타입 삭제하자");
         if (prevUIType != UIType.None && prevUIType != nextUIType)
         {
             UIManager.Instance.ClearUI(prevUIType);
         }
 
+
+
+        Debug.Log("ui가 없다면 로드하자");
         // 3. 다음 ui를 미리 로드 생성
         bool needLoadUI = (prevUIType == UIType.None) || (prevUIType != nextUIType);
 
@@ -124,39 +146,35 @@ public class LoadingState : BaseGameState
             UIManager.Instance.CreateAllUI(nextUIType);
         }
 
+
+
+        Debug.Log("씬을 불러오자");
         // 4. 씬 로드
         if (runner.IsServer)
         {
-            var temp = runner.LoadScene(GetSceneNameFromState(nextState));
+            var temp = runner.LoadScene(GetSceneNameFromState(nextState), LoadSceneMode.Additive);
             await temp;
-            ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
         }
 
+        Debug.Log("씬을 바꿔보자");
         // 7. 최종 상태 진입
-        Debug.Log($"{ServerManager.Instance.ThisPlayerRef}: 준비 완료");
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-
-        await isProgressEnd;
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
-
-        GameFlowManager.Instance.ChangeRunnerState(nextState);
+        await GameFlowManager.Instance.ChangeRunnerState(nextState);
     }
 
     private async Task SetProgressBar(ProgressBar progressBar)
     {
         while (progressBar.progressBar.value < 0.99f)
         {
-            int delayTime = Random.Range(20, 50);
-            float varValue = Random.Range(0.02f, 0.05f);
-            if (ServerManager.Instance.CheckAllPlayerIsReadyInClient()) 
+            int delayTime = Random.Range(10, 15);
+            float varValue = Random.Range(0.003f, 0.005f);
+            if (ServerManager.Instance.CheckAllPlayerIsReadyInClient() && IsLoadFast) 
             {
-                delayTime *= 3;
-                varValue *= 3;
+                varValue *= 5;
             }
 
             await Task.Delay(delayTime);
             progressBar.AddProgressValue(varValue);
-        }
+        };
         return;
     }
 

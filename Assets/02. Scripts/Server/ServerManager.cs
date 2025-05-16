@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using static Unity.Collections.Unicode;
 
 
 public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
@@ -63,6 +65,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     //public PlayerInput LocalInput { get; private set; }
     //방에 참가 할 수 있는 최대 인원 수
     public int MaxHeadCount { get; private set; } = 5;
+    public bool IsServer { get; private set; } = false;
     public UIChatController ChattingTextController { get; set; }
     public UILobbyMainPanel LobbyMainPanel { get; set; }
     public UILobbySelectPanel LobbySelectPanel { get; set; }
@@ -180,6 +183,18 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     }
 
 
+    public async Task WaitForThisPlayerDataAsync(CancellationToken ct = default)
+    {
+        NetworkData data = null;
+        while((data = ThisPlayerData) == null)
+        {
+            ct.ThrowIfCancellationRequested();
+            await Task.Yield();
+        }
+        return;
+    }
+
+
     /// <summary>
     /// 자신의 Input에 값이 들어올 때까지 대기하고 반환하는 메서드
     /// </summary>
@@ -256,26 +271,15 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// 호스트가 되어 방을 만드는 메서드
     /// </summary>
     /// <param name="roomName"></param>
-    public async void CreateRoom(string roomName)
+    public void CreateRoom(string roomName)
     {
         ChattingTextController.TextChattingRecord.text = "";//채팅 초기화
         RoomName = roomName;
         LobbyMainPanel.ChangeRoomText();
         var runner = RunnerManager.Instance.GetRunner();
         runner.ProvideInput = true;
-
-        await GameFlowManager.Instance.ClientSceneLoad(ESceneName.Lobby);
-
-        await Task.Delay(1000);
-
-        await runner.StartGame(new StartGameArgs()
-        {
-            GameMode = GameMode.Host,
-            SessionName = roomName,
-            Scene = SceneRef.FromIndex((int)ESceneName.Lobby),
-            AuthValues = new Fusion.Photon.Realtime.AuthenticationValues(PlayerName)
-        });
-        LobbySelectPanel.SetServerInit();
+        IsServer = true;
+        GameFlowManager.Instance.ClientSceneLoad(ESceneName.Lobby);
     }
 
 
@@ -297,25 +301,46 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// 클라이언트가 방에 접속할 때 실행할 메서드
     /// </summary>
     /// <param name="info"></param>
-    public async void JoinRoom(SessionInfo info)
+    public void JoinRoom(SessionInfo info)
     {
         ChattingTextController.TextChattingRecord.text = "";//채팅 초기화
         RoomName = info.Name;
         LobbyMainPanel.ChangeRoomText();
         var runner = RunnerManager.Instance.GetRunner();
         runner.ProvideInput = true;
-
+        IsServer = true;
         GameFlowManager.Instance.ClientSceneLoad(ESceneName.Lobby);
+    }
 
-        await runner.StartGame(new StartGameArgs()
+    public async Task InitHost()
+    {
+        var runner = RunnerManager.Instance.GetRunner();
+        Debug.Log("방 만들기 시작");
+        var temp = runner.StartGame(new StartGameArgs()
+        {
+            GameMode = GameMode.Host,
+            SessionName = RoomName,
+            Scene = SceneRef.FromIndex((int)ESceneName.Lobby),
+            AuthValues = new Fusion.Photon.Realtime.AuthenticationValues(PlayerName)
+        });
+        await temp;
+        LobbySelectPanel.SetServerInit();
+        return;
+    }
+
+    public async Task InitClient()
+    {
+        var runner = RunnerManager.Instance.GetRunner();
+        var temp = runner.StartGame(new StartGameArgs()
         {
             GameMode = GameMode.Client,
             SessionName = RoomName,
             Scene = SceneRef.FromIndex((int)ESceneName.Lobby),
             AuthValues = new Fusion.Photon.Realtime.AuthenticationValues(PlayerName)
         });
+        await temp;
         LobbySelectPanel.SetClientInit();
-
+        return;
     }
 
 
@@ -336,13 +361,15 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// <summary>
     /// 방을 찾기 위해서는 이 메서드를 호출해야함.
     /// </summary>
-    public Task ConnectRoomSearch()
+    public async Task ConnectRoomSearch()
     {
         var runner = RunnerManager.Instance.GetRunner();
         runner.AddCallbacks(this);
         runner.ProvideInput = false;
-        runner.JoinSessionLobby(SessionLobby.ClientServer);
-        return Task.CompletedTask;
+        var temp = runner.JoinSessionLobby(SessionLobby.ClientServer);
+        await temp;
+        IsServer = false;
+        return;
     }
 
 

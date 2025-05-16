@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 public class StartState : BaseGameState
 {
     public override UIType StateUIType => UIType.NonGamePlay;
@@ -10,12 +11,24 @@ public class StartState : BaseGameState
         Debug.Log("StartState OnEnter");
         UIManager.Instance.Init();
 
-        UIManager.Instance.OpenUI(UISceneType.Start);
-
         await SoundManager.Instance.Init(ESceneName.Start);
         SoundManager.Instance.PlayBGM(ESceneName.Start, 1);
 
-        await Task.CompletedTask;
+        //서버에 연결
+        var temp = ServerManager.Instance.ConnectRoomSearch();
+        await temp;
+
+        LoadingState state = GameFlowManager.Instance.prevLodingState;
+        if (state != null)
+        {
+            state.IsLoadFast = true;
+            await state.TaskProgressBar;
+        }
+
+        UIManager.Instance.OpenUI(UISceneType.Start);
+        SceneManager.UnloadSceneAsync(SceneName.LoadingScene);
+
+        return;
     }
 
     public override async Task OnExit()
@@ -33,19 +46,9 @@ public class StartState : BaseGameState
 
         UIManager.Instance.OpenUI(UISceneType.Start);
 
-        await SoundManager.Instance.Init(ESceneName.Start);
+        SoundManager.Instance.Init(ESceneName.Start);
         SoundManager.Instance.PlayBGM(ESceneName.Start, 1);
 
         await Task.CompletedTask;
-    }
-
-    public override async void OnUpdate()
-    {
-        if(Input.GetKeyDown(KeyCode.Alpha1)){
-            await ChangeState(new IntroState());
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha2)){
-            GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.Lobby);
-        }
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 public class IntroState : BaseGameState
 {
     private bool isTransitioning = false;
@@ -7,14 +8,22 @@ public class IntroState : BaseGameState
 
     public override async Task OnEnter()
     {
-        Debug.Log("IntroState OnEnter");
-        await LoadSceneManager.Instance.LoadScene(SceneName.IntroScene);
-
         // 모든 UI Addressables 로드
         await UIManager.Instance.LoadAllUI(UIType.NonGamePlay);
         UIManager.Instance.CreateAllUI(UIType.NonGamePlay);
         UIManager.Instance.Init();
+
+
+
+        LoadingState state = GameFlowManager.Instance.prevLodingState;
+        if (state != null)
+        {
+            state.IsLoadFast = true;
+            await state.TaskProgressBar;
+        }
+
         UIManager.Instance.OpenUI(UISceneType.Intro);
+        SceneManager.UnloadSceneAsync(SceneName.LoadingScene);
     }
 
     public override async Task OnExit()
@@ -42,11 +51,6 @@ public class IntroState : BaseGameState
     {
         if(isTransitioning){
             return;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            isTransitioning = true;
-            await ChangeState(new StartState());
         }
     }
 }
