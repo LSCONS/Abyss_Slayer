@@ -6,10 +6,10 @@ using Fusion;
 
 public enum ESceneName  // 게임 시작 상태
 {
-    Intro = 0,
-    Start = 1,
-    Lobby = 2,
-    Loading = 3,
+    Loading = 0,
+    Intro = 1,
+    Start = 2,
+    Lobby = 3,
     Rest = 4,
     Battle0 = 5,
     Battle1 = 6,
@@ -68,13 +68,15 @@ public class GameFlowManager : Singleton<GameFlowManager>
         if (nextEnum == ESceneName.Loading)
             return;
 
+        PrevState = CurrentState;
+
         // 1) 이전 UIType 캐시
         UIType prevUIType = UIType.None;
         if (CurrentState is BaseGameState prevBase)
             prevUIType = prevBase.StateUIType;
 
         // 2) 무조건 LoadingState로 경유
-        ChangeRunnerState(new LoadingState(nextEnum, prevUIType));
+        ChangeRunnerState(prevLodingState = new LoadingState(nextEnum, prevUIType));
     }
 
 

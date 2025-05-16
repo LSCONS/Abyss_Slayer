@@ -55,20 +55,18 @@ public class RestState : BaseGameState
         //TODO: 플레이어 위치 동기화도 필요함
 
 
-        Debug.Log("1초만 기다려줘");
-        await Task.Delay(1000);
-
-        Debug.Log("모든 플레이어 활성화 하고 입력 연결해줄게");
-        if (runner.IsServer)
-        {
-            ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
-            ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
-        }
 
         Debug.Log("RestState 개방");
         UIManager.Instance.OpenUI(UISceneType.Rest);
-        Debug.Log("loadingState 삭제");
         if (runner.IsServer)
-           await runner.UnloadScene(SceneName.LoadingScene);
+        {
+            Debug.Log("모든 플레이어 활성화 하고 입력 연결해줄게");
+            ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
+            Debug.Log("1초만 기다려줘");
+            await Task.Delay(1000);
+            ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
+            Debug.Log("loadingState 삭제");
+            await runner.UnloadScene(SceneName.LoadingScene);
+        }
     }
 }

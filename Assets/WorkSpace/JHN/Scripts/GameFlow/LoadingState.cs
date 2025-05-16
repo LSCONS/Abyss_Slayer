@@ -103,6 +103,7 @@ public class LoadingState : BaseGameState
                 await Task.Yield();
 
             var temp = runner.UnloadScene(GetSceneNameFromState(GameFlowManager.Instance.PrevState));
+            await temp;
         }
 
         // 2. 프로그래스바 가져와서 설정

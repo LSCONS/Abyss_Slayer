@@ -34,7 +34,6 @@ public class StartState : BaseGameState
     public override async Task OnExit()
     {
         Debug.Log("StartState OnExit");
-        UIManager.Instance.CloseUI(UISceneType.Start);
         SoundManager.Instance.UnloadSoundsByState(ESceneName.Start);
         await Task.CompletedTask;
     }

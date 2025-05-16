@@ -40,8 +40,6 @@ public class LobbyState : BaseGameState
 
     public override async Task OnExit()
     {
-        UIManager.Instance.CloseUI(UISceneType.Lobby);
-       // UIManager.Instance.CleanupUIMap();
         SoundManager.Instance.UnloadSoundsByState(ESceneName.Lobby);
 
         await Task.CompletedTask;
