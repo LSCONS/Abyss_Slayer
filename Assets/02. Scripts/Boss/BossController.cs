@@ -367,7 +367,5 @@ public class BossController : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
         virtualCamera.Priority = 5;
-        yield return new WaitForSeconds(2f);
-        gameObject.SetActive(false);
     }
 }

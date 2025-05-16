@@ -53,7 +53,7 @@ public class CrossSlash1Data : BasePatternData
                 hit = hits[i];
             }
         }
-        float x = hit.point.x + (isleft ? 3 : -3);
+        float x = Mathf.Clamp(hit.point.x + (isleft ? 3 : -3),-mapWidth/2 + 0.7f,mapWidth/2+0.7f);
         bossTransform.position = new Vector3(x, hit.point.y + bossCenterHight);
         bossAnimator.SetTrigger("SlashEnd");
         bossController.sprite.enabled = true;

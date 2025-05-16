@@ -17,6 +17,7 @@ public class Laser : BasePoolable
     Animator _animator;
     float _startTime;
     [SerializeField] Transform laserSprite;
+    public List<Player> _players = new List<Player>();
 
     bool _chasingEnd;
     private void Awake()
@@ -54,6 +55,7 @@ public class Laser : BasePoolable
     }
     public void Init(int damage, Vector3 position, Transform target,float width =0.5f, float warningTime = 0.5f, float chasingTime = 0f, bool isPiercing = true)
     {
+        _players.Clear();
         _isFiered = false;
 
         _damage = damage;
@@ -79,24 +81,9 @@ public class Laser : BasePoolable
     }
     public void Damage()
     {
-        _isFiered=true;
-        if (_isPiercing)
+        for(int i = 0; i < _players.Count; i++)
         {
-            Collider2D[] colliders = Physics2D.OverlapBoxAll((_hit.point + (Vector2)transform.position) / 2, new Vector2(transform.localScale.x,laserSprite.localScale.y), _angle, LayerMask.NameToLayer("Player"));
-            for (int i = 0; i < colliders.Length; i++)
-            {
-                if(colliders[i].TryGetComponent<Player>(out Player player))
-                {
-                    player.Damage(_damage);
-                }
-            }
-        }
-        else
-        {
-            if(_hit.transform != null && _hit.transform.TryGetComponent<Player>(out Player player))
-            {
-                player.Damage(_damage);
-            }
+            _players[i].Damage(_damage);
         }
     }
 }
