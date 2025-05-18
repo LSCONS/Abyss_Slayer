@@ -130,4 +130,5 @@ public class SpriteImageChange : MonoBehaviour
         animationNum = 0;
         SetLoopAnimation(AnimationState.Idle1, animationNum);
     }
+
 }

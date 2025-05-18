@@ -33,34 +33,58 @@ public class DataManager : Singleton<DataManager>
         DataLoadAnimationSpriteData();
     }
 
-
+    private static readonly int[] HairColorVariants = new int[] { 1, 2, 4, 5, 6, 10 };  // 클래스별 머리색 c1,c2...
     private async void DataLoadAnimationSpriteData()
     {
-        // 6. face_c1 ~ face_c7
+        // face_c1 ~ face_c7
         for (int i = 1; i <= 7; i++)
         {
             DictIntToDictStateToFaceColorSprite[i] = await LoadAndSortSprites($"face_c{i}");
         }
 
-        // 7. skin_c1 ~ skin_c6
+        // skin_c1 ~ skin_c6
         for (int i = 1; i <= 6; i++)
         {
             DictIntToDictStateToSkinColorSprite[i] = await LoadAndSortSprites($"skin_c{i}");
         }
 
-        // 8. f1~f9 / m1~m14 헤어 top
-        for (int i = 1; i <= 9; i++)
+        // 머리색 클래스마다 다르기 떄문에 다 로드해줘야됨
+        foreach (var colorIndex in HairColorVariants)
         {
-            DictIntToDictStateToHairStyleTopSprite[i] = await LoadAndSortSprites($"f{i}_c1_top");
-            DictIntToDictStateToHairStyleBottomSprite[i] = await LoadAndSortSprites($"f{i}_c1_bot");
-        }
-        for (int i = 1; i <= 14; i++)
-        {
-            DictIntToDictStateToHairStyleTopSprite[i] = await LoadAndSortSprites($"m{i}_c1_top");
-            DictIntToDictStateToHairStyleBottomSprite[i] = await LoadAndSortSprites($"m{i}_c1_bot");
+            for (int i = 1; i <= 9; i++)
+            {
+                string keyTop = $"f{i}_c{colorIndex}_top";
+                string keyBot = $"f{i}_c{colorIndex}_bot";
+
+                int dictKey = CreateHairKey($"f{i}", colorIndex);
+                DictIntToDictStateToHairStyleTopSprite[dictKey] = await LoadAndSortSprites(keyTop);
+                DictIntToDictStateToHairStyleBottomSprite[dictKey] = await LoadAndSortSprites(keyBot);
+            }
+
+            for (int i = 1; i <= 14; i++)
+            {
+                string keyTop = $"m{i}_c{colorIndex}_top";
+                string keyBot = $"m{i}_c{colorIndex}_bot";
+
+                int dictKey = CreateHairKey($"m{i}", colorIndex);
+                DictIntToDictStateToHairStyleTopSprite[dictKey] = await LoadAndSortSprites(keyTop);
+                DictIntToDictStateToHairStyleBottomSprite[dictKey] = await LoadAndSortSprites(keyBot);
+            }
         }
     }
-
+    /// <summary>
+    /// 딕셔너리 키 생성을 위한 메서드 
+    /// m4이고 c5 이면 405로 키 생성해줌
+    /// </summary>
+    /// <param name="styleId"></param>
+    /// <param name="colorIndex"></param>
+    /// <returns></returns>
+    private int CreateHairKey(string styleId, int colorIndex)
+    {
+        // m4 -> 4, f2 -> 2 등으로 변환
+        int styleNumber = int.Parse(new string(styleId.Where(char.IsDigit).ToArray()));
+        return styleNumber * 100 + colorIndex;
+    }
 
     private async Task<Dictionary<AnimationState, Sprite[]>> LoadAndSortSprites(string addressKey)
     {
