@@ -27,7 +27,7 @@ public class BattleState : BaseGameState
         await SoundManager.Instance.Init(ESceneName.Battle0);
 
         // 스테이지 시작 시간 기록
-        PartyAnalytics.RecordStageStart(ServerManager.Instance.PlayerName);
+        AnalyticsManager.SendStartUserInfo(ServerManager.Instance.DictRefToPlayer.Count);
 
         // 보스 찾기
         var bossObj = GameObject.FindWithTag("Boss");
@@ -81,11 +81,7 @@ public class BattleState : BaseGameState
                     }
                 }
 
-                PartyAnalytics.SendPartyClear(
-                    ServerManager.Instance.PlayerName,
-                    stageIndex,
-                    survivingMembers
-                );
+                AnalyticsManager.SendStageFailInfo(stageIndex, (int)currentTime);
             }
 
             deadTimer += Time.deltaTime;
@@ -103,12 +99,7 @@ public class BattleState : BaseGameState
             if (currentTime >= timeLimit)
             {
                 // 제한 시간 초과로 게임오버
-                PartyAnalytics.SendPartyGameOver(
-                    ServerManager.Instance.PlayerName,
-                    stageIndex,
-                    GameOverReason.TimeOut,
-                    remainingTime: 0f
-                );
+                AnalyticsManager.SendStageFailInfo(stageIndex, (int)currentTime);
                 GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.Lobby);
             }
         }

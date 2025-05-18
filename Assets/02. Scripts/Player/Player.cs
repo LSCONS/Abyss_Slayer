@@ -11,8 +11,6 @@ public enum CharacterClass
     Mage,
     MagicalBlader,
     Tanker,
-
-    Count
 }
 
 
@@ -243,8 +241,16 @@ public class Player : NetworkBehaviour, IHasHealth
         }
 
         // 직업 선택 시 애널리틱스 전송
-        PlayerAnalytics.SendPlayerClassSelection(ServerManager.Instance.PlayerName, 
-            PlayerData.PlayerStatusData.Class.ToString());
+        int playerIndex = 1; // 기본값
+        foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+        {
+            if (player == this)
+            {
+                break;
+            }
+            playerIndex++;
+        }
+        AnalyticsManager.SendPlayerClassSelection(playerIndex, PlayerData.PlayerStatusData.Class.ToString());
     }
 
 
@@ -316,17 +322,6 @@ public class Player : NetworkBehaviour, IHasHealth
             }
         }
 
-        // 모든 플레이어가 죽었는지 확인
-        if (deadPlayerCount == ServerManager.Instance.DictRefToPlayer.Count)
-        {
-            PartyAnalytics.SendPartyGameOver(
-                ServerManager.Instance.PlayerName,
-                GameFlowManager.Instance.CurrentStageIndex,
-                GameOverReason.AllPlayerDead,
-                deadMembers: deadPlayerCount
-            );
-        }
-
         StartCoroutine(PlayerDieCoroutine());
     }
 
@@ -373,30 +368,30 @@ public class Player : NetworkBehaviour, IHasHealth
     /// </summary>
     public void ResetPlayerStatus()
     {
-        //비활성화
-        gameObject.SetActive(false);
+        // //비활성화
+        // gameObject.SetActive(false);
 
-        if(PlayerRef == Runner.LocalPlayer)
-        {
-            //IdleState로 변환
-            PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
-            //체력 Max로 변환
-            Hp.Value = MaxHp.Value;
-            //모든 스킬 쿨타임 0으로 변환
-            //모든 버프 스킬 유지시간 0으로 변환
-            foreach (Skill skill in EquippedSkills.Values)
-            {
-                skill.CurCoolTime.Value = 0;
-                BuffSkill buffSkill = skill as BuffSkill;
-                if (buffSkill != null)
-                {
-                    buffSkill.CurBuffDuration.Value = 0;
-                }
-            }
-            //위치 값 0으로 초기화
-            transform.position = Vector3.zero;
-            Rpc_PlayerPositionSynchro(Vector2.zero);
-        }
+        // if(PlayerRef == Runner.LocalPlayer)
+        // {
+        //     //IdleState로 변환
+        //     PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
+        //     //체력 Max로 변환
+        //     Hp.Value = MaxHp.Value;
+        //     //모든 스킬 쿨타임 0으로 변환
+        //     //모든 버프 스킬 유지시간 0으로 변환
+        //     foreach (Skill skill in EquippedSkills.Values)
+        //     {
+        //         skill.CurCoolTime.Value = 0;
+        //         BuffSkill buffSkill = skill as BuffSkill;
+        //         if (buffSkill != null)
+        //         {
+        //             buffSkill.CurBuffDuration.Value = 0;
+        //         }
+        //     }
+        //     //위치 값 0으로 초기화
+        //     transform.position = Vector3.zero;
+        //     Rpc_PlayerPositionSynchro(Vector2.zero);
+        // }
     }
 
 

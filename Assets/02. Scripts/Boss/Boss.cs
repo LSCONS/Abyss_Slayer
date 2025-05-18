@@ -37,6 +37,8 @@ public class Boss : NetworkBehaviour, IHasHealth
 
     private void Update()
     {
+        if (!HasStateAuthority) return;
+        
         ServerUpdate();
         ClientUpdate();
     }

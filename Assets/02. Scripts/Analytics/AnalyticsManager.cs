@@ -13,6 +13,7 @@ public class AnalyticsManager : MonoBehaviour
 {
     // 싱글톤 인스턴스
     private static AnalyticsManager instance;
+    private static bool isInitialized = false;
 
     // 외부에서 접근 가능한 인스턴스 프로퍼티
     public static AnalyticsManager Instance => instance;
@@ -22,13 +23,11 @@ public class AnalyticsManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        // 인스턴스가 없으면 현재 오브젝트를 인스턴스로 설정
         if (instance == null)
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        // 이미 인스턴스가 있다면 현재 오브젝트 제거
         else
             Destroy(gameObject);
     }
@@ -40,19 +39,53 @@ public class AnalyticsManager : MonoBehaviour
     {
         try
         {
-            // Unity Services 초기화
+            Debug.Log("[Analytics] Starting Unity Services initialization...");
+            
             await UnityServices.InitializeAsync();
-            // 데이터 수집 시작
+            Debug.Log("[Analytics] Unity Services initialized successfully");
+            
             AnalyticsService.Instance.StartDataCollection();
-            Debug.Log("Unity Services Initialized");
-
-            // 예시: 게임 시작 시 퍼널 1단계 전송
-            SendFunnelStep(1);
+            isInitialized = true;
+            Debug.Log("[Analytics] Analytics data collection started successfully");
         }
         catch (System.Exception e)
         {
-            // 초기화 실패 시 에러 로그 출력
-            Debug.LogError("Unity Services failed to initialize: " + e.Message);
+            Debug.LogError($"[Analytics] Unity Services initialization failed: {e.Message}\n{e.StackTrace}");
+            isInitialized = false;
+        }
+    }
+
+    /// <summary>
+    /// 애널리틱스 서비스 초기화 상태 확인
+    /// </summary>
+    public static bool IsInitialized => isInitialized;
+
+    /// <summary>
+    /// 애널리틱스 이벤트를 전송하는 공통 메서드
+    /// </summary>
+    public static void SendAnalyticsEvent(string eventName, System.Collections.Generic.Dictionary<string, object> parameters)
+    {
+        if (!isInitialized)
+        {
+            Debug.LogWarning($"[Analytics] Service not initialized. Event '{eventName}' not sent.");
+            return;
+        }
+
+        try
+        {
+            var analyticsEvent = new CustomEvent(eventName);
+            
+            foreach (var param in parameters)
+            {
+                analyticsEvent[param.Key] = param.Value;
+            }
+            
+            AnalyticsService.Instance.RecordEvent(analyticsEvent);
+            Debug.Log($"[Analytics] Event '{eventName}' sent successfully");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"[Analytics] Failed to send event '{eventName}': {e.Message}\n{e.StackTrace}");
         }
     }
 
@@ -64,6 +97,8 @@ public class AnalyticsManager : MonoBehaviour
     /// <param name="partyId">파티 ID (선택)</param>
     public static void SendFunnelStep(int stepNumber, string playerId = null, string partyId = null)
     {
+        if (!isInitialized) return;
+
         var funnelEvent = new CustomEvent("Funnel_Step");
         funnelEvent["Funnel_Step_Number"] = stepNumber;
         if (!string.IsNullOrEmpty(playerId)) funnelEvent["Player_ID"] = playerId;
@@ -72,43 +107,68 @@ public class AnalyticsManager : MonoBehaviour
         Debug.Log($"[Analytics] Funnel Step Sent: {stepNumber}");
     }
 
-    public static void SendPartyProgress(string partyId, int stage, bool isClear, string failReason = "", int memberCount = 0)
-    {
-        var partyEvent = new CustomEvent("Party_Progress");
-        partyEvent["Party_ID"] = partyId;
-        partyEvent["Stage"] = stage;
-        partyEvent["Is_Clear"] = isClear;
-        if (!isClear && !string.IsNullOrEmpty(failReason)) partyEvent["Fail_Reason"] = failReason;
-        partyEvent["Member_Count"] = memberCount;
-        AnalyticsService.Instance.RecordEvent(partyEvent);
-    }
-
-    public static void SendPlayerAction(string playerId, string actionType, int stage, string position = "", string extra = "")
-    {
-        var actionEvent = new CustomEvent("Player_Action");
-        actionEvent["Player_ID"] = playerId;
-        actionEvent["Action_Type"] = actionType;
-        actionEvent["Stage"] = stage;
-        if (!string.IsNullOrEmpty(position)) actionEvent["Position"] = position;
-        if (!string.IsNullOrEmpty(extra)) actionEvent["Extra"] = extra;
-        AnalyticsService.Instance.RecordEvent(actionEvent);
-    }
-
     /// <summary>
     /// 플레이어 직업 선택 이벤트 전송
     /// </summary>
-    /// <param name="playerId">플레이어 ID</param>
-    /// <param name="classType">직업 타입 (예: "Warrior", "Mage", "Archer" 등)</param>
-    /// <param name="classLevel">직업 레벨</param>
-    public static void SendPlayerClassSelection(string playerId, string classType, int classLevel)
+    public static void SendPlayerClassSelection(int playerIndex, string classType)
     {
-        var classEvent = new CustomEvent("Player_Class_Info");
-        classEvent["Player_ID"] = playerId;
+        if (!isInitialized) return;
+
+        var classEvent = new CustomEvent($"Player{playerIndex}_Class");
         classEvent["Class_Type"] = classType;
-        classEvent["Selection_Time"] = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         
         AnalyticsService.Instance.RecordEvent(classEvent);
-        Debug.Log($"[Analytics] Player Class Info: {playerId}, {classType}, Level {classLevel}");
+        Debug.Log($"[Analytics] Player {playerIndex} Class Info: {classType}");
+    }
+    
+    /// <summary>
+    /// 스탯 업그레이드 이벤트 전송
+    /// </summary>
+    public static void SendStatUpgradeEvent(int hpLevel, int hpIncrease, int damageLevel, int damageIncrease, int remainingPoints)
+    {
+        if (!isInitialized) return;
+
+        var statEvent = new CustomEvent("Stat_Upgrade");
+        statEvent["HP_Level"] = hpLevel;
+        statEvent["HP_Increase"] = hpIncrease;
+        statEvent["Damage_Level"] = damageLevel;
+        statEvent["Damage_Increase"] = damageIncrease;
+        statEvent["Remaining_Points"] = remainingPoints;
+        
+        AnalyticsService.Instance.RecordEvent(statEvent);
+        Debug.Log($"[Analytics] Stat Upgrade Event sent: HP Lv.{hpLevel}(+{hpIncrease}), DMG Lv.{damageLevel}(+{damageIncrease})");
+    }
+
+    /// <summary>
+    /// 스테이지 실패 정보 전송
+    /// </summary>
+    public static void SendStageFailInfo(int stageNumber, int failTime)
+    {
+        if (!isInitialized) return;
+
+        var failEvent = new CustomEvent("Stage_Fail_Info");
+        failEvent["Stage_Number"] = stageNumber;
+        failEvent["Stage_Fail_Time"] = failTime;
+        
+        AnalyticsService.Instance.RecordEvent(failEvent);
+        Debug.Log($"[Analytics] Stage Fail Info sent: Stage {stageNumber}, Time {failTime}s");
+    }
+
+    /// <summary>
+    /// 스킬 사용 정보 전송
+    /// </summary>
+    public static void SendSkillUseInfo(string stageNumber, string classType, string skillName, int damage)
+    {
+        if (!isInitialized) return;
+
+        var skillEvent = new CustomEvent("Skill_Use_Info");
+        skillEvent["Stage_Number"] = stageNumber;
+        skillEvent["Class_Type"] = classType;
+        skillEvent["Used_Skill_name"] = skillName;
+        skillEvent["Skill_Attack_Damage"] = damage;
+        
+        AnalyticsService.Instance.RecordEvent(skillEvent);
+        Debug.Log($"[Analytics] Skill Use Info sent: {skillName} by {classType} in {stageNumber}");
     }
 
     /// <summary>
@@ -118,6 +178,8 @@ public class AnalyticsManager : MonoBehaviour
     /// <param name="partyMembers">파티원 정보 리스트 (Player_ID, Class_Type, Class_Level)</param>
     public static void SendPartyFormation(string partyId, List<PartyMemberInfo> partyMembers)
     {
+        if (!isInitialized) return;
+
         var partyFormationEvent = new CustomEvent("Party_Formation");
         partyFormationEvent["Party_ID"] = partyId;
         partyFormationEvent["Member_Count"] = partyMembers.Count;
@@ -132,48 +194,42 @@ public class AnalyticsManager : MonoBehaviour
         }
 
         // 파티 구성 정보 추가
-        partyFormationEvent["Class_Distribution"] = string.Join(",", classDistribution.Select(x => $"{x.Key}:{x.Value}"));
+        string distributionString = string.Join(",", classDistribution.Select(x => $"{x.Key}:{x.Value}"));
+        partyFormationEvent["Class_Distribution"] = distributionString;
         partyFormationEvent["Formation_Time"] = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         
         // 파티원 상세 정보 (JSON 형식으로 저장)
         partyFormationEvent["Members_Detail"] = JsonUtility.ToJson(new PartyMembersWrapper { members = partyMembers });
 
         AnalyticsService.Instance.RecordEvent(partyFormationEvent);
-        Debug.Log($"[Analytics] Party Formation: {partyId}, Members: {partyMembers.Count}");
+        Debug.Log($"[Analytics] Party Formation: {partyId}, Members: {partyMembers.Count}, Distribution: {distributionString}");
     }
+
+    /// <summary>
+    /// 파티 진행 정보 전송
+    /// </summary>
+    /// <param name="partyId"></param>
+    /// <param name="stage"></param>
+    /// <param name="isClear"></param>
+    /// <param name="failReason"></param>
+    /// <param name="memberCount"></param>
+    public static void SendPartyProgress(string partyId, int stage, bool isClear, string failReason = "", int memberCount = 0)
+    {
+        if (!isInitialized) return;
+
+        var partyEvent = new CustomEvent("Party_Progress");
+        partyEvent["Party_ID"] = partyId;
+        partyEvent["Stage"] = stage;
+        partyEvent["Is_Clear"] = isClear;
+        if (!isClear && !string.IsNullOrEmpty(failReason)) partyEvent["Fail_Reason"] = failReason;
+        partyEvent["Member_Count"] = memberCount;
+        AnalyticsService.Instance.RecordEvent(partyEvent);
+    }
+
 
     [System.Serializable]
     private class PartyMembersWrapper
     {
         public List<PartyMemberInfo> members;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    /// <summary>
-    /// 애널리틱스 이벤트를 전송하는 공통 메서드
-    /// </summary>
-    /// <param name="eventName">이벤트 이름</param>
-    /// <param name="parameters">이벤트 파라미터 딕셔너리</param>
-    public static void SendAnalyticsEvent(string eventName, Dictionary<string, object> parameters)
-    {
-        // 새로운 커스텀 이벤트 생성
-        var analyticsEvent = new CustomEvent(eventName);
-        
-        // 파라미터들을 이벤트에 추가
-        foreach (var param in parameters)
-        {
-            analyticsEvent[param.Key] = param.Value;
-        }
-        
-        // 이벤트 전송
-        AnalyticsService.Instance.RecordEvent(analyticsEvent);
-        
-        // 디버그 로그 출력
-        Debug.Log($"[Analytics] {eventName} Sent: {string.Join(", ", parameters.Select(x => $"{x.Key}:{x.Value}"))}");
     }
 }

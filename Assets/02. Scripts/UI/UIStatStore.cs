@@ -168,6 +168,18 @@ public class UIStatStore : UIPopup
         AppliedDamageLevel = TempDamageLevel;
         player.StatPoint.Value = RemainingPoint;
 
+        // 스탯 업그레이드 분석 이벤트 전송
+        if (hpDiff > 0 || damageDiff > 0)
+        {
+            AnalyticsManager.SendStatUpgradeEvent(
+                AppliedHpLevel,
+                hpIncrease,
+                AppliedDamageLevel,
+                damageIncrease,
+                RemainingPoint
+            );
+        }
+
         UpdateUI();
     }
 

@@ -12,4 +12,12 @@ public class PartyMemberInfo
 
     // 파티원의 직업 타입
     public string ClassType;
-} 
+
+    public PartyMemberInfo(string playerId, string classType)
+    {
+        PlayerId = playerId;
+        ClassType = classType;
+    }
+}
+
+// 엑셀 시트 기준 파티원 정보 구조체 없음. 필요시 여기에 추가. 
