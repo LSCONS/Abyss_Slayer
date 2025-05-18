@@ -149,14 +149,14 @@ public class UIStatStore : UIPopup
     private void ApplyStatsToPlayer()
     {
         var player = ServerManager.Instance.ThisPlayer;
-
+        
         // 차이 계산
         int hpDiff = TempHpLevel - AppliedHpLevel;
         int damageDiff = TempDamageLevel - AppliedDamageLevel;
 
         // 증가량 계산
         int hpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * hpDiff);
-        int damageIncrease = Mathf.RoundToInt(BaseDamage * Amount * damageDiff);
+        float damageIncrease = Mathf.Round((BaseDamage - 1) + Amount * damageDiff);
 
         // 능력치 반영
         player.MaxHp.Value = hpIncrease + BaseMaxHp;

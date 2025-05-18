@@ -1,58 +1,73 @@
+using Fusion;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 public class LobbyState : BaseGameState
 {
     public override UIType StateUIType => UIType.NonGamePlay;
 
     public override async Task OnEnter()
     {
-        Debug.Log("LobbyState OnEnter");
+#if MoveSceneDebug
+        Debug.Log("LobbyState Onenter 진입");
+#endif
+        LoadingState state = GameFlowManager.Instance.prevLodingState;
 
-        UIManager.Instance.Init();
+        await UIManager.Instance.Init();
+        state?.SetLoadingBarValue(0.3f);
 
-        UIManager.Instance.OpenUI(UISceneType.Lobby);
+#if MoveSceneDebug
+        Debug.Log("방 생성 및 들어가기");
+#endif
+        if (ServerManager.Instance.IsServer)
+            await ServerManager.Instance.InitHost();
+        else
+            await ServerManager.Instance.InitClient();
 
-        await SoundManager.Instance.Init(ESceneName.Lobby);
-        SoundManager.Instance.PlayBGM(ESceneName.Lobby, 1);
 
-        await Task.CompletedTask;
-
+#if MoveSceneDebug
+        Debug.Log("이미지 Sprite 불러오기");
+#endif
         SpriteImageChange[] imageChanges = Util.FindObjectsByTypeDebug<SpriteImageChange>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (SpriteImageChange imageChange in imageChanges)
         {
             imageChange.Init(PlayerManager.Instance.CharacterClass);
         }
+
+
+#if MoveSceneDebug
+        Debug.Log("프로그래스 바 끝날 때까지 대기");
+#endif
+        state?.SetLoadingBarValue(1f);
+        await state?.TaskProgressBar;
+
+#if MoveSceneDebug
+        Debug.Log("LobbyState 오픈");
+#endif
+        SoundManager.Instance.PlayBGM(EAudioClip.BGM_LobbyScene);
+        UIManager.Instance.OpenUI(UISceneType.Lobby);
+
+#if MoveSceneDebug
+        Debug.Log("LoadingScene 삭제");
+#endif
+        SceneManager.UnloadSceneAsync(SceneName.LoadingScene);
+
+        return;
     }
 
     public override async Task OnExit()
     {
-        Debug.Log("LobbyState OnExit");
-        UIManager.Instance.CloseUI(UISceneType.Lobby);
-       // UIManager.Instance.CleanupUIMap();
-        SoundManager.Instance.UnloadSoundsByState(ESceneName.Lobby);
-
-
-
+#if MoveSceneDebug
+        Debug.Log("LobbtyState OnExit 실행");
+#endif
         await Task.CompletedTask;
     }
 
-    public override async Task OnRunnerEnter()
+    public override Task OnRunnerEnter()
     {
-        Debug.Log("LobbyState OnEnter");
-
-        UIManager.Instance.Init();
-
-        UIManager.Instance.OpenUI(UISceneType.Lobby);
-
-        await SoundManager.Instance.Init(ESceneName.Lobby);
-        SoundManager.Instance.PlayBGM(ESceneName.Lobby, 1);
-
-        await Task.CompletedTask;
-
-        SpriteImageChange[] imageChanges = Util.FindObjectsByTypeDebug<SpriteImageChange>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        foreach (SpriteImageChange imageChange in imageChanges)
-        {
-            imageChange.Init(PlayerManager.Instance.CharacterClass);
-        }
+#if MoveSceneDebug
+        Debug.Log("LobbtyState OnRunnerEnter 실행");
+#endif
+        return Task.CompletedTask;
     }
 }

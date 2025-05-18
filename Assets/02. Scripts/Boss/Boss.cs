@@ -32,6 +32,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     {
         base.Spawned();
         Hp.Value = MaxHp.Value;
+        ServerManager.Instance.Boss = this;
     }
 
 

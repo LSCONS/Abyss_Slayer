@@ -30,7 +30,7 @@ public class PlayerWalkState : PlayerGroundState
         animationTime = animationDelay;
 
         // 걷기 사운드 재생
-        SoundManager.Instance.PlaySFX(ESFXType.Walk, true, 1.3f);
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_PlayerWalk);
 
 #if StateMachineDebug
         Debug.Log("WalkState 진입");
@@ -41,7 +41,7 @@ public class PlayerWalkState : PlayerGroundState
     public override void Exit()
     {
         // 걷기 사운드 끝
-        SoundManager.Instance.StopSFX(ESFXType.Walk);
+        SoundManager.Instance.StopSFX(EAudioClip.SFX_PlayerWalk);
 
         base.Exit();
 

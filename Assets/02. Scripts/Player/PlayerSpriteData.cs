@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewPlayerSpriteData", menuName = "Player/SpriteData")]
 public class PlayerSpriteData
 {
     [field: Header("어드레서블 스프라이트 이름")]

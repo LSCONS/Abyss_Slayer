@@ -10,7 +10,7 @@ public class UIBossStageController : UIBase
     {
         base.Init();
 
-        var state = GameFlowManager.Instance.currentState;
+        var state = GameFlowManager.Instance.CurrentState;
 
         if (state is RestState)
         {

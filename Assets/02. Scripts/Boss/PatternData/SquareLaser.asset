@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fff22fb233e8ea47951d9b25134686a, type: 3}
+  m_Name: SquareLaser
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  attackableAreas: []
+  globalAttackableAreas:
+  - serializedVersion: 2
+    x: -20
+    y: 0
+    width: 40
+    height: 20
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  damage: 2
+  damageIntervalTime: 0.02
+  projectileCount: 6
+  projectileGap: 2
+  delayFireTime: 1
+  intervalFireTime: 0.05
+  effectSpeed: 1
+  postDelayTime: 2

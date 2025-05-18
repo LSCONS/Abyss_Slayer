@@ -23,7 +23,7 @@ public class Skill : ScriptableObject
     [field: SerializeField] public Sprite SkillIcon {get; private set; } // 스킬 아이콘
 
     [field: Header("스킬 사운드 설정")]
-    [field: SerializeField] public SkillSoundData SkillSound { get; private set; }
+    [field: SerializeField] public EAudioClip EAudioClip { get; private set; }
 
     [field: Header("스킬 사용 가능 여부")]
     [field: SerializeField] public bool CanUse { get; set; } = true; // 스킬 사용 가능 여부

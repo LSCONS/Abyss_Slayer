@@ -4,7 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Pattern", menuName = "BossPattern/FoxClone")]
 public class FoxCloneData : BasePatternData
 {
-    [SerializeField] float hight = 0f;
     [SerializeField] float preDelayTime = 2f;
     [SerializeField] int cloneCount = 4;
     [SerializeField] int cloneDeadDamage = 10;
@@ -28,7 +27,8 @@ public class FoxCloneData : BasePatternData
         for (int i = 0; i < cloneCount + 1; i++)
         {
             float positionX = -(mapWidth / 2) + (i * width) + UnityEngine.Random.Range(0, width);
-            Vector3 position = new Vector3(positionX, hight + 2);
+            float positionY = Physics2D.Raycast(new Vector3(positionX, 5 * Random.Range(0, 3) + 1), Vector3.down, 20, LayerMask.GetMask("GroundPlatform", "GroundPlane")).point.y;
+            Vector3 position = new Vector3(positionX, positionY + bossCenterHight);
             
             if(i == realPosition)
             {

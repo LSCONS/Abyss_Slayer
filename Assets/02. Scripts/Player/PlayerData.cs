@@ -2,7 +2,7 @@ using System;
 using UniRx;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Player", menuName = "Characters/Player")]
+[CreateAssetMenu(fileName = "New Player", menuName = "Data/Player")]
 public class PlayerData : ScriptableObject
 {
     [field: SerializeField]public PlayerGroundData PlayerGroundData { get; private set; }

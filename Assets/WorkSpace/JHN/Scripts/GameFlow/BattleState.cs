@@ -10,13 +10,13 @@ public class BattleState : BaseGameState
 
     public int stageIndex = 0;
     private Boss boss;  // 보스 체크해줘야됨
-    private bool isBossDead = false; // 보스 죽음?
+    private bool isBossDead { get; set; } = false; // 보스 죽음?
     private float deadTimer = 0.0f; // 보스 죽고 몇초 지남?
     private float changeSceneTime = 5.0f; // 보스 죽고 몇초 지나야 씬 넘어갈거임?
     private float timeLimit = 300f; // 5분 제한 시간
     private float currentTime = 0f;
 
-    public override async Task OnEnter()
+    public override Task OnEnter()
     {
         stageIndex = ServerManager.Instance.BossCount;
         Debug.Log("InGameState OnEnter");
@@ -50,13 +50,12 @@ public class BattleState : BaseGameState
         deadTimer = 0;
         currentTime = 0f;
         return;
+        return Task.CompletedTask;
     }
 
     public override async Task OnExit()
     {
         UIManager.Instance.CloseUI(UISceneType.Boss);
-       // UIManager.Instance.CleanupUIMap();
-        // UIManager.Instance.ClearUI(UIType.GamePlay);            // 게임 플레이 UI 제거
         await Task.CompletedTask;
     }
 

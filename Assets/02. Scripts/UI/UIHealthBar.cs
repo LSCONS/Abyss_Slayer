@@ -17,10 +17,11 @@ public class UIHealthBar : UIPermanent, IView
     [SerializeField] private bool isPlayer;   // 플레이어인지 확인
 
 
-    private void SettingPlayer()
+    private async void ConnetctObject()
     {
         if (isPlayer)
         {
+            await ServerManager.Instance.WaitForThisPlayerAsync();
             bool bindSuccess = UIBinder.BindPlayer<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.ThisPlayer, this.gameObject);
             if (!bindSuccess)
             {
@@ -29,24 +30,23 @@ public class UIHealthBar : UIPermanent, IView
         }
         else
         {
-            bool bindSuccess = UIBinder.BindBoss<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.NowBoss, this.gameObject);
+            await ServerManager.Instance.WaitforBossSpawn();
+            bool bindSuccess = UIBinder.BindBoss<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.Boss, this.gameObject);
             if (!bindSuccess)
             {
                 Debug.LogWarning($"[UIHealthBar] 보스 바인딩 실패: {ServerManager.Instance.ThisPlayer}");
             }
         }
-
+        hpBar.fillAmount = 1;
+        hpText.text = $"{100:F0}%";
     }
 
     public async override void Init()
     {
         base.Init();
         await ServerManager.Instance.WaitForThisPlayerAsync();
-        await ServerManager.Instance.WaitForBossObjectAsync();
         gameObject.SetActive(true);
-        SettingPlayer();
-        hpBar.fillAmount = 1;
-        hpText.text = $"{100:F0}%";
+        ConnetctObject();
     }
 
     private int currentHp = 0;  // 애니메이션에 쓰일 현재 hp

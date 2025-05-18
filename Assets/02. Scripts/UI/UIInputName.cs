@@ -38,13 +38,11 @@ public class UIInputName : UIPermanent
         }
     }
 
-    private async void CreateName()
+    private void CreateName()
     {
-        //서버에 연결
-        await ServerManager.Instance.ConnectRoomSearch();
         //이름 저장
         ServerManager.Instance.PlayerName = PlayerName;
         //씬 이동
-        GameFlowManager.Instance.ClientSceneLoad(ESceneName.Start);
+        GameFlowManager.Instance.ClientSceneLoad(ESceneName.StartScene);
     }
 }

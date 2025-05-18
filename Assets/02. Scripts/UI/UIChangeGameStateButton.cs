@@ -17,7 +17,7 @@ public class UIChangeGameStateButton : UIButton
 
     private void ChangeState()
     {
-        GameFlowManager.Instance.ChangeState(gameStartState);
+        GameFlowManager.Instance.ChangeStateWithLoading(gameStartState);
     }
 
 }
