@@ -52,12 +52,12 @@ public class DataManager : Singleton<DataManager>
         for (int i = 1; i <= 9; i++)
         {
             DictIntToDictStateToHairStyleTopSprite[i] = await LoadAndSortSprites($"f{i}_c1_top");
-            DictIntToDictStateToHairStyleBottomSprite[i] = await LoadAndSortSprites($"f{i}_c1_top");
+            DictIntToDictStateToHairStyleBottomSprite[i] = await LoadAndSortSprites($"f{i}_c1_bot");
         }
         for (int i = 1; i <= 14; i++)
         {
             DictIntToDictStateToHairStyleTopSprite[i] = await LoadAndSortSprites($"m{i}_c1_top");
-            DictIntToDictStateToHairStyleBottomSprite[i] = await LoadAndSortSprites($"m{i}_c1_top");
+            DictIntToDictStateToHairStyleBottomSprite[i] = await LoadAndSortSprites($"m{i}_c1_bot");
         }
     }
 

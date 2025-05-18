@@ -8,6 +8,7 @@ public class StartState : BaseGameState
     public override async Task OnEnter()
     {
         Debug.Log("StartState OnEnter");
+        DataManager.Instance.Init(); // 데이터 매니저 init
         UIManager.Instance.Init();
 
         UIManager.Instance.OpenUI(UISceneType.Start);
