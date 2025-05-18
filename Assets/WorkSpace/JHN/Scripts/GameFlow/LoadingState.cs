@@ -12,7 +12,7 @@ public class LoadingState : BaseGameState
     private ESceneName nextStateEnum;
     private readonly UIType prevUIType;
     private NetworkSceneAsyncOp NetworkSceneAsyncOp { get; set; }
-    public bool IsLoadFast { get; set; } = false;
+    public float LoadingTargetValue { get; set; } = 0;
     public Task TaskProgressBar { get; set; } = null;
     public LoadingState(ESceneName nextState, UIType prevUIType)
     {
@@ -20,10 +20,15 @@ public class LoadingState : BaseGameState
         this.prevUIType = prevUIType;
     }
 
+    public void SetLoadingBarValue(float value)
+    {
+        LoadingTargetValue = value;
+    }
+
     public override async Task OnEnter()
     {
-        IsLoadFast = false;
         TaskProgressBar = null;
+        LoadingTargetValue = 0;
         if (GameFlowManager.Instance.PrevState != null)
         {
             // 1. 로딩씬 로드 (Additive or Single 방식 중 선택)
@@ -37,8 +42,8 @@ public class LoadingState : BaseGameState
         // 프로그래스바 가져와
         ProgressBar progressBar = null;
 
-        
-        while((progressBar = GameObject.Find("ProgressBar")?.GetComponent<ProgressBar>()) == null)
+
+        while ((progressBar = GameObject.Find("ProgressBar")?.GetComponent<ProgressBar>()) == null)
         {
             await Task.Yield();
         }
@@ -57,7 +62,7 @@ public class LoadingState : BaseGameState
 
 
         // 이제 유아이 타입 바뀌면 옛날 유아이타입은 다 삭제해야됨
-        if (prevUIType !=UIType.None && prevUIType != nextUIType)
+        if (prevUIType != UIType.None && prevUIType != nextUIType)
         {
             UIManager.Instance.ClearUI(prevUIType);
         }
@@ -74,10 +79,14 @@ public class LoadingState : BaseGameState
             UIManager.Instance.CreateAllUI(nextUIType);
         }
 
+        SetLoadingBarValue(0.1f);
+
         // 4. 씬 로드
         string nextSceneName = GetSceneNameFromState(nextState);
         var sceneOp = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
         while (!sceneOp.isDone) await Task.Yield();
+
+        SetLoadingBarValue(0.2f);
 
         //다음 state로 이동
         await GameFlowManager.Instance.ChangeState(nextState);
@@ -91,8 +100,8 @@ public class LoadingState : BaseGameState
     /// <exception cref="System.Exception"></exception>
     public override async Task OnRunnerEnter()
     {
-        IsLoadFast = false;
         TaskProgressBar = null;
+        LoadingTargetValue = 0;
 
         // 1. 로딩씬 로드 (Additive or Single 방식 중 선택)
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
@@ -152,6 +161,8 @@ public class LoadingState : BaseGameState
             UIManager.Instance.CreateAllUI(nextUIType);
         }
 
+        SetLoadingBarValue(0.1f);
+
 #if MoveSceneDebug
         Debug.Log("씬을 불러오자");
 #endif
@@ -161,6 +172,8 @@ public class LoadingState : BaseGameState
             var temp = runner.LoadScene(GetSceneNameFromState(nextState), LoadSceneMode.Additive);
             await temp;
         }
+
+        SetLoadingBarValue(0.2f);
 
 #if MoveSceneDebug
         Debug.Log("씬을 바꿔보자");
@@ -173,16 +186,16 @@ public class LoadingState : BaseGameState
     {
         while (!(Mathf.Approximately(progressBar.progressBar.value, 1)))
         {
-            int delayTime = Random.Range(10, 15);
-            float varValue = Random.Range(0.003f, 0.005f);
-            if (ServerManager.Instance.CheckAllPlayerIsReadyInClient() && IsLoadFast) 
+            int delayTime = Random.Range(15, 20);
+            float barValue = Random.Range(0.0005f, 0.003f);
+            if (LoadingTargetValue > progressBar.progressBar.value)
             {
-                varValue *= 5;
+                barValue = barValue + barValue * (LoadingTargetValue - progressBar.progressBar.value) * 15;
             }
-
             await Task.Delay(delayTime);
-            progressBar.AddProgressValue(varValue);
-        };
+            progressBar.AddProgressValue(barValue);
+        }
+        ;
 #if MoveSceneDebug
         Debug.Log("프로그래스바 종료");
 #endif

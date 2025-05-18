@@ -11,12 +11,14 @@ public class StartState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("StartState OnEnter진입");
 #endif
-        UIManager.Instance.Init();
+        LoadingState state = GameFlowManager.Instance.prevLodingState;
+
+        await UIManager.Instance.Init();
+        state?.SetLoadingBarValue(0.3f);
+
         await SoundManager.Instance.Init(ESceneName.StartScene);
+        state?.SetLoadingBarValue(0.4f);
 
-        await Task.Delay(1000);
-
-        SoundManager.Instance.PlayBGM(ESceneName.StartScene, 1);
 
 #if MoveSceneDebug
         Debug.Log("서버에 연결 중");
@@ -28,17 +30,14 @@ public class StartState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("프로그래스 바 종료 시키기는 중");
 #endif
-        LoadingState state = GameFlowManager.Instance.prevLodingState;
-        if (state != null)
-        {
-            state.IsLoadFast = true;
-            await state.TaskProgressBar;
-        }
+        state?.SetLoadingBarValue(1);
+        await state?.TaskProgressBar;
 
 #if MoveSceneDebug
         Debug.Log("StartState UI 오픈");
 #endif
         UIManager.Instance.OpenUI(UISceneType.Start);
+        SoundManager.Instance.PlayBGM(ESceneName.StartScene, 1);
 #if MoveSceneDebug
         Debug.Log("LoadingScene 삭제");
 #endif
@@ -56,18 +55,11 @@ public class StartState : BaseGameState
         await Task.CompletedTask;
     }
 
-    public override async Task OnRunnerEnter()
+    public override Task OnRunnerEnter()
     {
 #if MoveSceneDebug
         Debug.Log("StartState OnRunnerEnter 실행");
 #endif
-        UIManager.Instance.Init();
-
-        UIManager.Instance.OpenUI(UISceneType.Start);
-
-        SoundManager.Instance.Init(ESceneName.StartScene);
-        SoundManager.Instance.PlayBGM(ESceneName.StartScene, 1);
-
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 }

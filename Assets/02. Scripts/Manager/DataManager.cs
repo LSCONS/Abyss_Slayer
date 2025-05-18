@@ -13,6 +13,7 @@ public class DataManager : Singleton<DataManager>
 {
     public Dictionary<EAniamtionCurve, AnimationCurve> DictEnumToCurve { get; private set; } = new();
     public Dictionary<EBossStage, NetworkObject> DictEnumToNetObjcet { get; private set; } = new();
+    public Dictionary<EAudioClip, AudioClipData> DictEnumToAudioData { get; private set; } = new();
     [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
     [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
     [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToFaceColorSprite { get; set; } = new();
@@ -25,16 +26,17 @@ public class DataManager : Singleton<DataManager>
         DontDestroyOnLoad(gameObject);
     }
 
-    public void Init()
+    public async Task Init()
     {
-        DataLoadAnimationCurveData();
-        DataLoadBossPrefabData();
-        DataLoadAudioClipData();
-        DataLoadAnimationSpriteData();
+        await DataLoadAnimationCurveData();
+        await DataLoadBossPrefabData();
+        await DataLoadAudioClipData();
+        await DataLoadAnimationSpriteData();
+        return;
     }
 
 
-    private async void DataLoadAnimationSpriteData()
+    private async Task DataLoadAnimationSpriteData()
     {
         // 6. face_c1 ~ face_c7
         for (int i = 1; i <= 7; i++)
@@ -48,16 +50,18 @@ public class DataManager : Singleton<DataManager>
             DictIntToDictStateToSkinColorSprite[i] = await LoadAndSortSprites($"skin_c{i}");
         }
 
-        // 8. f1~f9 / m1~m14 헤어 top
+        // 8. f1~f9 헤어
         for (int i = 1; i <= 9; i++)
         {
             DictIntToDictStateToHairStyleTopSprite[i] = await LoadAndSortSprites($"f{i}_c1_top");
-            DictIntToDictStateToHairStyleBottomSprite[i] = await LoadAndSortSprites($"f{i}_c1_top");
+            DictIntToDictStateToHairStyleBottomSprite[i] = await LoadAndSortSprites($"f{i}_c1_bot");
         }
+
+        // 8. m1~m14 헤어
         for (int i = 1; i <= 14; i++)
         {
             DictIntToDictStateToHairStyleTopSprite[i] = await LoadAndSortSprites($"m{i}_c1_top");
-            DictIntToDictStateToHairStyleBottomSprite[i] = await LoadAndSortSprites($"m{i}_c1_top");
+            DictIntToDictStateToHairStyleBottomSprite[i] = await LoadAndSortSprites($"m{i}_c1_bot");
         }
     }
 
@@ -89,44 +93,47 @@ public class DataManager : Singleton<DataManager>
     /// <summary>
     /// 애니메이션커브 데이터를 로드하는 메서드
     /// </summary>
-    private async void DataLoadAnimationCurveData()
+    private async Task DataLoadAnimationCurveData()
     {
-        var animationCurveData = Addressables.LoadAssetAsync<AnimationCurveData>("AnimationCurveData");
+        var animationCurveData = Addressables.LoadAssetAsync<AnimationCurveDataGather>("AnimationCurveDatas");
         await animationCurveData.Task;
-        AnimationCurveData data = animationCurveData.Result;
-        foreach(AnimationCurveStruct animationCurveStruct in data.AnimationCurveDataList)
+        AnimationCurveDataGather GatherData = animationCurveData.Result;
+        foreach(AnimationCurveData animationCurveStruct in GatherData.ListAnimationCurveData)
         {
             DictEnumToCurve[animationCurveStruct.EAnimationCurve] = animationCurveStruct.AnimationCurve;
         }
+        return;
     }
 
 
     /// <summary>
     /// 보스 프리팹 데이터를 로드하는 메서드
     /// </summary>
-    private async void DataLoadBossPrefabData()
+    private async Task DataLoadBossPrefabData()
     {
-        var bossPrefabData = Addressables.LoadAssetAsync<BossPrefabData>("BossPrefabData");
+        var bossPrefabData = Addressables.LoadAssetAsync<BossPrefabDataGather>("BossPrefabDatas");
         await bossPrefabData.Task;
-        BossPrefabData data = bossPrefabData.Result;
-        foreach (BossPrefabStruct bossPrefabStruct in data.ListBossPrefabStruct)
+        BossPrefabDataGather data = bossPrefabData.Result;
+        foreach (BossPrefabData bossPrefabStruct in data.ListBossPrefabData)
         {
             DictEnumToNetObjcet[bossPrefabStruct.BossStage] = bossPrefabStruct.BossObject;
         }
+        return;
     }
 
 
     /// <summary>
     /// 음악 클립 데이터를 로드하는 메서드
     /// </summary>
-    private async void DataLoadAudioClipData()
+    private async Task DataLoadAudioClipData()
     {
-        //var AudioClipData = Addressables.LoadAssetAsync<AnimationCurveData>("");
-        //await AudioClipData.Task;
-        //AnimationCurveData data = AudioClipData.Result;
-        //foreach (AnimationCurveStruct animationCurveStruct in data.AnimationCurveDataList)
-        //{
-        //    DictEnumToCurve[animationCurveStruct.EAnimationCurve] = animationCurveStruct.AnimationCurve;
-        //}
+        var AudioClipData = Addressables.LoadAssetAsync<AudioClipDataGather>("AuidoClipDatas");
+        await AudioClipData.Task;
+        AudioClipDataGather gatherData = AudioClipData.Result;
+        foreach (AudioClipEnumData data in gatherData.ListAudioClipEnumData)
+        {
+            DictEnumToAudioData[data.EnumClip] = data.AudioClipData;
+        }
+        return;
     }
 }

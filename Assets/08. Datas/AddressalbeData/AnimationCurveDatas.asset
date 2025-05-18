@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2a3d5859fd770640940f159234da30a, type: 3}
-  m_Name: AnimationCurveData
+  m_Script: {fileID: 11500000, guid: 9b6f3c21a71322b4c92fa79130531931, type: 3}
+  m_Name: AnimationCurveDatas
   m_EditorClassIdentifier: 
   AnimationCurveDataList:
-  - <EAnimationCurve>k__BackingField: 0
+  - <EAnimationCurve>k__BackingField: 1
     <AnimationCurve>k__BackingField:
       serializedVersion: 2
       m_Curve:
@@ -47,7 +47,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
-  - <EAnimationCurve>k__BackingField: 1
+  - <EAnimationCurve>k__BackingField: 2
     <AnimationCurve>k__BackingField:
       serializedVersion: 2
       m_Curve:

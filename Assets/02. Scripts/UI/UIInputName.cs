@@ -38,7 +38,7 @@ public class UIInputName : UIPermanent
         }
     }
 
-    private async void CreateName()
+    private void CreateName()
     {
         //이름 저장
         ServerManager.Instance.PlayerName = PlayerName;

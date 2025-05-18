@@ -42,7 +42,7 @@ public class UIManager : Singleton<UIManager>
     /// <summary>
     /// 모든 ui 초기화  
     /// </summary>
-    public void Init()
+    public Task Init()
     {
        // 모든 ui init 실행
        foreach(var ui in UIMap)
@@ -51,6 +51,7 @@ public class UIManager : Singleton<UIManager>
             // Debug.Log($"[Init] {ui.Key} 초기화 시작");
             ui.Value.GetComponentInChildren<UIBase>(true).Init();
        }
+       return Task.CompletedTask;
     }
     public void Start()
     {

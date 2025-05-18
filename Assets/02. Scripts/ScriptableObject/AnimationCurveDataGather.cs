@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new AnimationCurve", menuName = "Data/AnimatinCurve")]
-public class AnimationCurveData : ScriptableObject
+public class AnimationCurveDataGather : ScriptableObject
 {
-    [field: SerializeField] public List<AnimationCurveStruct> AnimationCurveDataList;
+    [field: SerializeField] public List<AnimationCurveData> ListAnimationCurveData;
 }
 
 
 [Serializable]
-public struct AnimationCurveStruct
+public class AnimationCurveData
 {
     [field: SerializeField] public EAniamtionCurve EAnimationCurve { get; private set; }
     [field: SerializeField] public AnimationCurve AnimationCurve { get; private set; }

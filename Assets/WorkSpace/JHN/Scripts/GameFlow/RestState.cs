@@ -6,15 +6,9 @@ using UnityEngine.SceneManagement;
 public class RestState : BaseGameState
 {
     public override UIType StateUIType => UIType.GamePlay;
-    public override async Task OnEnter()
+    public override Task OnEnter()
     {
-        UIManager.Instance.Init();
-        UIManager.Instance.OpenUI(UISceneType.Rest);
-
-        // 브금 init
-        SoundManager.Instance.Init(ESceneName.RestScene);
-
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 
     public override async Task OnExit()
@@ -31,15 +25,24 @@ public class RestState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("RestState OnRunnerEnter 실행");
 #endif
-        UIManager.Instance.Init();
+        LoadingState state = GameFlowManager.Instance.prevLodingState;
+
+        await UIManager.Instance.Init();
+        state?.SetLoadingBarValue(0.3f);
+
         await SoundManager.Instance.Init(ESceneName.RestScene);
+        state?.SetLoadingBarValue(0.4f);
+
         var runner = RunnerManager.Instance.GetRunner();
+
+        //TODO 서버에서 허수아비 소환하고 실제로 생성됐는지 await 걸어야함(보스랑 연결됐는지 확인)
 
 #if MoveSceneDebug
         Debug.Log("Rpc 래디 해주세용");
 #endif
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
         await ServerManager.Instance.WaitForAllPlayerIsReady();
+        state?.SetLoadingBarValue(0.7f);
 
 #if MoveSceneDebug
         Debug.Log("서버야 모든 데이터가 유효하니");
@@ -55,12 +58,8 @@ public class RestState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("프로그래스 바 끝났는지 확인하자");
 #endif
-        LoadingState state = GameFlowManager.Instance.prevLodingState;
-        if (state != null)
-        {
-            state.IsLoadFast = true;
-            await state.TaskProgressBar;
-        }
+        state?.SetLoadingBarValue(1);
+        await state?.TaskProgressBar;
 
 
 #if MoveSceneDebug
