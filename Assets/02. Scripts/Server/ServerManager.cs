@@ -41,7 +41,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         }
     }
     [field: SerializeField] public List<NetworkObject> BossObject { get; private set; }
-    public Boss NowBoss { get; private set; }
     public string RoomName { get; private set; } = "Empty";
     //플레이어의 이름이 바뀔 때 실행할 Action
     public Action ChangeNameAction { get; set; }
@@ -76,6 +75,8 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public Vector3 Vec3PlayerRestPosition { get; private set; } = new Vector3(-5, 1.5f, 0);
     public Action<bool> IsAllReadyAction { get; set; }
 
+    public Boss Boss { get; set; } = null;
+
     protected override void Awake()
     {
         base.Awake();
@@ -86,6 +87,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 
     private async void Init()
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         if (PlayerPrefab == null)
         {
             var handle = Addressables.LoadAssetAsync<GameObject>("PlayerPrefab");
@@ -101,6 +105,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// <returns></returns>
     public bool CheckAllPlayerIsReadyInServer()
     {
+#if AllMethodDebug
+        Debug.Log("CheckAllPlayerIsReadyInServer");
+#endif
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (!(runner.IsServer)) return false;
         foreach (NetworkData data in DictRefToNetData.Values)
@@ -118,6 +125,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// <returns></returns>
     public bool CheckAllPlayerIsReadyInClient()
     {
+#if AllMethodDebug
+        Debug.Log("CheckAllPlayerIsReadyInClient");
+#endif
         foreach (NetworkData data in DictRefToNetData.Values)
         {
             if (!(data.IsReady)) return false;
@@ -144,12 +154,28 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     }
 
 
+    public async Task WaitforBossSpawn()
+    {
+#if AllMethodDebug
+        Debug.Log("WaitforBossSpawn");
+#endif
+        while (Boss == null)
+        {
+            await Task.Delay(100);
+        }
+        return;
+    }
+
+
     /// <summary>
     /// 모든 플레이어의 준비가 true가 될 때까지 대기하는 메서드
     /// </summary>
     /// <returns></returns>
     public async Task WaitForAllPlayerIsReady()
     {
+#if AllMethodDebug
+        Debug.Log("WaitForAllPlayerIsReady");
+#endif
         while (true)
         {
             int sessionPlayerCount = RunnerManager.Instance.GetRunner().SessionInfo.PlayerCount;
@@ -176,6 +202,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// <returns></returns>
     public async Task<Player> WaitForThisPlayerAsync(CancellationToken ct = default)
     {
+#if AllMethodDebug
+        Debug.Log("WaitForThisPlayerAsync");
+#endif
         Player player;
         while ((player = ThisPlayer) == null) 
         {
@@ -188,6 +217,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 
     public async Task WaitForThisPlayerDataAsync(CancellationToken ct = default)
     {
+#if AllMethodDebug
+        Debug.Log("WaitForThisPlayerDataAsync");
+#endif
         NetworkData data = null;
         while((data = ThisPlayerData) == null)
         {
@@ -205,6 +237,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// <returns></returns>
     public async Task<PlayerInput> WaitForThisInputAsync(CancellationToken ct = default)
     {
+#if AllMethodDebug
+        Debug.Log("WaitForThisInputAsync");
+#endif
         Player player = await WaitForThisPlayerAsync();
         while (player.PlayerInput == null)
         {
@@ -222,6 +257,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// <returns></returns>
     public async Task WaitForAllPlayerLoadingAsync(CancellationToken ct = default)
     {
+#if AllMethodDebug
+        Debug.Log("WaitForAllPlayerLoadingAsync");
+#endif
         while (DictRefToNetData.Count != DictRefToPlayer.Count)
         {
             ct.ThrowIfCancellationRequested();
@@ -229,18 +267,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         }
         return;
     }
-
-    public async Task<Boss> WaitForBossObjectAsync(CancellationToken ct = default)
-    {
-        Boss boss = null;
-        while ((boss = NowBoss) == null)
-        {
-            ct.ThrowIfCancellationRequested();
-            await Task.Yield();
-        }
-        return boss;
-    }
-
 
     /// <summary>
     /// 플레이어의 수 만큼 Player를 생성하는 메서드
@@ -279,6 +305,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// <param name="roomName"></param>
     public void CreateRoom(string roomName)
     {
+#if AllMethodDebug
+        Debug.Log("CreateRoom");
+#endif
         ChattingTextController.TextChattingRecord.text = "";//채팅 초기화
         RoomName = roomName;
         LobbyMainPanel.ChangeRoomText();
@@ -295,6 +324,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// <returns>있다면 true, 없다면 false</returns>
     public bool CheckSameRoomName(string roomName)
     {
+#if AllMethodDebug
+        Debug.Log("CheckSameRoomName");
+#endif
         foreach (var session in CurrentSessionList)
         {
             if (session.Name == roomName) return true;
@@ -309,17 +341,25 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// <param name="info"></param>
     public void JoinRoom(SessionInfo info)
     {
+#if AllMethodDebug
+        Debug.Log("JoinRoom");
+        Debug.Log($"RoomName = {RoomName}");
+#endif
         ChattingTextController.TextChattingRecord.text = "";//채팅 초기화
         RoomName = info.Name;
         LobbyMainPanel.ChangeRoomText();
         var runner = RunnerManager.Instance.GetRunner();
         runner.ProvideInput = true;
-        IsServer = true;
+        IsServer = false;
         GameFlowManager.Instance.ClientSceneLoad(ESceneName.LobbyScene);
     }
 
     public async Task InitHost()
     {
+#if AllMethodDebug
+        Debug.Log("InitHost");
+        Debug.Log($"RoomName = {RoomName}");
+#endif
         var runner = RunnerManager.Instance.GetRunner();
         Debug.Log("방 만들기 시작");
         var temp = runner.StartGame(new StartGameArgs()
@@ -336,6 +376,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 
     public async Task InitClient()
     {
+#if AllMethodDebug
+        Debug.Log("InitClient");
+#endif
         var runner = RunnerManager.Instance.GetRunner();
         var temp = runner.StartGame(new StartGameArgs()
         {
@@ -355,6 +398,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// </summary>
     public async void ExitRoom()
     {
+#if AllMethodDebug
+        Debug.Log("ExitRoom");
+#endif
         var runner = RunnerManager.Instance.GetRunner();
         await runner.Shutdown();
         Destroy(runner.gameObject);
@@ -369,6 +415,9 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// </summary>
     public async Task ConnectRoomSearch()
     {
+#if AllMethodDebug
+        Debug.Log("ConnectRoomSearch");
+#endif
         var runner = RunnerManager.Instance.GetRunner();
         runner.AddCallbacks(this);
         runner.ProvideInput = false;

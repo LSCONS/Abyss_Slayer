@@ -9,48 +9,18 @@ public class BattleState : BaseGameState
 
     public int stageIndex = 0;
     private Boss boss;  // 보스 체크해줘야됨
-    private bool isBossDead = false; // 보스 죽음?
+    private bool isBossDead { get; set; } = false; // 보스 죽음?
     private float deadTimer = 0.0f; // 보스 죽고 몇초 지남?
     private float changeSceneTime = 5.0f; // 보스 죽고 몇초 지나야 씬 넘어갈거임?
 
-    public override async Task OnEnter()
+    public override Task OnEnter()
     {
-        stageIndex = ServerManager.Instance.BossCount;
-        Debug.Log("InGameState OnEnter");
-        UIManager.Instance.Init();
-        UIManager.Instance.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
-
-        // 브금 init
-        SoundManager.Instance.Init(ESceneName.Battle0Scene);
-
-
-        // 보스 찾기
-        var bossObj = GameObject.FindWithTag("Boss");
-        if (bossObj != null)
-        {
-            boss = bossObj.GetComponent<Boss>();
-            if(boss == null)
-            {
-                Debug.LogError("보스 컴포넌트 없더");
-                return;
-            }
-        }
-        else
-        {
-            Debug.LogError("보스 오브젝트 없어");
-            return;
-        }
-
-        isBossDead = false; // 씬 넘어가고 나면 다시 안타게 막아두자
-        deadTimer = 0;
-        return;
+        return Task.CompletedTask;
     }
 
     public override async Task OnExit()
     {
         UIManager.Instance.CloseUI(UISceneType.Boss);
-       // UIManager.Instance.CleanupUIMap();
-        // UIManager.Instance.ClearUI(UIType.GamePlay);            // 게임 플레이 UI 제거
         await Task.CompletedTask;
     }
 

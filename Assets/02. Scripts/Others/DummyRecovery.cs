@@ -7,8 +7,8 @@ public class DummyRecovery : MonoBehaviour
 {
     private Boss boss;
     private Coroutine slowRecoveryCoroutine;
-    [Header("자연회복 시간(최대 체력보다 작아진 후)")]
-    [SerializeField] float recoverySeconds = 5;
+    [field: Header("자연회복 시간(최대 체력보다 작아진 후)")]
+    [field: SerializeField] float recoverySeconds { get; set; } = 5;
     [Header("자연회복 시간(마지막 공격 받은 후)")]
     [SerializeField] private float takeDamageSeconds = 3f;
     [Header("자연회복량")]

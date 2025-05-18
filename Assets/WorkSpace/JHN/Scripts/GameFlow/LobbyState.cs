@@ -16,10 +16,6 @@ public class LobbyState : BaseGameState
         await UIManager.Instance.Init();
         state?.SetLoadingBarValue(0.3f);
 
-        await SoundManager.Instance.Init(ESceneName.LobbyScene);
-        state?.SetLoadingBarValue(0.4f);
-
-
 #if MoveSceneDebug
         Debug.Log("방 생성 및 들어가기");
 #endif
@@ -48,7 +44,7 @@ public class LobbyState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LobbyState 오픈");
 #endif
-        SoundManager.Instance.PlayBGM(ESceneName.LobbyScene, 1);
+        SoundManager.Instance.PlayBGM(EAudioClip.BGM_LobbyScene);
         UIManager.Instance.OpenUI(UISceneType.Lobby);
 
 #if MoveSceneDebug
@@ -64,7 +60,6 @@ public class LobbyState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LobbtyState OnExit 실행");
 #endif
-        SoundManager.Instance.UnloadSoundsByState(ESceneName.LobbyScene);
         await Task.CompletedTask;
     }
 

@@ -16,9 +16,6 @@ public class StartState : BaseGameState
         await UIManager.Instance.Init();
         state?.SetLoadingBarValue(0.3f);
 
-        await SoundManager.Instance.Init(ESceneName.StartScene);
-        state?.SetLoadingBarValue(0.4f);
-
 
 #if MoveSceneDebug
         Debug.Log("서버에 연결 중");
@@ -37,7 +34,6 @@ public class StartState : BaseGameState
         Debug.Log("StartState UI 오픈");
 #endif
         UIManager.Instance.OpenUI(UISceneType.Start);
-        SoundManager.Instance.PlayBGM(ESceneName.StartScene, 1);
 #if MoveSceneDebug
         Debug.Log("LoadingScene 삭제");
 #endif
@@ -51,7 +47,6 @@ public class StartState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("StartScene OnExit 실행");
 #endif
-        SoundManager.Instance.UnloadSoundsByState(ESceneName.StartScene);
         await Task.CompletedTask;
     }
 

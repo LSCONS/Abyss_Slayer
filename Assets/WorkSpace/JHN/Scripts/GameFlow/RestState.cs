@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
+using Fusion;
 public class RestState : BaseGameState
 {
     public override UIType StateUIType => UIType.GamePlay;
@@ -30,12 +31,21 @@ public class RestState : BaseGameState
         await UIManager.Instance.Init();
         state?.SetLoadingBarValue(0.3f);
 
-        await SoundManager.Instance.Init(ESceneName.RestScene);
-        state?.SetLoadingBarValue(0.4f);
 
+#if MoveSceneDebug
+        Debug.Log("서버에서 보스 스폰 실행");
+#endif
         var runner = RunnerManager.Instance.GetRunner();
+        if (runner.IsServer)
+        {
+            NetworkObject boss = runner.Spawn(DataManager.Instance.DictEnumToNetObjcet[EBossStage.Rest]);
+            runner.MoveGameObjectToScene(boss.gameObject, SceneRef.FromIndex((int)ESceneName.RestScene));
+        }
+        await ServerManager.Instance.WaitforBossSpawn();
+        //TODO: 보스 씬 옮겨야함
+        //TODO: 보스 위치 옮겨야함
 
-        //TODO 서버에서 허수아비 소환하고 실제로 생성됐는지 await 걸어야함(보스랑 연결됐는지 확인)
+        state?.SetLoadingBarValue(0.6f);
 
 #if MoveSceneDebug
         Debug.Log("Rpc 래디 해주세용");

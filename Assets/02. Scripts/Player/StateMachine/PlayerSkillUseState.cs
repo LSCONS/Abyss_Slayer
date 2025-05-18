@@ -54,9 +54,9 @@ public class PlayerSkillUseState : PlayerBaseState
         }
         SkillData.UseSkill();
 
-        if (SkillData.SkillSound != null)
+        if (SkillData.EAudioClip != EAudioClip.None)
         {
-            SoundManager.Instance.PlaySFX(SkillData.SkillSound.clip, SkillData.SkillSound.loop, SkillData.SkillSound.pitch, SkillData.SkillSound.volume);
+            SoundManager.Instance.PlaySFX(SkillData.EAudioClip);
         }
 
 
@@ -75,9 +75,11 @@ public class PlayerSkillUseState : PlayerBaseState
             ResetDefaultGravityForce();
         }
 
-        if (SkillData.SkillSound != null && SkillData.SkillSound.loop)
+        if (SkillData.EAudioClip != EAudioClip.None)
         {
-            SoundManager.Instance.StopSFX(SkillData.SkillSound.clip);
+            if (!(DataManager.Instance.DictEnumToAudioData.TryGetValue(SkillData.EAudioClip, out var audioData))) return;
+            if (audioData.Audio == null || !(audioData.IsLoop)) return;
+            SoundManager.Instance.StopSFX(SkillData.EAudioClip);
         }
 
 #if StateMachineDebug

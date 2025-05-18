@@ -5,7 +5,7 @@ using UniRx;
 using Unity.VisualScripting;
 
 [CreateAssetMenu(menuName = "Skill/AreaSkill/ShieldAreaSkill")]
-public class ShieldAreaSkill : AreaSkill
+public class ShieldsAreaSkill : AreaSkill
 {
     [SerializeField] private GameObject shieldPrefab;
     

@@ -36,8 +36,6 @@ public class Player : NetworkBehaviour, IHasHealth
     public ReactiveProperty<int> MaxHp { get; set; } = new();
     public ReactiveProperty<float> DamageValue { get; set; } = new(1);
     public float ArmorAmount { get; set; } = 1.0f;                   // 방어력 계수
-
-    public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
     public Coroutine HoldSkillCoroutine { get; private set; }
     public Action HoldSkillCoroutineStopAction { get; private set; }
     public NetworkData NetworkData { get; set; }
