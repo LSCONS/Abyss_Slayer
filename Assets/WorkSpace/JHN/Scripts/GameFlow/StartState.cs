@@ -28,7 +28,7 @@ public class StartState : BaseGameState
         Debug.Log("프로그래스 바 종료 시키기는 중");
 #endif
         state?.SetLoadingBarValue(1);
-        await state?.TaskProgressBar;
+        await (state?.TaskProgressBar ?? Task.CompletedTask);
 
 #if MoveSceneDebug
         Debug.Log("StartState UI 오픈");

@@ -70,7 +70,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public UILobbySelectPanel LobbySelectPanel { get; set; }
     public UIRoomSearch RoomSearch { get; set; }
     public UITeamStatus UITeamStatus { get; set; }
-    public InitManager InitManager { get; set; }
+    public InitSupporter InitSupporter { get; set; }
     public Vector3 Vec3PlayerBattlePosition { get; private set; } = new Vector3(-18, 1.5f, 0);
     public Vector3 Vec3PlayerRestPosition { get; private set; } = new Vector3(-5, 1.5f, 0);
     public Action<bool> IsAllReadyAction { get; set; }
@@ -185,7 +185,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
                 if(data.IsReady) isReadyPlayerCount++;
             }
 
-            await Task.Delay(1000);
+            await Task.Delay(100);
             if(sessionPlayerCount == isReadyPlayerCount)
             {
                 break;
@@ -212,6 +212,15 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
             await Task.Yield();
         }
         return player;
+    }
+
+    public async Task WaitForDespawnBossAsync(CancellationToken ct = default)
+    {
+        while(Boss != null)
+        {
+            await Task.Delay(100);
+        }
+        return;
     }
 
 

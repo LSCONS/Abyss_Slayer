@@ -45,7 +45,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
 
     // loadingstate로 가서 상태 변경하게 하기
-    public void ChangeStateWithLoading(ESceneName nextEnum)
+    public async Task ChangeStateWithLoading(ESceneName nextEnum)
     {
 #if AllMethodDebug || MoveSceneDebug
         Debug.Log("ChangeStateWithLoading");
@@ -61,12 +61,12 @@ public class GameFlowManager : Singleton<GameFlowManager>
             prevUIType = prevBase.StateUIType;
 
         // 2) 무조건 LoadingState로 경유
-        ChangeState(prevLodingState = new LoadingState(nextEnum, prevUIType));
+         await ChangeState(prevLodingState = new LoadingState(nextEnum, prevUIType));
     }
 
 
     // loadingstate로 가서 상태 변경하게 하기
-    public void ChangeRunnerStateWithLoading(ESceneName nextEnum)
+    public async Task ChangeRunnerStateWithLoading(ESceneName nextEnum)
     {
 #if AllMethodDebug || MoveSceneDebug
         Debug.Log("ChangeRunnerStateWithLoading");
@@ -82,25 +82,25 @@ public class GameFlowManager : Singleton<GameFlowManager>
             prevUIType = prevBase.StateUIType;
 
         // 2) 무조건 LoadingState로 경유
-        ChangeRunnerState(prevLodingState = new LoadingState(nextEnum, prevUIType));
+        await ChangeRunnerState(prevLodingState = new LoadingState(nextEnum, prevUIType));
     }
 
 
-    public void RpcServerSceneLoad(ESceneName nextStateEnum)
+    public async void RpcServerSceneLoad(ESceneName nextStateEnum)
     {
 #if AllMethodDebug || MoveSceneDebug
         Debug.Log("RpcServerSceneLoad");
 #endif
-        ChangeRunnerStateWithLoading(nextStateEnum);
+        await ChangeRunnerStateWithLoading(nextStateEnum);
         return;
     }
 
-    public void ClientSceneLoad(ESceneName nextStateEnum)
+    public async void ClientSceneLoad(ESceneName nextStateEnum)
     {
 #if AllMethodDebug || MoveSceneDebug
         Debug.Log("ClientSceneLoad");
 #endif
-        ChangeStateWithLoading(nextStateEnum);
+        await ChangeStateWithLoading(nextStateEnum);
         return;
     }
 
@@ -140,26 +140,24 @@ public class GameFlowManager : Singleton<GameFlowManager>
     /// </summary>
     /// <param name="newState">새로운 상태</param>
     /// <returns>상태 변경 작업의 결과</returns>
-    public Task ChangeState(IGameState newState)
+    public async Task ChangeState(IGameState newState)
     {
 #if AllMethodDebug || MoveSceneDebug
         Debug.Log("ChangeState");
 #endif
-        CurrentState?.OnExit();
+        await (CurrentState?.OnExit() ?? Task.CompletedTask);
         CurrentState = newState;
-        CurrentState?.OnEnter();
-        return Task.CompletedTask;
+        await (CurrentState?.OnEnter() ?? Task.CompletedTask);
     }
 
-    public Task ChangeRunnerState(IGameState newState)
+    public async Task ChangeRunnerState(IGameState newState)
     {
 #if AllMethodDebug || MoveSceneDebug
         Debug.Log("ChangeRunnerState");
 #endif
-        CurrentState?.OnExit();
+        await (CurrentState?.OnExit() ?? Task.CompletedTask);
         CurrentState = newState;
-        CurrentState?.OnRunnerEnter();
-        return Task.CompletedTask;
+        await (CurrentState?.OnRunnerEnter() ?? Task.CompletedTask);
     }
 
     // 상태 생성가능하게

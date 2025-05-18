@@ -2,6 +2,7 @@ using Fusion;
 using Photon.Realtime;
 using System.Collections;
 using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Unity.Collections.Unicode;
@@ -164,7 +165,6 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_MoveScene");
 #endif
-        ServerManager.Instance.AllPlayerIsReadyFalse();
         foreach (var item in ServerManager.Instance.DictRefToPlayer.Values)
         {
             item.ResetPlayerStatus();
@@ -217,6 +217,12 @@ public class NetworkData : NetworkBehaviour
             SceneManager.MoveGameObjectToScene(player.gameObject, SceneManager.GetActiveScene());
             player.PlayerData.PlayerDataInit(player);
         }
+
+        foreach (NetworkData data in ServerManager.Instance.DictRefToNetData.Values)
+        {
+            SceneManager.MoveGameObjectToScene(data.gameObject, SceneManager.GetActiveScene());
+        }
+        SceneManager.MoveGameObjectToScene(RunnerManager.Instance.gameObject, SceneManager.GetActiveScene());
     }
 
 

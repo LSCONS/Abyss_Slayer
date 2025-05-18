@@ -3,12 +3,14 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(NetworkObject))]
-public class InitManager : NetworkBehaviour
+public class InitSupporter : NetworkBehaviour
 {
     public override void Spawned()
     {
         base.Spawned();
-        ServerManager.Instance.InitManager = this;
+        transform.parent = null;
+        DontDestroyOnLoad(gameObject);
+        ServerManager.Instance.InitSupporter = this;
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -36,9 +38,10 @@ public class InitManager : NetworkBehaviour
     }
 
 
-    public void Rpc_StartHomingProjectileInit(int damage, Vector3 position, Quaternion rotate, PlayerRef target, float speed, HomingProjectileType tpye, float delayFireTime = 0f, float homingPower = 10f, float homingTime = 3f, float explosionSize = 0.5f, int homingCurve = 0, int speedCurve = 0)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_StartHomingProjectileInit(int damage, Vector3 position, Quaternion rotate, PlayerRef target, float speed, int HomingProjectileType, float delayFireTime = 0f, float homingPower = 10f, float homingTime = 3f, float explosionSize = 0.5f, int homingCurve = 0, int speedCurve = 0)
     {
-        PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, speed, tpye, delayFireTime, homingPower, homingTime, explosionSize, homingCurve, speedCurve);
+        PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, speed, HomingProjectileType, delayFireTime, homingPower, homingTime, explosionSize, homingCurve, speedCurve);
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]

@@ -18,7 +18,7 @@ public class ThrowRockData : BasePatternData
         yield return new WaitForSeconds(preDelayTime);
         //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("ThrowRock2");
-        ServerManager.Instance.InitManager.Rpc_StartGravityProjectileInit(damage, bossTransform.position + Vector3.up * 2, rockSpeed, target.position, int.MaxValue, rockSize, 1);
+        ServerManager.Instance.InitSupporter.Rpc_StartGravityProjectileInit(damage, bossTransform.position + Vector3.up * 2, rockSpeed, target.position, int.MaxValue, rockSize, 1);
         //PoolManager.Instance.Get<GravityProjectile>().Init(damage, bossTransform.position + Vector3.up * 2, rockSpeed, target.position, int.MaxValue,rockSize, 1);
         bossController.ChasingTarget = false;
         bossController.ShowTargetCrosshair = false;

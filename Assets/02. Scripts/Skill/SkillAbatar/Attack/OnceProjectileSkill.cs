@@ -19,7 +19,6 @@ public class OnceProjectileSkill : ProjectileAttackSkill
         {
             ThrowProjectile(spawnPos + distanceY, dirX); 
             ThrowProjectile(spawnPos - distanceY, dirX, Damage);
-            Debug.LogAssertion($"추가 투사체 배율: {DamageMultiple}");
         }
         else
         {

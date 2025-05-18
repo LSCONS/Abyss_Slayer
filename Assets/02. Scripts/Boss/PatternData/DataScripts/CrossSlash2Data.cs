@@ -25,7 +25,7 @@ public class CrossSlash2Data : BasePatternData
         bossController.isRun = false;
         yield return new WaitForSeconds(0.05f * speed);
 
-        ServerManager.Instance.InitManager.Rpc_StartCrossSlashInit(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, 2, speed);
+        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, 2, speed);
         //PoolManager.Instance.Get<CrossSlash>().Init(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, 2, speed);
         yield return new WaitForSeconds((1/ 6) * speed);
 

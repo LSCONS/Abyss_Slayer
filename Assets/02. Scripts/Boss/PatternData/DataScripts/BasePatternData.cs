@@ -37,22 +37,25 @@ public abstract class BasePatternData : ScriptableObject
     /// <returns></returns>
     public bool IsAvailable()
     {
+#if AllMethodDebug
+        Debug.Log("IsAvailable");
+#endif
         for (int i = 0; i < attackableAreas.Count; i++)
         {
-            
             Vector2 pointA = new Vector2(attackableAreas[i].xMin, attackableAreas[i].yMin);
             Vector2 pointB = new Vector2(attackableAreas[i].xMax, attackableAreas[i].yMax);
             pointA = bossTransform.TransformPoint(pointA);
             pointB = bossTransform.TransformPoint(pointB);
 
-            Collider2D hit = Physics2D.OverlapArea(pointA, pointB, LayerData.PlayerLayerMask);
+            List<Player> players = SerchPlayerInArea(pointA, pointB);
 
-            if (hit != null)
+            if (players.Count != 0)
             {
-                target = hit.transform;
+                target = players[0].transform;
                 return true;
             }
         }
+
         for (int i = 0; i < globalAttackableAreas.Count; i++)
         {
 
@@ -60,15 +63,39 @@ public abstract class BasePatternData : ScriptableObject
             Vector2 pointB = new Vector2(globalAttackableAreas[i].xMax, globalAttackableAreas[i].yMax);
 
 
-            Collider2D hit = Physics2D.OverlapArea(pointA, pointB, LayerData.PlayerLayerMask);
+            List<Player> players = SerchPlayerInArea(pointA, pointB);
 
-            if (hit != null)
+            if (players.Count != 0)
             {
-                target = hit.transform;
+                target = players[0].transform;
                 return true;
             }
         }
         return false;
     }
+
+    private List<Player> SerchPlayerInArea(Vector2 minXY, Vector2 maxXY)
+    {
+        List<Player> playerList = new();
+
+        foreach(Player player in ServerManager.Instance.DictRefToPlayer.Values)
+        {
+            Vector2 playerVector2 = player.transform.position;
+            if (playerVector2.x < minXY.x || playerVector2.y < minXY.y) continue;
+            if (playerVector2.x > maxXY.x || playerVector2.y > maxXY.y) continue;
+            playerList.Add(player);
+        }
+
+        playerList.Sort((a, b) =>
+        {
+            float distanceA = Vector2.Distance(a.transform.position, boss.transform.position);
+            float distanceB = Vector2.Distance(b.transform.position, boss.transform.position);
+            return distanceA.CompareTo(distanceB);
+        });
+
+        return playerList;
+    }
+
+
     public abstract IEnumerator ExecutePattern();
 }

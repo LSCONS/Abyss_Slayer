@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <BossController>k__BackingField: {fileID: 2290308739379278194}
-  <Sprite>k__BackingField: {fileID: 1016348319747735812}
+  <Sprite>k__BackingField: {fileID: 7533442902988421679}
   <Animator>k__BackingField: {fileID: 2131309353128677388}
   <HitCollider>k__BackingField: {fileID: 6902979656306387885}
   <VirtualCamera>k__BackingField: {fileID: 1779072543370487692}
@@ -248,7 +248,7 @@ MonoBehaviour:
     showGizmos: 1
   <TargetCrossHairPrefab>k__BackingField: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
   <Boss>k__BackingField: {fileID: 4068889471639930373}
-  <BossCenterHight>k__BackingField: 0
+  <BossCenterHight>k__BackingField: 2
   <JumpMoveTime>k__BackingField: 1
   <JumpMoveHight>k__BackingField: 1
   <GravityMultiplier>k__BackingField: 1
@@ -357,6 +357,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 4068889471639930373}
+  - {fileID: 2290308739379278194}
   ForceRemoteRenderTimeframe: 0
 --- !u!1 &4243941655664012984
 GameObject:

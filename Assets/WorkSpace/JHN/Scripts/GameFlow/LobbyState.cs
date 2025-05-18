@@ -39,7 +39,7 @@ public class LobbyState : BaseGameState
         Debug.Log("프로그래스 바 끝날 때까지 대기");
 #endif
         state?.SetLoadingBarValue(1f);
-        await state?.TaskProgressBar;
+        await (state?.TaskProgressBar ?? Task.CompletedTask);
 
 #if MoveSceneDebug
         Debug.Log("LobbyState 오픈");
