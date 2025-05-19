@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5640174349627807741}
   - component: {fileID: 2237899071618553857}
   - component: {fileID: 2756585866886450487}
+  - component: {fileID: 2316484289422095100}
   m_Layer: 0
   m_Name: Tornado
   m_TagString: Untagged
@@ -68,6 +69,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageColliderScript: {fileID: 8318337961776965857}
+--- !u!114 &2316484289422095100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915206941652916329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2127782159
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 2756585866886450487}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &3217133211128412471
 GameObject:
   m_ObjectHideFlags: 0

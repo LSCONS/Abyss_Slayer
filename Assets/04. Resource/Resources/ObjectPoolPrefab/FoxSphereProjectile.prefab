@@ -144,6 +144,7 @@ GameObject:
   - component: {fileID: 4897987900496110051}
   - component: {fileID: 2737278379916430373}
   - component: {fileID: 289702176158214018}
+  - component: {fileID: 5746659239944083203}
   m_Layer: 0
   m_Name: FoxSphereProjectile
   m_TagString: Untagged
@@ -202,3 +203,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 2737278379916430373}
   damageCollider: {fileID: 3977481820351052213}
+--- !u!114 &5746659239944083203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8144183339616214376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3122132554
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 289702176158214018}
+  - {fileID: 3977481820351052213}
+  ForceRemoteRenderTimeframe: 0

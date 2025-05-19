@@ -27,7 +27,9 @@ public class ObjectPool
             Debug.LogError("ObjectPool 생성 시 prefab이 null입니다!");
             return null;
         }
-        BasePoolable obj = Object.Instantiate(_prefab, _parent);
+        BasePoolable obj = RunnerManager.Instance.GetRunner().Spawn(_prefab);
+        obj.transform.parent = null;
+        obj.transform.parent = _parent;
         obj.SetPool(this);
         obj.gameObject.SetActive(false);
         pool.Enqueue(obj);

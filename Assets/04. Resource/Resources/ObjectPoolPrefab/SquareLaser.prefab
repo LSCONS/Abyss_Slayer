@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5530102127806497647}
   - component: {fileID: 8052196532067264383}
   - component: {fileID: 6444747739842438422}
+  - component: {fileID: 5486913093779317621}
   m_Layer: 0
   m_Name: SquareLaser
   m_TagString: Untagged
@@ -273,6 +274,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.75, y: 18.5}
   m_EdgeRadius: 0
+--- !u!114 &5486913093779317621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4353971586142547376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 4213098455
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 909730734368649186}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &7085967631316767406
 GameObject:
   m_ObjectHideFlags: 0
