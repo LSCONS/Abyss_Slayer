@@ -14,12 +14,23 @@ public class UIPopupButton : UIButton
     [Header("알람 아이콘 세팅")]
     [SerializeField] private GameObject alarmIcon;  // 알람 아이콘
 
+    [Header("이 팝업은 esc로 열리고 싶은가요?")]
+    [SerializeField] private bool escCanOpen = false;
+
     private UIPopup popup;
 
     public void Awake()
     {
         if (button == null) button = GetComponent<Button>();
         button.onClick.AddListener(OnClickButton);
+    }
+
+    private void Update()
+    {
+        if(!isClose && escCanOpen && Input.GetKeyDown(KeyCode.Escape))
+        {
+            TryOpenPopupWithESC();
+        }
     }
 
     public override void Init()
@@ -73,6 +84,21 @@ public class UIPopupButton : UIButton
         {
             Debug.LogError($"[UIPopupBotton] 팝업 {popupName} 을 찾을 수 없다요");
 
+        }
+    }
+
+    // esc 버튼으로 그 팝업 열려야됨
+    private void TryOpenPopupWithESC()
+    {
+        if(popup == null)
+        {
+            popup = UIManager.Instance.FindPopupByName(popupName);
+            if (popup == null) { Debug.Log("어 트라이"); return; }
+        }
+
+        if (popup != null)
+        {
+            UIManager.Instance.OpenPopup(popup);
         }
     }
 }
