@@ -21,7 +21,7 @@ public class FoxSphereData : BasePatternData
         Vector3 startPosition = bossTransform.position + (Vector3.up * 0.5f) + (3 * (boss.IsLeft ? Vector3.left : Vector3.right));
         for (int i = 0; i < sphereCount; i++)
         {
-            ServerManager.Instance.InitManager.Rpc_StartFoxSphereProjectileInit(damage, startPosition, preDelayTime + (i * fireIntervalTime), playerRef, startSpeed, distance);
+            ServerManager.Instance.InitSupporter.Rpc_StartFoxSphereProjectileInit(damage, startPosition, preDelayTime + (i * fireIntervalTime), playerRef, startSpeed, distance);
             //PoolManager.Instance.Get<FoxSphereProjectile>().Init(damage, startPosition, preDelayTime + (i * fireIntervalTime), target, startSpeed, distance);
         }
         yield return new WaitForSeconds(preDelayTime + sphereCount * fireIntervalTime + 0.5f);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
+using Fusion;
 using UnityEngine;
 
 [Serializable]
@@ -20,7 +21,7 @@ public class BossPattern
 }
 
 
-public class BossController : MonoBehaviour
+public class BossController : NetworkBehaviour
 {
     [field: SerializeField] private BasePatternData     AppearPattern           { get; set; }
     [field: SerializeField] private List<BossPattern>   AllPatterns             { get; set; }
@@ -73,7 +74,7 @@ public class BossController : MonoBehaviour
     [field: SerializeField] private float GravityMultiplier { get; set; }
     [field: SerializeField] private float runSpeed { get; set; }
 
-    private void Awake()
+    public void Init()
     {
         for (int i = 0; i < AllPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
         {
@@ -89,8 +90,11 @@ public class BossController : MonoBehaviour
         ShowTargetCrosshair = false;
     }
 
-    private void Start()
+    public void StartBossPattern()
     {
+#if AllMethodDebug
+        Debug.Log("StartBossPattern");
+#endif
         if(Boss.IsMove && RunnerManager.Instance.GetRunner().IsServer)
         StartCoroutine(startLoop());
     }
@@ -98,7 +102,10 @@ public class BossController : MonoBehaviour
 
     IEnumerator startLoop()
     {
-        if(AppearPattern != null)
+#if AllMethodDebug
+        Debug.Log("startLoop");
+#endif
+        if (AppearPattern != null)
         {
             yield return AppearPattern.ExecutePattern();
         }
@@ -115,6 +122,9 @@ public class BossController : MonoBehaviour
     /// <returns></returns>
     IEnumerator PatternLoop()
     {
+#if AllMethodDebug
+        Debug.Log("PatternLoop");
+#endif
         while (true)
         {
             yield return StartCoroutine(Landing());
@@ -126,7 +136,7 @@ public class BossController : MonoBehaviour
             }
             else
             {
-                //Debug.LogWarning("선택 가능한 패턴 없음. 대기");
+                Debug.Log("선택 가능한 패턴 없음. 대기");
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -175,25 +185,42 @@ public class BossController : MonoBehaviour
 
     public void StartNextPattern()
     {
+#if AllMethodDebug
+        Debug.Log("StartNextPattern");
+#endif
         StartCoroutine(GetRandomPattern().patternData.ExecutePattern());
     }
+
+
     BossPattern GetRandomPattern()
     {
+#if AllMethodDebug
+        Debug.Log("GetRandomPattern");
+#endif
         // 가능한 패턴만 필터링, 테스트용 활성화 값이 참인경우만 포함
-        List<BossPattern> availablePatterns = AllPatterns.Where(p =>p.setActivePatternForTest && p.patternData.IsAvailable()).ToList();
+        List<BossPattern> patterns = new();
+        foreach(BossPattern pattern in AllPatterns)
+        {
+            if(pattern.setActivePatternForTest && pattern.patternData.IsAvailable())
+            {
+                patterns.Add(pattern);
+            }
+        }
+        Debug.Log($"AllpatternCount = {AllPatterns.Count}");
+        Debug.Log($"listCount = {patterns.Count}");
 
-        if (availablePatterns.Count == 0)
+        if (patterns.Count == 0)
             return null;
 
         // 가중치 총합 계산
-        float totalWeight = availablePatterns.Sum(p => p.weight);
+        float totalWeight = patterns.Sum(p => p.weight);
 
         // 랜덤 값 생성
         float selectedValue = UnityEngine.Random.Range(0f, totalWeight);
 
         // 해당 구간의 패턴 선택
         float cumulative = 0f;
-        foreach (var pattern in availablePatterns)
+        foreach (var pattern in patterns)
         {
             cumulative += pattern.weight;
             if (selectedValue <= cumulative)
@@ -201,12 +228,15 @@ public class BossController : MonoBehaviour
                 return pattern;
             }
         }
-        return availablePatterns.Last(); // 예외 방지용 (총합이 float 연산으로 어긋날 경우, 없으면 반환없는경우 생겨서 에러남)
+        return patterns.Last(); // 예외 방지용 (총합이 float 연산으로 어긋날 경우, 없으면 반환없는경우 생겨서 에러남)
     }
 
     [SerializeField] LayerMask _groundLayerMask;
     public IEnumerator Landing(bool isDeath = false)
     {
+#if AllMethodDebug
+        Debug.Log("Landing");
+#endif
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f,_groundLayerMask);
 
         if (hit.point.y > transform.position.y - BossCenterHight + 0.05f)
@@ -250,6 +280,9 @@ public class BossController : MonoBehaviour
     /// <returns></returns>
     public IEnumerator JumpMove(Vector3 targetPosition, float inputJumpMoveTime = -1f, float inputJumpMoveHight = -10f)
     {
+#if AllMethodDebug
+        Debug.Log("JumpMove");
+#endif
         Vector3 startPosition = transform.position;
         float _jumpMoveTime = (inputJumpMoveTime <= 0)? JumpMoveTime : inputJumpMoveTime;
         float _jumpMoveHight = (inputJumpMoveHight <= -10)? JumpMoveHight : inputJumpMoveHight;
@@ -282,6 +315,9 @@ public class BossController : MonoBehaviour
     }
     public IEnumerator RunMove(bool isleft, float speed = -1f)
     {
+#if AllMethodDebug
+        Debug.Log("RunMove");
+#endif
         bool isfall = false;
         float startHight = transform.position.y;
         float time = 0f;
@@ -325,6 +361,9 @@ public class BossController : MonoBehaviour
     /// </summary>
     public void OnDead()
     {
+#if AllMethodDebug
+        Debug.Log("OnDead");
+#endif
         StopAllCoroutines();
         StartCoroutine(Dead());
     }
@@ -336,6 +375,9 @@ public class BossController : MonoBehaviour
     /// <returns></returns>
     IEnumerator Dead()
     {
+#if AllMethodDebug
+        Debug.Log("Dead");
+#endif
         //yield return StartCoroutine(Landing(true));
         Time.timeScale = 0.2f;
         Boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.DeadParameterHash);

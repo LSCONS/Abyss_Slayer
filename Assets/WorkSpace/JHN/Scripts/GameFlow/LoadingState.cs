@@ -27,6 +27,9 @@ public class LoadingState : BaseGameState
 
     public override async Task OnEnter()
     {
+#if MoveSceneDebug
+        Debug.Log("LoadingState OnEnter");
+#endif
         TaskProgressBar = null;
         LoadingTargetValue = 0;
         if (GameFlowManager.Instance.PrevState != null)
@@ -36,13 +39,15 @@ public class LoadingState : BaseGameState
             while (!loadingOp.isDone)
                 await Task.Yield();
 
+            if(!(GameFlowManager.Instance.PrevState is LobbyState))
             SceneManager.UnloadSceneAsync(GetSceneNameFromState(GameFlowManager.Instance.PrevState));
         }
 
+#if MoveSceneDebug
+        Debug.Log("프로그래스바 가져와");
+#endif
         // 프로그래스바 가져와
         ProgressBar progressBar = null;
-
-
         while ((progressBar = GameObject.Find("ProgressBar")?.GetComponent<ProgressBar>()) == null)
         {
             await Task.Yield();
@@ -52,7 +57,9 @@ public class LoadingState : BaseGameState
         TaskProgressBar = SetProgressBar(progressBar);
 
 
-
+#if MoveSceneDebug
+        Debug.Log("다음 State 정보 가져와");
+#endif
         // 2. 다음 상태와 UIType 결정
         var nextState = GameFlowManager.Instance.CreateStateForPublic(nextStateEnum) as BaseGameState;
         if (nextState == null)
@@ -61,6 +68,10 @@ public class LoadingState : BaseGameState
 
 
 
+
+#if MoveSceneDebug
+        Debug.Log("UI삭제 해");
+#endif
         // 이제 유아이 타입 바뀌면 옛날 유아이타입은 다 삭제해야됨
         if (prevUIType != UIType.None && prevUIType != nextUIType)
         {
@@ -72,6 +83,10 @@ public class LoadingState : BaseGameState
 
 
 
+
+#if MoveSceneDebug
+        Debug.Log("UI 만들어");
+#endif
         if (needLoadUI)
         {
             // 첫 진입이거나 UIType이 바뀔 때만 로드/생성
@@ -79,6 +94,10 @@ public class LoadingState : BaseGameState
             UIManager.Instance.CreateAllUI(nextUIType);
         }
 
+
+#if MoveSceneDebug
+        Debug.Log("다음 씬 로드해");
+#endif
         SetLoadingBarValue(0.1f);
 
         // 4. 씬 로드
@@ -86,6 +105,10 @@ public class LoadingState : BaseGameState
         var sceneOp = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
         while (!sceneOp.isDone) await Task.Yield();
 
+
+#if MoveSceneDebug
+        Debug.Log("다음 씬으로 교체 해");
+#endif
         SetLoadingBarValue(0.2f);
 
         //다음 state로 이동

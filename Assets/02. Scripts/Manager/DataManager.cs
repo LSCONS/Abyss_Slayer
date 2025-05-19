@@ -14,6 +14,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<EAniamtionCurve, AnimationCurve> DictEnumToCurve { get; private set; } = new();
     public Dictionary<EBossStage, NetworkObject> DictEnumToNetObjcet { get; private set; } = new();
     public Dictionary<EAudioClip, AudioClipData> DictEnumToAudioData { get; private set; } = new();
+    public InitSupporter InitSupporter { get; private set; }
     [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
     [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
     [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToFaceColorSprite { get; set; } = new();
@@ -32,9 +33,19 @@ public class DataManager : Singleton<DataManager>
         await DataLoadBossPrefabData();
         await DataLoadAudioClipData();
         await DataLoadAnimationSpriteData();
+        await DataLoadInitInitSupporterData();
         return;
     }
 
+
+    private async Task DataLoadInitInitSupporterData()
+    {
+        var handle = Addressables.LoadAssetAsync<GameObject>("InitSupporter");         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
+        await handle.Task;
+        InitSupporter = handle.Result.GetComponent<InitSupporter>();
+        if (InitSupporter == null) { Debug.Log("Error InitSupporter is null"); }
+        return;
+    }
 
     private async Task DataLoadAnimationSpriteData()
     {

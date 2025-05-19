@@ -10,7 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(NetworkObject), typeof(BossController))]
 public class Boss : NetworkBehaviour, IHasHealth
 {
-    [field: SerializeField] private BossController          BossController    { get; set; }
+    [field: SerializeField] public BossController          BossController    { get; private set; }
     [field: SerializeField] public SpriteRenderer           Sprite            { get; private set; }
     [field: SerializeField] public Animator                 Animator          { get; private set; }
     [field: SerializeField] public Collider2D               HitCollider       { get; private set; } //보스 피격판정 콜라이더
@@ -31,6 +31,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     public override void Spawned()
     {
         base.Spawned();
+        BossController.Init();
         Hp.Value = MaxHp.Value;
         ServerManager.Instance.Boss = this;
     }
@@ -42,6 +43,7 @@ public class Boss : NetworkBehaviour, IHasHealth
         
         ServerUpdate();
         ClientUpdate();
+        if(Sprite.flipX != IsLeft) { Sprite.flipX = IsLeft; }
     }
 
 
@@ -64,7 +66,6 @@ public class Boss : NetworkBehaviour, IHasHealth
             if (IsLeft != temp)
             {
                 IsLeft = temp;
-                Sprite.flipX = temp;
             }
         }
 

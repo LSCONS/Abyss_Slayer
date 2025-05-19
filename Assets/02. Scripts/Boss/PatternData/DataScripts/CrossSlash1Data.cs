@@ -38,7 +38,7 @@ public class CrossSlash1Data : BasePatternData
         if(time > 1f) yield break;
 
         boss.Rpc_ResetTriggerAnimationHash(BossAnimationHash.FallParameterHash);
-        ServerManager.Instance.InitManager.Rpc_StartCrossSlashInit(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);
+        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);
         //PoolManager.Instance.Get<CrossSlash>().Init(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);
         yield return new WaitForSeconds(0.1f);
 

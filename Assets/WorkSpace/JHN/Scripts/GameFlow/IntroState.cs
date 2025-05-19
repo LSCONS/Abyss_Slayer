@@ -25,7 +25,7 @@ public class IntroState : BaseGameState
         Debug.Log("프로그래스바 끝날 때까지 대기");
 #endif
         state?.SetLoadingBarValue(1);
-        await state?.TaskProgressBar;
+        await (state?.TaskProgressBar ?? Task.CompletedTask);
 
 #if MoveSceneDebug
         Debug.Log("IntroState 오픈");

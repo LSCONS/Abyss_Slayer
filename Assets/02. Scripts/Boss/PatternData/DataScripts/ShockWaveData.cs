@@ -26,7 +26,7 @@ public class ShockWaveData : BasePatternData
 
         Vector3 startPosition = bossTransform.position + Vector3.down * bossCenterHight;
 
-        ServerManager.Instance.InitManager.Rpc_StartExplosionInit(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
+        ServerManager.Instance.InitSupporter.Rpc_StartExplosionInit(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
         //PoolManager.Instance.Get<Explosion>().Init(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
         bossController.StartCoroutine(ShockWave(startPosition));
 
@@ -36,8 +36,8 @@ public class ShockWaveData : BasePatternData
     {
         for (int i = 0; i < shockCount; i++)
         {
-            ServerManager.Instance.InitManager.Rpc_StartShockWaveInit(startPosition + (Vector3.right * shockOffsetWidth * (i + 1)), damage);
-            ServerManager.Instance.InitManager.Rpc_StartShockWaveInit(startPosition + (Vector3.left * shockOffsetWidth * (i + 1)), damage);
+            ServerManager.Instance.InitSupporter.Rpc_StartShockWaveInit(startPosition + (Vector3.right * shockOffsetWidth * (i + 1)), damage);
+            ServerManager.Instance.InitSupporter.Rpc_StartShockWaveInit(startPosition + (Vector3.left * shockOffsetWidth * (i + 1)), damage);
             //PoolManager.Instance.Get<ShockWave>().Init(startPosition + (Vector3.right * shockOffsetWidth * (i + 1)), damage);
             //PoolManager.Instance.Get<ShockWave>().Init(startPosition + (Vector3.left * shockOffsetWidth * (i + 1)), damage);
 

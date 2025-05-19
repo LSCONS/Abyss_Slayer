@@ -134,7 +134,8 @@ MonoBehaviour:
     value: 1000
   <IsMove>k__BackingField: 1
   _IsLeft: 0
-  _Position: {x: 0, y: 0}
+  _BossPosition: {x: 0, y: 0}
+  _CrosshairPosition: {x: 0, y: 0}
 --- !u!114 &7533524700751186556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,6 +261,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 7749574024559871257}
+  - {fileID: 7533524700751186556}
   ForceRemoteRenderTimeframe: 0
 --- !u!1 &6071993305312034198
 GameObject:
