@@ -21,15 +21,15 @@ MonoBehaviour:
     width: 40
     height: 20
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
-  damage: 20
+  damage: 1
   startPositions: []
   preDelayTime: 1
   postDelayTime: 3
   isMultyTarget: 1
   startCircleR: 3
-  fireDegree: 80
-  spreadDegree: 30
-  missaileCount: 12
+  fireDegree: 60
+  spreadDegree: 3
+  missaileCount: 8
   homingPower: 15
   missailSpeed: 2
   homingTime: 3

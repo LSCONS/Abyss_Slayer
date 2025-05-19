@@ -44,7 +44,7 @@ public class FoxSphereProjectile : BasePoolable
     public override void Init()
     {  
     }
-    public void Init(int damage,Vector3 startPosition, float preDelayTime, Transform target, float speed, float distance, int color)
+    public void Init(int damage,Vector3 startPosition, float preDelayTime, Transform target, float speed, float distance)
     {
         damageCollider.Init(damage, null, int.MaxValue);
         transform.position = startPosition;
@@ -55,7 +55,6 @@ public class FoxSphereProjectile : BasePoolable
         _a = _v * _v / (2 * distance);
         _returnTime = _fireTime + (2 * distance / _v);
         _endTime = _fireTime + (3.9f * distance / _v);
-        animator.SetInteger("Color", color);
 
         _fired = false;
         _isReturn = false;
@@ -67,9 +66,4 @@ public class FoxSphereProjectile : BasePoolable
         transform.position += targetDirection * ((_v - (_a * (Time.time - _fireTime))) * Time.deltaTime);
     }
 
-    public override void ReturnToPool()
-    {
-        animator.SetInteger("Color", -1);
-        base.ReturnToPool();
-    }
 }

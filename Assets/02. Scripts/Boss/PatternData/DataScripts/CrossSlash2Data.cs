@@ -8,22 +8,17 @@ public class CrossSlash2Data : BasePatternData
     [SerializeField] int damage;
     [SerializeField] float speed = 1;
     [SerializeField] float attackDistance;
-    [SerializeField] float preDelayTime;
     public override IEnumerator ExecutePattern()
     {
         bool isleft = 0 > (target.position.x - bossTransform.position.x);
         bossController.isLeft = isleft;
-        bossController.showTargetCrosshair = true;
-        bossAnimator.SetTrigger("ReadyRun");
-        yield return new WaitForSeconds(preDelayTime);
-
         bossController.StartCoroutine(bossController.RunMove(isleft));
 
         while((Mathf.Abs(target.position.x - bossTransform.position.x) > attackDistance))
         {
             yield return null;
         }
-        bossController.showTargetCrosshair = false;
+
         bossAnimator.SetTrigger("RunSlash");
         yield return new WaitForSeconds(0.1f * speed);
 
