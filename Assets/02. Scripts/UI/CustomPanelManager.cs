@@ -38,10 +38,10 @@ public class CustomPanelManager : UIPopup
     // 지금 선택된 인덱스
     private int skinId = 1;
     private int faceId = 1;
+    private int hairIndex = 1;                    // 이 리스트에서 몇 번째인지 (0부터 시작)
 
     // 헤어 인덱스
-    private List<int> availableHairKeys = new();  // 클래스별로 허용되는 헤어 리스트
-    private int hairIndex = 0;                    // 이 리스트에서 몇 번째인지 (0부터 시작)
+    private List<int> availableHairKeys { get; set; } = new();  // 클래스별로 허용되는 헤어 리스트
     /// <summary>
     /// 최대 인덱스 구해주는 프로퍼티
     /// </summary>
@@ -52,6 +52,7 @@ public class CustomPanelManager : UIPopup
     {
         base.Init();
         ConnectedButton();
+        ServerManager.Instance.CustomPanelManager = this;
     }
 
     public override void Open(params object[] args)
@@ -115,7 +116,7 @@ public class CustomPanelManager : UIPopup
         var info = PlayerManager.Instance.PlayerCustomizationInfo;
 
         // hair 키 리스트 먼저 계산 (클래스별로 허용되는 헤어키 필터링)
-        List<int> allowedColors = HairColorConfig.HairColorIndexByClass[selectedClass];
+        int allowedColors = HairColorConfig.HairColorIndexByClass[selectedClass];
         availableHairKeys = DataManager.Instance.DictIntToDictStateToHairStyleTopSprite.Keys
             .Where(k => allowedColors.Contains(k % 100))
             .OrderBy(k => k)
@@ -284,7 +285,7 @@ public class CustomPanelManager : UIPopup
     /// <summary>
     /// 커마 적용
     /// </summary>
-    private void ApplyPreview()
+    public void ApplyPreview()
     {
         if (availableHairKeys.Count == 0) return;
 
@@ -303,12 +304,12 @@ public class CustomPanelManager : UIPopup
 /// </summary>
 public static class HairColorConfig
 {
-    public static readonly Dictionary<CharacterClass, List<int>> HairColorIndexByClass = new()
+    public static readonly Dictionary<CharacterClass, int> HairColorIndexByClass = new()
     {
-        { CharacterClass.Mage,           new List<int> { 6 } },
-        { CharacterClass.Tanker,         new List<int> { 10 } },
-        { CharacterClass.MagicalBlader,  new List<int> { 4 } },
-        { CharacterClass.Healer,         new List<int> { 2 } },
-        { CharacterClass.Rogue,          new List<int> { 5 } },
+        { CharacterClass.Mage,           6 },
+        { CharacterClass.Tanker,         10  },
+        { CharacterClass.MagicalBlader,  4 },
+        { CharacterClass.Healer,         2 },
+        { CharacterClass.Rogue,          5 },
     };
 }

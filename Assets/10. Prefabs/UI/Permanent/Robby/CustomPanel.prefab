@@ -526,7 +526,6 @@ GameObject:
   - component: {fileID: 4746340909714897566}
   - component: {fileID: 1786016036238140653}
   - component: {fileID: 8217571356867016383}
-  - component: {fileID: 3509495947011710869}
   m_Layer: 5
   m_Name: CustomPanel
   m_TagString: Untagged
@@ -611,7 +610,6 @@ MonoBehaviour:
   uiType: 129
   uISceneType: 4
   desc: {fileID: 0}
-  customOptionData: {fileID: 11400000, guid: c52eccd21315a7243a7a9e041a805c90, type: 2}
   spritePreview: {fileID: 9109525321968705689}
   applyButton: {fileID: 3824272766592288779}
   skinNameText: {fileID: 4271621931248316297}
@@ -623,21 +621,6 @@ MonoBehaviour:
   hairNameText: {fileID: 8572703305119444674}
   hairLeftBtn: {fileID: 7414325151109572078}
   hairRightBtn: {fileID: 4741794810892443092}
---- !u!114 &3509495947011710869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977530060913361317}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 001a670eb6946c54db918c180e695c9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiType: 129
-  uISceneType: 4
-  desc: {fileID: 0}
 --- !u!1 &2113460025597029646
 GameObject:
   m_ObjectHideFlags: 0

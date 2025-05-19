@@ -33,7 +33,7 @@ public class LobbyState : BaseGameState
         {
             imageChange.Init(PlayerManager.Instance.CharacterClass);
         }
-
+        ServerManager.Instance.CustomPanelManager.ApplyPreview();
 
 #if MoveSceneDebug
         Debug.Log("프로그래스 바 끝날 때까지 대기");
