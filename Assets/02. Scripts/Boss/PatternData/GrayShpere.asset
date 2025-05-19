@@ -9,24 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d12db35df1b3b8e49875af6fa7cfbeca, type: 3}
-  m_Name: CrossSlash2
+  m_Script: {fileID: 11500000, guid: 82384574990fc6e40a474a2b4bf632bf, type: 3}
+  m_Name: GrayShpere
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   attackableAreas:
   - serializedVersion: 2
-    x: 7
-    y: -2
-    width: 40
-    height: 3
-  - serializedVersion: 2
-    x: -47
-    y: -2
-    width: 40
-    height: 3
+    x: -18
+    y: -15
+    width: 36
+    height: 30
   globalAttackableAreas: []
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
   damage: 20
-  speed: 1
-  attackDistance: 9
   preDelayTime: 1
+  sphereCount: 3
+  fireIntervalTime: 0.3
+  startSpeed: 25
+  distance: 15
+  postDelayTime: 0.5
+  color: 1

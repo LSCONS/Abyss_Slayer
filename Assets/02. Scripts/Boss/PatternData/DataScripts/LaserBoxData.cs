@@ -20,17 +20,16 @@ public class LaserBoxData : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         boss.IsLeft = bossTransform.position.x > 0;
-        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.SpawnParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.SpawnParameterHash);
         yield return new WaitForSeconds(preDelayTime);
 
         for (int i = 0; i < firePositions.Count; ++i)
         {
             Vector3 firePosition = firePositions[i] + (Vector3.up * Random.Range(-3, 3) + Vector3.right * Random.Range(-3, 3));
-            ServerManager.Instance.InitSupporter.Rpc_StartLaserBoxProjectileInit(damage, playerRef, bossTransform.position, 1.5f, firePosition, moveTime, chasingTime, spawnTime, isPiercing, fireCount);
-            //PoolManager.Instance.Get<LaserBoxProjectile>().Init(damage, target, bossTransform.position, 1.5f, firePosition, moveTime, chasingTime, spawnTime, isPiercing, fireCount);
+            ServerManager.Instance.InitSupporter.Rpc_StartLaserBoxProjectileInit(damage, playerRef, bossTransform.position, 1.5f, firePosition, moveTime, chasingTime, spawnTime, isPiercing, fireCount);      
         }
         yield return new WaitForSeconds(spawnTime);
-        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.ThrowParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.ThrowParameterHash);
         yield return new WaitForSeconds(postDelayTime);
     }
 }

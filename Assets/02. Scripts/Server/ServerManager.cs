@@ -278,6 +278,20 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         return;
     }
 
+
+    public async Task WaitForPlayerPositionResetAsync(Vector2 position, CancellationToken ct = default)
+    {
+#if AllMethodDebug
+        Debug.Log("WaitForPlayerPositionResetAsync");
+#endif
+        while((Vector2)ThisPlayer.transform.position != position)
+        {
+            ct.ThrowIfCancellationRequested();
+            await Task.Yield();
+        }
+        return;
+    }
+
     /// <summary>
     /// 플레이어의 수 만큼 Player를 생성하는 메서드
     /// </summary>

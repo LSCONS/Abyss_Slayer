@@ -316,11 +316,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9448e362f6a54f44b699672c0553d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BossController>k__BackingField: {fileID: 0}
-  <Sprite>k__BackingField: {fileID: 0}
-  <Animator>k__BackingField: {fileID: 0}
-  <HitCollider>k__BackingField: {fileID: 0}
-  <VirtualCamera>k__BackingField: {fileID: 0}
+  <BossController>k__BackingField: {fileID: 7201112847391276116}
+  <Sprite>k__BackingField: {fileID: 2046451246024970632}
+  <Animator>k__BackingField: {fileID: 8224366169966908257}
+  <HitCollider>k__BackingField: {fileID: 4752272720846953900}
+  <VirtualCamera>k__BackingField: {fileID: 5484115957593844158}
   <MaxHp>k__BackingField:
     value: 1000
   <IsMove>k__BackingField: 1
@@ -342,12 +342,13 @@ MonoBehaviour:
   <AppearPattern>k__BackingField: {fileID: 0}
   <AllPatterns>k__BackingField: []
   <TargetCrossHairPrefab>k__BackingField: {fileID: 0}
+  <MapWidth>k__BackingField: 40
   <Boss>k__BackingField: {fileID: 0}
-  <BossCenterHight>k__BackingField: 0
-  <JumpMoveTime>k__BackingField: 0
-  <JumpMoveHight>k__BackingField: 0
-  <GravityMultiplier>k__BackingField: 0
-  <runSpeed>k__BackingField: 0
+  <BossCenterHight>k__BackingField: 2
+  <JumpMoveTime>k__BackingField: 1
+  <JumpMoveHight>k__BackingField: 1
+  <GravityMultiplier>k__BackingField: 1
+  <runSpeed>k__BackingField: 1
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 576
@@ -448,7 +449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 2792563610
   ObjectInterest: 1
-  Flags: 1
+  Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 3758152715141030970}

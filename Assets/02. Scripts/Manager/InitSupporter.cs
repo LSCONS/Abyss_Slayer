@@ -45,9 +45,9 @@ public class InitSupporter : NetworkBehaviour
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_StartFoxSphereProjectileInit(int damage, Vector3 startPosition, float preDelayTime, PlayerRef target, float speed, float distance)
+    public void Rpc_StartFoxSphereProjectileInit(int damage, Vector3 startPosition, float preDelayTime, PlayerRef target, float speed, float distance, int color)
     {
-        PoolManager.Instance.Get<FoxSphereProjectile>().Init(damage, startPosition, preDelayTime, target, speed, distance);
+        PoolManager.Instance.Get<FoxSphereProjectile>().Init(damage, startPosition, preDelayTime, target, speed, distance, color);
 
     }
 

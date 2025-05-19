@@ -8,25 +8,29 @@ public class CrossSlash2Data : BasePatternData
     [SerializeField] int damage;
     [SerializeField] float speed = 1;
     [SerializeField] float attackDistance;
+    [SerializeField] float preDelayTime;
     public override IEnumerator ExecutePattern()
     {
         bool isleft = 0 > (target.position.x - bossTransform.position.x);
         boss.IsLeft = isleft;
+        bossController.ShowTargetCrosshair = true;
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.ReadyRunParameterHash);
+        yield return new WaitForSeconds(preDelayTime);
+
         bossController.StartCoroutine(bossController.RunMove(isleft));
 
         while((Mathf.Abs(target.position.x - bossTransform.position.x) > attackDistance))
         {
             yield return null;
         }
-
-        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.RunSlashParameterHash);
+        bossController.ShowTargetCrosshair = false;
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.RunSlashParameterHash);
         yield return new WaitForSeconds(0.1f * speed);
 
         bossController.isRun = false;
         yield return new WaitForSeconds(0.05f * speed);
 
-        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, 2, speed);
-        //PoolManager.Instance.Get<CrossSlash>().Init(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, 2, speed);
+        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, 2, speed);;
         yield return new WaitForSeconds((1/ 6) * speed);
 
         float x = Mathf.Clamp(bossTransform.position.x + (isleft ? -14 : 14), -mapWidth / 2 + 0.7f, mapWidth / 2 - 0.7f);
@@ -34,9 +38,9 @@ public class CrossSlash2Data : BasePatternData
 
         if (Physics2D.Raycast(bossTransform.position, Vector3.down, bossCenterHight + 0.1f, LayerMask.GetMask("GroundPlane", "GroundPlatform")))
         {
-            boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.SlashEndParameterHash);
+            boss.Rpc_SetTriggerAnimationHash(AnimationHash.SlashEndParameterHash);
             yield return new WaitForSeconds(1f);
-            boss.Rpc_ResetTriggerAnimationHash(BossAnimationHash.SlashEndParameterHash);
+            boss.Rpc_ResetTriggerAnimationHash(AnimationHash.SlashEndParameterHash);
         }
     }
 }
