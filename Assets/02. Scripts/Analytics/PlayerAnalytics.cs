@@ -24,7 +24,7 @@ public class PlayerAnalytics : MonoBehaviour
         };
 
         // 이벤트 전송
-        AnalyticsManager.SendAnalyticsEvent("Player_Class_Info", parameters);
+        AnalyticsManager.SendAnalyticsEvent("Start_User_Info", parameters);
     }
 
     /// <summary>

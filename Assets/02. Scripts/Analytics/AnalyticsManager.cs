@@ -173,34 +173,34 @@ public class AnalyticsManager : MonoBehaviour
     /// <summary>
     /// 스테이지 실패 정보 전송
     /// </summary>
-    public static void SendStageFailInfo(int stageNumber, int failTime)
-    {
-        if (!isInitialized) return;
+    // public static void SendStageFailInfo(int stageNumber, int failTime)
+    // {
+    //     if (!isInitialized) return;
 
-        var failEvent = new CustomEvent("Stage_Fail_Info");
-        failEvent["Stage_Number"] = stageNumber;
-        failEvent["Stage_Fail_Time"] = failTime;
+    //     var failEvent = new CustomEvent("Stage_Fail_Info");
+    //     failEvent["Stage_Number"] = stageNumber;
+    //     failEvent["Stage_Fail_Time"] = failTime;
         
-        AnalyticsService.Instance.RecordEvent(failEvent);
-        Debug.Log($"[Analytics] Stage Fail Info sent: Stage {stageNumber}, Time {failTime}s");
-    }
+    //     AnalyticsService.Instance.RecordEvent(failEvent);
+    //     Debug.Log($"[Analytics] Stage Fail Info sent: Stage {stageNumber}, Time {failTime}s");
+    // }
 
     /// <summary>
     /// 스킬 사용 정보 전송
     /// </summary>
-    public static void SendSkillUseInfo(string stageNumber, string classType, string skillName, int damage)
-    {
-        if (!isInitialized) return;
+    // public static void SendSkillUseInfo(string stageNumber, string classType, string skillName, int damage)
+    // {
+    //     if (!isInitialized) return;
 
-        var skillEvent = new CustomEvent("Skill_Use_Info");
-        skillEvent["Stage_Number"] = stageNumber;
-        skillEvent["Class_Type"] = classType;
-        skillEvent["Used_Skill_name"] = skillName;
-        skillEvent["Skill_Attack_Damage"] = damage;
+    //     var skillEvent = new CustomEvent("Skill_Use_Info");
+    //     skillEvent["Stage_Number"] = stageNumber;
+    //     skillEvent["Class_Type"] = classType;
+    //     skillEvent["Used_Skill_name"] = skillName;
+    //     skillEvent["Skill_Attack_Damage"] = damage;
         
-        AnalyticsService.Instance.RecordEvent(skillEvent);
-        Debug.Log($"[Analytics] Skill Use Info sent: {skillName} by {classType} in {stageNumber}");
-    }
+    //     AnalyticsService.Instance.RecordEvent(skillEvent);
+    //     Debug.Log($"[Analytics] Skill Use Info sent: {skillName} by {classType} in {stageNumber}");
+    // }
 
     /// <summary>
     /// 파티 진행 정보 전송
@@ -210,18 +210,18 @@ public class AnalyticsManager : MonoBehaviour
     /// <param name="isClear"></param>
     /// <param name="failReason"></param>
     /// <param name="memberCount"></param>
-    public static void SendPartyProgress(string partyId, int stage, bool isClear, string failReason = "", int memberCount = 0)
-    {
-        if (!isInitialized) return;
+    // public static void SendPartyProgress(string partyId, int stage, bool isClear, string failReason = "", int memberCount = 0)
+    // {
+    //     if (!isInitialized) return;
 
-        var partyEvent = new CustomEvent("Party_Progress");
-        partyEvent["Party_ID"] = partyId;
-        partyEvent["Stage"] = stage;
-        partyEvent["Is_Clear"] = isClear;
-        if (!isClear && !string.IsNullOrEmpty(failReason)) partyEvent["Fail_Reason"] = failReason;
-        partyEvent["Member_Count"] = memberCount;
-        AnalyticsService.Instance.RecordEvent(partyEvent);
-    }
+    //     var partyEvent = new CustomEvent("Party_Progress");
+    //     partyEvent["Party_ID"] = partyId;
+    //     partyEvent["Stage"] = stage;
+    //     partyEvent["Is_Clear"] = isClear;
+    //     if (!isClear && !string.IsNullOrEmpty(failReason)) partyEvent["Fail_Reason"] = failReason;
+    //     partyEvent["Member_Count"] = memberCount;
+    //     AnalyticsService.Instance.RecordEvent(partyEvent);
+    // }
 
 
     [System.Serializable]

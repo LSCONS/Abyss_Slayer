@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Analytics;
 
 public class UISkillUpgradeController : UIPopup
 {
@@ -140,11 +141,15 @@ public class UISkillUpgradeController : UIPopup
             for(int i = 0; i < levelDiff; i++)
             {
                 skill.SkillUpgrade();
+                // 스킬 업그레이드 애널리틱스 전송
+                string stageNumber = ServerManager.Instance.BossCount.ToString();
+                string classType = player.NetworkData.Class.ToString();
+                string upgradeSkill = skill.SkillName; // Skill 클래스에 SkillName 프로퍼티가 있다고 가정
+                UpgradeAnalytics.SendClassSkillUpgradeInfo(stageNumber, classType, upgradeSkill);
             }
         }
 
         // 스킬 포인트 반영해줌
-
         player.SkillPoint.Value = SkillPoint;
 
         OriginalSkillPoint = SkillPoint;

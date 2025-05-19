@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Analytics;
 
 public class UIStatStore : UIPopup
 {
@@ -168,16 +169,16 @@ public class UIStatStore : UIPopup
         AppliedDamageLevel = TempDamageLevel;
         player.StatPoint.Value = RemainingPoint;
 
-        // 스탯 업그레이드 분석 이벤트 전송
-        if (hpDiff > 0 || damageDiff > 0)
+        // 스탯 업그레이드 애널리틱스 전송
+        string stageNumber = ServerManager.Instance.BossCount.ToString();
+        string classType = player.NetworkData.Class.ToString();
+        if (hpDiff > 0)
         {
-            AnalyticsManager.SendStatUpgradeEvent(
-                AppliedHpLevel,
-                hpIncrease,
-                AppliedDamageLevel,
-                (int)damageIncrease,
-                RemainingPoint
-            );
+            UpgradeAnalytics.SendClassStatUpgradeInfo(stageNumber, classType, "HP");
+        }
+        if (damageDiff > 0)
+        {
+            UpgradeAnalytics.SendClassStatUpgradeInfo(stageNumber, classType, "Damage");
         }
 
         UpdateUI();

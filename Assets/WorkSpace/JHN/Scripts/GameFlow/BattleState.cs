@@ -127,6 +127,27 @@ public class BattleState : BaseGameState
 #endif
             ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
 
+            // 모든 준비가 끝나고, 스테이지 입장 직후
+            int memberCount = ServerManager.Instance.DictRefToPlayer.Count;
+
+            var playerClasses = new string[5];
+            int idx = 0;
+            foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+            {
+                playerClasses[idx] = player.NetworkData.Class.ToString();
+                idx++;
+                if (idx >= 5) break;
+            }
+            for (; idx < 5; idx++) playerClasses[idx] = "";
+
+            // string difficulty = ServerManager.Instance.Difficulty;
+
+            GameStartAnalytics.SendStartUserInfo(
+                memberCount,
+                // difficulty,
+                playerClasses[0], playerClasses[1], playerClasses[2], playerClasses[3], playerClasses[4]
+            );
+
 #if MoveSceneDebug
             Debug.Log("1초만 기다려줘");
 #endif
