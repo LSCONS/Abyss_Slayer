@@ -59,7 +59,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
         if (PlayerCustomizationInfo == null)
         {
-            CharacterClass defaultClass = GetSelectedClass();
+            CharacterClass defaultClass = selectedCharacterClass;
             var spriteData = CharacterSpriteDicitonary[defaultClass].Data;
 
             int defaultSkin = ParseColorIndexFromName(spriteData.SkinName);
