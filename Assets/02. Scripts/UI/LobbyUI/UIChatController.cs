@@ -54,8 +54,20 @@ public class UIChatController : MonoBehaviour
 
         //TODO: 여기에 네트워크로 메시지 전달
         ServerManager.Instance.ThisPlayerData.Rpc_EnterToChatting(bytes);
+
+        StartCoroutine(FocusInputNextFrame());
     }
 
+    private IEnumerator FocusInputNextFrame()
+    {
+        // 현재 선택된 것 해제
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+        yield return null; // 한 프레임 대기
+
+        // 다시 선택
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(InputChatting.gameObject);
+        InputChatting.ActivateInputField(); // 커서 강제 활성화
+    }
 
     // 메시지 보내기
     public void SendChatMessage(byte[] textBytes)
