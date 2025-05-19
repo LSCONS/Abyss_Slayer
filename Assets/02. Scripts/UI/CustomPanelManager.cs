@@ -91,7 +91,7 @@ public class CustomPanelManager : UIPopup
     /// </summary>
     private void InitClassBasedClothing()
     {
-        CharacterClass selectedClass = PlayerManager.Instance.GetSelectedClass();
+        CharacterClass selectedClass = PlayerManager.Instance.selectedCharacterClass;
         var dict = PlayerManager.Instance.CharacterSpriteDicitonary;
 
         if (!dict.TryGetValue(selectedClass, out var spriteData))

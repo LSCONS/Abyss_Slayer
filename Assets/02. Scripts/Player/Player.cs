@@ -216,7 +216,7 @@ public class Player : NetworkBehaviour, IHasHealth
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
 
         // 선택된 클래스 정보 가져옴
-        playerCharacterClass = PlayerManager.Instance.GetSelectedClass();
+        CharacterClass playerCharacterClass = PlayerManager.Instance.selectedCharacterClass;
         CharacterSkillSet skillSet = null;
 
         // 스프라이트 기본으로 init
@@ -276,8 +276,7 @@ public class Player : NetworkBehaviour, IHasHealth
     /// </summary>
     private void InitComponent()
     {
-        input = GetComponent<PlayerInput>();
-        input.InitDictionary();
+        PlayerInput = GetComponent<PlayerInput>();
         playerRigidbody = GetComponent<Rigidbody2D>();
         PlayerSpriteChange = GetComponentInChildren<SpriteChange>();
         playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
