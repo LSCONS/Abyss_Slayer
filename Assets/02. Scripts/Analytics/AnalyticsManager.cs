@@ -90,16 +90,16 @@ public class AnalyticsManager : MonoBehaviour
     /// 퍼널 단계 이벤트 전송 함수
     /// </summary>
     /// <param name="stepNumber">퍼널 단계 번호 (1~23)</param>
-    /// <param name="playerName">플레이어 이름</param>
-    /// <param name="partyName">파티 이름</param>
-    public static void SendFunnelStep(int stepNumber, string playerName = null, string partyName = null)
+    /// <param name="playerId">플레이어 ID</param>
+    /// <param name="partyId">파티 ID</param>
+    public static void SendFunnelStep(int stepNumber, string playerId = null, string partyId = null)
     {
         if (!isInitialized) return;
 
         var funnelEvent = new CustomEvent("Funnel_Step");
         funnelEvent["Funnel_Step_Number"] = stepNumber;
-        if (!string.IsNullOrEmpty(playerName)) funnelEvent["Player_Name"] = playerName;
-        if (!string.IsNullOrEmpty(partyName)) funnelEvent["Party_Name"] = partyName;
+        if (!string.IsNullOrEmpty(playerId)) funnelEvent["Player_ID"] = playerId;
+        if (!string.IsNullOrEmpty(partyId)) funnelEvent["Party_ID"] = partyId;
         AnalyticsService.Instance.RecordEvent(funnelEvent);
         Debug.Log($"[Analytics] Funnel Step Sent: {stepNumber}");
     }
@@ -121,14 +121,14 @@ public class AnalyticsManager : MonoBehaviour
     /// <summary>
     /// 파티 구성 이벤트 전송
     /// </summary>
-    /// <param name="partyName">파티 이름</param>
-    /// <param name="partyMembers">파티원 정보 리스트 (Player_Name, Class_Type, Class_Level)</param>
-    public static void SendPartyFormation(string partyName, List<PartyMemberInfo> partyMembers)
+    /// <param name="partyId">파티 ID</param>
+    /// <param name="partyMembers">파티원 정보 리스트 (Player_ID, Class_Type, Class_Level)</param>
+    public static void SendPartyFormation(string partyId, List<PartyMemberInfo> partyMembers)
     {
         if (!isInitialized) return;
 
         var partyFormationEvent = new CustomEvent("Party_Formation");
-        partyFormationEvent["Party_Name"] = partyName;
+        partyFormationEvent["Party_ID"] = partyId;
         partyFormationEvent["Member_Count"] = partyMembers.Count;
         
         // 파티원들의 직업 분포 계산
@@ -149,7 +149,7 @@ public class AnalyticsManager : MonoBehaviour
         partyFormationEvent["Members_Detail"] = JsonUtility.ToJson(new PartyMembersWrapper { members = partyMembers });
 
         AnalyticsService.Instance.RecordEvent(partyFormationEvent);
-        Debug.Log($"[Analytics] Party Formation: {partyName}, Members: {partyMembers.Count}, Distribution: {distributionString}");
+        Debug.Log($"[Analytics] Party Formation: {partyId}, Members: {partyMembers.Count}, Distribution: {distributionString}");
     }
     
     /// <summary>
