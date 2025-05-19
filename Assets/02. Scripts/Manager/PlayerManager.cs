@@ -41,7 +41,54 @@ public class PlayerManager : Singleton<PlayerManager>
             Debug.LogError($"초기화 실패: {ex}");
         }
 
+        if (PlayerCustomizationInfo == null)
+        {
+            CharacterClass defaultClass = GetSelectedClass();
+            var spriteData = CharacterSpriteDicitonary[defaultClass].Data;
+
+            int defaultSkin = ParseColorIndexFromName(spriteData.SkinName);
+            int defaultFace = ParseColorIndexFromName(spriteData.FaceName);
+            int defaultHairColor = ParseColorIndexFromName(spriteData.HairTopName);
+            string styleIdToken = ExtractStyleIdTokenFromName(spriteData.HairTopName);
+            int defaultHairKey = CreateHairKey(styleIdToken, defaultHairColor);
+
+            PlayerCustomizationInfo = new PlayerCustomizationInfo(defaultSkin, defaultFace, defaultHairKey);
+        }
     }
+    private int ParseColorIndexFromName(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return 1;
+        var parts = name.Split('_');
+        foreach (var part in parts)
+        {
+            if (part.StartsWith("c") && int.TryParse(part.Substring(1), out int result))
+            {
+                return result;
+            }
+        }
+        return 1;
+    }
+
+    private string ExtractStyleIdTokenFromName(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return "m1";
+        var parts = name.Split('_');
+        foreach (var part in parts)
+        {
+            if ((part.StartsWith("m") || part.StartsWith("f")) && part.Length > 1)
+                return part;
+        }
+        return "m1";
+    }
+
+    private int CreateHairKey(string styleId, int colorIndex)
+    {
+        int baseOffset = styleId.StartsWith("m") ? 1000 : 4000;
+        int styleNum = int.Parse(styleId.Substring(1));
+        return baseOffset + styleNum * 100 + colorIndex;
+    }
+
+
 
     /// <summary>
     /// 현재 씬에서 플레이어를 찾고 등록하는 메서드
