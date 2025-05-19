@@ -174,11 +174,11 @@ public class UIStatStore : UIPopup
         string classType = player.NetworkData.Class.ToString();
         if (hpDiff > 0)
         {
-            UpgradeAnalytics.SendClassStatUpgradeInfo(stageNumber, classType, "HP");
+            UpgradeAnalytics.SendClassStatUpgradeInfo(stageNumber, classType, "HP", TempHpLevel);
         }
         if (damageDiff > 0)
         {
-            UpgradeAnalytics.SendClassStatUpgradeInfo(stageNumber, classType, "Damage");
+            UpgradeAnalytics.SendClassStatUpgradeInfo(stageNumber, classType, "Damage", TempDamageLevel);
         }
 
         UpdateUI();

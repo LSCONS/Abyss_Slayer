@@ -16,5 +16,6 @@ public class SkillUseAnalytics
         evt["Skill_Attack_Damage"] = damage;
         evt["Back_Attack_Count"] = backAttackCount;
         AnalyticsService.Instance.RecordEvent(evt);
+        Debug.LogAssertion($"[Analytics] Skill_Use_Info: Stage={stageNumber}, Class={classType}, Skill={skillName}, Damage={damage}, BackAttack={backAttackCount}");
     }
 } 

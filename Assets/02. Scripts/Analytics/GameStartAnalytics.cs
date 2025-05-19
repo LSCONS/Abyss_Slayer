@@ -1,26 +1,26 @@
 using UnityEngine;
 using Unity.Services.Analytics;
+using System.Collections.Generic;
 
-public class GameStartAnalytics
+public static class GameStartAnalytics
 {
     /// <summary>
     /// 게임 시작 시 플레이어 수, 난이도, 각 플레이어 직업 정보를 전송
     /// </summary>
-    public static void SendStartUserInfo(
-        int memberCount,
-        // string difficulty,
-        string player1Class, string player2Class,
-        string player3Class, string player4Class, string player5Class)
+    public static void SendStartUserInfo(int memberCount, string player1Class, string player2Class, string player3Class, string player4Class, string player5Class)
     {
         var evt = new CustomEvent("Start_User_Info");
         evt["Member_Count"] = memberCount;
-        // evt["Select_Difficulty"] = difficulty;
-        evt["Player1_Class"] = player1Class;
-        evt["Player2_Class"] = player2Class;
-        evt["Player3_Class"] = player3Class;
-        evt["Player4_Class"] = player4Class;
-        evt["Player5_Class"] = player5Class;
+
+        // null이 아닌 직업 정보만 파라미터에 추가
+        if (!string.IsNullOrEmpty(player1Class)) evt["Player1_Class"] = player1Class;
+        if (!string.IsNullOrEmpty(player2Class)) evt["Player2_Class"] = player2Class;
+        if (!string.IsNullOrEmpty(player3Class)) evt["Player3_Class"] = player3Class;
+        if (!string.IsNullOrEmpty(player4Class)) evt["Player4_Class"] = player4Class;
+        if (!string.IsNullOrEmpty(player5Class)) evt["Player5_Class"] = player5Class;
+
         AnalyticsService.Instance.RecordEvent(evt);
+        Debug.LogAssertion($"[Analytics] Start_User_Info: Member_Count={memberCount}, Player1={player1Class}, Player2={player2Class}, Player3={player3Class}, Player4={player4Class}, Player5={player5Class}");
     }
 
     //// <summary>

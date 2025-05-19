@@ -144,8 +144,8 @@ public class UISkillUpgradeController : UIPopup
                 // 스킬 업그레이드 애널리틱스 전송
                 string stageNumber = ServerManager.Instance.BossCount.ToString();
                 string classType = player.NetworkData.Class.ToString();
-                string upgradeSkill = skill.SkillName; // Skill 클래스에 SkillName 프로퍼티가 있다고 가정
-                UpgradeAnalytics.SendClassSkillUpgradeInfo(stageNumber, classType, upgradeSkill);
+                string upgradeSkill = skill.SkillName;
+                UpgradeAnalytics.SendClassSkillUpgradeInfo(stageNumber, classType, upgradeSkill, data.TempLevel);
             }
         }
 

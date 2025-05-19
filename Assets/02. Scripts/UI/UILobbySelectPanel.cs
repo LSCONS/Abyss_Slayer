@@ -59,6 +59,24 @@ public class UILobbySelectPanel : UIPermanent
 #if AllMethodDebug
         Debug.Log("StartGame");
 #endif
+        // 파티 직업 정보 수집
+        var playerClasses = new string[5];
+        int index = 0;
+        foreach (var data in ServerManager.Instance.DictRefToNetData.Values)
+        {
+            if (index < 5)
+            {
+                playerClasses[index] = data.Class.ToString();
+                index++;
+            }
+        }
+
+        // 애널리틱스 전송
+        GameStartAnalytics.SendStartUserInfo(
+            ServerManager.Instance.DictRefToNetData.Count,
+            playerClasses[0], playerClasses[1], playerClasses[2], playerClasses[3], playerClasses[4]
+        );
+
         if (RunnerManager.Instance.GetRunner().IsServer)
         {
             ServerManager.Instance.InstantiatePlayer();

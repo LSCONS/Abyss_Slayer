@@ -255,18 +255,6 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             skill.Init();
         }
-
-        // 직업 선택 시 애널리틱스 전송
-        int playerIndex = 1; // 기본값
-        foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
-        {
-            if (player == this)
-            {
-                break;
-            }
-            playerIndex++;
-        }
-        AnalyticsManager.SendPlayerClassSelection(playerIndex, PlayerData.PlayerStatusData.Class.ToString());
     }
     private void SetAllAnimationStates(SpriteRenderer target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> sourceDict, int id)
     {
