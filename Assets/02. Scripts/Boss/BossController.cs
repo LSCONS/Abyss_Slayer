@@ -26,12 +26,12 @@ public class BossController : NetworkBehaviour
     [field: SerializeField] private BasePatternData     AppearPattern           { get; set; }
     [field: SerializeField] private List<BossPattern>   AllPatterns             { get; set; }
     [field: SerializeField] private GameObject          TargetCrossHairPrefab   { get; set; }
+    [field: SerializeField] public float                MapWidth                { get; set; }
     [field: SerializeField] public Boss                 Boss                    { get; private set; }
     [field: SerializeField] public float                BossCenterHight         { get; private set; }
     private GameObject                                  TargetCrosshairObj      { get; set; }
     public Transform                                    TargetCrosshair         { get; private set; }
     public Transform                                    Target                  { get; private set; }
-    public float                                        MapWidth                { get; set; }
     public bool                                         ChasingTarget           { get; set; }
 
 
@@ -63,7 +63,7 @@ public class BossController : NetworkBehaviour
             if (_isRun != value)
             {
                 _isRun = value;
-                Boss.Rpc_SetBoolAnimationHash(BossAnimationHash.RunSlashParameterHash ,value);
+                Boss.Rpc_SetBoolAnimationHash(AnimationHash.RunSlashParameterHash ,value);
             }
         }
     }
@@ -250,7 +250,7 @@ public class BossController : NetworkBehaviour
         }
         else if (hit.point.y < transform.position.y - BossCenterHight - 0.05f)
         {
-            int hash = isDeath ? BossAnimationHash.DeadParameterHash : BossAnimationHash.FallParameterHash;
+            int hash = isDeath ? AnimationHash.DeadParameterHash : AnimationHash.FallParameterHash;
             Boss.Rpc_SetTriggerAnimationHash(hash);
 
             float time = 0f;
@@ -265,7 +265,7 @@ public class BossController : NetworkBehaviour
 
             if (!isDeath)
             {
-                Boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.LandParameterHash);
+                Boss.Rpc_SetTriggerAnimationHash(AnimationHash.LandParameterHash);
                 yield return new WaitForSeconds(0.2f);
             }
         }
@@ -294,7 +294,7 @@ public class BossController : NetworkBehaviour
         float startVelocityY = jumpGravity * hightestTime;
 
         Boss.IsLeft = targetPosition.x - transform.position.x <= 0;
-        Boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.JumpParameterHash);
+        Boss.Rpc_SetTriggerAnimationHash(AnimationHash.JumpParameterHash);
         yield return new WaitForSeconds(0.2f);
         PoolManager.Instance.Get<JumpEffect>().Init(transform.position + Vector3.down * BossCenterHight);
         float time = 0f;
@@ -302,14 +302,14 @@ public class BossController : NetworkBehaviour
         {
             float x = Mathf.Lerp(startPosition.x, targetPosition.x, time / _jumpMoveTime);
             if(time >= hightestTime)
-                Boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.FallParameterHash);
+                Boss.Rpc_SetTriggerAnimationHash(AnimationHash.FallParameterHash);
             float y = startPosition.y + (startVelocityY * time) - (0.5f * jumpGravity * time * time);
             transform.position = new Vector3(x, y, 0);
             time += Time.deltaTime;
             yield return null;
         }
-        Boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.LandParameterHash);
-        Boss.Rpc_ResetTriggerAnimationHash(BossAnimationHash.FallParameterHash);
+        Boss.Rpc_SetTriggerAnimationHash(AnimationHash.LandParameterHash);
+        Boss.Rpc_ResetTriggerAnimationHash(AnimationHash.FallParameterHash);
         transform.position = targetPosition;
         yield return new WaitForSeconds(0.4f);
     }
@@ -380,7 +380,7 @@ public class BossController : NetworkBehaviour
 #endif
         //yield return StartCoroutine(Landing(true));
         Time.timeScale = 0.2f;
-        Boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.DeadParameterHash);
+        Boss.Rpc_SetTriggerAnimationHash(AnimationHash.DeadParameterHash);
         VirtualCamera.Priority = 20;
         yield return new WaitForSeconds(0.2f);
 

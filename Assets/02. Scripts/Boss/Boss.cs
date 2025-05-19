@@ -143,11 +143,35 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// 애니메이터 SetBool을 공유하는 Rpc 메서드
     /// </summary>
     /// <param name="hash">공유할 애니메이션 해시</param>
-    /// <param name="isSet">활성화 여부</param>
+    /// <param name="value">활성화 여부</param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_SetBoolAnimationHash(int hash, bool isSet)
+    public void Rpc_SetBoolAnimationHash(int hash, bool value)
     {
-        Animator.SetBool(hash, isSet);
+        Animator.SetBool(hash, value);
+    }
+
+
+    /// <summary>
+    /// 애니메이터 SetFloat를 공유하는 Rpc 메서드
+    /// </summary>
+    /// <param name="hash">공유할 애니메이션 해시</param>
+    /// <param name="value">적용할 float 값</param>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_SetFloatAnimationHash(int hash, float value)
+    {
+        Animator.SetFloat(hash, value);
+    }
+
+
+    /// <summary>
+    /// 애니메이터 SetInt를 공유하는 Rpc 메서드
+    /// </summary>
+    /// <param name="hash">공유할 애니메이션 해시</param>
+    /// <param name="value">적용할 int 값</param>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_SetIntegerAniamtionHash(int hash, int value)
+    {
+        Animator.SetInteger(hash, value);
     }
 
 
@@ -172,7 +196,7 @@ public class Boss : NetworkBehaviour, IHasHealth
         {
             ChangeHP(-(int)finalDamage);
             Damaged();
-            Animator.SetTrigger(BossAnimationHash.DamagedParameterHash);
+            Animator.SetTrigger(AnimationHash.DamagedParameterHash);
             DamageTextSpawner.Show((int)finalDamage, worldPos);                                             // 데미지 인디케이터 스폰
         }
         else
@@ -180,7 +204,7 @@ public class Boss : NetworkBehaviour, IHasHealth
             int totalFinalDamage = (int)(finalDamage * 1.1f);
             ChangeHP((int)(-totalFinalDamage));
             Damaged();
-            Animator.SetTrigger(BossAnimationHash.DamagedParameterHash);
+            Animator.SetTrigger(AnimationHash.DamagedParameterHash);
             DamageTextSpawner.Show((int)(totalFinalDamage), worldPos);                                    // 데미지 인디케이터 스폰
 
         }

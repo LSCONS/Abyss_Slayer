@@ -14,7 +14,7 @@ public class DashClawData : BasePatternData
     [SerializeField] float postDelayTime = 2f;
     public override IEnumerator ExecutePattern()
     {
-        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.Dash1ParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.Dash1ParameterHash);
 
         bossController.ShowTargetCrosshair = true;
 
@@ -55,7 +55,7 @@ public class DashClawData : BasePatternData
             i++;
         }
         bossAnimator.enabled = true;
-        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.Dash3ParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.Dash3ParameterHash);
         bossController.ShowTargetCrosshair = false;
         float time = Time.time + (postDelayTime/2);
         Vector3 targetposition = bossTransform.position + 2f * (isLeft ? Vector3.left : Vector3.right);

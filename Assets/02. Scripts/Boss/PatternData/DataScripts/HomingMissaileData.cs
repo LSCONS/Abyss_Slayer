@@ -36,7 +36,7 @@ public class HomingMissaileData : BasePatternData
             yield return bossController.StartCoroutine(bossController.JumpMove(startPosition));
         }
         boss.IsLeft = bossTransform.position.x > 0;
-        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.Attack2ParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.Attack2ParameterHash);
         yield return new WaitForSeconds(preDelayTime/2);
         bool isLeft = boss.IsLeft;
         for (int i = 0; i < missaileCount; i++)
