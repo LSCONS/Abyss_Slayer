@@ -211,8 +211,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossController: {fileID: 0}
   isDead: 0
-  sprite: {fileID: 0}
-  maxHP: 0
+  sprite: {fileID: 7533442902988421679}
+  maxHP: 1000
 --- !u!114 &2290308739379278194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,20 +225,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be781b50b434d904c9749a0d6892a593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appearPattern: {fileID: 0}
+  appearPattern: {fileID: 11400000, guid: bc723c8dc9e8b584db8fdd0589ff2888, type: 2}
   allPatterns: []
-  targetCrossHairPrefab: {fileID: 0}
-  sprite: {fileID: 0}
-  hitCollider: {fileID: 0}
-  _effectSprite: {fileID: 0}
-  bossCenterHight: 0
-  mapWidth: 0
-  virtualCamera: {fileID: 0}
+  targetCrossHairPrefab: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
+  sprite: {fileID: 7533442902988421679}
+  hitCollider: {fileID: 6902979656306387885}
+  _effectSprite: {fileID: 1016348319747735812}
+  bossCenterHight: 2
+  mapWidth: 40
+  virtualCamera: {fileID: 1779072543370487692}
   chasingTarget: 0
-  runSpeed: 0
-  jumpMoveTime: 0
-  jumpMoveHight: 0
-  gravityMultiplier: 0
+  runSpeed: 10
+  jumpMoveTime: 1
+  jumpMoveHight: 1.5
+  gravityMultiplier: 3
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 576
