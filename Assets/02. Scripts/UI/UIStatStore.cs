@@ -156,7 +156,7 @@ public class UIStatStore : UIPopup
 
         // 증가량 계산
         int hpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * hpDiff);
-        int damageIncrease = Mathf.RoundToInt(BaseDamage * Amount * damageDiff);
+        float damageIncrease = Mathf.Round((BaseDamage - 1) + Amount * damageDiff);
 
         // 능력치 반영
         player.MaxHp.Value = hpIncrease + BaseMaxHp;

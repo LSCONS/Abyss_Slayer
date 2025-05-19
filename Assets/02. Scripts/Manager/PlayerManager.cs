@@ -10,9 +10,13 @@ public class PlayerManager : Singleton<PlayerManager>
 {
     public Player Player { get; set; }
     public PlayerSpriteData PlayerSpriteData {  get; private set; }
+    public PlayerCustomizationInfo PlayerCustomizationInfo { get; private set; }
 
     public CharacterClass selectedCharacterClass = CharacterClass.Rogue;
     public Dictionary<CharacterClass, SpriteData> CharacterSpriteDicitonary { get; set; } = new();
+
+    // 커스텀 바뀌면 콜백
+    public Action<PlayerCustomizationInfo> OnCustomizationChanged;
 
     protected override void Awake()
     {
@@ -37,7 +41,54 @@ public class PlayerManager : Singleton<PlayerManager>
             Debug.LogError($"초기화 실패: {ex}");
         }
 
+        if (PlayerCustomizationInfo == null)
+        {
+            CharacterClass defaultClass = GetSelectedClass();
+            var spriteData = CharacterSpriteDicitonary[defaultClass].Data;
+
+            int defaultSkin = ParseColorIndexFromName(spriteData.SkinName);
+            int defaultFace = ParseColorIndexFromName(spriteData.FaceName);
+            int defaultHairColor = ParseColorIndexFromName(spriteData.HairTopName);
+            string styleIdToken = ExtractStyleIdTokenFromName(spriteData.HairTopName);
+            int defaultHairKey = CreateHairKey(styleIdToken, defaultHairColor);
+
+            PlayerCustomizationInfo = new PlayerCustomizationInfo(defaultSkin, defaultFace, defaultHairKey);
+        }
     }
+    private int ParseColorIndexFromName(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return 1;
+        var parts = name.Split('_');
+        foreach (var part in parts)
+        {
+            if (part.StartsWith("c") && int.TryParse(part.Substring(1), out int result))
+            {
+                return result;
+            }
+        }
+        return 1;
+    }
+
+    private string ExtractStyleIdTokenFromName(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return "m1";
+        var parts = name.Split('_');
+        foreach (var part in parts)
+        {
+            if ((part.StartsWith("m") || part.StartsWith("f")) && part.Length > 1)
+                return part;
+        }
+        return "m1";
+    }
+
+    private int CreateHairKey(string styleId, int colorIndex)
+    {
+        int baseOffset = styleId.StartsWith("m") ? 1000 : 4000;
+        int styleNum = int.Parse(styleId.Substring(1));
+        return baseOffset + styleNum * 100 + colorIndex;
+    }
+
+
 
     /// <summary>
     /// 현재 씬에서 플레이어를 찾고 등록하는 메서드
@@ -86,6 +137,12 @@ public class PlayerManager : Singleton<PlayerManager>
     public CharacterClass GetSelectedClass()
     {
         return selectedCharacterClass;
+    }
+
+    public void SetCustomization(int skinId, int faceId, int hairId)
+    {
+        PlayerCustomizationInfo = new PlayerCustomizationInfo(skinId, faceId, hairId);
+        OnCustomizationChanged?.Invoke(PlayerCustomizationInfo);
     }
 }
 
@@ -137,4 +194,5 @@ public class SpriteData
         // SpriteSlicer로 정렬된 전체 시트(sortedFrames)를 애니메이션 상태별로 분리함
         return SpriteSlicer.SliceSprite(sortedFrames.ToArray());
     }
+
 }
