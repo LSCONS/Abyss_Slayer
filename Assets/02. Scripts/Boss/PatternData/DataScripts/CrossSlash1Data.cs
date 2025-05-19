@@ -11,8 +11,8 @@ public class CrossSlash1Data : BasePatternData
     {
         bool isleft = 0 > target.position.x - bossTransform.position.x;
         boss.IsLeft = isleft;
-        bossController.showTargetCrosshair = true;
-        bossAnimator.SetTrigger("ReadyRun");
+        bossController.ShowTargetCrosshair = true;
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.ReadyRunParameterHash);
         yield return new WaitForSeconds(preDelayTime);
 
         bossController.StartCoroutine(bossController.RunMove(isleft));
@@ -22,9 +22,9 @@ public class CrossSlash1Data : BasePatternData
         {
             yield return null;
         }
-        boss.Rpc_SetBoolAnimationHash(BossAnimationHash.AttackJumpParameterHash, true);
+        boss.Rpc_SetBoolAnimationHash(AnimationHash.AttackJumpParameterHash, true);
         Coroutine jump = bossController.StartCoroutine(bossController.JumpMove(target.position,-1,jumpHight));
-        bossController.showTargetCrosshair = false;
+        bossController.ShowTargetCrosshair = false;
 
         yield return null;
         bossController.isRun = false;
@@ -38,12 +38,12 @@ public class CrossSlash1Data : BasePatternData
             time += Time.deltaTime;
             yield return null;
         }
-        boss.Rpc_SetBoolAnimationHash(BossAnimationHash.AttackJumpParameterHash, false);
+        boss.Rpc_SetBoolAnimationHash(AnimationHash.AttackJumpParameterHash, false);
         
         bossController.StopCoroutine(jump);
         if(time > 1f) yield break;
 
-        boss.Rpc_ResetTriggerAnimationHash(BossAnimationHash.FallParameterHash);
+        boss.Rpc_ResetTriggerAnimationHash(AnimationHash.FallParameterHash);
         ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);
         //PoolManager.Instance.Get<CrossSlash>().Init(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);
         yield return new WaitForSeconds(0.1f);
@@ -63,9 +63,9 @@ public class CrossSlash1Data : BasePatternData
         }
         float x = Mathf.Clamp(hit.point.x + (isleft ? 3 : -3),-mapWidth/2 + 0.7f,mapWidth/2+0.7f);
         bossTransform.position = new Vector3(x, hit.point.y + bossCenterHight);
-        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.SlashEndParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.SlashEndParameterHash);
         bossController.Sprite.enabled = true;
         yield return new WaitForSeconds(1.5f);
-        boss.Rpc_ResetTriggerAnimationHash(BossAnimationHash.SlashEndParameterHash);
+        boss.Rpc_ResetTriggerAnimationHash(AnimationHash.SlashEndParameterHash);
     }
 }

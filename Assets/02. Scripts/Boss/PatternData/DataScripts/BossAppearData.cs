@@ -20,7 +20,7 @@ public class BossAppearData : BasePatternData
         bossController.VirtualCamera.Priority = 20;
         yield return new WaitForSeconds(1f);
 
-        boss.Rpc_SetTriggerAnimationHash(BossAnimationHash.AppearParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.AppearParameterHash);
         yield return new WaitForSeconds(spawnAnimationTime + 1f);
         bossController.HitCollider.enabled = true;
         bossController.VirtualCamera.Priority = 5;

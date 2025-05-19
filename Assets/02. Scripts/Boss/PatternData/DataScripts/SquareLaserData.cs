@@ -17,7 +17,7 @@ public class SquareLaserData : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         boss.IsLeft = target.position.x - bossTransform.position.x < 0f;
-        bossAnimator.SetTrigger("Spawn");
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.SpawnParameterHash);
         yield return new WaitForSeconds(0.3f);
 
         Vector3 targetPos;
@@ -28,7 +28,7 @@ public class SquareLaserData : BasePatternData
         }
         yield return new WaitForSeconds(delayFireTime);
 
-        bossAnimator.SetTrigger("Throw");
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.ThrowParameterHash);
         yield return new WaitForSeconds(postDelayTime);
     }
 }
