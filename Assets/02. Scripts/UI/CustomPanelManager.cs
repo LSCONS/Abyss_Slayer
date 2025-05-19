@@ -38,15 +38,16 @@ public class CustomPanelManager : UIPopup
     // 지금 선택된 인덱스
     private int skinId = 1;
     private int faceId = 1;
-    private int hairIndex = 1;                    // 이 리스트에서 몇 번째인지 (0부터 시작)
+    private int hairId = 1;                    // 이 리스트에서 몇 번째인지 (0부터 시작)
 
-    // 헤어 인덱스
-    private List<int> availableHairKeys { get; set; } = new();  // 클래스별로 허용되는 헤어 리스트
+
     /// <summary>
     /// 최대 인덱스 구해주는 프로퍼티
     /// </summary>
-    private int maxSkinId => DataManager.Instance.DictIntToDictStateToSkinColorSprite.Keys.Max();
-    private int maxFaceId => DataManager.Instance.DictIntToDictStateToFaceColorSprite.Keys.Max();
+    private int maxSkinId => DataManager.Instance.DictIntToDictStateToSkinColorSprite.Keys.Count;
+    private int maxFaceId => DataManager.Instance.DictIntToDictStateToFaceColorSprite.Keys.Count;
+    private int maxHairId => DataManager.Instance.DictIntToDictStateToHairStyleTopSprite.Keys.Count 
+        +DataManager.Instance.DictIntToDictStateToHairStyleBottomSprite.Keys.Count;
 
     public override void Init()
     {
@@ -117,10 +118,6 @@ public class CustomPanelManager : UIPopup
 
         // hair 키 리스트 먼저 계산 (클래스별로 허용되는 헤어키 필터링)
         int allowedColors = HairColorConfig.HairColorIndexByClass[selectedClass];
-        availableHairKeys = DataManager.Instance.DictIntToDictStateToHairStyleTopSprite.Keys
-            .Where(k => allowedColors.Contains(k % 100))
-            .OrderBy(k => k)
-            .ToList();
 
         // 기본값 설정
         skinId = ParseColorIndexFromName(spriteData.Data.SkinName);
@@ -130,8 +127,8 @@ public class CustomPanelManager : UIPopup
         string hairStyleIdRaw = ExtractStyleIdTokenFromName(spriteData.Data.HairTopName); // "m4", "f4"
         int hairColorId = ParseColorIndexFromName(spriteData.Data.HairTopName);
         int baseHairKey = CreateHairKey(hairStyleIdRaw, hairColorId);
-        int defaultHairIndex = availableHairKeys.IndexOf(baseHairKey);
-        hairIndex = (defaultHairIndex != -1) ? defaultHairIndex : 0;
+        int defaultHairIndex = HairColorConfig.HairColorIndexByClass[selectedClass];
+        hairId = (defaultHairIndex != -1) ? defaultHairIndex : 0;
 
         // 커스텀 데이터가 있다면 그 값으로 갱신
         if (info != null)
@@ -140,8 +137,8 @@ public class CustomPanelManager : UIPopup
             faceId = info.faceId;
 
             int currentHairKey = info.hairId;
-            int foundIndex = availableHairKeys.IndexOf(currentHairKey);
-            hairIndex = (foundIndex != -1) ? foundIndex : 0;
+            int foundIndex = HairColorConfig.HairColorIndexByClass[selectedClass];
+            hairId = (foundIndex != -1) ? foundIndex : 0;
         }
     }
     /// <summary>
@@ -219,13 +216,10 @@ public class CustomPanelManager : UIPopup
         UpdateFacePreview(); // 얼굴만 갱신
         UpdateButtonInteractable();
     }
-    private void ChangeHairIndex(int delta)
+    private void ChangeHairIndex(int id)
     {
-        if (availableHairKeys.Count == 0) return;
-
-        hairIndex = Mathf.Clamp(hairIndex + delta, 0, availableHairKeys.Count - 1);
-        int currentHairKey = availableHairKeys[hairIndex];
-        hairNameText.text = $"Hair {currentHairKey}";
+        hairId = Mathf.Clamp(hairId + id, 1, maxHairId);
+        hairNameText.text = $"Hair {hairId}";
         UpdateHairPreview();
         UpdateButtonInteractable();
     }
@@ -241,8 +235,8 @@ public class CustomPanelManager : UIPopup
         faceLeftBtn.interactable = faceId > 1;
         faceRightBtn.interactable = faceId < maxFaceId;
 
-        hairLeftBtn.interactable = hairIndex > 0;
-        hairRightBtn.interactable = hairIndex < availableHairKeys.Count - 1;
+        hairLeftBtn.interactable = hairId > 1;
+        hairRightBtn.interactable = hairId < maxHairId;
     }
 
     /// <summary>
@@ -252,7 +246,7 @@ public class CustomPanelManager : UIPopup
     {
         skinNameText.text = $"Skin {skinId}";
         faceNameText.text = $"Face {faceId}";
-        hairNameText.text = availableHairKeys.Count > 0 ? $"Hair {availableHairKeys[hairIndex]}" : "Hair -";
+        hairNameText.text = $"Hair {hairId}";
     }
 
     /// <summary>
@@ -283,11 +277,9 @@ public class CustomPanelManager : UIPopup
 
     private void UpdateHairPreview()
     {
-        if (availableHairKeys.Count == 0) return;
-
-        int key = availableHairKeys[hairIndex];
-        TrySetPreviewPart(spritePreview.HairTop, DataManager.Instance.DictIntToDictStateToHairStyleTopSprite, key, AnimationState.Idle1);
-        TrySetPreviewPart(spritePreview.HairBottom, DataManager.Instance.DictIntToDictStateToHairStyleBottomSprite, key, AnimationState.Idle1);
+        int key = HairColorConfig.HairColorIndexByClass[PlayerManager.Instance.selectedCharacterClass];
+        TrySetPreviewPart(spritePreview.HairTop, DataManager.Instance.DictIntToDictStateToHairStyleTopSprite, (hairId, key), AnimationState.Idle1);
+        TrySetPreviewPart(spritePreview.HairBottom, DataManager.Instance.DictIntToDictStateToHairStyleBottomSprite, (hairId, key), AnimationState.Idle1);
         spritePreview.UpdatePreview();
     }
 
@@ -317,34 +309,41 @@ public class CustomPanelManager : UIPopup
         }
     }
 
+
+    /// <summary>
+    /// DictAnimationState에 파츠 스프라이트 세팅해주기
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="dict"></param>
+    /// <param name="id"></param>
+    /// <param name="state"></param>
+    private void TrySetPreviewPart(Image target, Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> dict, (int, int) id, AnimationState state)
+    {
+        if (!spritePreview.DictAnimationState.ContainsKey(target))
+            spritePreview.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
+
+        if (dict.TryGetValue(id, out var stateDict))
+        {
+            spritePreview.DictAnimationState[target][state] = stateDict.TryGetValue(state, out var sprites) ? sprites : new Sprite[0];
+        }
+        else
+        {
+            spritePreview.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>
+            {
+                { state, new Sprite[0] }
+            };
+        }
+    }
+
     /// <summary>
     /// 커마 적용
     /// </summary>
     public void ApplyPreview()
     {
-        if (availableHairKeys.Count == 0) return;
-
-        int selectedHairKey = availableHairKeys[hairIndex];
         PlayerManager.Instance.SetCustomization(
             skinId,
             faceId,
-            selectedHairKey
+            hairId
         );
     }
-}
-
-/// <summary>
-/// 클래스별 허용 머리 색깔들 인덱스 추출해야됨
-/// 미리 정해놓은 색으로
-/// </summary>
-public static class HairColorConfig
-{
-    public static readonly Dictionary<CharacterClass, int> HairColorIndexByClass = new()
-    {
-        { CharacterClass.Mage,           6 },
-        { CharacterClass.Tanker,         10  },
-        { CharacterClass.MagicalBlader,  4 },
-        { CharacterClass.Healer,         2 },
-        { CharacterClass.Rogue,          5 },
-    };
 }

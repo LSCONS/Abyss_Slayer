@@ -228,8 +228,8 @@ public class Player : NetworkBehaviour, IHasHealth
 
         SetAllAnimationStates(PlayerSpriteChange.Skin, data.DictIntToDictStateToSkinColorSprite, info.skinId);
         SetAllAnimationStates(PlayerSpriteChange.Face, data.DictIntToDictStateToFaceColorSprite, info.faceId);
-        SetAllAnimationStates(PlayerSpriteChange.HairTop, data.DictIntToDictStateToHairStyleTopSprite, info.hairId);
-        SetAllAnimationStates(PlayerSpriteChange.HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, info.hairId);
+        SetAllAnimationStates(PlayerSpriteChange.HairTop, data.DictIntToDictStateToHairStyleTopSprite, (info.hairId, HairColorConfig.HairColorIndexByClass[playerCharacterClass]));
+        SetAllAnimationStates(PlayerSpriteChange.HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, (info.hairId, HairColorConfig.HairColorIndexByClass[playerCharacterClass]));
 
         // 플레이어 기본 데이터 로드 및 복사
         PlayerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
@@ -258,6 +258,19 @@ public class Player : NetworkBehaviour, IHasHealth
         }
     }
     private void SetAllAnimationStates(SpriteRenderer target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> sourceDict, int id)
+    {
+        if (!PlayerSpriteChange.DictAnimationState.ContainsKey(target))
+            PlayerSpriteChange.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
+
+        if (sourceDict.TryGetValue(id, out var animDict))
+        {
+            foreach (var pair in animDict)
+            {
+                PlayerSpriteChange.DictAnimationState[target][pair.Key] = pair.Value;
+            }
+        }
+    }
+    private void SetAllAnimationStates(SpriteRenderer target, Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> sourceDict, (int, int) id)
     {
         if (!PlayerSpriteChange.DictAnimationState.ContainsKey(target))
             PlayerSpriteChange.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();

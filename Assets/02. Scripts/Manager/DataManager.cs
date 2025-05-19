@@ -9,17 +9,35 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UIElements;
 
+
+/// <summary>
+/// 클래스별 허용 머리 색깔들 인덱스 추출해야됨
+/// 미리 정해놓은 색으로
+/// </summary>
+public static class HairColorConfig
+{
+    public static readonly Dictionary<CharacterClass, int> HairColorIndexByClass = new()
+    {
+        { CharacterClass.Mage,           6 },
+        { CharacterClass.Tanker,         10  },
+        { CharacterClass.MagicalBlader,  4 },
+        { CharacterClass.Healer,         2 },
+        { CharacterClass.Rogue,          5 },
+    };
+}
+
 public class DataManager : Singleton<DataManager>
 {
     public Dictionary<EAniamtionCurve, AnimationCurve> DictEnumToCurve { get; private set; } = new();
     public Dictionary<EBossStage, NetworkObject> DictEnumToNetObjcet { get; private set; } = new();
     public Dictionary<EAudioClip, AudioClipData> DictEnumToAudioData { get; private set; } = new();
     public InitSupporter InitSupporter { get; private set; }
-    [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
-    [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
+    //첫 키의 int는 스타일, 두번 째 키의 int는 Color
+    [field: SerializeField] public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
+    [field: SerializeField] public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
     [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToFaceColorSprite { get; set; } = new();
     [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToSkinColorSprite { get; set; } = new();
-    private static readonly int[] HairColorVariants = new int[] { 1, 2, 4, 5, 6, 10 };  // 클래스별 머리색 c1,c2...
+    private int[] HairColorVariants { get; set; } = new int[] { 1, 2, 4, 5, 6, 10 };  // 클래스별 머리색 c1,c2...
 
 
     protected override void Awake()
@@ -72,8 +90,8 @@ public class DataManager : Singleton<DataManager>
                 string keyBot = $"f{i}_c{colorIndex}_bot";
 
                 int dictKey = CreateHairKey($"f{i}", colorIndex);
-                DictIntToDictStateToHairStyleTopSprite[dictKey] = await LoadAndSortSprites(keyTop);
-                DictIntToDictStateToHairStyleBottomSprite[dictKey] = await LoadAndSortSprites(keyBot);
+                DictIntToDictStateToHairStyleTopSprite[(i, colorIndex)] = await LoadAndSortSprites(keyTop);
+                DictIntToDictStateToHairStyleBottomSprite[(i, colorIndex)] = await LoadAndSortSprites(keyBot);
             }
 
         // 8. m1~m14 헤어
@@ -83,8 +101,8 @@ public class DataManager : Singleton<DataManager>
                 string keyBot = $"m{i}_c{colorIndex}_bot";
 
                 int dictKey = CreateHairKey($"m{i}", colorIndex);
-                DictIntToDictStateToHairStyleTopSprite[dictKey] = await LoadAndSortSprites(keyTop);
-                DictIntToDictStateToHairStyleBottomSprite[dictKey] = await LoadAndSortSprites(keyBot);
+                DictIntToDictStateToHairStyleTopSprite[(i, colorIndex)] = await LoadAndSortSprites(keyTop);
+                DictIntToDictStateToHairStyleBottomSprite[(i, colorIndex)] = await LoadAndSortSprites(keyBot);
             }
         }
     }

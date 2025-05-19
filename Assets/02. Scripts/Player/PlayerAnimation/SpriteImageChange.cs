@@ -110,17 +110,29 @@ public class SpriteImageChange : MonoBehaviour
 
         var data = DataManager.Instance;
         var state = AnimationState.Idle1;
+        var key = HairColorConfig.HairColorIndexByClass[PlayerManager.Instance.selectedCharacterClass];
 
         TrySetPart(Skin, data.DictIntToDictStateToSkinColorSprite, info.skinId, state);
         TrySetPart(Face, data.DictIntToDictStateToFaceColorSprite, info.faceId, state);
-        TrySetPart(HairTop, data.DictIntToDictStateToHairStyleTopSprite, info.hairId, state);
-        TrySetPart(HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, info.hairId, state);
+        TrySetPart(HairTop, data.DictIntToDictStateToHairStyleTopSprite, (info.hairId, key), state);
+        TrySetPart(HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, (info.hairId, key), state);
 
         animationNum = 0; // 첫 프레임부터 재생
         SetLoopAnimation(state, animationNum);
     }
 
     private void TrySetPart(Image target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> dict, int id, AnimationState state)
+    {
+        if (!DictAnimationState.ContainsKey(target))
+            DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
+
+        if (dict.TryGetValue(id, out var stateDict) && stateDict.TryGetValue(state, out var sprites))
+        {
+            DictAnimationState[target][state] = sprites;
+        }
+    }
+
+    private void TrySetPart(Image target, Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> dict, (int, int) id, AnimationState state)
     {
         if (!DictAnimationState.ContainsKey(target))
             DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
