@@ -133,20 +133,20 @@ public class CustomPanelManager : UIPopup
             baseHairKey = CreateHairKey(hairStyleIdRaw, hairColorId);
         }
 
-        hairIndex = availableHairKeys.IndexOf(baseHairKey);
-        if (hairIndex == -1) hairIndex = 0;
+        //hairId = availableHairKeys.IndexOf(baseHairKey);
+        //if (hairId == -1) hairId = 0;
 
-        // 커스텀 정보가 있다면 그 값으로 덮기
-        if (info != null)
-        {
-            skinId = info.skinId;
-            faceId = info.faceId;
+        //// 커스텀 정보가 있다면 그 값으로 덮기
+        //if (info != null)
+        //{
+        //    skinId = info.skinId;
+        //    faceId = info.faceId;
 
-            int currentHairKey = info.hairId;
-            int foundIndex = availableHairKeys.IndexOf(currentHairKey);
-            if (foundIndex != -1)
-                hairIndex = foundIndex;
-        }
+        //    int currentHairKey = info.hairId;
+        //    int foundIndex = availableHairKeys.IndexOf(currentHairKey);
+        //    if (foundIndex != -1)
+        //        hairId = foundIndex;
+        //}
     }
     /// <summary>
     /// 이름에서 m4, f4 등의 스타일 ID 토큰만 추출

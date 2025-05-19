@@ -20,9 +20,9 @@ public class AudioClipEnumData
 public class AudioClipData
 {
     [field: SerializeField] public AudioClip Audio { get; private set; }
-    [field: SerializeField] public bool IsLoop { get; private set; }
-    [field: SerializeField] public float Pitch { get; private set; }
-    [field: SerializeField] public float Volume { get; private set; }
+    [field: SerializeField] public bool IsLoop { get; private set; } = false;
+    [field: SerializeField] public float Pitch { get; private set; } = 1;
+    [field: SerializeField] public float Volume { get; private set; } = 1;
 }
 
 
