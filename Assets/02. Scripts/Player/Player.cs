@@ -11,6 +11,7 @@ public enum CharacterClass
     Mage,
     MagicalBlader,
     Tanker,
+    Count
 }
 
 

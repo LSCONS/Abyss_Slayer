@@ -175,7 +175,7 @@ public class UIStatStore : UIPopup
                 AppliedHpLevel,
                 hpIncrease,
                 AppliedDamageLevel,
-                damageIncrease,
+                (int)damageIncrease,
                 RemainingPoint
             );
         }

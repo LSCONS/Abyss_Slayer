@@ -7,15 +7,15 @@ using UnityEngine;
 [System.Serializable]
 public class PartyMemberInfo
 {
-    // 파티원의 고유 ID
-    public string PlayerId;
+    // 파티원의 이름
+    public string PlayerName;
 
     // 파티원의 직업 타입
     public string ClassType;
 
-    public PartyMemberInfo(string playerId, string classType)
+    public PartyMemberInfo(string playerName, string classType)
     {
-        PlayerId = playerId;
+        PlayerName = playerName;
         ClassType = classType;
     }
 }
