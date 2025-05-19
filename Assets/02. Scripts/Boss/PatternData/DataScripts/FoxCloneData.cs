@@ -11,6 +11,7 @@ public class FoxCloneData : BasePatternData
     [SerializeField] float explosionDelayTime = 8f;
     [SerializeField] float stunTime = 4f;
     [SerializeField] float postDelayTime = 2f;
+    [SerializeField] int cloneHp;
     float explosionTime;
     int curBossHp;
     int curHp;
@@ -39,7 +40,7 @@ public class FoxCloneData : BasePatternData
             else
             {
                 FoxClone foxClone = PoolManager.Instance.Get<FoxClone>();
-                foxClone.Init(position, cloneDeadDamage, cloneExplosionDamage, CloneDead);
+                foxClone.Init(position, cloneDeadDamage, cloneExplosionDamage, CloneDead, 1, cloneHp);
                 clones.Add(foxClone);
             }
             yield return new WaitForSeconds(0.1f);
