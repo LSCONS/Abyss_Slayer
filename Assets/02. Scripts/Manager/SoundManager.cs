@@ -179,7 +179,7 @@ public class SoundManager : Singleton<SoundManager>
         src.clip = data.Audio;
         src.loop = data.IsLoop;
         src.pitch = data.Pitch;
-        src.volume *= masterVolume * data.Volume;
+        src.volume = sfxVolume * masterVolume * data.Volume;
         src.Play();
 
         if (!data.IsLoop)
@@ -209,19 +209,21 @@ public class SoundManager : Singleton<SoundManager>
     /// <returns>오디오 소스</returns>
     private AudioSource GetPooledSource()
     {
-        AudioSource src;
-        if (sfxPool.Count > 0)
+        // 다 돌면서 재생 중 아닌것들 찾아서 꺼냄
+        var src = sfxPool.Dequeue();
+        if (!src.isPlaying)
         {
-            src = sfxPool.Dequeue();
+            src.gameObject.SetActive(true);
+            activeSources.Add(src);
+            return src;
         }
-        else
-        {
-            src = CreateAudioSource();
-        }
+        else sfxPool.Enqueue(src); // 아직 재생 중
 
-        src.gameObject.SetActive(true);
-        activeSources.Add(src);
-        return src;
+        // 만약에 다 재생중이면 풀 더 생성
+        var newSrc = CreateAudioSource();
+        newSrc.gameObject.SetActive(true);
+        activeSources.Add(newSrc);
+        return newSrc;
     }
 
     /// <summary>
