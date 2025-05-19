@@ -9316,7 +9316,7 @@ MonoBehaviour:
   bossController: {fileID: 0}
   isDead: 0
   sprite: {fileID: 5128484440579798486}
-  maxHP: 300
+  maxHP: 50000
 --- !u!114 &3488298137964199563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9500,7 +9500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recoverySeconds: 10
   takeDamageSeconds: 3
-  recoveryAmounts: 10
+  recoveryAmounts: 1000
   recoveryTerm: 0.1
 --- !u!1001 &8796510974933554164
 PrefabInstance:
