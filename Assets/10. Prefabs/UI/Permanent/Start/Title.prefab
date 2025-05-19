@@ -442,6 +442,7 @@ MonoBehaviour:
   uISceneType: 2
   isClose: 0
   popupName: RoomMakerPopup
+  alarmIcon: {fileID: 0}
 --- !u!1 &1415439317544236355
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,6 +1033,7 @@ MonoBehaviour:
   uISceneType: 2
   isClose: 0
   popupName: UIPopupSettings
+  alarmIcon: {fileID: 0}
 --- !u!1 &3965404251556851737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,6 +1172,7 @@ MonoBehaviour:
   uISceneType: 2
   isClose: 0
   popupName: QuitGamePopup
+  alarmIcon: {fileID: 0}
 --- !u!1 &4444868300232922433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,6 +1357,7 @@ MonoBehaviour:
   uISceneType: 2
   isClose: 0
   popupName: Img_RoomSearch
+  alarmIcon: {fileID: 0}
 --- !u!1 &5633028747356442324
 GameObject:
   m_ObjectHideFlags: 0
@@ -1688,8 +1692,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 41926f5a9dda944c9b1393088fafdf0a, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1943,6 +1947,7 @@ MonoBehaviour:
   uISceneType: 2
   isClose: 0
   popupName: 
+  alarmIcon: {fileID: 0}
 --- !u!1 &9204733621870387411
 GameObject:
   m_ObjectHideFlags: 0

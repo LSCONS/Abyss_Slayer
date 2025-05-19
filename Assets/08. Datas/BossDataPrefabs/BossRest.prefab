@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8370990716337248795}
   - component: {fileID: 708503559936102309}
   - component: {fileID: -6720719114665376072}
+  - component: {fileID: 4495119311285105758}
   m_Layer: 8
   m_Name: BossRest
   m_TagString: Boss
@@ -188,6 +189,22 @@ MonoBehaviour:
   - {fileID: 8667110271714357386}
   - {fileID: 8699129708664049348}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &4495119311285105758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4414551459094325341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d820353c992fdd438ed612c6d5077db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <recoverySeconds>k__BackingField: 5
+  takeDamageSeconds: 3
+  recoveryAmounts: 10
+  recoveryTerm: 0.1
 --- !u!1 &5604939230577437224
 GameObject:
   m_ObjectHideFlags: 0

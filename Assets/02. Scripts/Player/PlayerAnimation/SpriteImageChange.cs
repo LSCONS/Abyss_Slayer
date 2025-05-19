@@ -42,6 +42,11 @@ public class SpriteImageChange : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        // 액션 등록
+        PlayerManager.Instance.OnCustomizationChanged += ApplyCustomData;
+    }
     public void Init(CharacterClass character)
     {
         if(SelectedClass != (int)character)
@@ -69,8 +74,15 @@ public class SpriteImageChange : MonoBehaviour
     {
         foreach (var spriteRenderer in DictAnimationState.Keys)
         {
-            if (DictAnimationState[spriteRenderer][state].Length <= spriteNum) return false;
-            spriteRenderer.sprite = DictAnimationState[spriteRenderer][state][spriteNum];
+            if (!DictAnimationState[spriteRenderer].ContainsKey(state))
+                return false;
+
+            var sprites = DictAnimationState[spriteRenderer][state];
+
+            if (sprites == null || spriteNum >= sprites.Length)
+                return false;
+
+            spriteRenderer.sprite = sprites[spriteNum];
         }
         return true;
     }
@@ -79,8 +91,61 @@ public class SpriteImageChange : MonoBehaviour
     {
         foreach (var spriteRenderer in DictAnimationState.Keys)
         {
-            spriteNum %= DictAnimationState[spriteRenderer][state].Length;
-            spriteRenderer.sprite = DictAnimationState[spriteRenderer][state][spriteNum];
+            if (!DictAnimationState[spriteRenderer].ContainsKey(state))
+                continue;
+
+            var sprites = DictAnimationState[spriteRenderer][state];
+
+            if (sprites == null || sprites.Length == 0)
+                continue; // 빈 배열이면 넘어감
+
+            spriteNum %= sprites.Length;
+            spriteRenderer.sprite = sprites[spriteNum];
         }
     }
+
+    public void ApplyCustomData(PlayerCustomizationInfo info)
+    {
+        if (info == null) return;
+
+        var data = DataManager.Instance;
+        var state = AnimationState.Idle1;
+        var key = HairColorConfig.HairColorIndexByClass[PlayerManager.Instance.selectedCharacterClass];
+
+        TrySetPart(Skin, data.DictIntToDictStateToSkinColorSprite, info.skinId, state);
+        TrySetPart(Face, data.DictIntToDictStateToFaceColorSprite, info.faceId, state);
+        TrySetPart(HairTop, data.DictIntToDictStateToHairStyleTopSprite, (info.hairId, key), state);
+        TrySetPart(HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, (info.hairId, key), state);
+
+        animationNum = 0; // 첫 프레임부터 재생
+        SetLoopAnimation(state, animationNum);
+    }
+
+    private void TrySetPart(Image target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> dict, int id, AnimationState state)
+    {
+        if (!DictAnimationState.ContainsKey(target))
+            DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
+
+        if (dict.TryGetValue(id, out var stateDict) && stateDict.TryGetValue(state, out var sprites))
+        {
+            DictAnimationState[target][state] = sprites;
+        }
+    }
+
+    private void TrySetPart(Image target, Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> dict, (int, int) id, AnimationState state)
+    {
+        if (!DictAnimationState.ContainsKey(target))
+            DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
+
+        if (dict.TryGetValue(id, out var stateDict) && stateDict.TryGetValue(state, out var sprites))
+        {
+            DictAnimationState[target][state] = sprites;
+        }
+    }
+    public void UpdatePreview()
+    {
+        animationNum = 0;
+        SetLoopAnimation(AnimationState.Idle1, animationNum);
+    }
+
 }

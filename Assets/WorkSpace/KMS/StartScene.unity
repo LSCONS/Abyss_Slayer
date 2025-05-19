@@ -327,6 +327,7 @@ MonoBehaviour:
   popupParent: {fileID: 1542731941}
   topMidParent: {fileID: 1911160386}
   followParent: {fileID: 0}
+  popupBG: {fileID: 0}
 --- !u!1 &842289314
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,12 +357,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73816738b8437424d95611379a853517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testSoundName: SFX1
-  testSoundName2: SFX2
-  playOnStart: 1
-  sceneSfxLabel: Scene1
-  bgmName1: BGM1
-  bgmName2: BGM2
 --- !u!4 &842289316
 Transform:
   m_ObjectHideFlags: 0
