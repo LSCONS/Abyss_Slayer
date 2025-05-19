@@ -424,13 +424,38 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5565615515774139679, guid: c6e6161ebdbbd6044b820a98e58c79e6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3917172045960930458}
   m_SourcePrefab: {fileID: 100100000, guid: c6e6161ebdbbd6044b820a98e58c79e6, type: 3}
 --- !u!224 &5176464209405569122 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8082600636282926779, guid: c6e6161ebdbbd6044b820a98e58c79e6, type: 3}
   m_PrefabInstance: {fileID: 4034473961199312601}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8845172351944860614 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5565615515774139679, guid: c6e6161ebdbbd6044b820a98e58c79e6, type: 3}
+  m_PrefabInstance: {fileID: 4034473961199312601}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3917172045960930458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845172351944860614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e04396ada859041a7ff17b8475166f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiType: 5
+  uISceneType: 4
+  isClose: 0
+  popupName: CustomPanel
+  alarmIcon: {fileID: 0}
 --- !u!1001 &8702250333652763509
 PrefabInstance:
   m_ObjectHideFlags: 0

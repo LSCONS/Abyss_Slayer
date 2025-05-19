@@ -10,38 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: SFX
+  m_Name: UI
   m_EditorClassIdentifier: 
-  m_GroupName: SFX
+  m_GroupName: UI
   m_Data:
     m_SerializedData: []
-  m_GUID: f9c08ed670d508d469884d5926f4813e
+  m_GUID: 1dba4a13c6f2e524295ffaf8ac2301b3
   m_SerializeEntries:
-  - m_GUID: 4ce7eda521282b245ba97b9042bcc36f
-    m_Address: Assets/08. Datas/Audio/SFX 1.asset
+  - m_GUID: 190ac7bc7058e7840ae7ce254a2e6285
+    m_Address: Assets/10. Prefabs/UI/Permanent/Robby/CustomPanel.prefab
     m_ReadOnly: 0
     m_SerializedLabels:
-    - SFX
-    - Start
+    - NonGamePlay
     - Lobby
-    - Rest
-    - Battle
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 280cc743e25904046a0954201a3d6345
-    m_Address: SFX_Walk
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SFX
-    - Battle
-    - Rest
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c9f4dc58971191e47abde3a953ce28cc
-    m_Address: SFX_Jump
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - SFX
-    - Battle
-    - Rest
+    - Popup
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}
