@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using System.Threading.Tasks;
+using UnityEngine.UI;
 using UnityEngine;
 public enum CharacterClass
 {
@@ -212,10 +214,25 @@ public class Player : NetworkBehaviour, IHasHealth
     private void InitPlayerData()
     {
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
-        CharacterSkillSet skillSet = null;
-        PlayerSpriteChange.Init(NetworkData.Class);
 
-        PlayerData = PlayerManager.Instance.DictClassToPlayerData[NetworkData.Class];
+        // 선택된 클래스 정보 가져옴
+        playerCharacterClass = PlayerManager.Instance.GetSelectedClass();
+        CharacterSkillSet skillSet = null;
+
+        // 스프라이트 기본으로 init
+        PlayerSpriteChange.Init(playerCharacterClass);
+
+        // 커스터마이징 된 스프라이트를 적용
+        var info = PlayerManager.Instance.PlayerCustomizationInfo;
+        var data = DataManager.Instance;
+
+        SetAllAnimationStates(PlayerSpriteChange.Skin, data.DictIntToDictStateToSkinColorSprite, info.skinId);
+        SetAllAnimationStates(PlayerSpriteChange.Face, data.DictIntToDictStateToFaceColorSprite, info.faceId);
+        SetAllAnimationStates(PlayerSpriteChange.HairTop, data.DictIntToDictStateToHairStyleTopSprite, info.hairId);
+        SetAllAnimationStates(PlayerSpriteChange.HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, info.hairId);
+
+        // 플레이어 기본 데이터 로드 및 복사
+        PlayerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
         PlayerData = Instantiate(PlayerData);
 
         Hp.Value = PlayerData.PlayerStatusData.HP_Cur;
@@ -239,6 +256,33 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             skill.Init();
         }
+    }
+    private void SetAllAnimationStates(SpriteRenderer target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> sourceDict, int id)
+    {
+        if (!PlayerSpriteChange.DictAnimationState.ContainsKey(target))
+            PlayerSpriteChange.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
+
+        if (sourceDict.TryGetValue(id, out var animDict))
+        {
+            foreach (var pair in animDict)
+            {
+                PlayerSpriteChange.DictAnimationState[target][pair.Key] = pair.Value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 컴포넌트를 초기화하는 메서드
+    /// </summary>
+    private void InitComponent()
+    {
+        input = GetComponent<PlayerInput>();
+        input.InitDictionary();
+        playerRigidbody = GetComponent<Rigidbody2D>();
+        PlayerSpriteChange = GetComponentInChildren<SpriteChange>();
+        playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
+        PlayerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
+        PlayerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
     }
 
 

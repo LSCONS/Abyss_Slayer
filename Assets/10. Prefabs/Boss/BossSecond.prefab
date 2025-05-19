@@ -125,17 +125,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9448e362f6a54f44b699672c0553d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BossController>k__BackingField: {fileID: 0}
-  <Sprite>k__BackingField: {fileID: 0}
-  <Animator>k__BackingField: {fileID: 0}
-  <HitCollider>k__BackingField: {fileID: 0}
-  <VirtualCamera>k__BackingField: {fileID: 0}
-  <MaxHp>k__BackingField:
-    value: 1000
-  <IsMove>k__BackingField: 1
-  _IsLeft: 0
-  _BossPosition: {x: 0, y: 0}
-  _CrosshairPosition: {x: 0, y: 0}
+  bossController: {fileID: 0}
+  isDead: 0
+  sprite: {fileID: 0}
+  maxHP: 0
 --- !u!114 &7533524700751186556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,15 +141,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be781b50b434d904c9749a0d6892a593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AppearPattern>k__BackingField: {fileID: 0}
-  <AllPatterns>k__BackingField: []
-  <TargetCrossHairPrefab>k__BackingField: {fileID: 0}
-  <Boss>k__BackingField: {fileID: 0}
-  <BossCenterHight>k__BackingField: 0
-  <JumpMoveTime>k__BackingField: 0
-  <JumpMoveHight>k__BackingField: 0
-  <GravityMultiplier>k__BackingField: 0
-  <runSpeed>k__BackingField: 0
+  appearPattern: {fileID: 0}
+  allPatterns: []
+  targetCrossHairPrefab: {fileID: 0}
+  sprite: {fileID: 0}
+  hitCollider: {fileID: 0}
+  _effectSprite: {fileID: 0}
+  bossCenterHight: 0
+  mapWidth: 0
+  virtualCamera: {fileID: 0}
+  chasingTarget: 0
+  runSpeed: 0
+  jumpMoveTime: 0
+  jumpMoveHight: 0
+  gravityMultiplier: 0
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 576
@@ -257,11 +255,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 1997971764
   ObjectInterest: 1
-  Flags: 262145
+  Flags: 1
   NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 7749574024559871257}
-  - {fileID: 7533524700751186556}
+  NetworkedBehaviours: []
   ForceRemoteRenderTimeframe: 0
 --- !u!1 &6071993305312034198
 GameObject:

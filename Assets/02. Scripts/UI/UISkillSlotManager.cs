@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using TMPro;
+using UniRx;
 using UnityEngine;
 
 public class UISkillSlotManager : Singleton<UISkillSlotManager>

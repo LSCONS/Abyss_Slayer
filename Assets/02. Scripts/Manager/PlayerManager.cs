@@ -9,6 +9,16 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
+    public Player Player { get; set; }
+    public PlayerSpriteData PlayerSpriteData {  get; private set; }
+    public PlayerCustomizationInfo PlayerCustomizationInfo { get; private set; }
+
+    public CharacterClass selectedCharacterClass = CharacterClass.Rogue;
+    public Dictionary<CharacterClass, SpriteData> CharacterSpriteDicitonary { get; set; } = new();
+
+    // 커스텀 바뀌면 콜백
+    public Action<PlayerCustomizationInfo> OnCustomizationChanged;
+
     public CharacterClass CharacterClass
         => ServerManager.Instance.ThisPlayerData?.Class ?? CharacterClass.Rogue;
     public Dictionary<CharacterClass, SpriteData> DictClassToSpriteData { get; private set; } = new();
@@ -93,6 +103,12 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         ServerManager.Instance.ThisPlayerData.Rpc_ChangeClass(selectedCalss);
     }
+
+    public void SetCustomization(int skinId, int faceId, int hairId)
+    {
+        PlayerCustomizationInfo = new PlayerCustomizationInfo(skinId, faceId, hairId);
+        OnCustomizationChanged?.Invoke(PlayerCustomizationInfo);
+    }
 }
 
 public class SpriteData
@@ -160,4 +176,5 @@ public class SpriteData
         // SpriteSlicer로 정렬된 전체 시트(sortedFrames)를 애니메이션 상태별로 분리함
         return SpriteSlicer.SliceSprite(sortedFrames.ToArray());
     }
+
 }
