@@ -125,7 +125,13 @@ public class CustomPanelManager : UIPopup
         // 기본값 설정
         skinId = ParseColorIndexFromName(spriteData.Data.SkinName);
         faceId = ParseColorIndexFromName(spriteData.Data.FaceName);
-        hairIndex = 0;
+
+
+        string hairStyleIdRaw = ExtractStyleIdTokenFromName(spriteData.Data.HairTopName); // "m4", "f4"
+        int hairColorId = ParseColorIndexFromName(spriteData.Data.HairTopName);
+        int baseHairKey = CreateHairKey(hairStyleIdRaw, hairColorId);
+        int defaultHairIndex = availableHairKeys.IndexOf(baseHairKey);
+        hairIndex = (defaultHairIndex != -1) ? defaultHairIndex : 0;
 
         // 커스텀 데이터가 있다면 그 값으로 갱신
         if (info != null)
@@ -138,6 +144,35 @@ public class CustomPanelManager : UIPopup
             hairIndex = (foundIndex != -1) ? foundIndex : 0;
         }
     }
+    /// <summary>
+    /// 이름에서 m4, f4 등의 스타일 ID 토큰만 추출
+    /// </summary>
+    private string ExtractStyleIdTokenFromName(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return "m1";
+
+        var parts = name.Split('_');
+        foreach (var part in parts)
+        {
+            if ((part.StartsWith("m") || part.StartsWith("f")) && part.Length > 1)
+            {
+                return part; // 예: "m4", "f2"
+            }
+        }
+
+        return "m1"; // fallback
+    }
+
+    /// <summary>
+    /// m4, f4 스타일 ID와 색상 인덱스로 고유 키 생성
+    /// </summary>
+    private int CreateHairKey(string styleId, int colorIndex)
+    {
+        int baseOffset = styleId.StartsWith("m") ? 1000 : 4000;
+        int styleNum = int.Parse(styleId.Substring(1));
+        return baseOffset + styleNum * 100 + colorIndex;
+    }
+
 
     /// <summary>
     /// 딕셔너리 깊은 복사 해주는 메서드

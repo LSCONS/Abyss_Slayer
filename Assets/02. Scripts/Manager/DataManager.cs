@@ -90,16 +90,17 @@ public class DataManager : Singleton<DataManager>
     }
     /// <summary>
     /// 딕셔너리 키 생성을 위한 메서드 
-    /// m4이고 c5 이면 405로 키 생성해줌
+    /// m4이고 c5 이면 1405로 키 생성해줌
+    /// f4이고 c5 이면 4405로 키 생성
     /// </summary>
     /// <param name="styleId"></param>
     /// <param name="colorIndex"></param>
     /// <returns></returns>
     private int CreateHairKey(string styleId, int colorIndex)
     {
-        // m4 -> 4, f2 -> 2 등으로 변환
-        int styleNumber = int.Parse(new string(styleId.Where(char.IsDigit).ToArray()));
-        return styleNumber * 100 + colorIndex;
+        int baseOffset = styleId.StartsWith("m") ? 1000 : 4000;
+        int styleNum = int.Parse(styleId.Substring(1));
+        return baseOffset + styleNum * 100 + colorIndex;
     }
 
     private async Task<Dictionary<AnimationState, Sprite[]>> LoadAndSortSprites(string addressKey)
