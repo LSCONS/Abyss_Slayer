@@ -128,11 +128,17 @@ public class CustomPanelManager : UIPopup
 
         string hairStyleIdRaw = ExtractStyleIdTokenFromName(spriteData.Data.HairTopName); // "m4", "f4"
         int hairColorId = ParseColorIndexFromName(spriteData.Data.HairTopName);
-        int baseHairKey = CreateHairKey(hairStyleIdRaw, hairColorId);
-        int defaultHairIndex = availableHairKeys.IndexOf(baseHairKey);
-        hairIndex = (defaultHairIndex != -1) ? defaultHairIndex : 0;
 
-        // 커스텀 데이터가 있다면 그 값으로 갱신
+        int baseHairKey = -1;
+        if (!string.IsNullOrEmpty(hairStyleIdRaw) && hairColorId > 0)
+        {
+            baseHairKey = CreateHairKey(hairStyleIdRaw, hairColorId);
+        }
+
+        hairIndex = availableHairKeys.IndexOf(baseHairKey);
+        if (hairIndex == -1) hairIndex = 0;
+
+        // 커스텀 정보가 있다면 그 값으로 덮기
         if (info != null)
         {
             skinId = info.skinId;
@@ -140,7 +146,8 @@ public class CustomPanelManager : UIPopup
 
             int currentHairKey = info.hairId;
             int foundIndex = availableHairKeys.IndexOf(currentHairKey);
-            hairIndex = (foundIndex != -1) ? foundIndex : 0;
+            if (foundIndex != -1)
+                hairIndex = foundIndex;
         }
     }
     /// <summary>
