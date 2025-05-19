@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5251932644699934846}
   - component: {fileID: 4945028599816073334}
   - component: {fileID: 7896639486435320998}
+  - component: {fileID: 6057845262329833247}
   m_Layer: 0
   m_Name: BossProjectileNormal
   m_TagString: Untagged
@@ -77,6 +78,25 @@ MonoBehaviour:
   _sprites:
   - {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   _spriteRenderer: {fileID: 854326338158894075}
+--- !u!114 &6057845262329833247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2817516323283203562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2159209594
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 7896639486435320998}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &9101535334700747692
 GameObject:
   m_ObjectHideFlags: 0

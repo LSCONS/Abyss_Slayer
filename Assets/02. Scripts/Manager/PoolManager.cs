@@ -1,3 +1,4 @@
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,16 +17,23 @@ public class PoolConfig     //새로 풀을 추가할때 필요한 정보
 /// <summary>
 /// 
 /// </summary>
-public class PoolManager : Singleton<PoolManager>
+[RequireComponent(typeof(NetworkObject))]
+public class PoolManager : NetworkBehaviour
 {
     private Dictionary<Type, ObjectPool> poolDict = new();    //리스트의 풀을 저장하는 딕셔너리
 
+    public static PoolManager Instance => _instance;
 
-    protected override void Awake()
+    private static PoolManager _instance;
+
+
+    public override void Spawned()
     {
-        base.Awake();
+        base.Spawned();
+        _instance = this;
         SetObjectPoolDictionary();
-    }
+        transform.parent = null;
+    } 
 
 
     /// <summary>

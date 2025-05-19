@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3343358533485697889}
   - component: {fileID: 5159762399675091534}
+  - component: {fileID: 6318972073477769800}
   m_Layer: 7
   m_Name: SpellPrefab
   m_TagString: Untagged
@@ -47,6 +48,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeDuration: 0.5
   fadeController: {fileID: 8546013141969602920}
+  animator: {fileID: 0}
+--- !u!114 &6318972073477769800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3882362667370423701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 218283480
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 5159762399675091534}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &7142656088830486693
 GameObject:
   m_ObjectHideFlags: 0

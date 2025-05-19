@@ -219,16 +219,11 @@ public class Player : NetworkBehaviour, IHasHealth
         CharacterSkillSet skillSet = null;
 
         // 스프라이트 기본으로 init
-        PlayerSpriteChange.Init(playerCharacterClass);
+        PlayerSpriteChange.Init(playerCharacterClass, (NetworkData.HairStyleKey, NetworkData.HairColorKey), NetworkData.FaceColorKey, NetworkData.SkinColorKey);
 
         // 커스터마이징 된 스프라이트를 적용
         var info = PlayerManager.Instance.PlayerCustomizationInfo;
         var data = DataManager.Instance;
-
-        SetAllAnimationStates(PlayerSpriteChange.Skin, data.DictIntToDictStateToSkinColorSprite, info.skinId);
-        SetAllAnimationStates(PlayerSpriteChange.Face, data.DictIntToDictStateToFaceColorSprite, info.faceId);
-        SetAllAnimationStates(PlayerSpriteChange.HairTop, data.DictIntToDictStateToHairStyleTopSprite, (info.hairId, HairColorConfig.HairColorIndexByClass[playerCharacterClass]));
-        SetAllAnimationStates(PlayerSpriteChange.HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, (info.hairId, HairColorConfig.HairColorIndexByClass[playerCharacterClass]));
 
         // 플레이어 기본 데이터 로드 및 복사
         PlayerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
@@ -238,7 +233,7 @@ public class Player : NetworkBehaviour, IHasHealth
         MaxHp.Value = PlayerData.PlayerStatusData.HP_Max;
 
         //TODO: 이 데이터 언젠가 바꿔야함
-        skillSet = PlayerManager.Instance.DictClassToSkillSet[NetworkData.Class];
+        skillSet = DataManager.Instance.DictClassToSkillSet[NetworkData.Class];
         skillSet = Instantiate(skillSet);
         skillSet.InstantiateSkillData(this);
 

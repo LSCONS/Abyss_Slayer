@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4971218286264508626}
   - component: {fileID: 7571283678495250803}
   - component: {fileID: 592995034653422194}
+  - component: {fileID: 6969778145298925856}
   m_Layer: 0
   m_Name: CrossSlash
   m_TagString: Untagged
@@ -345,3 +346,22 @@ PolygonCollider2D:
       - {x: 1, y: -2}
       - {x: 4, y: -4}
   m_UseDelaunayMesh: 0
+--- !u!114 &6969778145298925856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8980000250711888608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2927375033
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 5980307449254988072}
+  ForceRemoteRenderTimeframe: 0

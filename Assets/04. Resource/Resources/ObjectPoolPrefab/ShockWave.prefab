@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 6588024359152227384}
   - component: {fileID: 7370796968426936436}
   - component: {fileID: 6280328219589880244}
+  - component: {fileID: 1997809378230579795}
   m_Layer: 0
   m_Name: ShockWave
   m_TagString: Untagged
@@ -101,6 +102,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collider: {fileID: 573732947340034060}
   _bossDamageCollider: {fileID: 4256198006233801734}
+--- !u!114 &1997809378230579795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911448848094762976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3848957158
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 6280328219589880244}
+  - {fileID: 4256198006233801734}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &7408217185021630202
 GameObject:
   m_ObjectHideFlags: 0

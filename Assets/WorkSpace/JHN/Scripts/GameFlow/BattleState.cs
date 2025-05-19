@@ -7,6 +7,7 @@ public class BattleState : BaseGameState
 {
     public static int BossSceneCount { get; private set; } = 4;
     public override UIType StateUIType => UIType.GamePlay;
+    public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
 
     public int stageIndex = 0;
     public bool isStart { get; set; } = false;
@@ -104,10 +105,34 @@ public class BattleState : BaseGameState
         if (runner.IsServer)
         {
             //모든 플레이어의 데이터가 들어있는지 확인하는 메서드
+            ServerManager.Instance.AllPlayerIsReadyFalse();
             await ServerManager.Instance.WaitForAllPlayerLoadingAsync();
         }
         //TODO: 플레이어 위치 동기화도 필요함
 
+#if MoveSceneDebug
+        Debug.Log("Battle 개방");
+#endif
+        UIManager.Instance.OpenUI(UISceneType.Boss);
+
+        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
+        await ServerManager.Instance.WaitForAllPlayerIsReady();
+
+        //플레이어 시작 위치 값 초기화
+        if (runner.IsServer)
+        {
+            Vector3 temp = StartPosition;
+            foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
+            {
+                player.PlayerPosition = temp;
+                temp += Vector3.right;
+            }
+
+            foreach (NetworkData data in ServerManager.Instance.DictRefToNetData.Values)
+            {
+                data.Rpc_ResetPlayerPosition();
+            }
+        }
 
 #if MoveSceneDebug
         Debug.Log("프로그래스 바 끝났는지 확인하자");
@@ -116,10 +141,6 @@ public class BattleState : BaseGameState
         await (state?.TaskProgressBar ?? Task.CompletedTask);
 
 
-#if MoveSceneDebug
-        Debug.Log("Battle 개방");
-#endif
-        UIManager.Instance.OpenUI(UISceneType.Boss);
         if (runner.IsServer)
         {
 #if MoveSceneDebug

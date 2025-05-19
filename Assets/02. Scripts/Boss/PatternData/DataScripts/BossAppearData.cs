@@ -14,18 +14,15 @@ public class BossAppearData : BasePatternData
         bossController.HitCollider.enabled = false;
         bossTransform.position = appearPosition;
         boss.IsLeft = true;
-        yield return new WaitForSeconds(preDelayTime); 
-        
-        bossController.VirtualCamera.m_Lens.OrthographicSize = 10/zoomScale;
-        bossController.VirtualCamera.Priority = 20;
+        yield return new WaitForSeconds(preDelayTime);
+        ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(10 / zoomScale, 20);
         yield return new WaitForSeconds(1f);
-
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.AppearParameterHash);
         yield return new WaitForSeconds(spawnAnimationTime + 1f);
         bossController.HitCollider.enabled = true;
-        bossController.VirtualCamera.Priority = 5;
+        ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(10 / zoomScale, 5);
         yield return new WaitForSeconds(postDelayTime);
-        bossController.VirtualCamera.m_Lens.OrthographicSize = 10f;
+        ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(10f, 5);
         ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
     }
 

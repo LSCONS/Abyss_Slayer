@@ -14,6 +14,9 @@ public class UIStatStore : UIPopup
     [SerializeField] TextMeshProUGUI hpFigure;
     [SerializeField] TextMeshProUGUI damageFigure;
 
+    [SerializeField] TextMeshProUGUI hpTotalFigure;
+    [SerializeField] TextMeshProUGUI damageTotalFigure;
+
     [SerializeField] TextMeshProUGUI remainingPointText;
 
     [SerializeField] Button hpUpgradeButton;
@@ -103,6 +106,12 @@ public class UIStatStore : UIPopup
 
         float damageIncrease = (BaseDamage * Amount * (TempDamageLevel - AppliedDamageLevel));
         damageFigure.text = $"+{damageIncrease:f1}";
+
+        int totalHpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * (TempHpLevel - 1));
+        hpTotalFigure.text = $"+{totalHpIncrease}";
+
+        float totalDamageIncrease = BaseDamage * Amount * (TempDamageLevel - 1);
+        damageTotalFigure.text = $"+{totalDamageIncrease:f1}";
 
         remainingPointText.text = $"남은 포인트: {RemainingPoint}";
     }

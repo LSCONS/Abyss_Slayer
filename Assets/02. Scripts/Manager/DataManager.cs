@@ -1,13 +1,11 @@
 using Fusion;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.UIElements;
 
 
 /// <summary>
@@ -31,12 +29,19 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<EAniamtionCurve, AnimationCurve> DictEnumToCurve { get; private set; } = new();
     public Dictionary<EBossStage, NetworkObject> DictEnumToNetObjcet { get; private set; } = new();
     public Dictionary<EAudioClip, AudioClipData> DictEnumToAudioData { get; private set; } = new();
+    public Dictionary<CharacterClass, CharacterSkillSet> DictClassToSkillSet { get; private set; } = new();
+    public Dictionary<CharacterClass, PlayerData> DictClassToPlayerData { get; private set; } = new();
+    public PoolManager PoolManager { get; private set; }
     public InitSupporter InitSupporter { get; private set; }
     //첫 키의 int는 스타일, 두번 째 키의 int는 Color
-    [field: SerializeField] public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
-    [field: SerializeField] public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
-    [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToFaceColorSprite { get; set; } = new();
-    [field: SerializeField] public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToSkinColorSprite { get; set; } = new();
+    public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
+    public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
+    public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToFaceColorSprite { get; set; } = new();
+    public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToSkinColorSprite { get; set; } = new();
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponTop { get; set; } = new();
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponbot { get; set; } = new();
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothTop { get; set; } = new();
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothbot { get; set; } = new();
     private int[] HairColorVariants { get; set; } = new int[] { 1, 2, 4, 5, 6, 10 };  // 클래스별 머리색 c1,c2...
 
 
@@ -53,17 +58,80 @@ public class DataManager : Singleton<DataManager>
         await DataLoadAudioClipData();
         await DataLoadAnimationSpriteData();
         await DataLoadInitInitSupporterData();
+        await LoadSkillSetData();
+        await LoadPlayerData();
+        await DataLoadCharacterToSpriteData();
+
+
         return;
     }
 
 
+    private async Task DataLoadCharacterToSpriteData()
+    {
+        PlayerSpriteData data = new PlayerSpriteData();
+        foreach (CharacterClass character in Enum.GetValues(typeof(CharacterClass)))
+        {
+            if (character == CharacterClass.Count) continue;
+            data.SetSpriteName(character);
+            DictClassToStateToClothbot[character] = await LoadAndSortSprites(data.ClothBottomName);
+            DictClassToStateToClothTop[character] = await LoadAndSortSprites(data.ClothTopName);
+            DictClassToStateToWeaponbot[character] = await LoadAndSortSprites(data.WeaponBottomName);
+            DictClassToStateToWeaponTop[character] = await LoadAndSortSprites(data.WeaponTopName);
+        }
+    }
+
 
     private async Task DataLoadInitInitSupporterData()
     {
-        var handle = Addressables.LoadAssetAsync<GameObject>("InitSupporter");         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
-        await handle.Task;
-        InitSupporter = handle.Result.GetComponent<InitSupporter>();
+        var init = Addressables.LoadAssetAsync<GameObject>("InitSupporter");         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
+        await init.Task;
+        InitSupporter = init.Result.GetComponent<InitSupporter>();
         if (InitSupporter == null) { Debug.Log("Error InitSupporter is null"); }
+
+
+        var pool = Addressables.LoadAssetAsync<GameObject>("PoolManager");         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
+        await pool.Task;
+        PoolManager = pool.Result.GetComponent<PoolManager>();
+        if (PoolManager == null) { Debug.Log("Error PoolManager is null"); }
+
+        return;
+    }
+
+    private async Task LoadSkillSetData()
+    {
+        try
+        {
+            var data = Addressables.LoadAssetsAsync<CharacterSkillSet>("CharacterSkillSet", null);
+            await data.Task;
+            foreach (CharacterSkillSet character in data.Result)
+            {
+                DictClassToSkillSet[character.Class] = character;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"SkillSetData초기화 실패: {ex}");
+        }
+        return;
+    }
+
+
+    private async Task LoadPlayerData()
+    {
+        try
+        {
+            var data = Addressables.LoadAssetsAsync<PlayerData>("CharacterData", null);
+            await data.Task;
+            foreach (PlayerData character in data.Result)
+            {
+                DictClassToPlayerData[character.PlayerStatusData.Class] = character;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"PlayerData초기화 실패: {ex}");
+        }
         return;
     }
 

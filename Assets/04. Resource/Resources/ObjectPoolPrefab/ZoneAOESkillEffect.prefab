@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 8599692419846450926}
   - component: {fileID: -3633896019085844845}
   - component: {fileID: 6827139483093492416}
+  - component: {fileID: 6777291315781303096}
   m_Layer: 0
   m_Name: ZoneAOESkillEffect
   m_TagString: Untagged
@@ -239,3 +240,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectPrefab: {fileID: 7843340872266542274}
+--- !u!114 &6777291315781303096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843340872266542274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 619070290
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 6827139483093492416}
+  ForceRemoteRenderTimeframe: 0

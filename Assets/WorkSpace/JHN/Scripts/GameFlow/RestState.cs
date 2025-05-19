@@ -4,9 +4,11 @@ using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using Fusion;
+using TMPro;
 public class RestState : BaseGameState
 {
     public override UIType StateUIType => UIType.GamePlay;
+    public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
     public override Task OnEnter()
     {
         return Task.CompletedTask;
@@ -32,13 +34,27 @@ public class RestState : BaseGameState
         state?.SetLoadingBarValue(0.3f);
 
 
+
 #if MoveSceneDebug
         Debug.Log("서버에서 보스 스폰 실행");
 #endif
         var runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
-            NetworkObject boss = runner.Spawn(DataManager.Instance.DictEnumToNetObjcet[EBossStage.Rest]);
+            if(PoolManager.Instance == null)
+            {
+                PoolManager a = runner.Spawn(DataManager.Instance.PoolManager);
+            }
+
+
+            NetworkObject boss = runner.Spawn
+                (
+                DataManager.Instance.DictEnumToNetObjcet[EBossStage.Rest],
+                new Vector3(5, 6.5f, 0),
+                Quaternion.identity,
+                ServerManager.Instance.ThisPlayerRef
+            )
+            ;
             runner.MoveGameObjectToScene(boss.gameObject, SceneRef.FromIndex((int)ESceneName.RestScene));
         }
         await ServerManager.Instance.WaitforBossSpawn();
@@ -60,10 +76,33 @@ public class RestState : BaseGameState
         if (runner.IsServer)
         {
             //모든 플레이어의 데이터가 들어있는지 확인하는 메서드
+            ServerManager.Instance.AllPlayerIsReadyFalse();
             await ServerManager.Instance.WaitForAllPlayerLoadingAsync();
         }
-        //TODO: 플레이어 위치 동기화도 필요함
 
+#if MoveSceneDebug
+        Debug.Log("RestState 개방");
+#endif
+        UIManager.Instance.OpenUI(UISceneType.Rest);
+
+        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
+        await ServerManager.Instance.WaitForAllPlayerIsReady();
+
+        //플레이어 시작 위치 값 초기화
+        if (runner.IsServer)
+        {
+            Vector3 temp = StartPosition;
+            foreach(Player player in ServerManager.Instance.DictRefToPlayer.Values)
+            {
+                player.PlayerPosition = temp;
+                temp += Vector3.right;
+            }
+
+            foreach(NetworkData data in ServerManager.Instance.DictRefToNetData.Values)
+            {
+                data.Rpc_ResetPlayerPosition();
+            }
+        }
 
 #if MoveSceneDebug
         Debug.Log("프로그래스 바 끝났는지 확인하자");
@@ -71,11 +110,6 @@ public class RestState : BaseGameState
         state?.SetLoadingBarValue(1);
         await state?.TaskProgressBar;
 
-
-#if MoveSceneDebug
-        Debug.Log("RestState 개방");
-#endif
-        UIManager.Instance.OpenUI(UISceneType.Rest);
         if (runner.IsServer)
         {
 #if MoveSceneDebug

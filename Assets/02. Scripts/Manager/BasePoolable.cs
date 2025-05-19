@@ -1,9 +1,11 @@
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BasePoolable : MonoBehaviour
+[RequireComponent(typeof(NetworkObject))]
+public abstract class BasePoolable : NetworkBehaviour
 {
     protected ObjectPool _pool;
 

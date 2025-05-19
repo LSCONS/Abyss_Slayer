@@ -79,6 +79,7 @@ public class UISkillUpgradeController : UIPopup
     private void SetSlots(UISkillSlot slot, Skill skill)
     {
         slot.SetSkillData(skill);
+        slot.SetSkillUpgradeText(skill, skill.Level.Value);
         slot.SetIcon(skill.SkillIcon);
         slot.SetName(skill);
         slot.SetSkillLevel(skill.Level.Value);
@@ -100,10 +101,12 @@ public class UISkillUpgradeController : UIPopup
             var data = upgradeData[skill];
             if (SkillPoint > 0)
             {
-                data.TempLevel++;                         // 임시 레벨 올림
-                SkillPoint--;                             // 스킬 포인트 낮춤
-                slot.SetSkillLevel(data.TempLevel);       // 슬롯의 레벨 텍스트 수정
-                UpdateSkillPointText();                   // 상점의 스킬 포인트 수정
+                data.TempLevel++;                                       // 임시 레벨 올림
+                SkillPoint--;                                           // 스킬 포인트 낮춤
+                slot.SetSkillLevel(data.TempLevel);                     // 슬롯의 레벨 텍스트 수정
+                slot.SetSkillUpgradeText(skill, data.TempLevel);        // 슬롯의 증가량 텍스트 업데이트
+
+                UpdateSkillPointText();                                 // 상점의 스킬 포인트 수정
             }                                            
         });                                              
                                                          
@@ -113,10 +116,12 @@ public class UISkillUpgradeController : UIPopup
                                                          
             if (data.TempLevel > skill.Level.Value)      
             {                                            
-                data.TempLevel--;                         // 임시 레벨 올림
-                SkillPoint++;                             // 스킬 포인트 낮춤
-                slot.SetSkillLevel(data.TempLevel);       // 슬롯의 레벨 텍스트 수정
-                UpdateSkillPointText();                   // 상점의 스킬 포인트 수정
+                data.TempLevel--;                                       // 임시 레벨 올림
+                SkillPoint++;                                           // 스킬 포인트 낮춤
+                slot.SetSkillLevel(data.TempLevel);                     // 슬롯의 레벨 텍스트 수정
+                slot.SetSkillUpgradeText(skill, data.TempLevel);        // 슬롯의 증가량 텍스트 업데이트
+
+                UpdateSkillPointText();                                 // 상점의 스킬 포인트 수정
             }
         });
 
@@ -173,6 +178,7 @@ public class UISkillUpgradeController : UIPopup
             if(upgradeSlots.TryGetValue(skill, out var slot))
             {
                 slot.SetSkillLevel(data.TempLevel);
+                slot.SetSkillUpgradeText(skill, data.TempLevel);
             }
         }
     }
