@@ -277,7 +277,6 @@ GameObject:
   - component: {fileID: 4752272720846953900}
   - component: {fileID: 8197736359800932153}
   - component: {fileID: 8224366169966908257}
-  - component: {fileID: 2205734543082340981}
   m_Layer: 8
   m_Name: BossFinal
   m_TagString: Boss
@@ -316,17 +315,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9448e362f6a54f44b699672c0553d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BossController>k__BackingField: {fileID: 0}
-  <Sprite>k__BackingField: {fileID: 0}
-  <Animator>k__BackingField: {fileID: 0}
-  <HitCollider>k__BackingField: {fileID: 0}
-  <VirtualCamera>k__BackingField: {fileID: 0}
-  <MaxHp>k__BackingField:
-    value: 1000
-  <IsMove>k__BackingField: 1
-  _IsLeft: 0
-  _BossPosition: {x: 0, y: 0}
-  _CrosshairPosition: {x: 0, y: 0}
+  bossController: {fileID: 0}
+  isDead: 0
+  sprite: {fileID: 2046451246024970632}
+  maxHP: 1000
 --- !u!114 &7201112847391276116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,15 +331,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be781b50b434d904c9749a0d6892a593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <AppearPattern>k__BackingField: {fileID: 0}
-  <AllPatterns>k__BackingField: []
-  <TargetCrossHairPrefab>k__BackingField: {fileID: 0}
-  <Boss>k__BackingField: {fileID: 0}
-  <BossCenterHight>k__BackingField: 0
-  <JumpMoveTime>k__BackingField: 0
-  <JumpMoveHight>k__BackingField: 0
-  <GravityMultiplier>k__BackingField: 0
-  <runSpeed>k__BackingField: 0
+  appearPattern: {fileID: 11400000, guid: b686ac285e252b243841532942d34a71, type: 2}
+  allPatterns:
+  - weight: 2
+    patternData: {fileID: 11400000, guid: ca4ceaddc4d5c8045b0b06622fd03155, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+  - weight: 5
+    patternData: {fileID: 11400000, guid: 48db344ef5578754b88b99bc1ba5d2ad, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+  - weight: 5
+    patternData: {fileID: 11400000, guid: 4487b72fa1ef5d0408539677f83f3fae, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+  - weight: 6
+    patternData: {fileID: 11400000, guid: 589feabd1741bf14794d8a767c2a0d43, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+  - weight: 4
+    patternData: {fileID: 11400000, guid: 8945f7d52e7a67b4faf18ea905b464a0, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+  - weight: 4
+    patternData: {fileID: 11400000, guid: 49d4e756524537d45b2f43e1451ce446, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+  - weight: 4
+    patternData: {fileID: 11400000, guid: 259fc1cc48e96de4f8f21884b80cbd26, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+  targetCrossHairPrefab: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
+  sprite: {fileID: 2046451246024970632}
+  hitCollider: {fileID: 0}
+  _effectSprite: {fileID: 6845481455852870931}
+  bossCenterHight: 2.4
+  mapWidth: 40
+  virtualCamera: {fileID: 0}
+  chasingTarget: 0
+  runSpeed: 16
+  jumpMoveTime: 0.8
+  jumpMoveHight: 1.5
+  gravityMultiplier: 3
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 576
@@ -434,26 +459,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2205734543082340981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2574244775815764476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SortKey: 2792563610
-  ObjectInterest: 1
-  Flags: 1
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 3758152715141030970}
-  - {fileID: 7201112847391276116}
-  ForceRemoteRenderTimeframe: 0
 --- !u!1 &3432898667854480676
 GameObject:
   m_ObjectHideFlags: 0

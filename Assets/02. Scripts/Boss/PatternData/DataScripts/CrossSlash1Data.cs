@@ -6,10 +6,15 @@ public class CrossSlash1Data : BasePatternData
 {
     [SerializeField] int damage;
     [SerializeField] float jumpHight;
+    [SerializeField] float preDelayTime;
     public override IEnumerator ExecutePattern()
     {
         bool isleft = 0 > target.position.x - bossTransform.position.x;
         boss.IsLeft = isleft;
+        bossController.showTargetCrosshair = true;
+        bossAnimator.SetTrigger("ReadyRun");
+        yield return new WaitForSeconds(preDelayTime);
+
         bossController.StartCoroutine(bossController.RunMove(isleft));
         yield return null;
 
@@ -19,7 +24,8 @@ public class CrossSlash1Data : BasePatternData
         }
         boss.Rpc_SetBoolAnimationHash(BossAnimationHash.AttackJumpParameterHash, true);
         Coroutine jump = bossController.StartCoroutine(bossController.JumpMove(target.position,-1,jumpHight));
-        
+        bossController.showTargetCrosshair = false;
+
         yield return null;
         bossController.isRun = false;
         yield return new WaitForSeconds(0.2f);

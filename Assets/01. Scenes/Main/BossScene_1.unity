@@ -7951,6 +7951,54 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 1756101224}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: mapWidth
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: runSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: hitCollider
+      value: 
+      objectReference: {fileID: 1756101222}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: jumpMoveTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: _effectSprite
+      value: 
+      objectReference: {fileID: 1756101223}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: appearPattern
+      value: 
+      objectReference: {fileID: 11400000, guid: bc723c8dc9e8b584db8fdd0589ff2888, type: 2}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: jumpMoveHight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: virtualCamera
+      value: 
+      objectReference: {fileID: 1391059350}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: bossCenterHight
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: gravityMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: targetCrossHairPrefab
+      value: 
+      objectReference: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
+    - target: {fileID: 2290308739379278194, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: allPatterns.Array.size
       value: 10
       objectReference: {fileID: 0}
@@ -8094,6 +8142,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4068889471639930373, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: maxHP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7541866867788010295, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+      propertyPath: SortKey
+      value: 2744320270
+      objectReference: {fileID: 0}
     - target: {fileID: 8802479938377772646, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 18
@@ -8139,6 +8195,21 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+--- !u!70 &1756101222 stripped
+CapsuleCollider2D:
+  m_CorrespondingSourceObject: {fileID: 6902979656306387885, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+  m_PrefabInstance: {fileID: 1756101221}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1756101223 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1016348319747735812, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+  m_PrefabInstance: {fileID: 1756101221}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1756101224 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7533442902988421679, guid: a82975fe1f90ea64db479429bd57f4c3, type: 3}
+  m_PrefabInstance: {fileID: 1756101221}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1775939698
 GameObject:
   m_ObjectHideFlags: 0
