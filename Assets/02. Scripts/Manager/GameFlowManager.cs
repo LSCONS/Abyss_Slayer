@@ -147,6 +147,13 @@ public class GameFlowManager : Singleton<GameFlowManager>
 #endif
         await (CurrentState?.OnExit() ?? Task.CompletedTask);
         CurrentState = newState;
+        // 퍼널 스텝 기록
+        if (newState is BaseGameState baseGameState)
+        {
+            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, CurrentStageIndex);
+            if (funnelStep.HasValue)
+                AnalyticsManager.SendFunnelStep(funnelStep.Value);
+        }
         await (CurrentState?.OnEnter() ?? Task.CompletedTask);
     }
 
@@ -157,6 +164,13 @@ public class GameFlowManager : Singleton<GameFlowManager>
 #endif
         await (CurrentState?.OnExit() ?? Task.CompletedTask);
         CurrentState = newState;
+        // 퍼널 스텝 기록
+        if (newState is BaseGameState baseGameState)
+        {
+            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, CurrentStageIndex);
+            if (funnelStep.HasValue)
+                AnalyticsManager.SendFunnelStep(funnelStep.Value);
+        }
         await (CurrentState?.OnRunnerEnter() ?? Task.CompletedTask);
     }
 
@@ -197,6 +211,24 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
             _ => null
         };
+    }
+
+    private int? GetFunnelStepForScene(ESceneName scene, int stageIndex)
+    {
+        switch (scene)
+        {
+            case ESceneName.IntroScene: return 1;
+            case ESceneName.RestScene:
+                if (stageIndex == 0) return 2;
+                if (stageIndex == 1) return 9;
+                if (stageIndex == 2) return 16;
+                break;
+            case ESceneName.Battle0Scene: return 3;
+            case ESceneName.Battle1Scene: return 10;
+            case ESceneName.Battle2Scene: return 17;
+            case ESceneName.LobbyScene: return 23;
+        }
+        return null;
     }
 
     private void Update()
