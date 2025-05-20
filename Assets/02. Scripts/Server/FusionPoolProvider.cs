@@ -43,7 +43,7 @@ public class FusionPoolProvider : NetworkObjectProviderDefault
         {
             runner.Prefabs.RemoveInstance(context.TypeId.AsPrefabId);
 
-            poolable.ReturnToPool();
+            poolable.Rpc_ReturnToPool();
             return;
         }
 

@@ -97,9 +97,9 @@ public class SquareLaserPorjectile : BasePoolable
     {
         _onDamage = false;
     }
-    public override void ReturnToPool()
+    public override void Rpc_ReturnToPool()
     {
         _trailRenderer.enabled = false;
-        base.ReturnToPool();
+        base.Rpc_ReturnToPool();
     }
 }

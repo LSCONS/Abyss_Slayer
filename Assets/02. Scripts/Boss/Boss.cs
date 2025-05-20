@@ -118,6 +118,7 @@ public class Boss : NetworkBehaviour, IHasHealth
         {
             IsDead = true;
             BossController.OnDead();
+            if (Runner.IsServer) PoolManager.Instance.ReturnPoolAllObject();
         }
     }
 

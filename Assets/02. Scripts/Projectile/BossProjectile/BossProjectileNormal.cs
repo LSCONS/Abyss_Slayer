@@ -67,7 +67,7 @@ public class BossProjectileNormal : BasePoolable
             //데미지주는코드
         }
 
-        ReturnToPool();
+        Rpc_ReturnToPool();
     }
 
     

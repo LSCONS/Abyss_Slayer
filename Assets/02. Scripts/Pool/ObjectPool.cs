@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ObjectPool
 {
-    private Queue<BasePoolable> pool = new();
+    public Queue<BasePoolable> QuePool { get; private set; } = new();
+    public List<BasePoolable> ListAllPoolable { get; private set; } = new();
     private BasePoolable _prefab;
     private Transform _parent;
 
@@ -41,7 +42,8 @@ public class ObjectPool
                 basePoolable.transform.parent = _parent;
                 basePoolable.SetPool(this);
                 basePoolable.gameObject.SetActive(false);
-                pool.Enqueue(basePoolable);
+                QuePool.Enqueue(basePoolable);
+                ListAllPoolable.Add(basePoolable);
             });
         return obj;
     }
@@ -49,18 +51,18 @@ public class ObjectPool
     //프리펩을 (생성)활성화, 해당 프리펩의 스크립트를 제네릭T를 이용해 반환
     public BasePoolable Get()      
     {
-        if(pool.Count == 0)
+        if(QuePool.Count == 0)
         {
             CreatNew();
         }
 
-        BasePoolable obj = pool.Dequeue();
+        BasePoolable obj = QuePool.Dequeue();
         return obj;
     }
 
 
     public void ReturnToPool(BasePoolable obj)
     {
-        pool.Enqueue(obj);
+        QuePool.Enqueue(obj);
     }
 }

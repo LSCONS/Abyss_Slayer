@@ -75,7 +75,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public Vector3 Vec3PlayerRestPosition { get; private set; } = new Vector3(-5, 1.5f, 0);
     public Action<bool> IsAllReadyAction { get; set; }
     public PlayerInput PlayerInput { get; set; }
-
     public Boss Boss { get; set; } = null;
 
     protected override void Awake()

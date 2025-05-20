@@ -133,7 +133,6 @@ public class DataManager : Singleton<DataManager>
         InitSupporterPrefab = init.Result.GetComponent<InitSupporter>();
         if (InitSupporterPrefab == null) { Debug.Log("Error InitSupporter is null"); }
 
-
         var pool = Addressables.LoadAssetAsync<GameObject>("PoolManager");         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
         await pool.Task;
         PoolManagerPrefab = pool.Result.GetComponent<PoolManager>();
