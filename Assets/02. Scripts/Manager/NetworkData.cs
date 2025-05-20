@@ -22,8 +22,9 @@ public class NetworkData : NetworkBehaviour
     [Networked] public int HairColorKey { get; set; } = 5;
     [Networked] public int FaceColorKey { get; set; } = 1;
     [Networked] public int SkinColorKey { get; set; } = 1;
+    public int PointStatus { get; set; } = 1;
+    public int PointSkill { get; set; } = 1;
     public CharacterClass Class => (CharacterClass)IntPlayerClass;
-    private ESceneName ESceneName { get; set; }
 
     public override void Spawned()
     {
@@ -174,7 +175,6 @@ public class NetworkData : NetworkBehaviour
             item.ResetPlayerStatus();
         }
         GameFlowManager.Instance.RpcServerSceneLoad(enumScene);
-        ESceneName = enumScene;
     }
 
 
