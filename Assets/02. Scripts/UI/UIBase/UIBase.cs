@@ -43,6 +43,7 @@ public abstract class UIBase : MonoBehaviour
     public virtual void Open(params object[] args)
     {
         gameObject.SetActive(true);
+        UIManager.Instance.DelayRebuildLayout(this);
     }
     public virtual void Close()
     {
