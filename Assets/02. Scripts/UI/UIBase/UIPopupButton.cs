@@ -24,15 +24,18 @@ public class UIPopupButton : UIButton
         if (button == null) button = GetComponent<Button>();
         button.onClick.AddListener(OnClickButton);
     }
+    public bool EscCanOpen() => escCanOpen && !isClose;
 
-    private void Update()
+    public void OpenByESC()
     {
-        if(!isClose && escCanOpen && Input.GetKeyDown(KeyCode.Escape))
-        {
-            TryOpenPopupWithESC();
-        }
-    }
+        if (popup == null)
+            popup = UIManager.Instance.FindPopupByName(popupName);
 
+        if (popup == null) return;
+        if (UIManager.Instance.popupStack.Contains(popup)) return;
+
+        UIManager.Instance.OpenPopup(popup);
+    }
     public override void Init()
     {
         if (!isClose)
@@ -86,19 +89,11 @@ public class UIPopupButton : UIButton
 
         }
     }
-
-    // esc 버튼으로 그 팝업 열려야됨
-    private void TryOpenPopupWithESC()
+    public UIPopup GetPopup()
     {
-        if(popup == null)
-        {
+        if (popup == null)
             popup = UIManager.Instance.FindPopupByName(popupName);
-            if (popup == null) { Debug.Log("어 트라이"); return; }
-        }
 
-        if (popup != null)
-        {
-            UIManager.Instance.OpenPopup(popup);
-        }
+        return popup;
     }
 }

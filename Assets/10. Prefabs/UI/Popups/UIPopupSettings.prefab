@@ -3958,7 +3958,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6901520369570690841}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0.42
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -4450,6 +4450,7 @@ MonoBehaviour:
   isClose: 0
   popupName: QuitGamePopup
   alarmIcon: {fileID: 0}
+  escCanOpen: 0
 --- !u!1 &8263232814464130998
 GameObject:
   m_ObjectHideFlags: 0
