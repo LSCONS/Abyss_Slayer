@@ -178,8 +178,8 @@ public class DataManager : Singleton<DataManager>
                 string keyBot = $"m{i}_c{colorIndex}_bot";
 
                 int dictKey = CreateHairKey($"m{i}", colorIndex);
-                DictIntToDictStateToHairStyleTopSprite[(i, colorIndex)] = await LoadAndSortSprites(keyTop);
-                DictIntToDictStateToHairStyleBottomSprite[(i, colorIndex)] = await LoadAndSortSprites(keyBot);
+                DictIntToDictStateToHairStyleTopSprite[(i+9, colorIndex)] = await LoadAndSortSprites(keyTop);
+                DictIntToDictStateToHairStyleBottomSprite[(i+9, colorIndex)] = await LoadAndSortSprites(keyBot);
             }
         }
     }

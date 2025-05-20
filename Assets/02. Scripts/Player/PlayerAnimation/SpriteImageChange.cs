@@ -114,8 +114,9 @@ public class SpriteImageChange : MonoBehaviour
 
         TrySetPart(Skin, data.DictIntToDictStateToSkinColorSprite, info.skinId, state);
         TrySetPart(Face, data.DictIntToDictStateToFaceColorSprite, info.faceId, state);
-        TrySetPart(HairTop, data.DictIntToDictStateToHairStyleTopSprite, info.hairId, state);
-        TrySetPart(HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, info.hairId, state);
+        var hairKey = (info.hairInfo.styleId, info.hairInfo.colorIndex);
+        TrySetPart(HairTop, data.DictIntToDictStateToHairStyleTopSprite, hairKey, state);
+        TrySetPart(HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, hairKey, state);
 
         animationNum = 0; // 첫 프레임부터 재생
         SetLoopAnimation(state, animationNum);
