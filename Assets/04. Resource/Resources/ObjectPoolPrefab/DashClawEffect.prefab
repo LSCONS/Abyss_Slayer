@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3351903021889003966}
   - component: {fileID: 8016194156661003637}
   m_Layer: 0
-  m_Name: DashClawAttack
+  m_Name: DashClawEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 3591154970
   ObjectInterest: 1
-  Flags: 1
+  Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 3351903021889003966}
