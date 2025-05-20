@@ -116,7 +116,7 @@ public class HomingProjectile : BasePoolable
     void Move()                     //정해진 속도에 따라, 자신(투사체)의 right(+x)방향으로 고정적으로 진행
     {
         _speed = _inputSpeed * speedCurve.Evaluate((Time.time - _fireTime) / homingTime);   //animationCurve와 시간 에따라 속도 유동적으로 변경
-        rigid.velocity += 10 * _speed * Runner.DeltaTime * (Vector2)transform.right;
+        rigid.velocity = 1000 * _speed * Runner.DeltaTime * (Vector2)transform.right;
     }
 
 

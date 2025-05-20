@@ -44,7 +44,7 @@ public class RestState : BaseGameState
         {
             if(PoolManager.Instance == null)
             {
-                PoolManager a = runner.Spawn(DataManager.Instance.PoolManager);
+                PoolManager a = runner.Spawn(DataManager.Instance.PoolManagerPrefab);
             }
 
 

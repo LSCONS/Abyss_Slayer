@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class UIDamageText : BasePoolable
 {
-    private TMP_Text text;                          // 데미지 텍스트
+    private TextMeshProUGUI text;                          // 데미지 텍스트
     private CanvasGroup canvasGroup;                // 페이드 아웃에 사용
 
     private Vector3 worldPosition;                  // 기준 월드 좌표
@@ -22,10 +22,8 @@ public class UIDamageText : BasePoolable
 
     private void Awake()
     {
-        text = GetComponent<TMP_Text>();
+        text = GetComponent<TextMeshProUGUI>();
         canvasGroup = GetComponent<CanvasGroup>();
-
-
     }
 
     /// <summary>

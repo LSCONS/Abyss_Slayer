@@ -128,7 +128,7 @@ public class BattleState : BaseGameState
 
             if(ServerManager.Instance.InitSupporter == null)
             {
-                runner.Spawn(DataManager.Instance.InitSupporter);
+                runner.Spawn(DataManager.Instance.InitSupporterPrefab);
             }
         }
         await ServerManager.Instance.WaitforBossSpawn();

@@ -31,9 +31,10 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<EAudioClip, AudioClipData> DictEnumToAudioData { get; private set; } = new();
     public Dictionary<CharacterClass, CharacterSkillSet> DictClassToSkillSet { get; private set; } = new();
     public Dictionary<CharacterClass, PlayerData> DictClassToPlayerData { get; private set; } = new();
-    public PoolManager PoolManager { get; private set; }
-    public InitSupporter InitSupporter { get; private set; }
-    public Player Player { get; private set; }
+    public PoolManager PoolManagerPrefab { get; private set; }
+    public InitSupporter InitSupporterPrefab { get; private set; }
+    public Player PlayerPrefab { get; private set; }
+    public List<BasePoolable> ListBasePoolablePrefab { get; private set; } = new();
     //첫 키의 int는 스타일, 두번 째 키의 int는 Color
     public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
     public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
@@ -58,18 +59,53 @@ public class DataManager : Singleton<DataManager>
         await DataLoadBossPrefabData();
         await DataLoadAudioClipData();
         await DataLoadAnimationSpriteData();
-        await DataLoadInitInitSupporterData();
+        await DataLoadEachData();
         await LoadSkillSetData();
         await LoadPlayerData();
         await DataLoadCharacterToSpriteData();
-
+        await DataLoadPoolObjectData();
 
         return;
     }
 
 
+    /// <summary>
+    /// PoolObject가 가질 Data들을 저장할 메서드
+    /// </summary>
+    /// <returns></returns>
+    public async Task DataLoadPoolObjectData()
+    {
+#if AllMethodDebug
+        Debug.Log("DataLoadPoolObjectData");
+#endif
+        HashSet<Type> types = new();
+        var poolablePrefabs = Addressables.LoadAssetsAsync<GameObject>
+        (
+            "PoolablePrefab",
+            prefab =>
+            {
+                BasePoolable poolable = prefab.GetComponent<BasePoolable>();
+                if (poolable == null) return;
+                if (types.Contains(poolable.GetType())) return;
+                ListBasePoolablePrefab.Add(poolable);
+                types.Add(poolable.GetType());
+            }
+            
+        );
+        await poolablePrefabs.Task;
+        return;
+    }
+
+
+    /// <summary>
+    /// 캐릭터 직업별 옷, 무기의 Sprite만 저장하는 메서드
+    /// </summary>
+    /// <returns></returns>
     private async Task DataLoadCharacterToSpriteData()
     {
+#if AllMethodDebug
+        Debug.Log("DataLoadCharacterToSpriteData");
+#endif
         PlayerSpriteData data = new PlayerSpriteData();
         foreach (CharacterClass character in Enum.GetValues(typeof(CharacterClass)))
         {
@@ -83,32 +119,44 @@ public class DataManager : Singleton<DataManager>
     }
 
 
-    private async Task DataLoadInitInitSupporterData()
+    /// <summary>
+    /// 개별 오브젝트를 로드하는 메서드
+    /// </summary>
+    /// <returns></returns>
+    private async Task DataLoadEachData()
     {
 #if AllMethodDebug
-        Debug.Log("DataLoadInitInitSupporterData");
+        Debug.Log("DataLoadEachData");
 #endif
         var init = Addressables.LoadAssetAsync<GameObject>("InitSupporter");         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
         await init.Task;
-        InitSupporter = init.Result.GetComponent<InitSupporter>();
-        if (InitSupporter == null) { Debug.Log("Error InitSupporter is null"); }
+        InitSupporterPrefab = init.Result.GetComponent<InitSupporter>();
+        if (InitSupporterPrefab == null) { Debug.Log("Error InitSupporter is null"); }
 
 
         var pool = Addressables.LoadAssetAsync<GameObject>("PoolManager");         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
         await pool.Task;
-        PoolManager = pool.Result.GetComponent<PoolManager>();
-        if (PoolManager == null) { Debug.Log("Error PoolManager is null"); }
+        PoolManagerPrefab = pool.Result.GetComponent<PoolManager>();
+        if (PoolManagerPrefab == null) { Debug.Log("Error PoolManager is null"); }
 
         var player = Addressables.LoadAssetAsync<GameObject>("PlayerPrefab");
         await player.Task;
-        Player = player.Result.GetComponent<Player>();
-        if (Player == null) { Debug.Log("Error Player is null"); }
+        PlayerPrefab = player.Result.GetComponent<Player>();
+        if (PlayerPrefab == null) { Debug.Log("Error Player is null"); }
 
         return;
     }
 
+
+    /// <summary>
+    /// 직업 별 저장되어있는 캐릭터 스킬 데이터를 저장하는 메서드
+    /// </summary>
+    /// <returns></returns>
     private async Task LoadSkillSetData()
     {
+#if AllMethodDebug
+        Debug.Log("LoadSkillSetData");
+#endif
         try
         {
             var data = Addressables.LoadAssetsAsync<CharacterSkillSet>("CharacterSkillSet", null);
@@ -126,6 +174,10 @@ public class DataManager : Singleton<DataManager>
     }
 
 
+    /// <summary>
+    /// 플레이어가 사용할 캐릭터의 직업 별 데이터를 가져올 메서드
+    /// </summary>
+    /// <returns></returns>
     private async Task LoadPlayerData()
     {
         try
@@ -144,6 +196,11 @@ public class DataManager : Singleton<DataManager>
         return;
     }
 
+
+    /// <summary>
+    /// 헤어, 스킨, 얼굴의 sprite들을 어드레서블 string값으로 확인하고 잘라서 저장하는 메서드
+    /// </summary>
+    /// <returns></returns>
     private async Task DataLoadAnimationSpriteData()
     {
         // 6. face_c1 ~ face_c7
@@ -166,38 +223,28 @@ public class DataManager : Singleton<DataManager>
                 string keyTop = $"f{i}_c{colorIndex}_top";
                 string keyBot = $"f{i}_c{colorIndex}_bot";
 
-                int dictKey = CreateHairKey($"f{i}", colorIndex);
                 DictIntToDictStateToHairStyleTopSprite[(i, colorIndex)] = await LoadAndSortSprites(keyTop);
                 DictIntToDictStateToHairStyleBottomSprite[(i, colorIndex)] = await LoadAndSortSprites(keyBot);
             }
 
-        // 8. m1~m14 헤어
+            // 8. m1~m14 헤어
             for (int i = 1; i <= 14; i++)
             {
                 string keyTop = $"m{i}_c{colorIndex}_top";
                 string keyBot = $"m{i}_c{colorIndex}_bot";
 
-                int dictKey = CreateHairKey($"m{i}", colorIndex);
-                DictIntToDictStateToHairStyleTopSprite[(i+9, colorIndex)] = await LoadAndSortSprites(keyTop);
-                DictIntToDictStateToHairStyleBottomSprite[(i+9, colorIndex)] = await LoadAndSortSprites(keyBot);
+                DictIntToDictStateToHairStyleTopSprite[(i + 9, colorIndex)] = await LoadAndSortSprites(keyTop);
+                DictIntToDictStateToHairStyleBottomSprite[(i + 9, colorIndex)] = await LoadAndSortSprites(keyBot);
             }
         }
     }
-    /// <summary>
-    /// 딕셔너리 키 생성을 위한 메서드 
-    /// m4이고 c5 이면 1405로 키 생성해줌
-    /// f4이고 c5 이면 4405로 키 생성
-    /// </summary>
-    /// <param name="styleId"></param>
-    /// <param name="colorIndex"></param>
-    /// <returns></returns>
-    private int CreateHairKey(string styleId, int colorIndex)
-    {
-        int baseOffset = styleId.StartsWith("m") ? 1000 : 4000;
-        int styleNum = int.Parse(styleId.Substring(1));
-        return baseOffset + styleNum * 100 + colorIndex;
-    }
 
+
+    /// <summary>
+    /// 넣은 어드레서블 키 값에 해당하는 Sprite를 잘라서 반환해주는 메서드
+    /// </summary>
+    /// <param name="addressKey"></param>
+    /// <returns></returns>
     private async Task<Dictionary<AnimationState, Sprite[]>> LoadAndSortSprites(string addressKey)
     {
         var handle = Addressables.LoadAssetAsync<Sprite[]>(addressKey);         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
@@ -230,8 +277,8 @@ public class DataManager : Singleton<DataManager>
         var animationCurveData = Addressables.LoadAssetAsync<AnimationCurveDataGather>("AnimationCurveDatas");
         await animationCurveData.Task;
         AnimationCurveDataGather GatherData = animationCurveData.Result;
-        foreach(AnimationCurveData animationCurveStruct in GatherData.ListAnimationCurveData)
-    {
+        foreach (AnimationCurveData animationCurveStruct in GatherData.ListAnimationCurveData)
+        {
             DictEnumToCurve[animationCurveStruct.EAnimationCurve] = animationCurveStruct.AnimationCurve;
         }
         return;
@@ -247,7 +294,7 @@ public class DataManager : Singleton<DataManager>
         await bossPrefabData.Task;
         BossPrefabDataGather data = bossPrefabData.Result;
         foreach (BossPrefabData bossPrefabStruct in data.ListBossPrefabData)
-    {
+        {
             DictEnumToNetObjcet[bossPrefabStruct.BossStage] = bossPrefabStruct.BossObject;
         }
         return;
@@ -263,7 +310,7 @@ public class DataManager : Singleton<DataManager>
         await AudioClipData.Task;
         AudioClipDataGather gatherData = AudioClipData.Result;
         foreach (AudioClipEnumData data in gatherData.ListAudioClipEnumData)
-    {
+        {
             DictEnumToAudioData[data.EnumClip] = data.AudioClipData;
         }
         return;

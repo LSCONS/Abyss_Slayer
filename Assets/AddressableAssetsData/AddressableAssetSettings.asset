@@ -52,6 +52,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5b3342ea9f15d5b4ba415e7bd421910e, type: 2}
   - {fileID: 11400000, guid: b62ce2900650ece4da075f20cbe661a9, type: 2}
   - {fileID: 11400000, guid: d19d6a94a5bd88045b31a42cc6a5b4dd, type: 2}
+  - {fileID: 11400000, guid: a828fa327f4d08b4981710b3306e6706, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -112,6 +113,7 @@ MonoBehaviour:
     - Background
     - CharacterData
     - CharacterSkillSet
+    - PoolablePrefab
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 34d877ec853ce1e40987ad922d126888, type: 2}
