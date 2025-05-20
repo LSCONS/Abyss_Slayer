@@ -7,11 +7,33 @@ public class CreditRoller : UIPopup
 {
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private float scrollDuration = 10;
+    private float speedMultiplier = 1f; // 현재 배속
+
+    [SerializeField] private CanvasGroup thanksTextGroup;
+    [SerializeField] private float fadeDuration = 2f;
+
+    [SerializeField] private GameObject showSpeed;
 
     private void OnEnable()
     {
         StartCoroutine(ScrollCredits());
     }
+
+    private void Update()
+    {
+        // 스페이스 키 누르면 2배속
+        if (Input.GetKey(KeyCode.Space))
+        {
+            speedMultiplier = 2f;
+            showSpeed.SetActive(true);
+        }
+        else
+        {
+            speedMultiplier = 1f;
+            showSpeed.SetActive(false);
+        }
+    }
+
     public override void Init()
     {
         base.Init();
@@ -21,7 +43,9 @@ public class CreditRoller : UIPopup
     {
         // 중앙에서 시작
         var layout = scrollRect.content.GetComponent<VerticalLayoutGroup>();
-        layout.padding.top = Mathf.RoundToInt(scrollRect.viewport.rect.height / 2f);
+        float halfHeight = scrollRect.viewport.rect.height / 2f;
+        layout.padding.top = Mathf.RoundToInt(halfHeight);
+        layout.padding.bottom = Mathf.RoundToInt(halfHeight * 2);
         LayoutRebuilder.ForceRebuildLayoutImmediate(scrollRect.content);
 
         // 젤 위에서 시작
@@ -30,12 +54,31 @@ public class CreditRoller : UIPopup
         float elapsed = 0f;
         while (elapsed < scrollDuration)
         {
-            elapsed += Time.deltaTime;
-            scrollRect.verticalNormalizedPosition = Mathf.Lerp(1f, 0f, elapsed / scrollDuration);
+            elapsed += Time.deltaTime * speedMultiplier;
+            float t = Mathf.Clamp01(elapsed / scrollDuration);
+            scrollRect.verticalNormalizedPosition = Mathf.Lerp(1f, 0f, t);
             yield return null;
         }
 
         scrollRect.verticalNormalizedPosition = 0f;
-        // 크레딧 끝났을 때 처리
+        // 크레딧 끝났을 때 감사 텍스트 출력
+        yield return StartCoroutine(FadeInThanksText());
     }
+    /// <summary>
+    /// 감사 텍스트 페이드인
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator FadeInThanksText()
+    {
+        float t = 0f;
+        while (t < fadeDuration)
+        {
+            t += Time.deltaTime;
+            float alpha = Mathf.Lerp(0f, 1f, t / fadeDuration);
+            thanksTextGroup.alpha = alpha;
+            yield return null;
+        }
+        thanksTextGroup.alpha = 1f;
+    }
+
 }
