@@ -42,11 +42,14 @@ public class FoxSphereProjectile : BasePoolable
             _fired = true;
         }
     }
-    public override void Init()
+    public override void Rpc_Init()
     {  
     }
-    public void Init(int damage,Vector3 startPosition, float preDelayTime, PlayerRef target, float speed, float distance, int color)
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(int damage,Vector3 startPosition, float preDelayTime, PlayerRef target, float speed, float distance, int color)
     {
+        gameObject.SetActive(true);
         damageCollider.Init(damage, null, int.MaxValue);
         transform.position = startPosition;
         _fireTime = Time.time + preDelayTime;

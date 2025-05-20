@@ -7,7 +7,14 @@ using UnityEngine;
 [RequireComponent(typeof(NetworkObject))]
 public abstract class BasePoolable : NetworkBehaviour
 {
-    protected ObjectPool _pool;
+    public ObjectPool _pool { get; set; }
+
+
+    public override void Spawned()
+    {
+        base.Spawned();
+        gameObject.SetActive(false);
+    }
 
     //풀 설정
     public virtual void SetPool(ObjectPool pool)
@@ -16,7 +23,7 @@ public abstract class BasePoolable : NetworkBehaviour
     }
 
     //반드시 오버로딩하여 사용
-    public abstract void Init();
+    public abstract void Rpc_Init();
 
 
     // aliveTime 후에 풀에 반환

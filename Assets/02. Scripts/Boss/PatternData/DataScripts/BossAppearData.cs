@@ -11,6 +11,7 @@ public class BossAppearData : BasePatternData
     [SerializeField] float zoomScale;
     public override IEnumerator ExecutePattern()
     {
+        boss.Sprite.enabled = true;
         bossController.HitCollider.enabled = false;
         bossTransform.position = appearPosition;
         boss.IsLeft = true;

@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,11 +19,14 @@ public class GravityProjectile : BasePoolable
         _rigidbody = GetComponent<Rigidbody2D>();
         _sprite.SetActive(false);
     }
-    public override void Init()
+    public override void Rpc_Init()
     {
     }
-    public void Init(int damage, Vector3 position, float speedX, Vector3 targetPosition,int piercingCount , float size = 3f, float gravityScale = 1f)
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(int damage, Vector3 position, float speedX, Vector3 targetPosition,int piercingCount , float size = 3f, float gravityScale = 1f)
     {
+        gameObject.SetActive(true);
         _sprite.SetActive(true);
         _damage = damage;
         transform.position = position;
@@ -34,7 +38,6 @@ public class GravityProjectile : BasePoolable
         _bossProjectileCollider.Init(_damage,Destroy,piercingCount);
 
         Throw();
-
     }
 
     public void Init(Vector3 direction, int damage, float speed, int piercingCount, float size = 1f, float gravityScale = 1f)

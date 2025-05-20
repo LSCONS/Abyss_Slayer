@@ -44,7 +44,7 @@ public class BossHitEffect : BasePoolable
         }
     }
 
-    public override void Init()
+    public override void Rpc_Init()
     {
         gameObject.SetActive(true);
     }

@@ -16,7 +16,7 @@ public class UIDamageText : BasePoolable
     public int OffsetIndex { get; set; }            // 몇 번째 줄인지 저장
 
 
-    public override void Init()
+    public override void Rpc_Init()
     {
     }
 

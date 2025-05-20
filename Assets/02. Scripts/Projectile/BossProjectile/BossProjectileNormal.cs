@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,7 +35,7 @@ public class BossProjectileNormal : BasePoolable
             transform.Translate(direction * speed *  Time.deltaTime);
         }
     }
-    public override void Init()
+    public override void Rpc_Init()
     {
         //호출용 실제 초기화는 오버로드한 init에서 실행
     }
@@ -47,8 +48,10 @@ public class BossProjectileNormal : BasePoolable
     /// <param name="delayTime">탄스폰후 발사까지 시간차, 기본값 0초</param>
     /// <param name="size">탄 사이즈, 기본값 1</param>
     /// <param name="spriteNum">탄 모양, 기본값 0</param>
-    public void Init(Vector3 position, Vector3 direction, float speed = 1f, float delayTime = 0f, float size = 1f, int spriteNum = 0)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(Vector3 position, Vector3 direction, float speed = 1f, float delayTime = 0f, float size = 1f, int spriteNum = 0)
     {
+        gameObject.SetActive(true);
         transform.position = position;
         this.direction = direction.normalized;
         this.speed = speed;

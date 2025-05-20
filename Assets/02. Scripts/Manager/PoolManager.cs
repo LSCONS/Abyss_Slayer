@@ -31,8 +31,9 @@ public class PoolManager : NetworkBehaviour
     {
         base.Spawned();
         _instance = this;
-        SetObjectPoolDictionary();
         transform.parent = null;
+        if(Runner.IsServer)
+        SetObjectPoolDictionary();
     } 
 
 
