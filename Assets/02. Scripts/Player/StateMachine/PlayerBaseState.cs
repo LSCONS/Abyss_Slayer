@@ -6,7 +6,7 @@ public class PlayerBaseState : IPlayerState
 {
     protected PlayerStateMachine playerStateMachine;
     protected readonly PlayerGroundData playerGroundData;
-    public float ChangeSpriteTime { get; set; } = 0.2f;
+    public float ChangeSpriteTime { get; set; } = 0.06f;
     public float CurTime { get; set; }
 
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
