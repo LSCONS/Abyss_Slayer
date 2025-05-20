@@ -184,8 +184,6 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_ConnectInput()
     {
-        //await ServerManager.Instance.WaitForThisInputAsync();
-        //ServerManager.Instance.ThisPlayerInput.InputEvent();
         ServerManager.Instance.PlayerInput.InputEvent();
     }
 
