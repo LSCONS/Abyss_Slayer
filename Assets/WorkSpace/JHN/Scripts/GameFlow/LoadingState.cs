@@ -234,7 +234,7 @@ public class LoadingState : BaseGameState
             StartState => "StartScene",
             LobbyState => "LobbyScene",
             RestState => "RestScene",
-            BattleState inGame => "BossScene" + inGame.stageIndex, // 보스 인덱스 기반으로 생성
+            BattleState inGame => "BossScene_" + inGame.stageIndex, // 보스 인덱스 기반으로 생성
             _ => throw new System.Exception($"[LoadingState] Unknown state: {state.GetType().Name}")
         };
     }

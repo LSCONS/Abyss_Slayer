@@ -7,7 +7,7 @@ public class BattleState : BaseGameState
 {
     public static int BossSceneCount { get; private set; } = 4;
     public override UIType StateUIType => UIType.GamePlay;
-    public override ESceneName SceneName => (ESceneName)((int)ESceneName.Battle0Scene + stageIndex);
+    public override ESceneName SceneName => (ESceneName)((int)ESceneName.BattleScene_0 + stageIndex);
     public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
 
     public int stageIndex = 0;
@@ -123,7 +123,7 @@ public class BattleState : BaseGameState
                 Vector3.right * 100,
                 Quaternion.identity,
                 ServerManager.Instance.ThisPlayerRef);
-            runner.MoveGameObjectToScene(boss.gameObject, SceneRef.FromIndex((int)ESceneName.Battle0Scene));
+            runner.MoveGameObjectToScene(boss.gameObject, SceneRef.FromIndex((int)ESceneName.BattleScene_0));
 
 
             if(ServerManager.Instance.InitSupporter == null)

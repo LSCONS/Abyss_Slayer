@@ -11,10 +11,10 @@ public enum ESceneName  // 게임 시작 상태
     StartScene = 2,
     LobbyScene = 3,
     RestScene = 4,
-    Battle0Scene = 5,
-    Battle1Scene = 6,
-    Battle2Scene = 7,
-    Battle3Scene = 8,
+    BattleScene_0 = 5,
+    BattleScene_1 = 6,
+    BattleScene_2 = 7,
+    BattleScene_3 = 8,
 }
 
 public class GameFlowManager : Singleton<GameFlowManager>
@@ -203,10 +203,10 @@ public class GameFlowManager : Singleton<GameFlowManager>
             ESceneName.StartScene => StartSceneState,
             ESceneName.LobbyScene => LobbySceneState,
             ESceneName.RestScene => RestSceneState,
-            ESceneName.Battle0Scene => BattleSceneState,
-            ESceneName.Battle1Scene => BattleSceneState,
-            ESceneName.Battle2Scene => BattleSceneState,
-            ESceneName.Battle3Scene => BattleSceneState,
+            ESceneName.BattleScene_0 => BattleSceneState,
+            ESceneName.BattleScene_1 => BattleSceneState,
+            ESceneName.BattleScene_2 => BattleSceneState,
+            ESceneName.BattleScene_3 => BattleSceneState,
             // EGameState.Loading => new LoadingState(state), // 애초에 로딩으로 씬 전환하면 그게 문제지
 
             _ => null
@@ -223,9 +223,10 @@ public class GameFlowManager : Singleton<GameFlowManager>
                 if (stageIndex == 1) return 9;
                 if (stageIndex == 2) return 16;
                 break;
-            case ESceneName.Battle0Scene: return 3;
-            case ESceneName.Battle1Scene: return 10;
-            case ESceneName.Battle2Scene: return 17;
+            case ESceneName.BattleScene_0: return 3;
+            case ESceneName.BattleScene_1: return 10;
+            case ESceneName.BattleScene_2: return 17;
+            case ESceneName.BattleScene_3: return 24;
             case ESceneName.LobbyScene: return 23;
         }
         return null;
