@@ -7,6 +7,7 @@ public class BattleState : BaseGameState
 {
     public static int BossSceneCount { get; private set; } = 4;
     public override UIType StateUIType => UIType.GamePlay;
+    public override ESceneName SceneName => (ESceneName)((int)ESceneName.Battle0Scene + stageIndex);
     public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
 
     public int stageIndex = 0;
@@ -14,6 +15,13 @@ public class BattleState : BaseGameState
     private bool isBossDead { get; set; } = false; // 보스 죽음?
     private float deadTimer { get; set; } = 0.0f; // 보스 죽고 몇초 지남?
     private float changeSceneTime { get; set; } = 5.0f; // 보스 죽고 몇초 지나야 씬 넘어갈거임?
+
+    // 퍼널 스텝 전송 플래그
+    private bool sentHP100 = false;
+    private bool sentHP66 = false;
+    private bool sentHP33 = false;
+    private bool sentHP5 = false;
+    private bool sentStageClear = false;
 
     public override Task OnEnter()
     {
@@ -31,16 +39,50 @@ public class BattleState : BaseGameState
         base.OnUpdate();
 
         if (!(isStart) || ServerManager.Instance.Boss == null) return;
-       
-        if (ServerManager.Instance.Boss.IsDead)
+
+        var boss = ServerManager.Instance.Boss;
+        float hpPercent = boss.Hp.Value / boss.MaxHp.Value * 100f;
+
+        // 100%
+        if (!sentHP100 && Mathf.Approximately(hpPercent, 100f))
+        {
+            sentHP100 = true;
+            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(100));
+        }
+        // 66%
+        if (!sentHP66 && hpPercent <= 66f)
+        {
+            sentHP66 = true;
+            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(66));
+        }
+        // 33%
+        if (!sentHP33 && hpPercent <= 33f)
+        {
+            sentHP33 = true;
+            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(33));
+        }
+        // 5%
+        if (!sentHP5 && hpPercent <= 5f)
+        {
+            sentHP5 = true;
+            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(5));
+        }
+
+        // 보스 사망(스테이지 클리어)
+        if (!sentStageClear && boss.IsDead)
+        {
+            sentStageClear = true;
+            AnalyticsManager.SendFunnelStep(GetFunnelStepClear());
+        }
+
+        if (boss.IsDead)
         {
             deadTimer += Time.deltaTime;
            // Debug.Log($"{deadTimer} 시간은 똑딱똑딱 {changeSceneTime} 까지");
             if (deadTimer >= changeSceneTime)
             {
                 Debug.Log("보스 죽었다고 넘어가라고");
-
-               GameFlowManager.Instance.GoToRestState();
+                GameFlowManager.Instance.GoToRestState();
             }
         }
     }
@@ -182,11 +224,49 @@ public class BattleState : BaseGameState
 #if MoveSceneDebug
             Debug.Log("loadingState 삭제");
 #endif
-            await runner.UnloadScene(SceneName.LoadingScene);
+            await runner.UnloadScene("LoadingScene");
         }
 
         isStart = true;
         isBossDead = false; // 씬 넘어가고 나면 다시 안타게 막아두자
         deadTimer = 0;
+    }
+
+    // 퍼널 스텝 번호 반환 함수들
+    private int GetFunnelStepHP(int percent)
+    {
+        switch (stageIndex)
+        {
+            case 0: // 스테이지1
+                if (percent == 100) return 4;
+                if (percent == 66) return 5;
+                if (percent == 33) return 6;
+                if (percent == 5) return 7;
+                break;
+            case 1: // 스테이지2
+                if (percent == 100) return 11;
+                if (percent == 66) return 12;
+                if (percent == 33) return 13;
+                if (percent == 5) return 14;
+                break;
+            case 2: // 스테이지3
+                if (percent == 100) return 18;
+                if (percent == 66) return 19;
+                if (percent == 33) return 20;
+                if (percent == 5) return 21;
+                break;
+        }
+        return -1;
+    }
+
+    private int GetFunnelStepClear()
+    {
+        switch (stageIndex)
+        {
+            case 0: return 8;   // 스테이지1 클리어
+            case 1: return 15;  // 스테이지2 클리어
+            case 2: return 22;  // 스테이지3 클리어
+        }
+        return -1;
     }
 }

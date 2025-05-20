@@ -217,7 +217,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
     {
         switch (scene)
         {
-            case ESceneName.IntroScene: return 1;
+            case ESceneName.StartScene: return 1; // 스타트 씬 진입 시 퍼널 스텝 기록
             case ESceneName.RestScene:
                 if (stageIndex == 0) return 2;
                 if (stageIndex == 1) return 9;

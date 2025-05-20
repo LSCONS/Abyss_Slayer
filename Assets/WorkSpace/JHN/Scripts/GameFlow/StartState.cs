@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class StartState : BaseGameState
 {
     public override UIType StateUIType => UIType.NonGamePlay;
+    public override ESceneName SceneName => ESceneName.StartScene;
     public override async Task OnEnter()
     {
 #if MoveSceneDebug
@@ -37,7 +38,7 @@ public class StartState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LoadingScene 삭제");
 #endif
-        SceneManager.UnloadSceneAsync(SceneName.LoadingScene);
+        SceneManager.UnloadSceneAsync("LoadingScene");
 
         return;
     }

@@ -9,6 +9,7 @@ public class RestState : BaseGameState
 {
     public override UIType StateUIType => UIType.GamePlay;
     public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
+    public override ESceneName SceneName => ESceneName.RestScene;
     public override Task OnEnter()
     {
         return Task.CompletedTask;
@@ -126,7 +127,7 @@ public class RestState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("loadingState 삭제");
 #endif
-            await runner.UnloadScene(SceneName.LoadingScene);
+            await runner.UnloadScene("LoadingScene");
         }
     }
 }

@@ -5,6 +5,8 @@ public class IntroState : BaseGameState
 {
     public override UIType StateUIType => UIType.None;
 
+    public override ESceneName SceneName => ESceneName.IntroScene;
+
     public override async Task OnEnter()
     {
 #if MoveSceneDebug
@@ -34,7 +36,7 @@ public class IntroState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LoadingScene 삭제");
 #endif
-        SceneManager.UnloadSceneAsync(SceneName.LoadingScene);
+        SceneManager.UnloadSceneAsync("LoadingScene");
     }
 
     public override async Task OnExit()
