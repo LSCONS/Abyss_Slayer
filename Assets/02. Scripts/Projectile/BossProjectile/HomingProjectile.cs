@@ -67,7 +67,7 @@ public class HomingProjectile : BasePoolable
         spriteRenderer = GetComponentInChildren <SpriteRenderer>();
     }
 
-    public override void Init()
+    public override void Rpc_Init()
     {
     }
 

@@ -60,7 +60,7 @@ public class PlayerWalkState : PlayerGroundState
             playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Run1, ++animationNum);
         }
 
-        if (playerStateMachine.Player.IsThisRunner)
+        if (playerStateMachine.Player.Runner.IsServer)
             MoveAction?.Invoke();
     }
 }

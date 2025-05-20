@@ -97,7 +97,6 @@ GameObject:
   - component: {fileID: 3581947180313399580}
   - component: {fileID: 7215475922805653077}
   - component: {fileID: 1767764438167200927}
-  - component: {fileID: 4446736813809334991}
   m_Layer: 7
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -136,7 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <playerRigidbody>k__BackingField: {fileID: 1767764438167200927}
-  <PlayerInput>k__BackingField: {fileID: 4446736813809334991}
   <playerCheckGround>k__BackingField: {fileID: 3083114411864054627}
   <PlayerGroundCollider>k__BackingField: {fileID: 6912089047007759508}
   <PlayerMeleeCollider>k__BackingField: {fileID: 5816829366565963332}
@@ -228,18 +226,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &4446736813809334991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1622202754730977005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 677214ece9931624b8ddb4c27f0a8905, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3332911447641161925
 GameObject:
   m_ObjectHideFlags: 0

@@ -57,7 +57,8 @@ public class PlayerSkillEnterState : PlayerBaseState
     {
         if (SkillData.SkillCategory == SkillCategory.Hold && !(SkillInputKey()))
         {
-            playerStateMachine.ChangeState(playerStateMachine.IdleState);
+            if (playerStateMachine.Player.Runner.IsServer)
+                playerStateMachine.ChangeState(playerStateMachine.IdleState);
             return;
         }
 
@@ -67,7 +68,7 @@ public class PlayerSkillEnterState : PlayerBaseState
         if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillEnterState, ++animationNum)) return;
 
 
-        if (playerStateMachine.Player.IsThisRunner)
+        if (playerStateMachine.Player.Runner.IsServer)
             playerStateMachine.ChangeState(playerStateMachine.PlayerSkillUseStateDict[Slotkey]);
     }
 }

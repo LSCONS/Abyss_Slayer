@@ -125,7 +125,7 @@ public class MeleeDamageCheck : MonoBehaviour
                     Transform enemyTransform = mb.transform;
                     effect.transform.position = enemyTransform.transform.position;
                     effect.transform.SetParent(enemyTransform);
-                    effect.Init();
+                    effect.Rpc_Init();
 
                     // 히트 이펙트 출력
                     if (effect is BossHitEffect bhe)

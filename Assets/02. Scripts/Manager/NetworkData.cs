@@ -182,10 +182,11 @@ public class NetworkData : NetworkBehaviour
     /// 플레이어들의 입력을 활성화 시킬 메서드
     /// </summary>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public async void Rpc_ConnectInput()
+    public void Rpc_ConnectInput()
     {
-        await ServerManager.Instance.WaitForThisInputAsync();
-        ServerManager.Instance.ThisPlayerInput.InputEvent();
+        //await ServerManager.Instance.WaitForThisInputAsync();
+        //ServerManager.Instance.ThisPlayerInput.InputEvent();
+        ServerManager.Instance.PlayerInput.InputEvent();
     }
 
 
@@ -195,7 +196,7 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_DisconnectInput()
     {
-        ServerManager.Instance.ThisPlayerInput.OutPutEvent();
+        ServerManager.Instance.PlayerInput.OutPutEvent();
     }
 
 

@@ -24,7 +24,7 @@ public enum CharacterClass
 public class Player : NetworkBehaviour, IHasHealth
 {
     [field: SerializeField] public Rigidbody2D playerRigidbody { get; private set; }
-    [field: SerializeField] public PlayerInput PlayerInput { get;private set; }
+    //[field: SerializeField] public PlayerInput PlayerInput { get;private set; }
     [field: SerializeField] public PlayerCheckGround playerCheckGround { get; private set; }
     [field: SerializeField] public BoxCollider2D PlayerGroundCollider {  get; private set; }
     [field: SerializeField] public BoxCollider2D PlayerMeleeCollider { get; private set; }
@@ -56,7 +56,7 @@ public class Player : NetworkBehaviour, IHasHealth
 
     public ReactiveProperty <int> StatPoint { get; set; } = new(10);
     public ReactiveProperty <int> SkillPoint { get; set; } = new(10);
-
+    public NetworkInputData NetworkInput;
 
     /// <summary>
     /// 코루틴과 Action을 등록시키고 실행시키는 메서드
@@ -83,6 +83,12 @@ public class Player : NetworkBehaviour, IHasHealth
             HoldSkillCoroutineStopAction = null;
             HoldSkillCoroutine = null;
         }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_UseSkill()
+    {
+        PlayerStateMachine.UseSkill();
     }
 
 
@@ -126,15 +132,18 @@ public class Player : NetworkBehaviour, IHasHealth
 
     private void Update()
     {
-        if (!(IsThisRunner)
+        if (!(Runner.IsServer)
             && PlayerStateMachine.DictIntToState[PlayerStateIndex] != PlayerStateMachine.currentState)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.DictIntToState[PlayerStateIndex]);
         }
 
-            PlayerStateMachine.Update();
+        PlayerStateMachine.Update();
+        if (Runner.IsServer)
+        {
             SkillCoolTimeCompute();
             BuffDurationCompute();
+        }
 
         if (IsFlip != IsFlipX)
         {
@@ -142,24 +151,22 @@ public class Player : NetworkBehaviour, IHasHealth
             IsFlipX = IsFlip;
         }
 
-        if (Runner.LocalPlayer == PlayerRef) return;
+        if (Runner.IsServer) return;
 
-        //Vector2 target = PlayerPosition;
-        //Vector2 current = transform.position;
+        Vector2 target = PlayerPosition;
+        Vector2 current = transform.position;
 
-        //if (current != target)
-        //{
-        //    float t = tempSmooth * Time.deltaTime;
-
-        //    Vector2 newPos = Vector2.Lerp(current, target, t);
-
-        //    transform.position = newPos;
-        //}
+        if (current != target)
+        {
+            float t = tempSmooth * Time.deltaTime;
+            Vector2 newPos = Vector2.Lerp(current, target, t);
+            transform.position = newPos;
+        }
     }
 
     public override void FixedUpdateNetwork()
     {
-        base.FixedUpdateNetwork();
+        if(GetInput<NetworkInputData>(out NetworkInput))
         PlayerStateMachine.FixedUpdate();
     }
 
@@ -248,20 +255,6 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             skill.Init();
         }
-    }
-
-
-    /// <summary>
-    /// 컴포넌트를 초기화하는 메서드
-    /// </summary>
-    private void InitComponent()
-    {
-        PlayerInput = GetComponent<PlayerInput>();
-        playerRigidbody = GetComponent<Rigidbody2D>();
-        PlayerSpriteChange = GetComponentInChildren<SpriteChange>();
-        playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
-        PlayerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
-        PlayerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
     }
 
 
@@ -402,7 +395,6 @@ public class Player : NetworkBehaviour, IHasHealth
     /// 플레이어의 상태를 공유하는 메서드
     /// </summary>
     /// <param name="stateIndex"></param>
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void Rpc_ChagneState(int stateIndex)
     {
         PlayerStateIndex = stateIndex;
@@ -413,7 +405,6 @@ public class Player : NetworkBehaviour, IHasHealth
     /// 플레이어의 포지션을 공유하는 메서드
     /// </summary>
     /// <param name="playerPosition"></param>
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void Rpc_PlayerPositionSynchro(Vector2 playerPosition)
     {
         PlayerPosition = playerPosition;
@@ -424,7 +415,6 @@ public class Player : NetworkBehaviour, IHasHealth
     /// 플레이어의 좌우 뒤집힌 상태를 공유하는 메서드
     /// </summary>
     /// <param name="flipX"></param>
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void Rpc_SpriteFlipXSynchro(bool flipX)
     {
         IsFlipX = flipX;

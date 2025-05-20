@@ -54,8 +54,8 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         => DictRefToNetData.TryGetValue(ThisPlayerRef, out var data) ? data : null;
     public Player ThisPlayer 
         => DictRefToPlayer.TryGetValue(ThisPlayerRef, out var player) ? player : null;
-    public PlayerInput ThisPlayerInput
-        => ThisPlayer.PlayerInput;
+    //public PlayerInput ThisPlayerInput
+    //    => ThisPlayer.PlayerInput;
     //플레이어가 접속할 경우 복사해서 생성할 데이터 프리팹
     [field: SerializeField] public NetworkData DataPrefab { get; private set; }
 
@@ -195,7 +195,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         while ((player = ThisPlayer) == null) 
         {
             ct.ThrowIfCancellationRequested();
-            await Task.Yield();
+            await Task.Delay(100);
         }
         return player;
     }
@@ -219,7 +219,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         while((data = ThisPlayerData) == null)
         {
             ct.ThrowIfCancellationRequested();
-            await Task.Yield();
+            await Task.Delay(100);
         }
         return;
     }
@@ -230,19 +230,19 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// </summary>
     /// <param name="ct"></param>
     /// <returns></returns>
-    public async Task<PlayerInput> WaitForThisInputAsync(CancellationToken ct = default)
-    {
-#if AllMethodDebug
-        Debug.Log("WaitForThisInputAsync");
-#endif
-        Player player = await WaitForThisPlayerAsync();
-        while (player.PlayerInput == null)
-        {
-            ct.ThrowIfCancellationRequested();
-            await Task.Yield();
-        }
-        return player.PlayerInput;
-    }
+//    public async Task<PlayerInput> WaitForThisInputAsync(CancellationToken ct = default)
+//    {
+//#if AllMethodDebug
+//        Debug.Log("WaitForThisInputAsync");
+//#endif
+//        Player player = await WaitForThisPlayerAsync();
+//        while (player.PlayerInput == null)
+//        {
+//            ct.ThrowIfCancellationRequested();
+//            await Task.Yield();
+//        }
+//        return player.PlayerInput;
+//    }
 
 
     /// <summary>
@@ -258,7 +258,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         while (DictRefToNetData.Count != DictRefToPlayer.Count)
         {
             ct.ThrowIfCancellationRequested();
-            await Task.Yield();
+            await Task.Delay(100);
         }
         return;
     }
@@ -272,7 +272,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         while((Vector2)ThisPlayer.transform.position != position)
         {
             ct.ThrowIfCancellationRequested();
-            await Task.Yield();
+            await Task.Delay(100);
         }
         return;
     }

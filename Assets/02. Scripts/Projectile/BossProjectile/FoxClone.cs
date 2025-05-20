@@ -1,3 +1,4 @@
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,11 +28,14 @@ public class FoxClone : BasePoolable,IHasHealth
         Hp.Value = 0;
         animator.SetTrigger("Damaged");
     }
-    public override void Init()
+    public override void Rpc_Init()
     {
     }
+
+
     public void Init(Vector3 position, int deadDamage, int explosionDamage, Dead cloneDead, float deadExplosionSize = 1f)
     {
+        gameObject.SetActive(true);
         Hp.Value = MaxHp.Value;
         transform.position = position;
         _deadDamage = deadDamage;

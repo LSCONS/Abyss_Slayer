@@ -49,7 +49,11 @@ public class PlayerSkillUseState : PlayerBaseState
             ResetZeroVelocity();
             ResetZeroGravityForce();
         }
-        SkillData.UseSkill();
+
+        playerStateMachine.UseSkillData = SkillData;
+
+        if (playerStateMachine.Player.Runner.IsServer)
+            playerStateMachine.Player.Rpc_UseSkill();
 
         if (SkillData.EAudioClip != EAudioClip.None)
         {
@@ -96,7 +100,7 @@ public class PlayerSkillUseState : PlayerBaseState
             if (!(SkillInputKey()) || playerStateMachine.Player.HoldSkillCoroutine == null)
             {
 
-                if (playerStateMachine.Player.IsThisRunner)
+                if (playerStateMachine.Player.Runner.IsServer)
                     playerStateMachine.ChangeState(playerStateMachine.IdleState);
                 return;
             }
@@ -132,7 +136,7 @@ public class PlayerSkillUseState : PlayerBaseState
                 return;
             }
 
-            if (playerStateMachine.Player.IsThisRunner)
+            if (playerStateMachine.Player.Runner.IsServer)
                 playerStateMachine.EndAttackAction?.Invoke();
         }
         else
@@ -142,7 +146,7 @@ public class PlayerSkillUseState : PlayerBaseState
 
             if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, ++animationNum)) return;
 
-            if (playerStateMachine.Player.IsThisRunner)
+            if (playerStateMachine.Player.Runner.IsServer)
                 playerStateMachine.EndAttackAction?.Invoke();
         }
     }

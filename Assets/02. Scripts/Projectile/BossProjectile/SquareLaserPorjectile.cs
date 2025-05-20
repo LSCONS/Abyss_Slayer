@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,12 +28,13 @@ public class SquareLaserPorjectile : BasePoolable
             }
         }
     }
-    public override void Init()
+    public override void Rpc_Init()
     {
     }
-    public void Init(int damage,float damageIntervalTime, Vector3 position,Vector3 targetPosition,float delayFireTime, float targetTime, float speed = 1 )
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(int damage,float damageIntervalTime, Vector3 position,Vector3 targetPosition,float delayFireTime, float targetTime, float speed = 1 )
     {
-        
+        gameObject.SetActive(true);
         _time = 0f;
         _onDamage = false;
         players.Clear();

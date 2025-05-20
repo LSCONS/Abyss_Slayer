@@ -57,7 +57,7 @@ public class PlayerIdleState : PlayerGroundState
             playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Idle1, ++animationNum);
         }
 
-        if (playerStateMachine.Player.IsThisRunner)
+        if (playerStateMachine.Player.Runner.IsServer)
             MoveAction?.Invoke();
     }
 }

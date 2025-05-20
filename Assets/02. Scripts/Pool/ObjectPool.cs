@@ -37,10 +37,10 @@ public class ObjectPool
             {
                 BasePoolable basePoolable = obj.GetComponent<BasePoolable>();
                 basePoolable._pool = this;
-                obj.transform.parent = null;
-                obj.transform.parent = _parent;
+                basePoolable.transform.parent = null;
+                basePoolable.transform.parent = _parent;
                 basePoolable.SetPool(this);
-                obj.gameObject.SetActive(false);
+                basePoolable.gameObject.SetActive(false);
                 pool.Enqueue(basePoolable);
             });
         return obj;
