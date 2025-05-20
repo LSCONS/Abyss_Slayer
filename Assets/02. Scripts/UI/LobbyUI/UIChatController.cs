@@ -24,9 +24,14 @@ public class UIChatController : MonoBehaviour
 
     private void Update()
     {
-        // 엔터 누르면 채팅창에 메시지 전송하셈
+        // 엔터 누르면 채팅창에 메시지 전송 
+        // 근데 포커스 안되어있는 상태에서 엔터 누르면 포커스 되게 설정
         if(Input.GetKeyDown(KeyCode.Return))
         {
+            if (!InputChatting.isFocused)
+            {
+                UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(InputChatting.gameObject);
+            }
             EnterMessage();
         }
     }
@@ -34,9 +39,12 @@ public class UIChatController : MonoBehaviour
 
     private void EnterMessage()
     {
+        string trimmedText = InputChatting.text.Trim();
+
+        if (string.IsNullOrEmpty(trimmedText)) return;
         textBuilder.Append(ServerManager.Instance.PlayerName);
         textBuilder.Append(": ");
-        textBuilder.Append(InputChatting.text.Trim());
+        textBuilder.Append(trimmedText);
         textBuilder.AppendLine();
         byte[] bytes = textBuilder.ToString().StringToBytes();
 
@@ -46,8 +54,20 @@ public class UIChatController : MonoBehaviour
 
         //TODO: 여기에 네트워크로 메시지 전달
         ServerManager.Instance.ThisPlayerData.Rpc_EnterToChatting(bytes);
+
+        StartCoroutine(FocusInputNextFrame());
     }
 
+    private IEnumerator FocusInputNextFrame()
+    {
+        // 현재 선택된 것 해제
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+        yield return null; // 한 프레임 대기
+
+        // 다시 선택
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(InputChatting.gameObject);
+        InputChatting.ActivateInputField(); // 커서 강제 활성화
+    }
 
     // 메시지 보내기
     public void SendChatMessage(byte[] textBytes)
