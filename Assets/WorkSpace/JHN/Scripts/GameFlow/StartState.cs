@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class StartState : BaseGameState
 {
     public override UIType StateUIType => UIType.NonGamePlay;
+    public override ESceneName SceneName => ESceneName.StartScene;
     public override async Task OnEnter()
     {
 #if MoveSceneDebug
@@ -28,7 +29,7 @@ public class StartState : BaseGameState
         Debug.Log("프로그래스 바 종료 시키기는 중");
 #endif
         state?.SetLoadingBarValue(1);
-        await (state?.TaskProgressBar ?? Task.CompletedTask);
+        await state?.TaskProgressBar;
 
 #if MoveSceneDebug
         Debug.Log("StartState UI 오픈");
@@ -37,7 +38,7 @@ public class StartState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LoadingScene 삭제");
 #endif
-        SceneManager.UnloadSceneAsync(SceneName.LoadingScene);
+        SceneManager.UnloadSceneAsync("LoadingScene");
 
         return;
     }

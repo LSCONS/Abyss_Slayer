@@ -19,4 +19,5 @@ public abstract class BaseGameState : IGameState
     public virtual void OnUpdate()
     {
     }
+    public abstract ESceneName SceneName { get; }
 }

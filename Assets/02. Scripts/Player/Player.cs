@@ -13,7 +13,6 @@ public enum CharacterClass
     Mage,
     MagicalBlader,
     Tanker,
-
     Count
 }
 
@@ -315,6 +314,17 @@ public class Player : NetworkBehaviour, IHasHealth
     public void PlayerDie()
     {
         PlayerStateMachine.ChangeState(PlayerStateMachine.DieState);
+        
+        // 게임오버 애널리틱스 전송
+        int deadPlayerCount = 0;
+        foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+        {
+            if (player.Hp.Value <= 0)
+            {
+                deadPlayerCount++;
+            }
+        }
+
         StartCoroutine(PlayerDieCoroutine());
     }
 
@@ -367,27 +377,27 @@ public class Player : NetworkBehaviour, IHasHealth
         //비활성화
         gameObject.SetActive(false);
 
-        if(PlayerRef == Runner.LocalPlayer)
-        {
-            //IdleState로 변환
-            PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
-            //체력 Max로 변환
-            Hp.Value = MaxHp.Value;
-            //모든 스킬 쿨타임 0으로 변환
-            //모든 버프 스킬 유지시간 0으로 변환
-            foreach (Skill skill in EquippedSkills.Values)
-            {
-                skill.CurCoolTime.Value = 0;
-                BuffSkill buffSkill = skill as BuffSkill;
-                if (buffSkill != null)
-                {
-                    buffSkill.CurBuffDuration.Value = 0;
-                }
-            }
-            //위치 값 0으로 초기화
-            transform.position = Vector3.zero;
-            Rpc_PlayerPositionSynchro(Vector2.zero);
-        }
+        // if(PlayerRef == Runner.LocalPlayer)
+        // {
+        //     //IdleState로 변환
+        //     PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
+        //     //체력 Max로 변환
+        //     Hp.Value = MaxHp.Value;
+        //     //모든 스킬 쿨타임 0으로 변환
+        //     //모든 버프 스킬 유지시간 0으로 변환
+        //     foreach (Skill skill in EquippedSkills.Values)
+        //     {
+        //         skill.CurCoolTime.Value = 0;
+        //         BuffSkill buffSkill = skill as BuffSkill;
+        //         if (buffSkill != null)
+        //         {
+        //             buffSkill.CurBuffDuration.Value = 0;
+        //         }
+        //     }
+        //     //위치 값 0으로 초기화
+        //     transform.position = Vector3.zero;
+        //     Rpc_PlayerPositionSynchro(Vector2.zero);
+        // }
     }
 
 

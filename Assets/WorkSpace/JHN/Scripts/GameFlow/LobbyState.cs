@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class LobbyState : BaseGameState
 {
     public override UIType StateUIType => UIType.NonGamePlay;
+    public override ESceneName SceneName => ESceneName.LobbyScene;
 
     public override async Task OnEnter()
     {
@@ -39,7 +40,7 @@ public class LobbyState : BaseGameState
         Debug.Log("프로그래스 바 끝날 때까지 대기");
 #endif
         state?.SetLoadingBarValue(1f);
-        await (state?.TaskProgressBar ?? Task.CompletedTask);
+        await state?.TaskProgressBar;
 
 #if MoveSceneDebug
         Debug.Log("LobbyState 오픈");
@@ -50,7 +51,7 @@ public class LobbyState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LoadingScene 삭제");
 #endif
-        SceneManager.UnloadSceneAsync(SceneName.LoadingScene);
+        SceneManager.UnloadSceneAsync("LoadingScene");
 
         return;
     }
