@@ -59,6 +59,13 @@ public class UILobbySelectPanel : UIPermanent
 #if AllMethodDebug
         Debug.Log("StartGame");
 #endif
+        if (RunnerManager.Instance.GetRunner().IsServer)
+        {
+            ServerManager.Instance.InstantiatePlayer();
+            ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
+            RunnerManager.Instance.GetRunner().SessionInfo.IsOpen = false;
+        }
+
         // 파티 직업 정보 수집
         var playerClasses = new string[5];
         int index = 0;
@@ -76,18 +83,6 @@ public class UILobbySelectPanel : UIPermanent
             ServerManager.Instance.DictRefToNetData.Count,
             playerClasses[0], playerClasses[1], playerClasses[2], playerClasses[3], playerClasses[4]
         );
-
-        if (RunnerManager.Instance.GetRunner().IsServer)
-        {
-            ServerManager.Instance.InstantiatePlayer();
-            ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
-            RunnerManager.Instance.GetRunner().SessionInfo.IsOpen = false;
-
-            foreach(NetworkData data in ServerManager.Instance.DictRefToNetData.Values)
-            {
-
-            }
-        }
     }
 
 
