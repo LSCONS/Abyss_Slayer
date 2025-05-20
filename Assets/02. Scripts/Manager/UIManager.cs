@@ -118,6 +118,56 @@ public class UIManager : Singleton<UIManager>
             popupBG.SetActive(false);
         }
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (popupStack.Count > 0)
+            {
+                TryCloseTopPopup();
+            }
+            else
+            {
+                TryOpenEscPopup(); // escCanOpen 팝업 열기 시도
+            }
+        }
+    }
+    public void TryCloseTopPopup()
+    {
+        if (popupStack.Count > 0)
+        {
+            var topPopup = popupStack.Peek();
+            topPopup.Close();
+            CloseCurrentPopup(topPopup); // 스택에서 제거
+        }
+    }
+
+    /// <summary>
+    /// 팝업 닫기 시도(스택에 팝업 있을 때)
+    /// </summary>
+    private void TryOpenEscPopup()
+    {
+        foreach (var ui in UIMap)
+        {
+            // popupButton이 활성화되지 않은 상태에서도 접근 가능하게 true 설정
+            var popupButton = ui.Value.GetComponentInChildren<UIPopupButton>(true);
+            if (popupButton == null || !popupButton.EscCanOpen()) continue;
+
+            var popup = popupButton.GetPopup(); // 내부에서 다시 FindPopupByName 호출함
+            if (popup == null) continue;
+
+            if (popupStack.Contains(popup))
+            {
+                CloseCurrentPopup(popup);
+            }
+            else
+            {
+                OpenPopup(popup);
+            }
+
+            break;
+        }
+    }
 
     /// <summary>
     /// 라벨로 UI 로드
@@ -382,6 +432,8 @@ public class UIManager : Singleton<UIManager>
     {
         if(popup==null) return;
         if(popupStack.Contains(popup)) return;
+
+        popup.gameObject.SetActive(true);
         popupStack.Push(popup);
 
         if(popupBG != null) popupBG.SetActive(true);

@@ -141,17 +141,25 @@ public class UILobbyMainPanel : UIPermanent
     /// <param name="isReady">준비 상태</param>
     public void SetReadyText(PlayerRef playerRef, bool isReady)
     {
-        TextMeshProUGUI textPlayerState = DictRefToRoomData[playerRef].TextPlayerState;
+        var roomData = DictRefToRoomData[playerRef];
+        TextMeshProUGUI textPlayerState = roomData.TextPlayerState;
+
         textPlayerState.text = isReady ? ReadyOnText : ReadyOffText;
-        textPlayerState.color = isReady ? Color.red : Color.black;
+        textPlayerState.color = isReady ? Color.red : Color.white;
+
+        if (roomData.ChiefIcon != null) roomData.ChiefIcon.SetActive(false);
     }
 
 
     public void SetServerText(PlayerRef playerRef)
     {
-        TextMeshProUGUI textPlayerState = DictRefToRoomData[playerRef].TextPlayerState;
+        var roomData = DictRefToRoomData[playerRef];
+
+        TextMeshProUGUI textPlayerState = roomData.TextPlayerState;
         textPlayerState.text = ServerText;
         textPlayerState.color = Color.red;
+
+        if(roomData.ChiefIcon!=null) roomData.ChiefIcon.SetActive(true);
     }
 }
 
@@ -161,6 +169,7 @@ public class PlayerRoomData
     [field: SerializeField] public TextMeshProUGUI TextPlayerState { get; private set; }
     [field: SerializeField] public TextMeshProUGUI TextPlayerName { get; private set; }
     [field: SerializeField] public SpriteImageChange PlayerSpriteChange { get; private set; }
+    [field: SerializeField] public GameObject ChiefIcon { get; private set; }
 }
 
 

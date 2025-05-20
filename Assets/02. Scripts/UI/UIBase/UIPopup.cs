@@ -16,7 +16,6 @@ public class UIPopup : UIBase
     [SerializeField] private TextMeshProUGUI desc;
     private string descriptionText;
 
-
     public virtual void OnDisable()
     {
         if (UIManager.Instance != null && UIManager.Instance.popupStack.Contains(this))
