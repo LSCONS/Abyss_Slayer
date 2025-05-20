@@ -34,4 +34,5 @@ public static class AnimationHash
     public static int CreationSpeedParameterHash  { get; private set; } = Animator.StringToHash("CreationSpeed");
     public static int ColorParameterHash          { get; private set; } = Animator.StringToHash("Color");
     public static int EndParameterHash            { get; private set; } = Animator.StringToHash("End");
+    public static int SpeedParameterHash          { get; private set; } = Animator.StringToHash("Speed");
 }

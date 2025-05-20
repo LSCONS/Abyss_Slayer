@@ -230,7 +230,7 @@ public class Player : NetworkBehaviour, IHasHealth
         var data = DataManager.Instance;
 
         // 플레이어 기본 데이터 로드 및 복사
-        PlayerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
+        PlayerData = DataManager.Instance.DictClassToPlayerData[playerCharacterClass];
         PlayerData = Instantiate(PlayerData);
 
         Hp.Value = PlayerData.PlayerStatusData.HP_Cur;

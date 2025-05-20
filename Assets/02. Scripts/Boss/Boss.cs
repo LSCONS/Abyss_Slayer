@@ -16,7 +16,8 @@ public class Boss : NetworkBehaviour, IHasHealth
     [field: SerializeField] public Collider2D               HitCollider       { get; private set; } //보스 피격판정 콜라이더
     [field: SerializeField] public CinemachineVirtualCamera VirtualCamera     { get; private set; }
     [field: SerializeField] public ReactiveProperty<int>    MaxHp             { get; private set; } = new ReactiveProperty<int> (1000);
-    [field: SerializeField] public bool                     IsMove            { get; set; }         = true;
+    [field: SerializeField] public bool                     IsRest            { get; set; }         = true;
+    [field: SerializeField] public bool                     IsOpenSprtie     { get; set; }         = false;
     private Dictionary<DebuffType, DebuffData>              ActiveDebuffs     { get; set; }         = new();   // 디버프 상태를 저장              
     public ReactiveProperty<int>                            Hp                { get; private set; } = new ReactiveProperty<int>(1000);
     public bool                                             IsDead            { get; private set;}  = false;
@@ -34,6 +35,8 @@ public class Boss : NetworkBehaviour, IHasHealth
         BossController.Init();
         Hp.Value = MaxHp.Value;
         ServerManager.Instance.Boss = this;
+        Animator.enabled = IsOpenSprtie;
+        Sprite.enabled = IsOpenSprtie;
     }
 
 
@@ -138,6 +141,13 @@ public class Boss : NetworkBehaviour, IHasHealth
     public void Rpc_SetTriggerAnimationHash(int hash)
     {
         Animator.SetTrigger(hash);
+    }
+
+    [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
+    public void Rpc_SetSpriteEnable(bool enable)
+    {
+        Animator.enabled = enable;
+        Sprite.enabled = enable;
     }
 
 

@@ -66,7 +66,7 @@ public class UIReadyBossStage : UIPermanent
     {
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (!(runner.IsServer)) return;
-        ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.BattleScene_0);
+        ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.BattleScene);
     }
 
     private void SetActiveButton(bool isAllReady)

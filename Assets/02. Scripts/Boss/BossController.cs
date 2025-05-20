@@ -95,7 +95,7 @@ public class BossController : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("StartBossPattern");
 #endif
-        if(Boss.IsMove && RunnerManager.Instance.GetRunner().IsServer)
+        if(Boss.IsRest && RunnerManager.Instance.GetRunner().IsServer)
         StartCoroutine(startLoop());
     }
 

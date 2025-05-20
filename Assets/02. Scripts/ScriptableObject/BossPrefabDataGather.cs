@@ -19,8 +19,13 @@ public class BossPrefabData
 
 public enum EBossStage
 {
-    None = 0,
+    Boss0 = 0,
+    Boss1 = 1,
+
+
+
+
+
     Rest,
-    Boss0,
-    Boss1,
+    None,
 }
