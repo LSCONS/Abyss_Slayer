@@ -27,12 +27,22 @@ public class ObjectPool
             Debug.LogError("ObjectPool 생성 시 prefab이 null입니다!");
             return null;
         }
-        BasePoolable obj = RunnerManager.Instance.GetRunner().Spawn(_prefab);
-        obj.transform.parent = null;
-        obj.transform.parent = _parent;
-        obj.SetPool(this);
-        obj.gameObject.SetActive(false);
-        pool.Enqueue(obj);
+        BasePoolable obj = RunnerManager.Instance.GetRunner().Spawn
+            (
+            _prefab,
+            Vector3.zero,
+            Quaternion.identity,
+            RunnerManager.Instance.GetRunner().LocalPlayer,
+            (runner, obj) =>
+            {
+                BasePoolable basePoolable = obj.GetComponent<BasePoolable>();
+                basePoolable._pool = this;
+                basePoolable.transform.parent = null;
+                basePoolable.transform.parent = _parent;
+                basePoolable.SetPool(this);
+                basePoolable.gameObject.SetActive(false);
+                pool.Enqueue(basePoolable);
+            });
         return obj;
     }
 
@@ -45,7 +55,6 @@ public class ObjectPool
         }
 
         BasePoolable obj = pool.Dequeue();
-        obj.gameObject.SetActive(true);
         return obj;
     }
 

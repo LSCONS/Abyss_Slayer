@@ -27,6 +27,7 @@ public class PlayerStateMachine : StateMachine
     public float MovementSpeedModifier { get; set; } = 1f;
     public Dictionary<int, IPlayerState> DictIntToState { get; private set; } = new();
     public HashSet<IPlayerState> HashPlayerState { get; private set; }
+    public Skill UseSkillData { get; set; }
 
     public PlayerStateMachine(Player player)
     {
@@ -77,14 +78,19 @@ public class PlayerStateMachine : StateMachine
         MovementSpeed = Player.PlayerData.PlayerGroundData.BaseSpeed;
     }
 
+    public void UseSkill()
+    {
+        UseSkillData?.UseSkill();
+        UseSkillData = null;
+    }
+
 
     public override void ChangeState(IPlayerState state)
     {
         base.ChangeState(state);
-        if(Player.IsThisRunner)
+        if (!(Player.Runner.IsServer)) return;
         Player.Rpc_ChagneState(GetIntDictStateToInit(state));
     }
-
 
     /// <summary>
     /// SkillState에서 연결 가능한 MoveState를 찾고 연결하는 메서드
@@ -126,10 +132,10 @@ public class PlayerStateMachine : StateMachine
     }
 
     /// <summary>MoveDir.X의 값이 0인지 확인</summary>
-    private bool IsZeroMoveDirX() => Player.PlayerInput.MoveDir.x == 0;
+    private bool IsZeroMoveDirX() => Player.NetworkInput.MoveDir.x == 0;
 
     /// <summary>MoveDir의 X값이 0인지 확인</summary>
-    private bool IsZeroMoveDir() => Player.PlayerInput.MoveDir == Vector2.zero;
+    private bool IsZeroMoveDir() => Player.NetworkInput.MoveDir == Vector2.zero;
 
     /// <summary>점프가 가능한 상태인지 확인</summary>
     private bool IsCanJump() => Player.playerCheckGround.CanJump;
@@ -153,7 +159,7 @@ public class PlayerStateMachine : StateMachine
     private bool IsSkillCanUse(SkillSlotKey slotKey) => Player.EquippedSkills[slotKey].CanUse;
 
     /// <summary>MoveDir.y의 값이 0보다 작은지 확인</summary>
-    private bool IsDownMoveDirY() => Player.PlayerInput.MoveDir.y < 0;
+    private bool IsDownMoveDirY() => Player.NetworkInput.MoveDir.y < 0;
 
     /// <summary>현재 대시 카운트가 0보다 큰지 확인</summary>
     private bool IsCanDashCount() => Player.PlayerData.PlayerAirData.CurDashCount > 0;
@@ -173,7 +179,8 @@ public class PlayerStateMachine : StateMachine
             !(IsTrigger()) &&               //IsTrigger가 비활성화 상태라면
             IsZeroVelocityY())              //velocitty Y의 힘이 0이라면
         {
-            ChangeState(WalkState);         //WalkState로 전환
+            if (Player.Runner.IsServer)
+                ChangeState(WalkState);         //WalkState로 전환
             return true;
         }
         return false;
@@ -188,7 +195,8 @@ public class PlayerStateMachine : StateMachine
     {
         if (!(IsCanJump()))                 //점프가 가능하지 않다면
         {
-            ChangeState(FallState);         //FallState로 전환
+            if (Player.Runner.IsServer)
+                ChangeState(FallState);         //FallState로 전환
             return true;
         }
         return false;
@@ -199,7 +207,8 @@ public class PlayerStateMachine : StateMachine
     {
         if(IsLowVelocityY())                //velocityY값이 0보다 작거나 같다면
         {
-            ChangeState(FallState);         //FallState로 전환
+            if (Player.Runner.IsServer)
+                ChangeState(FallState);         //FallState로 전환
             return true;
         }
         return false;
@@ -214,12 +223,13 @@ public class PlayerStateMachine : StateMachine
     {
         if (IsZeroMoveDir()) return false;                  //아무런 이동 키를 입력하고 있지 않다면 검사 취소
 
-        if (Player.PlayerInput.IsSkillZ &&                        //해당 스킬 키를 입력하고 있다면
+        if (Player.NetworkInput.IsSkillZ &&                        //해당 스킬 키를 입력하고 있다면
             IsSkillCanUse(SkillSlotKey.Z) &&                //해당 스킬이 사용가능하다면
             (!(IsDownMoveDirY()) || IsZeroGround()) &&      //공중에 뜬 상태거나 아래키를 누르고 있지 않다면
             IsCanDashCount())                               //대시 카운트가 존재한다면
         {
-            ChangeState(PlayerSkillEnterStateDict[SkillSlotKey.Z]); //Z스킬 State로 전환
+            if (Player.Runner.IsServer)
+                ChangeState(PlayerSkillEnterStateDict[SkillSlotKey.Z]); //Z스킬 State로 전환
             return true;
         }
         return false;
@@ -232,19 +242,21 @@ public class PlayerStateMachine : StateMachine
     /// <returns>true면 Action 종료, false면 Action 계속</returns>
     public bool ConnectJumpState()
     {
-        if(Player.PlayerInput.IsJump &&           //점프키를 입력했다면
+        if(Player.NetworkInput.IsJump &&           //점프키를 입력했다면
             Player.PlayerData.PlayerAirData.CanJump())  //  남은 점프 횟수가 있다면
         {
             if (!(IsDownMoveDirY()))        //아래키를 입력하고 있지 않다면
             {
-                ChangeState(JumpState);     //JumpState로 전환
+                if (Player.Runner.IsServer)
+                    ChangeState(JumpState);     //JumpState로 전환
                 return true;
             }
             
             if(IsZeroGroundPlane())         //닿고 있는 GroundPlane의 갯수가 0이라면
             {
                 IsTriggerTrue();            //isTrigger을 true로 전환
-                ChangeState(FallState);     //FallState로 전환 
+                if (Player.Runner.IsServer)
+                    ChangeState(FallState);     //FallState로 전환 
                 return true;
             }
         }
@@ -263,7 +275,8 @@ public class PlayerStateMachine : StateMachine
             !(IsTrigger()) &&           //Trigger가 비활성화 상태라면
             IsZeroVelocityY())          //velocityY값이 0이라면
         {
-            ChangeState(IdleState);     //IdleState로 전환
+            if (Player.Runner.IsServer)
+                ChangeState(IdleState);     //IdleState로 전환
             return true;
         }
         return false;
@@ -275,7 +288,8 @@ public class PlayerStateMachine : StateMachine
         {
             if (!(isAction()) /*&& Player.SkillTrigger.HoldSkillCoroutine != null*/)//TODO: 홀드스킬 취소 나중에 추가 필요
             {
-                ChangeState(IdleState);
+                if (Player.Runner.IsServer)
+                    ChangeState(IdleState);
                 return;
             }
         }

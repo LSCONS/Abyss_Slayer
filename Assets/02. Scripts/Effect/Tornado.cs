@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,12 +18,14 @@ public class Tornado : BasePoolable
         _collider = GetComponentInChildren<Collider2D>();
         
     }
-    public override void Init()
+    public override void Rpc_Init()
     {
-        
+
     }
-    public void Init(Vector3 position,int damage, float durationTime,float attackPerSec, float warningTime = 1f, float width = 1f)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(Vector3 position,int damage, float durationTime,float attackPerSec, float warningTime = 1f, float width = 1f)
     {
+        gameObject.SetActive(true);
         transform.position = position;
         _damage = damage;
         _durationTime = durationTime;

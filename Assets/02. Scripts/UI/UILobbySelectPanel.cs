@@ -82,6 +82,11 @@ public class UILobbySelectPanel : UIPermanent
             ServerManager.Instance.InstantiatePlayer();
             ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
             RunnerManager.Instance.GetRunner().SessionInfo.IsOpen = false;
+
+            foreach(NetworkData data in ServerManager.Instance.DictRefToNetData.Values)
+            {
+
+            }
         }
     }
 

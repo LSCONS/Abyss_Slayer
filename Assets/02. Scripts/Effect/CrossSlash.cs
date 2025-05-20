@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,10 +11,11 @@ public class CrossSlash : BasePoolable
 
     int _damage;
     List<Player> _hitPlayers = new List<Player>();
-    public override void Init()
+    public override void Rpc_Init()
     {
     }
-    public void Init(Vector3 position, bool isLeft, int damage, int typeNum, float speed = 1, float scale = 1f)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(Vector3 position, bool isLeft, int damage, int typeNum, float speed = 1, float scale = 1f)
     {
         for(int i = 0; i < colliders.Count; i++)
         {

@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +24,9 @@ public class SkillEffectController : BasePoolable
 
 
     }
-    public override void Init()
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public override void Rpc_Init()
     {
         // 시작할 때 페이드인
         gameObject.SetActive(true);

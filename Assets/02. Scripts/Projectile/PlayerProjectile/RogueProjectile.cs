@@ -1,3 +1,4 @@
+using Fusion;
 using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +31,7 @@ public class RogueProjectile : BasePoolable
         transform.Translate(direction * speed * Time.deltaTime);
     }
 
-    public override void Init()
+    public override void Rpc_Init()
     {
         // BasePoolable의 추상 메서드 구현
     }
@@ -46,6 +47,7 @@ public class RogueProjectile : BasePoolable
     public void Init(Player player, Vector3 spawnPos, Vector3 dir, float range, float speed, float damage)
     {
         transform.position = spawnPos; // 실제 화살 위치
+        gameObject.SetActive(true);
         initPos = spawnPos; // 최대 거리 체크용 초기 위치
         direction = dir.normalized; // 방향 정규화
         maxRange = range; // 최대 거리

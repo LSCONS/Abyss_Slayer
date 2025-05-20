@@ -4,8 +4,6 @@ public class PlayerJumpState : PlayerAirState
 {
     public StoppableAction MoveAction = new();
     private int animationNum = 0;
-    private float animationTime = 0;
-    private int animationDelay = 5;
 
     private bool hasJumpedInThisFrame = false;
     public PlayerJumpState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
@@ -29,7 +27,6 @@ public class PlayerJumpState : PlayerAirState
         base.Enter();
         playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Jump, 0);
         animationNum = 0;
-        animationTime = animationDelay;
         Jump();
         hasJumpedInThisFrame = true;
 
@@ -56,7 +53,6 @@ public class PlayerJumpState : PlayerAirState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        animationTime--;
     }
 
 
@@ -76,10 +72,11 @@ public class PlayerJumpState : PlayerAirState
     /// </summary>
     private void UpdateJumpAnimation()
     {
-        if (animationTime > 0) return;
-
-        animationTime = animationDelay;
-        playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Jump, ++animationNum);
+        if (ChangeSpriteTime + CurTime < Time.time)
+        {
+            CurTime = Time.time;
+            playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Jump, ++animationNum);
+        }
     }
 
     /// <summary>

@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,10 +20,11 @@ public class DashClawEffect : BasePoolable
         }
 
     }
-    public override void Init()
+    public override void Rpc_Init()
     {
     }
-    public void Init(int damage, Vector3 startPosition, bool isLeft, float distance = 15f, float preDelayTime = 1f, float attackTime = 1f)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(int damage, Vector3 startPosition, bool isLeft, float distance = 15f, float preDelayTime = 1f, float attackTime = 1f)
     {
         transform.localScale = Vector3.one;
         damageCollider.Init(damage, null, int.MaxValue);

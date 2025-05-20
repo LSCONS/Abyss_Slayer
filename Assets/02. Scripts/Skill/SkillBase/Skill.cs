@@ -48,8 +48,8 @@ public class Skill : ScriptableObject
     [field: Header("스킬을 사용할 때 실행할 Animation Enum")]
     [field: SerializeField] public AnimationState SkillUseState { get; private set; } = AnimationState.Idle1;
 
-    [field: Header("Animation Sprite가 교체되는 딜레이 시간(1당 0.02초)")]
-    [field: SerializeField] public int AnimationChangeDelayTime { get; private set; } = 10;
+    [field: Header("Animation Sprite 1장이 교체되는 딜레이 시간")]
+    [field: SerializeField] public float AnimationChangeDelayTime { get; private set; } = 0.2f;
 
     [field: Header("이 스킬로 타격 시 쿨타임 감소 스킬에 영향을 줄 지에 대한 여부")]
     [field: SerializeField] public bool IsConnectSkillCoolDown { get; private set; } = false;
@@ -124,7 +124,7 @@ public class Skill : ScriptableObject
         // 이제 이펙트 설정해주기
         effect.transform.position = this.PlayerPosition();
         effect.transform.localScale = Vector3.one;
-        effect.Init();
+        effect.Rpc_Init();
         effect.PlayClip(SkillEffectsClipName);
         effect.AutoReturn(SkillEffectsDuration);
     }

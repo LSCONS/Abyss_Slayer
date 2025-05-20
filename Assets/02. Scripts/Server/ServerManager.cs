@@ -13,7 +13,6 @@ using static Unity.Collections.Unicode;
 
 public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 {
-    [field: SerializeField] public GameObject PlayerPrefab { get; private set; }
     public Dictionary<PlayerRef, Player> DictRefToPlayer { get; private set; } = new();
     public int BossCount { get; private set; } = 0;
     [SerializeField] private string playerName = "Empty";
@@ -55,8 +54,8 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         => DictRefToNetData.TryGetValue(ThisPlayerRef, out var data) ? data : null;
     public Player ThisPlayer 
         => DictRefToPlayer.TryGetValue(ThisPlayerRef, out var player) ? player : null;
-    public PlayerInput ThisPlayerInput
-        => ThisPlayer.PlayerInput;
+    //public PlayerInput ThisPlayerInput
+    //    => ThisPlayer.PlayerInput;
     //플레이어가 접속할 경우 복사해서 생성할 데이터 프리팹
     [field: SerializeField] public NetworkData DataPrefab { get; private set; }
 
@@ -75,6 +74,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public Vector3 Vec3PlayerBattlePosition { get; private set; } = new Vector3(-18, 1.5f, 0);
     public Vector3 Vec3PlayerRestPosition { get; private set; } = new Vector3(-5, 1.5f, 0);
     public Action<bool> IsAllReadyAction { get; set; }
+    public PlayerInput PlayerInput { get; set; }
 
     public Boss Boss { get; set; } = null;
 
@@ -82,21 +82,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
-        Init();
-    }
-
-
-    private async void Init()
-    {
-#if AllMethodDebug
-        Debug.Log("Init");
-#endif
-        if (PlayerPrefab == null)
-        {
-            var handle = Addressables.LoadAssetAsync<GameObject>("PlayerPrefab");
-            await handle.Task;
-            PlayerPrefab = handle.Result;
-        }
     }
 
 
@@ -210,7 +195,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         while ((player = ThisPlayer) == null) 
         {
             ct.ThrowIfCancellationRequested();
-            await Task.Yield();
+            await Task.Delay(100);
         }
         return player;
     }
@@ -234,7 +219,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         while((data = ThisPlayerData) == null)
         {
             ct.ThrowIfCancellationRequested();
-            await Task.Yield();
+            await Task.Delay(100);
         }
         return;
     }
@@ -245,19 +230,19 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// </summary>
     /// <param name="ct"></param>
     /// <returns></returns>
-    public async Task<PlayerInput> WaitForThisInputAsync(CancellationToken ct = default)
-    {
-#if AllMethodDebug
-        Debug.Log("WaitForThisInputAsync");
-#endif
-        Player player = await WaitForThisPlayerAsync();
-        while (player.PlayerInput == null)
-        {
-            ct.ThrowIfCancellationRequested();
-            await Task.Yield();
-        }
-        return player.PlayerInput;
-    }
+//    public async Task<PlayerInput> WaitForThisInputAsync(CancellationToken ct = default)
+//    {
+//#if AllMethodDebug
+//        Debug.Log("WaitForThisInputAsync");
+//#endif
+//        Player player = await WaitForThisPlayerAsync();
+//        while (player.PlayerInput == null)
+//        {
+//            ct.ThrowIfCancellationRequested();
+//            await Task.Yield();
+//        }
+//        return player.PlayerInput;
+//    }
 
 
     /// <summary>
@@ -273,7 +258,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         while (DictRefToNetData.Count != DictRefToPlayer.Count)
         {
             ct.ThrowIfCancellationRequested();
-            await Task.Yield();
+            await Task.Delay(100);
         }
         return;
     }
@@ -287,7 +272,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         while((Vector2)ThisPlayer.transform.position != position)
         {
             ct.ThrowIfCancellationRequested();
-            await Task.Yield();
+            await Task.Delay(100);
         }
         return;
     }
@@ -307,7 +292,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         {
             var spawnResult = runner.Spawn
             (
-                PlayerPrefab,
+                DataManager.Instance.Player,
                 tempVec3,
                 Quaternion.identity,
                 playerRef,
@@ -463,18 +448,24 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        //NetworkInputData inputData = new NetworkInputData
-        //{
-        //    MoveDir = LocalInput.MoveDir,
-        //    IsJump = LocalInput.IsJump,
-        //    IsSkillA = LocalInput.IsSkillA,
-        //    IsSkillD = LocalInput.IsSkillD,
-        //    IsSkillS = LocalInput.IsSkillS,
-        //    IsSkillX = LocalInput.IsSkillX,
-        //    IsSkillZ = LocalInput.IsSkillZ,
-        //};
+        if(PlayerInput == null)
+        {
+            PlayerInput = GetComponent<PlayerInput>()
+                ?? gameObject.AddComponent<PlayerInput>();
+        }
 
-        //input.Set(inputData);
+        NetworkInputData inputData = new NetworkInputData
+        {
+            MoveDir = PlayerInput.MoveDir,
+            IsJump = PlayerInput.IsJump,
+            IsSkillA = PlayerInput.IsSkillA,
+            IsSkillD = PlayerInput.IsSkillD,
+            IsSkillS = PlayerInput.IsSkillS,
+            IsSkillX = PlayerInput.IsSkillX,
+            IsSkillZ = PlayerInput.IsSkillZ,
+        };
+
+        input.Set(inputData);
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
@@ -537,7 +528,11 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         }
 
         CurrentSessionList = temp;
-        RoomSearch.UpdateRoomList(); 
+        try
+        {
+            RoomSearch.UpdateRoomList();
+        }
+        catch { }
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }

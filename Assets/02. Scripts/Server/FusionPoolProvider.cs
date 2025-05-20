@@ -27,7 +27,7 @@ public class FusionPoolProvider : NetworkObjectProviderDefault
 
             instance = pooled.GetComponent<NetworkObject>();
 
-            pooled.Init();
+            pooled.Rpc_Init();
         }
         return NetworkObjectAcquireResult.Success;
     }
