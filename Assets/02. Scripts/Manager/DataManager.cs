@@ -33,6 +33,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<CharacterClass, PlayerData> DictClassToPlayerData { get; private set; } = new();
     public PoolManager PoolManager { get; private set; }
     public InitSupporter InitSupporter { get; private set; }
+    public Player Player { get; private set; }
     //첫 키의 int는 스타일, 두번 째 키의 int는 Color
     public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
     public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
@@ -84,6 +85,9 @@ public class DataManager : Singleton<DataManager>
 
     private async Task DataLoadInitInitSupporterData()
     {
+#if AllMethodDebug
+        Debug.Log("DataLoadInitInitSupporterData");
+#endif
         var init = Addressables.LoadAssetAsync<GameObject>("InitSupporter");         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
         await init.Task;
         InitSupporter = init.Result.GetComponent<InitSupporter>();
@@ -94,6 +98,11 @@ public class DataManager : Singleton<DataManager>
         await pool.Task;
         PoolManager = pool.Result.GetComponent<PoolManager>();
         if (PoolManager == null) { Debug.Log("Error PoolManager is null"); }
+
+        var player = Addressables.LoadAssetAsync<GameObject>("PlayerPrefab");
+        await player.Task;
+        Player = player.Result.GetComponent<Player>();
+        if (Player == null) { Debug.Log("Error Player is null"); }
 
         return;
     }

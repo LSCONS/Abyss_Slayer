@@ -57,6 +57,7 @@ public class Player : NetworkBehaviour, IHasHealth
     public ReactiveProperty <int> StatPoint { get; set; } = new(10);
     public ReactiveProperty <int> SkillPoint { get; set; } = new(10);
 
+
     /// <summary>
     /// 코루틴과 Action을 등록시키고 실행시키는 메서드
     /// </summary>
@@ -68,6 +69,7 @@ public class Player : NetworkBehaviour, IHasHealth
         HoldSkillCoroutine = StartCoroutine(skill);
         HoldSkillCoroutineStopAction = action;
     }
+
 
     /// <summary>
     /// 등록해둔 Action을 실행시키며 코루틴을 종료시키는 메서드
@@ -82,6 +84,7 @@ public class Player : NetworkBehaviour, IHasHealth
             HoldSkillCoroutine = null;
         }
     }
+
 
     /// <summary>
     /// 등록해둔 Action을 무시하고 코루틴을 종료시키는 메서드
@@ -109,11 +112,8 @@ public class Player : NetworkBehaviour, IHasHealth
         PlayerStateMachine = new PlayerStateMachine(this);
         PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
         transform.position = PlayerPosition;
-        if(Runner.LocalPlayer != PlayerRef)
-        {
-            playerRigidbody.simulated = false;
-        }
     }
+
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
@@ -122,6 +122,7 @@ public class Player : NetworkBehaviour, IHasHealth
         ServerManager.Instance.DictRefToPlayer.Remove(PlayerRef);
         base.Despawned(runner, hasState);
     }
+
 
     private void Update()
     {
@@ -142,27 +143,23 @@ public class Player : NetworkBehaviour, IHasHealth
         }
 
         if (Runner.LocalPlayer == PlayerRef) return;
-        // 네트워크로 받은 타깃 위치
-        Vector2 target = PlayerPosition;
 
-        // 현재 위치
-        Vector2 current = transform.position;
+        //Vector2 target = PlayerPosition;
+        //Vector2 current = transform.position;
 
-        if (current != target)
-        {
-            // t = smoothingSpeed * Time.deltaTime
-            // Time.deltaTime: 프레임 간격(초)
-            float t = tempSmooth * Time.deltaTime;
+        //if (current != target)
+        //{
+        //    float t = tempSmooth * Time.deltaTime;
 
-            // 보간 적용 (t가 1이면 즉시, 0이면 전혀 이동 안 함)
-            Vector2 newPos = Vector2.Lerp(current, target, t);
+        //    Vector2 newPos = Vector2.Lerp(current, target, t);
 
-            transform.position = newPos;
-        }
+        //    transform.position = newPos;
+        //}
     }
 
-    private void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
+        base.FixedUpdateNetwork();
         PlayerStateMachine.FixedUpdate();
     }
 
@@ -252,32 +249,7 @@ public class Player : NetworkBehaviour, IHasHealth
             skill.Init();
         }
     }
-    private void SetAllAnimationStates(SpriteRenderer target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> sourceDict, int id)
-    {
-        if (!PlayerSpriteChange.DictAnimationState.ContainsKey(target))
-            PlayerSpriteChange.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
 
-        if (sourceDict.TryGetValue(id, out var animDict))
-        {
-            foreach (var pair in animDict)
-            {
-                PlayerSpriteChange.DictAnimationState[target][pair.Key] = pair.Value;
-            }
-        }
-    }
-    private void SetAllAnimationStates(SpriteRenderer target, Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> sourceDict, (int, int) id)
-    {
-        if (!PlayerSpriteChange.DictAnimationState.ContainsKey(target))
-            PlayerSpriteChange.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
-
-        if (sourceDict.TryGetValue(id, out var animDict))
-        {
-            foreach (var pair in animDict)
-            {
-                PlayerSpriteChange.DictAnimationState[target][pair.Key] = pair.Value;
-            }
-        }
-    }
 
     /// <summary>
     /// 컴포넌트를 초기화하는 메서드

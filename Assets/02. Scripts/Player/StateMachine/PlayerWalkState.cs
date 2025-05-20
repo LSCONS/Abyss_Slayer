@@ -4,8 +4,6 @@ public class PlayerWalkState : PlayerGroundState
 {
     public StoppableAction MoveAction = new();
     private int animationNum = 0;
-    private float animationTime = 0;
-    private int animationDelay = 3;
     public PlayerWalkState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -27,7 +25,6 @@ public class PlayerWalkState : PlayerGroundState
         base.Enter();
         playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Run1, 0);
         animationNum = 0;
-        animationTime = animationDelay;
 
         // 걷기 사운드 재생
         SoundManager.Instance.PlaySFX(EAudioClip.SFX_PlayerWalk);
@@ -53,14 +50,13 @@ public class PlayerWalkState : PlayerGroundState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        animationTime--;
     }
 
     public override void Update()
     {
-        if (animationTime <= 0)
+        if (ChangeSpriteTime + CurTime < Time.time)
         {
-            animationTime = animationDelay;
+            CurTime = Time.time;
             playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Run1, ++animationNum);
         }
 

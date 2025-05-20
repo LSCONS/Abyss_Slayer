@@ -13,14 +13,12 @@ public class PlayerSkillUseState : PlayerBaseState
     private SkillSlotKey Slotkey { get; set; }
     private Func<bool> SkillInputKey { get; set; }
     private int animationNum = 0;
-    private float animationTime = 0;
-    private int animationDelay = 10;
     public PlayerSkillUseState(PlayerStateMachine playerStateMachine, SkillSlotKey key) : base(playerStateMachine)
     {
         Slotkey = key;
         SkillData = playerStateMachine.Player.EquippedSkills[key];
         SkillInputKey = SlotKeyConvertFunc(key);
-        animationDelay = SkillData.AnimationChangeDelayTime;
+        ChangeSpriteTime = SkillData.AnimationChangeDelayTime;
     }
     public void Init()
     {
@@ -37,7 +35,6 @@ public class PlayerSkillUseState : PlayerBaseState
             ResetZeroVelocity();
         }
         animationNum = 0;
-        animationTime = animationDelay;
 
         if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {
@@ -90,7 +87,6 @@ public class PlayerSkillUseState : PlayerBaseState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        animationTime--;
     }
 
     public override void Update()
@@ -105,9 +101,9 @@ public class PlayerSkillUseState : PlayerBaseState
                 return;
             }
 
-            if (animationTime > 0) return;
+            if (ChangeSpriteTime + CurTime > Time.time) return;
+            CurTime = Time.time;
 
-            animationTime = animationDelay;
             playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(SkillData.SkillUseState, ++animationNum);
         }
         else if (SkillData.SkillCategory == SkillCategory.Charge)
@@ -116,9 +112,9 @@ public class PlayerSkillUseState : PlayerBaseState
         }
         else if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {
-            if (animationTime > 0) return;
+            if (ChangeSpriteTime + CurTime > Time.time) return;
+            CurTime = Time.time;
 
-            animationTime = animationDelay;
             if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, ++animationNum))
             {
                 if ((SkillData.SkillCategory == SkillCategory.Dash && animationNum % 2 == 0) ||
@@ -141,9 +137,9 @@ public class PlayerSkillUseState : PlayerBaseState
         }
         else
         {
-            if (animationTime > 0) return;
+            if (ChangeSpriteTime + CurTime > Time.time) return;
+            CurTime = Time.time;
 
-            animationTime = animationDelay;
             if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, ++animationNum)) return;
 
             if (playerStateMachine.Player.IsThisRunner)

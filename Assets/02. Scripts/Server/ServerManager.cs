@@ -13,7 +13,6 @@ using static Unity.Collections.Unicode;
 
 public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 {
-    [field: SerializeField] public GameObject PlayerPrefab { get; private set; }
     public Dictionary<PlayerRef, Player> DictRefToPlayer { get; private set; } = new();
     public int BossCount { get; private set; } = 0;
     [SerializeField] private string playerName = "Empty";
@@ -75,6 +74,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public Vector3 Vec3PlayerBattlePosition { get; private set; } = new Vector3(-18, 1.5f, 0);
     public Vector3 Vec3PlayerRestPosition { get; private set; } = new Vector3(-5, 1.5f, 0);
     public Action<bool> IsAllReadyAction { get; set; }
+    public PlayerInput PlayerInput { get; set; }
 
     public Boss Boss { get; set; } = null;
 
@@ -82,21 +82,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
-        Init();
-    }
-
-
-    private async void Init()
-    {
-#if AllMethodDebug
-        Debug.Log("Init");
-#endif
-        if (PlayerPrefab == null)
-        {
-            var handle = Addressables.LoadAssetAsync<GameObject>("PlayerPrefab");
-            await handle.Task;
-            PlayerPrefab = handle.Result;
-        }
     }
 
 
@@ -307,7 +292,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         {
             var spawnResult = runner.Spawn
             (
-                PlayerPrefab,
+                DataManager.Instance.Player,
                 tempVec3,
                 Quaternion.identity,
                 playerRef,
@@ -463,18 +448,24 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        //NetworkInputData inputData = new NetworkInputData
-        //{
-        //    MoveDir = LocalInput.MoveDir,
-        //    IsJump = LocalInput.IsJump,
-        //    IsSkillA = LocalInput.IsSkillA,
-        //    IsSkillD = LocalInput.IsSkillD,
-        //    IsSkillS = LocalInput.IsSkillS,
-        //    IsSkillX = LocalInput.IsSkillX,
-        //    IsSkillZ = LocalInput.IsSkillZ,
-        //};
+        if(PlayerInput == null)
+        {
+            PlayerInput = GetComponent<PlayerInput>()
+                ?? gameObject.AddComponent<PlayerInput>();
+        }
 
-        //input.Set(inputData);
+        NetworkInputData inputData = new NetworkInputData
+        {
+            MoveDir = PlayerInput.MoveDir,
+            IsJump = PlayerInput.IsJump,
+            IsSkillA = PlayerInput.IsSkillA,
+            IsSkillD = PlayerInput.IsSkillD,
+            IsSkillS = PlayerInput.IsSkillS,
+            IsSkillX = PlayerInput.IsSkillX,
+            IsSkillZ = PlayerInput.IsSkillZ,
+        };
+
+        input.Set(inputData);
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
@@ -537,7 +528,11 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         }
 
         CurrentSessionList = temp;
-        RoomSearch.UpdateRoomList(); 
+        try
+        {
+            RoomSearch.UpdateRoomList();
+        }
+        catch { }
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }

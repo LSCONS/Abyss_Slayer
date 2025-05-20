@@ -7,7 +7,14 @@ using UnityEngine;
 [RequireComponent(typeof(NetworkObject))]
 public abstract class BasePoolable : NetworkBehaviour
 {
-    protected ObjectPool _pool;
+    public ObjectPool _pool { get; set; }
+
+
+    public override void Spawned()
+    {
+        base.Spawned();
+        gameObject.SetActive(false);
+    }
 
     //풀 설정
     public virtual void SetPool(ObjectPool pool)

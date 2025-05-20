@@ -9,17 +9,16 @@ public class NormalDamageCollider : NetworkBehaviour
     HashSet<Player> hitPlayers = new HashSet<Player>();
 
     int _damage;
-    Action _destroy;
-
     int piercingAttackCount;
     bool _destroyed;
+    Action _destroy;
     LayerMask hitLayerMask;
 
-    public override void Spawned()
+    private void Awake()
     {
-        base.Spawned();
         hitLayerMask = LayerData.GroundPlaneLayerMask | LayerData.ShieldLayerMask | LayerData.GroundWallLayerMask;
     }
+
     /// <summary>
     /// 
     /// </summary>
@@ -64,6 +63,7 @@ public class NormalDamageCollider : NetworkBehaviour
             return;
         }
     }
+
     public void ClearHitList()
     {
         hitPlayers.Clear();

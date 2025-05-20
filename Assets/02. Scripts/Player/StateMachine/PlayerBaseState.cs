@@ -6,6 +6,8 @@ public class PlayerBaseState : IPlayerState
 {
     protected PlayerStateMachine playerStateMachine;
     protected readonly PlayerGroundData playerGroundData;
+    public float ChangeSpriteTime { get; set; } = 0.2f;
+    public float CurTime { get; set; }
 
     public PlayerBaseState(PlayerStateMachine playerStateMachine)
     {
@@ -15,7 +17,7 @@ public class PlayerBaseState : IPlayerState
 
     public virtual void Enter()
     {
-
+        CurTime = Time.time;
     }
 
     public virtual void Exit()
