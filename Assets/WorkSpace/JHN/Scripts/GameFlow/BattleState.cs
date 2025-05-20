@@ -25,8 +25,11 @@ public class BattleState : BaseGameState
     private bool sentStageClear = false;
     private bool sentStageFail = false;
 
+    private float stageStartTime = 0f;
+
     public override Task OnEnter()
     {
+        stageStartTime = Time.time;
         return Task.CompletedTask;
     }
 
@@ -70,6 +73,8 @@ public class BattleState : BaseGameState
             AnalyticsManager.SendFunnelStep(GetFunnelStepHP(5));
         }
 
+        int stageElapsedTime = (int)(Time.time - stageStartTime);
+
         // 1. 플레이어 전멸 체크
         if (!sentStageFail && AllPlayersDead())
         {
@@ -77,7 +82,7 @@ public class BattleState : BaseGameState
             // 실패 데이터 전송
             StageAnalytics.SendStageFailInfo(
                 stageNumber: (stageIndex + 1).ToString(),
-                failTime: (int)Time.timeSinceLevelLoad,
+                failTime: stageElapsedTime,
                 player1Class: GetPlayerClass(0),
                 player2Class: GetPlayerClass(1),
                 player3Class: GetPlayerClass(2),
@@ -93,7 +98,7 @@ public class BattleState : BaseGameState
             // 성공 데이터 전송
             StageAnalytics.SendStageClearInfo(
                 stageNumber: (stageIndex + 1).ToString(),
-                clearTime: Time.timeSinceLevelLoad,
+                clearTime: stageElapsedTime,
                 player1Class: GetPlayerClass(0), player1Damage: GetPlayerDamage(0), player1Death: GetPlayerDeath(0),
                 player2Class: GetPlayerClass(1), player2Damage: GetPlayerDamage(1), player2Death: GetPlayerDeath(1),
                 player3Class: GetPlayerClass(2), player3Damage: GetPlayerDamage(2), player3Death: GetPlayerDeath(2),
