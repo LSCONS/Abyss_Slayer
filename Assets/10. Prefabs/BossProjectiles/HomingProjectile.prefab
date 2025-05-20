@@ -268,8 +268,8 @@ BoxCollider2D:
   m_Offset: {x: 0.1, y: -0.15}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4, y: 4}
+    pivot: {x: 0.5625, y: 0.4609375}
+    oldSize: {x: 3.75, y: 3.75}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -348,6 +348,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8740448133319119973}
   - component: {fileID: 5805331888917372935}
+  - component: {fileID: 420250081737889959}
   m_Layer: 0
   m_Name: HomingProjectile
   m_TagString: Untagged
@@ -451,5 +452,24 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  hitCollider: {fileID: 0}
   trailRenderer: {fileID: 6837992561685120541}
+--- !u!114 &420250081737889959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6985230723714082017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 973464397
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 5805331888917372935}
+  - {fileID: 102013105626635906}
+  ForceRemoteRenderTimeframe: 0

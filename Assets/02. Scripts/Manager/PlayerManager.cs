@@ -13,7 +13,7 @@ public class PlayerManager : Singleton<PlayerManager>
     public PlayerSpriteData PlayerSpriteData {  get; private set; }
     public PlayerCustomizationInfo PlayerCustomizationInfo { get; private set; }
 
-    public CharacterClass selectedCharacterClass = CharacterClass.Rogue;
+    public CharacterClass selectedCharacterClass { get; set; } = CharacterClass.Rogue;
     public Dictionary<CharacterClass, SpriteData> CharacterSpriteDicitonary { get; set; } = new();
 
     // 커스텀 바뀌면 콜백
@@ -22,8 +22,6 @@ public class PlayerManager : Singleton<PlayerManager>
     public CharacterClass CharacterClass
         => ServerManager.Instance.ThisPlayerData?.Class ?? CharacterClass.Rogue;
     public Dictionary<CharacterClass, SpriteData> DictClassToSpriteData { get; private set; } = new();
-    public Dictionary<CharacterClass, CharacterSkillSet> DictClassToSkillSet { get; private set; } = new();
-    public Dictionary<CharacterClass, PlayerData> DictClassToPlayerData { get; private set; } = new();
     protected override void Awake()
     {
         base.Awake();
@@ -34,11 +32,9 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         //Sprite Data 생성
         LoadSpriteData();
-        //SkillSet 생성
-        LoadSkillSetData();
-        //PlayerData 생성
-        LoadPlayerData();
     }
+
+
 
     private async void LoadSpriteData()
     {
@@ -60,17 +56,16 @@ public class PlayerManager : Singleton<PlayerManager>
         if (PlayerCustomizationInfo == null)
         {
             CharacterClass defaultClass = selectedCharacterClass;
-            var spriteData = CharacterSpriteDicitonary[defaultClass].Data;
 
-            int defaultSkin = ParseColorIndexFromName(spriteData.SkinName);
-            int defaultFace = ParseColorIndexFromName(spriteData.FaceName);
-            int defaultHairColor = ParseColorIndexFromName(spriteData.HairTopName);
-            string styleIdToken = ExtractStyleIdTokenFromName(spriteData.HairTopName);
-            int defaultHairKey = CreateHairKey(styleIdToken, defaultHairColor);
+            int defaultSkin = 0;
+            int defaultFace = 0;
+            (int, int) defaultHair = (0, HairColorConfig.HairColorIndexByClass[defaultClass]);
 
-            PlayerCustomizationInfo = new PlayerCustomizationInfo(defaultSkin, defaultFace, defaultHairKey);
+            PlayerCustomizationInfo = new PlayerCustomizationInfo(defaultSkin, defaultFace, defaultHair);
         }
     }
+
+
     private int ParseColorIndexFromName(string name)
     {
         if (string.IsNullOrEmpty(name)) return 1;
@@ -103,43 +98,6 @@ public class PlayerManager : Singleton<PlayerManager>
         int styleNum = int.Parse(styleId.Substring(1));
         return baseOffset + styleNum * 100 + colorIndex;
     }
-
-
-
-    private async void LoadSkillSetData()
-    {
-        try
-        {
-            var data = Addressables.LoadAssetsAsync<CharacterSkillSet>("CharacterSkillSet", null);
-            await data.Task;
-            foreach (CharacterSkillSet character in data.Result)
-            {
-                DictClassToSkillSet[character.Class] = character;
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"SkillSetData초기화 실패: {ex}");
-        }
-    }
-
-
-    private async void LoadPlayerData()
-    {
-        try
-        {
-            var data = Addressables.LoadAssetsAsync<PlayerData>("CharacterData", null);
-            await data.Task;
-            foreach (PlayerData character in data.Result)
-            {
-                DictClassToPlayerData[character.PlayerStatusData.Class] = character;
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"PlayerData초기화 실패: {ex}");
-        }
-    }
     
 
     /// <summary>
@@ -152,7 +110,7 @@ public class PlayerManager : Singleton<PlayerManager>
         ServerManager.Instance.ThisPlayerData.Rpc_ChangeClass(selectedCalss);
     }
 
-    public void SetCustomization(int skinId, int faceId, int hairId)
+    public void SetCustomization(int skinId, int faceId, (int style, int color) hairId)
     {
         PlayerCustomizationInfo = new PlayerCustomizationInfo(skinId, faceId, hairId);
         OnCustomizationChanged?.Invoke(PlayerCustomizationInfo);
@@ -193,11 +151,7 @@ public class SpriteData
         Data.SetSpriteName(playerClass);
         WeaponTop       = await LoadAndSortSprites(Data.WeaponTopName);
         ClothTop        = await LoadAndSortSprites(Data.ClothTopName);
-        HairTop         = await LoadAndSortSprites(Data.HairTopName);
         ClothBottom     = await LoadAndSortSprites(Data.ClothBottomName);
-        HairBottom      = await LoadAndSortSprites(Data.HairBottomName);
-        Face            = await LoadAndSortSprites(Data.FaceName);
-        Skin            = await LoadAndSortSprites(Data.SkinName);
         WeaponBottom    = await LoadAndSortSprites(Data.WeaponBottomName);
     }
 

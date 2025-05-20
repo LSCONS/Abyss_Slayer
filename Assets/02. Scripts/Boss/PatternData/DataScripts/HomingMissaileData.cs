@@ -1,6 +1,7 @@
 using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -51,7 +52,7 @@ public class HomingMissaileData : BasePatternData
 
             if (isMultyTarget)
             {
-                Collider2D[] players = Physics2D.OverlapAreaAll(new Vector2(-mapWidth / 2, 0), new Vector2(mapWidth / 2, 20), LayerMask.GetMask("Player"));
+                Player[] players = ServerManager.Instance.DictRefToPlayer.Values.ToArray();
                 target = players[Random.Range(0, players.Length)].transform;
             }
             ServerManager.Instance.InitSupporter.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed, (int)projectileType, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, (int)homingCurve, (int)speedCurve);

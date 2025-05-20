@@ -683,6 +683,7 @@ GameObject:
   - component: {fileID: 2678622429129413796}
   - component: {fileID: 6069909606590210634}
   - component: {fileID: 7383472217586922982}
+  - component: {fileID: 1577419050851208623}
   m_Layer: 0
   m_Name: Sprtie_Player
   m_TagString: Untagged
@@ -746,3 +747,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteChange: {fileID: 6069909606590210634}
+--- !u!114 &1577419050851208623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7106155482169164766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3764756754
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 7383472217586922982}
+  ForceRemoteRenderTimeframe: 0

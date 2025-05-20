@@ -18,6 +18,10 @@ public class NetworkData : NetworkBehaviour
     [Networked] public bool IsServer { get; set; } = false; //플레이어의 서버 권한 여부
     [Networked] public bool IsReady { get; set; } = false; //플레이어 레디 여부
     [Networked] public int IntPlayerClass { get; set; } = (int)CharacterClass.Rogue; //플레이어 직업
+    [Networked] public int HairStyleKey { get; set; } = 1;
+    [Networked] public int HairColorKey { get; set; } = 5;
+    [Networked] public int FaceColorKey { get; set; } = 1;
+    [Networked] public int SkinColorKey { get; set; } = 1;
     public CharacterClass Class => (CharacterClass)IntPlayerClass;
     private ESceneName ESceneName { get; set; }
 
@@ -249,5 +253,32 @@ public class NetworkData : NetworkBehaviour
     public void Rpc_SetReady(bool isReady)
     {
         IsReady = isReady;
+    }
+
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void Rpc_ResetPlayerPosition()
+    {
+        Player player = ServerManager.Instance.DictRefToPlayer[PlayerDataRef];
+        if((Vector2)player.transform.position != player.PlayerPosition)
+        {
+            player.transform.position = (Vector3)player.PlayerPosition;
+        }
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void Rpc_InitPlayerCustom(int hairStyle, int hairColor, int skin, int face)
+    {
+        HairStyleKey = hairStyle;
+        HairColorKey = hairColor;
+        SkinColorKey = skin;
+        FaceColorKey = face;
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_VirtualCamera(float size, int priority)
+    {
+        ServerManager.Instance.Boss.BossController.VirtualCamera.m_Lens.OrthographicSize = size;
+        ServerManager.Instance.Boss.BossController.VirtualCamera.Priority = priority;
     }
 }

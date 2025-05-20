@@ -68,6 +68,8 @@ public class Skill : ScriptableObject
 
     [field: Header("스킬 레벨별 배율")]
     [field: SerializeField] public float Magnification { get; private set; } = 0.1f; // 배율
+    [field: Header("이 스킬을 업그레이드 할 때 지속시간이 증가되나요?")]
+    [field: SerializeField] public bool isDurationUp { get; private set; } = false;
 
     // 플레이어 초기화
     public virtual void Init() { }

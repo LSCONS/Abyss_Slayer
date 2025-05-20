@@ -10,8 +10,8 @@ using UnityEngine.UI;
 /// </summary>
 public class CustomPanelManager : UIPopup
 {
-    [Header("프리뷰 연결")]
-    [SerializeField] private SpriteImageChange spritePreview;
+    [field: Header("프리뷰 연결")]
+    [field: SerializeField] private SpriteImageChange spritePreview { get; set; }
 
     // 적용하기 버튼
     [Header("적용하기 버튼")]
@@ -120,33 +120,9 @@ public class CustomPanelManager : UIPopup
         int allowedColors = HairColorConfig.HairColorIndexByClass[selectedClass];
 
         // 기본값 설정
-        skinId = ParseColorIndexFromName(spriteData.Data.SkinName);
-        faceId = ParseColorIndexFromName(spriteData.Data.FaceName);
-
-
-        string hairStyleIdRaw = ExtractStyleIdTokenFromName(spriteData.Data.HairTopName); // "m4", "f4"
-        int hairColorId = ParseColorIndexFromName(spriteData.Data.HairTopName);
-
-        int baseHairKey = -1;
-        if (!string.IsNullOrEmpty(hairStyleIdRaw) && hairColorId > 0)
-        {
-            baseHairKey = CreateHairKey(hairStyleIdRaw, hairColorId);
-        }
-
-        //hairId = availableHairKeys.IndexOf(baseHairKey);
-        //if (hairId == -1) hairId = 0;
-
-        //// 커스텀 정보가 있다면 그 값으로 덮기
-        //if (info != null)
-        //{
-        //    skinId = info.skinId;
-        //    faceId = info.faceId;
-
-        //    int currentHairKey = info.hairId;
-        //    int foundIndex = availableHairKeys.IndexOf(currentHairKey);
-        //    if (foundIndex != -1)
-        //        hairId = foundIndex;
-        //}
+        skinId = 1;
+        faceId = 1;
+        hairId = 1;
     }
     /// <summary>
     /// 이름에서 m4, f4 등의 스타일 ID 토큰만 추출
@@ -350,7 +326,7 @@ public class CustomPanelManager : UIPopup
         PlayerManager.Instance.SetCustomization(
             skinId,
             faceId,
-            hairId
+            (hairId, HairColorConfig.HairColorIndexByClass[PlayerManager.Instance.selectedCharacterClass])
         );
     }
 }

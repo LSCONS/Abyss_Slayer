@@ -498,6 +498,11 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
                 data.PlayerDataRef = player;
                 data.IsServer = (player == runner.LocalPlayer);
                 data.IsReady = (player == runner.LocalPlayer);
+                data.IntPlayerClass = (int)CharacterClass.Rogue;
+                data.FaceColorKey = 1;
+                data.SkinColorKey = 1;
+                data.HairStyleKey = 1;
+                data.HairColorKey = 5;
             }
         );
         LobbySelectPanel.CheckAllPlayerIsReady();

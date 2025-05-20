@@ -48,27 +48,29 @@ public class HomingProjectile : BasePoolable
         }
 
     }
-    private void Awake()
+    public override void Spawned()
     {
-         trailRenderer.enabled = false; //탄 궤적 비활성
+        base.Spawned();
+        trailRenderer.enabled = false; //탄 궤적 비활성
         _animator = GetComponent<Animator>();
         hitCollider = GetComponent<NormalDamageCollider>();
-    }
+    } 
+
     public override void Init()
     {
     }
 
-    /// <summary>
-    /// 유도탄 초기화
-    /// </summary>
-    /// <param name="damage">데미지</param>
-    /// <param name="position">생성위치</param>
-    /// <param name="rotate">생성시 회전값</param>
-    /// <param name="target">따라갈 목표</param>
-    /// <param name="speed">전체적인 탄속도(비례하여 유동적으로 변화)</param>
-    /// <param name="delayFireTime">지연발사 시간</param>
-    /// <param name="homingPower">전체적인 유도력(비례하여 유동적으로 변화)</param>
-    public void Init(int damage, Vector3 position, Quaternion rotate, PlayerRef target, float speed, int HomingProjectileType, float delayFireTime = 0f, float homingPower = 10f, float homingTime = 3f, float explosionSize = 0.5f, int homingCurve = 0, int speedCurve = 0)
+/// <summary>
+/// 유도탄 초기화
+/// </summary>
+/// <param name="damage">데미지</param>
+/// <param name="position">생성위치</param>
+/// <param name="rotate">생성시 회전값</param>
+/// <param name="target">따라갈 목표</param>
+/// <param name="speed">전체적인 탄속도(비례하여 유동적으로 변화)</param>
+/// <param name="delayFireTime">지연발사 시간</param>
+/// <param name="homingPower">전체적인 유도력(비례하여 유동적으로 변화)</param>
+public void Init(int damage, Vector3 position, Quaternion rotate, PlayerRef target, float speed, int HomingProjectileType, float delayFireTime = 0f, float homingPower = 10f, float homingTime = 3f, float explosionSize = 0.5f, int homingCurve = 0, int speedCurve = 0)
     { 
         transform.localScale = Vector3.one;
         _damage = damage;

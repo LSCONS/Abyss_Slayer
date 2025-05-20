@@ -9,9 +9,9 @@ public class PlayerCustomizationInfo
 {
     public int skinId;
     public int faceId;
-    public int hairId;
+    public (int, int) hairId;
 
-    public PlayerCustomizationInfo(int skinId, int faceId, int hairId)
+    public PlayerCustomizationInfo(int skinId, int faceId, (int, int) hairId)
     {
         this.skinId = skinId;
         this.faceId = faceId;
