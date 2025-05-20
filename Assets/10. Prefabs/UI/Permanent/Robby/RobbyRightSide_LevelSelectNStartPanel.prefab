@@ -451,6 +451,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StartInviteExitPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 6395844070485200339, guid: 2a6ba8c062f0cc943a0061b0143f5074, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6687289132776375512, guid: 2a6ba8c062f0cc943a0061b0143f5074, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -467,6 +471,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6857053716077415100, guid: 2a6ba8c062f0cc943a0061b0143f5074, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8152716872446923674, guid: 2a6ba8c062f0cc943a0061b0143f5074, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -481,6 +489,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8152716872446923674, guid: 2a6ba8c062f0cc943a0061b0143f5074, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815792595196019036, guid: 2a6ba8c062f0cc943a0061b0143f5074, type: 3}
+      propertyPath: m_Navigation.m_Mode
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
