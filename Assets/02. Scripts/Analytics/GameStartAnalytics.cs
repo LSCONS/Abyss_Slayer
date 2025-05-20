@@ -9,6 +9,8 @@ public static class GameStartAnalytics
     /// </summary>
     public static void SendStartUserInfo(int memberCount, string player1Class, string player2Class, string player3Class, string player4Class, string player5Class)
     {
+        if (!AnalyticsManager.IsInitialized) return;
+
         var evt = new CustomEvent("Start_User_Info");
         evt["Member_Count"] = memberCount;
 
