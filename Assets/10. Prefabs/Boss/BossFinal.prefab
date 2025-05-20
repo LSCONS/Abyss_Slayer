@@ -283,7 +283,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &531210389306606361
 Transform:
   m_ObjectHideFlags: 0
@@ -359,6 +359,14 @@ MonoBehaviour:
     showGizmos: 1
   - weight: 4
     patternData: {fileID: 11400000, guid: 259fc1cc48e96de4f8f21884b80cbd26, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+  - weight: 4
+    patternData: {fileID: 11400000, guid: 3f6e544e1cf5f1647ada228445235923, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+  - weight: 2
+    patternData: {fileID: 11400000, guid: 6e15b03ba53098948bd2e57799755fd6, type: 2}
     setActivePatternForTest: 1
     showGizmos: 1
   targetCrossHairPrefab: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}

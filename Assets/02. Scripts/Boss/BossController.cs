@@ -273,7 +273,7 @@ public class BossController : MonoBehaviour
     {
         Vector3 startPosition = transform.position;
         float _jumpMoveTime = (inputJumpMoveTime <= 0)? jumpMoveTime : inputJumpMoveTime;
-        float _jumpMoveHight = (inputJumpMoveHight <= -10)? jumpMoveHight : inputJumpMoveHight;
+        float _jumpMoveHight = (inputJumpMoveHight < 0)? jumpMoveHight : inputJumpMoveHight;
         float maxY = Mathf.Max(targetPosition.y, startPosition.y) + _jumpMoveHight;
         float deltaY1 = maxY - startPosition.y;
         float deltaY2 = maxY - targetPosition.y;
@@ -289,7 +289,7 @@ public class BossController : MonoBehaviour
         while(time < _jumpMoveTime)
         {
             float x = Mathf.Lerp(startPosition.x, targetPosition.x, time / _jumpMoveTime);
-            if(time >= hightestTime)
+            if(time >= hightestTime && _jumpMoveHight != 0)
                 animator.SetTrigger("Fall");
             float y = startPosition.y + (startVelocityY * time) - (0.5f * jumpGravity * time * time);
             transform.position = new Vector3(x, y, 0);
@@ -297,7 +297,10 @@ public class BossController : MonoBehaviour
             yield return null;
         }
         animator.ResetTrigger("Fall");
-        animator.SetTrigger("Land");
+
+        if(_jumpMoveHight != 0)
+            animator.SetTrigger("Land");
+
         transform.position = targetPosition;
         yield return new WaitForSeconds(0.4f);
     }

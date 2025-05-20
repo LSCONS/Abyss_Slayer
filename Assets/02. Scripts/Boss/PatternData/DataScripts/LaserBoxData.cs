@@ -14,7 +14,7 @@ public class LaserBoxData : BasePatternData
     [SerializeField] float moveTime = 1.2f;
     [SerializeField] float chasingTime = 1f;
     [SerializeField] float postDelayTime = 5f;
-    
+    [SerializeField] bool chasing;
 
     public override IEnumerator ExecutePattern()
     {
@@ -25,7 +25,7 @@ public class LaserBoxData : BasePatternData
         for (int i = 0; i < firePositions.Count; ++i)
         {
             Vector3 firePosition = firePositions[i] + (Vector3.up * Random.Range(-3, 3) + Vector3.right * Random.Range(-3, 3));
-            PoolManager.Instance.Get<LaserBoxProjectile>().Init(damage, target, bossTransform.position, 1.5f, firePosition, moveTime, chasingTime, spawnTime, isPiercing, fireCount);
+            PoolManager.Instance.Get<LaserBoxProjectile>().Init(damage, target, bossTransform.position, 1.5f, firePosition, moveTime, chasingTime, spawnTime, isPiercing, fireCount, chasing);
         }
         yield return new WaitForSeconds(spawnTime);
         bossAnimator.SetTrigger("Throw");
