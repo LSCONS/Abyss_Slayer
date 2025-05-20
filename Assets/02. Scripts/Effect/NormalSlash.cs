@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +9,13 @@ public class NormalSlash : BasePoolable
     int _damage;
     List<Player> players = new List<Player>();
     [SerializeField] Animator animator;
-    public override void Init()
+    public override void Rpc_Init()
     {
     }
-    public void Init(Vector3 position, int damage, bool isleft, float angle, float speed = 1)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(Vector3 position, int damage, bool isleft, float angle, float speed = 1)
     {
+        gameObject.SetActive(true);
         transform.position = position;
         _damage = damage;
         transform.rotation = Quaternion.Euler(0,isleft? 180: 0, angle);

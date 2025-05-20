@@ -20,11 +20,13 @@ public class LaserBoxProjectile : BasePoolable
     bool _randomRotation;
     int _fireCount;
     bool _isPiercing;
-    public override void Init()
+    public override void Rpc_Init()
     {
     }
-    public void Init(int damage, PlayerRef target, Vector3 startPosition, float scale, Vector3 firePosition, float moveTime, float chasingTime, float delayTime,bool isPiercing, int fireCount = 1)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(int damage, PlayerRef target, Vector3 startPosition, float scale, Vector3 firePosition, float moveTime, float chasingTime, float delayTime,bool isPiercing, int fireCount = 1)
     {
+        gameObject.SetActive(true);
         _damage = damage;
         _target = ServerManager.Instance.DictRefToPlayer[target].transform;
         transform.position = startPosition;

@@ -1,14 +1,17 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class JumpEffect : BasePoolable
 {
-    public override void Init()
+    public override void Rpc_Init()
     {
     }
-    public void Init(Vector3 position, float size = 1f)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(Vector3 position, float size = 1f)
     {
+        gameObject.SetActive(true);
         transform.position = position;
         transform.localScale = Vector3.one * size;
     }

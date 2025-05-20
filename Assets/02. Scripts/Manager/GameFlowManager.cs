@@ -11,10 +11,10 @@ public enum ESceneName  // 게임 시작 상태
     StartScene = 2,
     LobbyScene = 3,
     RestScene = 4,
-    Battle0Scene = 5,
-    Battle1Scene = 6,
-    Battle2Scene = 7,
-    Battle3Scene = 8,
+    BattleScene_0 = 5,
+    BattleScene_1 = 6,
+    BattleScene_2 = 7,
+    BattleScene_3 = 8,
 }
 
 public class GameFlowManager : Singleton<GameFlowManager>
@@ -147,6 +147,13 @@ public class GameFlowManager : Singleton<GameFlowManager>
 #endif
         await (CurrentState?.OnExit() ?? Task.CompletedTask);
         CurrentState = newState;
+        // 퍼널 스텝 기록
+        if (newState is BaseGameState baseGameState)
+        {
+            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, CurrentStageIndex);
+            if (funnelStep.HasValue)
+                AnalyticsManager.SendFunnelStep(funnelStep.Value);
+        }
         await (CurrentState?.OnEnter() ?? Task.CompletedTask);
     }
 
@@ -157,6 +164,13 @@ public class GameFlowManager : Singleton<GameFlowManager>
 #endif
         await (CurrentState?.OnExit() ?? Task.CompletedTask);
         CurrentState = newState;
+        // 퍼널 스텝 기록
+        if (newState is BaseGameState baseGameState)
+        {
+            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, CurrentStageIndex);
+            if (funnelStep.HasValue)
+                AnalyticsManager.SendFunnelStep(funnelStep.Value);
+        }
         await (CurrentState?.OnRunnerEnter() ?? Task.CompletedTask);
     }
 
@@ -189,14 +203,33 @@ public class GameFlowManager : Singleton<GameFlowManager>
             ESceneName.StartScene => StartSceneState,
             ESceneName.LobbyScene => LobbySceneState,
             ESceneName.RestScene => RestSceneState,
-            ESceneName.Battle0Scene => BattleSceneState,
-            ESceneName.Battle1Scene => BattleSceneState,
-            ESceneName.Battle2Scene => BattleSceneState,
-            ESceneName.Battle3Scene => BattleSceneState,
+            ESceneName.BattleScene_0 => BattleSceneState,
+            ESceneName.BattleScene_1 => BattleSceneState,
+            ESceneName.BattleScene_2 => BattleSceneState,
+            ESceneName.BattleScene_3 => BattleSceneState,
             // EGameState.Loading => new LoadingState(state), // 애초에 로딩으로 씬 전환하면 그게 문제지
 
             _ => null
         };
+    }
+
+    private int? GetFunnelStepForScene(ESceneName scene, int stageIndex)
+    {
+        switch (scene)
+        {
+            case ESceneName.StartScene: return 1; // 스타트 씬 진입 시 퍼널 스텝 기록
+            case ESceneName.RestScene:
+                if (stageIndex == 0) return 2;
+                if (stageIndex == 1) return 9;
+                if (stageIndex == 2) return 16;
+                break;
+            case ESceneName.BattleScene_0: return 3;
+            case ESceneName.BattleScene_1: return 10;
+            case ESceneName.BattleScene_2: return 17;
+            case ESceneName.BattleScene_3: return 24;
+            case ESceneName.LobbyScene: return 23;
+        }
+        return null;
     }
 
     private void Update()

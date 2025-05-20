@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class DashPlayerSilhouette : BasePoolable
     private Color color = new(1, 1, 1, 0.4f);
     private readonly WaitForSeconds waitSeconds = new(0.24f);
 
-    public override void Init() { }
+    public override void Rpc_Init() { }
 
     public void Init
         (

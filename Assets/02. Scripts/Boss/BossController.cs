@@ -296,7 +296,7 @@ public class BossController : NetworkBehaviour
         Boss.IsLeft = targetPosition.x - transform.position.x <= 0;
         Boss.Rpc_SetTriggerAnimationHash(AnimationHash.JumpParameterHash);
         yield return new WaitForSeconds(0.2f);
-        PoolManager.Instance.Get<JumpEffect>().Init(transform.position + Vector3.down * BossCenterHight);
+        PoolManager.Instance.Get<JumpEffect>().Rpc_Init(transform.position + Vector3.down * BossCenterHight);
         float time = 0f;
         while(time < _jumpMoveTime)
         {

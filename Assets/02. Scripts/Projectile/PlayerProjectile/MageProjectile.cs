@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,11 +33,11 @@ public class MageProjectile : BasePoolable
         trailRenderer.transform.rotation = transform.rotation;
     }
 
-    public override void Init()
+    public override void Rpc_Init()
     {
         // BasePoolable의 추상 메서드 구현
     }
-    
+
     /// <summary>
     /// 법사 유도탄 스킬 초기화
     /// </summary>
@@ -50,6 +51,7 @@ public class MageProjectile : BasePoolable
     /// <param name="homingCurve">투사체 유도곡선</param>
     public void Init(Player player, float damage, Vector3 position, Quaternion rotation, Transform target, float speed, float homingPower, float homingTime, AnimationCurve homingCurve)
     {
+        gameObject.SetActive(true);
         Player = player;
         transform.position = position; // 투사체 위치
         transform.rotation = rotation; // 투사체 회전

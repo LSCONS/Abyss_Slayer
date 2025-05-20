@@ -9,6 +9,7 @@ using Fusion;
 public class LoadingState : BaseGameState
 {
     public override UIType StateUIType => UIType.None;
+    public override ESceneName SceneName => ESceneName.LoadingScene;
     private ESceneName nextStateEnum;
     private readonly UIType prevUIType;
     private NetworkSceneAsyncOp NetworkSceneAsyncOp { get; set; }
@@ -35,7 +36,7 @@ public class LoadingState : BaseGameState
         if (GameFlowManager.Instance.PrevState != null)
         {
             // 1. 로딩씬 로드 (Additive or Single 방식 중 선택)
-            var loadingOp = SceneManager.LoadSceneAsync(SceneName.LoadingScene, LoadSceneMode.Additive);
+            var loadingOp = SceneManager.LoadSceneAsync("LoadingScene", LoadSceneMode.Additive);
             while (!loadingOp.isDone)
                 await Task.Yield();
 
@@ -130,7 +131,7 @@ public class LoadingState : BaseGameState
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
-            NetworkSceneAsyncOp = runner.LoadScene(SceneName.LoadingScene, LoadSceneMode.Additive);
+            NetworkSceneAsyncOp = runner.LoadScene("LoadingScene", LoadSceneMode.Additive);
             while (!NetworkSceneAsyncOp.IsDone)
                 await Task.Yield();
 
@@ -229,11 +230,11 @@ public class LoadingState : BaseGameState
     {
         return state switch
         {
-            IntroState => SceneName.IntroScene,
-            StartState => SceneName.StartScene,
-            LobbyState => SceneName.LobbyScene,
-            RestState => SceneName.RestScene,
-            BattleState inGame => SceneName.BossScenePrefix + inGame.stageIndex, // 보스 인덱스 기반으로 생성
+            IntroState => "IntroScene",
+            StartState => "StartScene",
+            LobbyState => "LobbyScene",
+            RestState => "RestScene",
+            BattleState inGame => "BossScene_" + inGame.stageIndex, // 보스 인덱스 기반으로 생성
             _ => throw new System.Exception($"[LoadingState] Unknown state: {state.GetType().Name}")
         };
     }

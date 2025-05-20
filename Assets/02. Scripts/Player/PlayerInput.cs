@@ -68,6 +68,15 @@ public class PlayerInput : MonoBehaviour
     public void OutPutEvent()
     {
         Inputs.Disable();
+
+        MoveDir = Vector2.zero;
+        IsJump = false;
+        IsSkillA = false;
+        IsSkillD = false;
+        IsSkillS = false;
+        IsSkillX = false;
+        IsSkillZ = false;
+
         var playerAction = Inputs.Player;
         playerAction.Move.performed     -= StartMove;
         playerAction.Move.canceled      -= StopMove;
