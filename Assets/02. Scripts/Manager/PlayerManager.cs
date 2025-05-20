@@ -46,6 +46,8 @@ public class PlayerManager : Singleton<PlayerManager>
 
                 DictClassToSpriteData[character] = new SpriteData();
                 await DictClassToSpriteData[character].Init(character);
+
+                CharacterSpriteDicitonary[character] = DictClassToSpriteData[character];
             }
         }
         catch (Exception ex)
@@ -105,9 +107,10 @@ public class PlayerManager : Singleton<PlayerManager>
     /// 플레이어가 있는 씬으로 이동할 때마다 호출해야함.
     /// </summary>
     // 클래스 세팅해주는 메서드
-    public void SetSelectedClass(CharacterClass selectedCalss)
+    public void SetSelectedClass(CharacterClass selectedClass)
     {
-        ServerManager.Instance.ThisPlayerData.Rpc_ChangeClass(selectedCalss);
+        selectedCharacterClass = selectedClass;
+        ServerManager.Instance.ThisPlayerData.Rpc_ChangeClass(selectedClass);
     }
 
     public void SetCustomization(int skinId, int faceId, (int style, int color) hairId)
