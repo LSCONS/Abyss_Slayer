@@ -233,7 +233,8 @@ public class BossController : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Landing");
 #endif
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f,_groundLayerMask);
+        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
+        RaycastHit2D hit = scene2D.Raycast(transform.position, Vector2.down, 10f,_groundLayerMask);
 
         if (hit.point.y > transform.position.y - BossCenterHight + 0.05f)
         {
