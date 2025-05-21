@@ -13,6 +13,7 @@ public class InvitationPopup : UIPopup
         base.Init();
 
         closeButton = transform.GetGameObjectSameNameDFS("Close").GetComponent<Button>();
+        gameObject.SetActive(false);
     }
 
     public override void Open(params object[] args)

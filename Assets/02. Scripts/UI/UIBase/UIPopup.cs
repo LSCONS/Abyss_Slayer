@@ -29,7 +29,6 @@ public class UIPopup : UIBase
         base.Init();
         if(!string.IsNullOrWhiteSpace(descriptionText)) SetDesc(descriptionText);
         // 팝업은 시작할 때 닫아두기
-        this.gameObject.SetActive(false);
         if(canvasGroup == null)
         {
             canvasGroup = GetComponent<CanvasGroup>();
@@ -41,6 +40,7 @@ public class UIPopup : UIBase
         canvasGroup.alpha = 0;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
+        gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -77,7 +77,6 @@ public class UIPopup : UIBase
     /// </summary>
     public override void Close()
     {
-        
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
 

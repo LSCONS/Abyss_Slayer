@@ -55,6 +55,7 @@ public class CustomPanelManager : UIPopup
         base.Init();
         ConnectedButton();
         ServerManager.Instance.CustomPanelManager = this;
+        gameObject.SetActive(false);
     }
 
     public override void Open(params object[] args)

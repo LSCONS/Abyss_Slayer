@@ -115,7 +115,7 @@ public class LoadingState : BaseGameState
         //다음 state로 이동
         await GameFlowManager.Instance.ChangeState(nextState);
         UIManager.Instance.popupBG?.SetActive(false);
-        UIManager.Instance.CloseAllUIPopup();
+        UIManager.Instance.CloseAllPopup();
     }
 
 
@@ -209,7 +209,7 @@ public class LoadingState : BaseGameState
         // 7. 최종 상태 진입
         await GameFlowManager.Instance.ChangeRunnerState(nextState);
         UIManager.Instance.popupBG?.SetActive(false);
-        UIManager.Instance.CloseAllUIPopup();
+        UIManager.Instance.CloseAllPopup();
     }
 
     private async Task SetProgressBar(ProgressBar progressBar)

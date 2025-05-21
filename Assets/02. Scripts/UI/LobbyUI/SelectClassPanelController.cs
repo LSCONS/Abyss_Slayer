@@ -25,6 +25,7 @@ public class SelectClassPanelController : UIPopup
 
 
         if(controller.Slots.Count == 0) controller.CreateClassSlots();  // 클래스 슬롯 생성
+        gameObject.SetActive(false);
     }
 
     public override void Open(params object[] args)

@@ -34,14 +34,6 @@ public class UIManager : Singleton<UIManager>
     //     popupParent = transform.GetGameObjectSameNameDFS("UI_Popup").transform;
     // }
 
-    public void CloseAllUIPopup()
-    {
-        foreach(var popup in popupStack)
-        {
-            popup.OnClose();
-        }
-    }
-
     protected override void Awake() {   
         base.Awake();
         DontDestroyOnLoad(gameObject);
