@@ -21,17 +21,26 @@ public class PoolConfig     //새로 풀을 추가할때 필요한 정보
 public class PoolManager : NetworkBehaviour
 {
     private Dictionary<Type, ObjectPool> poolDict = new();    //리스트의 풀을 저장하는 딕셔너리
-    public static PoolManager Instance => _instance;
-
+    public static PoolManager Instance
+    {
+        get 
+        {
+            if(_instance == null)
+            {
+                _instance = FindFirstObjectByType<PoolManager>() 
+                    ?? RunnerManager.Instance.GetRunner().Spawn(DataManager.Instance.PoolManagerPrefab);
+            }
+            return _instance;
+        }
+    }
     private static PoolManager _instance;
-
 
     public override void Spawned()
     {
         base.Spawned();
-        _instance = this;
         transform.parent = null;
-        if(Runner.IsServer)
+        ServerManager.Instance.PoolManager = this;
+        if (Runner.IsServer)
         SetObjectPoolDictionary();
     } 
 
