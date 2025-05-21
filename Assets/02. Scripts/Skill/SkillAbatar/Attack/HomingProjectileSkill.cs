@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Unity.Collections.Unicode;
 
 /// <summary>
 /// 특정 타겟을 향해 유도 탄환을 발사하는 기능
@@ -39,15 +40,12 @@ public class HomingProjectileSkill : ProjectileAttackSkill
         rangeVisualizer.SetRange(Range);
 
         //범위 내에서 타겟 탐색
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(player.transform.position, Range, TargetLayer);
+        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
+        Collider2D collider = scene2D.OverlapCircle(player.transform.position, Range, TargetLayer);
 
-        foreach (var collider in colliders)
+        if (collider != null && collider.TryGetComponent<Boss>(out Boss boss))
         {
-            if (collider.TryGetComponent<Boss>(out Boss boss))
-            {
-                target = boss;
-                break;
-            }
+            target = boss;
         }
 
         // 탐색 후에도 타겟이 없다면 스킬 발동 취소

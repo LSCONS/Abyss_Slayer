@@ -5,14 +5,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIReadyBossStage : UIPermanent
+public class UIReadyBossStage : UIButton
 {
     [field: SerializeField] public Button BtnReadyOrStart { get;private set; }
     [field: SerializeField] public TextMeshProUGUI TextBtnReadyOrStart { get;private set;}
     [field: SerializeField] public Image ImgBossIcon { get;private set; }
     [field: SerializeField] public Image ImgBtnColor { get;private set; }
-    public string ServerText { get; private set; } = "게임 시작하기";
-    public string ClientText { get; private set; } = "게임 준비하기";
+    public string ServerText { get; private set; } = "게임 시작";
+    public string ClientText { get; private set; } = "게임 준비";
     private bool IsReady { get; set; } = false;
     [field: SerializeField] public Color OnReadyColor { get; private set; }
     [field: SerializeField] public Color OffReadyColor { get; private set; }
@@ -50,7 +50,7 @@ public class UIReadyBossStage : UIPermanent
             bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReadyInServer();
             ServerManager.Instance.IsAllReadyAction(isAllReday);
         }
-        gameObject.SetActive(true);
+       // gameObject.SetActive(true);
     }
 
     private void ClickReadyButton()

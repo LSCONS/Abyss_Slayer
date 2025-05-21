@@ -99,7 +99,7 @@ public class MageProjectile : BasePoolable
             trailRenderer.enabled = false; // 투사체 궤적 비활성화
             fired = false; // 발사 여부 초기화
             enemy.Damage((int)(damage * Player.DamageValue.Value), transform.position.x); // 데미지 전달
-            ReturnToPool(); // 투사체 반환
+            Rpc_ReturnToPool(); // 투사체 반환
         }
     }
 }

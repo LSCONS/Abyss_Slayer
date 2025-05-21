@@ -101,7 +101,7 @@ public class LaserBoxProjectile : BasePoolable
             }
             yield return new WaitForSeconds(1f);
         }
-        ReturnToPool();
+        Rpc_ReturnToPool();
     }
 
 }

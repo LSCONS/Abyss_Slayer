@@ -51,7 +51,7 @@ public class UIDamageText : BasePoolable
         canvasGroup.DOFade(0f, 1f)
             .OnComplete(() =>
             {
-                ReturnToPool();
+                Rpc_ReturnToPool();
             });
     }
 

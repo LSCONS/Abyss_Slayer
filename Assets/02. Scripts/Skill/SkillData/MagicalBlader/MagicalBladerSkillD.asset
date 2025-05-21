@@ -28,7 +28,7 @@ MonoBehaviour:
   <ApplyState>k__BackingField: -1
   <SkillEnterState>k__BackingField: 26
   <SkillUseState>k__BackingField: 27
-  <AnimationChangeDelayTime>k__BackingField: 4
+  <AnimationChangeDelayTime>k__BackingField: 0.06
   <IsConnectSkillCoolDown>k__BackingField: 0
   <SkillEffectsClipName>k__BackingField: 
   <SkillEffectsDuration>k__BackingField: 1
@@ -36,6 +36,7 @@ MonoBehaviour:
   Level:
     value: 1
   <Magnification>k__BackingField: 0.1
+  <isDurationUp>k__BackingField: 0
   <BaseDamage>k__BackingField: 13000
   <Damage>k__BackingField: 13000
   <TargetLayer>k__BackingField:

@@ -29,7 +29,9 @@ public abstract class BasePoolable : NetworkBehaviour
     // aliveTime 후에 풀에 반환
     public virtual void AutoReturn(float aliveTime){}
 
-    public virtual void ReturnToPool()
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public virtual void Rpc_ReturnToPool()
     {
         gameObject.SetActive(false);
         _pool.ReturnToPool(this);

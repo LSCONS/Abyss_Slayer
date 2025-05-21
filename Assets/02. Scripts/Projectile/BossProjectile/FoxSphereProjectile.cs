@@ -72,9 +72,9 @@ public class FoxSphereProjectile : BasePoolable
         transform.position += targetDirection * ((_v - (_a * (Time.time - _fireTime))) * Time.deltaTime);
     }
 
-    public override void ReturnToPool()
+    public override void Rpc_ReturnToPool()
     {
         animator.SetInteger(AnimationHash.ColorParameterHash, -1);
-        base.ReturnToPool();
+        base.Rpc_ReturnToPool();
     }
 }

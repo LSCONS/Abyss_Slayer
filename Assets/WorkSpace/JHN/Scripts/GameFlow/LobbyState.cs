@@ -32,7 +32,9 @@ public class LobbyState : BaseGameState
         SpriteImageChange[] imageChanges = Util.FindObjectsByTypeDebug<SpriteImageChange>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (SpriteImageChange imageChange in imageChanges)
         {
-            imageChange.Init(PlayerManager.Instance.CharacterClass);
+            await ServerManager.Instance.WaitForThisPlayerDataAsync();
+            NetworkData data = ServerManager.Instance.ThisPlayerData;
+            imageChange.Init(data.Class, data.HairKey, data.SkinKey, data.FaceKey);
         }
         ServerManager.Instance.CustomPanelManager.ApplyPreview();
 
