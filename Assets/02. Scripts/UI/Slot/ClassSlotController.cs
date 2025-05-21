@@ -22,6 +22,10 @@ public class ClassSlotController : MonoBehaviour
         for (int i = 0; i < slotIndex; i++)
         {
             CharacterClass cc = (CharacterClass)i;
+
+            if (cc == CharacterClass.Healer)    // 힐러 미구현
+                continue;
+
             var go = Instantiate(classSlotPrefab, slotParent);
             var slot = go.GetComponent<ClassSlot>();
             slot.SetData(cc);
