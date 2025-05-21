@@ -29,6 +29,10 @@ public class CreditRoller : UIPopup
     {
         GameFlowManager.Instance.endCredit = this;
     }
+    private void Start()
+    {
+        UIManager.Instance.DelayRebuildLayout(this);
+    }
     private void Update()
     {
         // 스페이스 키 누르면 2배속
@@ -44,13 +48,9 @@ public class CreditRoller : UIPopup
         }
     }
 
-    public override void Init()
-    {
-        base.Init();
-
-    }
     private IEnumerator ScrollCredits()
     {
+        UIManager.Instance.DelayRebuildLayout(this);
         // 중앙에서 시작
         var layout = scrollRect.content.GetComponent<VerticalLayoutGroup>();
         float halfHeight = scrollRect.viewport.rect.height / 2f;
