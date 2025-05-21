@@ -34,7 +34,7 @@ public class CrossSlash1Data : BasePatternData
         float time = 0.2f;
         Vector3 dir = new Vector3(isleft ? -0.866f : 0.866f, -0.5f);
 
-        while (!scene2D.Raycast(bossTransform.position, dir, 12, LayerMask.GetMask("Player")) && time < 1f)
+        while (!scene2D.Raycast(bossTransform.position, dir, 12, LayerData.PlayerLayerMask) && time < 1f)
         {
             time += Time.deltaTime;
             yield return null;
