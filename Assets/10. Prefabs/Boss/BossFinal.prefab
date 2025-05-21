@@ -327,7 +327,6 @@ MonoBehaviour:
   <IsOpenSprtie>k__BackingField: 1
   _IsLeft: 0
   _BossPosition: {x: 0, y: 0}
-  _CrosshairPosition: {x: 0, y: 0}
 --- !u!114 &7201112847391276116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,10 +341,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AppearPattern>k__BackingField: {fileID: 0}
   <AllPatterns>k__BackingField: []
-  <TargetCrossHairPrefab>k__BackingField: {fileID: 0}
   <MapWidth>k__BackingField: 40
-  <Boss>k__BackingField: {fileID: 0}
   <BossCenterHight>k__BackingField: 2
+  <Boss>k__BackingField: {fileID: 0}
   <JumpMoveTime>k__BackingField: 1
   <JumpMoveHight>k__BackingField: 1
   <GravityMultiplier>k__BackingField: 1
