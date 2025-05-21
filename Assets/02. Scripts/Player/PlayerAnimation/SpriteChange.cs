@@ -24,21 +24,14 @@ public class SpriteChange : MonoBehaviour
     public void Init(CharacterClass character, (int Style, int Color)hairKey, int faceKey, int skinKey)
     {
         DataManager data = DataManager.Instance;
-        if (PlayerManager.Instance.DictClassToSpriteData.TryGetValue(character, out SpriteData newData))
-        {
-            DictAnimationState[WeaponTop]       = newData.InstantiateDictionary(data.DictClassToStateToWeaponTop[character]);
-            DictAnimationState[ClothTop]        = newData.InstantiateDictionary(data.DictClassToStateToClothTop[character]);
-            DictAnimationState[HairTop]         = newData.InstantiateDictionary(data.DictIntToDictStateToHairStyleTopSprite[hairKey]);
-            DictAnimationState[ClothBottom]     = newData.InstantiateDictionary(data.DictClassToStateToClothBot[character]);
-            DictAnimationState[HairBottom]      = newData.InstantiateDictionary(data.DictIntToDictStateToHairStyleBottomSprite[hairKey]);
-            DictAnimationState[Face]            = newData.InstantiateDictionary(data.DictIntToDictStateToFaceColorSprite[faceKey]);
-            DictAnimationState[Skin]            = newData.InstantiateDictionary(data.DictIntToDictStateToSkinColorSprite[skinKey]);
-            DictAnimationState[WeaponBottom]    = newData.InstantiateDictionary(data.DictClassToStateToWeaponBot[character]);
-        }
-        else
-        {
-            Debug.LogError("초기화 실패");
-        }
+        DictAnimationState[WeaponTop]       = data.InstantiateDictionary(data.DictClassToStateToWeaponTop[character]);
+        DictAnimationState[ClothTop]        = data.InstantiateDictionary(data.DictClassToStateToClothTop[character]);
+        DictAnimationState[HairTop]         = data.InstantiateDictionary(data.DictIntToDictStateToHairStyleTopSprite[hairKey]);
+        DictAnimationState[ClothBottom]     = data.InstantiateDictionary(data.DictClassToStateToClothBot[character]);
+        DictAnimationState[HairBottom]      = data.InstantiateDictionary(data.DictIntToDictStateToHairStyleBottomSprite[hairKey]);
+        DictAnimationState[Face]            = data.InstantiateDictionary(data.DictIntToDictStateToFaceColorSprite[faceKey]);
+        DictAnimationState[Skin]            = data.InstantiateDictionary(data.DictIntToDictStateToSkinColorSprite[skinKey]);
+        DictAnimationState[WeaponBottom]    = data.InstantiateDictionary(data.DictClassToStateToWeaponBot[character]);
     }
 
     public bool SetOnceAnimation(AnimationState state, int spriteNum)

@@ -43,7 +43,7 @@ public class AnalyticsManager : MonoBehaviour
             
             AnalyticsService.Instance.StartDataCollection();
             isInitialized = true;
-            Debug.Log("[Analytics] Analytics data collection started successfully");
+            Debug.LogAssertion("[Analytics] Analytics data collection started successfully");
         }
         catch (System.Exception e)
         {
