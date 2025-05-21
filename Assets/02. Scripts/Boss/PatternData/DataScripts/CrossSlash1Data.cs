@@ -9,6 +9,7 @@ public class CrossSlash1Data : BasePatternData
     [SerializeField] float preDelayTime;
     public override IEnumerator ExecutePattern()
     {
+        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
         bool isleft = 0 > target.position.x - bossTransform.position.x;
         boss.IsLeft = isleft;
         bossController.ShowTargetCrosshair = true;
@@ -27,13 +28,13 @@ public class CrossSlash1Data : BasePatternData
         bossController.ShowTargetCrosshair = false;
 
         yield return null;
-        bossController.isRun = false;
+        bossController.IsRun = false;
         yield return new WaitForSeconds(0.2f);
 
         float time = 0.2f;
         Vector3 dir = new Vector3(isleft ? -0.866f : 0.866f, -0.5f);
 
-        while (!Physics2D.Raycast(bossTransform.position, dir, 12, LayerMask.GetMask("Player")) && time < 1f)
+        while (!scene2D.Raycast(bossTransform.position, dir, 12, LayerMask.GetMask("Player")) && time < 1f)
         {
             time += Time.deltaTime;
             yield return null;
@@ -44,16 +45,27 @@ public class CrossSlash1Data : BasePatternData
         if(time > 1f) yield break;
 
         boss.Rpc_ResetTriggerAnimationHash(AnimationHash.FallParameterHash);
-        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);
-        //PoolManager.Instance.Get<CrossSlash>().Init(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);
-        yield return new WaitForSeconds(0.1f);
+        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);        yield return new WaitForSeconds(0.1f);
 
         bossController.Sprite.enabled = false;
         yield return new WaitForSeconds(0.2f);
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(bossTransform.position, dir, 50, LayerMask.GetMask("GroundPlane", "GroundPlatform"));
+        List<RaycastHit2D> hits = new();
+        var filter = new ContactFilter2D();
+        filter.useLayerMask = true;
+        filter.layerMask = LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask;
+
+        int hitcount = scene2D.Raycast
+            (
+            origin: bossTransform.position,
+            direction: dir,
+            contactFilter : filter,
+            results: hits,
+            distance: 50f
+            );
+
         RaycastHit2D hit = hits[0];
-        for (int i = 1 ; i < hits.Length; i++)
+        for (int i = 1 ; i < hits.Count; i++)
         {
             float deltaX = Mathf.Abs(hits[i].point.x - bossTransform.position.x);
             if (deltaX >= 7 && (Mathf.Abs(hit.point.x - bossTransform.position.x) < 7f) || Mathf.Abs(hit.point.x - bossTransform.position.x) > deltaX ) 

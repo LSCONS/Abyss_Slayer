@@ -49,8 +49,8 @@ public class UIStatStore : UIPopup
         OriginalStatPoint = player.StatPoint.Value;       // 저장
         RemainingPoint = OriginalStatPoint;
 
-        BaseMaxHp = player.MaxHp.Value;
-        BaseDamage = player.DamageValue.Value;
+        BaseMaxHp = player.BaseMaxHp;
+        BaseDamage = player.BaseDamage;
 
         // 처음 시작할 때 이전 레벨 저장해야됨
         AppliedHpLevel = player.HpStatLevel;
@@ -98,13 +98,18 @@ public class UIStatStore : UIPopup
 
     private void UpdateUI()
     {
+        var player = ServerManager.Instance.ThisPlayer;
+
         hpLevelText.text = $"lv.{TempHpLevel}";
         damageLevelText.text = $"lv.{TempDamageLevel}";
 
-        int hpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * (TempHpLevel - AppliedHpLevel));
+        int appliedHpLevel = player.HpStatLevel;
+        int appliedDmgLevel = player.DamageStatLevel;
+
+        int hpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * (TempHpLevel - appliedHpLevel));
         hpFigure.text = $"+{hpIncrease}";
 
-        float damageIncrease = (BaseDamage * Amount * (TempDamageLevel - AppliedDamageLevel));
+        float damageIncrease = BaseDamage * Amount * (TempDamageLevel - appliedDmgLevel);
         damageFigure.text = $"+{damageIncrease:f1}";
 
         int totalHpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * (TempHpLevel - 1));
@@ -159,18 +164,8 @@ public class UIStatStore : UIPopup
     private void ApplyStatsToPlayer()
     {
         var player = ServerManager.Instance.ThisPlayer;
-        
-        // 차이 계산
-        int hpDiff = TempHpLevel - AppliedHpLevel;
-        int damageDiff = TempDamageLevel - AppliedDamageLevel;
 
-        // 증가량 계산
-        int hpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * hpDiff);
-        float damageIncrease = Mathf.Round((BaseDamage - 1) + Amount * damageDiff);
-
-        // 능력치 반영
-        player.MaxHp.Value = hpIncrease + BaseMaxHp;
-        player.DamageValue.Value = damageIncrease + BaseDamage;
+        player.ApplyStatUpgrade(TempHpLevel, TempDamageLevel, Amount);
 
         // 스텟 포인트 반영
         OriginalStatPoint = RemainingPoint;
@@ -181,11 +176,11 @@ public class UIStatStore : UIPopup
         // 스탯 업그레이드 애널리틱스 전송
         string stageNumber = ServerManager.Instance.BossCount.ToString();
         string classType = player.NetworkData.Class.ToString();
-        if (hpDiff > 0)
+        if (TempHpLevel > AppliedHpLevel)
         {
             UpgradeAnalytics.SendClassStatUpgradeInfo(stageNumber, classType, "HP", TempHpLevel);
         }
-        if (damageDiff > 0)
+        if (TempDamageLevel > AppliedDamageLevel)
         {
             UpgradeAnalytics.SendClassStatUpgradeInfo(stageNumber, classType, "Damage", TempDamageLevel);
         }

@@ -48,14 +48,14 @@ public class RestState : BaseGameState
         var runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
-            if(PoolManager.Instance == null)
+            if(ServerManager.Instance.PoolManager == null)
             {
-                PoolManager a = runner.Spawn(DataManager.Instance.PoolManagerPrefab);
+                ServerManager.Instance.PoolManager = runner.Spawn(DataManager.Instance.PoolManagerPrefab);
             }
 
 
             NetworkObject boss = runner.Spawn
-                (
+            (
                 DataManager.Instance.DictEnumToNetObjcet[EBossStage.Rest],
                 new Vector3(5, 6.5f, 0),
                 Quaternion.identity,

@@ -36,6 +36,10 @@ public class Player : NetworkBehaviour, IHasHealth
     public ReactiveProperty<int> Hp { get; set; } = new();
     public ReactiveProperty<int> MaxHp { get; set; } = new();
     public ReactiveProperty<float> DamageValue { get; set; } = new(1);
+    [HideInInspector] public float BaseDamage { get; private set; } = 1;
+    [HideInInspector] public int BaseMaxHp { get; private set; }
+    [HideInInspector] public int HpStatLevel { get; set; } = 1;
+    [HideInInspector] public int DamageStatLevel { get; set; } = 1;
     public float ArmorAmount { get; set; } = 1.0f;                   // 방어력 계수
     public Coroutine HoldSkillCoroutine { get; private set; }
     public Action HoldSkillCoroutineStopAction { get; private set; }
@@ -49,9 +53,6 @@ public class Player : NetworkBehaviour, IHasHealth
     [Networked] public Vector2 PlayerPosition { get; set; }
     public int tempSmooth = 5;
     public bool IsThisRunner => PlayerRef == Runner.LocalPlayer;
-
-    public int HpStatLevel = 1;
-    public int DamageStatLevel = 1;
 
     public ReactiveProperty <int> StatPoint { get; set; } = new(10);
     public ReactiveProperty <int> SkillPoint { get; set; } = new(10);
@@ -236,6 +237,9 @@ public class Player : NetworkBehaviour, IHasHealth
         Hp.Value = PlayerData.PlayerStatusData.HP_Cur;
         MaxHp.Value = PlayerData.PlayerStatusData.HP_Max;
 
+        BaseMaxHp = MaxHp.Value;
+        BaseDamage = PlayerData.PlayerStatusData.Damage_Base;
+
         //TODO: 이 데이터 언젠가 바꿔야함
         skillSet = DataManager.Instance.DictClassToSkillSet[NetworkData.Class];
         skillSet = Instantiate(skillSet);
@@ -377,27 +381,21 @@ public class Player : NetworkBehaviour, IHasHealth
         //비활성화
         gameObject.SetActive(false);
 
-        // if(PlayerRef == Runner.LocalPlayer)
-        // {
-        //     //IdleState로 변환
-        //     PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
-        //     //체력 Max로 변환
-        //     Hp.Value = MaxHp.Value;
-        //     //모든 스킬 쿨타임 0으로 변환
-        //     //모든 버프 스킬 유지시간 0으로 변환
-        //     foreach (Skill skill in EquippedSkills.Values)
-        //     {
-        //         skill.CurCoolTime.Value = 0;
-        //         BuffSkill buffSkill = skill as BuffSkill;
-        //         if (buffSkill != null)
-        //         {
-        //             buffSkill.CurBuffDuration.Value = 0;
-        //         }
-        //     }
-        //     //위치 값 0으로 초기화
-        //     transform.position = Vector3.zero;
-        //     Rpc_PlayerPositionSynchro(Vector2.zero);
-        // }
+        //IdleState로 변환
+        PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
+        //체력 Max로 변환
+        Hp.Value = MaxHp.Value;
+        //모든 스킬 쿨타임 0으로 변환
+        //모든 버프 스킬 유지시간 0으로 변환
+        foreach (Skill skill in EquippedSkills.Values)
+        {
+            skill.CurCoolTime.Value = 0;
+            BuffSkill buffSkill = skill as BuffSkill;
+            if (buffSkill != null)
+            {
+                buffSkill.CurBuffDuration.Value = 0;
+            }
+        }
     }
 
 
@@ -428,5 +426,20 @@ public class Player : NetworkBehaviour, IHasHealth
     public void Rpc_SpriteFlipXSynchro(bool flipX)
     {
         IsFlipX = flipX;
+    }
+
+    /// <summary>
+    /// 스탯 업그레이드 적용하는 메서드
+    /// </summary>
+    /// <param name="hpLevel"></param>
+    /// <param name="dmgLevel"></param>
+    /// <param name="amount"></param>
+    public void ApplyStatUpgrade(int hpLevel, int dmgLevel, float amount)
+    {
+        HpStatLevel = hpLevel;
+        DamageStatLevel = dmgLevel;
+
+        MaxHp.Value = Mathf.RoundToInt(BaseMaxHp * (1f + amount * (hpLevel - 1)));
+        DamageValue.Value = BaseDamage * (1f + amount * (dmgLevel - 1));
     }
 }
