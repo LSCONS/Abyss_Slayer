@@ -26,7 +26,7 @@ public class FoxClone : BasePoolable,IHasHealth
     public void Damage(int damage, float attackPosX = -1000)
     {
         Hp.Value = 0;
-        animator.SetTrigger("Damaged");
+        animator.SetTrigger(AnimationHash.DamagedParameterHash);
     }
     public override void Rpc_Init()
     {
@@ -48,7 +48,7 @@ public class FoxClone : BasePoolable,IHasHealth
     {
         if(Hp.Value > 0)
         {
-            animator.SetTrigger("Explosion");
+            animator.SetTrigger(AnimationHash.ExplosionParameterHash);
         }
     }
     public void DeadExplosionDamage()
