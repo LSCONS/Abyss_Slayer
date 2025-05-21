@@ -31,19 +31,22 @@ public class LoadingState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LoadingState OnEnter");
 #endif
-        
 
+        IGameState prev = GameFlowManager.Instance.PrevState;
         TaskProgressBar = null;
         LoadingTargetValue = 0;
-        if (GameFlowManager.Instance.PrevState != null)
+        if (prev != null)
         {
             // 1. 로딩씬 로드 (Additive or Single 방식 중 선택)
             var loadingOp = SceneManager.LoadSceneAsync("LoadingScene", LoadSceneMode.Additive);
             while (!loadingOp.isDone)
                 await Task.Yield();
 
-            if(!(GameFlowManager.Instance.PrevState is LobbyState))
-            SceneManager.UnloadSceneAsync(GameFlowManager.Instance.GetSceneNameFromState(GameFlowManager.Instance.PrevState));
+
+            if (!(prev is LobbyState) || !(prev is BattleState) || !(prev is RestState))
+            {
+                SceneManager.UnloadSceneAsync(GameFlowManager.Instance.GetSceneNameFromState(prev));
+            }
         }
 
 #if MoveSceneDebug

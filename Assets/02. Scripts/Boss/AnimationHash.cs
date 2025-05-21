@@ -38,4 +38,6 @@ public static class AnimationHash
     public static int CrossSlash1ParameterHash    { get; private set; } = Animator.StringToHash("CrossSlash1");
     public static int CrossSlash2ParameterHash    { get; private set; } = Animator.StringToHash("CrossSlash2");
     public static int ExplosionParameterHash { get; private set; } = Animator.StringToHash("Explosion");
+    public static int WarningTimeParameterHash { get; private set; } = Animator.StringToHash("WarningTime"); 
+    public static int EndChasingParameterHash { get; private set; } = Animator.StringToHash("EndChasing");
 }
