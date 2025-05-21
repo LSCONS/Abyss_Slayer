@@ -31,8 +31,7 @@ public class PlayerInput : MonoBehaviour
 
     /// <summary>플레이어가 스킬D을 입력했는지 확인</summary>
     public bool IsSkillD        { get; private set; }
-    /// <summary>어떤 스킬키가 어떤 Input이랑 연결되는지 알려주는 Dictionary</summary>
-    public Dictionary<SkillSlotKey, Func<bool>> SkillInputKey { get; private set; } = new();
+    public bool IsConnectInput { get; private set; }
     #endregion
 
 
@@ -47,6 +46,7 @@ public class PlayerInput : MonoBehaviour
     {
         Inputs.Enable();
         var playerAction = Inputs.Player;
+        IsConnectInput = true;
         playerAction.Move.performed     += StartMove;
         playerAction.Move.canceled      += StopMove;
         playerAction.Jump.started       += StartJump;
@@ -78,6 +78,7 @@ public class PlayerInput : MonoBehaviour
         IsSkillZ = false;
 
         var playerAction = Inputs.Player;
+        IsConnectInput = false;
         playerAction.Move.performed     -= StartMove;
         playerAction.Move.canceled      -= StopMove;
         playerAction.Jump.started       -= StartJump;

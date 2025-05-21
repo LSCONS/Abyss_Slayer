@@ -26,8 +26,8 @@ public class BossController : NetworkBehaviour
     [field: SerializeField] private BasePatternData     AppearPattern           { get; set; }
     [field: SerializeField] private List<BossPattern>   AllPatterns             { get; set; }
     [field: SerializeField] public float                MapWidth                { get; set; }
-    [field: SerializeField] public Boss                 Boss                    { get; private set; }
     [field: SerializeField] public float                BossCenterHight         { get; private set; }
+    [field: SerializeField] public Boss                 Boss                    { get; private set; }
     public Transform                                    Target                  { get; private set; }
     public bool                                         ChasingTarget           { get; set; }
     public CinemachineVirtualCamera                     VirtualCamera           => Boss.VirtualCamera;
