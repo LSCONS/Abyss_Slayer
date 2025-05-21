@@ -42,12 +42,8 @@ public class PoolManager : NetworkBehaviour
     /// </summary>
     private void SetObjectPoolDictionary()
     {
-        BasePoolable[] basePoolables = GetAllPoolable();
-        foreach(BasePoolable poolable in basePoolables)
+        foreach(BasePoolable poolable in DataManager.Instance.ListBasePoolablePrefab)
         {
-            //이미 들어있는 타입인 경우 다음으로 넘어감.
-            if (poolDict.ContainsKey(poolable.GetType())) continue;
-
             //빈 오브젝트 추가 후 부모 오브젝트 설정
             Transform newObject = new GameObject(poolable.GetType().Name).transform;
             newObject.parent = transform;
@@ -56,23 +52,6 @@ public class PoolManager : NetworkBehaviour
             ObjectPool pool = new ObjectPool(poolable, newObject, 5);
             poolDict.Add(poolable.GetType(), pool);
         }
-    }
-
-
-    /// <summary>
-    /// Resources/ObjectPoolPrefab에 들어있는 모든 풀 오브젝트를 로드한 뒤 반환
-    /// </summary>
-    private BasePoolable[] GetAllPoolable()
-    {
-        //TODO: 나중에 Resources 어드레서블로 교체 필요
-        GameObject[] poolObjectArray = Resources.LoadAll<GameObject>("ObjectPoolPrefab");
-        BasePoolable[] basePoolables = new BasePoolable[poolObjectArray.Length];
-        for (int i = 0; i < poolObjectArray.Length; i++)
-        {
-            basePoolables[i] = poolObjectArray[i].GetComponent<BasePoolable>();
-            if (basePoolables[i] == null) Debug.LogError("PoolObject BasePoolable is null");
-        }
-        return basePoolables;
     }
 
     /// <summary>

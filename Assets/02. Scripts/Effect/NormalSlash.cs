@@ -12,6 +12,8 @@ public class NormalSlash : BasePoolable
     public override void Rpc_Init()
     {
     }
+
+
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_Init(Vector3 position, int damage, bool isleft, float angle, float speed = 1)
     {
@@ -19,7 +21,7 @@ public class NormalSlash : BasePoolable
         transform.position = position;
         _damage = damage;
         transform.rotation = Quaternion.Euler(0,isleft? 180: 0, angle);
-        animator.SetFloat("Speed",speed);
+        animator.SetFloat(AnimationHash.SpeedParameterHash, speed);
 
     }
     public void Damage()

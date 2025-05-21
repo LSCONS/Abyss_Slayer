@@ -21,6 +21,12 @@ public class RestState : BaseGameState
         Debug.Log("RestState OnExit 실행");
 #endif
         UIManager.Instance.CloseUI(UISceneType.Rest);
+        NetworkRunner runner = RunnerManager.Instance.GetRunner();
+        if (runner.IsServer)
+        {
+            ServerManager.Instance.ThisPlayerData.Rpc_DisconnectInput();
+        }
+
         await Task.CompletedTask;
     }
 
@@ -44,7 +50,7 @@ public class RestState : BaseGameState
         {
             if(PoolManager.Instance == null)
             {
-                PoolManager a = runner.Spawn(DataManager.Instance.PoolManager);
+                PoolManager a = runner.Spawn(DataManager.Instance.PoolManagerPrefab);
             }
 
 

@@ -11,10 +11,7 @@ public enum ESceneName  // 게임 시작 상태
     StartScene = 2,
     LobbyScene = 3,
     RestScene = 4,
-    BattleScene_0 = 5,
-    BattleScene_1 = 6,
-    BattleScene_2 = 7,
-    BattleScene_3 = 8,
+    BattleScene = 5,
 }
 
 public class GameFlowManager : Singleton<GameFlowManager>
@@ -23,15 +20,15 @@ public class GameFlowManager : Singleton<GameFlowManager>
     public IGameState PrevState { get; set; }
     public IGameState CurrentState { get; set; }   // 지금 스테이트
     [SerializeField] private ESceneName startStateEnum = ESceneName.IntroScene;   // 시작 스테이트 인스펙터 창에서 설정가능하게 해줌
-    public int CurrentStageIndex { get; private set; } = 0; // 보스 생성할 때 쓸 index
+    public int CurrentStageIndex { get; set; } = 0; // 보스 생성할 때 쓸 index
 
-    IntroState  IntroSceneState     { get; set; } = new IntroState();
-    StartState  StartSceneState     { get; set; } = new StartState();
-    LobbyState  LobbySceneState     { get; set; } = new LobbyState();
+    IntroState IntroSceneState { get; set; } = new IntroState();
+    StartState StartSceneState { get; set; } = new StartState();
+    LobbyState LobbySceneState { get; set; } = new LobbyState();
     RestState RestSceneState { get; set; } = new RestState();
     BattleState BattleSceneState { get; set; } = new BattleState();
 
-    protected override void Awake() 
+    protected override void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(this);
@@ -61,7 +58,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
             prevUIType = prevBase.StateUIType;
 
         // 2) 무조건 LoadingState로 경유
-         await ChangeState(prevLodingState = new LoadingState(nextEnum, prevUIType));
+        await ChangeState(prevLodingState = new LoadingState(nextEnum, prevUIType));
     }
 
 
@@ -86,6 +83,11 @@ public class GameFlowManager : Singleton<GameFlowManager>
     }
 
 
+    /// <summary>
+    /// 서버 환경에서 씬을 전환할 때 사용할 메서드
+    /// 레스트, 배틀 씬으로 전환할 때 사용.
+    /// </summary>
+    /// <param name="nextStateEnum"></param>
     public async void RpcServerSceneLoad(ESceneName nextStateEnum)
     {
 #if AllMethodDebug || MoveSceneDebug
@@ -95,6 +97,12 @@ public class GameFlowManager : Singleton<GameFlowManager>
         return;
     }
 
+
+    /// <summary>
+    /// 클라이언트 환경에서 씬을 전환할 때 사용할 메서드
+    /// 인트로, 스타트, 로비로 전환할 때 사용.
+    /// </summary>
+    /// <param name="nextStateEnum"></param>
     public async void ClientSceneLoad(ESceneName nextStateEnum)
     {
 #if AllMethodDebug || MoveSceneDebug
@@ -104,36 +112,6 @@ public class GameFlowManager : Singleton<GameFlowManager>
         return;
     }
 
-
-    //    // 2) 최초 진입: currentState == null
-    //    if (currentState == null || currentState is LoadingState)
-    //    {
-    //        Debug.Log($"[GameFlowManager] 최초 진입 → LoadingState({nextEnum}) 경유");
-    //        await ChangeState(new LoadingState(nextEnum));
-    //        return;
-    //    }
-
-    //    // 3) 현재 상태도 BaseGameState여야 하고
-    //    var currentBase = currentState as BaseGameState;
-    //    if (currentBase == null)
-    //    {
-    //        Debug.LogError("[GameFlowManager] currentState가 BaseGameState가 아닙니다.");
-    //        return;
-    //    }
-
-    //    // 4) UIType이 다른 경우: LoadingState 경유
-    //    if (currentBase.StateUIType != nextBase.StateUIType)
-    //    {
-    //        Debug.Log($"[GameFlowManager] UIType 변경 → LoadingState({nextEnum}) 경유");
-    //        await ChangeState(new LoadingState(nextEnum));
-    //    }
-    //    else
-    //    {
-    //        // 5) UIType이 같다면 바로 상태 전환
-    //        Debug.Log($"[GameFlowManager] UIType 동일 → 바로 상태 전환: {nextEnum}");
-    //        await ChangeState(nextBase);
-    //    }
-    //}
 
     /// <summary>
     /// 상태 변경
@@ -183,14 +161,6 @@ public class GameFlowManager : Singleton<GameFlowManager>
         return CreateStateFromEnum(stateEnum);
     }
 
-    public void GoToRestState()
-    {
-#if AllMethodDebug || MoveSceneDebug
-        Debug.Log("GoToRestState");
-#endif
-        RpcServerSceneLoad(ESceneName.RestScene);
-    }
-
 
     private IGameState CreateStateFromEnum(ESceneName state)
     {
@@ -203,10 +173,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
             ESceneName.StartScene => StartSceneState,
             ESceneName.LobbyScene => LobbySceneState,
             ESceneName.RestScene => RestSceneState,
-            ESceneName.BattleScene_0 => BattleSceneState,
-            ESceneName.BattleScene_1 => BattleSceneState,
-            ESceneName.BattleScene_2 => BattleSceneState,
-            ESceneName.BattleScene_3 => BattleSceneState,
+            ESceneName.BattleScene => BattleSceneState,
             // EGameState.Loading => new LoadingState(state), // 애초에 로딩으로 씬 전환하면 그게 문제지
 
             _ => null
@@ -223,10 +190,12 @@ public class GameFlowManager : Singleton<GameFlowManager>
                 if (stageIndex == 1) return 9;
                 if (stageIndex == 2) return 16;
                 break;
-            case ESceneName.BattleScene_0: return 3;
-            case ESceneName.BattleScene_1: return 10;
-            case ESceneName.BattleScene_2: return 17;
-            case ESceneName.BattleScene_3: return 24;
+            case ESceneName.BattleScene:
+                if (stageIndex == 0) return 3;
+                if (stageIndex == 1) return 10;
+                if (stageIndex == 2) return 17;
+                if (stageIndex == 3) return 24;
+                break;
             case ESceneName.LobbyScene: return 23;
         }
         return null;
@@ -238,5 +207,19 @@ public class GameFlowManager : Singleton<GameFlowManager>
         {
             baseState.OnUpdate();
         }
+    }
+
+
+    public string GetSceneNameFromState(IGameState state)
+    {
+        return state switch
+        {
+            IntroState => "IntroScene",
+            StartState => "StartScene",
+            LobbyState => "LobbyScene",
+            RestState => "RestScene",
+            BattleState => "BossScene_" + CurrentStageIndex.ToString(), // 보스 인덱스 기반으로 생성
+            _ => throw new System.Exception($"[LoadingState] Unknown state: {state.GetType().Name}")
+        };
     }
 }

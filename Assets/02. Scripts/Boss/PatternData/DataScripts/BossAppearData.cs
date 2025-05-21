@@ -11,13 +11,13 @@ public class BossAppearData : BasePatternData
     [SerializeField] float zoomScale;
     public override IEnumerator ExecutePattern()
     {
-        boss.Sprite.enabled = true;
         bossController.HitCollider.enabled = false;
         bossTransform.position = appearPosition;
         boss.IsLeft = true;
         yield return new WaitForSeconds(preDelayTime);
         ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(10 / zoomScale, 20);
         yield return new WaitForSeconds(1f);
+        boss.Rpc_SetSpriteEnable(true);
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.AppearParameterHash);
         yield return new WaitForSeconds(spawnAnimationTime + 1f);
         bossController.HitCollider.enabled = true;

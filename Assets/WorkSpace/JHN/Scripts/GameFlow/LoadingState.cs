@@ -41,7 +41,7 @@ public class LoadingState : BaseGameState
                 await Task.Yield();
 
             if(!(GameFlowManager.Instance.PrevState is LobbyState))
-            SceneManager.UnloadSceneAsync(GetSceneNameFromState(GameFlowManager.Instance.PrevState));
+            SceneManager.UnloadSceneAsync(GameFlowManager.Instance.GetSceneNameFromState(GameFlowManager.Instance.PrevState));
         }
 
 #if MoveSceneDebug
@@ -102,7 +102,7 @@ public class LoadingState : BaseGameState
         SetLoadingBarValue(0.1f);
 
         // 4. 씬 로드
-        string nextSceneName = GetSceneNameFromState(nextState);
+        string nextSceneName = GameFlowManager.Instance.GetSceneNameFromState(nextState);
         var sceneOp = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
         while (!sceneOp.isDone) await Task.Yield();
 
@@ -135,8 +135,9 @@ public class LoadingState : BaseGameState
             while (!NetworkSceneAsyncOp.IsDone)
                 await Task.Yield();
 
-            var temp = runner.UnloadScene(GetSceneNameFromState(GameFlowManager.Instance.PrevState));
+            var temp = runner.UnloadScene(GameFlowManager.Instance.GetSceneNameFromState(GameFlowManager.Instance.PrevState));
             await temp;
+            if (GameFlowManager.Instance.PrevState is BattleState) GameFlowManager.Instance.CurrentStageIndex++;
         }
 
 #if MoveSceneDebug
@@ -193,7 +194,7 @@ public class LoadingState : BaseGameState
         // 4. 씬 로드
         if (runner.IsServer)
         {
-            var temp = runner.LoadScene(GetSceneNameFromState(nextState), LoadSceneMode.Additive);
+            var temp = runner.LoadScene(GameFlowManager.Instance.GetSceneNameFromState(nextState), LoadSceneMode.Additive);
             await temp;
         }
 
@@ -224,19 +225,6 @@ public class LoadingState : BaseGameState
         Debug.Log("프로그래스바 종료");
 #endif
         return;
-    }
-
-    private string GetSceneNameFromState(IGameState state)
-    {
-        return state switch
-        {
-            IntroState => "IntroScene",
-            StartState => "StartScene",
-            LobbyState => "LobbyScene",
-            RestState => "RestScene",
-            BattleState inGame => "BossScene_" + inGame.stageIndex, // 보스 인덱스 기반으로 생성
-            _ => throw new System.Exception($"[LoadingState] Unknown state: {state.GetType().Name}")
-        };
     }
 
     public override async Task OnExit()

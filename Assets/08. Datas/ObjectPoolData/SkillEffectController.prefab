@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5159762399675091534}
   - component: {fileID: 6318972073477769800}
   m_Layer: 7
-  m_Name: SpellPrefab
+  m_Name: SkillEffectController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 441292275
   ObjectInterest: 1
-  Flags: 1
+  Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 5159762399675091534}

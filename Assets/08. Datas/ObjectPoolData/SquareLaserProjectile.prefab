@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6444747739842438422}
   - component: {fileID: 5486913093779317621}
   m_Layer: 0
-  m_Name: SquareLaser
+  m_Name: SquareLaserProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -288,7 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 4213098455
   ObjectInterest: 1
-  Flags: 1
+  Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 909730734368649186}

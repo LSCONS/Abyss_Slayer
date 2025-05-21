@@ -8,12 +8,11 @@ public class BattleState : BaseGameState
 {
     public static int BossSceneCount { get; private set; } = 4;
     public override UIType StateUIType => UIType.GamePlay;
-    public override ESceneName SceneName => (ESceneName)((int)ESceneName.BattleScene_0 + stageIndex);
+    public override ESceneName SceneName => (ESceneName)((int)ESceneName.BattleScene + stageIndex);
     public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
 
-    public int stageIndex = 0;
+    public int stageIndex => GameFlowManager.Instance.CurrentStageIndex;
     public bool isStart { get; set; } = false;
-    private bool isBossDead { get; set; } = false; // 보스 죽음?
     private float deadTimer { get; set; } = 0.0f; // 보스 죽고 몇초 지남?
     private float changeSceneTime { get; set; } = 5.0f; // 보스 죽고 몇초 지나야 씬 넘어갈거임?
 
@@ -36,6 +35,11 @@ public class BattleState : BaseGameState
     public override async Task OnExit()
     {
         UIManager.Instance.CloseUI(UISceneType.Boss);
+        NetworkRunner runner = RunnerManager.Instance.GetRunner();
+        if (runner.IsServer)
+        {
+            ServerManager.Instance.ThisPlayerData.Rpc_DisconnectInput();
+        }
         await Task.CompletedTask;
     }
 
@@ -113,11 +117,9 @@ public class BattleState : BaseGameState
         if (boss.IsDead)
         {
             deadTimer += Time.deltaTime;
-            // Debug.Log($"{deadTimer} 시간은 똑딱똑딱 {changeSceneTime} 까지");
             if (deadTimer >= changeSceneTime)
             {
-                Debug.Log("보스 죽었다고 넘어가라고");
-                GameFlowManager.Instance.GoToRestState();
+                GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.RestScene);
             }
         }
     }
@@ -129,7 +131,6 @@ public class BattleState : BaseGameState
 #endif
         LoadingState state = GameFlowManager.Instance.prevLodingState;
         isStart = false;
-        stageIndex = ServerManager.Instance.BossCount;
         await UIManager.Instance.Init();
         state?.SetLoadingBarValue(0.3f);
 
@@ -154,16 +155,16 @@ public class BattleState : BaseGameState
 #endif
         if (runner.IsServer)
         {
-            NetworkObject boss = runner.Spawn(DataManager.Instance.DictEnumToNetObjcet[EBossStage.Boss0],
+            NetworkObject boss = runner.Spawn(DataManager.Instance.DictEnumToNetObjcet[(EBossStage)GameFlowManager.Instance.CurrentStageIndex],
                 Vector3.right * 100,
                 Quaternion.identity,
                 ServerManager.Instance.ThisPlayerRef);
-            runner.MoveGameObjectToScene(boss.gameObject, SceneRef.FromIndex((int)ESceneName.BattleScene_0));
+            runner.MoveGameObjectToScene(boss.gameObject, runner.GetSceneRef(GameFlowManager.Instance.GetSceneNameFromState(this)));
 
 
             if(ServerManager.Instance.InitSupporter == null)
             {
-                runner.Spawn(DataManager.Instance.InitSupporter);
+                runner.Spawn(DataManager.Instance.InitSupporterPrefab);
             }
         }
         await ServerManager.Instance.WaitforBossSpawn();
@@ -263,7 +264,6 @@ public class BattleState : BaseGameState
         }
 
         isStart = true;
-        isBossDead = false; // 씬 넘어가고 나면 다시 안타게 막아두자
         deadTimer = 0;
     }
 

@@ -292,7 +292,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         {
             var spawnResult = runner.Spawn
             (
-                DataManager.Instance.Player,
+                DataManager.Instance.PlayerPrefab,
                 tempVec3,
                 Quaternion.identity,
                 playerRef,
