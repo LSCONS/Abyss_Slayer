@@ -31,6 +31,8 @@ public class LoadingState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LoadingState OnEnter");
 #endif
+        
+
         TaskProgressBar = null;
         LoadingTargetValue = 0;
         if (GameFlowManager.Instance.PrevState != null)
@@ -68,8 +70,6 @@ public class LoadingState : BaseGameState
         UIType nextUIType = nextState.StateUIType;
 
 
-
-
 #if MoveSceneDebug
         Debug.Log("UI삭제 해");
 #endif
@@ -81,8 +81,6 @@ public class LoadingState : BaseGameState
 
         // 3. 다음 ui를 미리 로드 생성
         bool needLoadUI = (prevUIType == UIType.None) || (prevUIType != nextUIType);
-
-
 
 
 #if MoveSceneDebug
@@ -131,13 +129,14 @@ public class LoadingState : BaseGameState
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
+            ServerManager.Instance.AllPlayerIsReadyFalse();
             NetworkSceneAsyncOp = runner.LoadScene("LoadingScene", LoadSceneMode.Additive);
             while (!NetworkSceneAsyncOp.IsDone)
                 await Task.Yield();
 
             var temp = runner.UnloadScene(GameFlowManager.Instance.GetSceneNameFromState(GameFlowManager.Instance.PrevState));
             await temp;
-            if (GameFlowManager.Instance.PrevState is BattleState) GameFlowManager.Instance.CurrentStageIndex++;
+            if (GameFlowManager.Instance.PrevState is BattleState) GameValueManager.Instance.NextStageIndex();
         }
 
 #if MoveSceneDebug

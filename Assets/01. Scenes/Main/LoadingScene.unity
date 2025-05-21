@@ -207,6 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 262621646}
+  - component: {fileID: 262621647}
   - component: {fileID: 262621645}
   - component: {fileID: 262621644}
   m_Layer: 0
@@ -250,6 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startStateEnum: 1
+  endCredit: {fileID: 0}
 --- !u!4 &262621646
 Transform:
   m_ObjectHideFlags: 0
@@ -267,6 +269,22 @@ Transform:
   - {fileID: 439901317}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &262621647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 262621643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b96649318bcad49b6ef36572ac84dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <AddSkillPointValue>k__BackingField: 1
+  <AddStatusPointValue>k__BackingField: 1
+  <MaxBossCount>k__BackingField: 2
+  <CurrentStageIndex>k__BackingField: 0
 --- !u!1 &313214707
 GameObject:
   m_ObjectHideFlags: 0
@@ -775,10 +793,6 @@ PrefabInstance:
     - target: {fileID: 6180936321016869168, guid: 54283dbe4ace6bf40ba96e576213dec1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8147875368674783456, guid: 54283dbe4ace6bf40ba96e576213dec1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8781060177894199553, guid: 54283dbe4ace6bf40ba96e576213dec1, type: 3}
       propertyPath: m_SortingOrder
@@ -1548,7 +1562,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &1940505444
 RectTransform:

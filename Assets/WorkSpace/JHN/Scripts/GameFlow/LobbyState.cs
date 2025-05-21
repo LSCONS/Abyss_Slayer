@@ -13,7 +13,7 @@ public class LobbyState : BaseGameState
         Debug.Log("LobbyState Onenter 진입");
 #endif
         LoadingState state = GameFlowManager.Instance.prevLodingState;
-
+        GameValueManager.Instance.ResetStageIndex();
         await UIManager.Instance.Init();
         state?.SetLoadingBarValue(0.3f);
 
