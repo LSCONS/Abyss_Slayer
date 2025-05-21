@@ -77,7 +77,7 @@ public class UIPopup : UIBase
     /// </summary>
     public override void Close()
     {
-
+        
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
 

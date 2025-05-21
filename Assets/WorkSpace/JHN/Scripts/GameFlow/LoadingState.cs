@@ -32,6 +32,7 @@ public class LoadingState : BaseGameState
         Debug.Log("LoadingState OnEnter");
 #endif
         UIManager.Instance.popupBG?.SetActive(false);
+        UIManager.Instance.CloseAllUIPopup();
         IGameState prev = GameFlowManager.Instance.PrevState;
         TaskProgressBar = null;
         LoadingTargetValue = 0;
@@ -126,6 +127,7 @@ public class LoadingState : BaseGameState
     public override async Task OnRunnerEnter()
     {
         UIManager.Instance.popupBG?.SetActive(false);
+        UIManager.Instance.CloseAllUIPopup();
         TaskProgressBar = null;
         LoadingTargetValue = 0;
 
