@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,9 +15,19 @@ public class CreditRoller : UIPopup
 
     [SerializeField] private GameObject showSpeed;
 
+    // 스크롤 연출 끝나고 콜백
+    public Task CreditEndTask =>creditEnd.Task;
+    public TaskCompletionSource<bool> creditEnd = new();
+    [SerializeField] private float thanksTextDuration = 5;
+
     private void OnEnable()
     {
         StartCoroutine(ScrollCredits());
+    }
+
+    private void Awake()
+    {
+        GameFlowManager.Instance.endCredit = this;
     }
 
     private void Update()
@@ -63,6 +74,10 @@ public class CreditRoller : UIPopup
         scrollRect.verticalNormalizedPosition = 0f;
         // 크레딧 끝났을 때 감사 텍스트 출력
         yield return StartCoroutine(FadeInThanksText());
+
+        // 감사 텍스트 끝나고 thanksTextDuration 만큼 기다렸다가 크레딧 완료 알림
+        yield return new WaitForSeconds(thanksTextDuration);
+        creditEnd.TrySetResult(true);
     }
     /// <summary>
     /// 감사 텍스트 페이드인

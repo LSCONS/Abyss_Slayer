@@ -25,16 +25,11 @@ public class BossController : NetworkBehaviour
 {
     [field: SerializeField] private BasePatternData     AppearPattern           { get; set; }
     [field: SerializeField] private List<BossPattern>   AllPatterns             { get; set; }
-    [field: SerializeField] private GameObject          TargetCrossHairPrefab   { get; set; }
     [field: SerializeField] public float                MapWidth                { get; set; }
-    [field: SerializeField] public Boss                 Boss                    { get; private set; }
     [field: SerializeField] public float                BossCenterHight         { get; private set; }
-    private GameObject                                  TargetCrosshairObj      { get; set; }
-    public Transform                                    TargetCrosshair         { get; private set; }
+    [field: SerializeField] public Boss                 Boss                    { get; private set; }
     public Transform                                    Target                  { get; private set; }
     public bool                                         ChasingTarget           { get; set; }
-
-
     public CinemachineVirtualCamera                     VirtualCamera           => Boss.VirtualCamera;
     public Collider2D                                   HitCollider             => Boss.HitCollider; //보스 피격판정 콜라이더
     public Animator                                     Animator                => Boss.Animator;
@@ -47,15 +42,14 @@ public class BossController : NetworkBehaviour
         get { return _showTargetCrosshair; }
         set 
         {
-            if (value && Target != null) TargetCrosshair.position = Target.position;
-            TargetCrosshairObj.SetActive(value);
+            PoolManager.Instance.CrossHairObject.gameObject.SetActive(value);
             _showTargetCrosshair = value;
         }
     }
 
 
     bool _isRun;
-    public bool isRun
+    public bool IsRun
     {
         get { return _isRun; }
         set
@@ -82,8 +76,10 @@ public class BossController : NetworkBehaviour
         }
         AppearPattern?.Init(this);
 
-        TargetCrosshair = Instantiate(TargetCrossHairPrefab).transform;
-        TargetCrosshairObj = TargetCrosshair.gameObject;
+        if (Runner.IsServer || PoolManager.Instance.CrossHairObject == null)
+        {
+            Runner.Spawn(DataManager.Instance.CrossHairPrefab);
+        }
 
         _isRun = false;
         ChasingTarget = false;
@@ -237,7 +233,8 @@ public class BossController : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Landing");
 #endif
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f,_groundLayerMask);
+        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
+        RaycastHit2D hit = scene2D.Raycast(transform.position, Vector2.down, 10f,_groundLayerMask);
 
         if (hit.point.y > transform.position.y - BossCenterHight + 0.05f)
         {
@@ -318,6 +315,7 @@ public class BossController : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("RunMove");
 #endif
+        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
         bool isfall = false;
         float startHight = transform.position.y;
         float time = 0f;
@@ -326,14 +324,14 @@ public class BossController : NetworkBehaviour
         if (speed <= 0f) _speed = isleft ? -runSpeed : runSpeed;
         else _speed = isleft ? -speed : speed;
         Boss.IsLeft = isleft;
-        isRun = true;
+        IsRun = true;
         
-        while (isRun)
+        while (IsRun)
         {
             float x = Mathf.Clamp(transform.position.x + _speed * Time.deltaTime, -MapWidth / 2 + 0.7f, MapWidth / 2 - 0.7f);
             transform.position = new Vector3 (x, transform.position.y, 0);
 
-            if (!Physics2D.Raycast(transform.position, Vector3.down, BossCenterHight + 0.01f, LayerMask.GetMask("GroundPlane", "GroundPlatform")))
+            if (!scene2D.Raycast(transform.position, Vector3.down, BossCenterHight + 0.01f, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask))
             {
                 if (!isfall)
                 {

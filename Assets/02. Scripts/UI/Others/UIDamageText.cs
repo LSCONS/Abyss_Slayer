@@ -18,6 +18,7 @@ public class UIDamageText : BasePoolable
 
     public override void Rpc_Init()
     {
+
     }
 
     private void Awake()
@@ -33,6 +34,7 @@ public class UIDamageText : BasePoolable
     /// <param name="worldPos">시작 기준 월드 좌표</param>
     public void Show(string damage, Vector3 worldPos)
     {
+        this.gameObject.SetActive(true);
         this.worldPosition = worldPos;
         offsetY = 0f;
         follow = true;

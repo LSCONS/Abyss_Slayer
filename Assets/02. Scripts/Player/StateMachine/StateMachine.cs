@@ -14,7 +14,7 @@ public abstract class StateMachine
 {
     public IPlayerState currentState;
 
-    public virtual void ChangeState(IPlayerState state)
+    public virtual void ChangeState(IPlayerState state, bool loading = false)
     {
         currentState?.Exit();
         currentState = state;

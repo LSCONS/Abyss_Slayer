@@ -27,7 +27,7 @@ public class PlayerBaseState : IPlayerState
 
     public virtual void FixedUpdate()
     {
-        if (!(playerStateMachine.Player.Runner.IsServer)) return;
+        if (!(playerStateMachine.Player.Runner.IsServer) || !(ServerManager.Instance.PlayerInput.IsConnectInput)) return;
 
         if (playerStateMachine.MovementSpeed != 0f)
         {
