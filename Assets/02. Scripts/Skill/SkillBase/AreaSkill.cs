@@ -27,9 +27,10 @@ public abstract class AreaSkill : Skill
     /// <summary>
     /// 범위 내 타겟 추출
     /// </summary>
-    protected Collider2D[] GetTargetsInArea()
+    protected Collider2D GetTargetsInArea()
     {
-        return Physics2D.OverlapCircleAll(PlayerPosition(), radius, targetLayer);
+        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
+        return scene2D.OverlapCircle(PlayerPosition(), radius, targetLayer);
     }
 
     public override void SkillUpgrade()
