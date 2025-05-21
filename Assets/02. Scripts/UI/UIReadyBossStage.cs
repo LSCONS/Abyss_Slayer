@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIReadyBossStage : UIPermanent
+public class UIReadyBossStage : UIButton
 {
     [field: SerializeField] public Button BtnReadyOrStart { get;private set; }
     [field: SerializeField] public TextMeshProUGUI TextBtnReadyOrStart { get;private set;}
@@ -50,7 +50,7 @@ public class UIReadyBossStage : UIPermanent
             bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReadyInServer();
             ServerManager.Instance.IsAllReadyAction(isAllReday);
         }
-        gameObject.SetActive(true);
+       // gameObject.SetActive(true);
     }
 
     private void ClickReadyButton()
