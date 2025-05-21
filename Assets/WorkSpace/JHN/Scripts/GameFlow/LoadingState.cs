@@ -31,7 +31,7 @@ public class LoadingState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LoadingState OnEnter");
 #endif
-
+        UIManager.Instance.popupBG?.SetActive(false);
         IGameState prev = GameFlowManager.Instance.PrevState;
         TaskProgressBar = null;
         LoadingTargetValue = 0;
@@ -43,7 +43,7 @@ public class LoadingState : BaseGameState
                 await Task.Yield();
 
 
-            if (!(prev is LobbyState) || !(prev is BattleState) || !(prev is RestState))
+            if (!(prev is LobbyState || prev is BattleState || prev is RestState))
             {
                 SceneManager.UnloadSceneAsync(GameFlowManager.Instance.GetSceneNameFromState(prev));
             }
@@ -125,6 +125,7 @@ public class LoadingState : BaseGameState
     /// <exception cref="System.Exception"></exception>
     public override async Task OnRunnerEnter()
     {
+        UIManager.Instance.popupBG?.SetActive(false);
         TaskProgressBar = null;
         LoadingTargetValue = 0;
 
