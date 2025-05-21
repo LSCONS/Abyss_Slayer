@@ -31,8 +31,6 @@ public class LoadingState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LoadingState OnEnter");
 #endif
-        UIManager.Instance.popupBG?.SetActive(false);
-        UIManager.Instance.CloseAllUIPopup();
         IGameState prev = GameFlowManager.Instance.PrevState;
         TaskProgressBar = null;
         LoadingTargetValue = 0;
@@ -116,6 +114,8 @@ public class LoadingState : BaseGameState
 
         //다음 state로 이동
         await GameFlowManager.Instance.ChangeState(nextState);
+        UIManager.Instance.popupBG?.SetActive(false);
+        UIManager.Instance.CloseAllUIPopup();
     }
 
 
@@ -126,8 +126,6 @@ public class LoadingState : BaseGameState
     /// <exception cref="System.Exception"></exception>
     public override async Task OnRunnerEnter()
     {
-        UIManager.Instance.popupBG?.SetActive(false);
-        UIManager.Instance.CloseAllUIPopup();
         TaskProgressBar = null;
         LoadingTargetValue = 0;
 
@@ -210,6 +208,8 @@ public class LoadingState : BaseGameState
 #endif
         // 7. 최종 상태 진입
         await GameFlowManager.Instance.ChangeRunnerState(nextState);
+        UIManager.Instance.popupBG?.SetActive(false);
+        UIManager.Instance.CloseAllUIPopup();
     }
 
     private async Task SetProgressBar(ProgressBar progressBar)
