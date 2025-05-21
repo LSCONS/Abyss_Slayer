@@ -115,8 +115,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
     public void SetCustomization(int skinId, int faceId, (int style, int color) hairId)
     {
-        PlayerCustomizationInfo = new PlayerCustomizationInfo(skinId, faceId, hairId);
-        OnCustomizationChanged?.Invoke(PlayerCustomizationInfo);
+        ServerManager.Instance.ThisPlayerData.Rpc_InitPlayerCustom(hairId.style, hairId.color, skinId, faceId);
     }
 }
 

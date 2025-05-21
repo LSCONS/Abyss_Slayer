@@ -78,7 +78,9 @@ public class UILobbyMainPanel : UIPermanent
         roomData.PlayerSpriteChange.gameObject.SetActive(true);
         roomData.TextPlayerState.gameObject.SetActive(true);
         roomData.TextPlayerName.text = ServerManager.Instance.DictRefToNetData[playerRef].GetName();
-        roomData.PlayerSpriteChange.Init((CharacterClass)DictRoomDataToNetworkData[roomData].IntPlayerClass);
+
+        NetworkData data = DictRoomDataToNetworkData[roomData];
+        roomData.PlayerSpriteChange.Init(data.Class, data.HairKey, data.SkinKey, data.FaceKey);
     }
 
 
@@ -96,8 +98,8 @@ public class UILobbyMainPanel : UIPermanent
     private void SetChangeClassSubSprite(PlayerRef playerRef)
     {
         PlayerRoomData roomData = DictRefToRoomData[playerRef];
-        NetworkData networkData = ServerManager.Instance.DictRefToNetData[playerRef];
-        roomData.PlayerSpriteChange.Init((CharacterClass)networkData.IntPlayerClass);
+        NetworkData data = ServerManager.Instance.DictRefToNetData[playerRef];
+        roomData.PlayerSpriteChange.Init(data.Class, data.HairKey, data.SkinKey, data.FaceKey);
     }
 
 
@@ -111,7 +113,7 @@ public class UILobbyMainPanel : UIPermanent
             item.TextPlayerName.gameObject.SetActive(false);
             item.PlayerSpriteChange.gameObject.SetActive(false);
             item.TextPlayerState.gameObject.SetActive(false);
-            item.PlayerSpriteChange.Init(CharacterClass.Rogue);
+            item.PlayerSpriteChange.Init(CharacterClass.Rogue, (1, 5), 1, 1);
             DictRoomDataToNetworkData[item] = null;
         }
     }
@@ -128,7 +130,7 @@ public class UILobbyMainPanel : UIPermanent
         data.TextPlayerName.gameObject.SetActive(false);
         data.PlayerSpriteChange.gameObject.SetActive(false);
         data.TextPlayerState.gameObject.SetActive(false);
-        data.PlayerSpriteChange.Init(CharacterClass.Rogue);
+        data.PlayerSpriteChange.Init(CharacterClass.Rogue, (1, 5), 1, 1);
         SetReadyText(playerRef, false);
         DictRoomDataToNetworkData[data] = null;
     }

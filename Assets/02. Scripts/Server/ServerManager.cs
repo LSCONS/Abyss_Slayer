@@ -489,8 +489,8 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
                 data.IsServer = (player == runner.LocalPlayer);
                 data.IsReady = (player == runner.LocalPlayer);
                 data.IntPlayerClass = (int)CharacterClass.Rogue;
-                data.FaceColorKey = 1;
-                data.SkinColorKey = 1;
+                data.FaceKey = 1;
+                data.SkinKey = 1;
                 data.HairStyleKey = 1;
                 data.HairColorKey = 5;
             }

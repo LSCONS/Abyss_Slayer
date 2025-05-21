@@ -36,15 +36,16 @@ public class DataManager : Singleton<DataManager>
     public Player PlayerPrefab { get; private set; }
     public List<BasePoolable> ListBasePoolablePrefab { get; private set; } = new();
     //첫 키의 int는 스타일, 두번 째 키의 int는 Color
-    public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
-    public Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
+    public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
+    public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
     public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToFaceColorSprite { get; set; } = new();
     public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToSkinColorSprite { get; set; } = new();
     public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponTop { get; set; } = new();
-    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponbot { get; set; } = new();
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponBot { get; set; } = new();
     public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothTop { get; set; } = new();
-    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothbot { get; set; } = new();
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothBot { get; set; } = new();
     private int[] HairColorVariants { get; set; } = new int[] { 1, 2, 4, 5, 6, 10 };  // 클래스별 머리색 c1,c2...
+    public int MaxHairFKey, MaxHairMKey, MaxSkinKey, MaxFaceKey;
 
 
     protected override void Awake()
@@ -111,9 +112,9 @@ public class DataManager : Singleton<DataManager>
         {
             if (character == CharacterClass.Count) continue;
             data.SetSpriteName(character);
-            DictClassToStateToClothbot[character] = await LoadAndSortSprites(data.ClothBottomName);
+            DictClassToStateToClothBot[character] = await LoadAndSortSprites(data.ClothBottomName);
             DictClassToStateToClothTop[character] = await LoadAndSortSprites(data.ClothTopName);
-            DictClassToStateToWeaponbot[character] = await LoadAndSortSprites(data.WeaponBottomName);
+            DictClassToStateToWeaponBot[character] = await LoadAndSortSprites(data.WeaponBottomName);
             DictClassToStateToWeaponTop[character] = await LoadAndSortSprites(data.WeaponTopName);
         }
     }
@@ -202,14 +203,20 @@ public class DataManager : Singleton<DataManager>
     /// <returns></returns>
     private async Task DataLoadAnimationSpriteData()
     {
+        MaxHairFKey = 9;
+        MaxHairMKey = 14;
+        MaxFaceKey = 7;
+        MaxSkinKey = 6;
+
+
         // 6. face_c1 ~ face_c7
-        for (int i = 1; i <= 7; i++)
+        for (int i = 1; i <= MaxFaceKey; i++)
         {
             DictIntToDictStateToFaceColorSprite[i] = await LoadAndSortSprites($"face_c{i}");
         }
 
         // skin_c1 ~ skin_c6
-        for (int i = 1; i <= 6; i++)
+        for (int i = 1; i <= MaxSkinKey; i++)
         {
             DictIntToDictStateToSkinColorSprite[i] = await LoadAndSortSprites($"skin_c{i}");
         }
@@ -217,7 +224,7 @@ public class DataManager : Singleton<DataManager>
         // 머리색 클래스마다 다르기 떄문에 다 로드해줘야됨
         foreach (var colorIndex in HairColorVariants)
         {
-            for (int i = 1; i <= 9; i++)
+            for (int i = 1; i <= MaxHairFKey; i++)
             {
                 string keyTop = $"f{i}_c{colorIndex}_top";
                 string keyBot = $"f{i}_c{colorIndex}_bot";
@@ -227,13 +234,13 @@ public class DataManager : Singleton<DataManager>
             }
 
             // 8. m1~m14 헤어
-            for (int i = 1; i <= 14; i++)
+            for (int i = 1; i <= MaxHairMKey; i++)
             {
                 string keyTop = $"m{i}_c{colorIndex}_top";
                 string keyBot = $"m{i}_c{colorIndex}_bot";
 
-                DictIntToDictStateToHairStyleTopSprite[(i + 9, colorIndex)] = await LoadAndSortSprites(keyTop);
-                DictIntToDictStateToHairStyleBottomSprite[(i + 9, colorIndex)] = await LoadAndSortSprites(keyBot);
+                DictIntToDictStateToHairStyleTopSprite[(i + MaxHairFKey, colorIndex)] = await LoadAndSortSprites(keyTop);
+                DictIntToDictStateToHairStyleBottomSprite[(i + MaxHairFKey, colorIndex)] = await LoadAndSortSprites(keyBot);
             }
         }
     }
