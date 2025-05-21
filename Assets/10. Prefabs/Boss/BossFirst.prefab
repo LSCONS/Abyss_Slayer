@@ -216,10 +216,10 @@ MonoBehaviour:
   <VirtualCamera>k__BackingField: {fileID: 1779072543370487692}
   <MaxHp>k__BackingField:
     value: 1000
-  <IsMove>k__BackingField: 1
+  <IsRest>k__BackingField: 1
+  <IsOpenSprtie>k__BackingField: 0
   _IsLeft: 0
   _BossPosition: {x: 0, y: 0}
-  _CrosshairPosition: {x: 0, y: 0}
 --- !u!114 &2290308739379278194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,10 +234,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AppearPattern>k__BackingField: {fileID: 11400000, guid: bc723c8dc9e8b584db8fdd0589ff2888, type: 2}
   <AllPatterns>k__BackingField: []
-  <TargetCrossHairPrefab>k__BackingField: {fileID: 0}
   <MapWidth>k__BackingField: 40
-  <Boss>k__BackingField: {fileID: 0}
   <BossCenterHight>k__BackingField: 2
+  <Boss>k__BackingField: {fileID: 0}
   <JumpMoveTime>k__BackingField: 1
   <JumpMoveHight>k__BackingField: 1
   <GravityMultiplier>k__BackingField: 1
