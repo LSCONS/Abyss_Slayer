@@ -18,7 +18,8 @@ public class JumpSlashData : BasePatternData
     [SerializeField] BasePatternData normalSlashData;
     public override IEnumerator ExecutePattern()
     {
-        float targetY = Physics2D.Raycast(target.position, Vector3.down,20, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask).point.y;
+        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
+        float targetY = scene2D.Raycast(target.position, Vector3.down,20, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask).point.y;
         if(targetY < bossTransform.position.y)
         {
             yield return new WaitForSeconds(1f);
@@ -38,7 +39,7 @@ public class JumpSlashData : BasePatternData
             yield return null;
         }
         bossController.IsRun = false;
-        targetY = Physics2D.Raycast(target.position, Vector3.down, 20, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask).point.y;
+        targetY = scene2D.Raycast(target.position, Vector3.down, 20, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask).point.y;
         if (targetY < bossTransform.position.y)
         {
             normalSlashData.Init(bossController);
@@ -49,7 +50,7 @@ public class JumpSlashData : BasePatternData
         float targetX = target.position.x + (boss.IsLeft ? 1 : -1);
         targetY += bossCenterHight + jumpHight;
         Vector3 targetPos = new Vector3(targetX, targetY);
-        bossAnimator.SetBool("AttackJump", true);
+        bossAnimator.SetBool(AnimationHash.AttackJumpParameterHash, true);
         bossController.StartCoroutine(bossController.JumpMove(targetPos,jumpSpeedTime, 0));
 
         yield return new WaitForSeconds(jumpSpeedTime - (0.6f * 1 / attackSpeed) +  attackDelayTime);
@@ -65,7 +66,7 @@ public class JumpSlashData : BasePatternData
             bossController.StartCoroutine(AttackEffect());
             yield return new WaitForSeconds(attackIntervalTime);
         }
-        bossAnimator.SetBool("AttackJump", false);
+        bossAnimator.SetBool(AnimationHash.AttackJumpParameterHash, false);
         yield return new WaitForSeconds(0.7f * 1 / attackSpeed + 0.1f);
         yield return bossController.StartCoroutine(bossController.Landing());
         yield return new WaitForSeconds(postDelayTime);

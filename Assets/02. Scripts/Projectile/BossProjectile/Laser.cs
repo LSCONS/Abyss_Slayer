@@ -32,7 +32,7 @@ public class Laser : BasePoolable
             if(Time.time - _startTime >= _chasingTime)
             {
                 _chasingEnd = true;
-                _animator.SetTrigger("EndChasing");
+                _animator.SetTrigger(AnimationHash.EndChasingParameterHash);
             }
             Chasing();
         }
@@ -72,13 +72,17 @@ public class Laser : BasePoolable
         //_angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0,0,_angle);
 
-        _animator.SetFloat("WarningTime",1/warningTime);
+        _animator.SetFloat(AnimationHash.WarningTimeParameterHash, 1/warningTime);
         _chasingTime = chasingTime;
         _startTime = Time.time;
         _chasingEnd = false;
 
         _isPiercing = isPiercing;
-        _layerMask = isPiercing? LayerMask.GetMask("GroundPlane", "GroundWall","Shield") : LayerMask.GetMask("GroundWall","GroundPlane", "Shield","Player");
+
+        LayerMask a = LayerData.GroundPlaneLayerMask | LayerData.ShieldLayerMask | LayerData.GroundWallLayerMask;
+        LayerMask b = a | LayerData.PlayerLayerMask;
+
+        _layerMask = isPiercing? a : b;
 
 
     }
