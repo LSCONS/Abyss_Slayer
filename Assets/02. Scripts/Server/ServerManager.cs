@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 using static Unity.Collections.Unicode;
 
 
@@ -230,7 +231,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// </summary>
     /// <param name="ct"></param>
     /// <returns></returns>
-//    public async Task<PlayerInput> WaitForThisInputAsync(CancellationToken ct = default)
+    //    public async Task<PlayerInput> WaitForThisInputAsync(CancellationToken ct = default)
 //    {
 //#if AllMethodDebug
 //        Debug.Log("WaitForThisInputAsync");
@@ -414,8 +415,14 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         await runner.Shutdown();
         Destroy(runner.gameObject);
         await Task.Yield();
-        await ConnectRoomSearch();
         GameFlowManager.Instance.ClientSceneLoad(ESceneName.StartScene);
+        await ConnectRoomSearch();
+        Scene temp = SceneManager.GetSceneByName("FusionSceneManager_TempEmptyScene");
+        if (temp.IsValid() && temp.isLoaded)
+        {
+            // 비동기 언로드 실행
+            AsyncOperation op = SceneManager.UnloadSceneAsync(temp);
+        }
     }
 
 
@@ -467,7 +474,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 
         input.Set(inputData);
     }
-
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player) { }
@@ -511,7 +517,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
             LobbySelectPanel.CheckAllPlayerIsReady();
         }
     }
-
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
     public void OnSceneLoadDone(NetworkRunner runner) { }
