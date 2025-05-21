@@ -18,7 +18,7 @@ public class JumpSlashData : BasePatternData
     [SerializeField] BasePatternData normalSlashData;
     public override IEnumerator ExecutePattern()
     {
-        float targetY = Physics2D.Raycast(target.position, Vector3.down,20, LayerMask.GetMask("GroundPlane", "GroundPlatform")).point.y;
+        float targetY = Physics2D.Raycast(target.position, Vector3.down,20, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask).point.y;
         if(targetY < bossTransform.position.y)
         {
             yield return new WaitForSeconds(1f);
@@ -26,8 +26,8 @@ public class JumpSlashData : BasePatternData
         }
 
         bool isLeft = target.position.x - bossTransform.position.x < 0;
-        bossController.isLeft = isLeft;
-        bossController.showTargetCrosshair = true;
+        boss.IsLeft = isLeft;
+        bossController.ShowTargetCrosshair = true;
         yield return new WaitForSeconds(preDelayTime);
 
         bossController.StartCoroutine(bossController.RunMove(isLeft));
@@ -37,31 +37,31 @@ public class JumpSlashData : BasePatternData
         {
             yield return null;
         }
-        bossController.isRun = false;
-        targetY = Physics2D.Raycast(target.position, Vector3.down, 20, LayerMask.GetMask("GroundPlane", "GroundPlatform")).point.y;
+        bossController.IsRun = false;
+        targetY = Physics2D.Raycast(target.position, Vector3.down, 20, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask).point.y;
         if (targetY < bossTransform.position.y)
         {
-            normalSlashData.Init(bossTransform, bossController, bossAnimator);
+            normalSlashData.Init(bossController);
             normalSlashData.target = target;
             yield return bossController.StartCoroutine(normalSlashData.ExecutePattern());
             yield break;
         }
-        float targetX = target.position.x + (bossController.isLeft ? 1 : -1);
+        float targetX = target.position.x + (boss.IsLeft ? 1 : -1);
         targetY += bossCenterHight + jumpHight;
         Vector3 targetPos = new Vector3(targetX, targetY);
         bossAnimator.SetBool("AttackJump", true);
         bossController.StartCoroutine(bossController.JumpMove(targetPos,jumpSpeedTime, 0));
 
         yield return new WaitForSeconds(jumpSpeedTime - (0.6f * 1 / attackSpeed) +  attackDelayTime);
-        bossController.showTargetCrosshair = false;
+        bossController.ShowTargetCrosshair = false;
 
         isLeft = target.position.x - targetX < 0;
-        bossController.isLeft = isLeft;
+        boss.IsLeft = isLeft;
 
         float degree = Mathf.Atan2(Mathf.Max(0, target.position.y - targetY), Mathf.Abs(target.position.x - targetX)) * Mathf.Rad2Deg;
         for (int i = 0; i < attackAngles.Count; i++)
         {
-            PoolManager.Instance.Get<NormalSlash>().Init(new Vector3(targetX, targetY), damage, isLeft, degree + attackAngles[i], attackSpeed);
+            PoolManager.Instance.Get<NormalSlash>().Rpc_Init(new Vector3(targetX, targetY), damage, isLeft, degree + attackAngles[i], attackSpeed);
             bossController.StartCoroutine(AttackEffect());
             yield return new WaitForSeconds(attackIntervalTime);
         }
@@ -74,9 +74,9 @@ public class JumpSlashData : BasePatternData
     IEnumerator AttackEffect()
     {
         yield return new WaitForSeconds(0.6f * 1 / attackSpeed);
-        bossController.sprite.enabled = false;
-        PoolManager.Instance.Get<JumpEffect>().Init(bossTransform.position + Vector3.down * bossCenterHight);
+        bossController.Sprite.enabled = false;
+        PoolManager.Instance.Get<JumpEffect>().Rpc_Init(bossTransform.position + Vector3.down * bossCenterHight);
         yield return new WaitForSeconds(0.1f * 1 / attackSpeed);
-        bossController.sprite.enabled = true;
+        bossController.Sprite.enabled = true;
     }
 }

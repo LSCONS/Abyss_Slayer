@@ -33,10 +33,8 @@ public class FoxClone : BasePoolable,IHasHealth
     public override void Rpc_Init()
     {
     }
+
     public void Init(Vector3 position, int deadDamage, int explosionDamage, Dead cloneDead, float deadExplosionSize = 1f, int cloneHP = 1)
-
-
-    public void Init(Vector3 position, int deadDamage, int explosionDamage, Dead cloneDead, float deadExplosionSize = 1f)
     {
         gameObject.SetActive(true);
         Hp.Value = MaxHp.Value;

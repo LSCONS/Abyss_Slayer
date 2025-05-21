@@ -281,8 +281,8 @@ public class BossController : NetworkBehaviour
         Debug.Log("JumpMove");
 #endif
         Vector3 startPosition = transform.position;
-        float _jumpMoveTime = (inputJumpMoveTime <= 0)? jumpMoveTime : inputJumpMoveTime;
-        float _jumpMoveHight = (inputJumpMoveHight < 0)? jumpMoveHight : inputJumpMoveHight;
+        float _jumpMoveTime = (inputJumpMoveTime <= 0)? JumpMoveTime : inputJumpMoveTime;
+        float _jumpMoveHight = (inputJumpMoveHight < 0)? JumpMoveHight : inputJumpMoveHight;
         float maxY = Mathf.Max(targetPosition.y, startPosition.y) + _jumpMoveHight;
         float deltaY1 = maxY - startPosition.y;
         float deltaY2 = maxY - targetPosition.y;
@@ -299,7 +299,7 @@ public class BossController : NetworkBehaviour
         {
             float x = Mathf.Lerp(startPosition.x, targetPosition.x, time / _jumpMoveTime);
             if (time >= hightestTime)
-                animator.SetTrigger("Fall");
+                Animator .SetTrigger(AnimationHash.FallParameterHash);
             float y = startPosition.y + (startVelocityY * time) - (0.5f * jumpGravity * time * time);
             transform.position = new Vector3(x, y, 0);
             time += Time.deltaTime;
