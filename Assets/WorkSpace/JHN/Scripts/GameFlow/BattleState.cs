@@ -202,17 +202,18 @@ public class BattleState : BaseGameState
         //플레이어 시작 위치 값 초기화
         if (runner.IsServer)
         {
+            ServerManager.Instance.AllPlayerIsReadyFalse();
 #if MoveSceneDebug
             Debug.Log("모든 플레이어 활성화 하고 입력 연결해줄게");
 #endif
-            ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
 
             Vector3 temp = StartPosition;
             foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
             {
-                player.PlayerPositionReset(temp);
+                await player.PlayerPositionReset(temp);
                 temp += Vector3.right;
             }
+            ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
         }
 
 #if MoveSceneDebug
@@ -221,6 +222,7 @@ public class BattleState : BaseGameState
         state?.SetLoadingBarValue(1);
         await (state?.TaskProgressBar ?? Task.CompletedTask);
 
+        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
 
         if (runner.IsServer)
         {
@@ -251,6 +253,7 @@ public class BattleState : BaseGameState
 #endif
             await Task.Delay(100);
 
+            await ServerManager.Instance.WaitForAllPlayerIsReady();
 #if MoveSceneDebug
             Debug.Log("보스 패턴 시작");
 #endif
