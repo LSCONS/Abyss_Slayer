@@ -51,6 +51,10 @@ public class PlayerStatusData
     [field: SerializeField] public int HP_Cur { get; private set; } = 100;
     [field: SerializeField] public int HP_Max { get; private set; } = 100;
 
+    [field: Header("Damage Magnification")]
+    [field: SerializeField] public float Damage_Base { get; private set; } = 1;
+
+
     [field: Header("Abnormal")]
     [field: SerializeField] public bool CanMove { get; set; } = true;
     [field: Header("Class")]

@@ -36,6 +36,10 @@ public class Player : NetworkBehaviour, IHasHealth
     public ReactiveProperty<int> Hp { get; set; } = new();
     public ReactiveProperty<int> MaxHp { get; set; } = new();
     public ReactiveProperty<float> DamageValue { get; set; } = new(1);
+    [HideInInspector] public float BaseDamage { get; private set; } = 1;
+    [HideInInspector] public int BaseMaxHp { get; private set; }
+    [HideInInspector] public int HpStatLevel { get; set; } = 1;
+    [HideInInspector] public int DamageStatLevel { get; set; } = 1;
     public float ArmorAmount { get; set; } = 1.0f;                   // 방어력 계수
     public Coroutine HoldSkillCoroutine { get; private set; }
     public Action HoldSkillCoroutineStopAction { get; private set; }
@@ -49,9 +53,6 @@ public class Player : NetworkBehaviour, IHasHealth
     [Networked] public Vector2 PlayerPosition { get; set; }
     public int tempSmooth = 5;
     public bool IsThisRunner => PlayerRef == Runner.LocalPlayer;
-
-    public int HpStatLevel = 1;
-    public int DamageStatLevel = 1;
 
     public ReactiveProperty <int> StatPoint { get; set; } = new(10);
     public ReactiveProperty <int> SkillPoint { get; set; } = new(10);
@@ -235,6 +236,9 @@ public class Player : NetworkBehaviour, IHasHealth
 
         Hp.Value = PlayerData.PlayerStatusData.HP_Cur;
         MaxHp.Value = PlayerData.PlayerStatusData.HP_Max;
+
+        BaseMaxHp = MaxHp.Value;
+        BaseDamage = PlayerData.PlayerStatusData.Damage_Base;
 
         //TODO: 이 데이터 언젠가 바꿔야함
         skillSet = DataManager.Instance.DictClassToSkillSet[NetworkData.Class];
@@ -428,5 +432,20 @@ public class Player : NetworkBehaviour, IHasHealth
     public void Rpc_SpriteFlipXSynchro(bool flipX)
     {
         IsFlipX = flipX;
+    }
+
+    /// <summary>
+    /// 스탯 업그레이드 적용하는 메서드
+    /// </summary>
+    /// <param name="hpLevel"></param>
+    /// <param name="dmgLevel"></param>
+    /// <param name="amount"></param>
+    public void ApplyStatUpgrade(int hpLevel, int dmgLevel, float amount)
+    {
+        HpStatLevel = hpLevel;
+        DamageStatLevel = dmgLevel;
+
+        MaxHp.Value = Mathf.RoundToInt(BaseMaxHp * (1f + amount * (hpLevel - 1)));
+        DamageValue.Value = BaseDamage * (1f + amount * (dmgLevel - 1));
     }
 }
