@@ -42,6 +42,9 @@ public class UISkillUpgradeController : UIPopup
         // 슬롯 설정
         foreach (var skill in player.EquippedSkills.Values)
         {
+            if (skill.Level.Value == 0) // 스킬 레벨 0으로 설정된 것들은 스킬 강화 안할거임
+                continue;
+
             var go = Instantiate(skillSlotPrefab, upgradeSlotParent);
             var slot = go.GetComponent<UISkillSlot>();
 

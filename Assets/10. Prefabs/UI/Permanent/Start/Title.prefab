@@ -443,6 +443,7 @@ MonoBehaviour:
   isClose: 0
   popupName: RoomMakerPopup
   alarmIcon: {fileID: 0}
+  escCanOpen: 0
 --- !u!1 &1415439317544236355
 GameObject:
   m_ObjectHideFlags: 0
@@ -1034,6 +1035,7 @@ MonoBehaviour:
   isClose: 0
   popupName: UIPopupSettings
   alarmIcon: {fileID: 0}
+  escCanOpen: 0
 --- !u!1 &3965404251556851737
 GameObject:
   m_ObjectHideFlags: 0
@@ -1173,6 +1175,7 @@ MonoBehaviour:
   isClose: 0
   popupName: QuitGamePopup
   alarmIcon: {fileID: 0}
+  escCanOpen: 0
 --- !u!1 &4444868300232922433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1238,7 +1241,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1717873853936940315
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1254,9 +1257,9 @@ RectTransform:
   - {fileID: 4032583903493976753}
   m_Father: {fileID: 5289317972622870092}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 250, y: -238.75}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3514402204093947213
@@ -1354,10 +1357,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiType: 5
-  uISceneType: 2
+  uISceneType: 0
   isClose: 0
   popupName: Img_RoomSearch
   alarmIcon: {fileID: 0}
+  escCanOpen: 0
 --- !u!1 &5633028747356442324
 GameObject:
   m_ObjectHideFlags: 0
@@ -1828,7 +1832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4337985893688605692
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1844,9 +1848,9 @@ RectTransform:
   - {fileID: 2438932584827164328}
   m_Father: {fileID: 5289317972622870092}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 250, y: -238.75}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2051785378642816767
@@ -1944,10 +1948,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiType: 5
-  uISceneType: 2
+  uISceneType: 0
   isClose: 0
   popupName: 
   alarmIcon: {fileID: 0}
+  escCanOpen: 0
 --- !u!1 &9204733621870387411
 GameObject:
   m_ObjectHideFlags: 0
