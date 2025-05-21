@@ -327,4 +327,24 @@ public class DataManager : Singleton<DataManager>
         }
         return;
     }
+
+    /// <summary>
+    /// 딕셔너리를 복사해서 반환해주는 메서드
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    public Dictionary<AnimationState, Sprite[]> InstantiateDictionary(Dictionary<AnimationState, Sprite[]> data)
+    {
+        Dictionary<AnimationState, Sprite[]> result = new();
+        foreach (AnimationState state in data.Keys)
+        {
+            Sprite[] sprites = new Sprite[data[state].Length];
+            for (int i = 0; i < data[state].Length; i++)
+            {
+                sprites[i] = data[state][i];
+            }
+            result[state] = sprites;
+        }
+        return result;
+    }
 }

@@ -89,7 +89,6 @@ public class HomingProjectile : BasePoolable
         _position = position;
         transform.position = _position;
         transform.localScale = Vector3.one;
-        _damage = damage;
         transform.rotation = rotate;
         _target = ServerManager.Instance.DictRefToPlayer[target].transform;
         _inputSpeed = speed;
@@ -103,7 +102,7 @@ public class HomingProjectile : BasePoolable
             this.speedCurve = DataManager.Instance.DictEnumToCurve[(EAniamtionCurve)speedCurve];
         _animator.SetTrigger(((HomingProjectileType)HomingProjectileType).ToString());
 
-        hitCollider.Init(0, Destroy);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
+        hitCollider.Init(damage, Destroy);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
         transform.position = _position;
         Debug.Log("position = " + position);
         _inited = true;
