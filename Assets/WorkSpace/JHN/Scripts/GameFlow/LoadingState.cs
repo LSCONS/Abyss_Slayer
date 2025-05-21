@@ -80,9 +80,9 @@ public class LoadingState : BaseGameState
         }
 
         // 3. 다음 ui를 미리 로드 생성
-        bool needLoadUI = (prevUIType == UIType.None) || (prevUIType != nextUIType);
+        bool needLoadUI = !(nextUIType == UIType.None) || (prevUIType == nextUIType);
 
-
+        
 #if MoveSceneDebug
         Debug.Log("UI 만들어");
 #endif

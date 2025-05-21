@@ -21,7 +21,6 @@ public class DashClawData : BasePatternData
         bool isLeft = target.transform.position.x - bossTransform.position.x < 0;
         boss.IsLeft = isLeft;
         ServerManager.Instance.InitSupporter.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, preDelayTime, attackDuration);
-        //PoolManager.Instance.Get<DashClawEffect>().Init(damage, bossTransform.position + 2 * (isLeft? Vector3.right : Vector3.left), isLeft, distance, preDelayTime, attackDuration);
         bossController.ChasingTarget = false;
 
         yield return new WaitForSeconds(preDelayTime);
@@ -40,7 +39,6 @@ public class DashClawData : BasePatternData
         {
             isLeft = target.transform.position.x - bossTransform.position.x < 0;
             ServerManager.Instance.InitSupporter.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, comboDelayTime, attackDuration);
-            //PoolManager.Instance.Get<DashClawEffect>().Init(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, comboDelayTime, attackDuration);
 
             yield return new WaitForSeconds(comboDelayTime);
             bossController.Sprite.enabled = false;
