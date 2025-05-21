@@ -28,7 +28,7 @@ public class CrossSlash2Data : BasePatternData
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.RunSlashParameterHash);
         yield return new WaitForSeconds(0.1f * speed);
 
-        bossController.isRun = false;
+        bossController.IsRun = false;
         yield return new WaitForSeconds(0.05f * speed);
 
         ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, 2, speed);;

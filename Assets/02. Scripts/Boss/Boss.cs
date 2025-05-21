@@ -26,7 +26,6 @@ public class Boss : NetworkBehaviour, IHasHealth
     [field: Header("네트워크에 공유할 데이터들")]
     [Networked] public bool IsLeft { get; set; }
     [Networked] public Vector2 BossPosition { get; set; }
-    [Networked] public Vector2 CrosshairPosition { get; set; }
 
 
     public override void Spawned()
@@ -43,7 +42,10 @@ public class Boss : NetworkBehaviour, IHasHealth
     private void Update()
     {
         if (!HasStateAuthority) return;
-        
+        if (BossController.ShowTargetCrosshair && PoolManager.Instance.CrossHairObject.TargetPosition != (Vector2)BossController.Target.position)
+        {
+            PoolManager.Instance.CrossHairObject.Rpc_ChangePosition((Vector2)BossController.Target.position);
+        }
         ServerUpdate();
         ClientUpdate();
         if(Sprite.flipX != IsLeft) { Sprite.flipX = IsLeft; }
@@ -71,14 +73,6 @@ public class Boss : NetworkBehaviour, IHasHealth
                 IsLeft = temp;
             }
         }
-
-        if (!(BossController.ChasingTarget)) return;
-        BossController.TargetCrosshair.position = BossController.Target.position;
-
-        if(CrosshairPosition != (Vector2)BossController.Target.position)
-        {
-            CrosshairPosition = (Vector2)BossController.Target.position;
-        }
     }
 
 
@@ -101,13 +95,6 @@ public class Boss : NetworkBehaviour, IHasHealth
             //TODO: 보간을 하며 점점 따라갈 수 있도록 만듦.
             transform.position = BossPosition;
         }
-
-        if (!(BossController.ChasingTarget)) return;
-
-        if (CrosshairPosition != (Vector2)BossController.TargetCrosshair.position)
-        {
-            BossController.TargetCrosshair.position = CrosshairPosition;
-        }
     }
 
 
@@ -119,6 +106,7 @@ public class Boss : NetworkBehaviour, IHasHealth
             IsDead = true;
             BossController.OnDead();
             if (Runner.IsServer) PoolManager.Instance.ReturnPoolAllObject();
+            PoolManager.Instance.CrossHairObject.gameObject.SetActive(false);
         }
     }
 
