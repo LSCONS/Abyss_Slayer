@@ -20,6 +20,7 @@ public class CrossSlash : BasePoolable
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_Init(Vector3 position, bool isLeft, int damage, int hash, float speed = 1, float scale = 1f)
     {
+        gameObject.SetActive(true);
         for(int i = 0; i < colliders.Count; i++)
         {
             colliders[i].enabled = false;

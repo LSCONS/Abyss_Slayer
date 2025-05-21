@@ -53,9 +53,9 @@ public class InitSupporter : NetworkBehaviour
     }
 
 
-    public void Rpc_StartLaserBoxProjectileInit(int damage, PlayerRef target, Vector3 startPosition, float scale, Vector3 firePosition, float moveTime, float chasingTime, float delayTime, bool isPiercing, int fireCount = 1)
+    public void Rpc_StartLaserBoxProjectileInit(int damage, PlayerRef target, Vector3 startPosition, float scale, Vector3 firePosition, float moveTime, float chasingTime, float delayTime, bool isPiercing, int fireCount = 1, bool chasing = true)
     {
-        PoolManager.Instance.Get<LaserBoxProjectile>().Rpc_Init(damage, target, startPosition, scale, firePosition, moveTime, chasingTime, delayTime, isPiercing, fireCount);
+        PoolManager.Instance.Get<LaserBoxProjectile>().Rpc_Init(damage, target, startPosition, scale, firePosition, moveTime, chasingTime, delayTime, isPiercing, fireCount , chasing);
     }
 
 
