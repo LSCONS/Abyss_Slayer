@@ -13,7 +13,7 @@ using static Unity.Collections.Unicode;
 [RequireComponent(typeof(NetworkObject))]
 public class NetworkData : NetworkBehaviour
 {
-    [Networked, Capacity(8)] public NetworkArray<byte> NameBuffer { get; } //플레이어 이름
+    [Networked, Capacity(24)] public NetworkArray<byte> NameBuffer { get; } //플레이어 이름
     [Networked] public PlayerRef PlayerDataRef { get; set; }    //플레이어 정보
     [Networked] public bool IsServer { get; set; } = false; //플레이어의 서버 권한 여부
     [Networked] public bool IsReady { get; set; } = false; //플레이어 레디 여부

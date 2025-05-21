@@ -127,10 +127,10 @@ public class UILobbyMainPanel : UIPermanent
     {
         PlayerRoomData data = DictRefToRoomData[playerRef];
 
-        data.TextPlayerName.gameObject.SetActive(false);
-        data.PlayerSpriteChange.gameObject.SetActive(false);
-        data.TextPlayerState.gameObject.SetActive(false);
-        data.PlayerSpriteChange.Init(CharacterClass.Rogue, (1, 5), 1, 1);
+        data.TextPlayerName?.gameObject.SetActive(false);
+        data.PlayerSpriteChange?.gameObject.SetActive(false);
+        data.TextPlayerState?.gameObject.SetActive(false);
+        data.PlayerSpriteChange?.Init(CharacterClass.Rogue, (1, 5), 1, 1);
         SetReadyText(playerRef, false);
         DictRoomDataToNetworkData[data] = null;
     }

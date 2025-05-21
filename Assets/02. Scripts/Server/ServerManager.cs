@@ -1,15 +1,11 @@
 using Fusion;
 using Fusion.Sockets;
-using Photon.Realtime;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
-using static Unity.Collections.Unicode;
 
 
 public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
@@ -21,7 +17,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     {
         get
         {
-            byte[] temp = new byte[8];
+            byte[] temp = new byte[24];
             byte[] nameArray = System.Text.Encoding.UTF8.GetBytes(PlayerName);
             int arrayLenght = nameArray.Length;
             for (int i = 0; i < temp.Length; i++)
