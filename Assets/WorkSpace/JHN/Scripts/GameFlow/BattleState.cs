@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using Fusion;
+using System.Linq;
 public class BattleState : BaseGameState
 {
     public static int BossSceneCount { get; private set; } = 4;
@@ -21,9 +22,13 @@ public class BattleState : BaseGameState
     private bool sentHP33 = false;
     private bool sentHP5 = false;
     private bool sentStageClear = false;
+    private bool sentStageFail = false;
+
+    private float stageStartTime = 0f;
 
     public override Task OnEnter()
     {
+        stageStartTime = Time.time;
         return Task.CompletedTask;
     }
 
@@ -72,10 +77,40 @@ public class BattleState : BaseGameState
             AnalyticsManager.SendFunnelStep(GetFunnelStepHP(5));
         }
 
-        // 보스 사망(스테이지 클리어)
+        int stageElapsedTime = (int)(Time.time - stageStartTime);
+
+        // 1. 플레이어 전멸 체크
+        if (!sentStageFail && AllPlayersDead())
+        {
+            sentStageFail = true;
+            // 실패 데이터 전송
+            StageAnalytics.SendStageFailInfo(
+                stageNumber: (stageIndex + 1).ToString(),
+                failTime: stageElapsedTime,
+                player1Class: GetPlayerClass(0),
+                player2Class: GetPlayerClass(1),
+                player3Class: GetPlayerClass(2),
+                player4Class: GetPlayerClass(3),
+                player5Class: GetPlayerClass(4)
+            );
+        }
+
+        // 2. 보스 사망 체크
         if (!sentStageClear && boss.IsDead)
         {
             sentStageClear = true;
+            // 성공 데이터 전송
+            StageAnalytics.SendStageClearInfo(
+                stageNumber: (stageIndex + 1).ToString(),
+                clearTime: stageElapsedTime,
+                player1Class: GetPlayerClass(0), player1Damage: GetPlayerDamage(0), player1Death: GetPlayerDeath(0),
+                player2Class: GetPlayerClass(1), player2Damage: GetPlayerDamage(1), player2Death: GetPlayerDeath(1),
+                player3Class: GetPlayerClass(2), player3Damage: GetPlayerDamage(2), player3Death: GetPlayerDeath(2),
+                player4Class: GetPlayerClass(3), player4Damage: GetPlayerDamage(3), player4Death: GetPlayerDeath(3),
+                player5Class: GetPlayerClass(4), player5Damage: GetPlayerDamage(4), player5Death: GetPlayerDeath(4)
+            );
+
+            // 퍼널 스텝(클리어 단계) 전송
             AnalyticsManager.SendFunnelStep(GetFunnelStepClear());
         }
 
@@ -268,5 +303,35 @@ public class BattleState : BaseGameState
             case 2: return 22;  // 스테이지3 클리어
         }
         return -1;
+    }
+
+    // 모든 플레이어가 죽었는지 체크
+    private bool AllPlayersDead()
+    {
+        foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+        {
+            if (player.Hp.Value > 0)
+                return false;
+        }
+        return true;
+    }
+
+    // 플레이어 클래스/데미지/사망 횟수 가져오는 함수 예시
+    private string GetPlayerClass(int idx)
+    {
+        var players = ServerManager.Instance.DictRefToPlayer.Values.ToList();
+        if (idx < players.Count)
+            return players[idx].NetworkData.Class.ToString();
+        return "";
+    }
+    private int GetPlayerDamage(int idx)
+    {
+        // 실제 데미지 집계 로직에 맞게 구현 필요
+        return 0;
+    }
+    private int GetPlayerDeath(int idx)
+    {
+        // 실제 사망 횟수 집계 로직에 맞게 구현 필요
+        return 0;
     }
 }
