@@ -54,8 +54,8 @@ public class Player : NetworkBehaviour, IHasHealth
     public int tempSmooth = 5;
     public bool IsThisRunner => PlayerRef == Runner.LocalPlayer;
 
-    public ReactiveProperty <int> StatPoint { get; set; } = new(10);
-    public ReactiveProperty <int> SkillPoint { get; set; } = new(10);
+    public ReactiveProperty <int> StatPoint { get; set; } = new(1);
+    public ReactiveProperty <int> SkillPoint { get; set; } = new(1);
     public NetworkInputData NetworkInput;
 
 
@@ -73,6 +73,8 @@ public class Player : NetworkBehaviour, IHasHealth
         PlayerStateMachine = new PlayerStateMachine(this);
         PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState, true);
         transform.position = PlayerPosition;
+        StatPoint.Value = GameValueManager.Instance.InitStatusPointValue;
+        SkillPoint.Value = GameValueManager.Instance.InitSkillPointValue;
     }
 
 
@@ -361,7 +363,7 @@ public class Player : NetworkBehaviour, IHasHealth
     private IEnumerator PlayerDieCoroutine()
     {
         yield return new WaitForSeconds(3);
-        GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.LobbyScene);
+        ServerManager.Instance.ExitRoom();
 
     }
 

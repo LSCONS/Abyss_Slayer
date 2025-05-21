@@ -6,6 +6,8 @@ public class GameValueManager : Singleton<GameValueManager>
 {
     [field: SerializeField] public int AddSkillPointValue { get; private set; } = 1;
     [field: SerializeField] public int AddStatusPointValue { get; private set; } = 1;
+    [field: SerializeField] public int InitSkillPointValue { get; private set; } = 1;
+    [field: SerializeField] public int InitStatusPointValue { get; private set; } = 1;
     [field: SerializeField] public int MaxBossCount { get; private set; } = 2;
     [field: SerializeField] public int CurrentStageIndex { get; private set; } = 0;
 

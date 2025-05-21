@@ -141,7 +141,9 @@ public class PlayerSkillUseState : PlayerBaseState
             }
 
             if (playerStateMachine.Player.Runner.IsServer)
-                playerStateMachine.EndAttackAction?.Invoke();
+            {
+                playerStateMachine.ChangeState(playerStateMachine.IdleState);
+            }
         }
         else
         {

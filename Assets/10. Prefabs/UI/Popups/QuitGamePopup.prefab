@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce6fe9fd7019e5419f879f218e0984a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isQuitRoom: 1
 --- !u!1 &1083797366660062246
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,6 +286,7 @@ MonoBehaviour:
   isClose: 1
   popupName: 
   alarmIcon: {fileID: 0}
+  escCanOpen: 0
 --- !u!1 &1325425646434569545
 GameObject:
   m_ObjectHideFlags: 0

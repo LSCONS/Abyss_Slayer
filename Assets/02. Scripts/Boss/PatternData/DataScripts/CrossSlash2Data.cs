@@ -31,7 +31,7 @@ public class CrossSlash2Data : BasePatternData
         bossController.IsRun = false;
         yield return new WaitForSeconds(0.05f * speed);
 
-        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, 2, speed);;
+        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, AnimationHash.CrossSlash2ParameterHash, speed);;
         yield return new WaitForSeconds((1/ 6) * speed);
 
         float x = Mathf.Clamp(bossTransform.position.x + (isleft ? -14 : 14), -mapWidth / 2 + 0.7f, mapWidth / 2 - 0.7f);
