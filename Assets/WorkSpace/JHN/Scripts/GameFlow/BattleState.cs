@@ -121,6 +121,11 @@ public class BattleState : BaseGameState
             {
                 if(RunnerManager.Instance.GetRunner().IsServer)
                 {
+                    foreach(Player player in ServerManager.Instance.DictRefToPlayer.Values)
+                    {
+                        player.AddSkillPoint(3);
+                        player.AddStatusPoint(3);
+                    }
                     ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
                 }
             }

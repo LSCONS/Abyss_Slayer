@@ -464,4 +464,24 @@ public class Player : NetworkBehaviour, IHasHealth
         MaxHp.Value = Mathf.RoundToInt(BaseMaxHp * (1f + amount * (hpLevel - 1)));
         DamageValue.Value = BaseDamage * (1f + amount * (dmgLevel - 1));
     }
+
+
+    /// <summary>
+    /// 스킬 포인트를 올리는 메서드
+    /// </summary>
+    /// <param name="count">올릴 스킬 포인트 양</param>
+    public void AddSkillPoint(int count)
+    {
+        SkillPoint.Value += count;
+    }
+
+
+    /// <summary>
+    /// 스텟 포인트를 올리는 메서드
+    /// </summary>
+    /// <param name="count">올릴 스킬 포인트 양</param>
+    public void AddStatusPoint(int count)
+    {
+        StatPoint.Value += count;
+    }
 }

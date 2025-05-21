@@ -327,7 +327,6 @@ MonoBehaviour:
   <IsOpenSprtie>k__BackingField: 0
   _IsLeft: 0
   _BossPosition: {x: 0, y: 0}
-  _CrosshairPosition: {x: 0, y: 0}
 --- !u!114 &7201112847391276116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,10 +365,9 @@ MonoBehaviour:
     patternData: {fileID: 11400000, guid: 259fc1cc48e96de4f8f21884b80cbd26, type: 2}
     setActivePatternForTest: 1
     showGizmos: 1
-  <TargetCrossHairPrefab>k__BackingField: {fileID: 5068304720814894169, guid: c0894803ff5c82a4aaa98040d1c6552f, type: 3}
   <MapWidth>k__BackingField: 40
-  <Boss>k__BackingField: {fileID: 3758152715141030970}
   <BossCenterHight>k__BackingField: 2
+  <Boss>k__BackingField: {fileID: 3758152715141030970}
   <JumpMoveTime>k__BackingField: 1
   <JumpMoveHight>k__BackingField: 1
   <GravityMultiplier>k__BackingField: 1
