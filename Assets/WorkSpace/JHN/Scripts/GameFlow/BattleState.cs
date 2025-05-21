@@ -11,7 +11,7 @@ public class BattleState : BaseGameState
     public override ESceneName SceneName => (ESceneName)((int)ESceneName.BattleScene + stageIndex);
     public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
 
-    public int stageIndex => GameFlowManager.Instance.CurrentStageIndex;
+    public int stageIndex => GameValueManager.Instance.CurrentStageIndex;
     public bool isStart { get; set; } = false;
     private float deadTimer { get; set; } = 0.0f; // 보스 죽고 몇초 지남?
     private float changeSceneTime { get; set; } = 5.0f; // 보스 죽고 몇초 지나야 씬 넘어갈거임?
@@ -126,7 +126,17 @@ public class BattleState : BaseGameState
                         player.AddSkillPoint(3);
                         player.AddStatusPoint(3);
                     }
-                    ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
+
+                    //모든 보스를 모두 처치한 상태일 경우
+                    if(GameValueManager.Instance.MaxBossCount - GameValueManager.Instance.CurrentStageIndex == 1)
+                    {
+                        ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.EndingScene);
+                    }
+                    else
+                    {
+                        ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
+                    }
+
                 }
             }
         }
@@ -163,7 +173,7 @@ public class BattleState : BaseGameState
 #endif
         if (runner.IsServer)
         {
-            NetworkObject boss = runner.Spawn(DataManager.Instance.DictEnumToNetObjcet[(EBossStage)GameFlowManager.Instance.CurrentStageIndex],
+            NetworkObject boss = runner.Spawn(DataManager.Instance.DictEnumToNetObjcet[(EBossStage)GameValueManager.Instance.CurrentStageIndex],
                 Vector3.right * 100,
                 Quaternion.identity,
                 ServerManager.Instance.ThisPlayerRef);

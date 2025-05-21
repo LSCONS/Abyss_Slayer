@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
 using Fusion;
+using UnityEditor;
 
 public enum ESceneName  // 게임 시작 상태
 {
@@ -21,8 +22,6 @@ public class GameFlowManager : Singleton<GameFlowManager>
     public IGameState PrevState { get; set; }
     public IGameState CurrentState { get; set; }   // 지금 스테이트
     [SerializeField] private ESceneName startStateEnum = ESceneName.IntroScene;   // 시작 스테이트 인스펙터 창에서 설정가능하게 해줌
-    public int CurrentStageIndex { get; set; } = 0; // 보스 생성할 때 쓸 index
-
     IntroState IntroSceneState { get; set; } = new IntroState();
     StartState StartSceneState { get; set; } = new StartState();
     LobbyState LobbySceneState { get; set; } = new LobbyState();
@@ -132,7 +131,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
         // 퍼널 스텝 기록
         if (newState is BaseGameState baseGameState)
         {
-            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, CurrentStageIndex);
+            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, GameValueManager.Instance.CurrentStageIndex);
             if (funnelStep.HasValue)
                 AnalyticsManager.SendFunnelStep(funnelStep.Value);
         }
@@ -149,7 +148,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
         // 퍼널 스텝 기록
         if (newState is BaseGameState baseGameState)
         {
-            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, CurrentStageIndex);
+            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, GameValueManager.Instance.CurrentStageIndex);
             if (funnelStep.HasValue)
                 AnalyticsManager.SendFunnelStep(funnelStep.Value);
         }
@@ -223,9 +222,20 @@ public class GameFlowManager : Singleton<GameFlowManager>
             StartState => "StartScene",
             LobbyState => "LobbyScene",
             RestState => "RestScene",
-            BattleState => "BossScene_" + CurrentStageIndex.ToString(), // 보스 인덱스 기반으로 생성
+            BattleState => "BossScene_" + GameValueManager.Instance.CurrentStageIndex.ToString(), // 보스 인덱스 기반으로 생성
             EndingState => "EndingScene",
             _ => throw new System.Exception($"[LoadingState] Unknown state: {state.GetType().Name}")
         };
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        // 에디터 플레이 모드를 종료
+        EditorApplication.isPlaying = false;
+#else
+        // 빌드 앱을 종료
+        Application.Quit();
+#endif
     }
 }

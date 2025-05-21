@@ -20,7 +20,7 @@ public class CreditRoller : UIPopup
     public TaskCompletionSource<bool> creditEnd = new();
     [SerializeField] private float thanksTextDuration = 5;
 
-    private void OnEnable()
+    public void StartScrollCredit()
     {
         StartCoroutine(ScrollCredits());
     }
@@ -29,7 +29,6 @@ public class CreditRoller : UIPopup
     {
         GameFlowManager.Instance.endCredit = this;
     }
-
     private void Update()
     {
         // 스페이스 키 누르면 2배속
@@ -62,6 +61,8 @@ public class CreditRoller : UIPopup
         // 젤 위에서 시작
         scrollRect.verticalNormalizedPosition = 1f;
 
+        yield return new WaitForSeconds(1);
+
         float elapsed = 0f;
         while (elapsed < scrollDuration)
         {
@@ -78,6 +79,7 @@ public class CreditRoller : UIPopup
         // 감사 텍스트 끝나고 thanksTextDuration 만큼 기다렸다가 크레딧 완료 알림
         yield return new WaitForSeconds(thanksTextDuration);
         creditEnd.TrySetResult(true);
+        GameFlowManager.Instance.QuitGame();
     }
     /// <summary>
     /// 감사 텍스트 페이드인
