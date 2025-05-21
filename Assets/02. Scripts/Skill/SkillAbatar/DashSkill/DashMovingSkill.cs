@@ -8,6 +8,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewDashMovingSkill", menuName = "Skill/Moving/Dash")]
 public class DashMovingSkill : MovingSkill
 {
+    public override void Init()
+    {
+        base.Init();
+        Level.Value = 0;
+    }
     public override void UseSkill()
     {
         base.UseSkill();
