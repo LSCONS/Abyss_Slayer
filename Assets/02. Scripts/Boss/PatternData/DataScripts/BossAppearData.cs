@@ -11,22 +11,20 @@ public class BossAppearData : BasePatternData
     [SerializeField] float zoomScale;
     public override IEnumerator ExecutePattern()
     {
-        bossController.hitCollider.enabled = false;
+        bossController.HitCollider.enabled = false;
         bossTransform.position = appearPosition;
-        bossController.isLeft = true;
-        yield return new WaitForSeconds(preDelayTime); 
-        
-        bossController.virtualCamera.m_Lens.OrthographicSize = 10/zoomScale;
-        bossController.virtualCamera.Priority = 20;
+        boss.IsLeft = true;
+        yield return new WaitForSeconds(preDelayTime);
+        ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(10 / zoomScale, 20);
         yield return new WaitForSeconds(1f);
-
-        bossAnimator.SetTrigger("Appear");
+        boss.Rpc_SetSpriteEnable(true);
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.AppearParameterHash);
         yield return new WaitForSeconds(spawnAnimationTime + 1f);
-        bossController.hitCollider.enabled = true;
-        bossController.virtualCamera.Priority = 5;
+        bossController.HitCollider.enabled = true;
+        ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(10 / zoomScale, 5);
         yield return new WaitForSeconds(postDelayTime);
-        bossController.virtualCamera.m_Lens.OrthographicSize = 10f;
-        PlayerManager.Instance.PlayerOnConnected();
+        ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(10f, 5);
+        ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
     }
 
 }

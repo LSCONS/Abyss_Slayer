@@ -23,7 +23,7 @@ public class Skill : ScriptableObject
     [field: SerializeField] public Sprite SkillIcon {get; private set; } // 스킬 아이콘
 
     [field: Header("스킬 사운드 설정")]
-    [field: SerializeField] public SkillSoundData SkillSound { get; private set; }
+    [field: SerializeField] public EAudioClip EAudioClip { get; private set; }
 
     [field: Header("스킬 사용 가능 여부")]
     [field: SerializeField] public bool CanUse { get; set; } = true; // 스킬 사용 가능 여부
@@ -48,8 +48,8 @@ public class Skill : ScriptableObject
     [field: Header("스킬을 사용할 때 실행할 Animation Enum")]
     [field: SerializeField] public AnimationState SkillUseState { get; private set; } = AnimationState.Idle1;
 
-    [field: Header("Animation Sprite가 교체되는 딜레이 시간(1당 0.02초)")]
-    [field: SerializeField] public int AnimationChangeDelayTime { get; private set; } = 10;
+    [field: Header("Animation Sprite 1장이 교체되는 딜레이 시간")]
+    [field: SerializeField] public float AnimationChangeDelayTime { get; set; } = 0.6f;
 
     [field: Header("이 스킬로 타격 시 쿨타임 감소 스킬에 영향을 줄 지에 대한 여부")]
     [field: SerializeField] public bool IsConnectSkillCoolDown { get; private set; } = false;
@@ -68,6 +68,8 @@ public class Skill : ScriptableObject
 
     [field: Header("스킬 레벨별 배율")]
     [field: SerializeField] public float Magnification { get; private set; } = 0.1f; // 배율
+    [field: Header("이 스킬을 업그레이드 할 때 지속시간이 증가되나요?")]
+    [field: SerializeField] public bool isDurationUp { get; private set; } = false;
 
     // 플레이어 초기화
     public virtual void Init() { }
@@ -122,7 +124,7 @@ public class Skill : ScriptableObject
         // 이제 이펙트 설정해주기
         effect.transform.position = this.PlayerPosition();
         effect.transform.localScale = Vector3.one;
-        effect.Init();
+        effect.Rpc_Init();
         effect.PlayClip(SkillEffectsClipName);
         effect.AutoReturn(SkillEffectsDuration);
     }

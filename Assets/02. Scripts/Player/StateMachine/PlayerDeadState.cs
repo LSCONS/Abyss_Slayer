@@ -3,8 +3,6 @@ using UnityEngine;
 public class PlayerDeadState : PlayerAbnomalState
 {
     private int animationNum = 0;
-    private float animationTime = 0;
-    private int animationDelay = 10;
     public PlayerDeadState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -20,8 +18,6 @@ public class PlayerDeadState : PlayerAbnomalState
         playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Fall, 0);
         playerStateMachine.MovementSpeed = 0f;
         ResetZeroVelocity();
-        animationNum = 0;
-        animationTime = animationDelay;
 
 #if StateMachineDebug
         Debug.Log("IdleState 진입");
@@ -41,15 +37,13 @@ public class PlayerDeadState : PlayerAbnomalState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        animationTime--;
     }
 
     public override void Update()
     {
-        base.Update();
-        if (animationTime <= 0)
+        if (ChangeSpriteTime + CurTime < Time.time)
         {
-            animationTime = animationDelay;
+            CurTime = Time.time;
             playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Fall, ++animationNum);
         }
     }

@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: PoolablePrefab
+  m_EditorClassIdentifier: 
+  m_GroupName: PoolablePrefab
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ca3b9498ebe767545a61d7a1297772d2
+  m_SerializeEntries:
+  - m_GUID: bbdf4998a34efc7499a2aeb08ac029d1
+    m_Address: Assets/08. Datas/ObjectPoolData/BossHitEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6aeb9660b2a62e40b565d2b1faa7922
+    m_Address: Assets/08. Datas/ObjectPoolData/CrossSlash.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 05fa2de575b1b34408f8eefa178a2f30
+    m_Address: Assets/08. Datas/ObjectPoolData/UIDamageText.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 961d2d20abf4046409b3ae0c93b4ee48
+    m_Address: Assets/08. Datas/ObjectPoolData/DashClawEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 06d6eb36c442a1449976a23c961389d7
+    m_Address: Assets/08. Datas/ObjectPoolData/Explosion.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0ccc5e751b68c65488461acd96a343e7
+    m_Address: Assets/08. Datas/ObjectPoolData/FoxClone.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3854484ad60dd1b40a67f3cb27a26693
+    m_Address: Assets/08. Datas/ObjectPoolData/FoxSphereProjectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7a831b2883ddf846b054318be01d861
+    m_Address: Assets/08. Datas/ObjectPoolData/GravityProjectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d2cd23d198c97c541a92cca6cd43d3b6
+    m_Address: Assets/08. Datas/ObjectPoolData/HomingProjectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c7cc31ff3d082c94c8c31d595cdd34ad
+    m_Address: Assets/08. Datas/ObjectPoolData/JumpEffect.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 686d321a12228d64caefa9a2f39ce2da
+    m_Address: Assets/08. Datas/ObjectPoolData/Laser.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b9fcecda6ceb5a041bc21eafdde1dd5d
+    m_Address: Assets/08. Datas/ObjectPoolData/LaserBoxProjectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6cdce7a6e123523458a407c95a33660c
+    m_Address: Assets/08. Datas/ObjectPoolData/MageProjectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf69bf04bb99af740b6fee30f107bdc8
+    m_Address: Assets/08. Datas/ObjectPoolData/NormalSlash.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4078a1219a4455c4a987d7a774cb81c1
+    m_Address: Assets/08. Datas/ObjectPoolData/RogueProjectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aeace71fdea22a2418e090cf44e397e2
+    m_Address: Assets/08. Datas/ObjectPoolData/ShockWave.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e76e1fb599e335c4e864fb2bc85fd2e7
+    m_Address: Assets/08. Datas/ObjectPoolData/SkillEffectController.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f14360fae5f409445a04d7c6f5a2aad5
+    m_Address: Assets/08. Datas/ObjectPoolData/DashPlayerSillhouette.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a44357234108f934c8427fa1aae9381f
+    m_Address: Assets/08. Datas/ObjectPoolData/SquareLaserProjectile.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6645431d2dbe3b74a8f0f9f802fc8ffa
+    m_Address: Assets/08. Datas/ObjectPoolData/Tornado.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 19f4179df796c624ba54a7b857e0260f
+    m_Address: Assets/08. Datas/ObjectPoolData/ZoneAOE.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - PoolablePrefab
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 43ddedc36e682fa4296d5ed329d5f057, type: 2}
+    - {fileID: 11400000, guid: 57373e14f63132c4795270a087ceb81d, type: 2}

@@ -22,11 +22,11 @@ public class PointsAlarmController : MonoBehaviour
         Skill
     }
 
-    private void Start()
+    private async void Start()
     {
         if (targetButton == null) targetButton = GetComponent<UIPopupButton>();
 
-        Player player = PlayerManager.Instance.Player;
+        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
         if (player == null) { Debug.Log("플레이어 없음"); return; }
 
 

@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,13 @@ using UnityEngine;
 
 public abstract class BasePatternData : ScriptableObject
 {
-
     protected Transform bossTransform;
     protected BossController bossController;
     protected Animator bossAnimator;
+    protected Boss boss;
     protected float bossCenterHight;
     protected float mapWidth;
+    protected PlayerRef playerRef => target.GetComponent<Player>().PlayerRef;
 
     [Header("패턴 공통 정보")]
     public Transform target;
@@ -19,13 +21,14 @@ public abstract class BasePatternData : ScriptableObject
     [SerializeField] public List<Rect> globalAttackableAreas;
     [SerializeField] public Color gizmoColor = new Color(1, 0, 0, 0.3f);
 
-    public void Init(Transform boss, BossController controller, Animator animator)
+    public void Init(BossController controller)
     {
-        this.bossTransform = boss;
+        this.bossTransform = controller.transform;
         this.bossController = controller;
-        bossAnimator = animator;
-        bossCenterHight = controller.bossCenterHight;
-        mapWidth = controller.mapWidth;
+        boss = controller.Boss;
+        bossAnimator = controller.Animator;
+        bossCenterHight = controller.BossCenterHight;
+        mapWidth = controller.MapWidth;
     }
 
     /// <summary>
@@ -34,41 +37,65 @@ public abstract class BasePatternData : ScriptableObject
     /// <returns></returns>
     public bool IsAvailable()
     {
+#if AllMethodDebug
+        Debug.Log("IsAvailable");
+#endif
         for (int i = 0; i < attackableAreas.Count; i++)
         {
-            
             Vector2 pointA = new Vector2(attackableAreas[i].xMin, attackableAreas[i].yMin);
             Vector2 pointB = new Vector2(attackableAreas[i].xMax, attackableAreas[i].yMax);
             pointA = bossTransform.TransformPoint(pointA);
             pointB = bossTransform.TransformPoint(pointB);
 
-            //수정 송제우: 필드에서 Layer정의로 오류가 생겨서 바꿨습니다.
-            //레이어 데이터를 정리해둔 클래스가 있으니 해당 스크립트의 LEADME 참고 바랍니다.
-            Collider2D hit = Physics2D.OverlapArea(pointA, pointB, LayerData.PlayerLayerMask);
+            List<Player> players = SerchPlayerInArea(pointA, pointB);
 
-            if (hit != null)
+            if (players.Count != 0)
             {
-                target = hit.transform;
+                target = players[0].transform;
                 return true;
             }
         }
+
         for (int i = 0; i < globalAttackableAreas.Count; i++)
         {
 
             Vector2 pointA = new Vector2(globalAttackableAreas[i].xMin, globalAttackableAreas[i].yMin);
             Vector2 pointB = new Vector2(globalAttackableAreas[i].xMax, globalAttackableAreas[i].yMax);
 
-            //수정 송제우: 필드에서 Layer정의로 오류가 생겨서 바꿨습니다.
-            //레이어 데이터를 정리해둔 클래스가 있으니 해당 스크립트의 LEADME 참고 바랍니다.
-            Collider2D hit = Physics2D.OverlapArea(pointA, pointB, LayerData.PlayerLayerMask);
 
-            if (hit != null)
+            List<Player> players = SerchPlayerInArea(pointA, pointB);
+
+            if (players.Count != 0)
             {
-                target = hit.transform;
+                target = players[0].transform;
                 return true;
             }
         }
         return false;
     }
+
+    private List<Player> SerchPlayerInArea(Vector2 minXY, Vector2 maxXY)
+    {
+        List<Player> playerList = new();
+
+        foreach(Player player in ServerManager.Instance.DictRefToPlayer.Values)
+        {
+            Vector2 playerVector2 = player.transform.position;
+            if (playerVector2.x < minXY.x || playerVector2.y < minXY.y) continue;
+            if (playerVector2.x > maxXY.x || playerVector2.y > maxXY.y) continue;
+            playerList.Add(player);
+        }
+
+        playerList.Sort((a, b) =>
+        {
+            float distanceA = Vector2.Distance(a.transform.position, boss.transform.position);
+            float distanceB = Vector2.Distance(b.transform.position, boss.transform.position);
+            return distanceA.CompareTo(distanceB);
+        });
+
+        return playerList;
+    }
+
+
     public abstract IEnumerator ExecutePattern();
 }

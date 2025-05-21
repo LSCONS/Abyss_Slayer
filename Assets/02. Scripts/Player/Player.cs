@@ -1,11 +1,11 @@
-using Cinemachine;
-using System.Collections.Generic;
-using UnityEngine;
+using Fusion;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UniRx;
 using System.Threading.Tasks;
 using UnityEngine.UI;
+using UnityEngine;
 public enum CharacterClass
 {
     Rogue,
@@ -13,21 +13,23 @@ public enum CharacterClass
     Mage,
     MagicalBlader,
     Tanker,
-
     Count
 }
 
-public class Player : MonoBehaviour, IHasHealth
+
+[SimulationBehaviour(
+    Stages = SimulationStages.Forward
+)]
+public class Player : NetworkBehaviour, IHasHealth
 {
-    public CharacterClass playerCharacterClass;
-    public PlayerInput input { get; private set; }
-    public Rigidbody2D playerRigidbody;
-    public PlayerCheckGround playerCheckGround;
-    public CinemachineVirtualCamera mainCamera;//TODO: 나중에 초기화 필요
+    [field: SerializeField] public Rigidbody2D playerRigidbody { get; private set; }
+    //[field: SerializeField] public PlayerInput PlayerInput { get;private set; }
+    [field: SerializeField] public PlayerCheckGround playerCheckGround { get; private set; }
+    [field: SerializeField] public BoxCollider2D PlayerGroundCollider {  get; private set; }
+    [field: SerializeField] public BoxCollider2D PlayerMeleeCollider { get; private set; }
+    [field: SerializeField] public SpriteChange PlayerSpriteChange { get; private set; }
     public PlayerStateMachine PlayerStateMachine { get; private set; }
-    public BoxCollider2D PlayerGroundCollider {  get; private set; }
-    public BoxCollider2D PlayerMeleeCollider { get; private set; }
-    [field: SerializeField] public PlayerData PlayerData { get; private set; }
+    public PlayerData PlayerData { get; private set; }
     [field: Header("스킬 관련")]
     public Dictionary<SkillSlotKey, Skill> EquippedSkills { get; private set; } = new(); // 스킬 연결용 딕셔너리
     public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
@@ -35,28 +37,44 @@ public class Player : MonoBehaviour, IHasHealth
     public ReactiveProperty<int> MaxHp { get; set; } = new();
     public ReactiveProperty<float> DamageValue { get; set; } = new(1);
     public float ArmorAmount { get; set; } = 1.0f;                   // 방어력 계수
-
-    public event Action<Skill> OnSkillHit;   // 스킬 적중할 때, 그 스킬 알려주는 이벤트
-    public bool IsFlipX { get; private set; } = false;
-    public SpriteChange PlayerSpriteChange { get; private set; }
     public Coroutine HoldSkillCoroutine { get; private set; }
     public Action HoldSkillCoroutineStopAction { get; private set; }
+    public NetworkData NetworkData { get; set; }
+    public bool IsFlip
+        => PlayerSpriteChange.WeaponBottom.flipX;
+    //public NetworkInputData PlayerInputData;
+    [Networked] public PlayerRef PlayerRef { get; set; }
+    [Networked] public int PlayerStateIndex { get; set; } = -1;
+    [Networked] public bool IsFlipX { get; set; } = false;
+    [Networked] public Vector2 PlayerPosition { get; set; }
+    public int tempSmooth = 5;
+    public bool IsThisRunner => PlayerRef == Runner.LocalPlayer;
 
     public int HpStatLevel = 1;
     public int DamageStatLevel = 1;
 
     public ReactiveProperty <int> StatPoint { get; set; } = new(10);
     public ReactiveProperty <int> SkillPoint { get; set; } = new(10);
+    public NetworkInputData NetworkInput;
 
+    /// <summary>
+    /// 코루틴과 Action을 등록시키고 실행시키는 메서드
+    /// </summary>
+    /// <param name="skill">실행 시킬 코루틴</param>
+    /// <param name="action">종료할 때 실행시킬 Action</param>
     public void StartHoldSkillCoroutine(IEnumerator skill, Action action)
-    {
+    {;
         StopHoldSkillActionCoroutine();
         HoldSkillCoroutine = StartCoroutine(skill);
         HoldSkillCoroutineStopAction = action;
     }
 
+
+    /// <summary>
+    /// 등록해둔 Action을 실행시키며 코루틴을 종료시키는 메서드
+    /// </summary>
     public void StopHoldSkillActionCoroutine()
-    {
+    {;
         if (HoldSkillCoroutine != null)
         {
             StopCoroutine(HoldSkillCoroutine);
@@ -66,6 +84,16 @@ public class Player : MonoBehaviour, IHasHealth
         }
     }
 
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_UseSkill()
+    {
+        PlayerStateMachine.UseSkill();
+    }
+
+
+    /// <summary>
+    /// 등록해둔 Action을 무시하고 코루틴을 종료시키는 메서드
+    /// </summary>
     public void StopHoldSkillNoneCoroutine()
     {
         if (HoldSkillCoroutine != null)
@@ -76,33 +104,75 @@ public class Player : MonoBehaviour, IHasHealth
         }
     }
 
-    private void Awake()
+    public override void Spawned()
     {
-        InitComponent();
+        gameObject.SetActive(false);
+        base.Spawned();
+        ServerManager.Instance.DictRefToPlayer[PlayerRef] = this;
+        NetworkData = ServerManager.Instance.DictRefToNetData[PlayerRef];
+        transform.parent = null;
+        DontDestroyOnLoad(gameObject);
         InitPlayerData();
-        PlayerStateMachine = new PlayerStateMachine(this);
         playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
-    }
-
-
-    private void Start()
-    {
+        PlayerStateMachine = new PlayerStateMachine(this);
         PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
+        transform.position = PlayerPosition;
     }
+
+
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        gameObject.SetActive(false);
+        if (ServerManager.Instance.DictRefToPlayer[PlayerRef] != this)
+        ServerManager.Instance.DictRefToPlayer.Remove(PlayerRef);
+        base.Despawned(runner, hasState);
+    }
+
 
     private void Update()
     {
+        if (!(Runner.IsServer)
+            && PlayerStateMachine.DictIntToState[PlayerStateIndex] != PlayerStateMachine.currentState)
+        {
+            PlayerStateMachine.ChangeState(PlayerStateMachine.DictIntToState[PlayerStateIndex]);
+        }
+
         PlayerStateMachine.Update();
-        SkillCoolTimeCompute();
-        BuffDurationCompute();
+        if (Runner.IsServer)
+        {
+            SkillCoolTimeCompute();
+            BuffDurationCompute();
+        }
+
+        if (IsFlip != IsFlipX)
+        {
+            PlayerSpriteChange.SetFlipxSpriteRenderer(IsFlipX);
+            IsFlipX = IsFlip;
+        }
+
+        if (Runner.IsServer) return;
+
+        Vector2 target = PlayerPosition;
+        Vector2 current = transform.position;
+
+        if (current != target)
+        {
+            float t = tempSmooth * Time.deltaTime;
+            Vector2 newPos = Vector2.Lerp(current, target, t);
+            transform.position = newPos;
+        }
     }
 
-    private void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
+        if(GetInput<NetworkInputData>(out NetworkInput))
         PlayerStateMachine.FixedUpdate();
     }
 
 
+    /// <summary>
+    /// 실행 중인 버프가 있을 경우 자동으로 카운트 해주는 메서드
+    /// </summary>
     private void BuffDurationCompute()
     {
         foreach (var value in BuffDuration.Values)
@@ -149,49 +219,28 @@ public class Player : MonoBehaviour, IHasHealth
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
 
         // 선택된 클래스 정보 가져옴
-        playerCharacterClass = PlayerManager.Instance.GetSelectedClass();
+        CharacterClass playerCharacterClass = PlayerManager.Instance.selectedCharacterClass;
         CharacterSkillSet skillSet = null;
 
         // 스프라이트 기본으로 init
-        PlayerSpriteChange.Init(playerCharacterClass);
+        PlayerSpriteChange.Init(playerCharacterClass, (NetworkData.HairStyleKey, NetworkData.HairColorKey), NetworkData.FaceColorKey, NetworkData.SkinColorKey);
 
         // 커스터마이징 된 스프라이트를 적용
         var info = PlayerManager.Instance.PlayerCustomizationInfo;
         var data = DataManager.Instance;
 
-        SetAllAnimationStates(PlayerSpriteChange.Skin, data.DictIntToDictStateToSkinColorSprite, info.skinId);
-        SetAllAnimationStates(PlayerSpriteChange.Face, data.DictIntToDictStateToFaceColorSprite, info.faceId);
-        SetAllAnimationStates(PlayerSpriteChange.HairTop, data.DictIntToDictStateToHairStyleTopSprite, info.hairId);
-        SetAllAnimationStates(PlayerSpriteChange.HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, info.hairId);
-
         // 플레이어 기본 데이터 로드 및 복사
-        PlayerData = Resources.Load<PlayerData>("Player/PlayerData/PlayerData");
+        PlayerData = DataManager.Instance.DictClassToPlayerData[playerCharacterClass];
         PlayerData = Instantiate(PlayerData);
+
         Hp.Value = PlayerData.PlayerStatusData.HP_Cur;
         MaxHp.Value = PlayerData.PlayerStatusData.HP_Max;
-        //TODO: 여기서부터 임시 코드
-        switch (playerCharacterClass)
-        {
-            case CharacterClass.Rogue:
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/RogueSkillSet");
-                break;
-            case CharacterClass.Healer:
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/HealerSkillSet");
-                break;
-            case CharacterClass.Mage:
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MageSkillSet");
-                break;
-            case CharacterClass.MagicalBlader:
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/MagicalBladerSkillSet");
-                break;
-            case CharacterClass.Tanker:
-                skillSet = Resources.Load<CharacterSkillSet>("Player/PlayerSkillSet/TankerSkillSet");
-                break;
-        }
 
-        // 스킬 등록
+        //TODO: 이 데이터 언젠가 바꿔야함
+        skillSet = DataManager.Instance.DictClassToSkillSet[NetworkData.Class];
         skillSet = Instantiate(skillSet);
         skillSet.InstantiateSkillData(this);
+
         EquippedSkills = new();
         foreach (CharacterSkillSlot slot in skillSet.skillSlots)
         {
@@ -200,37 +249,11 @@ public class Player : MonoBehaviour, IHasHealth
                 EquippedSkills[slot.key] = slot.skill;
             }
         }
+
         foreach (Skill skill in EquippedSkills.Values)
         {
             skill.Init();
         }
-    }
-    private void SetAllAnimationStates(SpriteRenderer target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> sourceDict, int id)
-    {
-        if (!PlayerSpriteChange.DictAnimationState.ContainsKey(target))
-            PlayerSpriteChange.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
-
-        if (sourceDict.TryGetValue(id, out var animDict))
-        {
-            foreach (var pair in animDict)
-            {
-                PlayerSpriteChange.DictAnimationState[target][pair.Key] = pair.Value;
-            }
-        }
-    }
-
-    /// <summary>
-    /// 컴포넌트를 초기화하는 메서드
-    /// </summary>
-    private void InitComponent()
-    {
-        input = GetComponent<PlayerInput>();
-        input.InitDictionary();
-        playerRigidbody = GetComponent<Rigidbody2D>();
-        PlayerSpriteChange = GetComponentInChildren<SpriteChange>();
-        playerCheckGround = transform.GetComponentForTransformFindName<PlayerCheckGround>("Collider_GroundCheck");
-        PlayerGroundCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_GroundCheck");
-        PlayerMeleeCollider = transform.GetComponentForTransformFindName<BoxCollider2D>("Collider_MeleeDamageCheck");
     }
 
 
@@ -291,13 +314,28 @@ public class Player : MonoBehaviour, IHasHealth
     public void PlayerDie()
     {
         PlayerStateMachine.ChangeState(PlayerStateMachine.DieState);
-        StartCoroutine(PlayerDieCo());
+        
+        // 게임오버 애널리틱스 전송
+        int deadPlayerCount = 0;
+        foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+        {
+            if (player.Hp.Value <= 0)
+            {
+                deadPlayerCount++;
+            }
+        }
+
+        StartCoroutine(PlayerDieCoroutine());
     }
 
-    private IEnumerator PlayerDieCo()
+    /// <summary>
+    /// 플레이어가 사망하면 특정 시간 이후 실행할 코루틴
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PlayerDieCoroutine()
     {
         yield return new WaitForSeconds(3);
-        GameFlowManager.Instance.ChangeState(EGameState.Lobby);
+        GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.LobbyScene);
 
     }
 
@@ -316,14 +354,6 @@ public class Player : MonoBehaviour, IHasHealth
         }
     }
 
-    /// <summary>
-    ///  스킬 데미지 들어갈 때 호출 hitskill 전달해줌
-    /// </summary>
-    /// <param name="hitSkill"></param>
-    public void RaiseSkillHit(Skill hitSkill)
-    {
-        OnSkillHit?.Invoke(hitSkill);
-    }
 
     /// <summary>
     /// 플레이어가 X좌표로 움직이는 방향을 계산하고 바꿔주는 메서드
@@ -331,15 +361,72 @@ public class Player : MonoBehaviour, IHasHealth
     /// <param name="nowMoveX">움직이고 있는 X좌표값의 크기</param>
     public void FlipRenderer(float nowMoveX)
     {
-        if (nowMoveX > 0)
-        {
-            IsFlipX = false;
-        }
-        else if (nowMoveX < 0)
-        {
-            IsFlipX = true;
-        }
-        PlayerSpriteChange.SetFlipxSpriteRenderer(IsFlipX);
+        if (nowMoveX == 0 || IsFlipX == nowMoveX < 0) return;
+        Rpc_SpriteFlipXSynchro(nowMoveX < 0);
     }
 
+
+    /// <summary>
+    /// 해당 플레이어의 모든 상태를 초기화하는 메서드
+    /// </summary>
+    public void ResetPlayerStatus()
+    {
+#if AllMethodDebug
+        Debug.Log("ResetPlayerStatus");
+#endif
+        //비활성화
+        gameObject.SetActive(false);
+
+        // if(PlayerRef == Runner.LocalPlayer)
+        // {
+        //     //IdleState로 변환
+        //     PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
+        //     //체력 Max로 변환
+        //     Hp.Value = MaxHp.Value;
+        //     //모든 스킬 쿨타임 0으로 변환
+        //     //모든 버프 스킬 유지시간 0으로 변환
+        //     foreach (Skill skill in EquippedSkills.Values)
+        //     {
+        //         skill.CurCoolTime.Value = 0;
+        //         BuffSkill buffSkill = skill as BuffSkill;
+        //         if (buffSkill != null)
+        //         {
+        //             buffSkill.CurBuffDuration.Value = 0;
+        //         }
+        //     }
+        //     //위치 값 0으로 초기화
+        //     transform.position = Vector3.zero;
+        //     Rpc_PlayerPositionSynchro(Vector2.zero);
+        // }
+    }
+
+
+    /// <summary>
+    /// 플레이어의 상태를 공유하는 메서드
+    /// </summary>
+    /// <param name="stateIndex"></param>
+    public void Rpc_ChagneState(int stateIndex)
+    {
+        PlayerStateIndex = stateIndex;
+    }
+
+
+    /// <summary>
+    /// 플레이어의 포지션을 공유하는 메서드
+    /// </summary>
+    /// <param name="playerPosition"></param>
+    public void Rpc_PlayerPositionSynchro(Vector2 playerPosition)
+    {
+        PlayerPosition = playerPosition;
+    }
+
+
+    /// <summary>
+    /// 플레이어의 좌우 뒤집힌 상태를 공유하는 메서드
+    /// </summary>
+    /// <param name="flipX"></param>
+    public void Rpc_SpriteFlipXSynchro(bool flipX)
+    {
+        IsFlipX = flipX;
+    }
 }

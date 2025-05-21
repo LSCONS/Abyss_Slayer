@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Analytics;
 
 public class UIStatStore : UIPopup
 {
@@ -12,6 +13,9 @@ public class UIStatStore : UIPopup
 
     [SerializeField] TextMeshProUGUI hpFigure;
     [SerializeField] TextMeshProUGUI damageFigure;
+
+    [SerializeField] TextMeshProUGUI hpTotalFigure;
+    [SerializeField] TextMeshProUGUI damageTotalFigure;
 
     [SerializeField] TextMeshProUGUI remainingPointText;
 
@@ -37,10 +41,10 @@ public class UIStatStore : UIPopup
     private int BaseMaxHp { get; set; } = 0;
     private float BaseDamage { get; set; } = 0;
 
-    public override void Init()
+    public override async void Init()
     {
         base.Init();
-        var player = PlayerManager.Instance.Player;
+        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
 
         OriginalStatPoint = player.StatPoint.Value;       // 저장
         RemainingPoint = OriginalStatPoint;
@@ -103,6 +107,12 @@ public class UIStatStore : UIPopup
         float damageIncrease = (BaseDamage * Amount * (TempDamageLevel - AppliedDamageLevel));
         damageFigure.text = $"+{damageIncrease:f1}";
 
+        int totalHpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * (TempHpLevel - 1));
+        hpTotalFigure.text = $"+{totalHpIncrease}";
+
+        float totalDamageIncrease = BaseDamage * Amount * (TempDamageLevel - 1);
+        damageTotalFigure.text = $"+{totalDamageIncrease:f1}";
+
         remainingPointText.text = $"남은 포인트: {RemainingPoint}";
     }
 
@@ -148,8 +158,8 @@ public class UIStatStore : UIPopup
 
     private void ApplyStatsToPlayer()
     {
-        var player = PlayerManager.Instance.Player;
-
+        var player = ServerManager.Instance.ThisPlayer;
+        
         // 차이 계산
         int hpDiff = TempHpLevel - AppliedHpLevel;
         int damageDiff = TempDamageLevel - AppliedDamageLevel;
@@ -167,6 +177,18 @@ public class UIStatStore : UIPopup
         AppliedHpLevel = TempHpLevel;
         AppliedDamageLevel = TempDamageLevel;
         player.StatPoint.Value = RemainingPoint;
+
+        // 스탯 업그레이드 애널리틱스 전송
+        string stageNumber = ServerManager.Instance.BossCount.ToString();
+        string classType = player.NetworkData.Class.ToString();
+        if (hpDiff > 0)
+        {
+            UpgradeAnalytics.SendClassStatUpgradeInfo(stageNumber, classType, "HP", TempHpLevel);
+        }
+        if (damageDiff > 0)
+        {
+            UpgradeAnalytics.SendClassStatUpgradeInfo(stageNumber, classType, "Damage", TempDamageLevel);
+        }
 
         UpdateUI();
     }

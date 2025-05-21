@@ -16,15 +16,18 @@ public class ShockWaveData : BasePatternData
     [SerializeField] float postDelayTime = 3f;
     public override IEnumerator ExecutePattern()
     {
+        //TODO: 나중에 추가 시 트리거 설정
         bossAnimator.SetTrigger("ShockWave1");
         yield return new WaitForSeconds(preDelayTime);
 
+        //TODO: 나중에 추가 시 트리거 설정
         bossAnimator.SetTrigger("ShockWave2");
         yield return new WaitForSeconds(stompTime);
 
         Vector3 startPosition = bossTransform.position + Vector3.down * bossCenterHight;
 
-        PoolManager.Instance.Get<Explosion>().Init(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
+        ServerManager.Instance.InitSupporter.Rpc_StartExplosionInit(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
+        //PoolManager.Instance.Get<Explosion>().Init(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
         bossController.StartCoroutine(ShockWave(startPosition));
 
         yield return new WaitForSeconds(postDelayTime);
@@ -33,8 +36,10 @@ public class ShockWaveData : BasePatternData
     {
         for (int i = 0; i < shockCount; i++)
         {
-            PoolManager.Instance.Get<ShockWave>().Init(startPosition + (Vector3.right * shockOffsetWidth * (i + 1)), damage);
-            PoolManager.Instance.Get<ShockWave>().Init(startPosition + (Vector3.left * shockOffsetWidth * (i + 1)), damage);
+            ServerManager.Instance.InitSupporter.Rpc_StartShockWaveInit(startPosition + (Vector3.right * shockOffsetWidth * (i + 1)), damage);
+            ServerManager.Instance.InitSupporter.Rpc_StartShockWaveInit(startPosition + (Vector3.left * shockOffsetWidth * (i + 1)), damage);
+            //PoolManager.Instance.Get<ShockWave>().Init(startPosition + (Vector3.right * shockOffsetWidth * (i + 1)), damage);
+            //PoolManager.Instance.Get<ShockWave>().Init(startPosition + (Vector3.left * shockOffsetWidth * (i + 1)), damage);
 
             yield return new WaitForSeconds(shockOffsetTime);
         }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using System.Threading.Tasks;
 public class UIHealthBar : UIPermanent, IView
 {
     [SerializeField] private Image hpBar;
@@ -16,30 +17,36 @@ public class UIHealthBar : UIPermanent, IView
     [SerializeField] private bool isPlayer;   // 플레이어인지 확인
 
 
-    private void SettingPlayer()
+    private async void ConnetctObject()
     {
-        string targetTag = isPlayer ? "Player" : "Boss";
-        GameObject target = GameObject.FindWithTag(targetTag);
-
-        if (target == null)
+        if (isPlayer)
         {
-            Debug.LogWarning($"[UIHealthBar] 태그 '{targetTag}'에 해당하는 오브젝트를 찾을 수 없습니다.");
-            return;
+            await ServerManager.Instance.WaitForThisPlayerAsync();
+            bool bindSuccess = UIBinder.BindPlayer<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.ThisPlayer, this.gameObject);
+            if (!bindSuccess)
+            {
+                Debug.LogWarning($"[UIHealthBar] 플레이어 바인딩 실패: {ServerManager.Instance.ThisPlayer}");
+            }
         }
-
-        bool bindSuccess = UIBinder.Bind<IHasHealth, UIHealthBar, HealthPresenter>(target.name, this.gameObject);
-        if (!bindSuccess)
+        else
         {
-            Debug.LogWarning($"[UIHealthBar] 바인딩 실패: {target.name}");
+            await ServerManager.Instance.WaitforBossSpawn();
+            bool bindSuccess = UIBinder.BindBoss<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.Boss, this.gameObject);
+            if (!bindSuccess)
+            {
+                Debug.LogWarning($"[UIHealthBar] 보스 바인딩 실패: {ServerManager.Instance.ThisPlayer}");
+            }
         }
-    }
-    public override void Init()
-    {
-        SettingPlayer();
         hpBar.fillAmount = 1;
         hpText.text = $"{100:F0}%";
-        base.Init();
+    }
 
+    public async override void Init()
+    {
+        base.Init();
+        await ServerManager.Instance.WaitForThisPlayerAsync();
+        gameObject.SetActive(true);
+        ConnetctObject();
     }
 
     private int currentHp = 0;  // 애니메이션에 쓰일 현재 hp

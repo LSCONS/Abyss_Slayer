@@ -30,7 +30,7 @@ public class PlayerAirState : PlayerBaseState
     /// </summary>
     protected void CheckDownJump(bool changeToFall = true)
     {
-        var input = playerStateMachine.Player.input;
+        var input = playerStateMachine.Player.NetworkInput;
 
         if (input.IsJump &&
             input.MoveDir.y < 0f &&
@@ -41,7 +41,8 @@ public class PlayerAirState : PlayerBaseState
             playerStateMachine.StartDownJumpCooldown(); // 점프 키를 뗄 때까지 이단 점프 제한
 
             if (changeToFall)
-                playerStateMachine.ChangeState(playerStateMachine.FallState);
+                if (playerStateMachine.Player.Runner.IsServer)
+                    playerStateMachine.ChangeState(playerStateMachine.FallState);
         }
     }
 
@@ -50,7 +51,7 @@ public class PlayerAirState : PlayerBaseState
     /// </summary>
     protected void CheckDoubleJump(ref bool hasJumpedInThisFrame)
     {
-        var input = playerStateMachine.Player.input;
+        var input = playerStateMachine.Player.NetworkInput;
 
         if (playerStateMachine.DidDownJump)
         {
@@ -65,7 +66,8 @@ public class PlayerAirState : PlayerBaseState
                  playerStateMachine.Player.PlayerData.PlayerAirData.CanJump())
         {
             hasJumpedInThisFrame = true;
-            playerStateMachine.ChangeState(playerStateMachine.JumpState);
+            if (playerStateMachine.Player.Runner.IsServer)
+                    playerStateMachine.ChangeState(playerStateMachine.JumpState);
         }
 
         if (!input.IsJump)
@@ -79,7 +81,7 @@ public class PlayerAirState : PlayerBaseState
     /// </summary>
     protected void CheckDoubleJump()
     {
-        var input = playerStateMachine.Player.input;
+        var input = playerStateMachine.Player.NetworkInput;
 
         if (playerStateMachine.DidDownJump)
         {
@@ -93,7 +95,8 @@ public class PlayerAirState : PlayerBaseState
                  !playerStateMachine.WasJumpPressedLastFrame &&
                  playerStateMachine.Player.PlayerData.PlayerAirData.CanJump())
         {
-            playerStateMachine.ChangeState(playerStateMachine.JumpState);
+            if(playerStateMachine.Player.Runner.IsServer)
+                    playerStateMachine.ChangeState(playerStateMachine.JumpState);
         }
     }
 
@@ -102,6 +105,6 @@ public class PlayerAirState : PlayerBaseState
     /// </summary>
     protected void UpdateJumpInputMemory()
     {
-        playerStateMachine.WasJumpPressedLastFrame = playerStateMachine.Player.input.IsJump;
+        playerStateMachine.WasJumpPressedLastFrame = playerStateMachine.Player.NetworkInput.IsJump;
     }
 }

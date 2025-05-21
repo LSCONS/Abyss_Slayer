@@ -1,3 +1,4 @@
+using Fusion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,30 @@ public class PlayerManager : Singleton<PlayerManager>
     public PlayerSpriteData PlayerSpriteData {  get; private set; }
     public PlayerCustomizationInfo PlayerCustomizationInfo { get; private set; }
 
-    public CharacterClass selectedCharacterClass = CharacterClass.Rogue;
+    public CharacterClass selectedCharacterClass { get; set; } = CharacterClass.Rogue;
     public Dictionary<CharacterClass, SpriteData> CharacterSpriteDicitonary { get; set; } = new();
 
     // 커스텀 바뀌면 콜백
     public Action<PlayerCustomizationInfo> OnCustomizationChanged;
 
+    public CharacterClass CharacterClass
+        => ServerManager.Instance.ThisPlayerData?.Class ?? CharacterClass.Rogue;
+    public Dictionary<CharacterClass, SpriteData> DictClassToSpriteData { get; private set; } = new();
     protected override void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
     }
 
-    private async void Start()
+    private void Start()
+    {
+        //Sprite Data 생성
+        LoadSpriteData();
+    }
+
+
+
+    private async void LoadSpriteData()
     {
         try
         {
@@ -32,29 +44,30 @@ public class PlayerManager : Singleton<PlayerManager>
             {
                 if (character == CharacterClass.Count) continue;
 
-                CharacterSpriteDicitonary[character] = new SpriteData();
-                await CharacterSpriteDicitonary[character].Init(character);
+                DictClassToSpriteData[character] = new SpriteData();
+                await DictClassToSpriteData[character].Init(character);
+
+                CharacterSpriteDicitonary[character] = DictClassToSpriteData[character];
             }
         }
         catch (Exception ex)
         {
-            Debug.LogError($"초기화 실패: {ex}");
+            Debug.LogError($"SpriteData초기화 실패: {ex}");
         }
 
         if (PlayerCustomizationInfo == null)
         {
-            CharacterClass defaultClass = GetSelectedClass();
-            var spriteData = CharacterSpriteDicitonary[defaultClass].Data;
+            CharacterClass defaultClass = selectedCharacterClass;
 
-            int defaultSkin = ParseColorIndexFromName(spriteData.SkinName);
-            int defaultFace = ParseColorIndexFromName(spriteData.FaceName);
-            int defaultHairColor = ParseColorIndexFromName(spriteData.HairTopName);
-            string styleIdToken = ExtractStyleIdTokenFromName(spriteData.HairTopName);
-            int defaultHairKey = CreateHairKey(styleIdToken, defaultHairColor);
+            int defaultSkin = 0;
+            int defaultFace = 0;
+            (int, int) defaultHair = (0, HairColorConfig.HairColorIndexByClass[defaultClass]);
 
-            PlayerCustomizationInfo = new PlayerCustomizationInfo(defaultSkin, defaultFace, defaultHairKey);
+            PlayerCustomizationInfo = new PlayerCustomizationInfo(defaultSkin, defaultFace, defaultHair);
         }
     }
+
+
     private int ParseColorIndexFromName(string name)
     {
         if (string.IsNullOrEmpty(name)) return 1;
@@ -87,59 +100,20 @@ public class PlayerManager : Singleton<PlayerManager>
         int styleNum = int.Parse(styleId.Substring(1));
         return baseOffset + styleNum * 100 + colorIndex;
     }
-
-
+    
 
     /// <summary>
     /// 현재 씬에서 플레이어를 찾고 등록하는 메서드
     /// 플레이어가 있는 씬으로 이동할 때마다 호출해야함.
     /// </summary>
-    public void FindPlayer()
-    {
-        Player = GameObject.FindWithTag("Player").GetComponent<Player>();
-    }
-
     // 클래스 세팅해주는 메서드
-    public void SetSelectedClass(CharacterClass selectedCalss)
+    public void SetSelectedClass(CharacterClass selectedClass)
     {
-        selectedCharacterClass = selectedCalss;
+        selectedCharacterClass = selectedClass;
+        ServerManager.Instance.ThisPlayerData.Rpc_ChangeClass(selectedClass);
     }
 
-    public void AddCharacterSprite(CharacterClass character)
-    {
-        if (!(CharacterSpriteDicitonary.ContainsKey(character)))
-        {
-            CharacterSpriteDicitonary[character] = new SpriteData();
-        }
-    }
-
-    /// <summary>
-    /// 플레이어의 입력을 연결하는 메서드
-    /// </summary>
-    public void PlayerOnConnected()
-    {
-        Player.input.InputEvent();
-    }
-
-    /// <summary>
-    /// 플레이어의 입력을 해제하는 메서드
-    /// </summary>
-    public void PlayerOffConnected()
-    {
-        Player.input.OutPutEvent();
-    }
-
-    /// <summary>
-    /// 선택된 클래스 반환해줌
-    /// </summary>
-    /// <param name="selectedCalss"></param>
-    /// <returns></returns>
-    public CharacterClass GetSelectedClass()
-    {
-        return selectedCharacterClass;
-    }
-
-    public void SetCustomization(int skinId, int faceId, int hairId)
+    public void SetCustomization(int skinId, int faceId, (int style, int color) hairId)
     {
         PlayerCustomizationInfo = new PlayerCustomizationInfo(skinId, faceId, hairId);
         OnCustomizationChanged?.Invoke(PlayerCustomizationInfo);
@@ -158,21 +132,34 @@ public class SpriteData
     [field: SerializeField] public Dictionary<AnimationState, Sprite[]> Skin { get; set; } = new();
     [field: SerializeField] public Dictionary<AnimationState, Sprite[]> WeaponBottom { get; set; } = new();
 
-    public async Task Init(CharacterClass playerClass)
+
+    public Dictionary<AnimationState, Sprite[]> InstantiateDictionary(Dictionary<AnimationState, Sprite[]> data)
     {
-        Data.SetSpriteName(playerClass);
-        WeaponTop = await LoadAndSortSprites(Data.WeaponTopName);
-        ClothTop = await LoadAndSortSprites(Data.ClothTopName);
-        HairTop = await LoadAndSortSprites(Data.HairTopName);
-        ClothBottom = await LoadAndSortSprites(Data.ClothBottomName);
-        HairBottom = await LoadAndSortSprites(Data.HairBottomName);
-        Face = await LoadAndSortSprites(Data.FaceName);
-        Skin = await LoadAndSortSprites(Data.SkinName);
-        WeaponBottom = await LoadAndSortSprites(Data.WeaponBottomName);
+        Dictionary<AnimationState, Sprite[]> result = new(); 
+        foreach(AnimationState state in data.Keys)
+        {
+            Sprite[] sprites = new Sprite[data[state].Length];
+            for(int i = 0; i < data[state].Length; i++)
+            {
+                sprites[i] = data[state][i];
+            }
+            result[state] = sprites;
+        }
+        return result;
     }
 
 
-    private async System.Threading.Tasks.Task<Dictionary<AnimationState, Sprite[]>> LoadAndSortSprites(string addressKey)
+    public async Task Init(CharacterClass playerClass)
+    {
+        Data.SetSpriteName(playerClass);
+        WeaponTop       = await LoadAndSortSprites(Data.WeaponTopName);
+        ClothTop        = await LoadAndSortSprites(Data.ClothTopName);
+        ClothBottom     = await LoadAndSortSprites(Data.ClothBottomName);
+        WeaponBottom    = await LoadAndSortSprites(Data.WeaponBottomName);
+    }
+
+
+    private async Task<Dictionary<AnimationState, Sprite[]>> LoadAndSortSprites(string addressKey)
     {
         var handle = Addressables.LoadAssetAsync<Sprite[]>(addressKey);         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
         await handle.Task;

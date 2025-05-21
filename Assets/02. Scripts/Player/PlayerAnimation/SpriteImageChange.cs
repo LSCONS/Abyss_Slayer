@@ -22,7 +22,8 @@ public class SpriteImageChange : MonoBehaviour
     [field: SerializeField] public Image Skin { get; set; }
     [field: SerializeField] public Image WeaponBottom { get; set; }
     [field: SerializeField] public SpriteData  SpriteData { get; set; }
-    private Color color = new Color(1,1,1,1);   
+    private Color color = new Color(1,1,1,1);
+    private int SelectedClass = -1;
     public Dictionary<Image, Dictionary<AnimationState, Sprite[]>> DictAnimationState { get; set; } = new();
     private int animationNum = 0;
     private int maxtemp = 5;
@@ -48,21 +49,25 @@ public class SpriteImageChange : MonoBehaviour
     }
     public void Init(CharacterClass character)
     {
-        animationNum = 0;
-        tempTime = maxtemp;
-        DictAnimationState[WeaponTop] = PlayerManager.Instance.CharacterSpriteDicitonary[character].WeaponTop;
-        DictAnimationState[ClothTop] = PlayerManager.Instance.CharacterSpriteDicitonary[character].ClothTop;
-        DictAnimationState[HairTop] = PlayerManager.Instance.CharacterSpriteDicitonary[character].HairTop;
-        DictAnimationState[ClothBottom] = PlayerManager.Instance.CharacterSpriteDicitonary[character].ClothBottom;
-        DictAnimationState[HairBottom] = PlayerManager.Instance.CharacterSpriteDicitonary[character].HairBottom;
-        DictAnimationState[Face] = PlayerManager.Instance.CharacterSpriteDicitonary[character].Face;
-        DictAnimationState[Skin] = PlayerManager.Instance.CharacterSpriteDicitonary[character].Skin;
-        DictAnimationState[WeaponBottom] = PlayerManager.Instance.CharacterSpriteDicitonary[character].WeaponBottom;
-        foreach(var image in DictAnimationState.Keys)
+        if(SelectedClass != (int)character)
         {
-            image.color = color;
+            SelectedClass = (int)character;
+            animationNum = 0;
+            tempTime = maxtemp;
+            DictAnimationState[WeaponTop] = PlayerManager.Instance.DictClassToSpriteData[character].WeaponTop;
+            DictAnimationState[ClothTop] = PlayerManager.Instance.DictClassToSpriteData[character].ClothTop;
+            DictAnimationState[HairTop] = PlayerManager.Instance.DictClassToSpriteData[character].HairTop;
+            DictAnimationState[ClothBottom] = PlayerManager.Instance.DictClassToSpriteData[character].ClothBottom;
+            DictAnimationState[HairBottom] = PlayerManager.Instance.DictClassToSpriteData[character].HairBottom;
+            DictAnimationState[Face] = PlayerManager.Instance.DictClassToSpriteData[character].Face;
+            DictAnimationState[Skin] = PlayerManager.Instance.DictClassToSpriteData[character].Skin;
+            DictAnimationState[WeaponBottom] = PlayerManager.Instance.DictClassToSpriteData[character].WeaponBottom;
+            foreach (var image in DictAnimationState.Keys)
+            {
+                image.color = color;
+            }
+            SetLoopAnimation(AnimationState.Idle1, animationNum);
         }
-        SetLoopAnimation(AnimationState.Idle1, animationNum);
     }
 
     public bool SetOnceAnimation(AnimationState state, int spriteNum)
@@ -105,17 +110,30 @@ public class SpriteImageChange : MonoBehaviour
 
         var data = DataManager.Instance;
         var state = AnimationState.Idle1;
+        var key = HairColorConfig.HairColorIndexByClass[PlayerManager.Instance.selectedCharacterClass];
 
         TrySetPart(Skin, data.DictIntToDictStateToSkinColorSprite, info.skinId, state);
         TrySetPart(Face, data.DictIntToDictStateToFaceColorSprite, info.faceId, state);
-        TrySetPart(HairTop, data.DictIntToDictStateToHairStyleTopSprite, info.hairId, state);
-        TrySetPart(HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, info.hairId, state);
+        var hairKey = (info.hairInfo.styleId, info.hairInfo.colorIndex);
+        TrySetPart(HairTop, data.DictIntToDictStateToHairStyleTopSprite, hairKey, state);
+        TrySetPart(HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, hairKey, state);
 
         animationNum = 0; // 첫 프레임부터 재생
         SetLoopAnimation(state, animationNum);
     }
 
     private void TrySetPart(Image target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> dict, int id, AnimationState state)
+    {
+        if (!DictAnimationState.ContainsKey(target))
+            DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
+
+        if (dict.TryGetValue(id, out var stateDict) && stateDict.TryGetValue(state, out var sprites))
+        {
+            DictAnimationState[target][state] = sprites;
+        }
+    }
+
+    private void TrySetPart(Image target, Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> dict, (int, int) id, AnimationState state)
     {
         if (!DictAnimationState.ContainsKey(target))
             DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();

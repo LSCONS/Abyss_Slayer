@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +31,7 @@ public class FoxSphereProjectile : BasePoolable
             }
             if (!_end && Time.time >= _endTime)
             {
-                animator.SetTrigger("End");
+                animator.SetTrigger(AnimationHash.EndParameterHash);
                 _end = true;
             }
 
@@ -41,21 +42,25 @@ public class FoxSphereProjectile : BasePoolable
             _fired = true;
         }
     }
-    public override void Init()
+    public override void Rpc_Init()
     {  
     }
-    public void Init(int damage,Vector3 startPosition, float preDelayTime, Transform target, float speed, float distance, int color)
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(int damage,Vector3 startPosition, float preDelayTime, PlayerRef target, float speed, float distance, int color)
     {
+        gameObject.SetActive(true);
         damageCollider.Init(damage, null, int.MaxValue);
         transform.position = startPosition;
         _fireTime = Time.time + preDelayTime;
-        animator.SetFloat("CreationSpeed", 1 / (Mathf.Min(0.9f, preDelayTime)));
-        _target = target;
+        
+        animator.SetFloat(AnimationHash.CreationSpeedParameterHash, 1 / (Mathf.Min(0.9f, preDelayTime)));
+        _target = ServerManager.Instance.DictRefToPlayer[target].transform;
         _v = speed;
         _a = _v * _v / (2 * distance);
         _returnTime = _fireTime + (2 * distance / _v);
         _endTime = _fireTime + (3.9f * distance / _v);
-        animator.SetInteger("Color", color);
+        animator.SetInteger(AnimationHash.ColorParameterHash, color);
 
         _fired = false;
         _isReturn = false;
@@ -69,7 +74,7 @@ public class FoxSphereProjectile : BasePoolable
 
     public override void ReturnToPool()
     {
-        animator.SetInteger("Color", -1);
+        animator.SetInteger(AnimationHash.ColorParameterHash, -1);
         base.ReturnToPool();
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 
-
 public static class SceneName
 {
     public const string IntroScene = "IntroScene";
@@ -12,7 +11,6 @@ public static class SceneName
     public const string LobbyScene = "LobbyScene";
     public const string RestScene = "RestScene";
     public const string LoadingScene = "LoadingScene";
-
     public const string BossScenePrefix = "BossScene_";
 }
 

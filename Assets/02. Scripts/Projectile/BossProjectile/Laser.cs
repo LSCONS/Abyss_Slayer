@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,11 +51,13 @@ public class Laser : BasePoolable
         transform.rotation = Quaternion.Euler(0, 0, _angle);
     }
 
-    public override void Init()
+    public override void Rpc_Init()
     {
     }
+
     public void Init(int damage, Vector3 position, Transform target,float width =0.5f, float warningTime = 0.5f, float chasingTime = 0f, bool isPiercing = true)
     {
+        gameObject.SetActive(true);
         _players.Clear();
         _isFiered = false;
 

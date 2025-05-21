@@ -4,8 +4,6 @@ public class PlayerFallState : PlayerAirState
 {
     public StoppableAction MoveAction = new();
     private int animationNum = 0;
-    private float animationTime = 0;
-    private int animationDelay = 10;
     public PlayerFallState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -26,7 +24,6 @@ public class PlayerFallState : PlayerAirState
         base.Enter();
         playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Fall, 0);
         animationNum = 0;
-        animationTime = animationDelay;
 
 #if StateMachineDebug
         Debug.Log("FallState 진입");
@@ -45,8 +42,8 @@ public class PlayerFallState : PlayerAirState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        animationTime--;
     }
+
 
     public override void Update()
     {
@@ -66,9 +63,10 @@ public class PlayerFallState : PlayerAirState
     /// </summary>
     private void UpdateFallAnimation()
     {
-        if (animationTime > 0) return;
-
-        animationTime = animationDelay;
-        playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Fall, ++animationNum);
+        if (ChangeSpriteTime + CurTime < Time.time)
+        {
+            CurTime = Time.time;
+            playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Fall, ++animationNum);
+        }
     }
 }

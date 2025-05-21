@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
+using Fusion;
 using UnityEngine;
 
 [Serializable]
@@ -17,51 +18,42 @@ public class BossPattern
     [Tooltip("끄면 패턴 비활성화")]
     public bool setActivePatternForTest;
     public bool showGizmos;
-   
-    
 }
-public class BossController : MonoBehaviour
-{
-    [SerializeField] BasePatternData appearPattern;
-    [SerializeField] List<BossPattern> allPatterns;
-    [SerializeField] GameObject targetCrossHairPrefab;
-    Animator animator;
-    Transform _targetCrosshair;
-    GameObject _targetCrosshairObj;
-    Transform _target;
-    [SerializeField] public SpriteRenderer sprite;      //보스스프라이트
-    public Collider2D hitCollider;                      //보스 피격판정 콜라이더
-    [SerializeField] SpriteRenderer _effectSprite;
-    [SerializeField] public float bossCenterHight;
-    public float mapWidth;
-    public CinemachineVirtualCamera virtualCamera;
 
-    [HideInInspector] public bool chasingTarget;
-    bool _showTargetCrosshair;
-    public bool showTargetCrosshair
+
+public class BossController : NetworkBehaviour
+{
+    [field: SerializeField] private BasePatternData     AppearPattern           { get; set; }
+    [field: SerializeField] private List<BossPattern>   AllPatterns             { get; set; }
+    [field: SerializeField] private GameObject          TargetCrossHairPrefab   { get; set; }
+    [field: SerializeField] public float                MapWidth                { get; set; }
+    [field: SerializeField] public Boss                 Boss                    { get; private set; }
+    [field: SerializeField] public float                BossCenterHight         { get; private set; }
+    private GameObject                                  TargetCrosshairObj      { get; set; }
+    public Transform                                    TargetCrosshair         { get; private set; }
+    public Transform                                    Target                  { get; private set; }
+    public bool                                         ChasingTarget           { get; set; }
+
+
+    public CinemachineVirtualCamera                     VirtualCamera           => Boss.VirtualCamera;
+    public Collider2D                                   HitCollider             => Boss.HitCollider; //보스 피격판정 콜라이더
+    public Animator                                     Animator                => Boss.Animator;
+    public SpriteRenderer                               Sprite                  => Boss.Sprite; //보스스프라이트
+
+
+    private bool _showTargetCrosshair;
+    public bool ShowTargetCrosshair
     {
         get { return _showTargetCrosshair; }
         set 
         {
-            if (value && _target != null) _targetCrosshair.position = _target.position;
-            _targetCrosshairObj.SetActive(value);
+            if (value && Target != null) TargetCrosshair.position = Target.position;
+            TargetCrosshairObj.SetActive(value);
             _showTargetCrosshair = value;
         }
     }
-    
-    bool _isLeft;
-    public bool isLeft
-    {
-        get { return _isLeft; }
-        set 
-        {
-            if(_isLeft != value)
-            {
-                _isLeft = value;
-                sprite.flipX = value;
-            }
-        }
-    }
+
+
     bool _isRun;
     public bool isRun
     {
@@ -71,59 +63,51 @@ public class BossController : MonoBehaviour
             if (_isRun != value)
             {
                 _isRun = value;
-                animator.SetBool("Run",value);
+                Boss.Rpc_SetBoolAnimationHash(AnimationHash.RunSlashParameterHash ,value);
             }
         }
     }
 
-    [Header("움직임 관련")]
-    [SerializeField] float runSpeed;
-    [SerializeField] float jumpMoveTime;
-    [SerializeField] float jumpMoveHight;
-    [SerializeField] float gravityMultiplier;
+    [field: Header("움직임 관련")]
+    [field: SerializeField] private float JumpMoveTime      { get; set; }
+    [field: SerializeField] private float JumpMoveHight     { get; set; }
+    [field: SerializeField] private float GravityMultiplier { get; set; }
+    [field: SerializeField] private float runSpeed { get; set; }
 
-    private void Awake()
+    public void Init()
     {
-        animator = GetComponent<Animator>();
-        hitCollider = GetComponent<Collider2D>();
-        virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
-
-        for (int i = 0; i < allPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
+        for (int i = 0; i < AllPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
         {
-            allPatterns[i].patternData.Init(transform,this,animator);
+            AllPatterns[i].patternData.Init(this);
         }
-        appearPattern?.Init(transform, this, animator);
+        AppearPattern?.Init(this);
 
-        _targetCrosshair = Instantiate(targetCrossHairPrefab).transform;
-        _targetCrosshairObj = _targetCrosshair.gameObject;
+        TargetCrosshair = Instantiate(TargetCrossHairPrefab).transform;
+        TargetCrosshairObj = TargetCrosshair.gameObject;
 
-        chasingTarget = false;
-        showTargetCrosshair = false;
         _isRun = false;
+        ChasingTarget = false;
+        ShowTargetCrosshair = false;
     }
 
-    private void Start()
+    public void StartBossPattern()
     {
+#if AllMethodDebug
+        Debug.Log("StartBossPattern");
+#endif
+        if(Boss.IsRest && RunnerManager.Instance.GetRunner().IsServer)
         StartCoroutine(startLoop());
     }
 
-    private void Update()
-    {
-        if (chasingTarget)
-        {
-            isLeft = (_target.position.x - transform.position.x < 0);
-        }
-        if (showTargetCrosshair)
-        {
-            _targetCrosshair.position = _target.position;
-        }
-        
-    }
+
     IEnumerator startLoop()
     {
-        if(appearPattern != null)
+#if AllMethodDebug
+        Debug.Log("startLoop");
+#endif
+        if (AppearPattern != null)
         {
-            yield return appearPattern.ExecutePattern();
+            yield return AppearPattern.ExecutePattern();
         }
         else
         {
@@ -138,18 +122,21 @@ public class BossController : MonoBehaviour
     /// <returns></returns>
     IEnumerator PatternLoop()
     {
+#if AllMethodDebug
+        Debug.Log("PatternLoop");
+#endif
         while (true)
         {
             yield return StartCoroutine(Landing());
             BossPattern next = GetRandomPattern();
             if (next != null)
             {
-                _target = next.patternData.target;
+                Target = next.patternData.target;
                 yield return StartCoroutine(next.patternData.ExecutePattern());
             }
             else
             {
-                //Debug.LogWarning("선택 가능한 패턴 없음. 대기");
+                Debug.Log("선택 가능한 패턴 없음. 대기");
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -160,11 +147,11 @@ public class BossController : MonoBehaviour
     /// </summary>
     private void OnDrawGizmos()
     {
-        if(allPatterns.Count == 0)
+        if(AllPatterns.Count == 0)
             return;
-        for(int i = 0; i < allPatterns.Count; i++)
+        for(int i = 0; i < AllPatterns.Count; i++)
         {
-            BossPattern pattern = allPatterns[i];
+            BossPattern pattern = AllPatterns[i];
 
             if (pattern == null || (pattern.patternData.attackableAreas.Count == 0 && pattern.patternData.globalAttackableAreas.Count == 0))
                 return;
@@ -198,25 +185,42 @@ public class BossController : MonoBehaviour
 
     public void StartNextPattern()
     {
+#if AllMethodDebug
+        Debug.Log("StartNextPattern");
+#endif
         StartCoroutine(GetRandomPattern().patternData.ExecutePattern());
     }
+
+
     BossPattern GetRandomPattern()
     {
+#if AllMethodDebug
+        Debug.Log("GetRandomPattern");
+#endif
         // 가능한 패턴만 필터링, 테스트용 활성화 값이 참인경우만 포함
-        List<BossPattern> availablePatterns = allPatterns.Where(p =>p.setActivePatternForTest && p.patternData.IsAvailable()).ToList();
+        List<BossPattern> patterns = new();
+        foreach(BossPattern pattern in AllPatterns)
+        {
+            if(pattern.setActivePatternForTest && pattern.patternData.IsAvailable())
+            {
+                patterns.Add(pattern);
+            }
+        }
+        Debug.Log($"AllpatternCount = {AllPatterns.Count}");
+        Debug.Log($"listCount = {patterns.Count}");
 
-        if (availablePatterns.Count == 0)
+        if (patterns.Count == 0)
             return null;
 
         // 가중치 총합 계산
-        float totalWeight = availablePatterns.Sum(p => p.weight);
+        float totalWeight = patterns.Sum(p => p.weight);
 
         // 랜덤 값 생성
         float selectedValue = UnityEngine.Random.Range(0f, totalWeight);
 
         // 해당 구간의 패턴 선택
         float cumulative = 0f;
-        foreach (var pattern in availablePatterns)
+        foreach (var pattern in patterns)
         {
             cumulative += pattern.weight;
             if (selectedValue <= cumulative)
@@ -224,39 +228,44 @@ public class BossController : MonoBehaviour
                 return pattern;
             }
         }
-        return availablePatterns.Last(); // 예외 방지용 (총합이 float 연산으로 어긋날 경우, 없으면 반환없는경우 생겨서 에러남)
+        return patterns.Last(); // 예외 방지용 (총합이 float 연산으로 어긋날 경우, 없으면 반환없는경우 생겨서 에러남)
     }
 
     [SerializeField] LayerMask _groundLayerMask;
     public IEnumerator Landing(bool isDeath = false)
     {
+#if AllMethodDebug
+        Debug.Log("Landing");
+#endif
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f,_groundLayerMask);
 
-        if (hit.point.y > transform.position.y - bossCenterHight + 0.05f)
+        if (hit.point.y > transform.position.y - BossCenterHight + 0.05f)
         {
-            while (hit.point.y >= transform.position.y - bossCenterHight + 0.05f)
+            while (hit.point.y >= transform.position.y - BossCenterHight + 0.05f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, hit.point + (Vector2.up * bossCenterHight), 8f * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, hit.point + (Vector2.up * BossCenterHight), 8f * Time.deltaTime);
                 yield return null;
             }
-            transform.position = hit.point + (Vector2.up * bossCenterHight);
+            transform.position = hit.point + (Vector2.up * BossCenterHight);
         }
-        else if (hit.point.y < transform.position.y - bossCenterHight - 0.05f)
+        else if (hit.point.y < transform.position.y - BossCenterHight - 0.05f)
         {
-            animator.SetTrigger(isDeath? "DeathFall" : "Fall");
+            int hash = isDeath ? AnimationHash.DeadParameterHash : AnimationHash.FallParameterHash;
+            Boss.Rpc_SetTriggerAnimationHash(hash);
+
             float time = 0f;
             float startHight = transform.position.y;
-            while (hit.point.y <= transform.position.y - bossCenterHight - 0.05f)
+            while (hit.point.y <= transform.position.y - BossCenterHight - 0.05f)
             {
-                transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * gravityMultiplier * time * time));
+                transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * GravityMultiplier * time * time));
                 time += Time.deltaTime;
                 yield return null;
             }
-            transform.position = hit.point + (Vector2.up * bossCenterHight);
+            transform.position = hit.point + (Vector2.up * BossCenterHight);
 
             if (!isDeath)
             {
-                animator.SetTrigger("Land");
+                Boss.Rpc_SetTriggerAnimationHash(AnimationHash.LandParameterHash);
                 yield return new WaitForSeconds(0.2f);
             }
         }
@@ -271,9 +280,12 @@ public class BossController : MonoBehaviour
     /// <returns></returns>
     public IEnumerator JumpMove(Vector3 targetPosition, float inputJumpMoveTime = -1f, float inputJumpMoveHight = -10f)
     {
+#if AllMethodDebug
+        Debug.Log("JumpMove");
+#endif
         Vector3 startPosition = transform.position;
-        float _jumpMoveTime = (inputJumpMoveTime <= 0)? jumpMoveTime : inputJumpMoveTime;
-        float _jumpMoveHight = (inputJumpMoveHight < 0)? jumpMoveHight : inputJumpMoveHight;
+        float _jumpMoveTime = (inputJumpMoveTime <= 0)? JumpMoveTime : inputJumpMoveTime;
+        float _jumpMoveHight = (inputJumpMoveHight <= -10)? JumpMoveHight : inputJumpMoveHight;
         float maxY = Mathf.Max(targetPosition.y, startPosition.y) + _jumpMoveHight;
         float deltaY1 = maxY - startPosition.y;
         float deltaY2 = maxY - targetPosition.y;
@@ -281,31 +293,31 @@ public class BossController : MonoBehaviour
         float jumpGravity = 2 * deltaY1 / (hightestTime * hightestTime);
         float startVelocityY = jumpGravity * hightestTime;
 
-        isLeft = targetPosition.x - transform.position.x <= 0;
-        animator.SetTrigger("Jump");
+        Boss.IsLeft = targetPosition.x - transform.position.x <= 0;
+        Boss.Rpc_SetTriggerAnimationHash(AnimationHash.JumpParameterHash);
         yield return new WaitForSeconds(0.2f);
-        PoolManager.Instance.Get<JumpEffect>().Init(transform.position + Vector3.down * bossCenterHight);
+        PoolManager.Instance.Get<JumpEffect>().Rpc_Init(transform.position + Vector3.down * BossCenterHight);
         float time = 0f;
         while(time < _jumpMoveTime)
         {
             float x = Mathf.Lerp(startPosition.x, targetPosition.x, time / _jumpMoveTime);
-            if(time >= hightestTime && _jumpMoveHight != 0)
-                animator.SetTrigger("Fall");
+            if(time >= hightestTime)
+                Boss.Rpc_SetTriggerAnimationHash(AnimationHash.FallParameterHash);
             float y = startPosition.y + (startVelocityY * time) - (0.5f * jumpGravity * time * time);
             transform.position = new Vector3(x, y, 0);
             time += Time.deltaTime;
             yield return null;
         }
-        animator.ResetTrigger("Fall");
-
-        if(_jumpMoveHight != 0)
-            animator.SetTrigger("Land");
-
+        Boss.Rpc_SetTriggerAnimationHash(AnimationHash.LandParameterHash);
+        Boss.Rpc_ResetTriggerAnimationHash(AnimationHash.FallParameterHash);
         transform.position = targetPosition;
         yield return new WaitForSeconds(0.4f);
     }
     public IEnumerator RunMove(bool isleft, float speed = -1f)
     {
+#if AllMethodDebug
+        Debug.Log("RunMove");
+#endif
         bool isfall = false;
         float startHight = transform.position.y;
         float time = 0f;
@@ -313,15 +325,15 @@ public class BossController : MonoBehaviour
         float _speed;
         if (speed <= 0f) _speed = isleft ? -runSpeed : runSpeed;
         else _speed = isleft ? -speed : speed;
-        isLeft = isleft;
+        Boss.IsLeft = isleft;
         isRun = true;
         
         while (isRun)
         {
-            float x = Mathf.Clamp(transform.position.x + _speed * Time.deltaTime, -mapWidth / 2 + 0.7f, mapWidth / 2 - 0.7f);
+            float x = Mathf.Clamp(transform.position.x + _speed * Time.deltaTime, -MapWidth / 2 + 0.7f, MapWidth / 2 - 0.7f);
             transform.position = new Vector3 (x, transform.position.y, 0);
 
-            if (!Physics2D.Raycast(transform.position, Vector3.down, bossCenterHight + 0.01f, LayerMask.GetMask("GroundPlane", "GroundPlatform")))
+            if (!Physics2D.Raycast(transform.position, Vector3.down, BossCenterHight + 0.01f, LayerMask.GetMask("GroundPlane", "GroundPlatform")))
             {
                 if (!isfall)
                 {
@@ -329,7 +341,7 @@ public class BossController : MonoBehaviour
                     time = 0f;
                     isfall = true;
                 }
-                transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * gravityMultiplier * time * time));
+                transform.position = new Vector3(transform.position.x, startHight - (0.5f * 9.8f * GravityMultiplier * time * time));
                 time += Time.deltaTime;
             }
             else
@@ -343,18 +355,33 @@ public class BossController : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 몬스터의 체력이 전부 닳았을 때 실행할 메서드
+    /// </summary>
     public void OnDead()
     {
+#if AllMethodDebug
+        Debug.Log("OnDead");
+#endif
         StopAllCoroutines();
         StartCoroutine(Dead());
     }
 
+
+    /// <summary>
+    /// 몬스터의 체력이 전부 닳았을 때 실행할 코루틴
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Dead()
     {
+#if AllMethodDebug
+        Debug.Log("Dead");
+#endif
         //yield return StartCoroutine(Landing(true));
         Time.timeScale = 0.2f;
-        animator.SetTrigger("Dead");
-        virtualCamera.Priority = 20;
+        Boss.Rpc_SetTriggerAnimationHash(AnimationHash.DeadParameterHash);
+        VirtualCamera.Priority = 20;
         yield return new WaitForSeconds(0.2f);
 
         while (Time.timeScale < 1f)
@@ -365,6 +392,6 @@ public class BossController : MonoBehaviour
         Time.timeScale = 1f;
 
         yield return new WaitForSeconds(2f);
-        virtualCamera.Priority = 5;
+        VirtualCamera.Priority = 5;
     }
 }

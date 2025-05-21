@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class Explosion : BasePoolable
         //폭발 사운드 삽입
     }
 
-    public override void Init()
+    public override void Rpc_Init()
     {
         //호출용 실제 초기화는 오버로드한 init에서 실행
     }
@@ -28,7 +29,8 @@ public class Explosion : BasePoolable
     /// <param name="position">생성위치</param>
     /// <param name="size">폭발크기 기본값 = 1</param>
     /// <param name="spriteNum">폭발모양 기본값 = 0</param>
-    public void Init(Vector3 position,int damage, float size = 1, int spriteNum = 0)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(Vector3 position,int damage, float size = 1, int spriteNum = 0)
     {
         transform.position = position;
         _damage = damage;

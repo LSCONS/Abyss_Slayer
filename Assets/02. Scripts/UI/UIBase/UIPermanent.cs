@@ -27,7 +27,8 @@ public class UIPermanent : UIBase
         //rect.anchoredPosition = startPos;
 
         // 등장 애니메이션
-        gameObject.SetActive(true); // 애니메이션 보기 위해 켜야 함
+        //송제우가 true에서 false로 바꿈.
+        //이거 true로 하면 인트로 씬에서도 시작하자마자 보이는 버그가 있음
 
         //rect.DOAnchorPos(originalPos, 0.5f)
         //    .SetEase(Ease.OutExpo);

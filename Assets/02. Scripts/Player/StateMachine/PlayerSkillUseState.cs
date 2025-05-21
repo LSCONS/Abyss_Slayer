@@ -13,14 +13,12 @@ public class PlayerSkillUseState : PlayerBaseState
     private SkillSlotKey Slotkey { get; set; }
     private Func<bool> SkillInputKey { get; set; }
     private int animationNum = 0;
-    private float animationTime = 0;
-    private int animationDelay = 10;
     public PlayerSkillUseState(PlayerStateMachine playerStateMachine, SkillSlotKey key) : base(playerStateMachine)
     {
         Slotkey = key;
         SkillData = playerStateMachine.Player.EquippedSkills[key];
-        SkillInputKey = playerStateMachine.Player.input.SkillInputKey[key];
-        animationDelay = SkillData.AnimationChangeDelayTime;
+        SkillInputKey = SlotKeyConvertFunc(key);
+        ChangeSpriteTime = SkillData.AnimationChangeDelayTime;
     }
     public void Init()
     {
@@ -30,14 +28,16 @@ public class PlayerSkillUseState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
+        if (SkillData.SkillCategory == SkillCategory.Dash) playerStateMachine.IsDash = true;
+
+
+        animationNum = 0;
         playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, 0);
         if (!(SkillData.CanMove))
         {
             playerStateMachine.MovementSpeed = 0f;
             ResetZeroVelocity();
         }
-        animationNum = 0;
-        animationTime = animationDelay;
 
         if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {
@@ -52,11 +52,15 @@ public class PlayerSkillUseState : PlayerBaseState
             ResetZeroVelocity();
             ResetZeroGravityForce();
         }
-        SkillData.UseSkill();
 
-        if (SkillData.SkillSound != null)
+        playerStateMachine.UseSkillData = SkillData;
+
+        if (playerStateMachine.Player.Runner.IsServer)
+            playerStateMachine.Player.Rpc_UseSkill();
+
+        if (SkillData.EAudioClip != EAudioClip.None)
         {
-            SoundManager.Instance.PlaySFX(SkillData.SkillSound.clip, SkillData.SkillSound.loop, SkillData.SkillSound.pitch, SkillData.SkillSound.volume);
+            SoundManager.Instance.PlaySFX(SkillData.EAudioClip);
         }
 
 
@@ -68,16 +72,19 @@ public class PlayerSkillUseState : PlayerBaseState
     public override void Exit()
     {
         base.Exit();
-        SkillExit();
+        if (SkillData.SkillCategory == SkillCategory.Dash) playerStateMachine.IsDash = false;
+        SkillExit(SkillData);
         if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {
             ResetZeroVelocity();
             ResetDefaultGravityForce();
         }
 
-        if (SkillData.SkillSound != null && SkillData.SkillSound.loop)
+        if (SkillData.EAudioClip != EAudioClip.None)
         {
-            SoundManager.Instance.StopSFX(SkillData.SkillSound.clip);
+            if (!(DataManager.Instance.DictEnumToAudioData.TryGetValue(SkillData.EAudioClip, out var audioData))) return;
+            if (audioData.Audio == null || !(audioData.IsLoop)) return;
+            SoundManager.Instance.StopSFX(SkillData.EAudioClip);
         }
 
 #if StateMachineDebug
@@ -88,23 +95,23 @@ public class PlayerSkillUseState : PlayerBaseState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        animationTime--;
     }
 
     public override void Update()
     {
-        base.Update();
         if (SkillData.SkillCategory == SkillCategory.Hold)
         {
             if (!(SkillInputKey()) || playerStateMachine.Player.HoldSkillCoroutine == null)
             {
-                playerStateMachine.ChangeState(playerStateMachine.IdleState);
+
+                if (playerStateMachine.Player.Runner.IsServer)
+                    playerStateMachine.ChangeState(playerStateMachine.IdleState);
                 return;
             }
 
-            if (animationTime > 0) return;
+            if (ChangeSpriteTime + CurTime > Time.time) return;
+            CurTime = Time.time;
 
-            animationTime = animationDelay;
             playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(SkillData.SkillUseState, ++animationNum);
         }
         else if (SkillData.SkillCategory == SkillCategory.Charge)
@@ -113,9 +120,9 @@ public class PlayerSkillUseState : PlayerBaseState
         }
         else if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {
-            if (animationTime > 0) return;
+            if (ChangeSpriteTime + CurTime > Time.time) return;
+            CurTime = Time.time;
 
-            animationTime = animationDelay;
             if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, ++animationNum))
             {
                 if ((SkillData.SkillCategory == SkillCategory.Dash && animationNum % 2 == 0) ||
@@ -130,18 +137,21 @@ public class PlayerSkillUseState : PlayerBaseState
                         playerStateMachine.Player.IsFlipX
                     );
                 }
-                    return;
+                return;
             }
-            playerStateMachine.EndAttackAction?.Invoke();
+
+            if (playerStateMachine.Player.Runner.IsServer)
+                playerStateMachine.EndAttackAction?.Invoke();
         }
         else
         {
-            if (animationTime > 0) return;
+            if (ChangeSpriteTime + CurTime > Time.time) return;
+            CurTime = Time.time;
 
-            animationTime = animationDelay;
             if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, ++animationNum)) return;
 
-            playerStateMachine.EndAttackAction?.Invoke();
+            if (playerStateMachine.Player.Runner.IsServer)
+                playerStateMachine.EndAttackAction?.Invoke();
         }
     }
 }

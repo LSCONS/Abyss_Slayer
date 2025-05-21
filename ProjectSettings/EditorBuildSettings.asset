@@ -6,40 +6,31 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/01. Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
-    path: Assets/WorkSpace/JHN/Scene/LoadingScene.unity
+    path: Assets/01. Scenes/Main/LoadingScene.unity
     guid: 6d38801fbd168e0469aaf34c00137917
   - enabled: 1
-    path: Assets/WorkSpace/JHN/Scene/LobbyScene.unity
-    guid: da3807b41d89aeb4e87328db84b53b42
-  - enabled: 1
-    path: Assets/WorkSpace/JHN/Scene/BossScene_0.unity
-    guid: 66af8c571b599004a8b653c25c637377
-  - enabled: 1
-    path: Assets/WorkSpace/JHN/Scene/BossScene_2.unity
-    guid: 3a528c9f107945b4cbe6f474bba2a712
-  - enabled: 1
-    path: Assets/WorkSpace/JHN/Scene/BossScene_1.unity
-    guid: fe6efbf2e2be5254da126d6a5ac85b1a
-  - enabled: 1
-    path: Assets/WorkSpace/JHN/Scene/UITestScene.unity
-    guid: 300f0a34779fd5e48ba76b7be0313127
-  - enabled: 1
-    path: Assets/WorkSpace/JHN/Scene/IntroScene.unity
+    path: Assets/01. Scenes/Main/IntroScene.unity
     guid: aa124522c23a40e439862208fef8f17d
   - enabled: 1
-    path: Assets/WorkSpace/JHN/Scene/StartScene.unity
+    path: Assets/01. Scenes/Main/StartScene.unity
     guid: c48b30a921988ee46a5c5f226bc0b33c
   - enabled: 1
-    path: Assets/WorkSpace/TestScene/TestScene2.unity
-    guid: 533d89070aa12654488c5ef1d60823c5
+    path: Assets/01. Scenes/Main/LobbyScene.unity
+    guid: 55670b987febbb641af30038a8382f47
   - enabled: 1
-    path: Assets/WorkSpace/JHN/Scene/RestScene.unity
+    path: Assets/01. Scenes/Main/RestScene.unity
     guid: 0dad796c8e48ff049b56abad9b1837ec
   - enabled: 1
-    path: Assets/WorkSpace/JHN/Scene/BossScene_3.unity
+    path: Assets/01. Scenes/Main/BossScene_0.unity
+    guid: 66af8c571b599004a8b653c25c637377
+  - enabled: 1
+    path: Assets/01. Scenes/Main/BossScene_1.unity
+    guid: 574254af103b921439e1dc2b6edd18ba
+  - enabled: 1
+    path: Assets/01. Scenes/Main/BossScene_2.unity
+    guid: e7f3a5abf74ad3842b54af14e95a9e1a
+  - enabled: 1
+    path: Assets/01. Scenes/Main/BossScene_3.unity
     guid: c3e5f9b263fa68445a2005b4a9a757fa
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: cbc483ad03a90bd488245ce9d60da2e2, type: 2}

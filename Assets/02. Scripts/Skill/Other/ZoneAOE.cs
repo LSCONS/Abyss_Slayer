@@ -1,4 +1,3 @@
-using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +21,7 @@ public class ZoneAOE : BasePoolable
     public MeleeDamageCheck MeleeDamageCheck    { get; set; }
 
 
-    public override void Init()
+    public override void Rpc_Init()
     {
 
     }
@@ -47,6 +46,7 @@ public class ZoneAOE : BasePoolable
 
     public void UseSkillStart(string colliderEffectName, float playerFlipX, Vector3 spawnPosition)
     {
+        gameObject.SetActive(true);
         transform.position = spawnPosition;
         transform.localScale = (Vector3)SpawnSize;
 
@@ -106,9 +106,7 @@ public class ZoneAOE : BasePoolable
         if (MeleeDamageCheck == null)
             MeleeDamageCheck = GetComponent<MeleeDamageCheck>();
         if (MeleeDamageCheck.BoxCollider == null)
-        {
             MeleeDamageCheck.BoxCollider = GetComponent<BoxCollider2D>();
-        }
         if (SpriteRenderer == null)
             SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         if (Animator == null)

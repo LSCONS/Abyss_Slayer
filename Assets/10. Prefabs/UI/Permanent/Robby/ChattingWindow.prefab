@@ -174,9 +174,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 506ce16cccd30fd4f8292865b9bc7c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputField: {fileID: 4804865653836919176}
-  chatText: {fileID: 2684923118917490719}
-  scrollRect: {fileID: 6765243447074764130}
+  <InputChatting>k__BackingField: {fileID: 4804865653836919176}
+  <TextChattingRecord>k__BackingField: {fileID: 2684923118917490719}
+  <ScrollRect>k__BackingField: {fileID: 6765243447074764130}
 --- !u!1 &2957110637993437882
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,8 +291,8 @@ MonoBehaviour:
     \uBCF5\uC7A1\uD558\uB124.. \uC544\uBB34\uD2BC \uB098\uB8E8\uD1A0\uB294 \uC9C4\uC9DC
     \uC560\uB2C8\uC911\uCD5C\uAC70\uBA85\uC791\uC784.."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b1c5f6e36bde31c46927f795005825ec, type: 2}
-  m_sharedMaterial: {fileID: 7365228660458261627, guid: b1c5f6e36bde31c46927f795005825ec, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
+  m_sharedMaterial: {fileID: 4235015433858947674, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -604,8 +604,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b1c5f6e36bde31c46927f795005825ec, type: 2}
-  m_sharedMaterial: {fileID: 7365228660458261627, guid: b1c5f6e36bde31c46927f795005825ec, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
+  m_sharedMaterial: {fileID: 4235015433858947674, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -839,7 +839,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_GlobalFontAsset: {fileID: 11400000, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -1092,8 +1092,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2855213621206709048}
   m_HandleRect: {fileID: 3200265638532460204}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.5081874
+  m_Value: 1.0000001
+  m_Size: 0.6237439
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1166,8 +1166,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC5EC\uAE30\uB2E4\uAC00 \uD14D\uC2A4\uD2B8 \uC4F0\uC148"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b1c5f6e36bde31c46927f795005825ec, type: 2}
-  m_sharedMaterial: {fileID: 7365228660458261627, guid: b1c5f6e36bde31c46927f795005825ec, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
+  m_sharedMaterial: {fileID: 4235015433858947674, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

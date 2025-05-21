@@ -8,14 +8,12 @@ public class PlayerSkillEnterState : PlayerBaseState
     private SkillSlotKey Slotkey { get; set; }
     private Func<bool> SkillInputKey { get; set; }
     private int animationNum = 0;
-    private float animationTime = 0;
-    private int animationDelay = 10;
     public PlayerSkillEnterState(PlayerStateMachine playerStateMachine, SkillSlotKey key) : base(playerStateMachine)
     {
         Slotkey = key;
         SkillData = playerStateMachine.Player.EquippedSkills[key];
-        SkillInputKey = playerStateMachine.Player.input.SkillInputKey[key];
-        animationDelay = SkillData.AnimationChangeDelayTime;
+        SkillInputKey = SlotKeyConvertFunc(key);
+        ChangeSpriteTime = SkillData.AnimationChangeDelayTime;
     }
     public void Init()
     {
@@ -33,7 +31,6 @@ public class PlayerSkillEnterState : PlayerBaseState
             ResetZeroGravityForce();
         }
         animationNum = 0;
-        animationTime = animationDelay;
         playerStateMachine.Player.SkillCoolTimeUpdate(Slotkey);
 
 #if StateMachineDebug
@@ -44,7 +41,7 @@ public class PlayerSkillEnterState : PlayerBaseState
     public override void Exit()
     {
         base.Exit();
-        SkillExit();
+        SkillExit(SkillData);
 
 #if StateMachineDebug
         Debug.Log("SkillAState 해제");
@@ -54,23 +51,24 @@ public class PlayerSkillEnterState : PlayerBaseState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        animationTime--;
     }
 
     public override void Update()
     {
-        base.Update();
         if (SkillData.SkillCategory == SkillCategory.Hold && !(SkillInputKey()))
         {
-            playerStateMachine.ChangeState(playerStateMachine.IdleState);
+            if (playerStateMachine.Player.Runner.IsServer)
+                playerStateMachine.ChangeState(playerStateMachine.IdleState);
             return;
         }
 
-
-        if (animationTime > 0) return;
-        animationTime = animationDelay;
+        if (ChangeSpriteTime + CurTime > Time.time) return;
+            CurTime = Time.time;
 
         if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillEnterState, ++animationNum)) return;
-        playerStateMachine.ChangeState(playerStateMachine.PlayerSkillUseStateDict[Slotkey]);
+
+
+        if (playerStateMachine.Player.Runner.IsServer)
+            playerStateMachine.ChangeState(playerStateMachine.PlayerSkillUseStateDict[Slotkey]);
     }
 }

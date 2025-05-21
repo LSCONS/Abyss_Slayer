@@ -15,7 +15,8 @@ public enum UIType
     Follow = 1 << 6,
     Popup = 1 << 7,
     Background = 1 << 8,
-    All = ~0,
+    Everything = NonGamePlay | GamePlay | Permanent
+               | Top | Bottom | TopMid | Follow | Popup | Background
 }
 
 [System.Flags]
@@ -28,7 +29,6 @@ public enum UISceneType
     Boss = 1 << 3,
     Rest = 1 << 4,
     Loading = 1 << 5,
-    All = ~0,
 }
 
 public abstract class UIBase : MonoBehaviour
@@ -43,6 +43,7 @@ public abstract class UIBase : MonoBehaviour
     public virtual void Open(params object[] args)
     {
         gameObject.SetActive(true);
+        UIManager.Instance.DelayRebuildLayout(this);
     }
     public virtual void Close()
     {

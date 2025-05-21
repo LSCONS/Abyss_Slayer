@@ -12,11 +12,8 @@ public class SoundManager : Singleton<SoundManager>
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioMixerGroup bgmGroup;
     [SerializeField] private AudioMixerGroup sfxGroup;
-
-    [Header("사운드 데이터")]
-    public SoundLibrary soundLibrary; // 사운드 라이브러리
-    private Dictionary<EGameState, List<AudioClip>> stateToSoundList = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
-    private readonly Dictionary<string, AudioSource> loopingSources = new();    // 현재 루프 중인 클립 저장
+    private Dictionary<ESceneName, List<AudioClip>> stateToSoundList { get; set; } = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
+    private readonly Dictionary<EAudioClip, AudioSource> loopingSources = new();    // 현재 루프 중인 클립 저장
 
 
     [Header("오디오 소스 풀")]
@@ -53,30 +50,10 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     /// <param name="gameState"></param>
     /// <returns></returns>
-    public async Task Init(EGameState gameState)
+    public void Init()
     {
         InitBGM();
         InitPool();
-        soundLibrary = ScriptableObject.CreateInstance<SoundLibrary>();
-
-        List<AudioClip> loadedSounds = await soundLibrary.LoadSoundsByLabel(gameState);         // 씬 전용 SFX 라벨
-        stateToSoundList[gameState] = loadedSounds;        // 딕셔너리에 저장
-    }
-
-    /// <summary>
-    /// gameState 별로 언로드
-    /// </summary>
-    /// <param name="gameState"></param>
-    public void UnloadSoundsByState(EGameState gameState)
-    {
-        if (!stateToSoundList.TryGetValue(gameState, out var soundList)) return;
-
-        foreach (var sound in soundList)
-        {
-            Addressables.Release(sound);
-            soundLibrary.Remove(sound.name);
-        }
-        stateToSoundList.Remove(gameState);
     }
 
     //==================== 오디오 소스 풀 ====================
@@ -161,10 +138,12 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="pitch">효과음 속도</param>
     /// <param name="volum">효과음 크기</param>
     /// 
-    public void PlaySFX(ESFXType sfxType, bool loop = false, float pitch = 1f, float volum = 1f)
+    public void PlaySFX(EAudioClip EAudioClip)
     {
-        string clipName = $"SFX_{sfxType}";
-        PlaySound(clipName, loop, pitch, volum);
+        if (!(DataManager.Instance.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData data))) return;
+        if(data.Audio == null) return;
+
+        PlaySound(EAudioClip, data);
     }
     /// <summary>
     /// 효과음 재생 (직접 재생해줌)
@@ -190,46 +169,26 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     /// <summary>
-    /// 이름으로 사운드 재생
+    /// Enum으로 사운드 재생
     /// </summary>
-    /// <param name="clipKey"></param>
-    /// <param name="loop">루프 할 건지</param>
-    /// <param name="pitch">효과음 속도</param>
-    /// <param name="volum">효과음 크기</param>
-    private async void PlaySound(string clipKey, bool loop = false, float pitch = 1f, float volum = 1f)
+    private void PlaySound(EAudioClip EAudioClip, AudioClipData data)
     {
-        // 이미 루프중인 사운드면 리턴
-        if (loop && loopingSources.ContainsKey(clipKey)) return;
-
-        AudioClip clip = soundLibrary.GetSoundClip(clipKey);    // 라이브러리에 캐싱 된 클립을 먼저 시도
-
-        // 없으면 다시 로드
-        if (clip == null)
-        {
-            var handle = Addressables.LoadAssetAsync<AudioClip>(clipKey);
-            await handle.Task;
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                clip = handle.Result;
-            }
-        }
-
-        if (clip == null) return;
+        if (data.Audio == null) return;
 
         var src = GetPooledSource();
-        src.clip = clip;
-        src.loop = loop;
-        src.pitch = pitch;
-        src.volume *= masterVolume * volum;
+        src.clip = data.Audio;
+        src.loop = data.IsLoop;
+        src.pitch = data.Pitch;
+        src.volume = sfxVolume * masterVolume * data.Volume;
         src.Play();
 
-        if (!loop)
+        if (!data.IsLoop)
         {
             StartCoroutine(ReturnWhenDone(src));
         }
         else
         {
-            loopingSources[clipKey] = src;  // 루프면 딕셔너리에 저장
+            loopingSources[EAudioClip] = src;  // 루프면 딕셔너리에 저장
         }
     }
 
@@ -250,19 +209,25 @@ public class SoundManager : Singleton<SoundManager>
     /// <returns>오디오 소스</returns>
     private AudioSource GetPooledSource()
     {
-        AudioSource src;
-        if (sfxPool.Count > 0)
-        {
-            src = sfxPool.Dequeue();
-        }
-        else
-        {
-            src = CreateAudioSource();
-        }
+        int count = sfxPool.Count;
 
-        src.gameObject.SetActive(true);
-        activeSources.Add(src);
-        return src;
+        // 다 돌면서 재생 중 아닌것들 찾아서 꺼냄
+        for (int i = 0; i < count; i++)
+        {
+            var src = sfxPool.Dequeue();
+            if (!src.isPlaying)
+            {
+                src.gameObject.SetActive(true);
+                activeSources.Add(src);
+                return src;
+            }
+            else sfxPool.Enqueue(src); // 아직 재생 중
+        }
+        // 만약에 다 재생중이면 풀 더 생성
+        var newSrc = CreateAudioSource();
+        newSrc.gameObject.SetActive(true);
+        activeSources.Add(newSrc);
+        return newSrc;
     }
 
     /// <summary>
@@ -278,14 +243,6 @@ public class SoundManager : Singleton<SoundManager>
         sfxPool.Enqueue(src);
     }
 
-    /// <summary>
-    /// 모든 사운드 언로드
-    /// </summary>
-    public void UnloadAllSounds()
-    {
-        soundLibrary.UnloadAllSounds();
-    }
-
     #endregion
 
     //==================== 브금 설정 ====================
@@ -296,35 +253,30 @@ public class SoundManager : Singleton<SoundManager>
     /// 브금 이름을 넣어서 브금 재생
     /// </summary>
     /// <param name="soundName">브금 이름</param>
-    public void PlayBGM(string soundName)
+    public void PlayBGM(EAudioClip EAudioClip)
     {
-        var clip = soundLibrary.GetSoundClip(soundName);
-        if (clip == null) return;
+        if (!(DataManager.Instance.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData audioData))) return;
+        if (audioData.Audio == null) return;
+
+        //TODO: 나중에 BGM에 pitch, volume 등 포함
 
         if (bgmCoroutine != null) StopCoroutine(bgmCoroutine);
-        bgmCoroutine = StartCoroutine(FadeInOutBGM(clip));
-    }
-
-    /// <summary>
-    /// 게임 스테이트에 따라서 playBGM 하는 오버로드 메서드
-    /// </summary>
-    /// <param name="gameState">어떤 게임 스테이트의 브금을 로드할 건지</param>
-    public void PlayBGM(EGameState gameState, int i)
-    {
-        string bgmName = $"BGM_{gameState}{i}";
-        PlayBGM(bgmName);
+        bgmCoroutine = StartCoroutine(FadeInOutBGM(audioData.Audio));
     }
 
     /// <summary>
     /// 클립 이름으로 사운드 정지
     /// </summary>
     /// <param name="soundName">멈출 사운드 이름</param>
-    public void StopSound(string soundName)
+    public void StopSound(EAudioClip EAudioClip)
     {
+        if(!(DataManager.Instance.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData audioData))) return;
+        if(audioData.Audio == null) return;
+
         for (int i = activeSources.Count - 1; i >= 0; i--)
         {
             var src = activeSources[i];
-            if (src.isPlaying && src.clip != null && src.clip.name == soundName)
+            if (src.isPlaying && src.clip != null && src.clip == audioData.Audio)
             {
                 src.Stop();
                 ReturnSource(src);
@@ -337,25 +289,16 @@ public class SoundManager : Singleton<SoundManager>
     /// 효과음 타입으로 사운드 정지
     /// </summary>
     /// <param name="type">효과음 타입</param>
-    public void StopSFX(ESFXType type)
+    public void StopSFX(EAudioClip EAuidioClip)
     {
-        string soundName = $"SFX_{type}";
-
-        if(loopingSources.TryGetValue(soundName, out var src))
+        if(loopingSources.TryGetValue(EAuidioClip, out var src))
         {
             src.Stop();
             ReturnSource(src);
-            loopingSources.Remove(soundName);
+            loopingSources.Remove(EAuidioClip);
             return;
         }
-        else StopSound(soundName);
-    }
-
-    // 오디오 클리븡로 사운드 정지
-    public void StopSFX(AudioClip clip)
-    {
-        if(clip == null) return;
-        StopSound(clip.name);
+        else StopSound(EAuidioClip);
     }
 
     /// <summary>

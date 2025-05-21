@@ -13,13 +13,12 @@ public class FoxCloneData : BasePatternData
     [SerializeField] float postDelayTime = 2f;
     [SerializeField] int cloneHp;
     float explosionTime;
-    int curBossHp;
     int curHp;
-    Boss boss;
+
     List<FoxClone> clones = new List<FoxClone>();
     public override IEnumerator ExecutePattern()
     {
-        bossAnimator.SetTrigger("TeleportIn");
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.TeleportInParameterHash);
         yield return new WaitForSeconds(preDelayTime);
 
         int realPosition = UnityEngine.Random.Range(0, cloneCount + 1);
@@ -35,10 +34,10 @@ public class FoxCloneData : BasePatternData
             if(i == realPosition)
             {
                 bossTransform.position = position;
-                bossAnimator.SetTrigger("TeleportOut");
+                boss.Rpc_SetTriggerAnimationHash(AnimationHash.TeleportOutParameterHash);
             }
             else
-            {
+            { 
                 FoxClone foxClone = PoolManager.Instance.Get<FoxClone>();
                 foxClone.Init(position, cloneDeadDamage, cloneExplosionDamage, CloneDead, 1, cloneHp);
                 clones.Add(foxClone);
@@ -53,13 +52,13 @@ public class FoxCloneData : BasePatternData
         
         if(clones.Count <= 0)
         {
-            bossAnimator.SetTrigger("Stun");
+            boss.Rpc_SetTriggerAnimationHash(AnimationHash.StunParameterHash);
             yield return new WaitForSeconds(stunTime);
-            bossAnimator.SetTrigger("Idle");
+            boss.Rpc_SetTriggerAnimationHash(AnimationHash.IdleParameterHash);
         }
         else
         {
-            bossAnimator.SetTrigger("CloneExplosion");
+            boss.Rpc_SetTriggerAnimationHash(AnimationHash.CloneExplosionParameterHash);
 
             for(int i = 0 ; i < clones.Count ; i++)
             {

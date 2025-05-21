@@ -14,6 +14,9 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
     [SerializeField] private TextMeshProUGUI coolTimeText;
     [SerializeField] private TextMeshProUGUI skillLevelText;
 
+    [SerializeField] private TextMeshProUGUI skillUpgradeText;
+
+
     RectTransform slotRect;
     private UISkillTooltip tooltip;
 
@@ -66,6 +69,13 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
     public void SetSkillLevel(int level)
     {
         skillLevelText.text = $"Lv.{level}";
+    }
+
+    public void SetSkillUpgradeText(Skill skill, int level)
+    {
+        float percent = skill.Magnification * 100f * (level - 1);
+        string typeText = skill.isDurationUp ? "s" : "dmg";
+        skillUpgradeText.text = $"+{percent}% ({typeText})";
     }
 
     public void OnPointerEnter(PointerEventData eventData)

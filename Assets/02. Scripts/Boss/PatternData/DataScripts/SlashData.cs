@@ -13,13 +13,13 @@ public class SlashData : BasePatternData
     [SerializeField] float postDelayTime;
     public override IEnumerator ExecutePattern()
     {
-        bossController.isLeft = target.position.x - bossTransform.position.x < 0;
-        bossAnimator.SetTrigger("SlashReady");
+        boss.IsLeft = target.position.x - bossTransform.position.x < 0;
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.SlashReadyParameterHash);
         yield return new WaitForSeconds(preDelayTime);
 
         for(int i = 0; i < attackAngles.Count; i++)
         {
-            PoolManager.Instance.Get<NormalSlash>().Init(bossTransform.position, damage, bossController.isLeft, attackAngles[i],attackSpeed);
+            ServerManager.Instance.InitSupporter.Rpc_StartNormalSlashInit(bossTransform.position, damage, boss.IsLeft, attackAngles[i], attackSpeed);
             bossController.StartCoroutine(AttackEffect(i == attackAngles.Count - 1));
             yield return new WaitForSeconds(intervalTime);
         }
@@ -28,13 +28,13 @@ public class SlashData : BasePatternData
     IEnumerator AttackEffect(bool lastAttack)
     {
         yield return new WaitForSeconds(0.6f * 1/attackSpeed);
-        bossController.sprite.enabled = false;
-        PoolManager.Instance.Get<JumpEffect>().Init(bossTransform.position + Vector3.down * bossCenterHight);
+        bossController.Sprite.enabled = false;
+        ServerManager.Instance.InitSupporter.Rpc_StartJumpEffectInit(bossTransform.position + Vector3.down * bossCenterHight);
         yield return new WaitForSeconds(0.1f);
         if (lastAttack)
         {
-            bossAnimator.SetTrigger("SlashEnd");
+            boss.Rpc_SetTriggerAnimationHash(AnimationHash.SlashEndParameterHash);
         }
-        bossController.sprite.enabled = true;
+        bossController.Sprite.enabled = true;
     }
 }

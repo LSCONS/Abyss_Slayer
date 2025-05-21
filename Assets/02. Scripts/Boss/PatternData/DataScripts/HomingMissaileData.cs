@@ -1,5 +1,7 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -23,8 +25,8 @@ public class HomingMissaileData : BasePatternData
     [SerializeField] float missailSpeed = 10;
     [SerializeField] float homingTime = 3f;
     [SerializeField] float explosionSize = 0.5f;
-    [SerializeField] AnimationCurve homingCurve;
-    [SerializeField] AnimationCurve speedCurve;
+    [SerializeField] EAniamtionCurve homingCurve;
+    [SerializeField] EAniamtionCurve speedCurve;
     [SerializeField] HomingProjectileType projectileType;
     public override IEnumerator ExecutePattern()
     {
@@ -34,11 +36,11 @@ public class HomingMissaileData : BasePatternData
             startPosition = startPositions[Random.Range(0, startPositions.Count)];
             yield return bossController.StartCoroutine(bossController.JumpMove(startPosition));
         }
-        bossController.isLeft = bossTransform.position.x > 0;
-        bossAnimator.SetTrigger("Attack2");
+        boss.IsLeft = bossTransform.position.x > 0;
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.Attack2ParameterHash);
         yield return new WaitForSeconds(preDelayTime/2);
-        bool isLeft = bossController.isLeft;
-        for(int i = 0; i < missaileCount; i++)
+        bool isLeft = boss.IsLeft;
+        for (int i = 0; i < missaileCount; i++)
         {
             float degree = fireDegree - ((spreadDegree / 2) - (i * spreadDegree / (missaileCount - 1)));
             degree = isLeft ? 180 - degree : degree;
@@ -50,13 +52,15 @@ public class HomingMissaileData : BasePatternData
 
             if (isMultyTarget)
             {
-                Collider2D[] players = Physics2D.OverlapAreaAll(new Vector2(-mapWidth / 2, 0), new Vector2(mapWidth / 2, 20), LayerMask.GetMask("Player"));
+                Player[] players = ServerManager.Instance.DictRefToPlayer.Values.ToArray();
                 target = players[Random.Range(0, players.Length)].transform;
             }
-            PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, projectileType,(preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower * Random.Range(0.8f,1.2f), homingTime, explosionSize, homingCurve,speedCurve);
+            ServerManager.Instance.InitSupporter.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed, (int)projectileType, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, (int)homingCurve, (int)speedCurve);
+            //PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
 
             yield return new WaitForSeconds(0.1f);
         }
+        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("HomingMissaile3");
         yield return new WaitForSeconds(postDelayTime);
     }

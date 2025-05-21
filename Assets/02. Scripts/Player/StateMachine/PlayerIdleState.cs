@@ -1,11 +1,10 @@
 using UnityEngine;
+using static Unity.Collections.Unicode;
 
 public class PlayerIdleState : PlayerGroundState
 {
     public StoppableAction MoveAction = new();
     private int animationNum = 0;
-    private float animationTime = 0;
-    private int animationDelay = 5;
     public PlayerIdleState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
@@ -29,7 +28,6 @@ public class PlayerIdleState : PlayerGroundState
         playerStateMachine.MovementSpeed = 0f;
         ResetZeroVelocity();
         animationNum = 0;
-        animationTime = animationDelay;
 
 #if StateMachineDebug
         Debug.Log("IdleState 진입");
@@ -49,17 +47,17 @@ public class PlayerIdleState : PlayerGroundState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        animationTime--;
     }
 
     public override void Update()
     {
-        base.Update();
-        if (animationTime <= 0)
+        if (ChangeSpriteTime + CurTime < Time.time)
         {
-            animationTime = animationDelay;
+            CurTime = Time.time;
             playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Idle1, ++animationNum);
         }
-        MoveAction?.Invoke();
+
+        if (playerStateMachine.Player.Runner.IsServer)
+            MoveAction?.Invoke();
     }
 }
