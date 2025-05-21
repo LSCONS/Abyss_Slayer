@@ -119,7 +119,10 @@ public class BattleState : BaseGameState
             deadTimer += Time.deltaTime;
             if (deadTimer >= changeSceneTime)
             {
-                GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.RestScene);
+                if(RunnerManager.Instance.GetRunner().IsServer)
+                {
+                    ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
+                }
             }
         }
     }
