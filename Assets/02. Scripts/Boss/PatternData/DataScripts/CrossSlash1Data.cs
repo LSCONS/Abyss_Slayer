@@ -28,7 +28,7 @@ public class CrossSlash1Data : BasePatternData
         bossController.ShowTargetCrosshair = false;
 
         yield return null;
-        bossController.isRun = false;
+        bossController.IsRun = false;
         yield return new WaitForSeconds(0.2f);
 
         float time = 0.2f;

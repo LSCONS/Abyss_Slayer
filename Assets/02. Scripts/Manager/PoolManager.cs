@@ -34,10 +34,11 @@ public class PoolManager : NetworkBehaviour
         }
     }
     private static PoolManager _instance;
-
+    public NetworkObjectFollowServer CrossHairObject {  get; set; }
     public override void Spawned()
     {
         base.Spawned();
+        if (Runner.IsServer) Runner.Spawn(DataManager.Instance.CrossHairPrefab);
         transform.parent = null;
         ServerManager.Instance.PoolManager = this;
         if (Runner.IsServer)
