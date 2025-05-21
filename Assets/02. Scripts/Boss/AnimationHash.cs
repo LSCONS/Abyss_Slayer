@@ -40,4 +40,6 @@ public static class AnimationHash
     public static int ExplosionParameterHash { get; private set; } = Animator.StringToHash("Explosion");
     public static int WarningTimeParameterHash { get; private set; } = Animator.StringToHash("WarningTime"); 
     public static int EndChasingParameterHash { get; private set; } = Animator.StringToHash("EndChasing");
+    public static int PreDelayTimeParameterHash { get; private set; } = Animator.StringToHash("PreDelayTime");
+    public static int AttackDurationParameterHash { get; private set; } = Animator.StringToHash("AttackDuration");
 }
