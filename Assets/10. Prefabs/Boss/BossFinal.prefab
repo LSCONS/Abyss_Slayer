@@ -284,7 +284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &531210389306606361
 Transform:
   m_ObjectHideFlags: 0
@@ -316,15 +316,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9448e362f6a54f44b699672c0553d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BossController>k__BackingField: {fileID: 7201112847391276116}
-  <Sprite>k__BackingField: {fileID: 2046451246024970632}
-  <Animator>k__BackingField: {fileID: 8224366169966908257}
-  <HitCollider>k__BackingField: {fileID: 4752272720846953900}
-  <VirtualCamera>k__BackingField: {fileID: 5484115957593844158}
+  <BossController>k__BackingField: {fileID: 0}
+  <Sprite>k__BackingField: {fileID: 0}
+  <Animator>k__BackingField: {fileID: 0}
+  <HitCollider>k__BackingField: {fileID: 0}
+  <VirtualCamera>k__BackingField: {fileID: 0}
   <MaxHp>k__BackingField:
     value: 1000
   <IsRest>k__BackingField: 1
-  <IsOpenSprtie>k__BackingField: 1
+  <IsOpenSprtie>k__BackingField: 0
   _IsLeft: 0
   _BossPosition: {x: 0, y: 0}
 --- !u!114 &7201112847391276116
@@ -341,13 +341,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AppearPattern>k__BackingField: {fileID: 0}
   <AllPatterns>k__BackingField: []
-  <MapWidth>k__BackingField: 40
-  <BossCenterHight>k__BackingField: 2
+  <MapWidth>k__BackingField: 0
+  <BossCenterHight>k__BackingField: 0
   <Boss>k__BackingField: {fileID: 0}
-  <JumpMoveTime>k__BackingField: 1
-  <JumpMoveHight>k__BackingField: 1
-  <GravityMultiplier>k__BackingField: 1
-  <runSpeed>k__BackingField: 1
+  <JumpMoveTime>k__BackingField: 0
+  <JumpMoveHight>k__BackingField: 0
+  <GravityMultiplier>k__BackingField: 0
+  <runSpeed>k__BackingField: 0
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 576
@@ -448,7 +448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 2792563610
   ObjectInterest: 1
-  Flags: 262145
+  Flags: 1
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 3758152715141030970}
