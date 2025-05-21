@@ -13,6 +13,7 @@ public class MoveDownData : BasePatternData
             yield break;
         }
         float posY = Physics2D.Raycast(bossTransform.position - Vector3.down * 5, Vector3.down, 20, LayerMask.GetMask("GroundPlane", "GroundPlatform")).point.y + bossCenterHight;
+        posY = Random.Range(0, 2f) < 1 ? posY : bossCenterHight;
         yield return bossController.StartCoroutine(bossController.JumpMove(new Vector3(bossTransform.position.x, posY)));
         yield return new WaitForSeconds(postDelayTime);
     }

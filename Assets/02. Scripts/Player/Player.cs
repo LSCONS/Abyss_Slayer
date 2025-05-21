@@ -363,7 +363,7 @@ public class Player : NetworkBehaviour, IHasHealth
     private IEnumerator PlayerDieCoroutine()
     {
         yield return new WaitForSeconds(3);
-        GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.LobbyScene);
+        ServerManager.Instance.ExitRoom();
 
     }
 
