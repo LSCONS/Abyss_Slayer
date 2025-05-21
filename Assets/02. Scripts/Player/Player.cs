@@ -128,14 +128,20 @@ public class Player : NetworkBehaviour, IHasHealth
     }
 
 
-    public void PlayerPositionReset(Vector2 position)
+    public async Task PlayerPositionReset(Vector2 position)
     {
         gameObject.SetActive(true);
-        PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState, true);
-        PlayerStateIndex = PlayerStateMachine.GetIntDictStateToInit(PlayerStateMachine.IdleState);
-        playerRigidbody.velocity = Vector2.zero;
-        PlayerPosition = position;
-        transform.position = position;
+        playerRigidbody.gravityScale = 0f;
+        while ((Vector2)transform.position != position)
+        {
+            PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState, true);
+            PlayerStateIndex = PlayerStateMachine.GetIntDictStateToInit(PlayerStateMachine.IdleState);
+            playerRigidbody.velocity = Vector2.zero;
+            PlayerPosition = position;
+            transform.position = position;
+            await Task.Delay(50);
+        }
+        return;
     }
 
 

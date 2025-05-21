@@ -101,14 +101,15 @@ public class RestState : BaseGameState
 #if MoveSceneDebug
             Debug.Log("모든 플레이어 활성화 하고 입력 연결해줄게");
 #endif
-            ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
+            ServerManager.Instance.AllPlayerIsReadyFalse();
 
             Vector3 temp = StartPosition;
             foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
             {
-                player.PlayerPositionReset(temp);
+                await player.PlayerPositionReset(temp);
                 temp += Vector3.right;
             }
+            ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
         }
 
 #if MoveSceneDebug
@@ -117,12 +118,14 @@ public class RestState : BaseGameState
         state?.SetLoadingBarValue(1);
         await state?.TaskProgressBar;
 
+        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
         if (runner.IsServer)
         {
 
 #if MoveSceneDebug
             Debug.Log("1초만 기다려줘");
 #endif
+            await ServerManager.Instance.WaitForAllPlayerIsReady();
             await Task.Delay(100);
             ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
 
