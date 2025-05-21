@@ -34,6 +34,7 @@ public class DataManager : Singleton<DataManager>
     public PoolManager PoolManagerPrefab { get; private set; }
     public InitSupporter InitSupporterPrefab { get; private set; }
     public Player PlayerPrefab { get; private set; }
+    public NetworkObjectFollowServer CrossHairPrefab {  get; private set; }
     public List<BasePoolable> ListBasePoolablePrefab { get; private set; } = new();
     //첫 키의 int는 스타일, 두번 째 키의 int는 Color
     public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
@@ -144,6 +145,11 @@ public class DataManager : Singleton<DataManager>
         PlayerPrefab = player.Result.GetComponent<Player>();
         if (PlayerPrefab == null) { Debug.Log("Error Player is null"); }
 
+
+        var crossHair = Addressables.LoadAssetAsync<GameObject>("CrossHairPrefab");
+        await crossHair.Task;
+        CrossHairPrefab = crossHair.Result.GetComponent< NetworkObjectFollowServer>();
+        if (CrossHairPrefab == null) { Debug.Log("Error Player is null"); }
         return;
     }
 
