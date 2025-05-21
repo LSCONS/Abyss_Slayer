@@ -202,16 +202,16 @@ public class BattleState : BaseGameState
         //플레이어 시작 위치 값 초기화
         if (runner.IsServer)
         {
+#if MoveSceneDebug
+            Debug.Log("모든 플레이어 활성화 하고 입력 연결해줄게");
+#endif
+            ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
+
             Vector3 temp = StartPosition;
             foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
             {
-                player.PlayerPosition = temp;
+                player.PlayerPositionReset(temp);
                 temp += Vector3.right;
-            }
-
-            foreach (NetworkData data in ServerManager.Instance.DictRefToNetData.Values)
-            {
-                data.Rpc_ResetPlayerPosition();
             }
         }
 
@@ -224,10 +224,6 @@ public class BattleState : BaseGameState
 
         if (runner.IsServer)
         {
-#if MoveSceneDebug
-            Debug.Log("모든 플레이어 활성화 하고 입력 연결해줄게");
-#endif
-            ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
 
             // 모든 준비가 끝나고, 스테이지 입장 직후
             int memberCount = ServerManager.Instance.DictRefToPlayer.Count;

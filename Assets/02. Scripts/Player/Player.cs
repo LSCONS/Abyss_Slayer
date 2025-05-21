@@ -58,6 +58,87 @@ public class Player : NetworkBehaviour, IHasHealth
     public ReactiveProperty <int> SkillPoint { get; set; } = new(10);
     public NetworkInputData NetworkInput;
 
+
+
+    public override void Spawned()
+    {
+        gameObject.SetActive(false);
+        base.Spawned();
+        ServerManager.Instance.DictRefToPlayer[PlayerRef] = this;
+        NetworkData = ServerManager.Instance.DictRefToNetData[PlayerRef];
+        transform.parent = null;
+        DontDestroyOnLoad(gameObject);
+        InitPlayerData();
+        playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
+        PlayerStateMachine = new PlayerStateMachine(this);
+        PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState, true);
+        transform.position = PlayerPosition;
+    }
+
+
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        gameObject.SetActive(false);
+        if (ServerManager.Instance.DictRefToPlayer[PlayerRef] != this)
+            ServerManager.Instance.DictRefToPlayer.Remove(PlayerRef);
+        base.Despawned(runner, hasState);
+    }
+
+
+    private void Update()
+    {
+        if (!(Runner.IsServer)
+            && PlayerStateMachine.DictIntToState[PlayerStateIndex] != PlayerStateMachine.currentState)
+        {
+            PlayerStateMachine.ChangeState(PlayerStateMachine.DictIntToState[PlayerStateIndex]);
+        }
+
+        if (Runner.IsServer)
+        {
+            SkillCoolTimeCompute();
+            BuffDurationCompute();
+        }
+
+        PlayerStateMachine.Update();
+
+        if (IsFlip != IsFlipX)
+        {
+            PlayerSpriteChange.SetFlipxSpriteRenderer(IsFlipX);
+            IsFlipX = IsFlip;
+        }
+
+        if (Runner.IsServer) return;
+
+        Vector2 target = PlayerPosition;
+        Vector2 current = transform.position;
+
+        if (current != target)
+        {
+            float t = tempSmooth * Time.deltaTime;
+            Vector2 newPos = Vector2.Lerp(current, target, t);
+            transform.position = newPos;
+        }
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        if (!(ServerManager.Instance.PlayerInput.IsConnectInput)) return;
+        if (GetInput<NetworkInputData>(out NetworkInput))
+            PlayerStateMachine.FixedUpdate();
+    }
+
+
+    public void PlayerPositionReset(Vector2 position)
+    {
+        gameObject.SetActive(true);
+        PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState, true);
+        PlayerStateIndex = PlayerStateMachine.GetIntDictStateToInit(PlayerStateMachine.IdleState);
+        playerRigidbody.velocity = Vector2.zero;
+        PlayerPosition = position;
+        transform.position = position;
+    }
+
+
     /// <summary>
     /// 코루틴과 Action을 등록시키고 실행시키는 메서드
     /// </summary>
@@ -103,71 +184,6 @@ public class Player : NetworkBehaviour, IHasHealth
             HoldSkillCoroutineStopAction = null;
             HoldSkillCoroutine = null;
         }
-    }
-
-    public override void Spawned()
-    {
-        gameObject.SetActive(false);
-        base.Spawned();
-        ServerManager.Instance.DictRefToPlayer[PlayerRef] = this;
-        NetworkData = ServerManager.Instance.DictRefToNetData[PlayerRef];
-        transform.parent = null;
-        DontDestroyOnLoad(gameObject);
-        InitPlayerData();
-        playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
-        PlayerStateMachine = new PlayerStateMachine(this);
-        PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
-        transform.position = PlayerPosition;
-    }
-
-
-    public override void Despawned(NetworkRunner runner, bool hasState)
-    {
-        gameObject.SetActive(false);
-        if (ServerManager.Instance.DictRefToPlayer[PlayerRef] != this)
-        ServerManager.Instance.DictRefToPlayer.Remove(PlayerRef);
-        base.Despawned(runner, hasState);
-    }
-
-
-    private void Update()
-    {
-        if (!(Runner.IsServer)
-            && PlayerStateMachine.DictIntToState[PlayerStateIndex] != PlayerStateMachine.currentState)
-        {
-            PlayerStateMachine.ChangeState(PlayerStateMachine.DictIntToState[PlayerStateIndex]);
-        }
-
-        PlayerStateMachine.Update();
-        if (Runner.IsServer)
-        {
-            SkillCoolTimeCompute();
-            BuffDurationCompute();
-        }
-
-        if (IsFlip != IsFlipX)
-        {
-            PlayerSpriteChange.SetFlipxSpriteRenderer(IsFlipX);
-            IsFlipX = IsFlip;
-        }
-
-        if (Runner.IsServer) return;
-
-        Vector2 target = PlayerPosition;
-        Vector2 current = transform.position;
-
-        if (current != target)
-        {
-            float t = tempSmooth * Time.deltaTime;
-            Vector2 newPos = Vector2.Lerp(current, target, t);
-            transform.position = newPos;
-        }
-    }
-
-    public override void FixedUpdateNetwork()
-    {
-        if(GetInput<NetworkInputData>(out NetworkInput))
-        PlayerStateMachine.FixedUpdate();
     }
 
 

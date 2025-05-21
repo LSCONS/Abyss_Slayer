@@ -217,7 +217,6 @@ public class NetworkData : NetworkBehaviour
 
         foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
         {
-            player.gameObject.SetActive(true);
             SceneManager.MoveGameObjectToScene(player.gameObject, SceneManager.GetActiveScene());
             player.PlayerData.PlayerDataInit(player);
         }
