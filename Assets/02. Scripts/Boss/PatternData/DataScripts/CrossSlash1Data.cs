@@ -45,7 +45,8 @@ public class CrossSlash1Data : BasePatternData
         if(time > 1f) yield break;
 
         boss.Rpc_ResetTriggerAnimationHash(AnimationHash.FallParameterHash);
-        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, 1);        yield return new WaitForSeconds(0.1f);
+        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, AnimationHash.CrossSlash1ParameterHash);    
+        yield return new WaitForSeconds(0.1f);
 
         bossController.Sprite.enabled = false;
         yield return new WaitForSeconds(0.2f);

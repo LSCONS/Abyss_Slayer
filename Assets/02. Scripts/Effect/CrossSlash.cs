@@ -15,18 +15,18 @@ public class CrossSlash : BasePoolable
     {
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_Init(Vector3 position, bool isLeft, int damage, int typeNum, float speed = 1, float scale = 1f)
+    public void Rpc_Init(Vector3 position, bool isLeft, int damage, int hash, float speed = 1, float scale = 1f)
     {
         for(int i = 0; i < colliders.Count; i++)
         {
             colliders[i].enabled = false;
         }
-        _animator.SetFloat("Speed", speed);
+        _animator.SetFloat(AnimationHash.SpeedParameterHash, speed);
 
         transform.position = position;
         transform.rotation = Quaternion.Euler(0, isLeft ? 0 : 180, 0);
         _damage = damage;
-        _animator.SetTrigger($"CrossSlash{typeNum}");
+        _animator.SetTrigger(hash);
     }
 
     public void Damage(int i)
