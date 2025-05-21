@@ -58,14 +58,14 @@ public class PlayerCheckGround : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerData.GroundPlatformLayerIndex)
         {
-            GroundPlatformCount--;
+            GroundPlatformCount = Mathf.Max(GroundPlatformCount - 1, 0);
             CheckAllGroundCanJumpExit();
             return;
         }
 
         if (collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
         {
-            GroundPlaneCount--;
+            GroundPlaneCount = Mathf.Max(GroundPlaneCount - 1, 0);
             CheckAllGroundCanJumpExit();
             return;
         }
