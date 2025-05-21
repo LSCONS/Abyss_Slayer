@@ -8,32 +8,38 @@ public class CrossSlash : BasePoolable
     [SerializeField] Animator _animator;
     [SerializeField] List<Collider2D> colliders;
     
-
     int _damage;
     List<Player> _hitPlayers = new List<Player>();
+
+
     public override void Rpc_Init()
     {
     }
+
+
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_Init(Vector3 position, bool isLeft, int damage, int typeNum, float speed = 1, float scale = 1f)
+    public void Rpc_Init(Vector3 position, bool isLeft, int damage, int hash, float speed = 1, float scale = 1f)
     {
         for(int i = 0; i < colliders.Count; i++)
         {
             colliders[i].enabled = false;
         }
-        _animator.SetFloat("Speed", speed);
+        _animator.SetFloat(AnimationHash.SpeedParameterHash, speed);
 
         transform.position = position;
         transform.rotation = Quaternion.Euler(0, isLeft ? 0 : 180, 0);
         _damage = damage;
-        _animator.SetTrigger($"CrossSlash{typeNum}");
+        _animator.SetTrigger(hash);
     }
+
 
     public void Damage(int i)
     {
         _hitPlayers.Clear();
         colliders[i].enabled = true;
     }
+
+
     public void DamageEnd(int i)
     {
         colliders[i].enabled = false;

@@ -21,7 +21,7 @@ public class FoxCloneData : BasePatternData
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.TeleportInParameterHash);
         yield return new WaitForSeconds(preDelayTime);
 
-        int realPosition = UnityEngine.Random.Range(0, cloneCount + 1);
+        int realPosition = Random.Range(0, cloneCount + 1);
 
         float width = mapWidth / (cloneCount + 1);
         clones.Clear();
