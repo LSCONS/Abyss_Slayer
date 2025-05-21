@@ -292,7 +292,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -50, y: -50}
+  m_AnchoredPosition: {x: -50, y: -350}
   m_SizeDelta: {x: 500, y: 180}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &1342614413079824709
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4557778841128a43b8f880bb25264c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiType: 2
+  uiType: 6
   uISceneType: 16
   <BtnReadyOrStart>k__BackingField: {fileID: 5283085861020683614}
   <TextBtnReadyOrStart>k__BackingField: {fileID: 3911400409436200949}
