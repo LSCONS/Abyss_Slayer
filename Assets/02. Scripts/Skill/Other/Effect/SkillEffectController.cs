@@ -52,7 +52,7 @@ public class SkillEffectController : BasePoolable
     {
         yield return new WaitForSeconds(duration - fadeDuration);
 
-        fadeController?.FadeOut(()=> ReturnToPool()); // 페이드 아웃 끝나면 풀로 리턴 해줌
+        fadeController?.FadeOut(()=> Rpc_ReturnToPool()); // 페이드 아웃 끝나면 풀로 리턴 해줌
     }
 
     // clip play해주는 메서드

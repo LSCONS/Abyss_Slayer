@@ -24,7 +24,7 @@ public class RogueProjectile : BasePoolable
         // 최대 거리 도달 시 풀에 반환
         if (Vector3.Distance(initPos, transform.position) >= maxRange)
         {
-            ReturnToPool();
+            Rpc_ReturnToPool();
         }
 
         // 화살 이동
@@ -67,7 +67,7 @@ public class RogueProjectile : BasePoolable
 
         if((1 << collision.gameObject.layer | includeLayer) == includeLayer)
         {
-            ReturnToPool(); // 투사체 반환
+            Rpc_ReturnToPool(); // 투사체 반환
         }
     }
 }

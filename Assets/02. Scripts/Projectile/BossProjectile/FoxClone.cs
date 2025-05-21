@@ -63,9 +63,9 @@ public class FoxClone : BasePoolable,IHasHealth
             
         }
     }
-    public override void ReturnToPool()
+    public override void Rpc_ReturnToPool()
     {
         dead?.Invoke(this);
-        base.ReturnToPool();
+        base.Rpc_ReturnToPool();
     }
 }

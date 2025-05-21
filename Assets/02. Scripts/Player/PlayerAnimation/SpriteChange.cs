@@ -29,11 +29,11 @@ public class SpriteChange : MonoBehaviour
             DictAnimationState[WeaponTop]       = newData.InstantiateDictionary(data.DictClassToStateToWeaponTop[character]);
             DictAnimationState[ClothTop]        = newData.InstantiateDictionary(data.DictClassToStateToClothTop[character]);
             DictAnimationState[HairTop]         = newData.InstantiateDictionary(data.DictIntToDictStateToHairStyleTopSprite[hairKey]);
-            DictAnimationState[ClothBottom]     = newData.InstantiateDictionary(data.DictClassToStateToClothbot[character]);
+            DictAnimationState[ClothBottom]     = newData.InstantiateDictionary(data.DictClassToStateToClothBot[character]);
             DictAnimationState[HairBottom]      = newData.InstantiateDictionary(data.DictIntToDictStateToHairStyleBottomSprite[hairKey]);
             DictAnimationState[Face]            = newData.InstantiateDictionary(data.DictIntToDictStateToFaceColorSprite[faceKey]);
             DictAnimationState[Skin]            = newData.InstantiateDictionary(data.DictIntToDictStateToSkinColorSprite[skinKey]);
-            DictAnimationState[WeaponBottom]    = newData.InstantiateDictionary(data.DictClassToStateToWeaponbot[character]);
+            DictAnimationState[WeaponBottom]    = newData.InstantiateDictionary(data.DictClassToStateToWeaponBot[character]);
         }
         else
         {

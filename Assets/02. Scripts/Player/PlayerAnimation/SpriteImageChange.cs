@@ -22,7 +22,6 @@ public class SpriteImageChange : MonoBehaviour
     [field: SerializeField] public Image Skin { get; set; }
     [field: SerializeField] public Image WeaponBottom { get; set; }
     [field: SerializeField] public SpriteData  SpriteData { get; set; }
-    private Color color = new Color(1,1,1,1);
     private int SelectedClass = -1;
     public Dictionary<Image, Dictionary<AnimationState, Sprite[]>> DictAnimationState { get; set; } = new();
     private int animationNum = 0;
@@ -47,24 +46,24 @@ public class SpriteImageChange : MonoBehaviour
         // 액션 등록
         PlayerManager.Instance.OnCustomizationChanged += ApplyCustomData;
     }
-    public void Init(CharacterClass character)
+    public void Init(CharacterClass character, (int style, int color) hairkey, int skinkey, int facekey)
     {
         if(SelectedClass != (int)character)
         {
             SelectedClass = (int)character;
             animationNum = 0;
             tempTime = maxtemp;
-            DictAnimationState[WeaponTop] = PlayerManager.Instance.DictClassToSpriteData[character].WeaponTop;
-            DictAnimationState[ClothTop] = PlayerManager.Instance.DictClassToSpriteData[character].ClothTop;
-            DictAnimationState[HairTop] = PlayerManager.Instance.DictClassToSpriteData[character].HairTop;
-            DictAnimationState[ClothBottom] = PlayerManager.Instance.DictClassToSpriteData[character].ClothBottom;
-            DictAnimationState[HairBottom] = PlayerManager.Instance.DictClassToSpriteData[character].HairBottom;
-            DictAnimationState[Face] = PlayerManager.Instance.DictClassToSpriteData[character].Face;
-            DictAnimationState[Skin] = PlayerManager.Instance.DictClassToSpriteData[character].Skin;
-            DictAnimationState[WeaponBottom] = PlayerManager.Instance.DictClassToSpriteData[character].WeaponBottom;
+            DictAnimationState[WeaponTop]       = DataManager.Instance.DictClassToStateToWeaponTop[character];
+            DictAnimationState[ClothTop]        = DataManager.Instance.DictClassToStateToClothTop[character];
+            DictAnimationState[ClothBottom]     = DataManager.Instance.DictClassToStateToClothBot[character];
+            DictAnimationState[WeaponBottom]    = DataManager.Instance.DictClassToStateToWeaponBot[character];
+            DictAnimationState[HairTop]         = DataManager.Instance.DictIntToDictStateToHairStyleTopSprite[hairkey];
+            DictAnimationState[HairBottom]      = DataManager.Instance.DictIntToDictStateToHairStyleBottomSprite[hairkey];
+            DictAnimationState[Face]            = DataManager.Instance.DictIntToDictStateToFaceColorSprite[facekey];
+            DictAnimationState[Skin]            = DataManager.Instance.DictIntToDictStateToSkinColorSprite[skinkey];
             foreach (var image in DictAnimationState.Keys)
             {
-                image.color = color;
+                image.color = Color.white;
             }
             SetLoopAnimation(AnimationState.Idle1, animationNum);
         }
