@@ -150,7 +150,7 @@ public class MeleeDamageCheck : MonoBehaviour
         {
             var poolable = GetComponent<BasePoolable>();
             if (poolable != null)
-                poolable.ReturnToPool();
+                poolable.Rpc_ReturnToPool();
             else return;
 
             //Destroy(gameObject, 10); // 풀 객체가 아니면 그냥 파괴

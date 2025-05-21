@@ -66,7 +66,7 @@ public static class DamageTextSpawner
         {
             var old = activeTexts.Dequeue();
             indexToUse = old.OffsetIndex;
-            old.ReturnToPool();
+            old.Rpc_ReturnToPool();
         }
 
 
@@ -79,7 +79,7 @@ public static class DamageTextSpawner
         if(activeTexts.Count >= maxTextCount)
         {
             var old = activeTexts.Dequeue();
-            old.ReturnToPool(); // 여기서 강제로 풀로 리턴해버리기
+            old.Rpc_ReturnToPool(); // 여기서 강제로 풀로 리턴해버리기
         }
 
         // 풀에서 꺼내기

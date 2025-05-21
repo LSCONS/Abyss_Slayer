@@ -74,6 +74,7 @@ public class ZoneAOE : BasePoolable
 
     public void Init(DashMeleeSkill dashMeleeSkill, Type effectType, GameObject effectPrefab)
     {
+        gameObject.SetActive(true);
         DataInit(dashMeleeSkill, Vector2.zero, effectType, EHitEffectType.Dash); 
         Vector2 dashDirection = Data.Player.IsFlipX ? Vector2.left : Vector2.right;
         StartCoroutine(DashCoroutine(dashDirection, dashMeleeSkill, effectPrefab));
@@ -126,7 +127,7 @@ public class ZoneAOE : BasePoolable
     {
         if (effectPrefab != null)
             effectPrefab.SetActive(false);
-        ReturnToPool();
+        Rpc_ReturnToPool();
         Animator.enabled = false;
         MeleeDamageCheck.Exit();
         if (Data.Skill.SkillCategory == SkillCategory.Hold)

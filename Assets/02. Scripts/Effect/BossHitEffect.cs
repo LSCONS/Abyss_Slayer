@@ -66,7 +66,7 @@ public class BossHitEffect : BasePoolable
         var poolable = GetComponent<BasePoolable>();
         if (poolable != null)
         {
-            poolable.ReturnToPool();
+            poolable.Rpc_ReturnToPool();
         }
         else    // 풀 객체가 아니면 그냥 파괴
         {
