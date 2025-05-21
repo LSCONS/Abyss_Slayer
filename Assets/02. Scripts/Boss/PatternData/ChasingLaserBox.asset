@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90f57709d9479134ab73ddfda399421e, type: 3}
-  m_Name: DiamondMissaile
+  m_Script: {fileID: 11500000, guid: 71f4434849457ad46beeae1281f9e797, type: 3}
+  m_Name: ChasingLaserBox
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   attackableAreas: []
@@ -21,19 +21,17 @@ MonoBehaviour:
     width: 40
     height: 20
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
-  damage: 20
-  startPositions: []
-  preDelayTime: 1
-  postDelayTime: 3
-  isMultyTarget: 1
-  startCircleR: 0.5
-  fireDegree: 80
-  spreadDegree: 50
-  missaileCount: 12
-  homingPower: 10
-  missailSpeed: 2
-  homingTime: 3
-  explosionSize: 0.5
-  homingCurve: 1
-  speedCurve: 2
-  projectileType: 2
+  damage: 30
+  isPiercing: 1
+  fireCount: 3
+  preDelayTime: 1.5
+  spawnPoint: {x: 0, y: 0, z: 0}
+  firePositions:
+  - {x: -10, y: 8, z: 0}
+  - {x: 0, y: 10, z: 0}
+  - {x: 10, y: 8, z: 0}
+  spawnTime: 0.3
+  moveTime: 1.2
+  chasingTime: 1
+  postDelayTime: 5
+  chasing: 1

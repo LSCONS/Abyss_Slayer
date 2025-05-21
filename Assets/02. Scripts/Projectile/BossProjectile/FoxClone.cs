@@ -25,12 +25,15 @@ public class FoxClone : BasePoolable,IHasHealth
     }
     public void Damage(int damage, float attackPosX = -1000)
     {
+        Hp.Value = Mathf.Clamp(Hp.Value - damage, 0, MaxHp.Value);
         Hp.Value = 0;
-        animator.SetTrigger(AnimationHash.DamagedParameterHash);
+        if (Hp.Value <= 0)
+            animator.SetTrigger(AnimationHash.DamagedParameterHash);
     }
     public override void Rpc_Init()
     {
     }
+    public void Init(Vector3 position, int deadDamage, int explosionDamage, Dead cloneDead, float deadExplosionSize = 1f, int cloneHP = 1)
 
 
     public void Init(Vector3 position, int deadDamage, int explosionDamage, Dead cloneDead, float deadExplosionSize = 1f)
@@ -43,6 +46,8 @@ public class FoxClone : BasePoolable,IHasHealth
         dead = cloneDead;
         _deadExplosionScale = deadExplosionSize;
         cloneSprite.flipX = UnityEngine.Random.value < 0.5f;
+        MaxHp.Value = cloneHP;
+        Hp.Value = MaxHp.Value;
     }
     public void Explosion()
     {

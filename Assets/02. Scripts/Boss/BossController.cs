@@ -281,8 +281,8 @@ public class BossController : NetworkBehaviour
         Debug.Log("JumpMove");
 #endif
         Vector3 startPosition = transform.position;
-        float _jumpMoveTime = (inputJumpMoveTime <= 0)? JumpMoveTime : inputJumpMoveTime;
-        float _jumpMoveHight = (inputJumpMoveHight <= -10)? JumpMoveHight : inputJumpMoveHight;
+        float _jumpMoveTime = (inputJumpMoveTime <= 0)? jumpMoveTime : inputJumpMoveTime;
+        float _jumpMoveHight = (inputJumpMoveHight < 0)? jumpMoveHight : inputJumpMoveHight;
         float maxY = Mathf.Max(targetPosition.y, startPosition.y) + _jumpMoveHight;
         float deltaY1 = maxY - startPosition.y;
         float deltaY2 = maxY - targetPosition.y;
@@ -295,18 +295,19 @@ public class BossController : NetworkBehaviour
         yield return new WaitForSeconds(0.2f);
         PoolManager.Instance.Get<JumpEffect>().Rpc_Init(transform.position + Vector3.down * BossCenterHight);
         float time = 0f;
-        while(time < _jumpMoveTime)
+        while (time < _jumpMoveTime)
         {
             float x = Mathf.Lerp(startPosition.x, targetPosition.x, time / _jumpMoveTime);
-            if(time >= hightestTime)
-                Boss.Rpc_SetTriggerAnimationHash(AnimationHash.FallParameterHash);
+            if (time >= hightestTime)
+                animator.SetTrigger("Fall");
             float y = startPosition.y + (startVelocityY * time) - (0.5f * jumpGravity * time * time);
             transform.position = new Vector3(x, y, 0);
             time += Time.deltaTime;
             yield return null;
         }
-        Boss.Rpc_SetTriggerAnimationHash(AnimationHash.LandParameterHash);
         Boss.Rpc_ResetTriggerAnimationHash(AnimationHash.FallParameterHash);
+        if (_jumpMoveHight != 0)
+            Boss.Rpc_SetTriggerAnimationHash(AnimationHash.LandParameterHash);
         transform.position = targetPosition;
         yield return new WaitForSeconds(0.4f);
     }
