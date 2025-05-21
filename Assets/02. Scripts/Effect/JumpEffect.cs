@@ -15,4 +15,9 @@ public class JumpEffect : BasePoolable
         transform.position = position;
         transform.localScale = Vector3.one * size;
     }
+
+    public override void Rpc_ReturnToPool()
+    {
+        base.Rpc_ReturnToPool();
+    }
 }
