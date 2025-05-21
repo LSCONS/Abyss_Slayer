@@ -6,9 +6,13 @@ using UnityEngine;
 public class UIStartTitle : UIPermanent
 {
     [field: SerializeField] public TextMeshProUGUI TextName { get; private set;}
-
     private void Awake()
     {
-        ServerManager.Instance.ChangeNameAction += () => TextName.text = ServerManager.Instance.PlayerName;
+        ServerManager.Instance.UIStartTitle = this;
+    }
+
+    public void TextUpdate()
+    {
+        TextName.text = ServerManager.Instance.PlayerName;
     }
 }

@@ -16,22 +16,13 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 {
     public Dictionary<PlayerRef, Player> DictRefToPlayer { get; private set; } = new();
     public int BossCount { get; private set; } = 0;
-    [SerializeField] private string playerName = "Empty";
-    public string PlayerName
-    {
-        get { return playerName; }
-        set
-        {
-            playerName = value;
-            ChangeNameAction?.Invoke();
-        }
-    }
+    public string PlayerName { get; set; } = "Empty";
     public byte[] PlayerNameBytes
     {
         get
         {
             byte[] temp = new byte[8];
-            byte[] nameArray = System.Text.Encoding.UTF8.GetBytes(playerName);
+            byte[] nameArray = System.Text.Encoding.UTF8.GetBytes(PlayerName);
             int arrayLenght = nameArray.Length;
             for (int i = 0; i < temp.Length; i++)
             {
@@ -73,6 +64,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public InitSupporter InitSupporter { get; set; }
     public CustomPanelManager CustomPanelManager { get; set; }
     public PoolManager PoolManager { get; set; }
+    public UIStartTitle UIStartTitle { get; set; }
     public Vector3 Vec3PlayerBattlePosition { get; private set; } = new Vector3(-18, 1.5f, 0);
     public Vector3 Vec3PlayerRestPosition { get; private set; } = new Vector3(-5, 1.5f, 0);
     public Action<bool> IsAllReadyAction { get; set; }

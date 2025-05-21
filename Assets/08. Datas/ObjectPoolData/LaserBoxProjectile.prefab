@@ -330,6 +330,8 @@ MonoBehaviour:
   - {fileID: 5732328241697256366}
   - {fileID: 4388681970394005070}
   - {fileID: 9152168314486457783}
+  virtualTarget: {fileID: 7528317407963205795}
+  sprite: {fileID: 587105248455734366}
 --- !u!114 &2899599904971368242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,7 +346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 1602122342
   ObjectInterest: 1
-  Flags: 1
+  Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 5589886150976292905}

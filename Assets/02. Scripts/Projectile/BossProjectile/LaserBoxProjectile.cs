@@ -23,9 +23,14 @@ public class LaserBoxProjectile : BasePoolable
     int _fireCount;
     bool _isPiercing;
     bool _chasing;
+
+
+
     public override void Rpc_Init()
     {
     }
+
+
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_Init(int damage, PlayerRef target, Vector3 startPosition, float scale, Vector3 firePosition, float moveTime, float chasingTime, float delayTime,bool isPiercing, int fireCount = 1, bool chasing = true)
     {

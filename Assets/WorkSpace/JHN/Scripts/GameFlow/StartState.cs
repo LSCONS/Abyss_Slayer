@@ -35,6 +35,7 @@ public class StartState : BaseGameState
         Debug.Log("StartState UI 오픈");
 #endif
         UIManager.Instance.OpenUI(UISceneType.Start);
+        ServerManager.Instance.UIStartTitle.TextUpdate();
 #if MoveSceneDebug
         Debug.Log("LoadingScene 삭제");
 #endif
