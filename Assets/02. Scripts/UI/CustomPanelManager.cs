@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class CustomPanelManager : UIPopup
 {
     [field: Header("프리뷰 연결")]
-    [field: SerializeField] private SpriteImageChange spritePreview { get; set; }
+    [field: SerializeField] private SpriteImageChange SpritePreview { get; set; }
 
     // 적용하기 버튼
     [Header("적용하기 버튼")]
@@ -93,7 +93,7 @@ public class CustomPanelManager : UIPopup
     {
         SkinId = Mathf.Clamp(SkinId + id, 1, maxSkinId);
         skinNameText.text = $"Skin {SkinId}";
-        UpdateSkinPreview();
+        UpdatePreview();
         UpdateButtonInteractable();
     }
 
@@ -101,14 +101,14 @@ public class CustomPanelManager : UIPopup
     {
         FaceId = Mathf.Clamp(FaceId + id, 1, maxFaceId);
         faceNameText.text = $"Face {FaceId}";
-        UpdateFacePreview(); // 얼굴만 갱신
+        UpdatePreview(); // 얼굴만 갱신
         UpdateButtonInteractable();
     }
     private void ChangeHairIndex(int id)
     {
         HairStyleID = Mathf.Clamp(HairStyleID + id, 1, maxHairId);
         hairNameText.text = $"Hair {HairStyleID}";
-        UpdateHairPreview();
+        UpdatePreview();
         UpdateButtonInteractable();
     }
 
@@ -134,7 +134,7 @@ public class CustomPanelManager : UIPopup
     {
         skinNameText.text = $"Skin {SkinId}";
         faceNameText.text = $"Face {FaceId}";
-        hairNameText.text = $"Hair {HairId}";
+        hairNameText.text = $"Hair {HairStyleID}";
     }
 
     /// <summary>
@@ -142,30 +142,8 @@ public class CustomPanelManager : UIPopup
     /// </summary>
     private void UpdatePreview()
     {
-        if (spritePreview == null) return;
-
-        var state = AnimationState.Idle1;
-
-        TrySetPreviewPart(spritePreview.Skin, DataManager.Instance.DictIntToDictStateToSkinColorSprite, SkinId, state);
-        TrySetPreviewPart(spritePreview.Face, DataManager.Instance.DictIntToDictStateToFaceColorSprite, FaceId, state);
-        UpdateHairPreview();
-    }
-
-    private void UpdateSkinPreview()
-    {
-        TrySetPreviewPart(spritePreview.Skin, DataManager.Instance.DictIntToDictStateToSkinColorSprite, SkinId, AnimationState.Idle1);
-        spritePreview.UpdatePreview();
-    }
-
-    private void UpdateFacePreview()
-    {
-        TrySetPreviewPart(spritePreview.Face, DataManager.Instance.DictIntToDictStateToFaceColorSprite, FaceId, AnimationState.Idle1);
-        spritePreview.UpdatePreview();
-    }
-
-    private void UpdateHairPreview()
-    {
-        spritePreview.UpdatePreview();
+        if (SpritePreview == null) return;
+        SpritePreview.Init(PlayerManager.Instance.selectedCharacterClass, HairId, SkinId, FaceId);
     }
 
 
@@ -178,16 +156,16 @@ public class CustomPanelManager : UIPopup
     /// <param name="state"></param>
     private void TrySetPreviewPart(Image target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> dict, int id, AnimationState state)
     {
-        if (!spritePreview.DictAnimationState.ContainsKey(target))
-            spritePreview.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
+        if (!SpritePreview.DictAnimationState.ContainsKey(target))
+            SpritePreview.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
 
         if (dict.TryGetValue(id, out var stateDict))
         {
-            spritePreview.DictAnimationState[target][state] = stateDict.TryGetValue(state, out var sprites) ? sprites : new Sprite[0];
+            SpritePreview.DictAnimationState[target][state] = stateDict.TryGetValue(state, out var sprites) ? sprites : new Sprite[0];
         }
         else
         {
-            spritePreview.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>
+            SpritePreview.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>
             {
                 { state, new Sprite[0] }
             };

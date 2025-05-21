@@ -21,7 +21,7 @@ public class SpriteImageChange : MonoBehaviour
     [field: SerializeField] public Image Face { get; set; }
     [field: SerializeField] public Image Skin { get; set; }
     [field: SerializeField] public Image WeaponBottom { get; set; }
-    [field: SerializeField] public SpriteData  SpriteData { get; set; }
+    [field: SerializeField] public SpriteData SpriteData { get; set; }
     private int SelectedClass = -1;
     public Dictionary<Image, Dictionary<AnimationState, Sprite[]>> DictAnimationState { get; set; } = new();
     private int animationNum = 0;
@@ -30,122 +30,111 @@ public class SpriteImageChange : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if(DictAnimationState != null && tempTime == 0)
+        if (DictAnimationState != null && tempTime == 0)
         {
             SetLoopAnimation(AnimationState.Idle1, ++animationNum);
             tempTime = maxtemp;
         }
-        if(tempTime > 0)
+        if (tempTime > 0)
         {
             tempTime--;
         }
     }
 
-    private void Awake()
-    {
-        // 액션 등록
-        PlayerManager.Instance.OnCustomizationChanged += ApplyCustomData;
-    }
+
     public void Init(CharacterClass character, (int style, int color) hairkey, int skinkey, int facekey)
     {
-        if(SelectedClass != (int)character)
+        DataManager data = DataManager.Instance;
+        SelectedClass = (int)character;
+        animationNum = 0;
+        tempTime = maxtemp;
+        DictAnimationState[WeaponTop]       = data.InstantiateDictionary(data.DictClassToStateToWeaponTop[character]);
+        DictAnimationState[ClothTop]        = data.InstantiateDictionary(data.DictClassToStateToClothTop[character]);
+        DictAnimationState[ClothBottom]     = data.InstantiateDictionary(data.DictClassToStateToClothBot[character]);
+        DictAnimationState[WeaponBottom]    = data.InstantiateDictionary(data.DictClassToStateToWeaponBot[character]);
+        DictAnimationState[HairTop]         = data.InstantiateDictionary(data.DictIntToDictStateToHairStyleTopSprite[hairkey]);
+        DictAnimationState[HairBottom]      = data.InstantiateDictionary(data.DictIntToDictStateToHairStyleBottomSprite[hairkey]);
+        DictAnimationState[Face]            = data.InstantiateDictionary(data.DictIntToDictStateToFaceColorSprite[facekey]);
+        DictAnimationState[Skin]            = data.InstantiateDictionary(data.DictIntToDictStateToSkinColorSprite[skinkey]);
+        foreach (var image in DictAnimationState.Keys)
         {
-            SelectedClass = (int)character;
-            animationNum = 0;
-            tempTime = maxtemp;
-            DictAnimationState[WeaponTop]       = DataManager.Instance.DictClassToStateToWeaponTop[character];
-            DictAnimationState[ClothTop]        = DataManager.Instance.DictClassToStateToClothTop[character];
-            DictAnimationState[ClothBottom]     = DataManager.Instance.DictClassToStateToClothBot[character];
-            DictAnimationState[WeaponBottom]    = DataManager.Instance.DictClassToStateToWeaponBot[character];
-            DictAnimationState[HairTop]         = DataManager.Instance.DictIntToDictStateToHairStyleTopSprite[hairkey];
-            DictAnimationState[HairBottom]      = DataManager.Instance.DictIntToDictStateToHairStyleBottomSprite[hairkey];
-            DictAnimationState[Face]            = DataManager.Instance.DictIntToDictStateToFaceColorSprite[facekey];
-            DictAnimationState[Skin]            = DataManager.Instance.DictIntToDictStateToSkinColorSprite[skinkey];
-            foreach (var image in DictAnimationState.Keys)
-            {
-                image.color = Color.white;
-            }
-            SetLoopAnimation(AnimationState.Idle1, animationNum);
+            image.color = Color.white;
         }
+        SetLoopAnimation(AnimationState.Idle1, animationNum);
     }
 
     public bool SetOnceAnimation(AnimationState state, int spriteNum)
     {
-        foreach (var spriteRenderer in DictAnimationState.Keys)
+        foreach (var image in DictAnimationState.Keys)
         {
-            if (!DictAnimationState[spriteRenderer].ContainsKey(state))
+            if (!DictAnimationState[image].ContainsKey(state))
                 return false;
 
-            var sprites = DictAnimationState[spriteRenderer][state];
+            var sprites = DictAnimationState[image][state];
 
             if (sprites == null || spriteNum >= sprites.Length)
                 return false;
 
-            spriteRenderer.sprite = sprites[spriteNum];
+            image.sprite = sprites[spriteNum];
         }
         return true;
     }
 
     public void SetLoopAnimation(AnimationState state, int spriteNum)
     {
-        foreach (var spriteRenderer in DictAnimationState.Keys)
+        foreach (var image in DictAnimationState.Keys)
         {
-            if (!DictAnimationState[spriteRenderer].ContainsKey(state))
+            if (!DictAnimationState[image].ContainsKey(state))
                 continue;
 
-            var sprites = DictAnimationState[spriteRenderer][state];
+            var sprites = DictAnimationState[image][state];
 
             if (sprites == null || sprites.Length == 0)
                 continue; // 빈 배열이면 넘어감
 
             spriteNum %= sprites.Length;
-            spriteRenderer.sprite = sprites[spriteNum];
+            image.sprite = sprites[spriteNum];
         }
     }
 
-    public void ApplyCustomData(PlayerCustomizationInfo info)
-    {
-        if (info == null) return;
+    //public void ApplyCustomData(PlayerCustomizationInfo info)
+    //{
+    //    if (info == null) return;
 
-        var data = DataManager.Instance;
-        var state = AnimationState.Idle1;
-        var key = HairColorConfig.HairColorIndexByClass[PlayerManager.Instance.selectedCharacterClass];
+    //    var data = DataManager.Instance;
+    //    var state = AnimationState.Idle1;
+    //    var key = HairColorConfig.HairColorIndexByClass[PlayerManager.Instance.selectedCharacterClass];
 
-        TrySetPart(Skin, data.DictIntToDictStateToSkinColorSprite, info.skinId, state);
-        TrySetPart(Face, data.DictIntToDictStateToFaceColorSprite, info.faceId, state);
-        var hairKey = (info.hairInfo.styleId, info.hairInfo.colorIndex);
-        TrySetPart(HairTop, data.DictIntToDictStateToHairStyleTopSprite, hairKey, state);
-        TrySetPart(HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, hairKey, state);
+    //    TrySetPart(Skin, data.DictIntToDictStateToSkinColorSprite, info.skinId, state);
+    //    TrySetPart(Face, data.DictIntToDictStateToFaceColorSprite, info.faceId, state);
+    //    var hairKey = (info.hairInfo.styleId, info.hairInfo.colorIndex);
+    //    TrySetPart(HairTop, data.DictIntToDictStateToHairStyleTopSprite, hairKey, state);
+    //    TrySetPart(HairBottom, data.DictIntToDictStateToHairStyleBottomSprite, hairKey, state);
 
-        animationNum = 0; // 첫 프레임부터 재생
-        SetLoopAnimation(state, animationNum);
-    }
+    //    animationNum = 0; // 첫 프레임부터 재생
+    //    SetLoopAnimation(state, animationNum);
+    //}
 
-    private void TrySetPart(Image target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> dict, int id, AnimationState state)
-    {
-        if (!DictAnimationState.ContainsKey(target))
-            DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
+    //private void TrySetPart(Image target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> dict, int id, AnimationState state)
+    //{
+    //    if (!DictAnimationState.ContainsKey(target))
+    //        DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
 
-        if (dict.TryGetValue(id, out var stateDict) && stateDict.TryGetValue(state, out var sprites))
-        {
-            DictAnimationState[target][state] = sprites;
-        }
-    }
+    //    if (dict.TryGetValue(id, out var stateDict) && stateDict.TryGetValue(state, out var sprites))
+    //    {
+    //        DictAnimationState[target][state] = sprites;
+    //    }
+    //}
 
-    private void TrySetPart(Image target, Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> dict, (int, int) id, AnimationState state)
-    {
-        if (!DictAnimationState.ContainsKey(target))
-            DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
+    //private void TrySetPart(Image target, Dictionary<(int, int), Dictionary<AnimationState, Sprite[]>> dict, (int, int) id, AnimationState state)
+    //{
+    //    if (!DictAnimationState.ContainsKey(target))
+    //        DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
 
-        if (dict.TryGetValue(id, out var stateDict) && stateDict.TryGetValue(state, out var sprites))
-        {
-            DictAnimationState[target][state] = sprites;
-        }
-    }
-    public void UpdatePreview()
-    {
-        animationNum = 0;
-        SetLoopAnimation(AnimationState.Idle1, animationNum);
-    }
+    //    if (dict.TryGetValue(id, out var stateDict) && stateDict.TryGetValue(state, out var sprites))
+    //    {
+    //        DictAnimationState[target][state] = sprites;
+    //    }
+    //}
 
 }
