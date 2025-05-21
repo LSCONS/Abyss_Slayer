@@ -17,6 +17,7 @@ public class FoxCloneData : BasePatternData
     List<FoxClone> clones = new List<FoxClone>();
     public override IEnumerator ExecutePattern()
     {
+        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.TeleportInParameterHash);
         yield return new WaitForSeconds(preDelayTime);
 
@@ -26,8 +27,8 @@ public class FoxCloneData : BasePatternData
         clones.Clear();
         for (int i = 0; i < cloneCount + 1; i++)
         {
-            float positionX = -(mapWidth / 2) + (i * width) + UnityEngine.Random.Range(0, width);
-            float positionY = Physics2D.Raycast(new Vector3(positionX, 5 * Random.Range(0, 3) + 1), Vector3.down, 20, LayerMask.GetMask("GroundPlatform", "GroundPlane")).point.y;
+            float positionX = -(mapWidth / 2) + (i * width) + Random.Range(0, width);
+            float positionY = scene2D.Raycast(new Vector3(positionX, 5 * Random.Range(0, 3) + 1), Vector3.down, 20, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask).point.y;
             Vector3 position = new Vector3(positionX, positionY + bossCenterHight);
             
             if(i == realPosition)

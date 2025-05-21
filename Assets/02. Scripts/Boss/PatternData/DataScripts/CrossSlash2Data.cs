@@ -11,6 +11,7 @@ public class CrossSlash2Data : BasePatternData
     [SerializeField] float preDelayTime;
     public override IEnumerator ExecutePattern()
     {
+        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
         bool isleft = 0 > (target.position.x - bossTransform.position.x);
         boss.IsLeft = isleft;
         bossController.ShowTargetCrosshair = true;
@@ -36,7 +37,7 @@ public class CrossSlash2Data : BasePatternData
         float x = Mathf.Clamp(bossTransform.position.x + (isleft ? -14 : 14), -mapWidth / 2 + 0.7f, mapWidth / 2 - 0.7f);
         bossTransform.position = new Vector3(x, bossTransform.position.y);
 
-        if (Physics2D.Raycast(bossTransform.position, Vector3.down, bossCenterHight + 0.1f, LayerMask.GetMask("GroundPlane", "GroundPlatform")))
+        if (scene2D.Raycast(bossTransform.position, Vector3.down, bossCenterHight + 0.1f, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask))
         {
             boss.Rpc_SetTriggerAnimationHash(AnimationHash.SlashEndParameterHash);
             yield return new WaitForSeconds(1f);
