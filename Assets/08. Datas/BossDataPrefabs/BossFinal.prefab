@@ -401,6 +401,12 @@ MonoBehaviour:
     showGizmos: 1
     isCheckCondition: 1
     bossCheckHP: 0.67
+  - weight: 1
+    patternData: {fileID: 11400000, guid: 6d77efd23e848994c989c255b8d141e9, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckCondition: 0
+    bossCheckHP: 0.67
   <MapWidth>k__BackingField: 40
   <BossCenterHight>k__BackingField: 2
   <Boss>k__BackingField: {fileID: 3758152715141030970}
