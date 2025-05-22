@@ -321,6 +321,7 @@ MonoBehaviour:
   introText: {fileID: 1817359548}
   typingSpeed: 0.05
   bgm: {fileID: 1878856434}
+  mainBgm: {fileID: 0}
 --- !u!1 &1777845075
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,12 +645,12 @@ AudioSource:
   m_GameObject: {fileID: 1878856429}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3739638401709886002, guid: 96e17e5b4dccd95419c4c775afcdd486, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

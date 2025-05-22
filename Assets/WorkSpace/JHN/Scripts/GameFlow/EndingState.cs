@@ -58,7 +58,7 @@ public class EndingState : BaseGameState
         await state?.TaskProgressBar;
 
 
-
+        SoundManager.Instance.PlayBGM(EAudioClip.BGM_EndingScene);
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
         await ServerManager.Instance.WaitForAllPlayerIsReady();
         if (runner.IsServer)

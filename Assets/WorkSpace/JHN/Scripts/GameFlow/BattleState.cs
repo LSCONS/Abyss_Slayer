@@ -176,7 +176,9 @@ public class BattleState : BaseGameState
 
         if (runner.IsServer)
             ServerManager.Instance.AllPlayerIsReadyFalse();
-
+        bool isFinalBoss = (GameValueManager.Instance.MaxBossCount - GameValueManager.Instance.CurrentStageIndex == 1);
+            if (isFinalBoss) SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene_Last);
+            else SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene);
         UIManager.Instance.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
 
         // 보스 찾기
@@ -222,8 +224,6 @@ public class BattleState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("Battle 개방");
 #endif
-        UIManager.Instance.OpenUI(UISceneType.Boss);
-
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
         await ServerManager.Instance.WaitForAllPlayerIsReady();
 
