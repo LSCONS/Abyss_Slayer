@@ -17,8 +17,9 @@ public class UIReadyBossStage : UIButton
     [field: SerializeField] public Color OnReadyColor { get; private set; }
     [field: SerializeField] public Color OffReadyColor { get; private set; }
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         TextBtnReadyOrStart.text = runner.IsServer ? ServerText : ClientText;
         BtnReadyOrStart.interactable = runner.IsServer ? false : true;
@@ -30,6 +31,8 @@ public class UIReadyBossStage : UIButton
         {
             BtnReadyOrStart.onClick.AddListener(ClickReadyButton);
         }
+        BtnReadyOrStart.onClick.RemoveListener(PlayClickSound);
+       BtnReadyOrStart.onClick.AddListener(PlayClickSound);
     }
 
     public override void Init()

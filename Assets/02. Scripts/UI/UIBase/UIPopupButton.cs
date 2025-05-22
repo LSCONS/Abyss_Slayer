@@ -19,10 +19,11 @@ public class UIPopupButton : UIButton
 
     private UIPopup popup;
 
-    public void Awake()
+    protected override void Awake()
     {
-        if (button == null) button = GetComponent<Button>();
-        button.onClick.AddListener(OnClickButton);
+        base.Awake();
+        button?.onClick.RemoveListener(OnClickButton);
+        button?.onClick.AddListener(OnClickButton);
     }
     public bool EscCanOpen() => escCanOpen && !isClose;
 

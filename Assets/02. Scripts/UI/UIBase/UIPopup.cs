@@ -77,6 +77,8 @@ public class UIPopup : UIBase
     /// </summary>
     public override void Close()
     {
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
 
