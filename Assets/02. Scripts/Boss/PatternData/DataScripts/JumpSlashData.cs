@@ -31,6 +31,9 @@ public class JumpSlashData : BasePatternData
         bossController.ShowTargetCrosshair = true;
         yield return new WaitForSeconds(preDelayTime);
 
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
         bossController.StartCoroutine(bossController.RunMove(isLeft));
         yield return null;
 
@@ -62,6 +65,9 @@ public class JumpSlashData : BasePatternData
         float degree = Mathf.Atan2(Mathf.Max(0, target.position.y - targetY), Mathf.Abs(target.position.x - targetX)) * Mathf.Rad2Deg;
         for (int i = 0; i < attackAngles.Count; i++)
         {
+            if (EAudioClip != null && EAudioClip.Count > 1)
+                SoundManager.Instance.PlaySFX(EAudioClip[1]);
+
             PoolManager.Instance.Get<NormalSlash>().Rpc_Init(new Vector3(targetX, targetY), damage, isLeft, degree + attackAngles[i], attackSpeed);
             bossController.StartCoroutine(AttackEffect());
             yield return new WaitForSeconds(attackIntervalTime);

@@ -19,6 +19,8 @@ public class CrossSlash2Data : BasePatternData
         yield return new WaitForSeconds(preDelayTime);
 
         bossController.StartCoroutine(bossController.RunMove(isleft));
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
 
         while((Mathf.Abs(target.position.x - bossTransform.position.x) > attackDistance))
         {
@@ -31,6 +33,8 @@ public class CrossSlash2Data : BasePatternData
         bossController.IsRun = false;
         yield return new WaitForSeconds(0.05f * speed);
 
+        if (EAudioClip != null && EAudioClip.Count > 1)
+            SoundManager.Instance.PlaySFX(EAudioClip[1]);
         ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, AnimationHash.CrossSlash2ParameterHash, speed);;
         yield return new WaitForSeconds((1/ 6) * speed);
 
