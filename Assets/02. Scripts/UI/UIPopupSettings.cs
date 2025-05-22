@@ -42,6 +42,7 @@ public class UIPopupSettings : UIPopup
         SoundManager.Instance.SetBGMVolume(bgmSlider.value);
         SoundManager.Instance.SetSFXVolume(sfxSlider.value);
 
+        if(closeButton == null)
         closeButton = transform.GetGameObjectSameNameDFS("Close").GetComponent<Button>();
     }
 
@@ -93,6 +94,7 @@ public class UIPopupSettings : UIPopup
     public override void OnClose()
     {
         SoundManager.Instance.SaveVolumeSettings();
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         base.OnClose();
     }
 
