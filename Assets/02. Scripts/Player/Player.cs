@@ -99,6 +99,7 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             SkillCoolTimeCompute();
             BuffDurationCompute();
+            ComputeHealingTime();
         }
 
         PlayerStateMachine.Update();
@@ -119,6 +120,22 @@ public class Player : NetworkBehaviour, IHasHealth
             float t = tempSmooth * Time.deltaTime;
             Vector2 newPos = Vector2.Lerp(current, target, t);
             transform.position = newPos;
+        }
+    }
+
+
+    /// <summary>
+    /// 플레이어의 기본 체력 재생을 검사하는 메서드
+    /// </summary>
+    private void ComputeHealingTime()
+    {
+        if (MaxHp.Value == Hp.Value) return;
+        PlayerStatusData data = PlayerData.PlayerStatusData;
+        data.HealingCurTime -= Time.deltaTime;
+        if (data.HealingCurTime <= 0)
+        {
+            HealPlayerHP(data.HealingHealth);
+            data.HealingCurTime = data.HealingDelay;
         }
     }
 

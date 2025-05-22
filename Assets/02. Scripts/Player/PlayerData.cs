@@ -59,4 +59,11 @@ public class PlayerStatusData
     [field: SerializeField] public bool CanMove { get; set; } = true;
     [field: Header("Class")]
     [field: SerializeField] public CharacterClass Class { get; private set; }
+
+    [field: Header("플레이어 체력 재생 수치(1이면 1씩 회복)")]
+    [field: SerializeField] public int HealingHealth { get; private set; } = 1;
+
+    [field: Header("플레이어 체력 재생 시간 기준(1이면 1초마다)")]
+    [field: SerializeField] public float HealingDelay { get; private set; } = 1;
+    public float HealingCurTime { get; set; } = 0;
 }
