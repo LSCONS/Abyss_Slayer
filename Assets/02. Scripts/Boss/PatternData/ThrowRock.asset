@@ -21,7 +21,11 @@ MonoBehaviour:
     width: 30
     height: 10
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
-  damage: 1
-  preDelayTime: 2
+  damage: 50
+  preDelayTime: 1
+  delayThrowTime: 0
+  spawnPositionY: 3
   rockSpeed: 10
+  gravityScale: 1
+  rockSize: 1
   postDelayTime: 1
