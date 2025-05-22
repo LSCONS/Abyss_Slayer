@@ -21,6 +21,7 @@ public class UIInputName : UIPermanent
 
     private void CheckNameError(string text)
     {
+        SoundManager.Instance.PlayRandomPitchSFX(EAudioClip.SFX_KeyBoardTyping, 0.5f, 1);
         string temp = text.Trim();
 
         if(temp.Length >= 2 && temp.Length <= 8)
