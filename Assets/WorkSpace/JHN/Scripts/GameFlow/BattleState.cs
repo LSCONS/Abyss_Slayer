@@ -37,6 +37,7 @@ public class BattleState : BaseGameState
     public override async Task OnExit()
     {
         UIManager.Instance.CloseUI(UISceneType.Boss);
+        PoolManager.Instance.CrossHairObject.gameObject.SetActive(false);
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {

@@ -20,6 +20,8 @@ public class GameValueManager : Singleton<GameValueManager>
     [field: SerializeField] public float OnDamageBossColorDuration { get; private set; } = 0.1f;
     [field: Header("플레이어 피격 컬러 유지 시간")]
     [field: SerializeField] public float OnDamagePlayerColorDuration { get; private set; } = 0.3f;
+    [field: SerializeField] public float MinTypingSoundPitch { get; private set; } = 0.5f;
+    [field: SerializeField] public float MaxTypingSoundPitch { get; private set; } = 1f;
 
     public void NextStageIndex()
     {

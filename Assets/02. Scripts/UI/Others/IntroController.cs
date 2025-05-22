@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,17 +11,19 @@ public class IntroController : MonoBehaviour
     [SerializeField] private IntroData introData;
     [SerializeField] private Image backgroundImage;
     [SerializeField] private TextMeshProUGUI introText;
-    [SerializeField] private float typingSpeed = 0.05f;
+    [SerializeField] private float typingMinSpeed = 0.10f;
+    [SerializeField] private float typingMaxSpeed = 0.15f;
     [SerializeField] private AudioSource bgm;
 
 
     private Coroutine currentTypingCoroutine;
     private bool isTyping = false;
 
-    private void Start()
+    private async void Start()
     {
         IntroBG.SetActive(true);
-        bgm?.Play();
+        SoundManager.Instance.Init();
+        await SoundManager.Instance.PlayBGMIntro();
         StartCoroutine(DelayedStart()); // 한 프레임 대기 후 시작
     }
 
@@ -51,10 +54,11 @@ public class IntroController : MonoBehaviour
             bool spacePressedDuringTyping = false;
 
             // 1단계: 텍스트 타이핑 중
-            while (isTyping && elapsedTime < 5f)
+            while (isTyping && elapsedTime < 10f)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
+                    SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
                     // 타이핑 중에 스페이스 누르면 텍스트 전부 출력
                     StopCoroutine(currentTypingCoroutine);
                     introText.text = cut.line;
@@ -72,13 +76,16 @@ public class IntroController : MonoBehaviour
             }
 
             // 2단계: 텍스트가 전부 출력된 후 → Space 기다리기 또는 자동 대기
-            float waitTime = Mathf.Max(0f, 5f - elapsedTime);
+            float waitTime = Mathf.Max(0f, 10f - elapsedTime);
 
             float waited = 0f;
             while (waited < waitTime)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
                     break;
+                }
 
                 waited += Time.deltaTime;
                 yield return null;
@@ -102,8 +109,10 @@ public class IntroController : MonoBehaviour
         introText.text = "";
         foreach (char c in line)
         {
+            float waitTime = Random.Range(typingMinSpeed, typingMaxSpeed);
             introText.text += c;
-            yield return new WaitForSeconds(typingSpeed);
+            SoundManager.Instance.PlayTypingSoundSFX();
+            yield return new WaitForSeconds(waitTime);
         }
 
         isTyping = false;
