@@ -213,7 +213,7 @@ public class BossController : NetworkBehaviour
             //실행 비활성화일 경우 무시
             if (!(pattern.setActivePatternForTest)) continue;
             //딜레이 시간이 남아있는지 확인
-            if (pattern.samePatternDelayTime > 0) continue;
+            if (pattern.SamePatternDelayCurTime > 0) continue;
             //패턴 조건 체크 결과 보스 체력이 더 많을경우 비활성화
             if (pattern.isCheckActiveTrue && ((float)Boss.Hp.Value / Boss.MaxHp.Value) >= pattern.bossCheckHP) continue;
             //패턴 조건 체크 결과 보스 체력이 더 적을경우 비활성화
