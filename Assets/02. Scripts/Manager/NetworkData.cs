@@ -41,9 +41,9 @@ public class NetworkData : NetworkBehaviour
             ServerManager.Instance.ThisPlayerRef = PlayerDataRef;
         }
         ServerManager.Instance.DictRefToNetData[PlayerDataRef] = this;
-        ServerManager.Instance.LobbyMainPanel.UpdateNewData(PlayerDataRef);
+        ServerManager.Instance.LobbyMainPanel?.UpdateNewData(PlayerDataRef);
 
-        if (IsServer) ServerManager.Instance.LobbyMainPanel.SetServerText(PlayerDataRef);
+        if (IsServer) ServerManager.Instance.LobbyMainPanel?.SetServerText(PlayerDataRef);
 
         //서버에 본인 데이터와 이름을 등록
         if (Runner.LocalPlayer == PlayerDataRef)
@@ -51,7 +51,7 @@ public class NetworkData : NetworkBehaviour
             Rpc_RequestSetName(ServerManager.Instance.PlayerNameBytes);
         }
 
-        ServerManager.Instance.LobbyMainPanel.UIUpdateSprite();
+        ServerManager.Instance.LobbyMainPanel?.UIUpdateSprite();
     }
 
     public override void Despawned(NetworkRunner runner, bool hasState)
@@ -76,7 +76,7 @@ public class NetworkData : NetworkBehaviour
     private void PlayerEnterRoomText()
     {
         string enterText = $"\"{GetName()}\"님이 접속하셨습니다.\n";
-        ServerManager.Instance.ChattingTextController.SendChatMessage(enterText.StringToBytes());
+        ServerManager.Instance.ChattingTextController?.SendChatMessage(enterText.StringToBytes());
     }
 
 
@@ -86,7 +86,7 @@ public class NetworkData : NetworkBehaviour
     private void PlayerEixtRoomText()
     {
         string exitText = $"\"{GetName()}\"님이 접속을 종료했습니다.\n";
-        ServerManager.Instance.ChattingTextController.SendChatMessage(exitText.StringToBytes());
+        ServerManager.Instance.ChattingTextController?.SendChatMessage(exitText.StringToBytes());
     }
 
 
@@ -117,7 +117,7 @@ public class NetworkData : NetworkBehaviour
         for (int i = 0; i < NameBuffer.Length; i++)
             NameBuffer.Set(i, i < nameBytes.Length ? nameBytes[i] : (byte)0);
 
-        ServerManager.Instance.LobbyMainPanel.UpdateNameData(PlayerDataRef, nameBytes.BytesToString());
+        ServerManager.Instance.LobbyMainPanel?.UpdateNameData(PlayerDataRef, nameBytes.BytesToString());
         PlayerEnterRoomText();
     }
 

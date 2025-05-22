@@ -27,12 +27,13 @@ public static class HairColorConfig
 public class DataManager : Singleton<DataManager>
 {
     public Dictionary<EAniamtionCurve, AnimationCurve> DictEnumToCurve { get; private set; } = new();
-    public Dictionary<EBossStage, NetworkObject> DictEnumToNetObjcet { get; private set; } = new();
+    public Dictionary<EBossStage, NetworkObject> DictEnumToBossObjcet { get; private set; } = new();
     public Dictionary<EAudioClip, AudioClipData> DictEnumToAudioData { get; private set; } = new();
     public Dictionary<CharacterClass, CharacterSkillSet> DictClassToSkillSet { get; private set; } = new();
     public Dictionary<CharacterClass, PlayerData> DictClassToPlayerData { get; private set; } = new();
     public PoolManager PoolManagerPrefab { get; private set; }
     public InitSupporter InitSupporterPrefab { get; private set; }
+    public NetworkData PlayerNetworkDataPrefab { get; private set; }
     public Player PlayerPrefab { get; private set; }
     public NetworkObjectFollowServer CrossHairPrefab {  get; private set; }
     public List<BasePoolable> ListBasePoolablePrefab { get; private set; } = new();
@@ -145,11 +146,16 @@ public class DataManager : Singleton<DataManager>
         PlayerPrefab = player.Result.GetComponent<Player>();
         if (PlayerPrefab == null) { Debug.Log("Error Player is null"); }
 
-
+        
         var crossHair = Addressables.LoadAssetAsync<GameObject>("CrossHairPrefab");
         await crossHair.Task;
         CrossHairPrefab = crossHair.Result.GetComponent< NetworkObjectFollowServer>();
         if (CrossHairPrefab == null) { Debug.Log("Error Player is null"); }
+
+        var networkData = Addressables.LoadAssetAsync<GameObject>("NetworkData");
+        await networkData.Task;
+        PlayerNetworkDataPrefab = networkData.Result.GetComponent<NetworkData>();
+        if (PlayerNetworkDataPrefab == null) { Debug.Log("Error NetworkData is null"); }
         return;
     }
 
@@ -307,7 +313,7 @@ public class DataManager : Singleton<DataManager>
         BossPrefabDataGather data = bossPrefabData.Result;
         foreach (BossPrefabData bossPrefabStruct in data.ListBossPrefabData)
         {
-            DictEnumToNetObjcet[bossPrefabStruct.BossStage] = bossPrefabStruct.BossObject;
+            DictEnumToBossObjcet[bossPrefabStruct.BossStage] = bossPrefabStruct.BossObject;
         }
         return;
     }

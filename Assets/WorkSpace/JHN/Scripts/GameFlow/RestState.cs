@@ -56,7 +56,7 @@ public class RestState : BaseGameState
 
             NetworkObject boss = runner.Spawn
             (
-                DataManager.Instance.DictEnumToNetObjcet[EBossStage.Rest],
+                DataManager.Instance.DictEnumToBossObjcet[EBossStage.Rest],
                 new Vector3(5, 6.5f, 0),
                 Quaternion.identity,
                 ServerManager.Instance.ThisPlayerRef
