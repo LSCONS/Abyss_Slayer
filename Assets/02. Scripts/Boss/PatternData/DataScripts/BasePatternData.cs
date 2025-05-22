@@ -21,6 +21,9 @@ public abstract class BasePatternData : ScriptableObject
     [SerializeField] public List<Rect> globalAttackableAreas;
     [SerializeField] public Color gizmoColor = new Color(1, 0, 0, 0.3f);
 
+    [field: Header("패턴 사운드 설정")]
+    [field: SerializeField] public List<EAudioClip> EAudioClip { get; private set; }
+
     public void Init(BossController controller)
     {
         this.bossTransform = controller.transform;
