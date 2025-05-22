@@ -360,7 +360,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         foreach (var src in activeSources)
         {
-            src.volume = src.volume *sfxVolume * masterVolume;
+            src.volume = sfxVolume * masterVolume;
         }
     }
 
