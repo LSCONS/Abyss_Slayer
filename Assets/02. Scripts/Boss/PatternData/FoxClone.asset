@@ -21,11 +21,11 @@ MonoBehaviour:
     width: 40
     height: 15
   gizmoColor: {r: 0, g: 0.7735849, b: 0.7503864, a: 0.3}
-  preDelayTime: 2
+  preDelayTime: 1
   cloneCount: 5
-  cloneDeadDamage: 10
-  cloneExplosionDamage: 5
-  explosionDelayTime: 5
+  cloneDeadDamage: 50
+  cloneExplosionDamage: 25
+  explosionDelayTime: 3
   stunTime: 3
   postDelayTime: 1
   cloneHp: 500
