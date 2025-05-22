@@ -35,7 +35,7 @@ public class GravityProjectile : BasePoolable
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_Init(int damage, Vector3 position, float speedX, Transform target,float delayThorwTime,int piercingCount , float size = 3f, float gravityScale = 1f)
+    public void Rpc_Init(int damage, Vector3 position, float speedX, PlayerRef target,float delayThorwTime,int piercingCount , float size = 3f, float gravityScale = 1f)
     {
         _throwed = false;
         gameObject.SetActive(true);
@@ -43,7 +43,7 @@ public class GravityProjectile : BasePoolable
         _damage = damage;
         transform.position = position;
         _velocityX = speedX;
-        _target = target;
+        _target = ServerManager.Instance.DictRefToPlayer[target].transform;
         _throwTime = Time.time + delayThorwTime + 1.2f;
         transform.localScale = Vector3.one * size;
         _gravity = 9.81f * gravityScale;
