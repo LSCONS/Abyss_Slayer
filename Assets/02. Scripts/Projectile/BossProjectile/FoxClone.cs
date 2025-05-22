@@ -63,7 +63,6 @@ public class FoxClone : BasePoolable,IHasHealth
             {
                 hitPlayer.Damage(_deadDamage);
             }
-            
         }
     }
     public override void Rpc_ReturnToPool()

@@ -128,7 +128,7 @@ public class BattleState : BaseGameState
                     }
 
                     //모든 보스를 모두 처치한 상태일 경우
-                    if(GameValueManager.Instance.MaxBossCount - GameValueManager.Instance.CurrentStageIndex == 1)
+                    if(GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1)
                     {
                         ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.EndingScene);
                     }

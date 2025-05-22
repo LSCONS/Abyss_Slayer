@@ -24,7 +24,7 @@ public class DashPlayerSilhouette : BasePoolable
         transform.position = position;
         SpriteChange.SetSpriteCopy(spriteChange);
         SpriteChange.SetFlipXCopy(flipX);
-        SpriteChange.SetSpriteColor(color);
+        SpriteChange.SetSpriteColorSilhouette(color);
         gameObject.SetActive(true);
         //특정 시간 이후 사라지게 만듦.
         StartCoroutine(ReturnPoolObject());
