@@ -13,14 +13,19 @@ public class BossPattern
     public float weight = 1;
     [Tooltip("넣을 패턴 데이터")]
     public BasePatternData patternData;
+    [Tooltip("같은 패턴을 사용하기 위한 딜레이 시간. 0이면 매번 패턴 데이터에 참조")]
+    public float samePatternDelayTime = 0;
+    public float SamePatternDelayCurTime { get; set; } = 0;
 
     [Header("테스트용 항목"), Tooltip("패턴 활성화 여부")]
     public bool setActivePatternForTest = true;
     [Tooltip("Debug Scene에 적용 범위를 보여주고 싶다면 활성화")]
     public bool showGizmos = true;
 
-    [Header("패턴 적용 조건 정보"), Tooltip("조건 활성화 여부")]
-    public bool isCheckCondition = false;
+    [Header("패턴 적용 조건 정보"), Tooltip("패턴 활성화 조건 여부. HP비율보다 낮으면 활성화")]
+    public bool isCheckActiveTrue = false;
+    [Tooltip("패턴 비활성화 조건 여부. HP비율보다 높으면 비활성화")]
+    public bool isCheckActiveFalse= false;
     [Tooltip("패턴을 적용할 보스 체력 비율(0 ~ 1)"), Range(0, 1)]
     public float bossCheckHP = 0.5f;
 }
@@ -77,6 +82,7 @@ public class BossController : NetworkBehaviour
     {
         for (int i = 0; i < AllPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
         {
+            AllPatterns[i].patternData = Instantiate(AllPatterns[i].patternData);
             AllPatterns[i].patternData.Init(this);
         }
         AppearPattern?.Init(this);
@@ -133,6 +139,8 @@ public class BossController : NetworkBehaviour
             if (next != null)
             {
                 Target = next.patternData.target;
+                if(next.samePatternDelayTime > 0)
+                StartCoroutine(CheckDelayCompute(next));
                 yield return StartCoroutine(next.patternData.ExecutePattern());
             }
             else
@@ -204,8 +212,12 @@ public class BossController : NetworkBehaviour
         {
             //실행 비활성화일 경우 무시
             if (!(pattern.setActivePatternForTest)) continue;
-            //패턴 조건 체크 결과 실패할 경우 무시
-            if (pattern.isCheckCondition && ((float)Boss.Hp.Value / Boss.MaxHp.Value) >= pattern.bossCheckHP) continue;
+            //딜레이 시간이 남아있는지 확인
+            if (pattern.samePatternDelayTime > 0) continue;
+            //패턴 조건 체크 결과 보스 체력이 더 많을경우 비활성화
+            if (pattern.isCheckActiveTrue && ((float)Boss.Hp.Value / Boss.MaxHp.Value) >= pattern.bossCheckHP) continue;
+            //패턴 조건 체크 결과 보스 체력이 더 적을경우 비활성화
+            if (pattern.isCheckActiveFalse && ((float)Boss.Hp.Value /Boss.MaxHp.Value) < pattern.bossCheckHP) continue;
             //패턴 안에 실행 가능한 플레이어가 없을 경우 무시
             if (!(pattern.patternData.IsAvailable())) continue;
 
@@ -235,6 +247,22 @@ public class BossController : NetworkBehaviour
         }
         return patterns.Last(); // 예외 방지용 (총합이 float 연산으로 어긋날 경우, 없으면 반환없는경우 생겨서 에러남)
     }
+
+    private IEnumerator CheckDelayCompute(BossPattern pattern)
+    {
+        pattern.SamePatternDelayCurTime = pattern.samePatternDelayTime;
+        while(true)
+        {
+            yield return null;
+            pattern.SamePatternDelayCurTime -= Time.deltaTime;
+            if(pattern.SamePatternDelayCurTime < 0f)
+            {
+                pattern.samePatternDelayTime = 0f;
+                break;
+            }
+        }
+    }
+
 
     [SerializeField] LayerMask _groundLayerMask;
     public IEnumerator Landing(bool isDeath = false)
