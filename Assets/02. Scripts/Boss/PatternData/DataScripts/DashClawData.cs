@@ -23,6 +23,9 @@ public class DashClawData : BasePatternData
         ServerManager.Instance.InitSupporter.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, preDelayTime, attackDuration);
         bossController.ChasingTarget = false;
 
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
         yield return new WaitForSeconds(preDelayTime);
         bossAnimator.enabled = false;
         bossController.Sprite.enabled = false;
@@ -39,6 +42,9 @@ public class DashClawData : BasePatternData
         {
             isLeft = target.transform.position.x - bossTransform.position.x < 0;
             ServerManager.Instance.InitSupporter.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, comboDelayTime, attackDuration);
+
+            if (EAudioClip != null && EAudioClip.Count > 1)
+                SoundManager.Instance.PlaySFX(EAudioClip[1]);
 
             yield return new WaitForSeconds(comboDelayTime);
             bossController.Sprite.enabled = false;

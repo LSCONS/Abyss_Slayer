@@ -26,6 +26,9 @@ public class ShockWaveData : BasePatternData
 
         Vector3 startPosition = bossTransform.position + Vector3.down * bossCenterHight;
 
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
         ServerManager.Instance.InitSupporter.Rpc_StartExplosionInit(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
         //PoolManager.Instance.Get<Explosion>().Init(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
         bossController.StartCoroutine(ShockWave(startPosition));

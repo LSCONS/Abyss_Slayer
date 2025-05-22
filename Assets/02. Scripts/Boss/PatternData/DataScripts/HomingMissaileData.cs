@@ -58,6 +58,9 @@ public class HomingMissaileData : BasePatternData
             ServerManager.Instance.InitSupporter.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed, (int)projectileType, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, (int)homingCurve, (int)speedCurve);
             //PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
 
+            if (EAudioClip != null && EAudioClip.Count > 0)
+                SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
             yield return new WaitForSeconds(0.1f);
         }
         //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
