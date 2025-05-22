@@ -123,8 +123,8 @@ public class BattleState : BaseGameState
                 {
                     foreach(Player player in ServerManager.Instance.DictRefToPlayer.Values)
                     {
-                        player.AddSkillPoint(3);
-                        player.AddStatusPoint(3);
+                        player.AddSkillPoint(GameValueManager.Instance.AddSkillPointValue);
+                        player.AddStatusPoint(GameValueManager.Instance.AddStatusPointValue);
                     }
 
                     //모든 보스를 모두 처치한 상태일 경우
