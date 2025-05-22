@@ -26,9 +26,6 @@ public class PlayerWalkState : PlayerGroundState
         playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Run1, 0);
         animationNum = 0;
 
-        // 걷기 사운드 재생
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_PlayerWalk);
-
 #if StateMachineDebug
         Debug.Log("WalkState 진입");
 #endif
@@ -37,9 +34,6 @@ public class PlayerWalkState : PlayerGroundState
 
     public override void Exit()
     {
-        // 걷기 사운드 끝
-        SoundManager.Instance.StopSFX(EAudioClip.SFX_PlayerWalk);
-
         base.Exit();
 
 #if StateMachineDebug

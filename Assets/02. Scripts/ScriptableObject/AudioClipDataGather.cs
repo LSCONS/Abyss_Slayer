@@ -25,46 +25,44 @@ public class AudioClipData
     [field: SerializeField] public float Volume { get; private set; } = 1;
 }
 
-
+// 추가할 요소는 각 번호대의 마지막에 추가하기
 public enum EAudioClip
 {
     None = 0,
-    BGM_IntroScene,
-    BGM_StartScene,
-    BGM_LobbyScene,
-    BGM_RestScene,
-    BGM_BattleScene,
-    BGM_BattleScene_Last,
-    BGM_EndingScene,
+    BGM_IntroScene = 100,
+    BGM_StartScene = 101,
+    BGM_LobbyScene = 102,
+    BGM_RestScene = 103,
+    BGM_BattleScene = 104,
+    BGM_BattleScene_Last = 105,
+    BGM_EndingScene = 106,
 
-    SFX_ButtonClick,
+    SFX_ButtonClick = 200,
+    SFX_PlayerJump = 201,
+    SFX_PlayerDash = 202,
 
-    SFX_PlayerWalk,
-    SFX_PlayerJump,
-    SFX_PlayerDash,
+    SFX_RogueSkill_X = 300,
+    SFX_RogueSkill_A = 301,
+    SFX_RogueSkill_S = 302,
+    SFX_RogueSkill_D = 303,
 
-    SFX_RogueSkill_X,
-    SFX_RogueSkill_A,
-    SFX_RogueSkill_S,
-    SFX_RogueSkill_D,
+    SFX_HealerSkill_X = 400,
+    SFX_HealerSkill_A = 401,
+    SFX_HealerSkill_S = 402,
+    SFX_HealerSkill_D = 403,
 
-    SFX_HealerSkill_X,
-    SFX_HealerSkill_A,
-    SFX_HealerSkill_S,
-    SFX_HealerSkill_D,
+    SFX_TankerSkill_X = 500,
+    SFX_TankerSkill_A = 501,
+    SFX_TankerSkill_S = 502,
+    SFX_TankerSkill_D = 503,
 
-    SFX_TankerSkill_X,
-    SFX_TankerSkill_A,
-    SFX_TankerSkill_S,
-    SFX_TankerSkill_D,
+    SFX_MageSkill_X = 600,
+    SFX_MageSkill_A = 601,
+    SFX_MageSkill_S = 602,
+    SFX_MageSkill_D = 603,
 
-    SFX_MageSkill_X,
-    SFX_MageSkill_A,
-    SFX_MageSkill_S,
-    SFX_MageSkill_D,
-
-    SFX_MagicalBlasderSkill_X,
-    SFX_MagicalBlasderSkill_A,
-    SFX_MagicalBlasderSkill_S,
-    SFX_MagicalBlasderSkill_D,
+    SFX_MagicalBlasderSkill_X = 700,
+    SFX_MagicalBlasderSkill_A = 701,
+    SFX_MagicalBlasderSkill_S = 702,
+    SFX_MagicalBlasderSkill_D = 703,
 }
