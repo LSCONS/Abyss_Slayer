@@ -18,13 +18,11 @@ public class IntroState : BaseGameState
         SoundManager.Instance.PlayBGMIntro();
         state?.SetLoadingBarValue(0.3f);
 
+        await DataManager.Instance.Init();
+
         UIManager.Instance.CreateAllUI(UIType.NonGamePlay);
         await UIManager.Instance.Init();
         state?.SetLoadingBarValue(0.4f);
-
-        await DataManager.Instance.Init();
-        SoundManager.Instance.PlayBGM(EAudioClip.BGM_IntroScene);
-
 
 #if MoveSceneDebug
         Debug.Log("프로그래스바 끝날 때까지 대기");
