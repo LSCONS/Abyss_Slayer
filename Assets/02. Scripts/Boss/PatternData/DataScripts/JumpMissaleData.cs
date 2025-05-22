@@ -29,7 +29,7 @@ public class JumpMissaleData : BasePatternData
             PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
             targetPos = (Vector3)scene2D.Raycast(targetPos, Vector2.down, 20, LayerMask.GetMask("GroundPlane", "GroundPlatform")).point + Vector3.up * bossCenterHight;
             distance = Vector3.Distance(targetPos, bossTransform.position);
-        } while (distance >= moveableDistance && distance >= 5);
+        } while (distance >= moveableDistance || distance <= 5);
 
         bossController.StartCoroutine(bossController.JumpMove(targetPos, jumpDuration));
 
