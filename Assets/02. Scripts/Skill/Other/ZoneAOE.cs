@@ -28,8 +28,17 @@ public class ZoneAOE : BasePoolable
 
     public void UseSkillSetting(string colliderEffectName)
     {
-        // 위치 세팅
+        // 시작 위치 타겟위치 설정
         float playerFlipX = Data.Player.IsFlipX ? -1 : 1;
+        // 위치 세팅
+        SpawnOffset += MovePosition;
+        Vector3 spawnPosition = Data.Player.transform.position + new Vector3(SpawnOffset.x * playerFlipX, SpawnOffset.y, 0);
+        UseSkillStart(colliderEffectName, spawnPosition);
+    }
+
+    public void UseSkillSetting(string colliderEffectName, float playerFlipX)
+    {
+        // 위치 세팅
         SpawnOffset += MovePosition;
         Vector3 spawnPosition = Data.Player.transform.position + new Vector3(SpawnOffset.x * playerFlipX, SpawnOffset.y, 0);
         UseSkillStart(colliderEffectName, playerFlipX, spawnPosition);
@@ -45,6 +54,30 @@ public class ZoneAOE : BasePoolable
 
 
     public void UseSkillStart(string colliderEffectName, float playerFlipX, Vector3 spawnPosition)
+    {
+        gameObject.SetActive(true);
+        transform.position = spawnPosition;
+        transform.localScale = (Vector3)SpawnSize;
+
+        // 애니메이터 세팅
+        SetActiveAnimator(colliderEffectName);
+        MeleeDamageCheck.Init(Data, playerFlipX);
+        // duration 후 풀에 자동 반환
+
+        if (Data.Skill != null && Data.Skill.SkillCategory == SkillCategory.Hold)
+        {
+            Debug.Log("홀드 스킬 코루틴 등록 완료");
+            Data.Player.StartHoldSkillCoroutine(ReturnTOPool(Data.Duration), Exit);
+        }
+        else
+        {
+            if (ReturnToPoolCoroutine != null) StopCoroutine(ReturnToPoolCoroutine);
+            ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(Data.Duration));
+        }
+    }
+
+
+    public void UseSkillStart(string colliderEffectName, Vector3 spawnPosition)
     {
         gameObject.SetActive(true);
         transform.position = spawnPosition;
@@ -171,6 +204,7 @@ public class ZoneAOE : BasePoolable
     private IEnumerator DashCoroutine(Vector2 dashDirection, DashMeleeSkill dashMeleeSkill, GameObject dashEffectPrefab)
     {
         // 시작 위치 타겟위치 설정
+        float playerFlipX = Data.Player.IsFlipX ? -1 : 1;
         float time = 0;
         Vector2 startPos = Data.Player.transform.position;
         Vector2 targetPos = startPos + dashDirection * dashMeleeSkill.DashDistance + Vector2.up * 0.01f; ;
@@ -222,6 +256,6 @@ public class ZoneAOE : BasePoolable
         Data.ColliderSize = new Vector2(distance, 1.0f);
         Data.ColliderOffset = new Vector2(-distance / 2, 0);
         Debug.Log("켜짐");
-        UseSkillSetting(dashMeleeSkill.EffectName);
+        UseSkillSetting(dashMeleeSkill.EffectName, playerFlipX);
     }
 }

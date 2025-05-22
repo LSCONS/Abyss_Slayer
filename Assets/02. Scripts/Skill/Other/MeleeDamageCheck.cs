@@ -29,18 +29,26 @@ public class MeleeDamageCheck : MonoBehaviour
     /// <summary>
     /// 위치, 크기, 데미지, 이펙트 타입, 이펙트 타임 설정
     /// </summary>
-    /// <param name="sizeX">콜라이더 크기 X</param>
-    /// <param name="sizeY">콜라이더 크기 Y</param>
-    /// <param name="offset">오프셋</param>
-    /// <param name="damage">데미지</param>
-    /// <param name="effectType">이펙트 타입</param>
-    /// <param name="aliveTime">이펙트 지속 시간</param>
     public void Init(MeleeDamageCheckData data)
     {
         if(BoxCollider == null)
             BoxCollider = GetComponent<BoxCollider2D>();
         Data = data;
         float flag = Data.Player.IsFlipX ? -1f : 1f;
+
+        BoxCollider.size = Data.ColliderSize;
+        BoxCollider.offset = new Vector2(Data.ColliderOffset.x * flag, Data.ColliderOffset.y);
+
+        hitObjects.Clear();
+        NextHitTime.Clear();
+        ColliderStartCoroutine = StartCoroutine(SetColliderDelay(data.DelayTime));
+    }
+    public void Init(MeleeDamageCheckData data, float flipX)
+    {
+        if (BoxCollider == null)
+            BoxCollider = GetComponent<BoxCollider2D>();
+        Data = data;
+        float flag = flipX;
 
         BoxCollider.size = Data.ColliderSize;
         BoxCollider.offset = new Vector2(Data.ColliderOffset.x * flag, Data.ColliderOffset.y);
