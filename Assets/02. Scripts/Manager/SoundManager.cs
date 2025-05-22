@@ -40,7 +40,6 @@ public class SoundManager : Singleton<SoundManager>
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
-        LoadVolumeSettings();
     }
 
     /// <summary>
@@ -50,6 +49,7 @@ public class SoundManager : Singleton<SoundManager>
     /// <returns></returns>
     public void Init()
     {
+        LoadVolumeSettings();
         InitBGM();
         InitPool();
     }
