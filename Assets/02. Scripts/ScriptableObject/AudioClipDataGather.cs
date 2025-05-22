@@ -40,6 +40,7 @@ public enum EAudioClip
     SFX_ButtonClick = 200,
     SFX_PlayerJump = 201,
     SFX_PlayerDash = 202,
+    SFX_KeyBoardTyping = 203,
 
     SFX_RogueSkill_X = 300,
     SFX_RogueSkill_A = 301,
