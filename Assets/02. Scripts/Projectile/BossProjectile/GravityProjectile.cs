@@ -44,6 +44,7 @@ public class GravityProjectile : BasePoolable
         _sprite.SetActive(true);
         _damage = damage;
         transform.position = new Vector3(Mathf.Clamp(position.x, -20 + size * 1.81f, 20 - size * 1.81f),position.y);
+        transform.rotation = Quaternion.identity;
         _velocityX = speedX;
         _target = ServerManager.Instance.DictRefToPlayer[target].transform;
         _throwTime = Time.time + delayThorwTime + 1.2f;
