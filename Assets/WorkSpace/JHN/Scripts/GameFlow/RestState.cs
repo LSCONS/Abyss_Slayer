@@ -90,6 +90,7 @@ public class RestState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("RestState 개방");
 #endif
+        SoundManager.Instance.PlayBGM(EAudioClip.BGM_RestScene);
         UIManager.Instance.OpenUI(UISceneType.Rest);
 
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);

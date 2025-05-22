@@ -67,7 +67,7 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
 
     private bool IsASDKey(SkillSlotKey key)
     {
-        return key == SkillSlotKey.A || key == SkillSlotKey.S || key == SkillSlotKey.D;
+        return key == SkillSlotKey.Z || key == SkillSlotKey.A || key == SkillSlotKey.S || key == SkillSlotKey.D;
     }
 
     private void OnDestroy()

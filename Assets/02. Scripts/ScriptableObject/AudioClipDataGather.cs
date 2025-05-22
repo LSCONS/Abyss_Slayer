@@ -29,10 +29,13 @@ public class AudioClipData
 public enum EAudioClip
 {
     None = 0,
+    BGM_IntroScene,
     BGM_StartScene,
     BGM_LobbyScene,
     BGM_RestScene,
     BGM_BattleScene,
+    BGM_BattleScene_Last,
+    BGM_EndingScene,
 
     SFX_ButtonClick,
 

@@ -32,6 +32,7 @@ public class IntroState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("IntroState 오픈");
 #endif
+        SoundManager.Instance.PlayBGM(EAudioClip.BGM_IntroScene);
         UIManager.Instance.OpenUI(UISceneType.Intro);
 #if MoveSceneDebug
         Debug.Log("LoadingScene 삭제");
