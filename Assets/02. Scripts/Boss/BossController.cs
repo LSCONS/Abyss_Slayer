@@ -22,9 +22,9 @@ public class BossPattern
     [Tooltip("Debug Scene에 적용 범위를 보여주고 싶다면 활성화")]
     public bool showGizmos = true;
 
-    [Header("패턴 적용 조건 정보"), Tooltip("패턴 활성화 조건 여부. HP비율보다 낮으면 활성화")]
+    [Header("패턴 적용 조건 정보"), Tooltip("패턴 활성화 조건 여부. 보스 체력이 더 많을경우 비활성화")]
     public bool isCheckActiveTrue = false;
-    [Tooltip("패턴 비활성화 조건 여부. HP비율보다 높으면 비활성화")]
+    [Tooltip("패턴 비활성화 조건 여부. 보스 체력이 더 적을경우 비활성화")]
     public bool isCheckActiveFalse= false;
     [Tooltip("패턴을 적용할 보스 체력 비율(0 ~ 1)"), Range(0, 1)]
     public float bossCheckHP = 0.5f;
