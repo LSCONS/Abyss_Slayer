@@ -92,6 +92,16 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
+    public void PlayTypingSoundSFX()
+    {
+        PlayRandomPitchSFX
+        (
+            EAudioClip.SFX_KeyBoardTyping,
+            GameValueManager.Instance.MinTypingSoundPitch,
+            GameValueManager.Instance.MaxTypingSoundPitch
+        );
+    }
+
     public async Task PlayBGMIntro()
     {
         var data = Addressables.LoadAssetAsync<AudioClipDataGather>("Intro");

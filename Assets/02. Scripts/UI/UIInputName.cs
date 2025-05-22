@@ -21,7 +21,7 @@ public class UIInputName : UIPermanent
 
     private void CheckNameError(string text)
     {
-        SoundManager.Instance.PlayRandomPitchSFX(EAudioClip.SFX_KeyBoardTyping, 0.5f, 1);
+        SoundManager.Instance.PlayTypingSoundSFX();
         string temp = text.Trim();
 
         if(temp.Length >= 2 && temp.Length <= 8)
@@ -41,6 +41,7 @@ public class UIInputName : UIPermanent
 
     private void CreateName()
     {
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         //이름 저장
         ServerManager.Instance.PlayerName = PlayerName;
         //씬 이동
