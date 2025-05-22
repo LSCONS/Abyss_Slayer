@@ -9,15 +9,20 @@ using UnityEngine;
 [Serializable]
 public class BossPattern
 {
-    [Header("패턴 정보")]
-    [Tooltip("가중치")]
-    public float weight;
+    [Header("패턴 정보"), Tooltip("가중치: 높을수록 높은 확률로 선택됨.")]
+    public float weight = 1;
+    [Tooltip("넣을 패턴 데이터")]
     public BasePatternData patternData;
 
-    [Header("테스트용 항목")]
-    [Tooltip("끄면 패턴 비활성화")]
-    public bool setActivePatternForTest;
-    public bool showGizmos;
+    [Header("테스트용 항목"), Tooltip("패턴 활성화 여부")]
+    public bool setActivePatternForTest = true;
+    [Tooltip("Debug Scene에 적용 범위를 보여주고 싶다면 활성화")]
+    public bool showGizmos = true;
+
+    [Header("패턴 적용 조건 정보"), Tooltip("조건 활성화 여부")]
+    public bool isCheckCondition = false;
+    [Tooltip("패턴을 적용할 보스 체력 비율(0 ~ 1)"), Range(0, 1)]
+    public float bossCheckHP = 0.5f;
 }
 
 
@@ -197,10 +202,14 @@ public class BossController : NetworkBehaviour
         List<BossPattern> patterns = new();
         foreach(BossPattern pattern in AllPatterns)
         {
-            if(pattern.setActivePatternForTest && pattern.patternData.IsAvailable())
-            {
-                patterns.Add(pattern);
-            }
+            //실행 비활성화일 경우 무시
+            if (!(pattern.setActivePatternForTest)) continue;
+            //패턴 조건 체크 결과 실패할 경우 무시
+            if (pattern.isCheckCondition && ((float)Boss.Hp.Value / Boss.MaxHp.Value) >= pattern.bossCheckHP) continue;
+            //패턴 안에 실행 가능한 플레이어가 없을 경우 무시
+            if (!(pattern.patternData.IsAvailable())) continue;
+
+            patterns.Add(pattern);
         }
         Debug.Log($"AllpatternCount = {AllPatterns.Count}");
         Debug.Log($"listCount = {patterns.Count}");
