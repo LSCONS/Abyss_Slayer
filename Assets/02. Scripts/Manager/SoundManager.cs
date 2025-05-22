@@ -251,7 +251,7 @@ public class SoundManager : Singleton<SoundManager>
         //TODO: 나중에 BGM에 pitch, volume 등 포함
 
         if (bgmCoroutine != null) StopCoroutine(bgmCoroutine);
-        bgmCoroutine = StartCoroutine(FadeInOutBGM(audioData.Audio));
+        bgmCoroutine = StartCoroutine(FadeInOutBGM(audioData));
     }
 
     /// <summary>
@@ -296,9 +296,9 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     /// <param name="newClip">다음에 재생 시킬 오디오 클립</param>
     /// <returns></returns>
-    private IEnumerator FadeInOutBGM(AudioClip newClip)
+    private IEnumerator FadeInOutBGM(AudioClipData newClip)
     {
-        float volume = bgmVolume * masterVolume;
+        float volume = bgmVolume * masterVolume * newClip.Volume;
 
         int nextIndex = 1 - currentBgmIndex;
         AudioSource current = bgmSources[currentBgmIndex];
@@ -316,7 +316,8 @@ public class SoundManager : Singleton<SoundManager>
         current.Stop();
 
         // 페이드 인
-        next.clip = newClip;
+        next.clip = newClip.Audio;
+        next.pitch = newClip.Pitch;
         next.Play();
         time = 0f;
         while (time < bgmFadeTime)
