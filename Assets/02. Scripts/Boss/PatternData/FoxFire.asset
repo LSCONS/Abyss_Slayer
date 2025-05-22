@@ -21,7 +21,7 @@ MonoBehaviour:
     width: 40
     height: 20
   gizmoColor: {r: 0, g: 0.98978424, b: 1, a: 0.3}
-  damage: 10
+  damage: 13
   startPositions:
   - {x: 0, y: 2, z: 0}
   - {x: 0, y: 7, z: 0}
@@ -32,7 +32,7 @@ MonoBehaviour:
   isMultyTarget: 1
   startCircleR: 4
   fireDegree: 90
-  spreadDegree: 200
+  spreadDegree: 120
   missaileCount: 8
   homingPower: 10
   missailSpeed: 2
