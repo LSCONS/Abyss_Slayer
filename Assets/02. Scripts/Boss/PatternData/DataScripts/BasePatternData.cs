@@ -74,6 +74,13 @@ public abstract class BasePatternData : ScriptableObject
         return false;
     }
 
+
+    /// <summary>
+    /// 특정 사각형 범위 내에 플레이어가 있는지 검사하고 가장 가까운 플레이어부터 0번으로 정렬해서 List<Player>를 반환하는 메서드
+    /// </summary>
+    /// <param name="minXY"></param>
+    /// <param name="maxXY"></param>
+    /// <returns></returns>
     private List<Player> SerchPlayerInArea(Vector2 minXY, Vector2 maxXY)
     {
         List<Player> playerList = new();
