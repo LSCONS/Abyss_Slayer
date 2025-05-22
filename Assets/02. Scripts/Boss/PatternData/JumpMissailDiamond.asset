@@ -27,13 +27,13 @@ MonoBehaviour:
   movePositions:
   - {x: 18, y: 18, z: 0}
   - {x: -18, y: 18, z: 0}
-  - {x: 0, y: 18, z: 0}
+  - {x: 0, y: 8, z: 0}
   - {x: 0, y: 23, z: 0}
-  moveableDistance: 20
+  moveableDistance: 30
   jumpDuration: 1.5
-  baseProjectileSpeed: 1
+  baseProjectileSpeed: 2
   baseHomingPower: 10
   projectileType: 2
   postDelayTime: 1
   homingCurve: 1
-  speedCurve: 1
+  speedCurve: 2
