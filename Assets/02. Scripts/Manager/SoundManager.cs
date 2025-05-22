@@ -145,28 +145,7 @@ public class SoundManager : Singleton<SoundManager>
 
         PlaySound(EAudioClip, data);
     }
-    /// <summary>
-    /// 효과음 재생 (직접 재생해줌)
-    /// </summary>
-    /// <param name="sfxType">효과음 타입</param>
-    /// <param name="loop">효과음 루프 할 건지</param>
-    /// <param name="pitch">효과음 속도</param>
-    /// <param name="volum">효과음 크기</param>
-    public void PlaySFX(AudioClip clip, bool loop = false, float pitch = 1f, float volum = 1f)
-    {
-        if (clip == null) return;
 
-        // 직접 재생 방식으로
-        var src = GetPooledSource();               
-        src.clip = clip;
-        src.loop = loop;
-        src.pitch = pitch;
-        src.volume = sfxVolume * masterVolume * volum;
-        src.Play();
-
-        if (!loop)
-            StartCoroutine(ReturnWhenDone(src));
-    }
 
     /// <summary>
     /// Enum으로 사운드 재생

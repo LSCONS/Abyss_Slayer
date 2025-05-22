@@ -218,7 +218,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     {
         CancelInvoke(nameof(DamagedEnd));
         Sprite.color = Color.red;
-        Invoke(nameof(DamagedEnd), 0.1f);
+        Invoke(nameof(DamagedEnd), GameValueManager.Instance.OnDamageBossColorDuration);
     }
 
 

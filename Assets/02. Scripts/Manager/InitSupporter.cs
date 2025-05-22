@@ -77,8 +77,8 @@ public class InitSupporter : NetworkBehaviour
     }
 
 
-    public void Rpc_StartGravityProjectileInit(int damage, Vector3 position, float speedX, Vector3 targetPosition, int piercingCount, float size = 3f, float gravityScale = 1f)
+    public void Rpc_StartGravityProjectileInit(int damage, Vector3 position, float speedX, PlayerRef target, float delayThrowTime, int piercingCount, float size = 3f, float gravityScale = 1f)
     {
-        PoolManager.Instance.Get<GravityProjectile>().Rpc_Init(damage, position, speedX, targetPosition, piercingCount, size, gravityScale);
+        PoolManager.Instance.Get<GravityProjectile>().Rpc_Init(damage, position, speedX, target, delayThrowTime, piercingCount, size, gravityScale);
     }
 }

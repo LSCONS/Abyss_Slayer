@@ -56,10 +56,17 @@ public class NetworkData : NetworkBehaviour
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        base.Despawned(runner, hasState);
         ServerManager.Instance.DictRefToNetData.Remove(PlayerDataRef);
-        ServerManager.Instance.LobbyMainPanel.SetActiveFalseRef(PlayerDataRef);
-        PlayerEixtRoomText();
+        try
+        {
+            ServerManager.Instance.LobbyMainPanel.SetActiveFalseRef(PlayerDataRef);
+        }
+        catch { }
+        try
+        {
+            PlayerEixtRoomText();
+        }catch { }
+        base.Despawned(runner, hasState);
     }
 
 

@@ -46,8 +46,8 @@ public class RogueProjectile : BasePoolable
     /// <param name="damage">표창 데미지</param>
     public void Init(Player player, Vector3 spawnPos, Vector3 dir, float range, float speed, float damage)
     {
-        transform.position = spawnPos; // 실제 화살 위치
         gameObject.SetActive(true);
+        transform.position = spawnPos; // 실제 화살 위치
         initPos = spawnPos; // 최대 거리 체크용 초기 위치
         direction = dir.normalized; // 방향 정규화
         maxRange = range; // 최대 거리
