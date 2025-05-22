@@ -21,8 +21,9 @@ public class UIDamageText : BasePoolable
 
     }
 
-    private void Awake()
+    public override void Spawned()
     {
+        base.Spawned();
         text = GetComponent<TextMeshProUGUI>();
         canvasGroup = GetComponent<CanvasGroup>();
     }

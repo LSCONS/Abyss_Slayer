@@ -4,10 +4,8 @@ using UnityEngine;
 
 public static class DamageTextSpawner
 {
-    private static Transform cachedCanvasTransform;     // 캔버스 한 번 찾아서 저장해줌 
-
     // 현재 살아있는 텍스트 큐 (선입선출)
-    private static Queue<UIDamageText> activeTexts = new();
+    public static Queue<UIDamageText> activeTexts = new();
 
     private static int maxTextCount = 10;
     private static float textYOffsetStep = 0.5f;
@@ -20,19 +18,6 @@ public static class DamageTextSpawner
     /// <param name="worldPosition">어디다가 보여줄지 좌표</param>
     public static void Show(int damage, Vector3 worldPosition)
     {
-        // 캔버스 찾아줌(한 번만)
-        if (cachedCanvasTransform == null)
-        {
-            var canvasObj = GameObject.Find("Canvas");
-            if (canvasObj != null)
-                cachedCanvasTransform = canvasObj.transform;
-            else
-            {
-                Debug.LogError("Canvas 못찾음");
-                return;
-            }
-        }
-
         // 큐에서 비활성화된 텍스트 없애기
         while (activeTexts.Count > 0 && !activeTexts.Peek().gameObject.activeSelf)
         {
@@ -83,7 +68,7 @@ public static class DamageTextSpawner
         }
 
         // 풀에서 꺼내기
-        var text = PoolManager.Instance.Get<UIDamageText>(cachedCanvasTransform);
+        var text = PoolManager.Instance.Get<UIDamageText>(UIManager.Instance.canvas.transform);
         text.OffsetIndex = indexToUse;  // 인덱스에 저장하기
         text.Show(damage.ToString(), spawnPosition);
 

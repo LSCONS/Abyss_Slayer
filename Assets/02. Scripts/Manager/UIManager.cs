@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 
 public class UIManager : Singleton<UIManager>
 {
-    [SerializeField] private Canvas canvas;
+    [field: SerializeField] public Canvas canvas { get; set; }
     public Transform permanentParent;
     public Transform background;
     public Transform topParent;
