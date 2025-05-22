@@ -252,7 +252,7 @@ MonoBehaviour:
     bossCheckHP: 0.5
   - weight: 1
     patternData: {fileID: 11400000, guid: cbe368fc93fa82641a9d9d30729d2607, type: 2}
-    samePatternDelayTime: 4
+    samePatternDelayTime: 6
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
@@ -260,7 +260,7 @@ MonoBehaviour:
     bossCheckHP: 0.5
   - weight: 1
     patternData: {fileID: 11400000, guid: 25f316fd044ea4e488fc6acfa70cbaeb, type: 2}
-    samePatternDelayTime: 4
+    samePatternDelayTime: 6
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
@@ -268,7 +268,7 @@ MonoBehaviour:
     bossCheckHP: 0.5
   - weight: 1
     patternData: {fileID: 11400000, guid: da2208074cc981a4192e7de10edaacf6, type: 2}
-    samePatternDelayTime: 4
+    samePatternDelayTime: 6
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
@@ -276,7 +276,7 @@ MonoBehaviour:
     bossCheckHP: 0.5
   - weight: 1
     patternData: {fileID: 11400000, guid: b30074fd7051e8e478bb212713a4c796, type: 2}
-    samePatternDelayTime: 4
+    samePatternDelayTime: 6
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
@@ -284,7 +284,7 @@ MonoBehaviour:
     bossCheckHP: 0.5
   - weight: 1
     patternData: {fileID: 11400000, guid: fe5d28197b926c14c9c9af3bd39eb5e1, type: 2}
-    samePatternDelayTime: 4
+    samePatternDelayTime: 6
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
@@ -292,7 +292,7 @@ MonoBehaviour:
     bossCheckHP: 0.5
   - weight: 1
     patternData: {fileID: 11400000, guid: ca4ceaddc4d5c8045b0b06622fd03155, type: 2}
-    samePatternDelayTime: 4
+    samePatternDelayTime: 6
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
@@ -300,36 +300,28 @@ MonoBehaviour:
     bossCheckHP: 0.5
   - weight: 1
     patternData: {fileID: 11400000, guid: 6e15b03ba53098948bd2e57799755fd6, type: 2}
-    samePatternDelayTime: 4
+    samePatternDelayTime: 6
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
     isCheckActiveFalse: 0
     bossCheckHP: 0.67
   - weight: 1
+    patternData: {fileID: 11400000, guid: 6d77efd23e848994c989c255b8d141e9, type: 2}
+    samePatternDelayTime: 6
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckActiveTrue: 0
+    isCheckActiveFalse: 0
+    bossCheckHP: 0.4
+  - weight: 1
     patternData: {fileID: 11400000, guid: 710d5774c9caa6949815aa772eb2c753, type: 2}
-    samePatternDelayTime: 4
+    samePatternDelayTime: 10
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
     isCheckActiveFalse: 1
     bossCheckHP: 0.5
-  - weight: 1
-    patternData: {fileID: 11400000, guid: 6d77efd23e848994c989c255b8d141e9, type: 2}
-    samePatternDelayTime: 4
-    setActivePatternForTest: 1
-    showGizmos: 1
-    isCheckActiveTrue: 0
-    isCheckActiveFalse: 0
-    bossCheckHP: 0.4
-  - weight: 1
-    patternData: {fileID: 11400000, guid: 9761866527392d440bdc04aca90637b1, type: 2}
-    samePatternDelayTime: 5
-    setActivePatternForTest: 1
-    showGizmos: 1
-    isCheckActiveTrue: 0
-    isCheckActiveFalse: 0
-    bossCheckHP: 0.4
   <MapWidth>k__BackingField: 40
   <BossCenterHight>k__BackingField: 2
   <Boss>k__BackingField: {fileID: 4068889471639930373}
