@@ -189,7 +189,7 @@ public class BattleState : BaseGameState
 #endif
         if (runner.IsServer)
         {
-            NetworkObject boss = runner.Spawn(DataManager.Instance.DictEnumToNetObjcet[(EBossStage)GameValueManager.Instance.CurrentStageIndex],
+            NetworkObject boss = runner.Spawn(DataManager.Instance.DictEnumToBossObjcet[(EBossStage)GameValueManager.Instance.CurrentStageIndex],
                 Vector3.right * 100,
                 Quaternion.identity,
                 ServerManager.Instance.ThisPlayerRef);
