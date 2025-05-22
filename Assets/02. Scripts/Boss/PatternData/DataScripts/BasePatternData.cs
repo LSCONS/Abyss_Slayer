@@ -22,7 +22,7 @@ public abstract class BasePatternData : ScriptableObject
     [SerializeField] public Color gizmoColor = new Color(1, 0, 0, 0.3f);
 
     [field: Header("패턴 사운드 설정")]
-    [field: SerializeField] public List<EAudioClip> EAudioClip { get; private set; }
+    [field: SerializeField] public List<EAudioClip> EAudioClip { get; private set; } = new();
 
     public void Init(BossController controller)
     {
