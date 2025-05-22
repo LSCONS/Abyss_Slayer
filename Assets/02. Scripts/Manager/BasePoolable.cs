@@ -33,6 +33,9 @@ public abstract class BasePoolable : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public virtual void Rpc_ReturnToPool()
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_ReturnToPool");
+#endif
         gameObject.SetActive(false);
         _pool.ReturnToPool(this);
     }

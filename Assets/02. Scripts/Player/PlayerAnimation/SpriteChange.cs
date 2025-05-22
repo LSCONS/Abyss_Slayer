@@ -64,6 +64,18 @@ public class SpriteChange : MonoBehaviour
     public void SetSpriteColor(Color color)
     {
         WeaponTop.color = color;
+        ClothTop.color = color;
+        HairTop.color = color;
+        ClothBottom.color = color;
+        HairBottom.color = color;
+        Face.color = color;
+        Skin.color = color;
+        WeaponBottom.color = color;
+    }
+
+    public void SetSpriteColorSilhouette(Color color)
+    {
+        WeaponTop.color = color;
         ClothTop.color = color * 2;
         HairTop.color = color;
         ClothBottom.color = color * 2;

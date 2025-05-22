@@ -38,6 +38,7 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
         // 풀에서 ZoneAOE 꺼내기
         for (int i = 0; i < 5; i++)
         {
+            SoundManager.Instance.PlaySFX(EAudioClip);
             MovePosition = temp * i;
             PoolManager.Instance.Get<ZoneAOE>().Init(this, flipX, playerPosition);
             yield return wait;

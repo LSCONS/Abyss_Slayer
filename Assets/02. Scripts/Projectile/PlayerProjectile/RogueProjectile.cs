@@ -14,8 +14,9 @@ public class RogueProjectile : BasePoolable
 
     private LayerMask includeLayer; // 화살 충돌 레이어
 
-    private void Awake()
+    public override void Spawned()
     {
+        base.Spawned();
         includeLayer = LayerData.EnemyLayerMask | LayerData.GroundPlaneLayerMask; 
     }
 
@@ -46,8 +47,8 @@ public class RogueProjectile : BasePoolable
     /// <param name="damage">표창 데미지</param>
     public void Init(Player player, Vector3 spawnPos, Vector3 dir, float range, float speed, float damage)
     {
-        transform.position = spawnPos; // 실제 화살 위치
         gameObject.SetActive(true);
+        transform.position = spawnPos; // 실제 화살 위치
         initPos = spawnPos; // 최대 거리 체크용 초기 위치
         direction = dir.normalized; // 방향 정규화
         maxRange = range; // 최대 거리
@@ -65,7 +66,7 @@ public class RogueProjectile : BasePoolable
             enemy.Damage((int)(damage * Player.DamageValue.Value), transform.position.x); // 데미지 전달
         }
 
-        if((1 << collision.gameObject.layer | includeLayer) == includeLayer)
+        if ((1 << collision.gameObject.layer | includeLayer) == includeLayer)
         {
             Rpc_ReturnToPool(); // 투사체 반환
         }

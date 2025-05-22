@@ -317,12 +317,25 @@ public class Player : NetworkBehaviour, IHasHealth
     {
         float reduceDamage = value * ArmorAmount;
         int finalDamage = (int)MathF.Ceiling(reduceDamage);
-
+        Damaged();
         Hp.Value = Hp.Value.PlusAndIntClamp(-finalDamage, MaxHp.Value);
         if (Hp.Value == 0)
         {
             PlayerDie();
         }
+    }
+
+    void Damaged()
+    {
+        CancelInvoke(nameof(DamagedEnd));
+        PlayerSpriteChange.SetSpriteColor(Color.red);
+        Invoke(nameof(DamagedEnd), GameValueManager.Instance.OnDamagePlayerColorDuration);
+    }
+
+
+    void DamagedEnd()
+    {
+        PlayerSpriteChange.SetSpriteColor(Color.white);
     }
 
 

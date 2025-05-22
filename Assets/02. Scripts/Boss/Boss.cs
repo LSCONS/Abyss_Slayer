@@ -183,6 +183,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// <param name="attackPosX">데미지 입히는 주체의 위치X값</param>
     public void Damage(int damage, float attackPosX = -1000)
     {
+#if AllMethodDebug
+        Debug.Log("Damage");
+#endif
         if (IsDead)
         {
             return;
@@ -218,7 +221,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     {
         CancelInvoke(nameof(DamagedEnd));
         Sprite.color = Color.red;
-        Invoke(nameof(DamagedEnd), 0.1f);
+        Invoke(nameof(DamagedEnd), GameValueManager.Instance.OnDamageBossColorDuration);
     }
 
 

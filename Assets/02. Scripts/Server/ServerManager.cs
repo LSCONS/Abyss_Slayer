@@ -401,7 +401,11 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 #endif
         var runner = RunnerManager.Instance.GetRunner();
         await runner.Shutdown();
-        Destroy(runner.gameObject);
+        try
+        {
+            Destroy(runner.gameObject);
+        }
+        catch { }
         await Task.Yield();
         GameFlowManager.Instance.ClientSceneLoad(ESceneName.StartScene);
         await ConnectRoomSearch();

@@ -121,7 +121,7 @@ public class BattleState : BaseGameState
             deadTimer += Time.deltaTime;
 
             // 마지막 보스인지 체크
-            bool isFinalBoss = (GameValueManager.Instance.MaxBossCount - GameValueManager.Instance.CurrentStageIndex == 1);
+            bool isFinalBoss = (GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1);
             float sceneDelay = isFinalBoss ? changeEndingSceneTime : changeSceneTime;
 
             if (isFinalBoss)
@@ -136,12 +136,13 @@ public class BattleState : BaseGameState
                 {
                     foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
                     {
-                        player.AddSkillPoint(3);
-                        player.AddStatusPoint(3);
+                        player.AddSkillPoint(GameValueManager.Instance.AddSkillPointValue);
+                        player.AddStatusPoint(GameValueManager.Instance.AddStatusPointValue);
                     }
 
                     //모든 보스를 모두 처치한 상태일 경우
                     if (isFinalBoss)
+                    if(GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1)
                     {
                         ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.EndingScene);
                     }
@@ -176,7 +177,7 @@ public class BattleState : BaseGameState
 
         if (runner.IsServer)
             ServerManager.Instance.AllPlayerIsReadyFalse();
-        bool isFinalBoss = (GameValueManager.Instance.MaxBossCount - GameValueManager.Instance.CurrentStageIndex == 1);
+        bool isFinalBoss = (GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1);
             if (isFinalBoss) SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene_Last);
             else SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene);
         UIManager.Instance.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
