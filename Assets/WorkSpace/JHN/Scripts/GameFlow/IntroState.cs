@@ -15,6 +15,7 @@ public class IntroState : BaseGameState
         LoadingState state = GameFlowManager.Instance.prevLodingState;
         await UIManager.Instance.LoadAllUI(UIType.NonGamePlay);
         SoundManager.Instance.Init();
+        SoundManager.Instance.PlayBGMIntro();
         state?.SetLoadingBarValue(0.3f);
 
         UIManager.Instance.CreateAllUI(UIType.NonGamePlay);
