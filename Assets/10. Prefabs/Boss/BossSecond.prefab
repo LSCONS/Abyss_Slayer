@@ -132,10 +132,10 @@ MonoBehaviour:
   <VirtualCamera>k__BackingField: {fileID: 0}
   <MaxHp>k__BackingField:
     value: 1000
-  <IsMove>k__BackingField: 1
+  <IsRest>k__BackingField: 1
+  <IsOpenSprtie>k__BackingField: 0
   _IsLeft: 0
   _BossPosition: {x: 0, y: 0}
-  _CrosshairPosition: {x: 0, y: 0}
 --- !u!114 &7533524700751186556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,9 +150,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AppearPattern>k__BackingField: {fileID: 0}
   <AllPatterns>k__BackingField: []
-  <TargetCrossHairPrefab>k__BackingField: {fileID: 0}
-  <Boss>k__BackingField: {fileID: 0}
+  <MapWidth>k__BackingField: 0
   <BossCenterHight>k__BackingField: 0
+  <Boss>k__BackingField: {fileID: 0}
   <JumpMoveTime>k__BackingField: 0
   <JumpMoveHight>k__BackingField: 0
   <GravityMultiplier>k__BackingField: 0
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SortKey: 1997971764
   ObjectInterest: 1
-  Flags: 1
+  Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 7749574024559871257}
