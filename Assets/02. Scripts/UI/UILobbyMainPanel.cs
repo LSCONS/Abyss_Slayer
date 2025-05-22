@@ -126,7 +126,7 @@ public class UILobbyMainPanel : UIPermanent
     public void SetActiveFalseRef(PlayerRef playerRef)
     {
         PlayerRoomData data = DictRefToRoomData[playerRef];
-
+        if (data == null) return;
         data.TextPlayerName?.gameObject.SetActive(false);
         data.PlayerSpriteChange?.gameObject.SetActive(false);
         data.TextPlayerState?.gameObject.SetActive(false);
