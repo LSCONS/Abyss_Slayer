@@ -41,7 +41,7 @@ public enum EAudioClip
 
     SFX_PlayerWalk,
     SFX_PlayerJump,
-    SFX_PlayerDsah,
+    SFX_PlayerDash,
 
     SFX_RogueSkill_X,
     SFX_RogueSkill_A,
@@ -63,8 +63,8 @@ public enum EAudioClip
     SFX_MageSkill_S,
     SFX_MageSkill_D,
 
-    SFX_MagicalBlasterSkill_X,
-    SFX_MagicalBlasterSkill_A,
-    SFX_MagicalBlasterSkill_S,
-    SFX_MagicalBlasterSkill_D,
+    SFX_MagicalBlasderSkill_X,
+    SFX_MagicalBlasderSkill_A,
+    SFX_MagicalBlasderSkill_S,
+    SFX_MagicalBlasderSkill_D,
 }
