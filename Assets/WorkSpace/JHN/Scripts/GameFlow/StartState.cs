@@ -13,7 +13,6 @@ public class StartState : BaseGameState
         Debug.Log("StartState OnEnter진입");
 #endif
         LoadingState state = GameFlowManager.Instance.prevLodingState;
-        await DataManager.Instance.Init(); // 데이터 매니저 init
         await UIManager.Instance.Init();
         state?.SetLoadingBarValue(0.3f);
 
