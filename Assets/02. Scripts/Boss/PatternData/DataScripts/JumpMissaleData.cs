@@ -22,12 +22,14 @@ public class JumpMissaleData : BasePatternData
         bossController.ShowTargetCrosshair = true;
         yield return new WaitForSeconds(preDelayTime);
         Vector3 targetPos;
+        float distance;
         do
         {
             targetPos = movePositions[Random.Range(0, movePositions.Count)];
             PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
             targetPos = (Vector3)scene2D.Raycast(targetPos, Vector2.down, 20, LayerMask.GetMask("GroundPlane", "GroundPlatform")).point + Vector3.up * bossCenterHight;
-        } while (Vector3.Distance(targetPos, bossTransform.position) >= moveableDistance);
+            distance = Vector3.Distance(targetPos, bossTransform.position);
+        } while (distance >= moveableDistance && distance >= 5);
 
         bossController.StartCoroutine(bossController.JumpMove(targetPos, jumpDuration));
 
@@ -38,7 +40,7 @@ public class JumpMissaleData : BasePatternData
         {
             Vector3 dir = target.position - bossTransform.position;
             Quaternion rot = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x));
-            float speed = Random.Range(baseHomingPower * 0.9f, baseHomingPower * 1.1f);
+            float speed = Random.Range(baseProjectileSpeed * 0.9f, baseProjectileSpeed * 1.1f);
             float homingPow = Random.Range(baseHomingPower * 0.9f, baseHomingPower * 1.1f);
             ServerManager.Instance.InitSupporter.Rpc_StartHomingProjectileInit(damage, bossTransform.position, rot, playerRef, speed, (int)projectileType, jumpDuration - i * intervalTime, homingPow,3,0.5f,(int)homingCurve,(int)speedCurve);
             yield return new WaitForSeconds(intervalTime);
