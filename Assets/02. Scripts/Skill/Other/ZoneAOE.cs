@@ -165,6 +165,7 @@ public class ZoneAOE : BasePoolable
         MeleeDamageCheck.Exit();
         if (Data.Skill.SkillCategory == SkillCategory.Hold)
         Data.Player.StopHoldSkillNoneCoroutine();
+        SpriteRenderer.sprite = null;
     }
 
     // 애니메이터 활성화
