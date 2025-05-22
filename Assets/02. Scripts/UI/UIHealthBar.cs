@@ -16,6 +16,9 @@ public class UIHealthBar : UIPermanent, IView
     [Header("플레이어인지 체크")]
     [SerializeField] private bool isPlayer;   // 플레이어인지 확인
 
+    // 색 조절
+    Color lowHpStart = new Color(0.7f, 0.1f, 0f); // 검붉
+    Color lowHpEnd = Color.black;              // 검정
 
     private async void ConnetctObject()
     {
@@ -51,6 +54,7 @@ public class UIHealthBar : UIPermanent, IView
 
     private int currentHp = 0;  // 애니메이션에 쓰일 현재 hp
     private Tween hpTween;  // 이전 Tween 저장
+
     public void SetHp(float ratio, int hp, int maxHp)
     {
         // 체력 애니메이션
@@ -91,6 +95,21 @@ public class UIHealthBar : UIPermanent, IView
             shakeTarget.DOShakeAnchorPos(0.2f, strength: new Vector2(10f, 0f), vibrato: 10) //  0.2f동안 x축 10f의 강도 흔들림 효과 10번
                 .SetEase(Ease.OutCirc);
         }
+
+        // 50이하로 떨어지면 색 변경
+        Color targetColor;
+        if (ratio > 0.5f)
+        {
+            targetColor = Color.red;
+        }
+        else
+        {
+            float t = Mathf.InverseLerp(0.5f, 0f, ratio);
+            Color lowHpStart = new Color(0.4f, 0f, 0f);
+            targetColor = Color.Lerp(lowHpStart, Color.black, t);
+        }
+
+        hpBar.DOColor(targetColor, 0.3f);
     }   
 
     public void SetPresenter(IPresenter presenter)

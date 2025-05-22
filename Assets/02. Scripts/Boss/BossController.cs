@@ -67,7 +67,7 @@ public class BossController : NetworkBehaviour
             if (_isRun != value)
             {
                 _isRun = value;
-                Boss.Rpc_SetBoolAnimationHash(AnimationHash.RunSlashParameterHash ,value);
+                Boss.Rpc_SetBoolAnimationHash(AnimationHash.RunParameterHash ,value);
             }
         }
     }

@@ -29,16 +29,19 @@ public class AudioClipData
 public enum EAudioClip
 {
     None = 0,
+    BGM_IntroScene,
     BGM_StartScene,
     BGM_LobbyScene,
     BGM_RestScene,
     BGM_BattleScene,
+    BGM_BattleScene_Last,
+    BGM_EndingScene,
 
     SFX_ButtonClick,
 
     SFX_PlayerWalk,
     SFX_PlayerJump,
-    SFX_PlayerDsah,
+    SFX_PlayerDash,
 
     SFX_RogueSkill_X,
     SFX_RogueSkill_A,
@@ -60,8 +63,8 @@ public enum EAudioClip
     SFX_MageSkill_S,
     SFX_MageSkill_D,
 
-    SFX_MagicalBlasterSkill_X,
-    SFX_MagicalBlasterSkill_A,
-    SFX_MagicalBlasterSkill_S,
-    SFX_MagicalBlasterSkill_D,
+    SFX_MagicalBlasderSkill_X,
+    SFX_MagicalBlasderSkill_A,
+    SFX_MagicalBlasderSkill_S,
+    SFX_MagicalBlasderSkill_D,
 }

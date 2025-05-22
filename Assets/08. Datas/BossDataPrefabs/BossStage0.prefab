@@ -215,7 +215,7 @@ MonoBehaviour:
   <HitCollider>k__BackingField: {fileID: 6902979656306387885}
   <VirtualCamera>k__BackingField: {fileID: 1779072543370487692}
   <MaxHp>k__BackingField:
-    value: 1000
+    value: 20000
   <IsRest>k__BackingField: 1
   <IsOpenSprtie>k__BackingField: 0
   _IsLeft: 0
@@ -234,6 +234,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AppearPattern>k__BackingField: {fileID: 11400000, guid: bc723c8dc9e8b584db8fdd0589ff2888, type: 2}
   <AllPatterns>k__BackingField:
+  - weight: 2
+    patternData: {fileID: 11400000, guid: 278fcdae05181bc40b5fd559e7b9aa51, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckCondition: 0
+    bossCheckHP: 0.5
+  - weight: 1
+    patternData: {fileID: 11400000, guid: cbe368fc93fa82641a9d9d30729d2607, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckCondition: 0
+    bossCheckHP: 0.5
   - weight: 1
     patternData: {fileID: 11400000, guid: 25f316fd044ea4e488fc6acfa70cbaeb, type: 2}
     setActivePatternForTest: 1
@@ -253,12 +265,6 @@ MonoBehaviour:
     isCheckCondition: 0
     bossCheckHP: 0.5
   - weight: 1
-    patternData: {fileID: 11400000, guid: 710d5774c9caa6949815aa772eb2c753, type: 2}
-    setActivePatternForTest: 1
-    showGizmos: 1
-    isCheckCondition: 0
-    bossCheckHP: 0.5
-  - weight: 1
     patternData: {fileID: 11400000, guid: fe5d28197b926c14c9c9af3bd39eb5e1, type: 2}
     setActivePatternForTest: 1
     showGizmos: 1
@@ -271,11 +277,23 @@ MonoBehaviour:
     isCheckCondition: 0
     bossCheckHP: 0.5
   - weight: 1
+    patternData: {fileID: 11400000, guid: 6e15b03ba53098948bd2e57799755fd6, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckCondition: 1
+    bossCheckHP: 0.67
+  - weight: 1
+    patternData: {fileID: 11400000, guid: 710d5774c9caa6949815aa772eb2c753, type: 2}
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckCondition: 1
+    bossCheckHP: 0.4
+  - weight: 1
     patternData: {fileID: 11400000, guid: 6d77efd23e848994c989c255b8d141e9, type: 2}
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckCondition: 0
-    bossCheckHP: 0.5
+    bossCheckHP: 0.4
   <MapWidth>k__BackingField: 40
   <BossCenterHight>k__BackingField: 2
   <Boss>k__BackingField: {fileID: 4068889471639930373}

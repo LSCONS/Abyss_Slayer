@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using System.Threading.Tasks;
-using UnityEngine.Audio;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Audio;
 
 public class SoundManager : Singleton<SoundManager>
 {
@@ -91,6 +89,19 @@ public class SoundManager : Singleton<SoundManager>
             src.outputAudioMixerGroup = bgmGroup;          // 오디오 믹서 그룹 연결
             bgmSources[i] = src;
         }
+    }
+
+    public async void PlayBGMIntro()
+    {
+        var data = Addressables.LoadAssetAsync<AudioClipDataGather>("Intro");
+        await data.Task;
+
+        AudioClipDataGather gatherData = data.Result;
+        foreach (var datas in gatherData.ListAudioClipEnumData)
+        {
+            DataManager.Instance.DictEnumToAudioData[datas.EnumClip] = datas.AudioClipData;
+        }
+        PlayBGM(EAudioClip.BGM_IntroScene);
     }
 
     /// <summary>

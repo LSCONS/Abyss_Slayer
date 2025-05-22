@@ -13,6 +13,7 @@ public class IntroController : MonoBehaviour
     [SerializeField] private float typingSpeed = 0.05f;
     [SerializeField] private AudioSource bgm;
 
+
     private Coroutine currentTypingCoroutine;
     private bool isTyping = false;
 

@@ -23,7 +23,7 @@ public static class AnimationHash
     public static int LandParameterHash           { get; private set; } = Animator.StringToHash("Land");
     public static int Attack2ParameterHash        { get; private set; } = Animator.StringToHash("Attack2");
     public static int AppearParameterHash         { get; private set; } = Animator.StringToHash("Appear");
-    public static int ParameterHash               { get; private set; } = Animator.StringToHash("Run");
+    public static int RunParameterHash               { get; private set; } = Animator.StringToHash("Run");
     public static int AttackJumpParameterHash     { get; private set; } = Animator.StringToHash("AttackJump");
     public static int RunSlashParameterHash       { get; private set; } = Animator.StringToHash("RunSlash");
     public static int SlashEndParameterHash       { get; private set; } = Animator.StringToHash("SlashEnd");

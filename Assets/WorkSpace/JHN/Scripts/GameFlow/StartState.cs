@@ -34,6 +34,7 @@ public class StartState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("StartState UI 오픈");
 #endif
+        SoundManager.Instance.PlayBGM(EAudioClip.BGM_StartScene);
         UIManager.Instance.OpenUI(UISceneType.Start);
         ServerManager.Instance.UIStartTitle.TextUpdate();
 #if MoveSceneDebug

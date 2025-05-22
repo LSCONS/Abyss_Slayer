@@ -460,7 +460,6 @@ public class UIManager : Singleton<UIManager>
 
         // 팝업 스택이 비워지면 팝업 bg 꺼줌
         if (popupStack.Count == 0 && popupBG != null) popupBG.SetActive(false);
-
     }
 
     public void CloseAllPopup(){
@@ -468,7 +467,7 @@ public class UIManager : Singleton<UIManager>
             CloseCurrentPopup(popupStack.Pop());
         }
     }
-
+    
     /// <summary>
     /// 지금 팝업 열려있는지 검사
     /// </summary>

@@ -15,6 +15,7 @@ public class IntroState : BaseGameState
         LoadingState state = GameFlowManager.Instance.prevLodingState;
         await UIManager.Instance.LoadAllUI(UIType.NonGamePlay);
         SoundManager.Instance.Init();
+        SoundManager.Instance.PlayBGMIntro();
         state?.SetLoadingBarValue(0.3f);
 
         UIManager.Instance.CreateAllUI(UIType.NonGamePlay);
@@ -22,6 +23,8 @@ public class IntroState : BaseGameState
         state?.SetLoadingBarValue(0.4f);
 
         await DataManager.Instance.Init();
+        SoundManager.Instance.PlayBGM(EAudioClip.BGM_IntroScene);
+
 
 #if MoveSceneDebug
         Debug.Log("프로그래스바 끝날 때까지 대기");
