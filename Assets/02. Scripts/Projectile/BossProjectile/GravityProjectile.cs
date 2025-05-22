@@ -9,7 +9,7 @@ public class GravityProjectile : BasePoolable
     [SerializeField] ParticleSystem _particleSystem;
     [SerializeField] NormalDamageCollider _bossProjectileCollider;
     [SerializeField] GameObject _sprite;
-
+    [SerializeField] Collider2D _collider;
     float _gravity;
     int _damage;
     float _velocityX;
@@ -37,11 +37,13 @@ public class GravityProjectile : BasePoolable
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_Init(int damage, Vector3 position, float speedX, PlayerRef target,float delayThorwTime,int piercingCount , float size = 3f, float gravityScale = 1f)
     {
+        _collider.enabled = false;
+        _rigidbody.bodyType = RigidbodyType2D.Kinematic;
         _throwed = false;
         gameObject.SetActive(true);
         _sprite.SetActive(true);
         _damage = damage;
-        transform.position = position;
+        transform.position = new Vector3(Mathf.Clamp(position.x, -20 + size * 1.81f, 20 - size * 1.81f),position.y);
         _velocityX = speedX;
         _target = ServerManager.Instance.DictRefToPlayer[target].transform;
         _throwTime = Time.time + delayThorwTime + 1.2f;
@@ -58,8 +60,9 @@ public class GravityProjectile : BasePoolable
 
     void Throw()
     {
-        Vector3 _targetPosition = _target.position;
+        _collider.enabled = true;
         _rigidbody.bodyType = RigidbodyType2D.Dynamic;
+        Vector3 _targetPosition = _target.position;
         float time = Mathf.Abs(_targetPosition.x - transform.position.x)/_velocityX;    //목표물까지 걸리는 시간
         float deltaY = _targetPosition.y - transform.position.y;                        //목표물과 발사지점 y축 차이
         float velocityY = deltaY / time + (_gravity * time / 2);                        //시작지점 y축 속도
@@ -67,9 +70,9 @@ public class GravityProjectile : BasePoolable
         _velocityX = _velocityX * Mathf.Sign(_targetPosition.x - transform.position.x); //시작지점 x축 속도
 
         Vector2 velocity = new Vector2(_velocityX, velocityY);                          //목표물의 x축 거리가 짧을때 y속도가 과도하게 높아지는 현상 방지
-        if (velocity.magnitude >= 20)
+        if (velocity.magnitude >= 40)
         {
-            velocity = velocity.normalized * 20f;
+            velocity = velocity.normalized * 40f;
         }
 
 
@@ -83,6 +86,7 @@ public class GravityProjectile : BasePoolable
         _rigidbody.velocity = Vector2.zero;
         _sprite.SetActive(false);
         _particleSystem.Play();
+        _collider.enabled = false;
         Invoke("ReturnToPool", 3f);
     }
 }
