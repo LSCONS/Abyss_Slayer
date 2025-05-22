@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
@@ -91,7 +92,7 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
-    public async void PlayBGMIntro()
+    public async Task PlayBGMIntro()
     {
         var data = Addressables.LoadAssetAsync<AudioClipDataGather>("Intro");
         await data.Task;
@@ -102,6 +103,7 @@ public class SoundManager : Singleton<SoundManager>
             DataManager.Instance.DictEnumToAudioData[datas.EnumClip] = datas.AudioClipData;
         }
         PlayBGM(EAudioClip.BGM_IntroScene);
+        return;
     }
 
     /// <summary>
@@ -156,8 +158,35 @@ public class SoundManager : Singleton<SoundManager>
 
         PlaySound(EAudioClip, data);
     }
+    public void PlayRandomPitchSFX(EAudioClip EAudioClip, float minPitch, float maxPitch)
+    {
+        if (!(DataManager.Instance.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData data))) return;
+        if (data.Audio == null) return;
+        float ptich = Random.Range(minPitch, maxPitch);
+        PlayRandomPitchSound(EAudioClip, data, ptich);
+    }
 
 
+    private void PlayRandomPitchSound(EAudioClip EAudioClip, AudioClipData data, float pitch)
+    {
+        if (data.Audio == null) return;
+
+        var src = GetPooledSource();
+        src.clip = data.Audio;
+        src.loop = data.IsLoop;
+        src.pitch = pitch;
+        src.volume = sfxVolume * masterVolume * data.Volume;
+        src.Play();
+
+        if (!data.IsLoop)
+        {
+            StartCoroutine(ReturnWhenDone(src));
+        }
+        else
+        {
+            loopingSources[EAudioClip] = src;  // 루프면 딕셔너리에 저장
+        }
+    }
     /// <summary>
     /// Enum으로 사운드 재생
     /// </summary>
