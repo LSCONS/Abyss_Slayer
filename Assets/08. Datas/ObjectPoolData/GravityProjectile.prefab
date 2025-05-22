@@ -4858,7 +4858,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8368974196287218632}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -12.01, y: 6.24, z: -0.077468395}
   m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4866,7 +4866,7 @@ Transform:
   - {fileID: 4806403911947087727}
   - {fileID: 7549640118306789064}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9033190557570509043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4882,6 +4882,7 @@ MonoBehaviour:
   _particleSystem: {fileID: 8613445188369681642}
   _bossProjectileCollider: {fileID: 419339545407652058}
   _sprite: {fileID: 8978770129281903268}
+  _collider: {fileID: 4108345808187840686}
 --- !u!50 &5193639859057306432
 Rigidbody2D:
   serializedVersion: 4
@@ -4978,7 +4979,7 @@ Transform:
   m_GameObject: {fileID: 8978770129281903268}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.077468395}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5025,15 +5026,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 500
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 2032876836, guid: 9e6fa81ef3aeffb428352fd0e857375b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 0.8828125}
+  m_Size: {x: 18.75, y: 13.8125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &419339545407652058
