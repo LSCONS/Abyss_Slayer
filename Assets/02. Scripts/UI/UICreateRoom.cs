@@ -22,6 +22,7 @@ public class UICreateRoom : UIPopup
 
     private void CheckNameLenght(string inputRoomName)
     {
+        SoundManager.Instance.PlayTypingSoundSFX();
         string temp = inputRoomName.Trim();
 
         if(temp.Length >= 2 && temp.Length <= 8)
@@ -50,6 +51,7 @@ public class UICreateRoom : UIPopup
 
     private void CreateRoom()
     {
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         Debug.Log($"방 이름 : {roomName}");
         if(ServerManager.Instance.CheckSameRoomName(roomName))
         {
