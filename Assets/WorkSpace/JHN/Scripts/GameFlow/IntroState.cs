@@ -22,6 +22,8 @@ public class IntroState : BaseGameState
         state?.SetLoadingBarValue(0.4f);
 
         await DataManager.Instance.Init();
+        SoundManager.Instance.PlayBGM(EAudioClip.BGM_IntroScene);
+
 
 #if MoveSceneDebug
         Debug.Log("프로그래스바 끝날 때까지 대기");
@@ -32,7 +34,6 @@ public class IntroState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("IntroState 오픈");
 #endif
-        SoundManager.Instance.PlayBGM(EAudioClip.BGM_IntroScene);
         UIManager.Instance.OpenUI(UISceneType.Intro);
 #if MoveSceneDebug
         Debug.Log("LoadingScene 삭제");
