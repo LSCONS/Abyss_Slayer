@@ -139,9 +139,9 @@ public class BossController : NetworkBehaviour
             if (next != null)
             {
                 Target = next.patternData.target;
-                if(next.samePatternDelayTime > 0)
-                StartCoroutine(CheckDelayCompute(next));
                 yield return StartCoroutine(next.patternData.ExecutePattern());
+                if (next.samePatternDelayTime > 0)
+                    StartCoroutine(CheckDelayCompute(next));
             }
             else
             {
