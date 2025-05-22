@@ -82,7 +82,6 @@ public class BossController : NetworkBehaviour
     {
         for (int i = 0; i < AllPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
         {
-            AllPatterns[i].patternData = Instantiate(AllPatterns[i].patternData);
             AllPatterns[i].patternData.Init(this);
         }
         AppearPattern?.Init(this);
