@@ -14,11 +14,12 @@ public class BossAppearData : BasePatternData
         bossController.HitCollider.enabled = false;
         bossTransform.position = appearPosition;
         boss.IsLeft = true;
-        if (EAudioClip != null || EAudioClip.Count > 0)
+        
+
             SoundManager.Instance.PlaySFX(EAudioClip[0]);
         yield return new WaitForSeconds(preDelayTime);
         ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(10 / zoomScale, 20);
-        if (EAudioClip != null || EAudioClip.Count > 1)
+        if (EAudioClip != null && EAudioClip.Count > 1)
             SoundManager.Instance.PlaySFX(EAudioClip[1]);
         yield return new WaitForSeconds(1f);
         boss.Rpc_SetSpriteEnable(true);

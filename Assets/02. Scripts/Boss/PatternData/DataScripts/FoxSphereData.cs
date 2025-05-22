@@ -30,6 +30,10 @@ public class FoxSphereData : BasePatternData
         {
             ServerManager.Instance.InitSupporter.Rpc_StartFoxSphereProjectileInit(damage, startPosition, preDelayTime + (i * fireIntervalTime), playerRef, startSpeed, distance, (int)color);
         }
+
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
         yield return new WaitForSeconds(preDelayTime + sphereCount * fireIntervalTime + 0.5f);
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.IdleParameterHash);
         bossController.ShowTargetCrosshair = false;

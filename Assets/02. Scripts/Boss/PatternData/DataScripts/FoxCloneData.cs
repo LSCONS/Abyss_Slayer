@@ -46,6 +46,9 @@ public class FoxCloneData : BasePatternData
             yield return new WaitForSeconds(0.1f);
         }
 
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
         boss = bossController.GetComponentInParent<Boss>();
         curHp = boss.Hp.Value;
         explosionTime = Time.time + explosionDelayTime;
@@ -53,6 +56,9 @@ public class FoxCloneData : BasePatternData
         
         if(clones.Count <= 0)
         {
+            if (EAudioClip != null && EAudioClip.Count > 1)
+                SoundManager.Instance.PlaySFX(EAudioClip[1]);
+
             boss.Rpc_SetTriggerAnimationHash(AnimationHash.StunParameterHash);
             yield return new WaitForSeconds(stunTime);
             boss.Rpc_SetTriggerAnimationHash(AnimationHash.IdleParameterHash);
@@ -66,6 +72,10 @@ public class FoxCloneData : BasePatternData
                 clones[i].Explosion();
             }
 
+            if (EAudioClip != null && EAudioClip.Count > 2)
+                SoundManager.Instance.PlaySFX(EAudioClip[2]);
+
+
             yield return new WaitForSeconds(1.1f + postDelayTime);
         }
 
@@ -73,6 +83,8 @@ public class FoxCloneData : BasePatternData
     void CloneDead(FoxClone foxClone)
     {
         clones.Remove(foxClone);
+        if (EAudioClip != null && EAudioClip.Count > 1)
+            SoundManager.Instance.PlaySFX(EAudioClip[1]);
     }
     bool CheckExplosion()
     {

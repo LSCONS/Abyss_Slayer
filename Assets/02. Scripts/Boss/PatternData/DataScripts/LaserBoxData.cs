@@ -21,7 +21,14 @@ public class LaserBoxData : BasePatternData
     {
         boss.IsLeft = bossTransform.position.x > 0;
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.SpawnParameterHash);
+
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
         yield return new WaitForSeconds(preDelayTime);
+
+        if (EAudioClip != null && EAudioClip.Count > 1)
+            SoundManager.Instance.PlaySFX(EAudioClip[1]);
 
         for (int i = 0; i < firePositions.Count; ++i)
         {

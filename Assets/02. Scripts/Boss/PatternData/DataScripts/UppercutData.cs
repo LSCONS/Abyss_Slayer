@@ -25,7 +25,10 @@ public class UppercutData : BasePatternData
         yield return new WaitForSeconds(0.2f);
         //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         bossAnimator.SetTrigger("Uppercut2");
-        
+
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
         while (Mathf.Abs(targetPosition.x - bossTransform.position.x) >= 0.05f)
         {
             float x = Mathf.Lerp(bossTransform.position.x, targetPosition.x, accessSpeed * Time.deltaTime);

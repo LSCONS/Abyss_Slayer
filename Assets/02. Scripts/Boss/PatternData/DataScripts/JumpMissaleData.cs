@@ -31,6 +31,9 @@ public class JumpMissaleData : BasePatternData
             distance = Vector3.Distance(targetPos, bossTransform.position);
         } while (distance >= moveableDistance || distance <= 5);
 
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
         bossController.StartCoroutine(bossController.JumpMove(targetPos, jumpDuration));
 
         yield return new WaitForSeconds(0.2f);

@@ -13,6 +13,10 @@ public class CrossSlash1Data : BasePatternData
         bool isleft = 0 > target.position.x - bossTransform.position.x;
         boss.IsLeft = isleft;
         bossController.ShowTargetCrosshair = true;
+
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.ReadyRunParameterHash);
         yield return new WaitForSeconds(preDelayTime);
 
@@ -64,6 +68,9 @@ public class CrossSlash1Data : BasePatternData
             results: hits,
             distance: 50f
             );
+
+        if (EAudioClip != null && EAudioClip.Count > 1)
+            SoundManager.Instance.PlaySFX(EAudioClip[1]);
 
         RaycastHit2D hit = hits[0];
         for (int i = 1 ; i < hits.Count; i++)

@@ -18,6 +18,10 @@ public class ThrowRockData : BasePatternData
         bossController.ChasingTarget = true;
         bossController.ShowTargetCrosshair = true;
         yield return new WaitForSeconds(preDelayTime + 0.5f);
+
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
         ServerManager.Instance.InitSupporter.Rpc_StartGravityProjectileInit(damage, bossTransform.position + Vector3.up * spawnPositionY, rockSpeed, playerRef, delayThrowTime, int.MaxValue, rockSize, gravityScale);
         bossController.ChasingTarget = false;
         bossController.ShowTargetCrosshair = false;
