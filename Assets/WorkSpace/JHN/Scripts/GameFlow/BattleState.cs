@@ -15,6 +15,8 @@ public class BattleState : BaseGameState
     public bool isStart { get; set; } = false;
     private float deadTimer { get; set; } = 0.0f; // 보스 죽고 몇초 지남?
     private float changeSceneTime { get; set; } = 5.0f; // 보스 죽고 몇초 지나야 씬 넘어갈거임?
+    private float changeEndingSceneTime { get; set; } = 10.0f; // 마지막 보스 죽고 몇 초 지나야 씬 넘어갈거임?
+
 
     // 퍼널 스텝 전송 플래그
     private bool sentHP100 = false;
@@ -117,18 +119,29 @@ public class BattleState : BaseGameState
         if (boss.IsDead)
         {
             deadTimer += Time.deltaTime;
-            if (deadTimer >= changeSceneTime)
+
+            // 마지막 보스인지 체크
+            bool isFinalBoss = (GameValueManager.Instance.MaxBossCount - GameValueManager.Instance.CurrentStageIndex == 1);
+            float sceneDelay = isFinalBoss ? changeEndingSceneTime : changeSceneTime;
+
+            if (isFinalBoss)
             {
-                if(RunnerManager.Instance.GetRunner().IsServer)
+                GameFlowManager.Instance.fireworks?.StartFireworks(); // 마지막 보스 잡으면 불꽃놀이 실행
+            }
+
+
+            if (deadTimer >= sceneDelay)
+            {
+                if (RunnerManager.Instance.GetRunner().IsServer)
                 {
-                    foreach(Player player in ServerManager.Instance.DictRefToPlayer.Values)
+                    foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
                     {
                         player.AddSkillPoint(3);
                         player.AddStatusPoint(3);
                     }
 
                     //모든 보스를 모두 처치한 상태일 경우
-                    if(GameValueManager.Instance.MaxBossCount - GameValueManager.Instance.CurrentStageIndex == 1)
+                    if (isFinalBoss)
                     {
                         ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.EndingScene);
                     }
