@@ -14,8 +14,9 @@ public class RogueProjectile : BasePoolable
 
     private LayerMask includeLayer; // 화살 충돌 레이어
 
-    private void Awake()
+    public override void Spawned()
     {
+        base.Spawned();
         includeLayer = LayerData.EnemyLayerMask | LayerData.GroundPlaneLayerMask; 
     }
 
@@ -65,7 +66,7 @@ public class RogueProjectile : BasePoolable
             enemy.Damage((int)(damage * Player.DamageValue.Value), transform.position.x); // 데미지 전달
         }
 
-        if((1 << collision.gameObject.layer | includeLayer) == includeLayer)
+        if ((1 << collision.gameObject.layer | includeLayer) == includeLayer)
         {
             Rpc_ReturnToPool(); // 투사체 반환
         }

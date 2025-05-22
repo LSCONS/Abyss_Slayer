@@ -38,12 +38,18 @@ public class PoolManager : NetworkBehaviour
     public override void Spawned()
     {
         base.Spawned();
+        DamageTextSpawner.activeTexts = new();
         if (Runner.IsServer) Runner.Spawn(DataManager.Instance.CrossHairPrefab);
         transform.parent = null;
         ServerManager.Instance.PoolManager = this;
         if (Runner.IsServer)
         SetObjectPoolDictionary();
-    } 
+    }
+
+    public override void Despawned(NetworkRunner runner, bool hasState)
+    {
+        base.Despawned(runner, hasState);
+    }
 
 
     public void ReturnPoolAllObject()
