@@ -13,31 +13,42 @@ public class GravityProjectile : BasePoolable
     float _gravity;
     int _damage;
     float _velocityX;
-    Vector3 _targetPosition;
+    
+    Transform _target;
+    float _throwTime;
+    bool _throwed;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _sprite.SetActive(false);
+    }
+    private void Update()
+    {
+        if (!_throwed && Time.time >= _throwTime)
+        {
+            _throwed = true;
+            Throw();
+        }
     }
     public override void Rpc_Init()
     {
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_Init(int damage, Vector3 position, float speedX, Vector3 targetPosition,int piercingCount , float size = 3f, float gravityScale = 1f)
+    public void Rpc_Init(int damage, Vector3 position, float speedX, Transform target,float delayThorwTime,int piercingCount , float size = 3f, float gravityScale = 1f)
     {
+        _throwed = false;
         gameObject.SetActive(true);
         _sprite.SetActive(true);
         _damage = damage;
         transform.position = position;
         _velocityX = speedX;
-        _targetPosition = targetPosition;
+        _target = target;
+        _throwTime = Time.time + delayThorwTime + 1.2f;
         transform.localScale = Vector3.one * size;
         _gravity = 9.81f * gravityScale;
         _rigidbody.gravityScale = gravityScale;
         _bossProjectileCollider.Init(_damage,Destroy,piercingCount);
-
-        Throw();
     }
 
     public void Init(Vector3 direction, int damage, float speed, int piercingCount, float size = 1f, float gravityScale = 1f)
@@ -47,6 +58,7 @@ public class GravityProjectile : BasePoolable
 
     void Throw()
     {
+        Vector3 _targetPosition = _target.position;
         _rigidbody.bodyType = RigidbodyType2D.Dynamic;
         float time = Mathf.Abs(_targetPosition.x - transform.position.x)/_velocityX;    //목표물까지 걸리는 시간
         float deltaY = _targetPosition.y - transform.position.y;                        //목표물과 발사지점 y축 차이
