@@ -129,7 +129,7 @@ public class Player : NetworkBehaviour, IHasHealth
     /// </summary>
     private void ComputeHealingTime()
     {
-        if (MaxHp.Value == Hp.Value) return;
+        if (MaxHp.Value == Hp.Value || PlayerData.PlayerStatusData.IsDead) return;
         PlayerStatusData data = PlayerData.PlayerStatusData;
         data.HealingCurTime -= Time.deltaTime;
         if (data.HealingCurTime <= 0)
@@ -338,6 +338,7 @@ public class Player : NetworkBehaviour, IHasHealth
         Hp.Value = Hp.Value.PlusAndIntClamp(-finalDamage, MaxHp.Value);
         if (Hp.Value == 0)
         {
+            PlayerData.PlayerStatusData.IsDead = true;
             PlayerDie();
         }
     }
@@ -371,7 +372,7 @@ public class Player : NetworkBehaviour, IHasHealth
     /// </summary>
     public void PlayerDie()
     {
-        PlayerStateMachine.ChangeState(PlayerStateMachine.DieState);
+        PlayerStateMachine.ChangeState(PlayerStateMachine.DieState, true);
         
         // 게임오버 애널리틱스 전송
         int deadPlayerCount = 0;
