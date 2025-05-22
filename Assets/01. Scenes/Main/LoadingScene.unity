@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7d47289b7fda61468a75c56919bc948, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 1287333435}
+  <canvas>k__BackingField: {fileID: 0}
   permanentParent: {fileID: 1287333434}
   background: {fileID: 0}
   topParent: {fileID: 1287333433}
@@ -252,6 +252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startStateEnum: 1
   endCredit: {fileID: 0}
+  fireworks: {fileID: 0}
 --- !u!4 &262621646
 Transform:
   m_ObjectHideFlags: 0
@@ -830,11 +831,6 @@ RectTransform:
 --- !u!224 &1287333434 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 116925145591272787, guid: 54283dbe4ace6bf40ba96e576213dec1, type: 3}
-  m_PrefabInstance: {fileID: 1287333429}
-  m_PrefabAsset: {fileID: 0}
---- !u!223 &1287333435 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 8781060177894199553, guid: 54283dbe4ace6bf40ba96e576213dec1, type: 3}
   m_PrefabInstance: {fileID: 1287333429}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1289389298
