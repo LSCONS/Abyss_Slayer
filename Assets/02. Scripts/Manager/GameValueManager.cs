@@ -39,6 +39,15 @@ public class GameValueManager : Singleton<GameValueManager>
         {
             CurrentStageIndex++;
             SetClearStage(false);
+            if (RunnerManager.Instance.GetRunner().IsServer)
+            {
+                //TODO: 스킬포인트 주는 로직 변경 필요. 모든 플레이어들에게 RPC로 줘야함.
+                foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
+                {
+                    player.AddSkillPoint(AddSkillPointValue);
+                    player.AddStatusPoint(AddStatusPointValue);
+                }
+            }
         }
     }
 
