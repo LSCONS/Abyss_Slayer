@@ -22,7 +22,7 @@ MonoBehaviour:
     height: 20
   gizmoColor: {r: 0, g: 0.98978424, b: 1, a: 0.3}
   <EAudioClip>k__BackingField: 20030000
-  damage: 10
+  damage: 120
   startPositions:
   - {x: 0, y: 2, z: 0}
   - {x: 0, y: 7, z: 0}
@@ -37,7 +37,6 @@ MonoBehaviour:
   missaileCount: 8
   homingPower: 13
   missailSpeed: 2
-  homingTime: 1
   explosionSize: 1
   homingCurve: 1
   speedCurve: 2
