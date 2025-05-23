@@ -21,12 +21,12 @@ MonoBehaviour:
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 1
   <MaxCoolTime>k__BackingField:
-    value: 25
+    value: 20
   <CurCoolTime>k__BackingField:
     value: 0
   <ApplyState>k__BackingField: -1
-  <SkillEnterState>k__BackingField: 11
-  <SkillUseState>k__BackingField: 12
+  <SkillEnterState>k__BackingField: 6
+  <SkillUseState>k__BackingField: 24
   <AnimationChangeDelayTime>k__BackingField: 0.06
   <IsConnectSkillCoolDown>k__BackingField: 0
   <SkillEffectsClipName>k__BackingField: 
@@ -42,6 +42,6 @@ MonoBehaviour:
     m_Bits: 0
   baseEffectAmount: 1
   effectAmount: 1
-  baseDuration: 3
-  duration: 3
+  baseDuration: 4
+  duration: 4
   shieldPrefab: {fileID: 4607254346907308908, guid: 92fec74cf58d0fa42882ad42e9b70eca, type: 3}

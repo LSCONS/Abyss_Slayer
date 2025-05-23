@@ -215,7 +215,7 @@ MonoBehaviour:
   <HitCollider>k__BackingField: {fileID: 6902979656306387885}
   <VirtualCamera>k__BackingField: {fileID: 1779072543370487692}
   <MaxHp>k__BackingField:
-    value: 20000
+    value: 25000
   <IsRest>k__BackingField: 1
   <IsOpenSprtie>k__BackingField: 0
   _IsLeft: 0
@@ -235,17 +235,17 @@ MonoBehaviour:
   <AppearPattern>k__BackingField: {fileID: 11400000, guid: bc723c8dc9e8b584db8fdd0589ff2888, type: 2}
   <Phase2Pattern>k__BackingField: {fileID: 11400000, guid: 2ce453f9dab90a14195ff364daf7405d, type: 2}
   <AllPatterns>k__BackingField:
-  - weight: 1.3
+  - weight: 1.2
     patternData: {fileID: 11400000, guid: 0f52bb61b53227645b20af4b0d5546e7, type: 2}
-    samePatternDelayTime: 5
+    samePatternDelayTime: 4
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
     isCheckActiveFalse: 0
     bossCheckHP: 0.4
-  - weight: 1.3
+  - weight: 1.2
     patternData: {fileID: 11400000, guid: 278fcdae05181bc40b5fd559e7b9aa51, type: 2}
-    samePatternDelayTime: 5
+    samePatternDelayTime: 4
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
@@ -293,7 +293,7 @@ MonoBehaviour:
     bossCheckHP: 0.5
   - weight: 1
     patternData: {fileID: 11400000, guid: 6e15b03ba53098948bd2e57799755fd6, type: 2}
-    samePatternDelayTime: 10
+    samePatternDelayTime: 18
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
