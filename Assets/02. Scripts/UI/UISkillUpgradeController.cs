@@ -48,7 +48,7 @@ public class UISkillUpgradeController : UIPopup
 
             var go = Instantiate(skillSlotPrefab, upgradeSlotParent);
             var slot = go.GetComponent<UISkillSlot>();
-
+            slot.Init();
             SetSlots(slot, skill);      // 슬롯 세팅
             SetButtons(slot, skill);    // 버튼 연결
 
