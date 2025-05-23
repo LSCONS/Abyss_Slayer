@@ -26,8 +26,9 @@ public class BossPhase2Data : BasePatternData
         bossController.ChasingTarget = false;
         bossController.HitCollider.enabled = false;
 
-        // 2. 플레이어도 멈춤
+        // 2. 플레이어도 멈추고 무적
         ServerManager.Instance.ThisPlayerData.Rpc_DisconnectInput();
+        ServerManager.Instance.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(true);
 
         // 3. 카메라 줌하기
         ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(phase2ZoomScale, 20);
@@ -54,5 +55,6 @@ public class BossPhase2Data : BasePatternData
         // 10. 보스 피격 가능 & 플레이어 조작 복구
         bossController.HitCollider.enabled = true;
         ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
+        ServerManager.Instance.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(false);
     }
 }
