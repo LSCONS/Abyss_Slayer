@@ -122,7 +122,7 @@ public class BattleState : BaseGameState
             AnalyticsManager.SendFunnelStep(GetFunnelStepClear());
         }
 
-        if (!(GameValueManager.Instance.IsStageClear))
+        if (GameValueManager.Instance.IsStageClear)
         {
             deadTimer += Time.deltaTime;
 
@@ -140,11 +140,6 @@ public class BattleState : BaseGameState
             {
                 if (RunnerManager.Instance.GetRunner().IsServer)
                 {
-                    foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
-                    {
-                        player.AddSkillPoint(GameValueManager.Instance.AddSkillPointValue);
-                        player.AddStatusPoint(GameValueManager.Instance.AddStatusPointValue);
-                    }
 
                     //모든 보스를 모두 처치한 상태일 경우
                     if(isFinalBoss)
