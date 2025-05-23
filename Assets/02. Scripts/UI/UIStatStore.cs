@@ -81,6 +81,12 @@ public class UIStatStore : UIPopup
         base.OnDisable();
     }
 
+    public override void OnOpen()
+    {
+        base.OnOpen();
+        if (ServerManager.Instance.ThisPlayer.StatPoint.Value > 0) SetAllUpgradeBtn(true);
+    }
+
     public override void Close()
     {
 # if AllMethodDebug
