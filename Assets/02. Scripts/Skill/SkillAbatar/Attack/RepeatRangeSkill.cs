@@ -53,7 +53,11 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
             {
                 resultMovePosition += copyMovePosition;
             }
-            yield return wait;
+            else
+            {
+                resultMovePosition += copyMovePosition / 4;
+            }
+                yield return wait;
         }
         if(SkillCategory == SkillCategory.Hold)
         {
