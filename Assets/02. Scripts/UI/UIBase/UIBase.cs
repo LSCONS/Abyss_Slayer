@@ -29,6 +29,7 @@ public enum UISceneType
     Boss = 1 << 3,
     Rest = 1 << 4,
     Loading = 1 << 5,
+    Ending = 1 << 6,
 }
 
 public abstract class UIBase : MonoBehaviour

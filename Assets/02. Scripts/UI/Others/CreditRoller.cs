@@ -22,17 +22,18 @@ public class CreditRoller : UIPopup
 
     public void StartScrollCredit()
     {
+        scrollRect.gameObject.SetActive(true);
         StartCoroutine(ScrollCredits());
     }
 
-    private void Awake()
+    public void Start()
     {
         GameFlowManager.Instance.endCredit = this;
+        scrollRect.gameObject.SetActive(false);
+     
     }
-    private void Start()
-    {
-        UIManager.Instance.DelayRebuildLayout(this);
-    }
+
+
     private void Update()
     {
         // 스페이스 키 누르면 2배속
