@@ -20,8 +20,6 @@ public class SlashData : BasePatternData
         for(int i = 0; i < attackAngles.Count; i++)
         {
             ServerManager.Instance.InitSupporter.Rpc_StartNormalSlashInit(bossTransform.position, damage, boss.IsLeft, attackAngles[i], attackSpeed);
-            if (EAudioClip != null && EAudioClip.Count > 0)
-                SoundManager.Instance.PlaySFX(EAudioClip[0]);
             bossController.StartCoroutine(AttackEffect(i == attackAngles.Count - 1));
             yield return new WaitForSeconds(intervalTime);
         }
