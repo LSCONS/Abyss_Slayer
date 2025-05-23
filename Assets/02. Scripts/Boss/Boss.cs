@@ -107,7 +107,6 @@ public class Boss : NetworkBehaviour, IHasHealth
             BossController.OnDead();
             if (Runner.IsServer) PoolManager.Instance.ReturnPoolAllObject();
             PoolManager.Instance.CrossHairObject.gameObject.SetActive(false);
-            GameValueManager.Instance.SetClearStage(true);
         }
     }
 
