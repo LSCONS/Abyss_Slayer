@@ -16,6 +16,8 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 
     [SerializeField] private TextMeshProUGUI skillUpgradeText;
 
+    [field: SerializeField] public Button BtnUpgrade;
+    [field: SerializeField] public Button BtnDowngrade;
 
     RectTransform slotRect;
     private UISkillTooltip tooltip;
@@ -24,6 +26,7 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
     {
         tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
         slotRect = GetComponent<RectTransform>();
+        BtnDowngrade.interactable = false;
     }
     private void OnDisable()
     {
@@ -33,7 +36,6 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
             tooltip.Close();
         }
     }
-
 
     private IPresenter presenter;
 

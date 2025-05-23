@@ -80,7 +80,7 @@ public class CustomPanelManager : UIPopup
         hairLeftBtn.onClick.RemoveAllListeners();
         hairRightBtn.onClick.RemoveAllListeners();
 
-        applyButton.onClick.AddListener(() => ApplyPreview());
+        applyButton.onClick.AddListener(() => ClickApplyButton());
         skinLeftBtn.onClick.AddListener(() => ChangeSkinIndex(-1));
         skinRightBtn.onClick.AddListener(() => ChangeSkinIndex(+1));
         faceLeftBtn.onClick.AddListener(() => ChangeFaceIndex(-1));
@@ -92,6 +92,10 @@ public class CustomPanelManager : UIPopup
 
     private void ChangeSkinIndex(int id)
     {
+#if AllMethodDebug
+        Debug.Log("ChangeSkinIndex");
+#endif
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         SkinId = Mathf.Clamp(SkinId + id, 1, maxSkinId);
         skinNameText.text = $"Skin {SkinId}";
         UpdatePreview();
@@ -100,13 +104,21 @@ public class CustomPanelManager : UIPopup
 
     private void ChangeFaceIndex(int id)
     {
+#if AllMethodDebug
+        Debug.Log("ChangeFaceIndex");
+#endif
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         FaceId = Mathf.Clamp(FaceId + id, 1, maxFaceId);
         faceNameText.text = $"Face {FaceId}";
-        UpdatePreview(); // 얼굴만 갱신
+        UpdatePreview();
         UpdateButtonInteractable();
     }
     private void ChangeHairIndex(int id)
     {
+#if AllMethodDebug
+        Debug.Log("ChangeHairIndex");
+#endif
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         HairStyleID = Mathf.Clamp(HairStyleID + id, 1, maxHairId);
         hairNameText.text = $"Hair {HairStyleID}";
         UpdatePreview();
@@ -118,6 +130,9 @@ public class CustomPanelManager : UIPopup
     /// </summary>
     private void UpdateButtonInteractable()
     {
+#if AllMethodDebug
+        Debug.Log("UpdateButtonInteractable");
+#endif
         skinLeftBtn.interactable = SkinId > 1;
         skinRightBtn.interactable = SkinId < maxSkinId;
 
@@ -133,6 +148,9 @@ public class CustomPanelManager : UIPopup
     /// </summary>
     private void UpdateAllTexts()
     {
+#if AllMethodDebug
+        Debug.Log("UpdateAllTexts");
+#endif
         skinNameText.text = $"Skin {SkinId}";
         faceNameText.text = $"Face {FaceId}";
         hairNameText.text = $"Hair {HairStyleID}";
@@ -143,34 +161,11 @@ public class CustomPanelManager : UIPopup
     /// </summary>
     private void UpdatePreview()
     {
+#if AllMethodDebug
+        Debug.Log("UpdatePreview");
+#endif
         if (SpritePreview == null) return;
         SpritePreview.Init(PlayerManager.Instance.selectedCharacterClass, HairId, SkinId, FaceId);
-    }
-
-
-    /// <summary>
-    /// DictAnimationState에 파츠 스프라이트 세팅해주기
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="dict"></param>
-    /// <param name="id"></param>
-    /// <param name="state"></param>
-    private void TrySetPreviewPart(Image target, Dictionary<int, Dictionary<AnimationState, Sprite[]>> dict, int id, AnimationState state)
-    {
-        if (!SpritePreview.DictAnimationState.ContainsKey(target))
-            SpritePreview.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>();
-
-        if (dict.TryGetValue(id, out var stateDict))
-        {
-            SpritePreview.DictAnimationState[target][state] = stateDict.TryGetValue(state, out var sprites) ? sprites : new Sprite[0];
-        }
-        else
-        {
-            SpritePreview.DictAnimationState[target] = new Dictionary<AnimationState, Sprite[]>
-            {
-                { state, new Sprite[0] }
-            };
-        }
     }
 
     /// <summary>
@@ -178,7 +173,20 @@ public class CustomPanelManager : UIPopup
     /// </summary>
     public async void ApplyPreview()
     {
+#if AllMethodDebug
+        Debug.Log("ApplyPreview");
+#endif
         await ServerManager.Instance.WaitForThisPlayerDataAsync();
         ServerManager.Instance.ThisPlayerData.Rpc_InitPlayerCustom(HairStyleID, HairColorID, SkinId, FaceId);
+    }
+
+
+    private void ClickApplyButton()
+    {
+#if AllMethodDebug
+        Debug.Log("ClickApplyButton");
+#endif
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ApplyPreview();
     }
 }

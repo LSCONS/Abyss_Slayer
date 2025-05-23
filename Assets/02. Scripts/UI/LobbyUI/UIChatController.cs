@@ -1,6 +1,4 @@
-using Fusion;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -20,6 +18,7 @@ public class UIChatController : MonoBehaviour
     {
         ServerManager.Instance.ChattingTextController = this;
         TextChattingRecord.text = "";
+        InputChatting.onValueChanged.AddListener(ChangeInputText);
     }
 
     private void Update()
@@ -36,12 +35,18 @@ public class UIChatController : MonoBehaviour
         }
     }
 
+    private void ChangeInputText(string text)
+    {
+        if(text != "")
+        SoundManager.Instance.PlayTypingSoundSFX();
+    }
 
     private void EnterMessage()
     {
         string trimmedText = InputChatting.text.Trim();
 
         if (string.IsNullOrEmpty(trimmedText)) return;
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         textBuilder.Append(ServerManager.Instance.PlayerName);
         textBuilder.Append(": ");
         textBuilder.Append(trimmedText);
