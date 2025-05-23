@@ -30,5 +30,8 @@ MonoBehaviour:
   damage: 60
   jumpHight: 4
   preDelayTime: 1
-  speed: 1
-  scale: {x: 0, y: 0}
+  attackDelayTime: 0.5
+  postDelayTime: 0.5
+  jumpSpeed: 1
+  attackSpeed: 1
+  scale: {x: 9, y: 6}

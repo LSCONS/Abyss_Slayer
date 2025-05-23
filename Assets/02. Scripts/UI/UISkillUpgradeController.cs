@@ -65,12 +65,14 @@ public class UISkillUpgradeController : UIPopup
         applyButton.onClick.RemoveAllListeners();
         applyButton.onClick.AddListener(ApplyUpgrade);
         applyButton.interactable = false;
+        SetAllDowngradeBtn(false);
+        if (ServerManager.Instance.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
     }
 
     public override void OnOpen()
     {
-        base.OnOpen();
         if (ServerManager.Instance.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
+        base.OnOpen();
     }
 
     public override void Close()
@@ -223,7 +225,7 @@ public class UISkillUpgradeController : UIPopup
                 slot.SetSkillUpgradeText(skill, data.TempLevel);
             }
         }
-        if (SkillPoint > 0) SetAllUpgradeBtn(true);
+        if (ServerManager.Instance.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
         SetAllDowngradeBtn(false);
         applyButton.interactable = false;
     }

@@ -23,14 +23,14 @@ public class Tornado : BasePoolable
 
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_Init(Vector3 position,int damage, float durationTime,float attackPerSec, float warningTime = 1f, float width = 1f)
+    public void Rpc_Init(Vector3 position,int damage, float durationTime,float attackPerSec, float warningTime = 1f, float width = 4f, float hight = 20)
     {
         gameObject.SetActive(true);
         transform.position = position;
         _damage = damage;
         _durationTime = durationTime;
         _animator.SetFloat("WarningTime", 1 / warningTime);
-        transform.localScale = new Vector3(width, 1f, 1f);
+        transform.localScale = new Vector3(width/4, hight/20, 1f);
 
         _damageColliderScript.Init(_damage, attackPerSec);
     }

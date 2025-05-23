@@ -34,7 +34,7 @@ public class NormalDamageCollider : NetworkBehaviour
         hitPlayers.Clear();
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerStay2D(Collider2D collision)
     {
         if (_destroyed)
         {
