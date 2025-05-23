@@ -46,7 +46,10 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
             SoundManager.Instance.PlaySFX(EAudioClip);
             PoolManager.Instance.Get<ZoneAOE>().Init(this, flipX, playerPosition);
             Vector2 spawnPosition = (Vector2)playerPosition + new Vector2(SpawnOffset.x * flipX, SpawnOffset.y);
-            if (!(runner2D.Raycast(spawnPosition + resultMovePosition * flipX, Vector2.up, ColliderSize.y * SpawnSize.y, LayerData.EnemyLayerMask)))
+            Vector2 startPosition = spawnPosition + resultMovePosition * flipX;
+            Vector2 colliderTotalSize = new Vector2(ColliderSize.x * SpawnSize.x, ColliderSize.y * SpawnSize.y);
+            Vector2 pointXY = new Vector2(startPosition.x, startPosition.y + colliderTotalSize.y/2);
+            if(!(runner2D.OverlapBox(pointXY, colliderTotalSize, 0, LayerData.EnemyLayerMask)))
             {
                 resultMovePosition += copyMovePosition;
             }
