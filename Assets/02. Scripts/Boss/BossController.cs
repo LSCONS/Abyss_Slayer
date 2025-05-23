@@ -256,7 +256,7 @@ public class BossController : NetworkBehaviour
             pattern.SamePatternDelayCurTime -= Time.deltaTime;
             if(pattern.SamePatternDelayCurTime < 0f)
             {
-                pattern.samePatternDelayTime = 0f;
+                pattern.SamePatternDelayCurTime = 0f;
                 break;
             }
         }

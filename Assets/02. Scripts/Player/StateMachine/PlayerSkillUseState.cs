@@ -142,7 +142,7 @@ public class PlayerSkillUseState : PlayerBaseState
 
             if (playerStateMachine.Player.Runner.IsServer)
             {
-                playerStateMachine.ChangeState(playerStateMachine.IdleState);
+                playerStateMachine.ChangeState(playerStateMachine.FallState);
             }
         }
         else

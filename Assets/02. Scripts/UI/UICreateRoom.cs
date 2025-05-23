@@ -15,6 +15,7 @@ public class UICreateRoom : UIPopup
 
     private void Awake()
     {
+        BtnCreateRoomEnter.interactable = false;
         InputRoomName.onValueChanged.AddListener(CheckNameLenght);
         BtnCreateRoomEnter.onClick.AddListener(CreateRoom);
         BtnCreateRoomExit.onClick.AddListener(() => InputRoomName.text = string.Empty);

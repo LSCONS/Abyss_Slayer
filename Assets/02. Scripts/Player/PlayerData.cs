@@ -51,13 +51,13 @@ public class PlayerStatusData
     [field: SerializeField] public int HP_Cur { get; private set; } = 100;
     [field: SerializeField] public int HP_Max { get; private set; } = 100;
 
-    [field: Header("Damage Magnification")]
+    [field: Header("플레이어 가하는 피해량 배수")]
     [field: SerializeField] public float Damage_Base { get; private set; } = 1;
 
 
-    [field: Header("Abnormal")]
-    [field: SerializeField] public bool CanMove { get; set; } = true;
-    [field: Header("Class")]
+    //플레이어의 상태이상 여부
+    public bool CanMove { get; set; } = true;
+    [field: Header("해당 직업의 클래스 설정")]
     [field: SerializeField] public CharacterClass Class { get; private set; }
 
     [field: Header("플레이어 체력 재생 수치(1이면 1씩 회복)")]
@@ -66,4 +66,6 @@ public class PlayerStatusData
     [field: Header("플레이어 체력 재생 시간 기준(1이면 1초마다)")]
     [field: SerializeField] public float HealingDelay { get; private set; } = 1;
     public float HealingCurTime { get; set; } = 0;
+    //플레이어의 사망 여부
+    public bool IsDead { get; set; } = false;
 }

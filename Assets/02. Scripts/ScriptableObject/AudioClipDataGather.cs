@@ -37,10 +37,10 @@ public enum EAudioClip
     BGM_BattleScene_Last = 105,
     BGM_EndingScene = 106,
 
-    SFX_ButtonClick = 200,
     SFX_PlayerJump = 201,
     SFX_PlayerDash = 202,
     SFX_KeyBoardTyping = 203,
+    SFX_ButtonClick = 204,
 
     SFX_RogueSkill_X = 300,
     SFX_RogueSkill_A = 301,

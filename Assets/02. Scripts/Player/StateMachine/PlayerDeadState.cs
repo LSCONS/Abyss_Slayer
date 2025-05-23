@@ -15,7 +15,7 @@ public class PlayerDeadState : PlayerAbnomalState
     public override void Enter()
     {
         base.Enter();
-        playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Fall, 0);
+        playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Dying, 0);
         playerStateMachine.MovementSpeed = 0f;
         ResetZeroVelocity();
 
@@ -44,7 +44,7 @@ public class PlayerDeadState : PlayerAbnomalState
         if (ChangeSpriteTime + CurTime < Time.time)
         {
             CurTime = Time.time;
-            playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Fall, ++animationNum);
+            playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Dying, ++animationNum);
         }
     }
 }
