@@ -37,7 +37,8 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 #endif
         tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
         slotRect = GetComponent<RectTransform>();
-        BtnDowngrade.interactable = false;
+        if(BtnDowngrade!=null)
+            BtnDowngrade.interactable = false;
     }
     private void OnDisable()
     {
@@ -113,10 +114,9 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 # if AllMethodDebug
         Debug.Log("OnPointerEnter");
 #endif
+        //slotRect = GetComponent<RectTransform>();
         Tooltip.ShowTooltip(skillData, slotRect);
 
-        // 마우스 위치를 기준으로 툴팁 설정
-        Tooltip.SetTooltipPosition(slotRect);
     }
 
     public void OnPointerExit(PointerEventData eventData)

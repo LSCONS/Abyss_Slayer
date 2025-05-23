@@ -37,6 +37,7 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
 
             var skillSlot = Instantiate(skillSlotPrefab, skillSlotParent);
             var slotView = skillSlot.GetComponent<UISkillSlot>();
+            slotView.Init();
             slotsViews[kvp.Key] = slotView;
         }
     }
