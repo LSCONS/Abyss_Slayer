@@ -17,7 +17,6 @@ public class HomingProjectile : BasePoolable
     NormalDamageCollider hitCollider;
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
-    [SerializeField] float homingTime;
     [SerializeField] AnimationCurve speedCurve;
     [SerializeField] AnimationCurve homingCurve;
     [SerializeField] TrailRenderer trailRenderer;
@@ -82,7 +81,7 @@ public class HomingProjectile : BasePoolable
     /// <param name="delayFireTime">지연발사 시간</param>
     /// <param name="homingPower">전체적인 유도력(비례하여 유동적으로 변화)</param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public async void Rpc_Init(int damage, Vector3 position, Quaternion rotate, PlayerRef target, float speed, int HomingProjectileType, float delayFireTime = 0f, float homingPower = 10f, float homingTime = 3f, float explosionSize = 0.5f, int homingCurve = 0, int speedCurve = 0)
+    public async void Rpc_Init(int damage, Vector3 position, Quaternion rotate, PlayerRef target, float speed, int HomingProjectileType, float delayFireTime = 0f, float homingPower = 10f, float explosionSize = 0.5f, int homingCurve = 0, int speedCurve = 0)
     {
         gameObject.SetActive(true);
         spriteRenderer.enabled = false;
@@ -95,7 +94,6 @@ public class HomingProjectile : BasePoolable
         _homingPower = homingPower;
         _explosionSize = explosionSize;
         _fireTime = Time.time + delayFireTime;
-        this.homingTime = homingTime;
         if (homingCurve != 0)
             this.homingCurve = DataManager.Instance.DictEnumToCurve[(EAniamtionCurve)homingCurve];
         if (speedCurve != 0)
@@ -114,7 +112,7 @@ public class HomingProjectile : BasePoolable
 
     void Move()                     //정해진 속도에 따라, 자신(투사체)의 right(+x)방향으로 고정적으로 진행
     {
-        _speed = _inputSpeed * speedCurve.Evaluate((Time.time - _fireTime) / homingTime);   //animationCurve와 시간 에따라 속도 유동적으로 변경
+        _speed = _inputSpeed * speedCurve.Evaluate((Time.time - _fireTime));   //animationCurve와 시간 에따라 속도 유동적으로 변경
         rigid.velocity = 1000 * _speed * Runner.DeltaTime * (Vector2)transform.right;
     }
 
@@ -126,7 +124,7 @@ public class HomingProjectile : BasePoolable
         Vector3 targetDirection = _target.position - transform.position;
         float targetAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;              //목표물과의 각도 계산
 
-        float _homingSpeed = _homingPower * homingCurve.Evaluate((Time.time - _fireTime) / homingTime);   //animationCurve와 시간 에따라 유도력 유동적으로 변경
+        float _homingSpeed = _homingPower * homingCurve.Evaluate((Time.time - _fireTime));   //animationCurve와 시간 에따라 유도력 유동적으로 변경
 
         float newAngle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, 10 * _homingSpeed * Runner.DeltaTime);
         transform.rotation = Quaternion.Euler(0, 0, newAngle);                                                         //유동적인 유도력에 따라 자신을 회전

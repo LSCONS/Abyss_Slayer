@@ -389,7 +389,7 @@ public class BossController : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("RunMove");
 #endif
-        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
+        
         bool isfall = false;
         float startHight = transform.position.y;
         float time = 0f;
@@ -405,7 +405,7 @@ public class BossController : NetworkBehaviour
             float x = Mathf.Clamp(transform.position.x + _speed * Time.deltaTime, -MapWidth / 2 + 0.7f, MapWidth / 2 - 0.7f);
             transform.position = new Vector3 (x, transform.position.y, 0);
 
-            if (!scene2D.Raycast(transform.position, Vector3.down, BossCenterHight + 0.01f, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask))
+            if (!IsLand())
             {
                 if (!isfall)
                 {
@@ -420,13 +420,20 @@ public class BossController : NetworkBehaviour
             {
                 if (isfall)
                 {
+                    PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
+                    float posY = scene2D.Raycast(transform.position, Vector3.down, 20, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask).point.y + BossCenterHight;
+                    transform.position = new Vector3(transform.position.x, posY);
                     isfall = false;
                 }
             }
             yield return null;
         }
     }
-
+    public bool IsLand()
+    {
+        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
+        return scene2D.Raycast(transform.position, Vector3.down, BossCenterHight + 0.01f, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask);
+    }
 
     /// <summary>
     /// 몬스터의 체력이 전부 닳았을 때 실행할 메서드

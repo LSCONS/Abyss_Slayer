@@ -11,8 +11,7 @@ public class TornadoData : BasePatternData
     [SerializeField] float preDelayTime = 0.5f;
     [Tooltip("토네이도가 생성될 위치 (월드 x좌표값) 디자인상 양끝2개 기본으로 생각하고 만듦")]
     [SerializeField] List<float> spawnPositionsX = new List<float> { 10, -10 };
-    [SerializeField] float groundPositionY = -5f;
-    [SerializeField] float tornadoWidth = 1f;
+    [SerializeField] Vector2 tornadoScale;
     [SerializeField] float warningTime = 1f;
     [SerializeField] float durationTime = 2.5f;
     [SerializeField] float postDelayTime = 1f;
@@ -20,28 +19,28 @@ public class TornadoData : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
-        bossAnimator.SetTrigger("Tornado1");                    //공격모션 애니메이션 삽입                              
+        //bossAnimator.SetTrigger("Attack3");                    //공격모션 애니메이션 삽입                              
         yield return new WaitForSeconds(preDelayTime);      //공격모션 선딜
 
         //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
-        bossAnimator.SetTrigger("Tornado2");                    //공격 애니메이션 삽입
+        bossAnimator.SetTrigger("Attack3");                    //공격 애니메이션 삽입
 
         //자신위치에 토네이도 한개 생성
         if (EAudioClip != null && EAudioClip.Count > 0)
             SoundManager.Instance.PlaySFX(EAudioClip[0]);
-        ServerManager.Instance.InitSupporter.Rpc_StartTornadoInit(new Vector3(bossTransform.position.x, groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
+        ServerManager.Instance.InitSupporter.Rpc_StartTornadoInit(new Vector3(bossTransform.position.x, tornadoScale.y/20), damage, durationTime, attackPerSec, warningTime, tornadoScale.x,tornadoScale.y);
         //PoolManager.Instance.Get<Tornado>().Init(new Vector3(bossTransform.position.x, groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
 
         //지정된 위치(기본 맵양끝)에 전부 토네이도 생성
         for (int i = 0; i < spawnPositionsX.Count; i++)
         {
-            ServerManager.Instance.InitSupporter.Rpc_StartTornadoInit(new Vector3(spawnPositionsX[i], groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
+            ServerManager.Instance.InitSupporter.Rpc_StartTornadoInit(new Vector3(spawnPositionsX[i], tornadoScale.y/20), damage, durationTime, attackPerSec, warningTime, tornadoScale.x, tornadoScale.y);
             //PoolManager.Instance.Get<Tornado>().Init(new Vector3(spawnPositionsX[i], groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
         }
 
         yield return new WaitForSeconds(warningTime + durationTime);
         //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
-        bossAnimator.SetTrigger("Tornado3");
+        bossAnimator.SetTrigger("Idle");
         yield return new WaitForSeconds(postDelayTime);
     }
 

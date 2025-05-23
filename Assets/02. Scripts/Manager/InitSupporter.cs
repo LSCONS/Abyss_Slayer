@@ -14,9 +14,9 @@ public class InitSupporter : NetworkBehaviour
     }
 
 
-    public void Rpc_StartCrossSlashInit(Vector3 position, bool isLeft, int damage, int hash, float speed = 1, float scale = 1f)
+    public void Rpc_StartCrossSlashInit(Vector3 position, bool isLeft, int damage, int hash, float speed , float scaleX, float scaleY )
     {
-        PoolManager.Instance.Get<CrossSlash>().Rpc_Init(position, isLeft, damage, hash, speed, scale);
+        PoolManager.Instance.Get<CrossSlash>().Rpc_Init(position, isLeft, damage, hash, speed, scaleX, scaleY);
     }
 
 
@@ -32,17 +32,17 @@ public class InitSupporter : NetworkBehaviour
     }
 
 
-    public void Rpc_StartTornadoInit(Vector3 position, int damage, float durationTime, float attackPerSec, float warningTime = 1f, float width = 1f)
+    public void Rpc_StartTornadoInit(Vector3 position, int damage, float durationTime, float attackPerSec, float warningTime = 1f, float width = 1f, float hight = 20f)
     {
-        PoolManager.Instance.Get<Tornado>().Rpc_Init(position, damage, durationTime, attackPerSec, warningTime, width);
+        PoolManager.Instance.Get<Tornado>().Rpc_Init(position, damage, durationTime, attackPerSec, warningTime, width, hight);
     }
 
 
 
 
-    public void Rpc_StartHomingProjectileInit(int damage, Vector3 position, Quaternion rotate, PlayerRef target, float speed, int HomingProjectileType, float delayFireTime = 0f, float homingPower = 10f, float homingTime = 3f, float explosionSize = 0.5f, int homingCurve = 0, int speedCurve = 0)
+    public void Rpc_StartHomingProjectileInit(int damage, Vector3 position, Quaternion rotate, PlayerRef target, float speed, int HomingProjectileType, float delayFireTime = 0f, float homingPower = 10f, float explosionSize = 0.5f, int homingCurve = 0, int speedCurve = 0)
     {
-        PoolManager.Instance.Get<HomingProjectile>().Rpc_Init(damage, position, rotate, target, speed, HomingProjectileType, delayFireTime, homingPower, homingTime, explosionSize, homingCurve, speedCurve);
+        PoolManager.Instance.Get<HomingProjectile>().Rpc_Init(damage, position, rotate, target, speed, HomingProjectileType, delayFireTime, homingPower, explosionSize, homingCurve, speedCurve);
     }
 
 
@@ -77,8 +77,8 @@ public class InitSupporter : NetworkBehaviour
     }
 
 
-    public void Rpc_StartGravityProjectileInit(int damage, Vector3 position, float speedX, PlayerRef target, float delayThrowTime, int piercingCount, float size = 3f, float gravityScale = 1f)
+    public void Rpc_StartGravityProjectileInit(int damage, Vector3 position, float baseSpeed, float maxSpeed, PlayerRef target, float delayThrowTime, int piercingCount, float size = 3f, float gravityScale = 1f)
     {
-        PoolManager.Instance.Get<GravityProjectile>().Rpc_Init(damage, position, speedX, target, delayThrowTime, piercingCount, size, gravityScale);
+        PoolManager.Instance.Get<GravityProjectile>().Rpc_Init(damage, position, baseSpeed, maxSpeed, target, delayThrowTime, piercingCount, size, gravityScale);
     }
 }

@@ -4,10 +4,19 @@ using UnityEngine;
 public class PlayerCheckGround : MonoBehaviour
 {
     [field: SerializeField]
+    public Player Player { get; private set; }
     public bool CanJump { get; private set; }   //플레이어가 점프가 가능한 상태인지 반환해주는 변수
     public int GroundPlaneCount { get; private set; } = 0;
     public int GroundPlatformCount { get; private set; } = 0;
     public Action playerTriggerOff;     //플레이어의 isTrigger을 off해주는 로직
+
+    LayerMask mask;
+
+    public void Init(Player player)
+    {
+        Player = player;
+        mask = LayerData.GroundPlaneLayerMask | LayerData.GroundWallLayerMask;
+    }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -24,6 +33,22 @@ public class PlayerCheckGround : MonoBehaviour
             CheckAllGroundCanJumpEnter();
             GroundPlaneCount++;
             return;
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if ((1 << collision.gameObject.layer | mask) == mask)
+        {
+            Player.PlayerGroundCollider.isTrigger = false;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if ((1 << collision.gameObject.layer | mask) == mask)
+        {
+            Player.PlayerGroundCollider.isTrigger = false;
         }
     }
 
@@ -49,7 +74,9 @@ public class PlayerCheckGround : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
         {
-            playerTriggerOff?.Invoke();
+            GroundPlaneCount++;
+            CanJump = true;
+            Player.PlayerGroundCollider.isTrigger = false;
             return;
         }
     }

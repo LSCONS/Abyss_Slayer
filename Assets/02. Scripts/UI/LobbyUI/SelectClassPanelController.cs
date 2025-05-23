@@ -16,23 +16,23 @@ public class SelectClassPanelController : UIPopup
     private ClassSlotController controller;
 
     private CharacterClass selectedCharacterClass;
-    public override void Init()
+
+    private void Awake()
     {
-        base.Init();
         controller = GetComponentInChildren<ClassSlotController>();
-        if(!closeButton) closeButton = transform.GetGameObjectSameNameDFS("Close").GetComponent<Button>();
-        if (!selectButton) selectButton = transform.GetGameObjectSameNameDFS("Select").GetComponent<Button>();
-
-
-        if(controller.Slots.Count == 0) controller.CreateClassSlots();  // 클래스 슬롯 생성
-        gameObject.SetActive(false);
+        if (closeButton == null) closeButton = transform.GetGameObjectSameNameDFS("Close").GetComponent<Button>();
+        if (selectButton == null) selectButton = transform.GetGameObjectSameNameDFS("Select").GetComponent<Button>();
+        closeButton.onClick.AddListener(OnClose);
+        selectButton.onClick.AddListener(OnSelect);
+        if (controller.Slots.Count == 0) controller.CreateClassSlots();  // 클래스 슬롯 생성
     }
 
     public override void Open(params object[] args)
     {
+#if AllMethodDebug
+        Debug.Log("Open");
+#endif
         base.Open();
-        closeButton.onClick.AddListener(OnClose);
-        selectButton.onClick.AddListener(OnSelect);
 
         // class slot에서 발생한 이벤트를 구독하기
         foreach (var slot in controller.Slots)
@@ -50,6 +50,9 @@ public class SelectClassPanelController : UIPopup
 
     private void OnClassSelected(CharacterClass cc)
     {
+#if AllMethodDebug
+        Debug.Log("OnClassSelected");
+#endif
         selectedCharacterClass = cc;
         // 설명 갱신
         descText.text = cc.GetDescription();
@@ -63,13 +66,20 @@ public class SelectClassPanelController : UIPopup
 
     private void OnSelect()
     {
+#if AllMethodDebug
+        Debug.Log("OnSelect");
+#endif
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         PlayerManager.Instance.SetSelectedClass(selectedCharacterClass);
         OnClose();
     }
 
     public override void OnClose()
     {
+#if AllMethodDebug
         Debug.Log("OnClose");
+#endif
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         disposables.Clear();
         base.OnClose();
 

@@ -16,14 +16,20 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 
     [SerializeField] private TextMeshProUGUI skillUpgradeText;
 
+    [field: SerializeField] public Button BtnUpgrade;
+    [field: SerializeField] public Button BtnDowngrade;
 
     RectTransform slotRect;
     private UISkillTooltip tooltip;
 
-    private void Start()
+    public void Init()
     {
+# if AllMethodDebug
+        Debug.Log("Init");
+#endif
         tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
         slotRect = GetComponent<RectTransform>();
+        BtnDowngrade.interactable = false;
     }
     private void OnDisable()
     {
@@ -34,23 +40,31 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
         }
     }
 
-
     private IPresenter presenter;
 
     private Skill skillData;
 
     public void SetIcon(Sprite icon)
     {
+# if AllMethodDebug
+        Debug.Log("SetIcon");
+#endif
         iconImage.sprite = icon;
     }
 
     public void SetName(Skill skillData)
     {
+# if AllMethodDebug
+        Debug.Log("SetName");
+#endif
         skillName.text = skillData.SkillName;
     }
 
     public void SetCoolTime(float curCoolTime, float maxCoolTime)
     {
+# if AllMethodDebug && Update
+        Debug.Log("SetCoolTime");
+#endif
         coolTimeOverlay.fillAmount = curCoolTime / maxCoolTime;
         if(curCoolTime == 0) coolTimeText.text = "";
         else coolTimeText.text = (curCoolTime).ToString("F1");
@@ -58,21 +72,33 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 
     public void SetPresenter(IPresenter presenter)
     {
+# if AllMethodDebug
+        Debug.Log("SetPresenter");
+#endif
         this.presenter = presenter;
     }
 
     public void SetSkillData(Skill skillData)
     {
+# if AllMethodDebug
+        Debug.Log("SetSkillData");
+#endif
         this.skillData = skillData;
     }
 
     public void SetSkillLevel(int level)
     {
+# if AllMethodDebug
+        Debug.Log("SetSkillLevel");
+#endif
         skillLevelText.text = $"Lv.{level}";
     }
 
     public void SetSkillUpgradeText(Skill skill, int level)
     {
+# if AllMethodDebug
+        Debug.Log("SetSkillUpgradeText");
+#endif
         float percent = skill.Magnification * 100f * (level - 1);
         string typeText = skill.isDurationUp ? "s" : "dmg";
         skillUpgradeText.text = $"+{percent}% ({typeText})";
@@ -80,6 +106,9 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+# if AllMethodDebug
+        Debug.Log("OnPointerEnter");
+#endif
         tooltip.ShowTooltip(skillData, slotRect);
 
         // 마우스 위치를 기준으로 툴팁 설정
@@ -88,6 +117,9 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 
     public void OnPointerExit(PointerEventData eventData)
     {
+# if AllMethodDebug
+        Debug.Log("OnPointerExit");
+#endif
         var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
         tooltip.Close();
     }

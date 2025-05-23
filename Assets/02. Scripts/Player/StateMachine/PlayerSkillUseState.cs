@@ -28,8 +28,11 @@ public class PlayerSkillUseState : PlayerBaseState
     public override void Enter()
     {
         base.Enter();
-        if (SkillData.SkillCategory == SkillCategory.Dash) playerStateMachine.IsDash = true;
-
+        if (SkillData.SkillCategory == SkillCategory.Dash)
+        {
+            playerStateMachine.IsDash = true;
+            playerStateMachine.IsTriggerTrue();   
+        }
 
         animationNum = 0;
         playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, 0);
@@ -72,7 +75,12 @@ public class PlayerSkillUseState : PlayerBaseState
     public override void Exit()
     {
         base.Exit();
-        if (SkillData.SkillCategory == SkillCategory.Dash) playerStateMachine.IsDash = false;
+        if (SkillData.SkillCategory == SkillCategory.Dash)
+        {
+            playerStateMachine.IsDash = false;
+            playerStateMachine.Player.PlayerGroundCollider.isTrigger = false;
+        }
+            
         SkillExit(SkillData);
         if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {

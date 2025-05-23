@@ -36,18 +36,21 @@ public class UIStatStore : UIPopup
     private int AppliedDamageLevel { get; set; } = 0;
     private int TempDamageLevel { get; set; } = 0;
     private int RemainingPoint { get; set; } = 0;
-    private int OriginalStatPoint { get; set; } = 0;    // 원본 저장
+    private int OriginalPoint { get; set; } = 0;    // 원본 저장
 
     private int BaseMaxHp { get; set; } = 0;
     private float BaseDamage { get; set; } = 0;
 
     public override async void Init()
     {
+# if AllMethodDebug
+        Debug.Log("Init");
+#endif
         base.Init();
         Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
 
-        OriginalStatPoint = player.StatPoint.Value;       // 저장
-        RemainingPoint = OriginalStatPoint;
+        OriginalPoint = player.StatPoint.Value;       // 저장
+        RemainingPoint = OriginalPoint;
 
         BaseMaxHp = player.BaseMaxHp;
         BaseDamage = player.BaseDamage;
@@ -65,15 +68,30 @@ public class UIStatStore : UIPopup
         OnConnectButton();
         // 업데이트 UI
         UpdateUI();
+        applyButton.interactable = false;
+        SetAllDowngradeBtn(false);
+        if (RemainingPoint > 0) SetAllUpgradeBtn(true);
     }
     
     public override void OnDisable()
     {
+# if AllMethodDebug
+        Debug.Log("OnDisable");
+#endif
         base.OnDisable();
+    }
+
+    public override void OnOpen()
+    {
+        base.OnOpen();
+        if (ServerManager.Instance.ThisPlayer.StatPoint.Value > 0) SetAllUpgradeBtn(true);
     }
 
     public override void Close()
     {
+# if AllMethodDebug
+        Debug.Log("Close");
+#endif
         base.Close();
         ResetUnappliedChange();
 
@@ -81,6 +99,9 @@ public class UIStatStore : UIPopup
 
     private void OnConnectButton()
     {
+# if AllMethodDebug
+        Debug.Log("OnConnectButton");
+#endif
         hpUpgradeButton.onClick.AddListener(OnHpUpgrade);
         hpDowngradeButton.onClick.AddListener(OnHpDowngrade);
         damageUpgradeButton.onClick.AddListener(OnDamageUpgrade);
@@ -89,6 +110,9 @@ public class UIStatStore : UIPopup
     }
     private void OffConnectButton()
     {
+# if AllMethodDebug
+        Debug.Log("OffConnectButton");
+#endif
         hpUpgradeButton.onClick.RemoveListener(OnHpUpgrade);
         hpDowngradeButton.onClick.RemoveListener(OnHpDowngrade);
         damageUpgradeButton.onClick.RemoveListener(OnDamageUpgrade);
@@ -98,6 +122,9 @@ public class UIStatStore : UIPopup
 
     private void UpdateUI()
     {
+# if AllMethodDebug
+        Debug.Log("UpdateUI");
+#endif
         var player = ServerManager.Instance.ThisPlayer;
 
         hpLevelText.text = $"lv.{TempHpLevel}";
@@ -123,52 +150,84 @@ public class UIStatStore : UIPopup
 
     void OnHpUpgrade()
     {
+# if AllMethodDebug
+        Debug.Log("OnHpUpgrade");
+#endif
         if (RemainingPoint > 0)
         {
+            SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
             TempHpLevel++;
             RemainingPoint--;
             UpdateUI();
+            applyButton.interactable = true;
+            hpDowngradeButton.interactable = true;
+            if (RemainingPoint == 0) SetAllUpgradeBtn(false);
         }
     }
 
     void OnHpDowngrade()
     {
+# if AllMethodDebug
+        Debug.Log("OnHpDowngrade");
+#endif
         if (TempHpLevel > AppliedHpLevel)
         {
+            SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
             TempHpLevel--;
             RemainingPoint++;
             UpdateUI();
+            if(TempHpLevel == AppliedHpLevel)hpDowngradeButton.interactable = false;
+            if (RemainingPoint == OriginalPoint) applyButton.interactable = false;
+            SetAllUpgradeBtn(true);
         }
     }
 
     void OnDamageUpgrade()
     {
+# if AllMethodDebug
+        Debug.Log("OnDamageUpgrade");
+#endif
         if (RemainingPoint > 0)
         {
+            SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
             TempDamageLevel++;
             RemainingPoint--;
             UpdateUI();
+            applyButton.interactable = true;
+            damageDowngradeButton.interactable = true;
+            if (RemainingPoint == 0) SetAllUpgradeBtn(false);
         }
     }
 
     void OnDamageDowngrade()
     {
+# if AllMethodDebug
+        Debug.Log("OnDamageDowngrade");
+#endif
         if (TempDamageLevel > AppliedDamageLevel)
         {
+            SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
             TempDamageLevel--;
             RemainingPoint++;
             UpdateUI();
+            if(TempDamageLevel == AppliedDamageLevel)damageDowngradeButton.interactable = false;
+            if(RemainingPoint == OriginalPoint)applyButton.interactable = false;
+            SetAllUpgradeBtn(true);
         }
     }
 
     private void ApplyStatsToPlayer()
     {
+# if AllMethodDebug
+        Debug.Log("ApplyStatsToPlayer");
+#endif
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         var player = ServerManager.Instance.ThisPlayer;
 
         player.ApplyStatUpgrade(TempHpLevel, TempDamageLevel, Amount);
 
         // 스텟 포인트 반영
-        OriginalStatPoint = RemainingPoint;
+        OriginalPoint = RemainingPoint;
         AppliedHpLevel = TempHpLevel;
         AppliedDamageLevel = TempDamageLevel;
         player.StatPoint.Value = RemainingPoint;
@@ -186,15 +245,42 @@ public class UIStatStore : UIPopup
         }
 
         UpdateUI();
+        applyButton.interactable = false;
+        SetAllDowngradeBtn(false);
+        if (RemainingPoint > 0) SetAllUpgradeBtn(true);
     }
 
     private void ResetUnappliedChange()
     {
-        RemainingPoint = OriginalStatPoint;
+# if AllMethodDebug
+        Debug.Log("ResetUnappliedChange");
+#endif
+        RemainingPoint = OriginalPoint;
 
         TempHpLevel = AppliedHpLevel;
         TempDamageLevel = AppliedDamageLevel;
         UpdateUI();
+        applyButton.interactable = false;
+        SetAllDowngradeBtn(false);
+        if(RemainingPoint > 0)SetAllUpgradeBtn(true);
     }
 
+
+    private void SetAllUpgradeBtn(bool isInteraction)
+    {
+# if AllMethodDebug
+        Debug.Log("SetAllUpgradeBtn");
+#endif
+        damageUpgradeButton.interactable = isInteraction;
+        hpUpgradeButton.interactable = isInteraction;
+    }
+
+    private void SetAllDowngradeBtn(bool isInteraction)
+    {
+# if AllMethodDebug
+        Debug.Log("SetAllDowngradeBtn");
+#endif
+        damageDowngradeButton.interactable = isInteraction;
+        hpDowngradeButton.interactable = isInteraction;
+    }
 }

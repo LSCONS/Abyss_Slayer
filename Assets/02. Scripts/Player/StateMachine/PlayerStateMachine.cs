@@ -145,7 +145,7 @@ public class PlayerStateMachine : StateMachine
     private bool IsTrigger() => Player.PlayerGroundCollider.isTrigger;
 
     /// <summary>isTrigger을 true로 변경</summary>
-    private void IsTriggerTrue() => Player.PlayerGroundCollider.isTrigger = true;
+    public void IsTriggerTrue() => Player.PlayerGroundCollider.isTrigger = true;
 
     /// <summary>velocity.y의 값이 0에 가까운지 확인</summary>
     private bool IsZeroVelocityY() => Mathf.Approximately(Player.playerRigidbody.velocity.y, 0);
