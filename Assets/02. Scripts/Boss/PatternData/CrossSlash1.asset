@@ -28,10 +28,11 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
   <EAudioClip>k__BackingField: 2303000087030000
   damage: 60
-  jumpHight: 4
+  addJumpHight: 2
   preDelayTime: 1
   attackDelayTime: 0.5
   postDelayTime: 0.5
-  jumpSpeed: 1
+  jumpDistanceX: 4
+  jumpSpeed: 2
   attackSpeed: 1
   scale: {x: 9, y: 6}
