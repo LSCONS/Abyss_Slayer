@@ -27,10 +27,12 @@ MonoBehaviour:
   globalAttackableAreas: []
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
   <EAudioClip>k__BackingField: 8803000022030000
-  damage: 1
+  damage: 40
   attackAngles:
   - 0
   - 10
+  - -10
+  - 20
   - -10
   attackIntervalTime: 0.1
   attackSpeed: 1
