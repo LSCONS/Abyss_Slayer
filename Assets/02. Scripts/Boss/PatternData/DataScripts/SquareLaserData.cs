@@ -19,8 +19,8 @@ public class SquareLaserData : BasePatternData
         boss.IsLeft = target.position.x - bossTransform.position.x < 0f;
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.SpawnParameterHash);
 
-        if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+        //if (EAudioClip != null && EAudioClip.Count > 0)
+        //    SoundManager.Instance.PlaySFX(EAudioClip[0]);
 
         yield return new WaitForSeconds(0.3f);
 
