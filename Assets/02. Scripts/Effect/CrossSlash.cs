@@ -7,7 +7,7 @@ public class CrossSlash : BasePoolable
 {
     [SerializeField] Animator _animator;
     [SerializeField] List<Collider2D> colliders;
-    
+    [SerializeField] EAudioClip sound;
     int _damage;
     List<Player> _hitPlayers = new List<Player>();
 
@@ -55,5 +55,9 @@ public class CrossSlash : BasePoolable
             _hitPlayers.Add(player);
             player.Damage(_damage);
         }
+    }
+    public void Sound()
+    {
+        SoundManager.Instance.PlaySFX(sound);
     }
 }

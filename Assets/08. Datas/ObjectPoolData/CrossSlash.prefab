@@ -109,6 +109,7 @@ MonoBehaviour:
   - {fileID: 4971218286264508626}
   - {fileID: 7571283678495250803}
   - {fileID: 592995034653422194}
+  sound: 803
 --- !u!95 &3776839883577916544
 Animator:
   serializedVersion: 5
@@ -137,7 +138,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8980000250711888608}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:

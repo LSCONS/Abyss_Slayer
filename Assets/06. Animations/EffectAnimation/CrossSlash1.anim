@@ -139,28 +139,42 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.125
+  - time: 0.041666668
+    functionName: Sound
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.083333336
     functionName: Damage
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.25
+  - time: 0.125
     functionName: DamageEnd
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5833333
+  - time: 0.5
+    functionName: Sound
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.5416667
     functionName: Damage
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 1
     messageOptions: 0
-  - time: 0.7083333
+  - time: 0.5833333
     functionName: DamageEnd
     data: 
     objectReferenceParameter: {fileID: 0}

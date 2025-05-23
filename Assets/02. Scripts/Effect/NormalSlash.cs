@@ -9,6 +9,7 @@ public class NormalSlash : BasePoolable
     int _damage;
     List<Player> players = new List<Player>();
     [SerializeField] Animator animator;
+    [SerializeField] EAudioClip sound;
     public override void Rpc_Init()
     {
     }
@@ -44,5 +45,9 @@ public class NormalSlash : BasePoolable
         {
             players.Remove(player);
         }
+    }
+    public void Sound()
+    {
+        SoundManager.Instance.PlaySFX(sound);
     }
 }
