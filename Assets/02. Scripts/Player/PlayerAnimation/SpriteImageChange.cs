@@ -21,7 +21,6 @@ public class SpriteImageChange : MonoBehaviour
     [field: SerializeField] public Image Face { get; set; }
     [field: SerializeField] public Image Skin { get; set; }
     [field: SerializeField] public Image WeaponBottom { get; set; }
-    [field: SerializeField] public SpriteData SpriteData { get; set; }
     private int SelectedClass = -1;
     public Dictionary<Image, Dictionary<AnimationState, Sprite[]>> DictAnimationState { get; set; } = new();
     private int animationNum = 0;

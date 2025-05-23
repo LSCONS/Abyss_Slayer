@@ -36,13 +36,14 @@ public class BattleState : BaseGameState
 
     public override async Task OnExit()
     {
+        NetworkRunner runner = RunnerManager.Instance.GetRunner();
         UIManager.Instance.CloseUI(UISceneType.Boss);
         try
         {
+            if(runner.IsServer) PoolManager.Instance.ReturnPoolAllObject();
             PoolManager.Instance.CrossHairObject.gameObject.SetActive(false);
         }
         catch { }
-        NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
             ServerManager.Instance.ThisPlayerData.Rpc_DisconnectInput();
