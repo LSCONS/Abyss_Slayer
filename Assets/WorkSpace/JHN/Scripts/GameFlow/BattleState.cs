@@ -122,7 +122,7 @@ public class BattleState : BaseGameState
             AnalyticsManager.SendFunnelStep(GetFunnelStepClear());
         }
 
-        if (boss.IsDead)
+        if (!(GameValueManager.Instance.IsStageClear))
         {
             deadTimer += Time.deltaTime;
 

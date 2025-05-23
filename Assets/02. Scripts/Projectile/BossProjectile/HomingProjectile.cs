@@ -31,7 +31,7 @@ public class HomingProjectile : BasePoolable
     bool _inited = false;
     float _fireTime;
     bool _fired;
-
+    [SerializeField] EAudioClip sound;
     //Vector3 fireTarget = new Vector3(0,40,0);
 
     public override void FixedUpdateNetwork()
@@ -150,5 +150,9 @@ public class HomingProjectile : BasePoolable
         {
             hits[i].GetComponent<Player>().Damage(_damage);
         }
+    }
+    public void Sound()
+    {
+        SoundManager.Instance.PlaySFX(sound);
     }
 }

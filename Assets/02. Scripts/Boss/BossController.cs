@@ -457,7 +457,7 @@ public class BossController : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Dead");
 #endif
-        //yield return StartCoroutine(Landing(true));
+        yield return StartCoroutine(Landing(true));
         Time.timeScale = 0.2f;
         Boss.Rpc_SetTriggerAnimationHash(AnimationHash.DeadParameterHash);
         VirtualCamera.Priority = 20;
