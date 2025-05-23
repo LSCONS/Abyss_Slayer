@@ -40,9 +40,9 @@ public class InitSupporter : NetworkBehaviour
 
 
 
-    public void Rpc_StartHomingProjectileInit(int damage, Vector3 position, Quaternion rotate, PlayerRef target, float speed, int HomingProjectileType, float delayFireTime = 0f, float homingPower = 10f, float homingTime = 3f, float explosionSize = 0.5f, int homingCurve = 0, int speedCurve = 0)
+    public void Rpc_StartHomingProjectileInit(int damage, Vector3 position, Quaternion rotate, PlayerRef target, float speed, int HomingProjectileType, float delayFireTime = 0f, float homingPower = 10f, float explosionSize = 0.5f, int homingCurve = 0, int speedCurve = 0)
     {
-        PoolManager.Instance.Get<HomingProjectile>().Rpc_Init(damage, position, rotate, target, speed, HomingProjectileType, delayFireTime, homingPower, homingTime, explosionSize, homingCurve, speedCurve);
+        PoolManager.Instance.Get<HomingProjectile>().Rpc_Init(damage, position, rotate, target, speed, HomingProjectileType, delayFireTime, homingPower, explosionSize, homingCurve, speedCurve);
     }
 
 

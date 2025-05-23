@@ -384,7 +384,7 @@ public class BossController : NetworkBehaviour
                 if (isfall)
                 {
                     PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
-                    float posY = scene2D.Raycast(transform.position, Vector3.down, 20, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask).point.y;
+                    float posY = scene2D.Raycast(transform.position, Vector3.down, 20, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask).point.y + BossCenterHight;
                     transform.position = new Vector3(transform.position.x, posY);
                     isfall = false;
                 }
