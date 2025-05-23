@@ -7,7 +7,7 @@ using Fusion;
 using TMPro;
 public class EndingState : BaseGameState
 {
-    public override UIType StateUIType => UIType.NonGamePlay;
+    public override UIType StateUIType => UIType.GamePlay;
     public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
     public override ESceneName SceneName => ESceneName.EndingScene;
 
@@ -38,7 +38,6 @@ public class EndingState : BaseGameState
 #endif
         LoadingState state = GameFlowManager.Instance.prevLodingState;
 
-        await UIManager.Instance.Init();
         state?.SetLoadingBarValue(0.3f);
 
 #if MoveSceneDebug
@@ -56,7 +55,7 @@ public class EndingState : BaseGameState
         }
         state?.SetLoadingBarValue(1);
         await state?.TaskProgressBar;
-
+        await UIManager.Instance.Init();
 
         SoundManager.Instance.PlayBGM(EAudioClip.BGM_EndingScene);
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
@@ -68,6 +67,7 @@ public class EndingState : BaseGameState
 #endif
             await runner.UnloadScene("LoadingScene");
         }
+
         GameFlowManager.Instance.endCredit.StartScrollCredit();
     }
 
