@@ -51,6 +51,12 @@ public class UIPopup : UIBase
         popTween?.Kill();
 
         base.Open(args);
+        if (desc != null && !string.IsNullOrWhiteSpace(descriptionText))
+        {
+            desc.text = descriptionText;
+        }
+
+
         transform.SetAsLastSibling();   // 제일 위로 올려줌
 
 
@@ -109,7 +115,7 @@ public class UIPopup : UIBase
         UIManager.Instance.CloseCurrentPopup(this);
     }
 
-    private void SetDesc(string text)
+    public void SetDesc(string text)
     {
         descriptionText = text;
     }
