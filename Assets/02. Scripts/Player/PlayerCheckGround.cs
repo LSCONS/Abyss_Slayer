@@ -74,7 +74,9 @@ public class PlayerCheckGround : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
         {
-            playerTriggerOff?.Invoke();
+            GroundPlaneCount++;
+            CanJump = true;
+            Player.PlayerGroundCollider.isTrigger = false;
             return;
         }
     }
