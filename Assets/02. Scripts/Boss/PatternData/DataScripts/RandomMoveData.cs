@@ -20,10 +20,12 @@ public class RandomMoveData : BasePatternData
         }
         if (!isdone)
         {
-            bossController.StopCoroutine(pattern);
+            bossController.StopAllCoroutines();
+            bossController.IsRun = false;
             bossAnimator.SetTrigger("Idle");
             yield return new WaitForSeconds(0.05f);
             bossAnimator.ResetTrigger("Idle");
+            bossController.StartCoroutine(bossController.PatternLoop());
         }
     }
     IEnumerator Pattern()

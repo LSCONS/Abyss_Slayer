@@ -131,7 +131,7 @@ public class BossController : NetworkBehaviour
     /// 보스패턴 지속적 호출 코루틴
     /// </summary>
     /// <returns></returns>
-    IEnumerator PatternLoop()
+    public IEnumerator PatternLoop()
     {
 #if AllMethodDebug
         Debug.Log("PatternLoop");
