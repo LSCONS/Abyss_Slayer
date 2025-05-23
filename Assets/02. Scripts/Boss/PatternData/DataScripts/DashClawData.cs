@@ -7,6 +7,8 @@ public class DashClawData : BasePatternData
     
     [SerializeField] int damage;
     [SerializeField] float distance = 15f;
+    [Range(0f, 1f)]
+    [SerializeField] float attackStartDistanceRate;
     [SerializeField] float preDelayTime = 1f;
     [SerializeField] float attackDuration = 1f;
     [SerializeField] int comboAttackCount = 3;
@@ -14,12 +16,19 @@ public class DashClawData : BasePatternData
     [SerializeField] float postDelayTime = 2f;
     public override IEnumerator ExecutePattern()
     {
-        boss.Rpc_SetTriggerAnimationHash(AnimationHash.Dash1ParameterHash);
-
         bossController.ShowTargetCrosshair = true;
-
         bool isLeft = target.transform.position.x - bossTransform.position.x < 0;
         boss.IsLeft = isLeft;
+
+        bossController.StartCoroutine(bossController.RunMove(isLeft));
+
+        while (Mathf.Abs(target.position.x - bossTransform.position.x) > distance * attackStartDistanceRate)
+        {
+            yield return null;
+        }
+        bossController.IsRun = false;
+
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.Dash1ParameterHash);
         ServerManager.Instance.InitSupporter.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, preDelayTime, attackDuration);
         bossController.ChasingTarget = false;
 
