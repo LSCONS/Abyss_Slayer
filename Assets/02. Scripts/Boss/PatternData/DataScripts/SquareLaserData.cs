@@ -27,8 +27,8 @@ public class SquareLaserData : BasePatternData
         Vector3 targetPos;
         for (int i = 0; i < projectileCount; i++)
         {
-            if (EAudioClip != null && EAudioClip.Count > 1)
-                SoundManager.Instance.PlaySFX(EAudioClip[1]);
+            //if (EAudioClip != null && EAudioClip.Count > 1)
+            //    SoundManager.Instance.PlaySFX(EAudioClip[1]);
 
             targetPos = new Vector3(target.position.x + (projectileGap / 2) * (-projectileCount + 1 + (i * 2)) * (boss.IsLeft ? -1f : 1f), 0);
             PoolManager.Instance.Get<SquareLaserPorjectile>().Rpc_Init(damage, damageIntervalTime, bossTransform.position, targetPos, delayFireTime, 0.1f + i * intervalFireTime, effectSpeed);

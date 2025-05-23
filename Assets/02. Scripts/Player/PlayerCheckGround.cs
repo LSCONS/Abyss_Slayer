@@ -42,13 +42,19 @@ public class PlayerCheckGround : MonoBehaviour
         {
             Player.PlayerGroundCollider.isTrigger = false;
         }
-    }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if ((1 << collision.gameObject.layer | mask) == mask)
+        if (collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
         {
-            Player.PlayerGroundCollider.isTrigger = false;
+            GroundPlatformCount = 0;
+            GroundPlaneCount = 1;
+            CanJump = true;
+        }
+
+        if (collision.gameObject.layer == LayerData.GroundPlatformLayerIndex)
+        {
+            GroundPlatformCount = 1;
+            GroundPlaneCount = 0;
+            CanJump = true;
         }
     }
 
@@ -70,6 +76,7 @@ public class PlayerCheckGround : MonoBehaviour
         }
     }
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
@@ -80,6 +87,16 @@ public class PlayerCheckGround : MonoBehaviour
             return;
         }
     }
+
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if ((1 << collision.gameObject.layer | mask) == mask)
+        {
+            Player.PlayerGroundCollider.isTrigger = false;
+        }
+    }
+
 
     private void OnTriggerExit2D(Collider2D collision)
     {

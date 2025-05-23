@@ -114,5 +114,6 @@ public enum EAudioClip
     SFX_Sword_260274,
     SFX_Woosh_230554,
     SFX_Woosh_255592,
+    SFX_Hit,
 
 }
