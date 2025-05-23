@@ -74,10 +74,10 @@ public static class SpriteSlicer
         result[AnimationState.AirAtk2Enter] = result[AnimationState.AirAtk2].AsSpan(0, 2).ToArray();
         result[AnimationState.AirAtk2Use] = result[AnimationState.AirAtk2].AsSpan(2, 2).ToArray();
 
-        result[AnimationState.Casting1Enter] = result[AnimationState.Casting1].AsSpan(0, 5).ToArray();
+        result[AnimationState.Casting1Enter] = result[AnimationState.Casting1].AsSpan(0, 2).ToArray();
         result[AnimationState.Casting1Use] = result[AnimationState.Casting1].AsSpan(2, 3).ToArray();
 
-        result[AnimationState.Casting2Enter] = result[AnimationState.Casting2].AsSpan(0, 5).ToArray();
+        result[AnimationState.Casting2Enter] = result[AnimationState.Casting2].AsSpan(0, 2).ToArray();
         result[AnimationState.Casting2Use] = result[AnimationState.Casting2].AsSpan(2, 3).ToArray();
         return result;
     }

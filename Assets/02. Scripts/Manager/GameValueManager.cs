@@ -22,14 +22,25 @@ public class GameValueManager : Singleton<GameValueManager>
     [field: SerializeField] public float OnDamagePlayerColorDuration { get; private set; } = 0.3f;
     [field: SerializeField] public float MinTypingSoundPitch { get; private set; } = 0.5f;
     [field: SerializeField] public float MaxTypingSoundPitch { get; private set; } = 1f;
+    public EGameLevel EGameLevel { get; private set; } = EGameLevel.None;
+
 
     public void NextStageIndex()
     {
         CurrentStageIndex++;
     }
 
+
     public void ResetStageIndex()
     {
         CurrentStageIndex = 0;
     }
+}
+
+public enum EGameLevel
+{
+    None = 0,
+    Easy,
+    Normal,
+    Hard,
 }
