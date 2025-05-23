@@ -13,6 +13,8 @@ public class GravityProjectile : BasePoolable
     float _gravity;
     int _damage;
     float _velocityX;
+    float _baseSpeed;
+    float _maxSpeed;
     
     Transform _target;
     float _throwTime;
@@ -35,7 +37,7 @@ public class GravityProjectile : BasePoolable
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_Init(int damage, Vector3 position, float speedX, PlayerRef target,float delayThorwTime,int piercingCount , float size = 3f, float gravityScale = 1f)
+    public void Rpc_Init(int damage, Vector3 position, float baseSpeed, float maxSpeed, PlayerRef target,float delayThorwTime,int piercingCount , float size = 3f, float gravityScale = 1f)
     {
         _collider.enabled = false;
         _rigidbody.bodyType = RigidbodyType2D.Kinematic;
@@ -45,7 +47,8 @@ public class GravityProjectile : BasePoolable
         _damage = damage;
         transform.position = new Vector3(Mathf.Clamp(position.x, -20 + size * 1.81f, 20 - size * 1.81f),position.y);
         transform.rotation = Quaternion.identity;
-        _velocityX = speedX;
+        _baseSpeed = baseSpeed;
+        _maxSpeed = maxSpeed;
         _target = ServerManager.Instance.DictRefToPlayer[target].transform;
         _throwTime = Time.time + delayThorwTime + 1.2f;
         transform.localScale = Vector3.one * size;
@@ -61,6 +64,7 @@ public class GravityProjectile : BasePoolable
 
     void Throw()
     {
+        _velocityX = Mathf.Min(Mathf.Abs(_target.position.x - transform.position.x) *_baseSpeed,_maxSpeed);
         _collider.enabled = true;
         _rigidbody.bodyType = RigidbodyType2D.Dynamic;
         Vector3 _targetPosition = _target.position;
@@ -71,10 +75,10 @@ public class GravityProjectile : BasePoolable
         _velocityX = _velocityX * Mathf.Sign(_targetPosition.x - transform.position.x); //시작지점 x축 속도
 
         Vector2 velocity = new Vector2(_velocityX, velocityY);                          //목표물의 x축 거리가 짧을때 y속도가 과도하게 높아지는 현상 방지
-        if (velocity.magnitude >= 40)
-        {
-            velocity = velocity.normalized * 40f;
-        }
+        //if (velocity.magnitude >= 40)
+        //{
+        //    velocity = velocity.normalized * 40f;
+        //}
 
 
         _rigidbody.velocity = velocity;
