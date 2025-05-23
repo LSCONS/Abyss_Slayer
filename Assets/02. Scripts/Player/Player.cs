@@ -46,7 +46,7 @@ public class Player : NetworkBehaviour, IHasHealth
     public NetworkData NetworkData { get; set; }
     public bool IsFlip
         => PlayerSpriteChange.WeaponBottom.flipX;
-    //public NetworkInputData PlayerInputData;
+    public bool Invincibility { get; set; } = false;
     [Networked] public PlayerRef PlayerRef { get; set; }
     [Networked] public int PlayerStateIndex { get; set; } = -1;
     [Networked] public bool IsFlipX { get; set; } = false;
@@ -331,7 +331,7 @@ public class Player : NetworkBehaviour, IHasHealth
     /// <param name="value">변환을 줄 값. +를 넣어야 체력이 깎임.</param>
     public void Damage(int value, float attackPosX = -1000)
     {
-        if (Hp.Value == 0) return;
+        if (Hp.Value == 0 || Invincibility) return;
         value = (int)(value * PlayerData.PlayerStatusData.PlayerOnDamageLevelMultiple);
         float reduceDamage = value * ArmorAmount;
         int finalDamage = (int)MathF.Ceiling(reduceDamage);

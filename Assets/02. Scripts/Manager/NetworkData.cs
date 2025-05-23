@@ -295,4 +295,14 @@ public class NetworkData : NetworkBehaviour
     {
         ServerManager.Instance.LobbySelectPanel.UpdateUI(level);
     }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_SetInvincibilityAllPlayer(bool isInvincibility)
+    {
+        foreach(Player player in ServerManager.Instance.DictRefToPlayer.Values)
+        {
+            player.Invincibility = isInvincibility;
+        }
+    }
 }
