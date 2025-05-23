@@ -442,6 +442,36 @@ public class UIManager : Singleton<UIManager>
     }
 
     /// <summary>
+    /// 팝업 이름으로 팝업을 열기
+    /// </summary>
+    /// <param name="popupName">UIMap에 등록된 팝업 이름</param>
+    public void OpenPopup(string popupName)
+    {
+        if (!UIMap.TryGetValue(popupName, out var popupGO)) return;
+
+        UIPopup popup = popupGO.GetComponentInChildren<UIPopup>(true);
+        if (popup == null) return;
+
+        OpenPopup(popup);
+    }
+
+    /// <summary>
+    /// 팝업 이름으로 팝업을 열고 설명 수정가능
+    /// </summary>
+    /// <param name="popupName">팝업 이름</param>
+    /// <param name="descriptionText">표시할 텍스트</param>
+    public void OpenPopup(string popupName, string descriptionText)
+    {
+        if (!UIMap.TryGetValue(popupName, out var popupGO)) return;
+
+        UIPopup popup = popupGO.GetComponentInChildren<UIPopup>(true);
+        if (popup == null) return;
+
+        popup.SetDesc(descriptionText); // 텍스트 설정
+        OpenPopup(popup); // 기존 로직 실행
+    }
+
+    /// <summary>
     /// 현재 팝업 닫기
     /// </summary>
     public void CloseCurrentPopup(UIPopup popup)
@@ -481,6 +511,22 @@ public class UIManager : Singleton<UIManager>
             }
         }
         return false;
+    }
+
+
+
+    /// <summary>
+    /// 팝업 이름으로 팝업 닫기
+    /// </summary>
+    /// <param name="popupName">UIMap에 등록된 팝업 이름</param>
+    public void ClosePopup(string popupName)
+    {
+        if (!UIMap.TryGetValue(popupName, out var popupGO)) return;
+
+        UIPopup popup = popupGO.GetComponentInChildren<UIPopup>(true);
+        if (popup == null) return;
+
+        CloseCurrentPopup(popup);
     }
 
 

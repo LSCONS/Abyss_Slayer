@@ -34,6 +34,7 @@ public class BossPattern
 public class BossController : NetworkBehaviour
 {
     [field: SerializeField] private BasePatternData     AppearPattern           { get; set; }
+    [field: SerializeField] private BasePatternData     Phase2Pattern           { get; set; }
     [field: SerializeField] private List<BossPattern>   AllPatterns             { get; set; }
     [field: SerializeField] public float                MapWidth                { get; set; }
     [field: SerializeField] public float                BossCenterHight         { get; private set; }
@@ -78,6 +79,9 @@ public class BossController : NetworkBehaviour
     [field: SerializeField] private float GravityMultiplier { get; set; }
     [field: SerializeField] private float runSpeed { get; set; }
 
+    // 페이즈 관련
+    private bool hasEnteredPhase2 = false;      // 2페 들갔나 확인
+
     public void Init()
     {
         for (int i = 0; i < AllPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
@@ -85,6 +89,7 @@ public class BossController : NetworkBehaviour
             AllPatterns[i].patternData.Init(this);
         }
         AppearPattern?.Init(this);
+        Phase2Pattern?.Init(this);
 
         if (Runner.IsServer || PoolManager.Instance.CrossHairObject == null)
         {
@@ -134,9 +139,25 @@ public class BossController : NetworkBehaviour
         while (true)
         {
             yield return StartCoroutine(Landing());
+
+            // 1. 2페이즈 진입 체크
+            if (!hasEnteredPhase2 && (float)Boss.Hp.Value / Boss.MaxHp.Value <= 0.5f)
+            {
+                hasEnteredPhase2 = true; // 절대 먼저 실행되도록
+
+                yield return StartCoroutine(PlayPhase2());
+                continue;
+            }
+
+            // 2. 일반 패턴 루프
             BossPattern next = GetRandomPattern();
             if (next != null)
             {
+                if (next.patternData.target != null)
+                    Target = next.patternData.target;
+                else if (Target == null)
+                    Target = GetClosestPlayerTransform();
+
                 Target = next.patternData.target;
                 yield return StartCoroutine(next.patternData.ExecutePattern());
                 if (next.samePatternDelayTime > 0)
@@ -148,6 +169,22 @@ public class BossController : NetworkBehaviour
                 yield return new WaitForSeconds(1f);
             }
         }
+    }
+
+    /// <summary>
+    /// 2페이즈 시작
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator PlayPhase2()
+    {
+        if (Phase2Pattern == null)
+        {
+            Debug.LogWarning("2페 데이터가 없습니다");
+            yield break;
+        }
+
+        Debug.Log("2페 들어가기");
+        yield return StartCoroutine(Phase2Pattern.ExecutePattern());
     }
 
     /// <summary>
@@ -218,7 +255,7 @@ public class BossController : NetworkBehaviour
             //패턴 조건 체크 결과 보스 체력이 더 적을경우 비활성화
             if (pattern.isCheckActiveFalse && ((float)Boss.Hp.Value /Boss.MaxHp.Value) < pattern.bossCheckHP) continue;
             //패턴 안에 실행 가능한 플레이어가 없을 경우 무시
-            if (!(pattern.patternData.IsAvailable())) continue;
+            if (!pattern.patternData.IgnoreAvailabilityCheck && !pattern.patternData.IsAvailable()) continue;
 
             patterns.Add(pattern);
         }
@@ -428,5 +465,23 @@ public class BossController : NetworkBehaviour
 
         yield return new WaitForSeconds(2f);
         VirtualCamera.Priority = 5;
+    }
+
+    private Transform GetClosestPlayerTransform()
+    {
+        Player closestPlayer = null;
+        float minDistance = float.MaxValue;
+
+        foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+        {
+            float dist = Vector2.Distance(transform.position, player.transform.position);
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                closestPlayer = player;
+            }
+        }
+
+        return closestPlayer?.transform;
     }
 }
