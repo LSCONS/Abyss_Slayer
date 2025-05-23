@@ -309,11 +309,11 @@ MonoBehaviour:
     bossCheckHP: 0.4
   - weight: 1
     patternData: {fileID: 11400000, guid: 710d5774c9caa6949815aa772eb2c753, type: 2}
-    samePatternDelayTime: 20
+    samePatternDelayTime: 60
     setActivePatternForTest: 1
     showGizmos: 1
-    isCheckActiveTrue: 0
-    isCheckActiveFalse: 1
+    isCheckActiveTrue: 1
+    isCheckActiveFalse: 0
     bossCheckHP: 0.5
   <MapWidth>k__BackingField: 40
   <BossCenterHight>k__BackingField: 2
