@@ -27,8 +27,8 @@ public class LaserBoxData : BasePatternData
 
         yield return new WaitForSeconds(preDelayTime);
 
-        if (EAudioClip != null && EAudioClip.Count > 1)
-            SoundManager.Instance.PlaySFX(EAudioClip[1]);
+        //if (EAudioClip != null && EAudioClip.Count > 1)
+        //    SoundManager.Instance.PlaySFX(EAudioClip[1]);
 
         for (int i = 0; i < firePositions.Count; ++i)
         {
