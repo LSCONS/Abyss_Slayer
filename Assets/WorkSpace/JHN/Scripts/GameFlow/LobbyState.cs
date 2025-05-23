@@ -25,6 +25,7 @@ public class LobbyState : BaseGameState
         else
             await ServerManager.Instance.InitClient();
 
+        ServerManager.Instance.LobbySelectPanel.JoinRoom();
 
 #if MoveSceneDebug
         Debug.Log("이미지 Sprite 불러오기");
