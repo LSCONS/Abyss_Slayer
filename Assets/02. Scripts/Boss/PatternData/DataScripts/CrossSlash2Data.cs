@@ -29,6 +29,11 @@ public class CrossSlash2Data : BasePatternData
 
         while((Mathf.Abs(target.position.x - bossTransform.position.x) > (scale.x * attackDistanceRate) + 2f))
         {
+            if(bossTransform.position.x <= (-bossController.MapWidth / 2f + 0.8f) || bossTransform.position.x >= bossController.MapWidth / 2 - 0.8f)
+            {
+                bossController.IsRun = false;
+                yield break;
+            }
             yield return null;
         }
         bossController.ShowTargetCrosshair = false;
