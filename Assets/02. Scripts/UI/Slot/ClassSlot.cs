@@ -28,7 +28,11 @@ public class ClassSlot : MonoBehaviour
 
         // 버튼 클릭하면 characterClass 값 전달
         button.OnClickAsObservable()
-              .Subscribe(_ => onClickSubject.OnNext(characterClass))
+              .Subscribe(_ => 
+              {
+                  SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+                  onClickSubject.OnNext(characterClass);
+              })
               .AddTo(this);
     }
 }

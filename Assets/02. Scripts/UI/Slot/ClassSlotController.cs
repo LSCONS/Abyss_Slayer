@@ -31,6 +31,5 @@ public class ClassSlotController : MonoBehaviour
             slot.SetData(cc);
             slots.Add(slot);    //리스트에 저장
         }
-
     }
 }

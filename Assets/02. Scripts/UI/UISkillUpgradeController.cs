@@ -98,36 +98,41 @@ public class UISkillUpgradeController : UIPopup
         var upgradeButton = buttons[0];     // 첫번째 버튼이 업그레이드
         var downgradeButton = buttons[1];   // 두번째 버튼이 다운그레이드임
 
+        if(SkillPoint == 0)
+        {
+            upgradeButton.interactable = false;
+            downgradeButton.interactable = false;
+        }
+
         // 업그레이드 버튼 누르면 템프 레벨 올리고 스포 내리고
         upgradeButton.onClick.AddListener(() =>
         {
             var data = upgradeData[skill];
             if (SkillPoint > 0)
             {
+                SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
                 data.TempLevel++;                                       // 임시 레벨 올림
                 SkillPoint--;                                           // 스킬 포인트 낮춤
                 slot.SetSkillLevel(data.TempLevel);                     // 슬롯의 레벨 텍스트 수정
                 slot.SetSkillUpgradeText(skill, data.TempLevel);        // 슬롯의 증가량 텍스트 업데이트
-
                 UpdateSkillPointText();                                 // 상점의 스킬 포인트 수정
-            }                                            
+            }
         });                                              
                                                          
         downgradeButton.onClick.AddListener(() =>        
         {                                                
             var data = upgradeData[skill];               
                                                          
-            if (data.TempLevel > skill.Level.Value)      
-            {                                            
+            if (data.TempLevel > skill.Level.Value)
+            {
+                SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
                 data.TempLevel--;                                       // 임시 레벨 올림
                 SkillPoint++;                                           // 스킬 포인트 낮춤
                 slot.SetSkillLevel(data.TempLevel);                     // 슬롯의 레벨 텍스트 수정
                 slot.SetSkillUpgradeText(skill, data.TempLevel);        // 슬롯의 증가량 텍스트 업데이트
-
                 UpdateSkillPointText();                                 // 상점의 스킬 포인트 수정
             }
         });
-
         upgradeSlots.Add(skill, slot);
     }
 
@@ -138,6 +143,7 @@ public class UISkillUpgradeController : UIPopup
 
     private async void ApplyUpgrade()
     {
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
         foreach ( var upData in upgradeData )
         {

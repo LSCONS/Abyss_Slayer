@@ -43,6 +43,7 @@ public class UILobbySelectPanel : UIPermanent
     /// <param name="direction"></param>
     private void ChangeLevel(int direction)
     {
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         int total = System.Enum.GetValues(typeof(Level)).Length;
         int newIndex = ((int)currentLevel + direction + total) % total;
         currentLevel = (Level)newIndex;
@@ -59,6 +60,7 @@ public class UILobbySelectPanel : UIPermanent
 #if AllMethodDebug
         Debug.Log("StartGame");
 #endif
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         if (RunnerManager.Instance.GetRunner().IsServer)
         {
             ServerManager.Instance.InstantiatePlayer();
@@ -91,6 +93,7 @@ public class UILobbySelectPanel : UIPermanent
     /// </summary>
     private void ReadyGame()
     {
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         ServerManager.Instance.ThisPlayerData.Rpc_ClickReadyBtn();
     }
 
