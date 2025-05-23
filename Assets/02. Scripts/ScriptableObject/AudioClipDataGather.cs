@@ -99,4 +99,20 @@ public enum EAudioClip
     SFX_Sleep1,
     SFX_SpeedUp2,
 
+    SFX_Deep_Whosh = 1100,
+    SFX_Draw_Sword1,
+    SFX_Explosion,
+    SFX_Gameover2,
+    SFX_Horror_Warning,
+    SFX_Impact_Sound,
+    SFX_Metal_Beaten,
+    SFX_Retro_You_Lose,
+    SFX_Boss_Attack1_14,
+    SFX_Boss_Attack2_15,
+    SFX_Skip_38509,
+    SFX_Spill_Swish,
+    SFX_Sword_260274,
+    SFX_Woosh_230554,
+    SFX_Woosh_255592,
+
 }
