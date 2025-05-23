@@ -7,6 +7,8 @@ public class CrossSlash1Data : BasePatternData
     [SerializeField] int damage;
     [SerializeField] float jumpHight;
     [SerializeField] float preDelayTime;
+    [SerializeField] float speed;
+    [SerializeField] Vector2 scale;
     public override IEnumerator ExecutePattern()
     {
         PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
@@ -49,7 +51,7 @@ public class CrossSlash1Data : BasePatternData
         if(time > 1f) yield break;
 
         boss.Rpc_ResetTriggerAnimationHash(AnimationHash.FallParameterHash);
-        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, AnimationHash.CrossSlash1ParameterHash);    
+        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, AnimationHash.CrossSlash1ParameterHash,speed,scale.x,scale.y);    
         yield return new WaitForSeconds(0.1f);
 
         bossController.Sprite.enabled = false;

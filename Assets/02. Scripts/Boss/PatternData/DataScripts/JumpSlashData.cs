@@ -43,11 +43,12 @@ public class JumpSlashData : BasePatternData
         }
         bossController.IsRun = false;
         targetY = scene2D.Raycast(target.position, Vector3.down, 20, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask).point.y;
-        if (targetY < bossTransform.position.y)
+        if (targetY < bossTransform.position.y && bossController.IsLand())
         {
             normalSlashData.Init(bossController);
             normalSlashData.target = target;
-            yield return bossController.StartCoroutine(normalSlashData.ExecutePattern());
+            bossController.ShowTargetCrosshair = false;
+            yield return bossController.StartCoroutine(normalSlashData.ExecutePattern());            
             yield break;
         }
         float targetX = target.position.x + (boss.IsLeft ? 1 : -1);
@@ -72,6 +73,7 @@ public class JumpSlashData : BasePatternData
             bossController.StartCoroutine(AttackEffect());
             yield return new WaitForSeconds(attackIntervalTime);
         }
+        bossController.ShowTargetCrosshair = true;
         bossAnimator.SetBool(AnimationHash.AttackJumpParameterHash, false);
         yield return new WaitForSeconds(0.7f * 1 / attackSpeed + 0.1f);
         yield return bossController.StartCoroutine(bossController.Landing());

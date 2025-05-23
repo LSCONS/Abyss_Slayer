@@ -7,8 +7,11 @@ public class CrossSlash2Data : BasePatternData
 {
     [SerializeField] int damage;
     [SerializeField] float speed = 1;
+    [SerializeField] Vector2 scale;
     [SerializeField] float attackDistance;
     [SerializeField] float preDelayTime;
+    [SerializeField] float attackdelayTime;
+    [SerializeField] float postDelayTime;
     public override IEnumerator ExecutePattern()
     {
         PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
@@ -22,7 +25,7 @@ public class CrossSlash2Data : BasePatternData
         if (EAudioClip != null && EAudioClip.Count > 0)
             SoundManager.Instance.PlaySFX(EAudioClip[0]);
 
-        while((Mathf.Abs(target.position.x - bossTransform.position.x) > attackDistance))
+        while((Mathf.Abs(target.position.x - bossTransform.position.x) > scale.x + 2))
         {
             yield return null;
         }
@@ -31,14 +34,14 @@ public class CrossSlash2Data : BasePatternData
         yield return new WaitForSeconds(0.1f * speed);
 
         bossController.IsRun = false;
-        yield return new WaitForSeconds(0.05f * speed);
+        yield return new WaitForSeconds(attackdelayTime);
 
         if (EAudioClip != null && EAudioClip.Count > 1)
             SoundManager.Instance.PlaySFX(EAudioClip[1]);
-        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, AnimationHash.CrossSlash2ParameterHash, speed);;
+        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + 7 * (isleft ? Vector3.left : Vector3.right), isleft, damage, AnimationHash.CrossSlash2ParameterHash, speed, scale.x, scale.y);
         yield return new WaitForSeconds((1/ 6) * speed);
 
-        float x = Mathf.Clamp(bossTransform.position.x + (isleft ? -14 : 14), -mapWidth / 2 + 0.7f, mapWidth / 2 - 0.7f);
+        float x = Mathf.Clamp(bossTransform.position.x + (isleft ? -scale.x : scale.x), -mapWidth / 2 + 0.7f, mapWidth / 2 - 0.7f);
         bossTransform.position = new Vector3(x, bossTransform.position.y);
 
         if (scene2D.Raycast(bossTransform.position, Vector3.down, bossCenterHight + 0.1f, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask))
@@ -47,5 +50,6 @@ public class CrossSlash2Data : BasePatternData
             yield return new WaitForSeconds(1f);
             boss.Rpc_ResetTriggerAnimationHash(AnimationHash.SlashEndParameterHash);
         }
+        yield return new WaitForSeconds(postDelayTime);
     }
 }

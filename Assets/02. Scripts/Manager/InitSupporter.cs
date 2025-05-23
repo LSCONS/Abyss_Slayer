@@ -14,9 +14,9 @@ public class InitSupporter : NetworkBehaviour
     }
 
 
-    public void Rpc_StartCrossSlashInit(Vector3 position, bool isLeft, int damage, int hash, float speed = 1, float scale = 1f)
+    public void Rpc_StartCrossSlashInit(Vector3 position, bool isLeft, int damage, int hash, float speed , float scaleX, float scaleY )
     {
-        PoolManager.Instance.Get<CrossSlash>().Rpc_Init(position, isLeft, damage, hash, speed, scale);
+        PoolManager.Instance.Get<CrossSlash>().Rpc_Init(position, isLeft, damage, hash, speed, scaleX, scaleY);
     }
 
 
