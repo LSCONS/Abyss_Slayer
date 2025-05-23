@@ -4,14 +4,39 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Pattern", menuName = "BossPattern/RandomMove")]
 public class RandomMoveData : BasePatternData
 {
+    [SerializeField] float minDistance;
+    
+    bool isdone;
     public override IEnumerator ExecutePattern()
+    {
+        isdone = false;
+        Coroutine pattern = bossController.StartCoroutine(Pattern());
+
+        float time = Time.time + 5f;
+
+        while(!isdone && time >= Time.time)
+        {
+            yield return null;
+        }
+        if (!isdone)
+        {
+            bossController.StopCoroutine(pattern);
+            bossAnimator.SetTrigger("Idle");
+            yield return new WaitForSeconds(0.05f);
+            bossAnimator.ResetTrigger("Idle");
+        }
+    }
+    IEnumerator Pattern()
     {
         PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
         Vector3 targetPos;
-        float posX = Random.Range(-mapWidth / 2 + 1, mapWidth / 2 - 1);
-        float posY = Random.Range(0, 4) * 5 + 1;
-        posY = scene2D.Raycast(new Vector3(posX, posY), Vector3.down, 40, LayerMask.GetMask("GroundPlane", "GroundPlatform")).point.y;
-        targetPos = new Vector3(posX, posY + bossCenterHight);
+        do
+        {
+            float posX = Random.Range(-mapWidth / 2 + 1, mapWidth / 2 - 1);
+            float posY = Random.Range(0, 4) * 5 + 1;
+            posY = scene2D.Raycast(new Vector3(posX, posY), Vector3.down, 40, LayerMask.GetMask("GroundPlane", "GroundPlatform")).point.y;
+            targetPos = new Vector3(posX, posY + bossCenterHight);
+        } while (Vector3.Distance(targetPos, bossTransform.position) < minDistance);
 
         boss.IsLeft = targetPos.x - bossTransform.position.x < 0;
         if (bossTransform.position.x * targetPos.x < 0)
@@ -30,5 +55,6 @@ public class RandomMoveData : BasePatternData
             SoundManager.Instance.PlaySFX(EAudioClip[0]);
 
         yield return bossController.StartCoroutine(bossController.JumpMove(targetPos));
+        isdone = true;
     }
 }
