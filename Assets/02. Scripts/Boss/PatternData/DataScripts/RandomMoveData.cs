@@ -12,7 +12,7 @@ public class RandomMoveData : BasePatternData
         isdone = false;
         Coroutine pattern = bossController.StartCoroutine(Pattern());
 
-        float time = Time.time + 5f;
+        float time = Time.time + 3f;
 
         while(!isdone && time >= Time.time)
         {
