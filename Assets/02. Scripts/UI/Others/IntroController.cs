@@ -24,7 +24,7 @@ public class IntroController : MonoBehaviour
         IntroBG.SetActive(true);
         SoundManager.Instance.Init();
         await SoundManager.Instance.PlayBGMIntro();
-        StartCoroutine(DelayedStart()); // 한 프레임 대기 후 시작
+        StartCoroutine(PlayIntro());
     }
 
     private IEnumerator DelayedStart()
@@ -50,7 +50,6 @@ public class IntroController : MonoBehaviour
             currentTypingCoroutine = StartCoroutine(TypeText(cut.line));
 
             float elapsedTime = 0f;
-            bool textFullyShown = false;
             bool spacePressedDuringTyping = false;
 
             // 1단계: 텍스트 타이핑 중
@@ -63,7 +62,6 @@ public class IntroController : MonoBehaviour
                     StopCoroutine(currentTypingCoroutine);
                     introText.text = cut.line;
                     isTyping = false;
-                    textFullyShown = true;
                     spacePressedDuringTyping = true;
 
                     // Space 떼기까지 기다리기
