@@ -14,9 +14,9 @@ public class InitSupporter : NetworkBehaviour
     }
 
 
-    public void Rpc_StartCrossSlashInit(Vector3 position, bool isLeft, int damage, int hash, float speed = 1, float scale = 1f)
+    public void Rpc_StartCrossSlashInit(Vector3 position, bool isLeft, int damage, int hash, float speed , float scaleX, float scaleY )
     {
-        PoolManager.Instance.Get<CrossSlash>().Rpc_Init(position, isLeft, damage, hash, speed, scale);
+        PoolManager.Instance.Get<CrossSlash>().Rpc_Init(position, isLeft, damage, hash, speed, scaleX, scaleY);
     }
 
 
@@ -77,8 +77,8 @@ public class InitSupporter : NetworkBehaviour
     }
 
 
-    public void Rpc_StartGravityProjectileInit(int damage, Vector3 position, float speedX, PlayerRef target, float delayThrowTime, int piercingCount, float size = 3f, float gravityScale = 1f)
+    public void Rpc_StartGravityProjectileInit(int damage, Vector3 position, float baseSpeed, float maxSpeed, PlayerRef target, float delayThrowTime, int piercingCount, float size = 3f, float gravityScale = 1f)
     {
-        PoolManager.Instance.Get<GravityProjectile>().Rpc_Init(damage, position, speedX, target, delayThrowTime, piercingCount, size, gravityScale);
+        PoolManager.Instance.Get<GravityProjectile>().Rpc_Init(damage, position, baseSpeed, maxSpeed, target, delayThrowTime, piercingCount, size, gravityScale);
     }
 }

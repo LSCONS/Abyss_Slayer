@@ -18,7 +18,7 @@ public class CrossSlash : BasePoolable
 
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_Init(Vector3 position, bool isLeft, int damage, int hash, float speed = 1, float scale = 1f)
+    public void Rpc_Init(Vector3 position, bool isLeft, int damage, int hash, float speed, float scaleX = 9, float scaleY = 7)
     {
         gameObject.SetActive(true);
         for(int i = 0; i < colliders.Count; i++)
@@ -31,6 +31,7 @@ public class CrossSlash : BasePoolable
         transform.rotation = Quaternion.Euler(0, isLeft ? 0 : 180, 0);
         _damage = damage;
         _animator.SetTrigger(hash);
+        transform.localScale = new Vector3(scaleX/9, scaleY/7,1);
     }
 
 
