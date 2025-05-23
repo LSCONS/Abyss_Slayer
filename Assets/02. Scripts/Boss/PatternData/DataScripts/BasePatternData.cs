@@ -20,6 +20,7 @@ public abstract class BasePatternData : ScriptableObject
     [SerializeField] public List<Rect> attackableAreas;
     [SerializeField] public List<Rect> globalAttackableAreas;
     [SerializeField] public Color gizmoColor = new Color(1, 0, 0, 0.3f);
+    public virtual bool IgnoreAvailabilityCheck => false;   // 범위 체크해서 스킬 사용할건지
 
     [field: Header("패턴 사운드 설정")]
     [field: SerializeField] public List<EAudioClip> EAudioClip { get; private set; } = new();
