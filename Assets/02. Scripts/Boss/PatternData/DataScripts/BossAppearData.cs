@@ -30,6 +30,7 @@ public class BossAppearData : BasePatternData
         yield return new WaitForSeconds(postDelayTime);
         ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(10f, 5);
         ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
+        ServerManager.Instance.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(false);
     }
 
 }
