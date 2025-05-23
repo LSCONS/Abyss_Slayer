@@ -32,9 +32,9 @@ public class InitSupporter : NetworkBehaviour
     }
 
 
-    public void Rpc_StartTornadoInit(Vector3 position, int damage, float durationTime, float attackPerSec, float warningTime = 1f, float width = 1f)
+    public void Rpc_StartTornadoInit(Vector3 position, int damage, float durationTime, float attackPerSec, float warningTime = 1f, float width = 1f, float hight = 20f)
     {
-        PoolManager.Instance.Get<Tornado>().Rpc_Init(position, damage, durationTime, attackPerSec, warningTime, width);
+        PoolManager.Instance.Get<Tornado>().Rpc_Init(position, damage, durationTime, attackPerSec, warningTime, width, hight);
     }
 
 

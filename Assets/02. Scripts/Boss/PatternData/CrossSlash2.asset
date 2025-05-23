@@ -29,5 +29,8 @@ MonoBehaviour:
   <EAudioClip>k__BackingField: 2303000087030000
   damage: 60
   speed: 1
-  attackDistance: 9
+  scale: {x: 12, y: 6}
+  attackDistanceRate: 0.75
   preDelayTime: 1
+  attackdelayTime: 0.2
+  postDelayTime: 0.5
