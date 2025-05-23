@@ -69,5 +69,18 @@ public class PlayerStatusData
     //플레이어의 사망 여부
     public bool IsDead { get; set; } = false;
     //플레이어 난이도에 따른 피격 데미지 적용 배수
-    public float PlayerOnDamageLevelMultiple { get; set; } = 1f;
+    public float PlayerOnDamageLevelMultiple 
+    {
+        get
+        {
+            if(GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
+            {
+                return GameValueManager.Instance.HardPlayerMultiypleOnDamage;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+    }
 }
