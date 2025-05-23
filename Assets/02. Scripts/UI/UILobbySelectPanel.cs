@@ -1,12 +1,7 @@
+using Fusion;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-public enum Level
-{
-    Easy,
-    Normal,
-    Hard
-}
 
 public class UILobbySelectPanel : UIPermanent
 {
@@ -19,12 +14,11 @@ public class UILobbySelectPanel : UIPermanent
     [field: SerializeField] private TextMeshProUGUI TextLevelDesc { get; set; }  // 난이도 설명
     [field: SerializeField] private TextMeshProUGUI TextStartGame { get; set; } //시작 버튼 텍스트
 
-    private Level currentLevel = Level.Easy;
+    private EGameLevel currentLevel => GameValueManager.Instance.EGameLevel;
 
     private void Awake()
     {
-        UpdateUI();
-
+        UpdateUI((int)currentLevel);
         BtnLevelDown.onClick.AddListener(() => ChangeLevel(-1));
         BtnLevelUp.onClick.AddListener(() => ChangeLevel(1));
         BtnExitGame.onClick.AddListener(ServerManager.Instance.ExitRoom);
@@ -36,6 +30,21 @@ public class UILobbySelectPanel : UIPermanent
         BtnStartGame.onClick.RemoveAllListeners();
     }
 
+    //나중에 로비 씬 입장할 때 해당 메서드 호출하게 해야 함. 꼭 서버 접속 후 호출
+    public void Init()
+    {
+        NetworkRunner runner = RunnerManager.Instance.GetRunner();
+        if(runner.IsServer)
+        {
+            BtnLevelDown.interactable = true;
+            BtnLevelUp.interactable = true;
+        }
+        else
+        {
+            BtnLevelDown.interactable = false;
+            BtnLevelUp.interactable = false;
+        }
+    }
 
     /// <summary>
     /// 순환함. 2되면 hard 0 되면 easy로 순환됨
@@ -44,13 +53,12 @@ public class UILobbySelectPanel : UIPermanent
     private void ChangeLevel(int direction)
     {
         SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
-        int total = System.Enum.GetValues(typeof(Level)).Length;
+        int total = System.Enum.GetValues(typeof(EGameLevel)).Length;
         int newIndex = ((int)currentLevel + direction + total) % total;
-        currentLevel = (Level)newIndex;
-
-        UpdateUI(); // 값이 바뀌니까 다시 업데이트해야됨
+        GameValueManager.Instance.SetEGameLevel(newIndex);
+        //RPC로 모든 플레이어에게 데이터 공유
+        ServerManager.Instance.ThisPlayerData.Rpc_LobbySelectLevelUpdateUI(newIndex);
     }
-
 
     /// <summary>
     /// 게임시작 버튼을 눌렀을 경우 실행할 메서드
@@ -137,23 +145,23 @@ public class UILobbySelectPanel : UIPermanent
     }
 
 
-    private void UpdateUI()
+    public void UpdateUI(int level)
     {
-        TextLevelTitle.text = currentLevel.ToString();
+        TextLevelTitle.text = ((EGameLevel)level).ToString();
 
-        switch (currentLevel)
+        switch ((EGameLevel)level)
         {
-            case Level.Easy:
+            case EGameLevel.Easy:
                 TextLevelTitle.text = "난이도: 쉬움";
                 TextLevelDesc.text = "쉬운 난이도입니다.\n클리어에 실패해도 재도전 가능합니다.";
                 break;
-            case Level.Normal:
+            case EGameLevel.Normal:
                 TextLevelTitle.text = "난이도: 보통";
-                TextLevelDesc.text = "기본 난이도입니다.\n이정도는 기본이죠?";
+                TextLevelDesc.text = "기본 난이도입니다.\n클리어에 실패하면 처음부터 도전해야합니다.";
                 break;
-            case Level.Hard:
+            case EGameLevel.Hard:
                 TextLevelTitle.text = "난이도: 어려움";
-                TextLevelDesc.text = "님들이 깰 수 있을까요?";
+                TextLevelDesc.text = "하드 난이도입니다.\n보스의 체력 및 플레이어의 피격 데미지가 늘어납니다.";
                 break;
         }
     }

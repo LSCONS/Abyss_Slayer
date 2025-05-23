@@ -298,6 +298,10 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
                     Player player = obj.GetComponent<Player>();
                     player.PlayerRef = playerRef;
                     player.PlayerPosition = tempVec3;
+                    if(GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
+                    {
+                        player.PlayerData.PlayerStatusData.PlayerOnDamageLevelMultiple = GameValueManager.Instance.HardPlayerMultiypleOnDamage;
+                    }
                 }
             );
             tempVec3 += Vector3.right;

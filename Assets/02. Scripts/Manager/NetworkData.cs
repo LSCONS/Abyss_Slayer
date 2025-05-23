@@ -288,4 +288,11 @@ public class NetworkData : NetworkBehaviour
         ServerManager.Instance.Boss.BossController.VirtualCamera.m_Lens.OrthographicSize = size;
         ServerManager.Instance.Boss.BossController.VirtualCamera.Priority = priority;
     }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_LobbySelectLevelUpdateUI(int level)
+    {
+        ServerManager.Instance.LobbySelectPanel.UpdateUI(level);
+    }
 }
