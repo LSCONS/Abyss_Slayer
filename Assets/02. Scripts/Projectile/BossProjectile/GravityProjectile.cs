@@ -15,6 +15,7 @@ public class GravityProjectile : BasePoolable
     float _velocityX;
     float _baseSpeed;
     float _maxSpeed;
+    float _minSpeed;
     
     Transform _target;
     float _throwTime;
@@ -37,7 +38,7 @@ public class GravityProjectile : BasePoolable
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_Init(int damage, Vector3 position, float baseSpeed, float maxSpeed, PlayerRef target,float delayThorwTime,int piercingCount , float size = 3f, float gravityScale = 1f)
+    public void Rpc_Init(int damage, Vector3 position, float baseSpeed, float maxSpeed,float minSpeed, PlayerRef target,float delayThorwTime,int piercingCount , float size = 3f, float gravityScale = 1f)
     {
         _collider.enabled = false;
         _rigidbody.bodyType = RigidbodyType2D.Kinematic;
@@ -49,6 +50,7 @@ public class GravityProjectile : BasePoolable
         transform.rotation = Quaternion.identity;
         _baseSpeed = baseSpeed;
         _maxSpeed = maxSpeed;
+        _minSpeed = minSpeed;
         _target = ServerManager.Instance.DictRefToPlayer[target].transform;
         _throwTime = Time.time + delayThorwTime + 1.2f;
         transform.localScale = Vector3.one * size;
@@ -75,10 +77,7 @@ public class GravityProjectile : BasePoolable
         _velocityX = _velocityX * Mathf.Sign(_targetPosition.x - transform.position.x); //시작지점 x축 속도
 
         Vector2 velocity = new Vector2(_velocityX, velocityY);                          //목표물의 x축 거리가 짧을때 y속도가 과도하게 높아지는 현상 방지
-        //if (velocity.magnitude >= 40)
-        //{
-        //    velocity = velocity.normalized * 40f;
-        //}
+        velocity = velocity.normalized * Mathf.Clamp(velocity.magnitude,_minSpeed,_maxSpeed + 1);
 
 
         _rigidbody.velocity = velocity;

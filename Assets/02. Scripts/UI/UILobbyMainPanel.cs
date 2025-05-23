@@ -80,7 +80,7 @@ public class UILobbyMainPanel : UIPermanent
         roomData.TextPlayerName.text = ServerManager.Instance.DictRefToNetData[playerRef].GetName();
 
         NetworkData data = DictRoomDataToNetworkData[roomData];
-        roomData.PlayerSpriteChange.Init(data.Class, data.HairKey, data.SkinKey, data.FaceKey);
+        roomData.PlayerSpriteChange.Init(data.Class, data.HairStyleKey, data.SkinKey, data.FaceKey);
     }
 
 
@@ -99,7 +99,7 @@ public class UILobbyMainPanel : UIPermanent
     {
         PlayerRoomData roomData = DictRefToRoomData[playerRef];
         NetworkData data = ServerManager.Instance.DictRefToNetData[playerRef];
-        roomData.PlayerSpriteChange.Init(data.Class, data.HairKey, data.SkinKey, data.FaceKey);
+        roomData.PlayerSpriteChange.Init(data.Class, data.HairStyleKey, data.SkinKey, data.FaceKey);
     }
 
 
@@ -113,7 +113,7 @@ public class UILobbyMainPanel : UIPermanent
             item.TextPlayerName.gameObject.SetActive(false);
             item.PlayerSpriteChange.gameObject.SetActive(false);
             item.TextPlayerState.gameObject.SetActive(false);
-            item.PlayerSpriteChange.Init(CharacterClass.Rogue, (1, 5), 1, 1);
+            item.PlayerSpriteChange.Init(CharacterClass.Rogue, 1, 1, 1);
             DictRoomDataToNetworkData[item] = null;
         }
     }
@@ -130,7 +130,7 @@ public class UILobbyMainPanel : UIPermanent
         data.TextPlayerName?.gameObject.SetActive(false);
         data.PlayerSpriteChange?.gameObject.SetActive(false);
         data.TextPlayerState?.gameObject.SetActive(false);
-        data.PlayerSpriteChange?.Init(CharacterClass.Rogue, (1, 5), 1, 1);
+        data.PlayerSpriteChange?.Init(CharacterClass.Rogue, 1, 1, 1);
         SetReadyText(playerRef, false);
         DictRoomDataToNetworkData[data] = null;
     }

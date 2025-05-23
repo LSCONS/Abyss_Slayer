@@ -25,6 +25,7 @@ public class LobbyState : BaseGameState
         else
             await ServerManager.Instance.InitClient();
 
+        ServerManager.Instance.LobbySelectPanel.JoinRoom();
 
 #if MoveSceneDebug
         Debug.Log("이미지 Sprite 불러오기");
@@ -34,7 +35,7 @@ public class LobbyState : BaseGameState
         {
             await ServerManager.Instance.WaitForThisPlayerDataAsync();
             NetworkData data = ServerManager.Instance.ThisPlayerData;
-            imageChange.Init(data.Class, data.HairKey, data.SkinKey, data.FaceKey);
+            imageChange.Init(data.Class, data.HairStyleKey, data.SkinKey, data.FaceKey);
         }
         ServerManager.Instance.CustomPanelManager.ApplyPreview();
 

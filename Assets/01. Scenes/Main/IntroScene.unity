@@ -319,9 +319,9 @@ MonoBehaviour:
   introData: {fileID: 11400000, guid: 8864ea5f67f782d4abf589df6b42f465, type: 2}
   backgroundImage: {fileID: 1878856431}
   introText: {fileID: 1817359548}
-  typingSpeed: 0.05
+  typingMinSpeed: 0.1
+  typingMaxSpeed: 0.15
   bgm: {fileID: 1878856434}
-  mainBgm: {fileID: 0}
 --- !u!1 &1777845075
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,7 +481,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uAC8C\uC784 \uB0B4\uC6A9"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 57a256c8a1f35754bb6680764f73af31, type: 2}
   m_sharedMaterial: {fileID: 4235015433858947674, guid: 57a256c8a1f35754bb6680764f73af31, type: 2}
@@ -618,7 +618,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a22435b4f12501345a80d2c929114bce, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 84111af0de00f08449812e3552d7730f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

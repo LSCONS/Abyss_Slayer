@@ -10,6 +10,7 @@ public class ThrowRockData : BasePatternData
     [SerializeField] float spawnPositionY = 3f;
     [SerializeField] float rockSpeed = 1f;
     [SerializeField] float maxSpeed = 15f;
+    [SerializeField] float minSpeed;
     [SerializeField] float gravityScale = 1f;
     [SerializeField] float rockSize = 1f;
     [SerializeField] float postDelayTime = 1f;
@@ -23,7 +24,7 @@ public class ThrowRockData : BasePatternData
         if (EAudioClip != null && EAudioClip.Count > 0)
             SoundManager.Instance.PlaySFX(EAudioClip[0]);
 
-        ServerManager.Instance.InitSupporter.Rpc_StartGravityProjectileInit(damage, bossTransform.position + Vector3.up * spawnPositionY, rockSpeed, maxSpeed, playerRef, delayThrowTime, int.MaxValue, rockSize, gravityScale);
+        ServerManager.Instance.InitSupporter.Rpc_StartGravityProjectileInit(damage, bossTransform.position + Vector3.up * spawnPositionY, rockSpeed, maxSpeed, minSpeed, playerRef, delayThrowTime, int.MaxValue, rockSize, gravityScale);
         bossController.ChasingTarget = false;
         bossController.ShowTargetCrosshair = false;
         yield return new WaitForSeconds(1.2f + delayThrowTime);

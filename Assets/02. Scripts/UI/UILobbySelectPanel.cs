@@ -31,13 +31,12 @@ public class UILobbySelectPanel : UIPermanent
     }
 
     //나중에 로비 씬 입장할 때 해당 메서드 호출하게 해야 함. 꼭 서버 접속 후 호출
-    public void Init()
+    public void JoinRoom() 
     {
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if(runner.IsServer)
         {
-            BtnLevelDown.interactable = true;
-            BtnLevelUp.interactable = true;
+            SetActiveButton((int)currentLevel);
         }
         else
         {
@@ -53,11 +52,32 @@ public class UILobbySelectPanel : UIPermanent
     private void ChangeLevel(int direction)
     {
         SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
-        int total = System.Enum.GetValues(typeof(EGameLevel)).Length;
-        int newIndex = ((int)currentLevel + direction + total) % total;
+        int total = System.Enum.GetValues(typeof(EGameLevel)).Length - 1;
+        int newIndex = (int)currentLevel + direction;
+
+        SetActiveButton(newIndex);
+        
         GameValueManager.Instance.SetEGameLevel(newIndex);
         //RPC로 모든 플레이어에게 데이터 공유
         ServerManager.Instance.ThisPlayerData.Rpc_LobbySelectLevelUpdateUI(newIndex);
+    }
+
+    private void SetActiveButton(int EGameLevelInt)
+    {
+        int total = System.Enum.GetValues(typeof(EGameLevel)).Length - 1;
+        if (EGameLevelInt == 0)
+        {
+            BtnLevelDown.interactable = false;
+        }
+        else if (EGameLevelInt == total)
+        {
+            BtnLevelUp.interactable = false;
+        }
+        else
+        {
+            BtnLevelUp.interactable = true;
+            BtnLevelDown.interactable = true;
+        }
     }
 
     /// <summary>

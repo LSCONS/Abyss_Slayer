@@ -264,7 +264,7 @@ public class Player : NetworkBehaviour, IHasHealth
         CharacterSkillSet skillSet = null;
 
         // 스프라이트 기본으로 init
-        PlayerSpriteChange.Init(playerCharacterClass, (NetworkData.HairStyleKey, NetworkData.HairColorKey), NetworkData.FaceKey, NetworkData.SkinKey);
+        PlayerSpriteChange.Init(playerCharacterClass, NetworkData.HairStyleKey, NetworkData.FaceKey, NetworkData.SkinKey);
 
         // 커스터마이징 된 스프라이트를 적용
         var info = PlayerManager.Instance.PlayerCustomizationInfo;

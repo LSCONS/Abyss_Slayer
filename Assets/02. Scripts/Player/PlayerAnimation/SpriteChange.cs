@@ -14,9 +14,11 @@ public class SpriteChange : MonoBehaviour
     [field: SerializeField] public SpriteRenderer WeaponBottom { get; set; }
     public Dictionary<SpriteRenderer, Dictionary<AnimationState, Sprite[]>> DictAnimationState { get; set; } = new();
 
-    public void Init(CharacterClass character, (int Style, int Color)hairKey, int faceKey, int skinKey)
+    public void Init(CharacterClass character, int hairStyleKey, int faceKey, int skinKey)
     {
         DataManager data = DataManager.Instance;
+        int hairColotKey = HairColorConfig.HairColorIndexByClass[character];
+        (int, int) hairKey = (hairStyleKey, hairColotKey);
         DictAnimationState[WeaponTop]       = data.InstantiateDictionary(data.DictClassToStateToWeaponTop[character]);
         DictAnimationState[ClothTop]        = data.InstantiateDictionary(data.DictClassToStateToClothTop[character]);
         DictAnimationState[HairTop]         = data.InstantiateDictionary(data.DictIntToDictStateToHairStyleTopSprite[hairKey]);
