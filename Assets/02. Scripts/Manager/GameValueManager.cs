@@ -22,7 +22,11 @@ public class GameValueManager : Singleton<GameValueManager>
     [field: SerializeField] public float OnDamagePlayerColorDuration { get; private set; } = 0.3f;
     [field: SerializeField] public float MinTypingSoundPitch { get; private set; } = 0.5f;
     [field: SerializeField] public float MaxTypingSoundPitch { get; private set; } = 1f;
-    public EGameLevel EGameLevel { get; private set; } = EGameLevel.None;
+    [field: Header("하드모드에서 보스 최대 체력 증가 비율")]
+    [field: SerializeField] public float HardBossMultipleHealth { get; private set; } = 1.3f;
+    [field: Header("하드모드에서 플레이어 입는 피해 증가 비율")]
+    [field: SerializeField] public float HardPlayerMultiypleOnDamage { get; private set; } = 1.3f;
+    public EGameLevel EGameLevel { get; private set; } = EGameLevel.Easy;
 
 
     public void NextStageIndex()
@@ -35,12 +39,16 @@ public class GameValueManager : Singleton<GameValueManager>
     {
         CurrentStageIndex = 0;
     }
+
+    public void SetEGameLevel(int levelInt)
+    {
+        EGameLevel = (EGameLevel)levelInt;
+    }
 }
 
 public enum EGameLevel
 {
-    None = 0,
-    Easy,
+    Easy = 0,
     Normal,
     Hard,
 }

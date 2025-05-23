@@ -193,10 +193,21 @@ public class BattleState : BaseGameState
 #endif
         if (runner.IsServer)
         {
-            NetworkObject boss = runner.Spawn(DataManager.Instance.DictEnumToBossObjcet[(EBossStage)GameValueManager.Instance.CurrentStageIndex],
+            NetworkObject boss = runner.Spawn
+                (
+                DataManager.Instance.DictEnumToBossObjcet[(EBossStage)GameValueManager.Instance.CurrentStageIndex],
                 Vector3.right * 100,
                 Quaternion.identity,
-                ServerManager.Instance.ThisPlayerRef);
+                ServerManager.Instance.ThisPlayerRef,
+                (runner, obj) =>
+                {
+                    Boss nowBoss = obj.GetComponent<Boss>();
+                    if (GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
+                    {
+                        nowBoss.MaxHp.Value = (int)(nowBoss.MaxHp.Value * GameValueManager.Instance.HardBossMultipleHealth);
+                    }
+                }
+                );
             runner.MoveGameObjectToScene(boss.gameObject, runner.GetSceneRef(GameFlowManager.Instance.GetSceneNameFromState(this)));
 
 

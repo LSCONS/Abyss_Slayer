@@ -69,7 +69,6 @@ public class SelectClassPanelController : UIPopup
 #if AllMethodDebug
         Debug.Log("OnSelect");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         PlayerManager.Instance.SetSelectedClass(selectedCharacterClass);
         OnClose();
     }
