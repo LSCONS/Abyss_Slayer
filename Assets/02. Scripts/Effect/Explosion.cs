@@ -11,7 +11,7 @@ public class Explosion : BasePoolable
     [SerializeField] NormalDamageCollider _baseDamageCollider;
     List<Player> hitPlayers = new List<Player>();
     int _damage;
-
+    [SerializeField] EAudioClip sound;
 
     private void OnEnable()
     {
@@ -49,5 +49,8 @@ public class Explosion : BasePoolable
         _collider.enabled = false;
     }
 
-    
+    public void Sound()
+    {
+        SoundManager.Instance.PlaySFX(sound);
+    }
 }

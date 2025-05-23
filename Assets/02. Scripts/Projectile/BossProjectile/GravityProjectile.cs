@@ -92,6 +92,6 @@ public class GravityProjectile : BasePoolable
         _sprite.SetActive(false);
         _particleSystem.Play();
         _collider.enabled = false;
-        Invoke("ReturnToPool", 3f);
+        Invoke("Rpc_ReturnToPool", 3f);
     }
 }
