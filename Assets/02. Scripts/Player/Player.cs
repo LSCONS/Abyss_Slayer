@@ -394,7 +394,15 @@ public class Player : NetworkBehaviour, IHasHealth
     private IEnumerator PlayerDieCoroutine()
     {
         yield return new WaitForSeconds(3);
-        ServerManager.Instance.ExitRoom();
+
+        if(GameValueManager.Instance.EGameLevel == EGameLevel.Easy)
+        {
+            GameFlowManager.Instance.RpcServerSceneLoad(ESceneName.RestScene);
+        }
+        else
+        {
+            ServerManager.Instance.ExitRoom();
+        }
 
     }
 
