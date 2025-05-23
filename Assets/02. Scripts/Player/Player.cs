@@ -259,7 +259,7 @@ public class Player : NetworkBehaviour, IHasHealth
     private void InitPlayerData()
     {
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
-
+        playerCheckGround.Init(this);
         // 선택된 클래스 정보 가져옴
         CharacterClass playerCharacterClass = PlayerManager.Instance.selectedCharacterClass;
         CharacterSkillSet skillSet = null;
