@@ -104,6 +104,7 @@ public class Boss : NetworkBehaviour, IHasHealth
         if (Hp.Value == 0)
         {
             IsDead = true;
+            ServerManager.Instance.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(true);
             BossController.OnDead();
             if (Runner.IsServer) PoolManager.Instance.ReturnPoolAllObject();
             PoolManager.Instance.CrossHairObject.gameObject.SetActive(false);
