@@ -30,11 +30,16 @@ public class GameValueManager : Singleton<GameValueManager>
     public EGameLevel EGameLevel { get; private set; } = EGameLevel.Easy;
     //현재 배틀 스테이지
     public int CurrentStageIndex { get; private set; } = 0;
+    public bool IsStageClear { get; private set; } = false;
 
 
     public void NextStageIndex()
     {
-        CurrentStageIndex++;
+        if(IsStageClear)
+        {
+            CurrentStageIndex++;
+            SetClearStage(false);
+        }
     }
 
 
@@ -47,6 +52,11 @@ public class GameValueManager : Singleton<GameValueManager>
     public void SetEGameLevel(int levelInt)
     {
         EGameLevel = (EGameLevel)levelInt;
+    }
+
+    public void SetClearStage(bool isClear)
+    {
+        IsStageClear = isClear;
     }
 }
 
