@@ -287,11 +287,12 @@ MonoBehaviour:
   <InitSkillPointValue>k__BackingField: 1
   <InitStatusPointValue>k__BackingField: 1
   <MaxBossStageCount>k__BackingField: 2
-  <CurrentStageIndex>k__BackingField: 0
   <OnDamageBossColorDuration>k__BackingField: 0.1
   <OnDamagePlayerColorDuration>k__BackingField: 0.3
   <MinTypingSoundPitch>k__BackingField: 0.5
   <MaxTypingSoundPitch>k__BackingField: 1
+  <HardBossMultipleHealth>k__BackingField: 1.3
+  <HardPlayerMultiypleOnDamage>k__BackingField: 1.3
 --- !u!1 &313214707
 GameObject:
   m_ObjectHideFlags: 0
