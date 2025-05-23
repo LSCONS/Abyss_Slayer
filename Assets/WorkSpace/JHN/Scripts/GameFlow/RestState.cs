@@ -24,6 +24,11 @@ public class RestState : BaseGameState
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
+            try
+            {
+                PoolManager.Instance.ReturnPoolAllObject();
+            }
+            catch { }
             ServerManager.Instance.ThisPlayerData.Rpc_DisconnectInput();
         }
 

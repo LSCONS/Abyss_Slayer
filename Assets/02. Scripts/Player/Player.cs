@@ -331,6 +331,7 @@ public class Player : NetworkBehaviour, IHasHealth
     /// <param name="value">변환을 줄 값. +를 넣어야 체력이 깎임.</param>
     public void Damage(int value, float attackPosX = -1000)
     {
+        if (Hp.Value == 0) return;
         value = (int)(value * PlayerData.PlayerStatusData.PlayerOnDamageLevelMultiple);
         float reduceDamage = value * ArmorAmount;
         int finalDamage = (int)MathF.Ceiling(reduceDamage);
@@ -394,7 +395,15 @@ public class Player : NetworkBehaviour, IHasHealth
     private IEnumerator PlayerDieCoroutine()
     {
         yield return new WaitForSeconds(3);
-        ServerManager.Instance.ExitRoom();
+
+        if(GameValueManager.Instance.EGameLevel == EGameLevel.Easy)
+        {
+            ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
+        }
+        else
+        {
+            ServerManager.Instance.ExitRoom();
+        }
 
     }
 

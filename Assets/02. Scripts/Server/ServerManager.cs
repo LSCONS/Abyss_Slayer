@@ -411,7 +411,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 #if AllMethodDebug
         Debug.Log("ExitRoom");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         var runner = RunnerManager.Instance.GetRunner();
         await runner.Shutdown();
         try
