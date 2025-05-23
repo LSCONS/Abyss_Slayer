@@ -23,7 +23,6 @@ public class HomingMissaileData : BasePatternData
     [Header("투사체 정보")]
     [SerializeField] float homingPower = 15f;
     [SerializeField] float missailSpeed = 10;
-    [SerializeField] float homingTime = 3f;
     [SerializeField] float explosionSize = 0.5f;
     [SerializeField] EAniamtionCurve homingCurve;
     [SerializeField] EAniamtionCurve speedCurve;
@@ -55,7 +54,7 @@ public class HomingMissaileData : BasePatternData
                 Player[] players = ServerManager.Instance.DictRefToPlayer.Values.ToArray();
                 target = players[Random.Range(0, players.Length)].transform;
             }
-            ServerManager.Instance.InitSupporter.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed, (int)projectileType, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, (int)homingCurve, (int)speedCurve);
+            ServerManager.Instance.InitSupporter.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed, (int)projectileType, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, explosionSize, (int)homingCurve, (int)speedCurve);
             //PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
 
             if (EAudioClip != null && EAudioClip.Count > 0)
