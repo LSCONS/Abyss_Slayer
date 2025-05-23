@@ -20,6 +20,14 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
     [field: SerializeField] public Button BtnDowngrade;
 
     RectTransform slotRect;
+    private UISkillTooltip Tooltip 
+    {
+        get
+        {
+            if(tooltip != null) return tooltip;
+            return tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+        }
+    }
     private UISkillTooltip tooltip;
 
     public void Init()
@@ -33,11 +41,7 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
     }
     private void OnDisable()
     {
-        var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
-        if (tooltip != null && tooltip.gameObject.activeSelf)
-        {
-            tooltip.Close();
-        }
+        Tooltip.Close();
     }
 
     private IPresenter presenter;
@@ -109,10 +113,10 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 # if AllMethodDebug
         Debug.Log("OnPointerEnter");
 #endif
-        tooltip.ShowTooltip(skillData, slotRect);
+        Tooltip.ShowTooltip(skillData, slotRect);
 
         // 마우스 위치를 기준으로 툴팁 설정
-        tooltip.SetTooltipPosition(slotRect);
+        Tooltip.SetTooltipPosition(slotRect);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -120,8 +124,7 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 # if AllMethodDebug
         Debug.Log("OnPointerExit");
 #endif
-        var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
-        tooltip.Close();
+        Tooltip.Close();
     }
 
 }
