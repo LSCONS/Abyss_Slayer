@@ -137,13 +137,13 @@ public class UIStatStore : UIPopup
         hpFigure.text = $"+{hpIncrease}";
 
         float damageIncrease = BaseDamage * Amount * (TempDamageLevel - appliedDmgLevel);
-        damageFigure.text = $"+{damageIncrease:f1}";
+        damageFigure.text = $"+{damageIncrease * 100:f0}%";
 
         int totalHpIncrease = Mathf.RoundToInt(BaseMaxHp * Amount * (TempHpLevel - 1));
         hpTotalFigure.text = $"+{totalHpIncrease}";
 
         float totalDamageIncrease = BaseDamage * Amount * (TempDamageLevel - 1);
-        damageTotalFigure.text = $"+{totalDamageIncrease:f1}";
+        damageTotalFigure.text = $"+{totalDamageIncrease * 100:f0}%";
 
         remainingPointText.text = $"남은 포인트: {RemainingPoint}";
     }
