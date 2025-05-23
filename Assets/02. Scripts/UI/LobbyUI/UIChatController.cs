@@ -1,11 +1,8 @@
-using Fusion;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using VInspector.Libs;
 
 public class UIChatController : MonoBehaviour
 {
@@ -40,7 +37,7 @@ public class UIChatController : MonoBehaviour
 
     private void ChangeInputText(string text)
     {
-        if(!(text.IsEmpty()))
+        if(text != "")
         SoundManager.Instance.PlayTypingSoundSFX();
     }
 
