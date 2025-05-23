@@ -141,7 +141,6 @@ public class Player : NetworkBehaviour, IHasHealth
 
     public override void FixedUpdateNetwork()
     {
-        if (!(ServerManager.Instance.PlayerInput.IsConnectInput)) return;
         if (GetInput<NetworkInputData>(out NetworkInput))
             PlayerStateMachine.FixedUpdate();
     }
