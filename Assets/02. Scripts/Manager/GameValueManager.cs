@@ -31,7 +31,13 @@ public class GameValueManager : Singleton<GameValueManager>
     //현재 배틀 스테이지
     public int CurrentStageIndex { get; private set; } = 0;
     public bool IsStageClear { get; private set; } = false;
-
+    public string GameClearTime
+    {
+        get 
+        {
+            return PlayerPrefs.GetString("ClearTime", "하드 모드를 클리어 해주세요.");
+        }
+    }
 
     public void NextStageIndex()
     {

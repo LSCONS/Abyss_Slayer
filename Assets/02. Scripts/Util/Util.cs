@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -74,7 +75,7 @@ public static class Util
             bool isDebug = true
         ) where T : Component
     {
-        T[] tempT = Object.FindObjectsByType<T>(findObjectsInactive, findObjectsSortMode);
+        T[] tempT = UnityEngine.Object.FindObjectsByType<T>(findObjectsInactive, findObjectsSortMode);
         if (tempT == null && isDebug) Debug.LogError($"{typeof(T)} is null");
         return tempT;
     }
@@ -88,7 +89,7 @@ public static class Util
     /// <returns>찾은 컴포넌트를 반환</returns>
     public static T FindFirstObjectByTypeDebug<T>(bool isDebug = true) where T : Component
     {
-        T tempT = Object.FindFirstObjectByType<T>();
+        T tempT = UnityEngine.Object.FindFirstObjectByType<T>();
         if (tempT == null && isDebug) Debug.LogError($"{typeof(T)} is null");
         return tempT;
     }
@@ -310,5 +311,16 @@ public static class Util
             temp.Add(b);
         }
         return Encoding.UTF8.GetString(temp.ToArray());
+    }
+
+
+    /// <summary>
+    /// 현재 시간을 반환하는 메서드
+    /// </summary>
+    /// <returns></returns>
+    public static string GetNowTimeStirng()
+    {
+        DateTime nowtime = DateTime.Now;
+        return $"클리어 타임: {nowtime:MM월dd일 HH시mm분ss초}";
     }
 }
