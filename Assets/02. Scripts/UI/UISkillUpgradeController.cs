@@ -1,4 +1,5 @@
 using Analytics;
+using Photon.Realtime;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -48,7 +49,7 @@ public class UISkillUpgradeController : UIPopup
 
             var go = Instantiate(skillSlotPrefab, upgradeSlotParent);
             var slot = go.GetComponent<UISkillSlot>();
-
+            slot.Init();
             SetSlots(slot, skill);      // 슬롯 세팅
             SetButtons(slot, skill);    // 버튼 연결
 
@@ -64,6 +65,12 @@ public class UISkillUpgradeController : UIPopup
         applyButton.onClick.RemoveAllListeners();
         applyButton.onClick.AddListener(ApplyUpgrade);
         applyButton.interactable = false;
+    }
+
+    public override void OnOpen()
+    {
+        base.OnOpen();
+        if (ServerManager.Instance.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
     }
 
     public override void Close()

@@ -17,10 +17,11 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
 
     public override void UseSkill()
     {
+
         Vector2 temp = MovePosition;
         if (SkillCategory == SkillCategory.Hold)
         {
-            player.StartHoldSkillCoroutine(Repeat(), () => MovePosition = temp);
+            player.StartHoldSkillCoroutine(Repeat(), null);
         }
         else 
         {
@@ -30,17 +31,25 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
 
     public IEnumerator Repeat()
     {
+        NetworkRunner runner = RunnerManager.Instance.GetRunner();
+        PhysicsScene2D runner2D = runner.GetPhysicsScene2D();
         WaitForSeconds wait = new WaitForSeconds(SkillRepeatDelayTime);
-        Vector2 temp = MovePosition;
+        Vector2 copyMovePosition = MovePosition;
+        Vector2 resultMovePosition = Vector2.zero;
         Vector3 playerPosition = PlayerPosition();
         float flipX = PlayerFrontXNormalized();
 
         // 풀에서 ZoneAOE 꺼내기
         for (int i = 0; i < 5; i++)
         {
+            MovePosition = resultMovePosition;
             SoundManager.Instance.PlaySFX(EAudioClip);
-            MovePosition = temp * i;
             PoolManager.Instance.Get<ZoneAOE>().Init(this, flipX, playerPosition);
+            Vector2 spawnPosition = (Vector2)playerPosition + new Vector2(SpawnOffset.x * flipX, SpawnOffset.y);
+            if (!(runner2D.Raycast(spawnPosition + resultMovePosition, Vector2.up, ColliderSize.y, LayerData.EnemyLayerMask)))
+            {
+                resultMovePosition += copyMovePosition;
+            }
             yield return wait;
         }
         if(SkillCategory == SkillCategory.Hold)
@@ -49,7 +58,7 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
         }
         else
         {
-            MovePosition = temp;
+            MovePosition = copyMovePosition;
         }
     }
 }

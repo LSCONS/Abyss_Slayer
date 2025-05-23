@@ -21,6 +21,9 @@ public class UISkillTooltip : UIPopup
 
     public override void Init()
     {
+# if AllMethodDebug
+        Debug.Log("Init");
+#endif
         base.Init();
 
         // 툴팁 텍스트 초기화
@@ -30,6 +33,9 @@ public class UISkillTooltip : UIPopup
 
     public void SetSkill(Skill skillData)
     {
+# if AllMethodDebug
+        Debug.Log("SetSkill");
+#endif
         if (skillData == null)
         {
             Debug.LogError("[UISkillTooltip] skillData is NULL!!");
@@ -50,6 +56,9 @@ public class UISkillTooltip : UIPopup
 
     public void SetBuff(string buffName, string buffDesc)
     {
+# if AllMethodDebug
+        Debug.Log("SetBuff");
+#endif
         if (skillNameText == null || skillDescText == null)
         {
             Debug.LogError("[UISkillTooltip] TextMeshProUGUI가 연결되지 않았습니다.");
@@ -62,6 +71,9 @@ public class UISkillTooltip : UIPopup
 
     public void SetTooltipPosition(RectTransform slotRect)
     {
+# if AllMethodDebug
+        Debug.Log("SetTooltipPosition");
+#endif
         // 필요한 거 없으면 무시
         if (slotRect == null)
             return;
@@ -95,6 +107,9 @@ public class UISkillTooltip : UIPopup
 
     public void ShowTooltip(string name, string desc, RectTransform target)
     {
+# if AllMethodDebug
+        Debug.Log("ShowTooltip");
+#endif
         this.gameObject.SetActive(false);
         SetBuff(name, desc);                 // 이름 설명 세팅
         Open();                              // 툴팁 열기
@@ -103,6 +118,9 @@ public class UISkillTooltip : UIPopup
 
     public void ShowTooltip(Skill skillData, RectTransform target)
     {
+# if AllMethodDebug
+        Debug.Log("ShowTooltip");
+#endif
         this.gameObject.SetActive(false);
         SetSkill(skillData);                 // 이름 설명 세팅
         Open();                              // 툴팁 열기

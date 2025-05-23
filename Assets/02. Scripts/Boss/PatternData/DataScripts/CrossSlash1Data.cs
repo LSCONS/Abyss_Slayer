@@ -7,7 +7,10 @@ public class CrossSlash1Data : BasePatternData
     [SerializeField] int damage;
     [SerializeField] float jumpHight;
     [SerializeField] float preDelayTime;
-    [SerializeField] float speed;
+    [SerializeField] float attackDelayTime;
+    [SerializeField] float postDelayTime;
+    [SerializeField] float jumpSpeed;
+    [SerializeField] float attackSpeed;
     [SerializeField] Vector2 scale;
     public override IEnumerator ExecutePattern()
     {
@@ -25,22 +28,22 @@ public class CrossSlash1Data : BasePatternData
         bossController.StartCoroutine(bossController.RunMove(isleft));
         yield return null;
 
-        while (Mathf.Abs(target.position.x - bossTransform.position.x) > 20f)
+        while (Mathf.Abs(target.position.x - bossTransform.position.x) > scale.x)
         {
             yield return null;
         }
         boss.Rpc_SetBoolAnimationHash(AnimationHash.AttackJumpParameterHash, true);
-        Coroutine jump = bossController.StartCoroutine(bossController.JumpMove(target.position,-1,jumpHight));
+        Coroutine jump = bossController.StartCoroutine(bossController.JumpMove(target.position,1/jumpSpeed,jumpHight));
         bossController.ShowTargetCrosshair = false;
 
         yield return null;
         bossController.IsRun = false;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.2f * (1 / jumpSpeed));
 
-        float time = 0.2f;
-        Vector3 dir = new Vector3(isleft ? -0.866f : 0.866f, -0.5f);
+        float time = 0.2f * (1 / jumpSpeed);
+        Vector3 dir = new Vector3(isleft ? -scale.x : scale.x, -scale.y);
 
-        while (!scene2D.Raycast(bossTransform.position, dir, 12, LayerData.PlayerLayerMask) && time < 1f)
+        while (time <= (0.4f/jumpSpeed) || (!scene2D.Raycast(bossTransform.position, dir, 12, LayerData.PlayerLayerMask) && time < (1 / jumpSpeed)))
         {
             time += Time.deltaTime;
             yield return null;
@@ -48,12 +51,12 @@ public class CrossSlash1Data : BasePatternData
         boss.Rpc_SetBoolAnimationHash(AnimationHash.AttackJumpParameterHash, false);
         
         bossController.StopCoroutine(jump);
-        if(time > 1f) yield break;
+        if(time >= (1/jumpSpeed)) yield break;
 
         boss.Rpc_ResetTriggerAnimationHash(AnimationHash.FallParameterHash);
-        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(bossTransform.position + (4.25f * 1.5f * (isleft ? Vector3.left : Vector3.right)) + (3.6f * Vector3.down), isleft, damage, AnimationHash.CrossSlash1ParameterHash,speed,scale.x,scale.y);    
+        Vector3 attackPos = bossTransform.position + (scale.x * 0.5f * (isleft ? Vector3.left : Vector3.right)) + (scale.y * 0.5f * Vector3.down);
+        
         yield return new WaitForSeconds(0.1f);
-
         bossController.Sprite.enabled = false;
         yield return new WaitForSeconds(0.2f);
 
@@ -83,11 +86,15 @@ public class CrossSlash1Data : BasePatternData
                 hit = hits[i];
             }
         }
-        float x = Mathf.Clamp(hit.point.x + (isleft ? 3 : -3),-mapWidth/2 + 0.7f,mapWidth/2+0.7f);
+        float x = Mathf.Clamp(hit.point.x + (isleft ? 1 : -1),-mapWidth/2 + 0.7f,mapWidth/2+0.7f);
         bossTransform.position = new Vector3(x, hit.point.y + bossCenterHight);
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.SlashEndParameterHash);
         bossController.Sprite.enabled = true;
-        yield return new WaitForSeconds(1.5f);
+
+        yield return new WaitForSeconds(attackDelayTime);
+        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(attackPos, isleft, damage, AnimationHash.CrossSlash1ParameterHash, attackSpeed, scale.x, scale.y);
+        
+        yield return new WaitForSeconds(1 + postDelayTime);
         boss.Rpc_ResetTriggerAnimationHash(AnimationHash.SlashEndParameterHash);
     }
 }
