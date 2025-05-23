@@ -41,20 +41,22 @@ public class SpriteImageChange : MonoBehaviour
     }
 
 
-    public void Init(CharacterClass character, (int style, int color) hairkey, int skinkey, int facekey)
+    public void Init(CharacterClass character, int hairStyleKey, int skinKey, int faceKey)
     {
         DataManager data = DataManager.Instance;
+        int hairColorKey = HairColorConfig.HairColorIndexByClass[character];
         SelectedClass = (int)character;
+        (int, int) hairKey = (hairStyleKey, hairColorKey);
         animationNum = 0;
         tempTime = maxtemp;
         DictAnimationState[WeaponTop]       = data.InstantiateDictionary(data.DictClassToStateToWeaponTop[character]);
         DictAnimationState[ClothTop]        = data.InstantiateDictionary(data.DictClassToStateToClothTop[character]);
         DictAnimationState[ClothBottom]     = data.InstantiateDictionary(data.DictClassToStateToClothBot[character]);
         DictAnimationState[WeaponBottom]    = data.InstantiateDictionary(data.DictClassToStateToWeaponBot[character]);
-        DictAnimationState[HairTop]         = data.InstantiateDictionary(data.DictIntToDictStateToHairStyleTopSprite[hairkey]);
-        DictAnimationState[HairBottom]      = data.InstantiateDictionary(data.DictIntToDictStateToHairStyleBottomSprite[hairkey]);
-        DictAnimationState[Face]            = data.InstantiateDictionary(data.DictIntToDictStateToFaceColorSprite[facekey]);
-        DictAnimationState[Skin]            = data.InstantiateDictionary(data.DictIntToDictStateToSkinColorSprite[skinkey]);
+        DictAnimationState[HairTop]         = data.InstantiateDictionary(data.DictIntToDictStateToHairStyleTopSprite[hairKey]);
+        DictAnimationState[HairBottom]      = data.InstantiateDictionary(data.DictIntToDictStateToHairStyleBottomSprite[hairKey]);
+        DictAnimationState[Face]            = data.InstantiateDictionary(data.DictIntToDictStateToFaceColorSprite[faceKey]);
+        DictAnimationState[Skin]            = data.InstantiateDictionary(data.DictIntToDictStateToSkinColorSprite[skinKey]);
         foreach (var image in DictAnimationState.Keys)
         {
             image.color = Color.white;

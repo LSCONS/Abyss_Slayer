@@ -56,12 +56,12 @@ public class SelectClassPanelController : UIPopup
         selectedCharacterClass = cc;
         // 설명 갱신
         descText.text = cc.GetDescription();
-
-        (int, int) hairkey = ServerManager.Instance.ThisPlayerData.HairKey;
+        int hairStyleKey = ServerManager.Instance.ThisPlayerData.HairStyleKey;
+        int hairColorkey = HairColorConfig.HairColorIndexByClass[cc];
         int skinkey = ServerManager.Instance.ThisPlayerData.SkinKey;
         int facekey = ServerManager.Instance.ThisPlayerData.FaceKey;
 
-        spriteImageChange.Init(cc, hairkey, skinkey, facekey);
+        spriteImageChange.Init(cc, hairStyleKey, skinkey, facekey);
     }
 
     private void OnSelect()

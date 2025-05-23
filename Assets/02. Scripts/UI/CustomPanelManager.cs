@@ -165,7 +165,7 @@ public class CustomPanelManager : UIPopup
         Debug.Log("UpdatePreview");
 #endif
         if (SpritePreview == null) return;
-        SpritePreview.Init(PlayerManager.Instance.selectedCharacterClass, HairId, SkinId, FaceId);
+        SpritePreview.Init(PlayerManager.Instance.selectedCharacterClass, HairStyleID, SkinId, FaceId);
     }
 
     /// <summary>
