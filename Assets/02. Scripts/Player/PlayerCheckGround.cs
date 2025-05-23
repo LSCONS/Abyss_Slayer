@@ -70,6 +70,16 @@ public class PlayerCheckGround : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
+        {
+            GroundPlatformCount = 0;
+            GroundPlaneCount = 1;
+            CanJump = true;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerData.GroundPlaneLayerIndex)
