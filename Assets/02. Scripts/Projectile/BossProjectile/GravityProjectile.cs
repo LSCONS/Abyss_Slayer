@@ -77,7 +77,7 @@ public class GravityProjectile : BasePoolable
         _velocityX = _velocityX * Mathf.Sign(_targetPosition.x - transform.position.x); //시작지점 x축 속도
 
         Vector2 velocity = new Vector2(_velocityX, velocityY);                          //목표물의 x축 거리가 짧을때 y속도가 과도하게 높아지는 현상 방지
-        velocity = velocity.normalized * Mathf.Clamp(velocity.magnitude,_minSpeed,_maxSpeed);
+        velocity = velocity.normalized * Mathf.Clamp(velocity.magnitude,_minSpeed,_maxSpeed + 1);
 
 
         _rigidbody.velocity = velocity;
