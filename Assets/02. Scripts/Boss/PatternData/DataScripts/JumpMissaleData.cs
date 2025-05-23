@@ -49,5 +49,6 @@ public class JumpMissaleData : BasePatternData
             yield return new WaitForSeconds(intervalTime);
         }
         yield return new WaitForSeconds(postDelayTime);
+        bossController.ShowTargetCrosshair = false;
     }
 }
