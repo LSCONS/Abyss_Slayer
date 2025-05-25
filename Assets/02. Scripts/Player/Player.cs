@@ -260,8 +260,7 @@ public class Player : NetworkBehaviour, IHasHealth
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
         playerCheckGround.Init(this);
         // 선택된 클래스 정보 가져옴
-        CharacterClass playerCharacterClass = PlayerManager.Instance.selectedCharacterClass;
-        CharacterSkillSet skillSet = null;
+        CharacterClass playerCharacterClass = NetworkData.Class;
 
         // 스프라이트 기본으로 init
         PlayerSpriteChange.Init(playerCharacterClass, NetworkData.HairStyleKey, NetworkData.FaceKey, NetworkData.SkinKey);
@@ -281,7 +280,7 @@ public class Player : NetworkBehaviour, IHasHealth
         BaseDamage = PlayerData.PlayerStatusData.Damage_Base;
 
         //TODO: 이 데이터 언젠가 바꿔야함
-        skillSet = DataManager.Instance.DictClassToSkillSet[NetworkData.Class];
+        CharacterSkillSet skillSet = DataManager.Instance.DictClassToSkillSet[NetworkData.Class];
         skillSet = Instantiate(skillSet);
         skillSet.InstantiateSkillData(this);
 
@@ -449,6 +448,7 @@ public class Player : NetworkBehaviour, IHasHealth
         PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState);
         //체력 Max로 변환
         Hp.Value = MaxHp.Value;
+        PlayerData.PlayerStatusData.IsDead = false;
         //모든 스킬 쿨타임 0으로 변환
         //모든 버프 스킬 유지시간 0으로 변환
         foreach (Skill skill in EquippedSkills.Values)
