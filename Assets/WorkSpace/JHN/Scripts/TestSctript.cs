@@ -40,7 +40,6 @@ public class TestSctript : MonoBehaviour
                 data.FaceKey = 1;
                 data.SkinKey = 1;
                 data.HairStyleKey = 1;
-                data.HairColorKey = 5;
             }
         );
 
