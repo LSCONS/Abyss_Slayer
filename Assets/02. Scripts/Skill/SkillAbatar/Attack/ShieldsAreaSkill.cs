@@ -20,7 +20,7 @@ public class ShieldsAreaSkill : AreaSkill
     }
     public override void UseSkill()
     {
-        player.ArmorAmount += effectAmount;
+        player.ArmorAmount -= effectAmount;
         if (shieldInstance == null)
         {
             shieldInstance = GameObject.Instantiate(shieldPrefab, player.transform);
@@ -49,11 +49,11 @@ public class ShieldsAreaSkill : AreaSkill
                       if (fadeController != null)
                           fadeController?.FadeOut(() => {
                               shieldInstance.SetActive(false);  // 페이드 컨트롤러 있으면 페이드 아웃 이후에 액티브 폴스
-                              player.ArmorAmount -= effectAmount;
+                              player.ArmorAmount += effectAmount;
                           }); 
                       else {                                    // 컨트롤러 없으면 걍 바로 끔
                           shieldPrefab.SetActive(false);
-                          player.ArmorAmount -= effectAmount;
+                          player.ArmorAmount += effectAmount;
                       }                               
                   })
                   .AddTo(shieldInstance); // 쉴드에 붙여둠
