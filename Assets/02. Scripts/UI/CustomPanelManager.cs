@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,8 +40,6 @@ public class CustomPanelManager : UIPopup
     private int SkinId { get; set; } = 1;
     private int FaceId { get; set; } = 1;
     private int HairStyleID { get; set; } = 1;
-    private int HairColorID => HairColorConfig.HairColorIndexByClass[PlayerManager.Instance.selectedCharacterClass];
-    private (int, int) HairId => (HairStyleID, HairColorID);                    // 이 리스트에서 몇 번째인지 (0부터 시작)
 
 
     /// <summary>
@@ -66,6 +65,8 @@ public class CustomPanelManager : UIPopup
         UpdatePreview();             // 커스텀 파츠 반영
         UpdateButtonInteractable();  // 버튼 활성화
     }
+
+
 
     /// <summary>
     /// 버튼 초기화 후 연결
@@ -165,7 +166,7 @@ public class CustomPanelManager : UIPopup
         Debug.Log("UpdatePreview");
 #endif
         if (SpritePreview == null) return;
-        SpritePreview.Init(PlayerManager.Instance.selectedCharacterClass, HairStyleID, SkinId, FaceId);
+        SpritePreview.Init(ServerManager.Instance.ThisPlayerData.Class, HairStyleID, SkinId, FaceId);
     }
 
     /// <summary>
@@ -177,7 +178,7 @@ public class CustomPanelManager : UIPopup
         Debug.Log("ApplyPreview");
 #endif
         await ServerManager.Instance.WaitForThisPlayerDataAsync();
-        ServerManager.Instance.ThisPlayerData.Rpc_InitPlayerCustom(HairStyleID, HairColorID, SkinId, FaceId);
+        ServerManager.Instance.ThisPlayerData.Rpc_InitPlayerCustom(HairStyleID, SkinId, FaceId);
     }
 
 

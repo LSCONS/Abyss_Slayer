@@ -144,8 +144,11 @@ public class BattleState : BaseGameState
                     //모든 보스를 모두 처치한 상태일 경우
                     if(isFinalBoss)
                     {
-                        PlayerPrefs.SetString("ClearTime", Util.GetNowTimeStirng());
-                        ServerManager.Instance.UIStartTitle?.ClearTimeUpdate();
+                        if(GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
+                        {
+                            PlayerPrefs.SetString("ClearTime", Util.GetNowTimeStirng());
+                            ServerManager.Instance.UIStartTitle?.ClearTimeUpdate();
+                        }
                         ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.EndingScene);
                     }
                     else

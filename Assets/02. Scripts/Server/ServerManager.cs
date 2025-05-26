@@ -493,7 +493,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
                 data.FaceKey = 1;
                 data.SkinKey = 1;
                 data.HairStyleKey = 1;
-                data.HairColorKey = 5;
             }
         );
         LobbySelectPanel.CheckAllPlayerIsReady();

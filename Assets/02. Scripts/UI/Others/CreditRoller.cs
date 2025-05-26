@@ -80,14 +80,7 @@ public class CreditRoller : UIPopup
         // 감사 텍스트 끝나고 thanksTextDuration 만큼 기다렸다가 크레딧 완료 알림
         yield return new WaitForSeconds(thanksTextDuration);
         creditEnd.TrySetResult(true);
-        try
-        {
-            ServerManager.Instance.ExitRoom();
-        }
-        catch
-        {
-            GameFlowManager.Instance.QuitGame();
-        }
+        GameFlowManager.Instance.QuitGame();
     }
     /// <summary>
     /// 감사 텍스트 페이드인

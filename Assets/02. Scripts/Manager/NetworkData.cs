@@ -19,7 +19,7 @@ public class NetworkData : NetworkBehaviour
     [Networked] public bool IsReady { get; set; } = false; //플레이어 레디 여부
     [Networked] public int IntPlayerClass { get; set; } = (int)CharacterClass.Rogue; //플레이어 직업
     [Networked] public int HairStyleKey { get; set; } = 1;
-    [Networked] public int HairColorKey { get; set; } = 5;
+    public int HairColorKey => HairColorConfig.HairColorIndexByClass[Class];
     [Networked] public int FaceKey { get; set; } = 1;
     [Networked] public int SkinKey { get; set; } = 1;
     public (int, int) HairKey => (HairStyleKey, HairColorKey);
@@ -273,10 +273,9 @@ public class NetworkData : NetworkBehaviour
     }
 
     [Rpc(RpcSources.All, RpcTargets.All)]
-    public void Rpc_InitPlayerCustom(int hairStyle, int hairColor, int skin, int face)
+    public void Rpc_InitPlayerCustom(int hairStyle, int skin, int face)
     {
         HairStyleKey = hairStyle;
-        HairColorKey = hairColor;
         SkinKey = skin;
         FaceKey = face;
         ServerManager.Instance.LobbyMainPanel.UIUpdateSprite();

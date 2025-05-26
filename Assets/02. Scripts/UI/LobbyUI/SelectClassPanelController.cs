@@ -69,7 +69,7 @@ public class SelectClassPanelController : UIPopup
 #if AllMethodDebug
         Debug.Log("OnSelect");
 #endif
-        PlayerManager.Instance.SetSelectedClass(selectedCharacterClass);
+        ServerManager.Instance.ThisPlayerData.Rpc_ChangeClass(selectedCharacterClass);
         OnClose();
     }
 
