@@ -15,12 +15,21 @@ public class SkillSlotPresenter : IPresenter
 
         view.SetSkillData(model);
         view.SetIcon(model.SkillIcon);
+        SetHoldIcon();
         view.SetCoolTime(model.CurCoolTime.Value, model.MaxCoolTime.Value);
         view.SetPresenter(this);
 
         model.CurCoolTime
             .Subscribe(cur => view.SetCoolTime(cur, model.MaxCoolTime.Value))
             .AddTo(disposable);
+    }
+
+    public void SetHoldIcon()
+    {
+        if (model.SkillCategory == SkillCategory.Hold)
+        {
+            view.SetHoldIcon(true);
+        }
     }
 
     public void Dispose()

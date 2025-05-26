@@ -15,12 +15,12 @@ MonoBehaviour:
   target: {fileID: 0}
   attackableAreas:
   - serializedVersion: 2
-    x: 14
+    x: 7
     y: -2
     width: 40
     height: 8
   - serializedVersion: 2
-    x: -54
+    x: -47
     y: -2
     width: 40
     height: 8
@@ -30,9 +30,9 @@ MonoBehaviour:
   damage: 800
   addJumpHight: 2
   preDelayTime: 1
-  attackDelayTime: 0.5
+  attackDelayTime: 0.35
   postDelayTime: 1
   jumpDistanceX: 4
   jumpSpeed: 2
   attackSpeed: 1
-  scale: {x: 10, y: 3.5}
+  scale: {x: 11, y: 5}

@@ -26,10 +26,14 @@ MonoBehaviour:
   attackPerSec: 5
   preDelayTime: 0.5
   spawnPositionsX:
-  - 10
+  - 18
+  - 12
+  - 6
   - 0
-  - -10
-  tornadoCount: 3
+  - -6
+  - -12
+  - -18
+  tornadoCount: 6
   selfTornado: 0
   tornadoScale: {x: 4, y: 80}
   warningTime: 1

@@ -134,6 +134,7 @@ public class HomingProjectile : BasePoolable
     public void Destroy()
     {
         trailRenderer.enabled = false;  //탄궤적 비활성화(오브젝트풀 사용하기에 안끄면 생성시 마지막 위치에서 생성위치까지 궤적생김)
+        _inited = false;
         _fired = false;
         transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
         _animator.SetTrigger("Explosion");
