@@ -13,23 +13,13 @@ MonoBehaviour:
   m_Name: Tornado
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  attackableAreas:
-  - serializedVersion: 2
-    x: -2
-    y: -10
-    width: 4
-    height: 30
+  attackableAreas: []
   globalAttackableAreas:
   - serializedVersion: 2
-    x: 8
-    y: -10
-    width: 4
-    height: 30
-  - serializedVersion: 2
-    x: -12
-    y: -10
-    width: 4
-    height: 30
+    x: -20
+    y: 0
+    width: 40
+    height: 40
   gizmoColor: {r: 0.97646475, g: 0, b: 1, a: 0.3}
   <EAudioClip>k__BackingField: 00000000
   damage: 250
@@ -39,6 +29,8 @@ MonoBehaviour:
   - 10
   - 0
   - -10
+  tornadoCount: 3
+  selfTornado: 0
   tornadoScale: {x: 4, y: 80}
   warningTime: 1
   durationTime: 2
