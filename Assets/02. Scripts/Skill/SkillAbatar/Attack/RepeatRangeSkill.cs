@@ -44,7 +44,22 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
         {
             MovePosition = resultMovePosition;
             SoundManager.Instance.PlaySFX(EAudioClip);
-            PoolManager.Instance.Get<ZoneAOE>().Init(this, flipX, playerPosition);
+            MeleeDamageCheckData data = new MeleeDamageCheckData
+            (
+                player.PlayerRef,
+                (int)slotKey,
+                ColliderSize,
+                ColliderOffset,
+                TargetLayer.value,
+                0,
+                Damage,
+                ColliderDuration,
+                TickRate, 
+                (int)EEffectAnimatorController,
+                (int)EHitEffectType.Normal,
+                (int)EType.None
+            );
+            PoolManager.Instance.Get<ZoneAOE>().RepeatInit(data, SpawnSize, SpawnOffset, MovePosition, flipX, playerPosition);
             Vector2 spawnPosition = (Vector2)playerPosition + new Vector2(SpawnOffset.x * flipX, SpawnOffset.y);
             Vector2 startPosition = spawnPosition + resultMovePosition * flipX;
             Vector2 colliderTotalSize = new Vector2(ColliderSize.x * SpawnSize.x, ColliderSize.y * SpawnSize.y);

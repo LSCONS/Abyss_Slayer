@@ -31,8 +31,8 @@ public class Player : NetworkBehaviour, IHasHealth
     public PlayerStateMachine PlayerStateMachine { get; private set; }
     public PlayerData PlayerData { get; private set; }
     [field: Header("스킬 관련")]
-    public Dictionary<SkillSlotKey, Skill> EquippedSkills { get; private set; } = new(); // 스킬 연결용 딕셔너리
-    public Dictionary<BuffType, BuffSkill> BuffDuration { get; private set; } = new();
+    public Dictionary<SkillSlotKey, Skill> DictSlotKeyToSkill { get; private set; } = new(); // 스킬 연결용 딕셔너리
+    public Dictionary<BuffType, BuffSkill> DictBuffTypeToBuffSkill { get; private set; } = new();
     public ReactiveProperty<int> Hp { get; set; } = new();
     public ReactiveProperty<int> MaxHp { get; set; } = new();
     public ReactiveProperty<float> DamageValue { get; set; } = new(1);
@@ -216,7 +216,7 @@ public class Player : NetworkBehaviour, IHasHealth
     /// </summary>
     private void BuffDurationCompute()
     {
-        foreach (var value in BuffDuration.Values)
+        foreach (var value in DictBuffTypeToBuffSkill.Values)
         {
             if (value.IsApply)
             {
@@ -237,7 +237,7 @@ public class Player : NetworkBehaviour, IHasHealth
     /// </summary>
     private void SkillCoolTimeCompute()
     {
-        foreach (var value in EquippedSkills.Values)
+        foreach (var value in DictSlotKeyToSkill.Values)
         {
             if (!(value.CanUse))
             {
@@ -284,16 +284,16 @@ public class Player : NetworkBehaviour, IHasHealth
         skillSet = Instantiate(skillSet);
         skillSet.InstantiateSkillData(this);
 
-        EquippedSkills = new();
+        DictSlotKeyToSkill = new();
         foreach (CharacterSkillSlot slot in skillSet.skillSlots)
         {
             if (slot.skill != null)
             {
-                EquippedSkills[slot.key] = slot.skill;
+                DictSlotKeyToSkill[slot.key] = slot.skill;
             }
         }
 
-        foreach (Skill skill in EquippedSkills.Values)
+        foreach (Skill skill in DictSlotKeyToSkill.Values)
         {
             skill.Init();
         }
@@ -306,9 +306,9 @@ public class Player : NetworkBehaviour, IHasHealth
     /// <param name="slotKey">쿨타임 돌릴 스킬 키</param>
     public void SkillCoolTimeUpdate(SkillSlotKey slotKey)
     {
-        if (EquippedSkills.ContainsKey(slotKey))
+        if (DictSlotKeyToSkill.ContainsKey(slotKey))
         {
-            Skill skill = EquippedSkills[slotKey];
+            Skill skill = DictSlotKeyToSkill[slotKey];
             skill.CurCoolTime.Value = skill.MaxCoolTime.Value;
             skill.CanUse = false;
         }
@@ -417,7 +417,7 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             buffSkill.CurBuffDuration.Value = buffSkill.MaxBuffDuration.Value;
             buffSkill.IsApply = true;
-            BuffDuration[buffSkill.Type] = buffSkill; 
+            DictBuffTypeToBuffSkill[buffSkill.Type] = buffSkill; 
         }
     }
 
@@ -451,7 +451,7 @@ public class Player : NetworkBehaviour, IHasHealth
         PlayerData.PlayerStatusData.IsDead = false;
         //모든 스킬 쿨타임 0으로 변환
         //모든 버프 스킬 유지시간 0으로 변환
-        foreach (Skill skill in EquippedSkills.Values)
+        foreach (Skill skill in DictSlotKeyToSkill.Values)
         {
             skill.CurCoolTime.Value = 0;
             BuffSkill buffSkill = skill as BuffSkill;

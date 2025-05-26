@@ -1,3 +1,4 @@
+using Fusion;
 using Photon.Realtime;
 using System;
 using System.Collections;
@@ -12,8 +13,8 @@ public class MeleeDamageCheck : MonoBehaviour
     public BoxCollider2D BoxCollider { get; set; }
     public Dictionary<GameObject, float> NextHitTime { get; private set; } = new();    // 맞은 시간 저장하는 딕셔너리
     public HashSet<GameObject> hitObjects { get; private set; } = new HashSet<GameObject>(); // 스킬 맞으면 여기다가 추가해서 중복 데미지 들어오지 않도록 막음
-    public MeleeDamageCheckData Data { get; private set; }
     public Coroutine ColliderStartCoroutine { get; private set; }
+    public MeleeDamageCheckData Data { get; private set; }
 
     private void OnValidate()
     {
@@ -29,41 +30,54 @@ public class MeleeDamageCheck : MonoBehaviour
     /// <summary>
     /// 위치, 크기, 데미지, 이펙트 타입, 이펙트 타임 설정
     /// </summary>
+    /// <param name="sizeX">콜라이더 크기 X</param>
+    /// <param name="sizeY">콜라이더 크기 Y</param>
+    /// <param name="offset">오프셋</param>
+    /// <param name="damage">데미지</param>
+    /// <param name="effectType">이펙트 타입</param>
+    /// <param name="aliveTime">이펙트 지속 시간</param>
     public void Init(MeleeDamageCheckData data)
     {
-        if(BoxCollider == null)
-            BoxCollider = GetComponent<BoxCollider2D>();
+        if(BoxCollider == null) BoxCollider = GetComponent<BoxCollider2D>();
         Data = data;
-        float flag = Data.Player.IsFlipX ? -1f : 1f;
+
+        float flag = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].IsFlipX ? -1f : 1f;
 
         BoxCollider.size = Data.ColliderSize;
         BoxCollider.offset = new Vector2(Data.ColliderOffset.x * flag, Data.ColliderOffset.y);
 
         hitObjects.Clear();
         NextHitTime.Clear();
-        ColliderStartCoroutine = StartCoroutine(SetColliderDelay(data.DelayTime));
+        ColliderStartCoroutine = StartCoroutine(SetColliderDelay(Data.StartDelayTime));
     }
+
+
     public void Init(MeleeDamageCheckData data, float flipX)
     {
         if (BoxCollider == null)
             BoxCollider = GetComponent<BoxCollider2D>();
-        Data = data;
         float flag = flipX;
+        Data = data;
 
         BoxCollider.size = Data.ColliderSize;
         BoxCollider.offset = new Vector2(Data.ColliderOffset.x * flag, Data.ColliderOffset.y);
 
         hitObjects.Clear();
         NextHitTime.Clear();
-        ColliderStartCoroutine = StartCoroutine(SetColliderDelay(data.DelayTime));
+        ColliderStartCoroutine = StartCoroutine(SetColliderDelay(Data.StartDelayTime));
     }
+
 
     public void BasicInit(MeleeDamageCheckData data)
     {
         Init(data);
-        StartCoroutine(ExitColliderDelay(data.Duration));
+        StartCoroutine(ExitColliderDelay(data.ColliderDuration));
     }
 
+
+    /// <summary>
+    /// 콜라이더의 공격을 끝내고 비활성화 시키는 메서드
+    /// </summary>
     public void Exit()
     {
         if(ColliderStartCoroutine != null)
@@ -72,62 +86,66 @@ public class MeleeDamageCheck : MonoBehaviour
         BoxCollider.enabled = false;
     }
 
-    private IEnumerator SetColliderDelay(float delayTime)
+
+    /// <summary>
+    /// 특정 딜레이 시간 이후 콜라이더를 활성화시키고 공격하는 메서드
+    /// </summary>
+    /// <param name="satrtDelayTime"></param>
+    /// <returns></returns>
+    private IEnumerator SetColliderDelay(float satrtDelayTime)
     {
-        yield return new WaitForSeconds(delayTime);
+        yield return new WaitForSeconds(satrtDelayTime);
         BoxCollider.enabled = true;
         ColliderStartCoroutine = null;
     }
 
+
+    /// <summary>
+    /// 특정 시간 이후 콜라이더를 비활성화시키는 메서드
+    /// </summary>
+    /// <param name="delayTime"></param>
+    /// <returns></returns>
     private IEnumerator ExitColliderDelay(float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
         Exit();
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (Data.CanRepeatHit)
-            TryHit(col.gameObject);
-        else 
-            TryHit(col.gameObject);
-    }
 
     private void OnTriggerStay2D(Collider2D col)
     {
-        if (Data.CanRepeatHit)
-            TryHit(col.gameObject);
+        TryHit(col.gameObject);
     }
+
 
     private void TryHit(GameObject target)
     {
-        if (((1 << target.layer) & Data.TargetLayer) == 0) return;
+        Debug.Log("레이어 확인");
+        Debug.Log("1. " + (1 << target.layer));
+        Debug.Log("2. " + Data.TargetLayer);
+        Debug.Log("3. " + (LayerMask)Data.TargetLayer);
+        if (((1 << target.layer) & (LayerMask)Data.TargetLayer) == 0) return;
+        Debug.Log("레이어 통과");
 
-        //Debug.Log($"TryHit: {target.name} at {Time.time}");
-
-        // 반복 아니면 한 번만 처리하기
-        if (!Data.CanRepeatHit)
+        if (NextHitTime.TryGetValue(target, out float allowTime))
         {
-            if (hitObjects.Contains(target)) return;
-            hitObjects.Add(target);
+            Debug.Log($"1. {Time.time}");
+            Debug.Log($"2. {allowTime}");
+            Debug.Log("숫자 올라가용");
+            if (Time.time < allowTime) return; // 아직 쿨타임 안지났으면 return
         }
-        // 반복 아니면 다단 히트
-        else
-        {
-            if (NextHitTime.TryGetValue(target, out float allowTime))
-            {
-                if (Time.time < allowTime) return; // 아직 쿨타임 안지났으면 return
-            }
 
-            NextHitTime[target] = Time.time + Data.TickRate; // 다음 가능 시간 기록
-        }
+        Debug.Log("숫자 끝났어용");
+        NextHitTime[target] = Time.time + Data.TickRate; // 다음 가능 시간 기록
 
         // 뎀지 처리
         if (target.TryGetComponent<IHasHealth>(out IHasHealth enemy))
         {
-            if (Data.EffectType != null)
+            Debug.Log("타겟 찾았어용");
+            if (DataManager.Instance.DictEnumToType.TryGetValue((EType)Data.ClassTypeInt, out Type type))
             {
-                BasePoolable effect = PoolManager.Instance.Get(Data.EffectType);
+                Debug.Log("타겟 히트 이펙트 있어용");
+                BasePoolable effect = PoolManager.Instance.Get(type);
                 if (effect != null && enemy is MonoBehaviour mb)
                 {
                     Transform enemyTransform = mb.transform;
@@ -138,37 +156,30 @@ public class MeleeDamageCheck : MonoBehaviour
                     // 히트 이펙트 출력
                     if (effect is BossHitEffect bhe)
                     {
-                        bhe.PlayEffect(Data.EffectAnimationType);
+                        bhe.PlayEffect((EHitEffectType)Data.HitEffectInt);
                     }
-                    effect.AutoReturn(Data.Duration);
+                    effect.AutoReturn(Data.ColliderDuration);
                 }
             }
-            if(Data.Skill.SkillCategory == SkillCategory.DashAttack)
+
+
+            Debug.Log("타겟 데미지 줄게용");
+            if (Data.GetSkill().SkillCategory == SkillCategory.DashAttack)
             {
-                Data.Player.StartCoroutine(AttackEnemyCombo(enemy, 0.1f, 10));
+                ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].StartCoroutine(AttackEnemyCombo(enemy, 0.1f, 10));
             }
             else
             {
                 AttackEnemy(enemy);
             }
         }
-
-        // 단타이면 콜라이더 종료
-        if (!Data.CanRepeatHit)
-        {
-            var poolable = GetComponent<BasePoolable>();
-            if (poolable != null)
-                poolable.Rpc_ReturnToPool();
-            else return;
-
-            //Destroy(gameObject, 10); // 풀 객체가 아니면 그냥 파괴
-        }
     }
 
     private void AttackEnemy(IHasHealth enemy)
     {
-        enemy.Damage((int)(Data.Damage * Data.Player.DamageValue.Value), Data.Player.transform.position.x); // 백어택 계산하는 데미지 전달
-        Data.Skill.AttackAction?.Invoke();    // 스킬이 적중하면 플레이어한테 알려줌
+        Debug.Log("타겟 데미지 주고 있어용");
+        enemy.Damage((int)(Data.Damage * ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].DamageValue.Value), ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position.x); // 백어택 계산하는 데미지 전달
+        Data.GetSkill().AttackAction?.Invoke();    // 스킬이 적중하면 플레이어한테 알려줌
     }
 
     private IEnumerator AttackEnemyCombo(IHasHealth enemy, float delayTime, int attackCount)
@@ -197,61 +208,74 @@ public class MeleeDamageCheck : MonoBehaviour
 }
 
 
-public class MeleeDamageCheckData
+public struct MeleeDamageCheckData : INetworkStruct
 {
-    public Player Player            { get; private set; }
-    public Skill Skill              { get; private set; }
-    public Type EffectType          { get; private set; }
+    public PlayerRef PlayerRef            { get; private set; }
     public Vector2 ColliderSize     { get; set; }
     public Vector2 ColliderOffset   { get; set; }
-    public LayerMask TargetLayer    { get; private set; }
-    public float DelayTime          {  get; private set; }
+    public int TargetLayer    { get; private set; }
+    public float StartDelayTime          {  get; private set; }
     public float Damage             { get; private set; }
-    public float Duration           { get; private set; }
+    public float ColliderDuration           { get; private set; }
     public float TickRate           { get; private set; }
-    public bool CanRepeatHit        { get; private set; }
-    public EHitEffectType EffectAnimationType { get; private set; }  // 히트 이펙트 정보
-    public MeleeDamageCheckData(RemoteZoneRangeSkill _remoteZoneRangeSkill, Type _effectType, EHitEffectType _eHitEffectType)
+    public int SkillSlotKeyInt { get; private set; }
+    public int AnimatorControllerInt { get; private set; }
+    public int HitEffectInt { get; private set; }  // 히트 이펙트 정보
+    public int ClassTypeInt { get; private set; }
+    public MeleeDamageCheckData(RemoteZoneRangeSkill _remoteZoneRangeSkill, int _eHitEffectTypeInt, int _classTpyeInt)
     {
-        Player = _remoteZoneRangeSkill.player;
-        Skill = _remoteZoneRangeSkill;
+        PlayerRef = _remoteZoneRangeSkill.player.PlayerRef;
+        SkillSlotKeyInt = (int)_remoteZoneRangeSkill.slotKey;
         ColliderSize = _remoteZoneRangeSkill.ColliderSize;
         ColliderOffset = _remoteZoneRangeSkill.ColliderOffset;
         TargetLayer = _remoteZoneRangeSkill.TargetLayer;
-        DelayTime = _remoteZoneRangeSkill.ColliderSetDelayTime;
+        StartDelayTime = _remoteZoneRangeSkill.ColliderSetDelayTime;
         Damage = _remoteZoneRangeSkill.Damage;
-        Duration = _remoteZoneRangeSkill.ColliderDuration;
+        ColliderDuration = _remoteZoneRangeSkill.ColliderDuration;
         TickRate = _remoteZoneRangeSkill.TickRate;
-        CanRepeatHit = _remoteZoneRangeSkill.CanRepeatHit;
-        EffectType = _effectType;
-        EffectAnimationType = _eHitEffectType;
+        AnimatorControllerInt = (int)_remoteZoneRangeSkill.EEffectAnimatorController;
+        HitEffectInt = _eHitEffectTypeInt;
+        ClassTypeInt = _classTpyeInt;
     }
 
     public MeleeDamageCheckData
         (
-            Player _player,  
-            Skill _skill, 
-            Vector2 _size, 
-            Vector2 _offset, 
-            LayerMask _layer, 
+            PlayerRef _playerRef,
+            int _skillSlotKeyInt,
+            Vector2 _size,
+            Vector2 _offset,
+            int _layer,
             float _delayTime,
-            float _damage, 
+            float _damage,
             float _duration,
             float _tickRate,
-            bool _canRepeatHit,
-            Type _effectType
+            int _animatorControllerInt,
+            int _hitEffectInt = -1,
+            int _classTpyeInt = (int)EType.None
         )
     {
-        Player = _player;
-        Skill = _skill;
+        PlayerRef = _playerRef;
+        SkillSlotKeyInt = _skillSlotKeyInt;
         ColliderSize = _size;
         ColliderOffset = _offset;
         TargetLayer = _layer;
-        DelayTime = _delayTime;
+        StartDelayTime = _delayTime;
         Damage = _damage;
-        Duration = _duration;
+        ColliderDuration = _duration;
         TickRate = _tickRate;
-        CanRepeatHit = _canRepeatHit;
-        EffectType = _effectType;
+        AnimatorControllerInt = _animatorControllerInt;
+        HitEffectInt = _hitEffectInt;
+        ClassTypeInt = _classTpyeInt;
+    }
+
+    public Skill GetSkill()
+    {
+        return ServerManager.Instance.DictRefToPlayer[PlayerRef].DictSlotKeyToSkill[(SkillSlotKey)SkillSlotKeyInt];
+    }
+
+    public void SetCollider(Vector2 colliderSize, Vector2 colliderOffset)
+    {
+        ColliderSize = colliderSize;
+        ColliderOffset = colliderOffset;
     }
 }

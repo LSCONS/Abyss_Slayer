@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 
 [RequireComponent(typeof(NetworkObject), typeof(BossController))]
@@ -30,6 +31,9 @@ public class Boss : NetworkBehaviour, IHasHealth
 
     public override void Spawned()
     {
+#if AllMethodDebug
+        Debug.Log("Spawned");
+#endif
         base.Spawned();
         BossController.Init();
         Hp.Value = MaxHp.Value;
@@ -57,6 +61,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// </summary>
     private void ServerUpdate()
     {
+#if AllMethodDebug
+        Debug.Log("ServerUpdate");
+#endif
         if (!(RunnerManager.Instance.GetRunner().IsServer)) return;
 
         //서버에서 현재의 보스 포지션을 공유
@@ -81,6 +88,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// </summary>
     private void ClientUpdate()
     {
+#if AllMethodDebug
+        Debug.Log("ClientUpdate");
+#endif
         if (Runner.IsServer) return;
 
         //서버에서 공유 받은 SpriteFlipX를 적용
@@ -100,6 +110,9 @@ public class Boss : NetworkBehaviour, IHasHealth
 
     public void ChangeHP(int value)
     {
+#if AllMethodDebug
+        Debug.Log("ChangeHP");
+#endif
         Hp.Value = Mathf.Clamp(Hp.Value + value, 0, MaxHp.Value);
         if (Hp.Value == 0)
         {
@@ -113,6 +126,17 @@ public class Boss : NetworkBehaviour, IHasHealth
     }
 
 
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public async void Rpc_CrosshairObjectSetActive(bool isActive)
+    {
+#if AllMethodDebug
+        Debug.Log("Rpc_CrosshairObjectSetActive");
+#endif
+        await ServerManager.Instance.WaitForHairCrossObject();
+        PoolManager.Instance.CrossHairObject.gameObject.SetActive(isActive);
+    }
+
+
     /// <summary>
     /// 애니메이터 ReSetTrigger를 공유할 Rpc 메서드
     /// </summary>
@@ -120,6 +144,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_ResetTriggerAnimationHash(int hash)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_ResetTriggerAnimationHash");
+#endif
         Animator.ResetTrigger(hash);
     }
 
@@ -131,12 +158,18 @@ public class Boss : NetworkBehaviour, IHasHealth
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetTriggerAnimationHash(int hash)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_SetTriggerAnimationHash");
+#endif
         Animator.SetTrigger(hash);
     }
 
     [Rpc(RpcSources.StateAuthority,RpcTargets.All)]
     public void Rpc_SetSpriteEnable(bool enable)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_SetSpriteEnable");
+#endif
         Animator.enabled = enable;
         Sprite.enabled = enable;
     }
@@ -150,6 +183,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetBoolAnimationHash(int hash, bool value)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_SetBoolAnimationHash");
+#endif
         Animator.SetBool(hash, value);
     }
 
@@ -162,6 +198,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetFloatAnimationHash(int hash, float value)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_SetFloatAnimationHash");
+#endif
         Animator.SetFloat(hash, value);
     }
 
@@ -174,6 +213,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetIntegerAniamtionHash(int hash, int value)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_SetIntegerAniamtionHash");
+#endif
         Animator.SetInteger(hash, value);
     }
 
@@ -221,6 +263,9 @@ public class Boss : NetworkBehaviour, IHasHealth
 
     void Damaged()
     {
+#if AllMethodDebug
+        Debug.Log("Damaged");
+#endif
         CancelInvoke(nameof(DamagedEnd));
         Sprite.color = Color.red;
         Invoke(nameof(DamagedEnd), GameValueManager.Instance.OnDamageBossColorDuration);
@@ -229,6 +274,9 @@ public class Boss : NetworkBehaviour, IHasHealth
 
     void DamagedEnd()
     {
+#if AllMethodDebug
+        Debug.Log("DamagedEnd");
+#endif
         Sprite.color = Color.white;
     }
 
@@ -241,6 +289,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// <param name="onExpire">디버프 끝날 시 실행할 행동</param>
     public void ApplyDebuff(DebuffType type, float duration, Action onApply = null, Action onExpire = null)
     {
+#if AllMethodDebug
+        Debug.Log("ApplyDebuff");
+#endif
         // 이미 존재하는 디버프만 시간 갱신
         if (ActiveDebuffs.ContainsKey(type))
         {
@@ -278,6 +329,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// <returns></returns>
     private IEnumerator RemoveDebuffAfterTime(DebuffType type, float duration)
     {
+#if AllMethodDebug
+        Debug.Log("RemoveDebuffAfterTime");
+#endif
         yield return new WaitForSeconds(duration);
         if (ActiveDebuffs.ContainsKey(type))
         {
@@ -293,6 +347,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// <returns></returns>
     public bool HasDebuff(DebuffType type)
     {
+#if AllMethodDebug
+        Debug.Log("HasDebuff");
+#endif
         return ActiveDebuffs.ContainsKey(type);
     }
 
@@ -303,6 +360,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// <returns></returns>
     public DebuffData GetDebuffData(DebuffType type)
     {
+#if AllMethodDebug
+        Debug.Log("GetDebuffData");
+#endif
         return ActiveDebuffs.TryGetValue(type, out var data) ? data : null;
     }
 }

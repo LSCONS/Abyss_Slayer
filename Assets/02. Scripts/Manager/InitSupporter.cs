@@ -13,7 +13,7 @@ public class InitSupporter : NetworkBehaviour
         ServerManager.Instance.InitSupporter = this;
     }
 
-
+    
     public void Rpc_StartCrossSlashInit(Vector3 position, bool isLeft, int damage, int hash, float speed , float scaleX, float scaleY )
     {
         PoolManager.Instance.Get<CrossSlash>().Rpc_Init(position, isLeft, damage, hash, speed, scaleX, scaleY);

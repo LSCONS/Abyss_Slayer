@@ -29,12 +29,14 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<EAniamtionCurve, AnimationCurve> DictEnumToCurve { get; private set; } = new();
     public Dictionary<EBossStage, NetworkObject> DictEnumToBossObjcet { get; private set; } = new();
     public Dictionary<EAudioClip, AudioClipData> DictEnumToAudioData { get; private set; } = new();
+    public Dictionary<EAnimatorController, RuntimeAnimatorController> DictEnumToAnimatorData { get; private set; } = new();
     public Dictionary<CharacterClass, CharacterSkillSet> DictClassToSkillSet { get; private set; } = new();
     public Dictionary<CharacterClass, PlayerData> DictClassToPlayerData { get; private set; } = new();
     public PoolManager PoolManagerPrefab { get; private set; }
     public InitSupporter InitSupporterPrefab { get; private set; }
     public NetworkData PlayerNetworkDataPrefab { get; private set; }
     public Player PlayerPrefab { get; private set; }
+    public GameObject DashEffectPrefab { get; private set; }
     public NetworkObjectFollowServer CrossHairPrefab {  get; private set; }
     public List<BasePoolable> ListBasePoolablePrefab { get; private set; } = new();
     //첫 키의 int는 스타일, 두번 째 키의 int는 Color
@@ -48,7 +50,10 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothBot { get; set; } = new();
     private int[] HairColorVariants { get; set; } = new int[] { 1, 2, 4, 5, 6, 10 };  // 클래스별 머리색 c1,c2...
     public int MaxHairFKey, MaxHairMKey, MaxSkinKey, MaxFaceKey;
-
+    public Dictionary<EType, Type> DictEnumToType { get; set; } = new()
+    {
+        { EType.BossHitEffect, typeof(BossHitEffect) },
+    };
 
     protected override void Awake()
     {
@@ -67,6 +72,7 @@ public class DataManager : Singleton<DataManager>
         await LoadPlayerData();
         await DataLoadCharacterToSpriteData();
         await DataLoadPoolObjectData();
+        await DataLoadAnimatorControllerData();
 
         return;
     }
@@ -146,7 +152,6 @@ public class DataManager : Singleton<DataManager>
         PlayerPrefab = player.Result.GetComponent<Player>();
         if (PlayerPrefab == null) { Debug.Log("Error Player is null"); }
 
-        
         var crossHair = Addressables.LoadAssetAsync<GameObject>("CrossHairPrefab");
         await crossHair.Task;
         CrossHairPrefab = crossHair.Result.GetComponent< NetworkObjectFollowServer>();
@@ -156,6 +161,11 @@ public class DataManager : Singleton<DataManager>
         await networkData.Task;
         PlayerNetworkDataPrefab = networkData.Result.GetComponent<NetworkData>();
         if (PlayerNetworkDataPrefab == null) { Debug.Log("Error NetworkData is null"); }
+
+        var dashEffectPrefab = Addressables.LoadAssetAsync<GameObject>("DashEffectPrefab");
+        await dashEffectPrefab.Task;
+        DashEffectPrefab = dashEffectPrefab.Result;
+        if (DashEffectPrefab == null) { Debug.Log("Error DashEffectPrefab is null"); }
         return;
     }
 
@@ -324,19 +334,44 @@ public class DataManager : Singleton<DataManager>
     /// </summary>
     private async Task DataLoadAudioClipData()
     {
-        var AudioClipData = Addressables.LoadAssetAsync<AudioClipDataGather>("AuidoClipDatas");
+        var AudioClipData = Addressables.LoadAssetsAsync<AudioClipDataGather>("AuidoClipDatas", null);
         await AudioClipData.Task;
-        AudioClipDataGather gatherData = AudioClipData.Result;
-        foreach (AudioClipEnumData data in gatherData.ListAudioClipEnumData)
+        AudioClipDataGather[] gatherData = AudioClipData.Result.ToArray();
+        foreach (AudioClipDataGather gather in gatherData)
         {
-            DictEnumToAudioData[data.EnumClip] = data.AudioClipData;
+            foreach (AudioClipEnumData data in gather.ListAudioClipEnumData)
+            {
+                DictEnumToAudioData[data.EnumClip] = data.AudioClipData;
+            }
         }
         return;
     }
 
+
+    /// <summary>
+    /// 애니메이터 데이터를 로드하는 메서드
+    /// </summary>
+    private async Task DataLoadAnimatorControllerData()
+    {
+        var AnimatorControllerData = Addressables.LoadAssetsAsync<AnimatorControllerDataGather>("AnimatorController", null);
+        await AnimatorControllerData.Task;
+        AnimatorControllerDataGather[] gatherData = AnimatorControllerData.Result.ToArray();
+        foreach (AnimatorControllerDataGather gather in gatherData)
+        {
+            foreach (AnimatorControllerData data in gather.ListAnimatorController)
+            {
+                if (data.AnimatorController == null) continue;
+                DictEnumToAnimatorData[data.EAnimatorContoller] = data.AnimatorController;
+            }
+        }
+        return;
+    }
+    
+
     /// <summary>
     /// 딕셔너리를 복사해서 반환해주는 메서드
     /// </summary>
+    /// 
     /// <param name="data"></param>
     /// <returns></returns>
     public Dictionary<AnimationState, Sprite[]> InstantiateDictionary(Dictionary<AnimationState, Sprite[]> data)
@@ -353,4 +388,10 @@ public class DataManager : Singleton<DataManager>
         }
         return result;
     }
+}
+
+public enum EType
+{
+    None = 0,
+    BossHitEffect,
 }

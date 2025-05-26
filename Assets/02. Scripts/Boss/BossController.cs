@@ -53,7 +53,8 @@ public class BossController : NetworkBehaviour
         get { return _showTargetCrosshair; }
         set 
         {
-            PoolManager.Instance.CrossHairObject.gameObject.SetActive(value);
+            if(RunnerManager.Instance.GetRunner().IsServer)
+            Boss.Rpc_CrosshairObjectSetActive(value);
             _showTargetCrosshair = value;
         }
     }
@@ -85,17 +86,16 @@ public class BossController : NetworkBehaviour
 
     public void Init()
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
+        if (!(Runner.IsServer)) return;
         for (int i = 0; i < AllPatterns.Count; i++)     //소지한 모든 패턴데이터에 자신의 정보 삽입
         {
             AllPatterns[i].patternData.Init(this);
         }
         AppearPattern?.Init(this);
         Phase2Pattern?.Init(this);
-
-        if (Runner.IsServer || PoolManager.Instance.CrossHairObject == null)
-        {
-            Runner.Spawn(DataManager.Instance.CrossHairPrefab);
-        }
 
         _isRun = false;
         ChasingTarget = false;
@@ -186,6 +186,9 @@ public class BossController : NetworkBehaviour
     /// <returns></returns>
     private IEnumerator PlayPhase2()
     {
+#if AllMethodDebug
+        Debug.Log("PlayPhase2");
+#endif
         if (Phase2Pattern == null)
         {
             Debug.LogWarning("2페 데이터가 없습니다");
@@ -295,6 +298,9 @@ public class BossController : NetworkBehaviour
 
     private IEnumerator CheckDelayCompute(BossPattern pattern)
     {
+#if AllMethodDebug
+        Debug.Log("CheckDelayCompute");
+#endif
         pattern.SamePatternDelayCurTime = pattern.samePatternDelayTime;
         while(true)
         {
@@ -440,6 +446,9 @@ public class BossController : NetworkBehaviour
     }
     public bool IsLand()
     {
+#if AllMethodDebug
+        Debug.Log("IsLand");
+#endif
         PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
         return scene2D.Raycast(transform.position, Vector3.down, BossCenterHight + 0.01f, LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask);
     }
@@ -485,6 +494,9 @@ public class BossController : NetworkBehaviour
 
     private Transform GetClosestPlayerTransform()
     {
+#if AllMethodDebug
+        Debug.Log("GetClosestPlayerTransform");
+#endif
         Player closestPlayer = null;
         float minDistance = float.MaxValue;
 
