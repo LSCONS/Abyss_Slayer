@@ -360,7 +360,7 @@ MonoBehaviour:
     bossCheckHP: 0.5
   - weight: 1.3
     patternData: {fileID: 11400000, guid: b30074fd7051e8e478bb212713a4c796, type: 2}
-    samePatternDelayTime: 9
+    samePatternDelayTime: 17
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
@@ -460,7 +460,16 @@ MonoBehaviour:
   <JumpMoveTime>k__BackingField: 1
   <JumpMoveHight>k__BackingField: 3
   <GravityMultiplier>k__BackingField: 10
-  <runSpeed>k__BackingField: 12
+  <runSpeed>k__BackingField: 15
+  curPatternDebug:
+    weight: 1
+    patternData: {fileID: 0}
+    samePatternDelayTime: 0
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckActiveTrue: 0
+    isCheckActiveFalse: 0
+    bossCheckHP: 0.5
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 576

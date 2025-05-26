@@ -10,6 +10,8 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI skillName;
 
+    [SerializeField] private Image iconHold;
+
     [SerializeField] private Image coolTimeOverlay;
     [SerializeField] private TextMeshProUGUI coolTimeText;
     [SerializeField] private TextMeshProUGUI skillLevelText;
@@ -64,6 +66,12 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 #endif
         skillName.text = skillData.SkillName;
     }
+
+    public void SetHoldIcon(bool isshow)
+    {
+        iconHold?.gameObject.SetActive(isshow);
+    }
+
 
     public void SetCoolTime(float curCoolTime, float maxCoolTime)
     {
