@@ -9,13 +9,17 @@ public class TornadoData : BasePatternData
     [SerializeField] int damage;
     [SerializeField] float attackPerSec = 5f;
     [SerializeField] float preDelayTime = 0.5f;
-    [Tooltip("토네이도가 생성될 위치 (월드 x좌표값) 디자인상 양끝2개 기본으로 생각하고 만듦")]
-    [SerializeField] List<float> spawnPositionsX = new List<float> { 10, -10 };
+    [Tooltip("토네이도가 생성될 후보 위치 (월드 x좌표값 -20 ~ 20)")]
+    [SerializeField] List<float> spawnPositionsX;
+    [Tooltip("생성개수")]
+    [SerializeField] int tornadoCount;
+    [Tooltip("체크시 보스 자신위치에도 토네이도 생성")]
+    [SerializeField] bool selfTornado;
     [SerializeField] Vector2 tornadoScale;
     [SerializeField] float warningTime = 1f;
     [SerializeField] float durationTime = 2.5f;
     [SerializeField] float postDelayTime = 1f;
-
+    List<int> _listIndex = new List<int>();
     public override IEnumerator ExecutePattern()
     {
         //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
@@ -28,13 +32,33 @@ public class TornadoData : BasePatternData
         //자신위치에 토네이도 한개 생성
         if (EAudioClip != null && EAudioClip.Count > 0)
             SoundManager.Instance.PlaySFX(EAudioClip[0]);
-        ServerManager.Instance.InitSupporter.Rpc_StartTornadoInit(new Vector3(bossTransform.position.x, tornadoScale.y/20), damage, durationTime, attackPerSec, warningTime, tornadoScale.x,tornadoScale.y);
-        //PoolManager.Instance.Get<Tornado>().Init(new Vector3(bossTransform.position.x, groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
+        if (selfTornado)
+        {
+            //PoolManager.Instance.Get<Tornado>().Init(new Vector3(bossTransform.position.x, groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
+            ServerManager.Instance.InitSupporter.Rpc_StartTornadoInit(new Vector3(bossTransform.position.x, tornadoScale.y / 20), damage, durationTime, attackPerSec, warningTime, tornadoScale.x, tornadoScale.y);
+        }
+        
+        
 
-        //지정된 위치(기본 맵양끝)에 전부 토네이도 생성
+        _listIndex.Clear();
         for (int i = 0; i < spawnPositionsX.Count; i++)
         {
-            ServerManager.Instance.InitSupporter.Rpc_StartTornadoInit(new Vector3(spawnPositionsX[i], tornadoScale.y/20), damage, durationTime, attackPerSec, warningTime, tornadoScale.x, tornadoScale.y);
+            _listIndex.Add(i);
+        }
+        for(int i = spawnPositionsX.Count - 1; i > 0 ; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (_listIndex[i], _listIndex[j]) = (_listIndex[j], _listIndex[i]);
+        }
+        if(tornadoCount > spawnPositionsX.Count)
+        {
+            Debug.LogWarning($"소환할 토네이도개수({tornadoCount})가 토네이도위치후보 개수({spawnPositionsX.Count})보다 많음");
+            tornadoCount = spawnPositionsX.Count;
+        }
+        //지정된 위치 중 지정 숫자만큼 토네이도 생성
+        for (int i = 0; i < tornadoCount; i++)
+        {
+            ServerManager.Instance.InitSupporter.Rpc_StartTornadoInit(new Vector3(spawnPositionsX[_listIndex[i]], tornadoScale.y/20), damage, durationTime, attackPerSec, warningTime, tornadoScale.x, tornadoScale.y);
             //PoolManager.Instance.Get<Tornado>().Init(new Vector3(spawnPositionsX[i], groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
         }
 
