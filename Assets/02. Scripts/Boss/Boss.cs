@@ -61,9 +61,6 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// </summary>
     private void ServerUpdate()
     {
-#if AllMethodDebug
-        Debug.Log("ServerUpdate");
-#endif
         if (!(RunnerManager.Instance.GetRunner().IsServer)) return;
 
         //서버에서 현재의 보스 포지션을 공유
@@ -88,9 +85,6 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// </summary>
     private void ClientUpdate()
     {
-#if AllMethodDebug
-        Debug.Log("ClientUpdate");
-#endif
         if (Runner.IsServer) return;
 
         //서버에서 공유 받은 SpriteFlipX를 적용

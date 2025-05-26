@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Threading.Tasks;
 using Fusion;
 using System.Linq;
-using static Unity.Collections.Unicode;
+using System.Threading.Tasks;
+using UnityEngine;
 public class BattleState : BaseGameState
 {
     public static int BossSceneCount { get; private set; } = 4;

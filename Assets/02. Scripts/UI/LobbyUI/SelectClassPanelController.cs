@@ -56,10 +56,18 @@ public class SelectClassPanelController : UIPopup
         selectedCharacterClass = cc;
         // 설명 갱신
         descText.text = cc.GetDescription();
-        int hairStyleKey = ServerManager.Instance.ThisPlayerData.HairStyleKey;
+        int hairStyleKey = 1;
         int hairColorkey = HairColorConfig.HairColorIndexByClass[cc];
-        int skinkey = ServerManager.Instance.ThisPlayerData.SkinKey;
-        int facekey = ServerManager.Instance.ThisPlayerData.FaceKey;
+        int skinkey = 1;
+        int facekey = 1;
+
+        if(uISceneType == UISceneType.Lobby)
+        {
+            hairStyleKey = ServerManager.Instance.ThisPlayerData.HairStyleKey;
+            skinkey = ServerManager.Instance.ThisPlayerData.SkinKey;
+            facekey = ServerManager.Instance.ThisPlayerData.FaceKey;
+        }
+
 
         spriteImageChange.Init(cc, hairStyleKey, skinkey, facekey);
     }
@@ -68,8 +76,15 @@ public class SelectClassPanelController : UIPopup
     {
 #if AllMethodDebug
         Debug.Log("OnSelect");
-#endif
-        ServerManager.Instance.ThisPlayerData.Rpc_ChangeClass(selectedCharacterClass);
+#endif        
+        if(uISceneType == UISceneType.Lobby)
+        {
+            ServerManager.Instance.ThisPlayerData.Rpc_ChangeClass(selectedCharacterClass);
+        }
+        else if (uISceneType == UISceneType.Start)
+        {
+            GameFlowManager.Instance.ClientSceneLoad(ESceneName.TutorialScene);
+        }
         OnClose();
     }
 
@@ -81,6 +96,5 @@ public class SelectClassPanelController : UIPopup
         SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         disposables.Clear();
         base.OnClose();
-
     }
 }

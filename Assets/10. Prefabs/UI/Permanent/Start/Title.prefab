@@ -1756,7 +1756,7 @@ GameObject:
   - component: {fileID: 8979247142550285680}
   - component: {fileID: 6717977269341571938}
   m_Layer: 5
-  m_Name: SinglePlayerText
+  m_Name: TutorialText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1809,7 +1809,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC2F1\uAE00 \uD50C\uB808\uC774"
+  m_text: "\uD29C\uD1A0\uB9AC\uC5BC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
   m_sharedMaterial: {fileID: 4235015433858947674, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
@@ -2075,7 +2075,7 @@ GameObject:
   - component: {fileID: 3425257273760985582}
   - component: {fileID: 1975422700163496813}
   m_Layer: 5
-  m_Name: SinglePlayer
+  m_Name: Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2198,7 +2198,7 @@ MonoBehaviour:
   uiType: 5
   uISceneType: 2
   isClose: 0
-  popupName: 
+  popupName: TutorialSelecClassPanel
   alarmIcon: {fileID: 0}
   escCanOpen: 0
 --- !u!1 &9204733621870387411
