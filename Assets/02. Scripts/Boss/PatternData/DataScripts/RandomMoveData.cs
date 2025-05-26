@@ -10,9 +10,10 @@ public class RandomMoveData : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         isdone = false;
+        float time = Time.time + 3f;
         Coroutine pattern = bossController.StartCoroutine(Pattern());
 
-        float time = Time.time + 3f;
+        
 
         while(!isdone && time >= Time.time)
         {
@@ -20,12 +21,8 @@ public class RandomMoveData : BasePatternData
         }
         if (!isdone)
         {
+            bossController.ReStartPatternLoop();
             bossController.StopAllCoroutines();
-            bossController.IsRun = false;
-            bossAnimator.SetTrigger("Idle");
-            yield return new WaitForSeconds(0.05f);
-            bossAnimator.ResetTrigger("Idle");
-            bossController.StartCoroutine(bossController.PatternLoop());
         }
     }
     IEnumerator Pattern()
