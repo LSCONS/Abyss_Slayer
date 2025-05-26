@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 984ec404fbdf81b4dbebb183cd26a2c0, type: 3}
   m_Name: TankerSkillS
   m_EditorClassIdentifier: 
-  <SkillName>k__BackingField: "\uC57D\uD654"
+  <SkillName>k__BackingField: "\uC57D\uD654 (S)"
   <SkillDesription>k__BackingField: "\uBCF4\uC2A4\uC5D0\uAC8C \uBC1B\uB294 \uD53C\uD574\uB7C9\uC744
     30% \uC99D\uAC00\uC2DC\uD0A4\uB294 \uB514\uBC84\uD504\uB97C \uAC81\uB2C8\uB2E4."
   <SkillCategory>k__BackingField: 4
@@ -40,8 +40,8 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 256
-  baseEffectAmount: 1.3
-  effectAmount: 1.3
+  baseEffectAmount: 1.35
+  effectAmount: 1.35
   baseDuration: 0
   duration: 0
   debuffType: 1

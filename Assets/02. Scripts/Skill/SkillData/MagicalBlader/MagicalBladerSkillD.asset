@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f733e3f38d726b4fba212bc2d9d2631, type: 3}
   m_Name: MagicalBladerSkillD
   m_EditorClassIdentifier: 
-  <SkillName>k__BackingField: "\uB9C8\uAC80\uC0AC D"
+  <SkillName>k__BackingField: "\uB9C8\uAC80\uC0AC (D)"
   <SkillDesription>k__BackingField: "\uAC80\uC744 \uC18C\uD658\uD574 \uAC15\uB825\uD55C
     \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4. \uAE30\uBCF8 \uACF5\uACA9 \uC801\uC911
     \uC2DC \uCFE8\uD0C0\uC784 1.5\uCD08 \uAC10\uC18C"
@@ -22,7 +22,7 @@ MonoBehaviour:
   <CanUse>k__BackingField: 1
   <CanMove>k__BackingField: 0
   <MaxCoolTime>k__BackingField:
-    value: 25
+    value: 28
   <CurCoolTime>k__BackingField:
     value: 0
   <ApplyState>k__BackingField: -1
@@ -37,8 +37,8 @@ MonoBehaviour:
     value: 1
   <Magnification>k__BackingField: 0.1
   <isDurationUp>k__BackingField: 0
-  <BaseDamage>k__BackingField: 11500
-  <Damage>k__BackingField: 11500
+  <BaseDamage>k__BackingField: 9000
+  <Damage>k__BackingField: 9000
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
