@@ -14,6 +14,7 @@ public class CharacterSkillSet : ScriptableObject
         {
             skillSlots[i].skill = Instantiate(skillSlots[i].skill);
             skillSlots[i].skill.player = player;
+            skillSlots[i].skill.slotKey = skillSlots[i].key;
         }
     }
 }

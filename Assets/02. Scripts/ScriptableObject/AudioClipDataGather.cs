@@ -62,10 +62,10 @@ public enum EAudioClip
     SFX_MageSkill_S = 602,
     SFX_MageSkill_D = 603,
 
-    SFX_MagicalBlasderSkill_X = 700,
-    SFX_MagicalBlasderSkill_A = 701,
-    SFX_MagicalBlasderSkill_S = 702,
-    SFX_MagicalBlasderSkill_D = 703,
+    SFX_MagicalBlasterSkill_X = 700,
+    SFX_MagicalBlasterSkill_A = 701,
+    SFX_MagicalBlasterSkill_S = 702,
+    SFX_MagicalBlasterSkill_D = 703,
 
     SFX_Fire = 800,
     SFX_Human_Atk_Sword1,

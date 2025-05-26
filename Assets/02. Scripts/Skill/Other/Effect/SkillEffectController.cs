@@ -11,9 +11,9 @@ public class SkillEffectController : BasePoolable
 
     private void Awake()
     {
-        if(fadeController==null)
+        if (fadeController == null)
             fadeController = GetComponentInChildren<FadeController>();
-        if(animator==null)
+        if (animator == null)
             animator = GetComponentInChildren<Animator>();
     }
 
@@ -21,16 +21,23 @@ public class SkillEffectController : BasePoolable
     {
         if (fadeController == null) Debug.LogError("페이드 컨트롤러 빠짐");
         if (animator == null) Debug.LogError("animator 빠짐");
+    }
 
+    public override void Rpc_Init()
+    {
 
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public override void Rpc_Init()
+    public void Rpc_Init(int EClipNameInt, float skillEffectsDuration, Vector3 position, Vector3 scale)
     {
         // 시작할 때 페이드인
         gameObject.SetActive(true);
+        transform.position = position;
+        transform.localScale = scale;
         fadeController?.FadeIn(1f);     // 딱 보일 때까지 페이드인
+        animator.Play(((ESkillStartClipName)EClipNameInt).ToString());
+        AutoReturn(skillEffectsDuration);
     }
 
     /// <summary>
@@ -52,15 +59,12 @@ public class SkillEffectController : BasePoolable
     {
         yield return new WaitForSeconds(duration - fadeDuration);
 
-        fadeController?.FadeOut(()=> Rpc_ReturnToPool()); // 페이드 아웃 끝나면 풀로 리턴 해줌
+        fadeController?.FadeOut(() => Rpc_ReturnToPool()); // 페이드 아웃 끝나면 풀로 리턴 해줌
     }
+}
 
-    // clip play해주는 메서드
-    public void PlayClip(string clipName)
-    {
-        if (!string.IsNullOrEmpty(clipName))
-        {
-            animator.Play(clipName);
-        }
-    }
+public enum ESkillStartClipName
+{
+    None = 0,
+    TankerSpellSkillEffect,
 }

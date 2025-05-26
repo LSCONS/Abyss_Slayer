@@ -45,7 +45,7 @@ public class PlayerStateMachine : StateMachine
         DictIntToState[num++] = FallState;
         DictIntToState[num++] = DieState;
 
-        foreach (var key in player.EquippedSkills.Keys)
+        foreach (var key in player.DictSlotKeyToSkill.Keys)
         {
             PlayerSkillEnterStateDict[key] = new PlayerSkillEnterState(this, key);
             PlayerSkillUseStateDict[key] =  new PlayerSkillUseState(this, key);
@@ -62,7 +62,7 @@ public class PlayerStateMachine : StateMachine
         DieState.Init();
 
 
-        foreach (var key in player.EquippedSkills.Keys)
+        foreach (var key in player.DictSlotKeyToSkill.Keys)
         {
             PlayerSkillEnterStateDict[key].Init();
             PlayerSkillUseStateDict[key].Init();
@@ -157,7 +157,7 @@ public class PlayerStateMachine : StateMachine
     private bool IsZeroGround() => (Player.playerCheckGround.GroundPlaneCount + Player.playerCheckGround.GroundPlatformCount) == 0;
 
     /// <summary>해당 SlotKey의 스킬이 사용 가능한지 확인</summary>
-    private bool IsSkillCanUse(SkillSlotKey slotKey) => Player.EquippedSkills[slotKey].CanUse;
+    private bool IsSkillCanUse(SkillSlotKey slotKey) => Player.DictSlotKeyToSkill[slotKey].CanUse;
 
     /// <summary>MoveDir.y의 값이 0보다 작은지 확인</summary>
     private bool IsDownMoveDirY() => Player.NetworkInput.MoveDir.y < 0;

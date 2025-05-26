@@ -25,7 +25,7 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
         Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
 
         // Player의 모든 스킬 중 BuffSkill만 감지
-        foreach (var skill in player.EquippedSkills.Values)
+        foreach (var skill in player.DictSlotKeyToSkill.Values)
         {
             if (skill is BuffSkill buffSkill)
             {

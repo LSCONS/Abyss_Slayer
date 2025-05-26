@@ -41,7 +41,7 @@ public class BuffSkill : Skill
             var foundSkills = new List<ProjectileAttackSkill>(); // 투사체 스킬 리스트 저장
             
             // 장착된 스킬들 중에서 투사체 스킬 찾기
-            foreach (var skill in player.EquippedSkills.Values)
+            foreach (var skill in player.DictSlotKeyToSkill.Values)
             {
                 if (skill is ProjectileAttackSkill projectileSkill)
                 {

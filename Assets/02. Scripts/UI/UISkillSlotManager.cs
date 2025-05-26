@@ -30,7 +30,7 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
     { 
         init = true;
 
-        foreach (var kvp in ServerManager.Instance.ThisPlayer.EquippedSkills)
+        foreach (var kvp in ServerManager.Instance.ThisPlayer.DictSlotKeyToSkill)
         {
             if (!IsASDKey(kvp.Key))
                 continue;
@@ -54,7 +54,7 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
 
 
         // 이제 플레이어 스킬 다시 돌면서 재연결
-        foreach (var kvp in ServerManager.Instance.ThisPlayer.EquippedSkills)
+        foreach (var kvp in ServerManager.Instance.ThisPlayer.DictSlotKeyToSkill)
         {
             if (!IsASDKey(kvp.Key))
                 continue;

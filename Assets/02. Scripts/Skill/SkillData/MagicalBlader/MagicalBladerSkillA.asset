@@ -29,7 +29,7 @@ MonoBehaviour:
   <SkillUseState>k__BackingField: 12
   <AnimationChangeDelayTime>k__BackingField: 0.04
   <IsConnectSkillCoolDown>k__BackingField: 0
-  <SkillEffectsClipName>k__BackingField: 
+  <SkillEffectsClipName>k__BackingField: 0
   <SkillEffectsDuration>k__BackingField: 1
   <HitEffectType>k__BackingField: 0
   Level:
@@ -47,9 +47,8 @@ MonoBehaviour:
   <SpawnOffset>k__BackingField: {x: 0, y: 0}
   <ColliderDuration>k__BackingField: 0.3
   <TickRate>k__BackingField: 0.2
-  <EffectName>k__BackingField: Null
+  <EEffectAnimatorController>k__BackingField: 202
   <ColliderSetDelayTime>k__BackingField: 0
   <CanRepeatHit>k__BackingField: 0
   <DashTime>k__BackingField: 0.2
   <DashDistance>k__BackingField: 8
-  dashEffectPrefab: {fileID: 6217270966681975731, guid: bc5396bf2df41e64396c3ce969831978, type: 3}

@@ -19,7 +19,7 @@ public class BasicMeleeSkill : MeleeAttackSkill
         if(meleeDamageCheck == null)
             meleeDamageCheck = player.PlayerMeleeCollider.GetComponent<MeleeDamageCheck>();
 
-        MeleeDamageCheckData data = new MeleeDamageCheckData(player, this, ColliderSize, ColliderOffset, TargetMask,0, Damage, ColliderDuration, 0, false, typeof(BossHitEffect));
+        MeleeDamageCheckData data = new MeleeDamageCheckData(player.PlayerRef, (int)slotKey, ColliderSize, ColliderOffset, TargetMask, 0, Damage, ColliderDuration, 100, (int)EHitEffectType.Normal);
 
         meleeDamageCheck.BasicInit(data);
     }

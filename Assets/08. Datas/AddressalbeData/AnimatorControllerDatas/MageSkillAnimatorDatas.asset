@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ddd79f940eb6d941b0cf33ed8d987e1, type: 3}
+  m_Name: MageSkillAnimatorDatas
+  m_EditorClassIdentifier: 
+  ListAnimatorController:
+  - <EAnimatorContoller>k__BackingField: 101
+    <AnimatorController>k__BackingField: {fileID: 9100000, guid: 834cf4120562b034da38b724f32fc15f, type: 2}
+  - <EAnimatorContoller>k__BackingField: 102
+    <AnimatorController>k__BackingField: {fileID: 0}
+  - <EAnimatorContoller>k__BackingField: 103
+    <AnimatorController>k__BackingField: {fileID: 9100000, guid: 1aba001ca22bbe74c97c6a41f793c5b0, type: 2}
+  - <EAnimatorContoller>k__BackingField: 104
+    <AnimatorController>k__BackingField: {fileID: 9100000, guid: 0444f0fdc8524c944aba0773b6dfb15e, type: 2}

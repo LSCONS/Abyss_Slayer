@@ -18,7 +18,7 @@ public class CoolDownZonewSkill : RemoteZoneRangeSkill
 
     public override void Init()
     {
-        foreach(Skill skill in player.EquippedSkills.Values)
+        foreach(Skill skill in player.DictSlotKeyToSkill.Values)
         {
             if (skill.IsConnectSkillCoolDown)
             {
