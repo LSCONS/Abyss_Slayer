@@ -8,6 +8,9 @@ public class NetworkObjectFollowServer : NetworkBehaviour
     public Vector2 TargetPosition {  get; set; }
     public override void Spawned()
     {
+#if AllMethodDebug
+        Debug.Log("Spawned");
+#endif
         base.Spawned();
         PoolManager.Instance.CrossHairObject = this;
         transform.parent = null;

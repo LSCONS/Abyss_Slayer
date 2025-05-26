@@ -52,11 +52,12 @@ public class MeleeDamageCheck : MonoBehaviour
     }
 
 
-    public void Init(MeleeDamageCheckData Data, float flipX)
+    public void Init(MeleeDamageCheckData data, float flipX)
     {
         if (BoxCollider == null)
             BoxCollider = GetComponent<BoxCollider2D>();
         float flag = flipX;
+        Data = data;
 
         BoxCollider.size = Data.ColliderSize;
         BoxCollider.offset = new Vector2(Data.ColliderOffset.x * flag, Data.ColliderOffset.y);
@@ -119,20 +120,31 @@ public class MeleeDamageCheck : MonoBehaviour
 
     private void TryHit(GameObject target)
     {
-        if (((1 << target.layer) & Data.TargetLayer) == 0) return;
+        Debug.Log("레이어 확인");
+        Debug.Log("1. " + (1 << target.layer));
+        Debug.Log("2. " + Data.TargetLayer);
+        Debug.Log("3. " + (LayerMask)Data.TargetLayer);
+        if (((1 << target.layer) & (LayerMask)Data.TargetLayer) == 0) return;
+        Debug.Log("레이어 통과");
 
         if (NextHitTime.TryGetValue(target, out float allowTime))
         {
+            Debug.Log($"1. {Time.time}");
+            Debug.Log($"2. {allowTime}");
+            Debug.Log("숫자 올라가용");
             if (Time.time < allowTime) return; // 아직 쿨타임 안지났으면 return
         }
 
-        NextHitTime[target] = Time.time + Data.Damage; // 다음 가능 시간 기록
+        Debug.Log("숫자 끝났어용");
+        NextHitTime[target] = Time.time + Data.TickRate; // 다음 가능 시간 기록
 
         // 뎀지 처리
         if (target.TryGetComponent<IHasHealth>(out IHasHealth enemy))
         {
-            if (DataManager.Instance.DictEnumToType.TryGetValue((EType)Data.AnimatorControllerInt, out Type type))
+            Debug.Log("타겟 찾았어용");
+            if (DataManager.Instance.DictEnumToType.TryGetValue((EType)Data.ClassTypeInt, out Type type))
             {
+                Debug.Log("타겟 히트 이펙트 있어용");
                 BasePoolable effect = PoolManager.Instance.Get(type);
                 if (effect != null && enemy is MonoBehaviour mb)
                 {
@@ -149,7 +161,10 @@ public class MeleeDamageCheck : MonoBehaviour
                     effect.AutoReturn(Data.ColliderDuration);
                 }
             }
-            if(Data.GetSkill().SkillCategory == SkillCategory.DashAttack)
+
+
+            Debug.Log("타겟 데미지 줄게용");
+            if (Data.GetSkill().SkillCategory == SkillCategory.DashAttack)
             {
                 ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].StartCoroutine(AttackEnemyCombo(enemy, 0.1f, 10));
             }
@@ -162,6 +177,7 @@ public class MeleeDamageCheck : MonoBehaviour
 
     private void AttackEnemy(IHasHealth enemy)
     {
+        Debug.Log("타겟 데미지 주고 있어용");
         enemy.Damage((int)(Data.Damage * ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].DamageValue.Value), ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position.x); // 백어택 계산하는 데미지 전달
         Data.GetSkill().AttackAction?.Invoke();    // 스킬이 적중하면 플레이어한테 알려줌
     }
@@ -195,8 +211,6 @@ public class MeleeDamageCheck : MonoBehaviour
 public struct MeleeDamageCheckData : INetworkStruct
 {
     public PlayerRef PlayerRef            { get; private set; }
-    public int SkillSlotKeyInt              { get; private set; }
-    public int AnimatorControllerInt          { get; private set; }
     public Vector2 ColliderSize     { get; set; }
     public Vector2 ColliderOffset   { get; set; }
     public int TargetLayer    { get; private set; }
@@ -204,8 +218,11 @@ public struct MeleeDamageCheckData : INetworkStruct
     public float Damage             { get; private set; }
     public float ColliderDuration           { get; private set; }
     public float TickRate           { get; private set; }
+    public int SkillSlotKeyInt { get; private set; }
+    public int AnimatorControllerInt { get; private set; }
     public int HitEffectInt { get; private set; }  // 히트 이펙트 정보
-    public MeleeDamageCheckData(RemoteZoneRangeSkill _remoteZoneRangeSkill, int _eHitEffectTypeInt)
+    public int ClassTypeInt { get; private set; }
+    public MeleeDamageCheckData(RemoteZoneRangeSkill _remoteZoneRangeSkill, int _eHitEffectTypeInt, int _classTpyeInt)
     {
         PlayerRef = _remoteZoneRangeSkill.player.PlayerRef;
         SkillSlotKeyInt = (int)_remoteZoneRangeSkill.slotKey;
@@ -218,21 +235,23 @@ public struct MeleeDamageCheckData : INetworkStruct
         TickRate = _remoteZoneRangeSkill.TickRate;
         AnimatorControllerInt = (int)_remoteZoneRangeSkill.EEffectAnimatorController;
         HitEffectInt = _eHitEffectTypeInt;
+        ClassTypeInt = _classTpyeInt;
     }
-    
+
     public MeleeDamageCheckData
         (
             PlayerRef _playerRef,
-            int _skillSlotKeyInt, 
-            Vector2 _size, 
-            Vector2 _offset, 
-            int _layer, 
+            int _skillSlotKeyInt,
+            Vector2 _size,
+            Vector2 _offset,
+            int _layer,
             float _delayTime,
-            float _damage, 
+            float _damage,
             float _duration,
             float _tickRate,
             int _animatorControllerInt,
-            int _hitEffectInt = -1
+            int _hitEffectInt = -1,
+            int _classTpyeInt = (int)EType.None
         )
     {
         PlayerRef = _playerRef;
@@ -246,6 +265,7 @@ public struct MeleeDamageCheckData : INetworkStruct
         TickRate = _tickRate;
         AnimatorControllerInt = _animatorControllerInt;
         HitEffectInt = _hitEffectInt;
+        ClassTypeInt = _classTpyeInt;
     }
 
     public Skill GetSkill()

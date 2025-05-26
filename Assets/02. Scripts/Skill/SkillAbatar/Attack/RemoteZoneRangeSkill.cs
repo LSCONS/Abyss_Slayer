@@ -38,7 +38,7 @@ public class RemoteZoneRangeSkill : RangeAttackSkill
     {
         base.UseSkill();
         // 풀에서 ZoneAOE 꺼내기
-        MeleeDamageCheckData data = new MeleeDamageCheckData(player.PlayerRef, (int)slotKey, ColliderSize, ColliderOffset, TargetLayer, 0, Damage, ColliderDuration, TickRate, (int)EEffectAnimatorController);
+        MeleeDamageCheckData data = new MeleeDamageCheckData(player.PlayerRef, (int)slotKey, ColliderSize, ColliderOffset, TargetLayer.value, 0, Damage, ColliderDuration, TickRate, (int)EEffectAnimatorController, (int)EHitEffectType.Normal, (int)EType.None);
         PoolManager.Instance.Get<ZoneAOE>().Init(data, SpawnSize, SpawnOffset, Vector2.zero);
     }
 }

@@ -137,6 +137,32 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     }
 
 
+    public async Task WaitForHairCrossObject()
+    {
+#if AllMethodDebug
+        Debug.Log("WaitForHairCrossObject");
+#endif
+        while (PoolManager.CrossHairObject == null)
+        {
+            await Task.Delay(100);
+        }
+        return;
+    }
+
+
+    public async Task WaitForPoolManager()
+    {
+#if AllMethodDebug
+        Debug.Log("WaitForPoolManager");
+#endif
+        while (PoolManager == null)
+        {
+            await Task.Delay(100);
+        }
+        return;
+    }
+
+
     public async Task WaitforBossSpawn()
     {
 #if AllMethodDebug

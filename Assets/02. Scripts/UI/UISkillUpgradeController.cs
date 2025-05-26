@@ -1,6 +1,7 @@
 using Analytics;
 using Photon.Realtime;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -205,8 +206,10 @@ public class UISkillUpgradeController : UIPopup
 
 
     // 닫을 때 적용안한 것들 초기화
-    private void ResetUnappliedChange()
+    private async void ResetUnappliedChange()
     {
+        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+
         // 포인트 돌려놓기
         SkillPoint = OriginalSkillPoint;
         UpdateSkillPointText();

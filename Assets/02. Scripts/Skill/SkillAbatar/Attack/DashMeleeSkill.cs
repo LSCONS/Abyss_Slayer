@@ -21,13 +21,14 @@ public class DashMeleeSkill : RemoteZoneRangeSkill
             (int)slotKey,
             ColliderSize,
             ColliderOffset,
-            TargetLayer,
+            TargetLayer.value,
             0,
             Damage,
             ColliderDuration,
             TickRate,
             (int)EEffectAnimatorController,
-            (int)EHitEffectType.Dash
+            (int)EHitEffectType.Dash,
+            (int)EType.BossHitEffect
         );
         PoolManager.Instance.Get<ZoneAOE>().DashInit(data, SpawnSize, SpawnOffset, DashDistance, DashTime);
     }
