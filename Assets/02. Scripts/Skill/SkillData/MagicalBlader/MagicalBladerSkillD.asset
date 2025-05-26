@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f733e3f38d726b4fba212bc2d9d2631, type: 3}
   m_Name: MagicalBladerSkillD
   m_EditorClassIdentifier: 
-  <SkillName>k__BackingField: "\uB9C8\uAC80\uC0AC D"
+  <SkillName>k__BackingField: "\uB9C8\uAC80\uC0AC (D)"
   <SkillDesription>k__BackingField: "\uAC80\uC744 \uC18C\uD658\uD574 \uAC15\uB825\uD55C
     \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4. \uAE30\uBCF8 \uACF5\uACA9 \uC801\uC911
-    \uC2DC \uCFE8\uD0C0\uC784 1.5\uCD08 \uAC10\uC18C"
+    \uC2DC \uCFE8\uD0C0\uC784 1\uCD08 \uAC10\uC18C"
   <SkillCategory>k__BackingField: 6
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: d5da1a910a31265449fc5920b4cadf85, type: 3}
   <EAudioClip>k__BackingField: 703
@@ -37,8 +37,8 @@ MonoBehaviour:
     value: 1
   <Magnification>k__BackingField: 0.1
   <isDurationUp>k__BackingField: 0
-  <BaseDamage>k__BackingField: 11500
-  <Damage>k__BackingField: 11500
+  <BaseDamage>k__BackingField: 9500
+  <Damage>k__BackingField: 9500
   <TargetLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
@@ -51,4 +51,4 @@ MonoBehaviour:
   <EEffectAnimatorController>k__BackingField: 204
   <ColliderSetDelayTime>k__BackingField: 0.5
   <CanRepeatHit>k__BackingField: 1
-  <CoolDownTime>k__BackingField: 1.5
+  <CoolDownTime>k__BackingField: 1
