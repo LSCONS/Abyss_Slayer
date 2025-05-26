@@ -115,5 +115,6 @@ public enum EAudioClip
     SFX_Woosh_230554,
     SFX_Woosh_255592,
     SFX_Hit,
+    SFX_Fox_Claw,
 
 }

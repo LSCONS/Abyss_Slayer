@@ -14,6 +14,7 @@ public class DashClawData : BasePatternData
     [SerializeField] int comboAttackCount = 3;
     [SerializeField] float comboDelayTime = 0.5f;
     [SerializeField] float postDelayTime = 2f;
+
     public override IEnumerator ExecutePattern()
     {
         bossController.ShowTargetCrosshair = true;
@@ -29,13 +30,19 @@ public class DashClawData : BasePatternData
         bossController.IsRun = false;
 
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.Dash1ParameterHash);
+
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[1]);
+
         ServerManager.Instance.InitSupporter.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, preDelayTime, attackDuration);
         bossController.ChasingTarget = false;
 
-        if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+        
 
         yield return new WaitForSeconds(preDelayTime);
+
+        if (EAudioClip != null && EAudioClip.Count > 0)
+            SoundManager.Instance.PlaySFX(EAudioClip[0]);
         bossAnimator.enabled = false;
         bossController.Sprite.enabled = false;
         bossController.HitCollider.enabled = false;
@@ -51,11 +58,10 @@ public class DashClawData : BasePatternData
         {
             isLeft = target.transform.position.x - bossTransform.position.x < 0;
             ServerManager.Instance.InitSupporter.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, comboDelayTime, attackDuration);
-
-            if (EAudioClip != null && EAudioClip.Count > 1)
-                SoundManager.Instance.PlaySFX(EAudioClip[1]);
-
+                   
             yield return new WaitForSeconds(comboDelayTime);
+            if (EAudioClip != null && EAudioClip.Count > 1)
+                SoundManager.Instance.PlaySFX(EAudioClip[0]);
             bossController.Sprite.enabled = false;
             bossController.HitCollider.enabled = false;
             boss.IsLeft = isLeft;
