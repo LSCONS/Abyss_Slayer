@@ -150,7 +150,6 @@ public class UISkillUpgradeController : UIPopup
         });
         UpgradeSlots.Add(skill, slot);
     }
-
     private void UpdateSkillPointText()
     {
         skillPointText.text = $"스킬 포인트: {SkillPoint}";
