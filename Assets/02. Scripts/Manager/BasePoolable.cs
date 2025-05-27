@@ -30,6 +30,7 @@ public abstract class BasePoolable : NetworkBehaviour
     public virtual void AutoReturn(float aliveTime){}
 
 
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public virtual void Rpc_ReturnToPool()
     {
 #if AllMethodDebug

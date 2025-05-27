@@ -54,7 +54,7 @@ public class JumpSlashData : BasePatternData
         float targetX = target.position.x + (boss.IsLeft ? 1 : -1);
         targetY += bossCenterHight + jumpHight;
         Vector3 targetPos = new Vector3(targetX, targetY);
-        bossAnimator.SetBool(AnimationHash.AttackJumpParameterHash, true);
+        boss.Rpc_SetBoolAnimationHash(AnimationHash.AttackJumpParameterHash, true);
         bossController.StartCoroutine(bossController.JumpMove(targetPos,jumpSpeedTime, 0));
 
         yield return new WaitForSeconds(jumpSpeedTime - (0.6f * 1 / attackSpeed) +  attackDelayTime);
@@ -74,7 +74,7 @@ public class JumpSlashData : BasePatternData
             yield return new WaitForSeconds(attackIntervalTime);
         }
         bossController.ShowTargetCrosshair = true;
-        bossAnimator.SetBool(AnimationHash.AttackJumpParameterHash, false);
+        boss.Rpc_SetBoolAnimationHash(AnimationHash.AttackJumpParameterHash, false);
         yield return new WaitForSeconds(0.7f * 1 / attackSpeed + 0.1f);
         yield return bossController.StartCoroutine(bossController.Landing());
         yield return new WaitForSeconds(postDelayTime);

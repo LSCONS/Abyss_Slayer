@@ -1,6 +1,4 @@
 using Fusion;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GravityProjectile : BasePoolable
@@ -16,6 +14,7 @@ public class GravityProjectile : BasePoolable
     float _baseSpeed;
     float _maxSpeed;
     float _minSpeed;
+
     
     Transform _target;
     float _throwTime;
@@ -25,7 +24,7 @@ public class GravityProjectile : BasePoolable
         _rigidbody = GetComponent<Rigidbody2D>();
         _sprite.SetActive(false);
     }
-    private void Update()
+    public override void FixedUpdateNetwork()
     {
         if (!_throwed && Time.time >= _throwTime)
         {
@@ -56,7 +55,7 @@ public class GravityProjectile : BasePoolable
         transform.localScale = Vector3.one * size;
         _gravity = 9.81f * gravityScale;
         _rigidbody.gravityScale = gravityScale;
-        _bossProjectileCollider.Init(_damage,Destroy,piercingCount);
+        _bossProjectileCollider.Init(_damage,Rpc_Destroy,piercingCount);
     }
 
     public void Init(Vector3 direction, int damage, float speed, int piercingCount, float size = 1f, float gravityScale = 1f)
@@ -78,13 +77,13 @@ public class GravityProjectile : BasePoolable
 
         Vector2 velocity = new Vector2(_velocityX, velocityY);                          //목표물의 x축 거리가 짧을때 y속도가 과도하게 높아지는 현상 방지
         velocity = velocity.normalized * Mathf.Clamp(velocity.magnitude,_minSpeed,_maxSpeed + 1);
-
-
         _rigidbody.velocity = velocity;
+
         _rigidbody.angularVelocity = Random.Range(-90f, 90f);                           //랜덤 회전값
     }
 
-    void Destroy()
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void Rpc_Destroy()
     {
         _rigidbody.bodyType = RigidbodyType2D.Kinematic;
         _rigidbody.velocity = Vector2.zero;

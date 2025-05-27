@@ -164,7 +164,12 @@ public class ZoneAOE : BasePoolable
     {
         if (effectPrefab != null)
             effectPrefab.SetActive(false);
-        Rpc_ReturnToPool();
+
+        if (Runner.IsServer)
+        {
+            Rpc_ReturnToPool();
+        }
+
         Animator.enabled = false;
         MeleeDamageCheck.Exit();
         if (Data.GetSkill().SkillCategory == SkillCategory.Hold)

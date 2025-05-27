@@ -16,7 +16,7 @@ public class ThrowRockData : BasePatternData
     [SerializeField] float postDelayTime = 1f;
     public override IEnumerator ExecutePattern()
     {
-        bossAnimator.SetTrigger(AnimationHash.Attack3ParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.Attack3ParameterHash);
         bossController.ChasingTarget = true;
         bossController.ShowTargetCrosshair = true;
         yield return new WaitForSeconds(preDelayTime + 0.5f);
@@ -28,7 +28,7 @@ public class ThrowRockData : BasePatternData
         bossController.ChasingTarget = false;
         bossController.ShowTargetCrosshair = false;
         yield return new WaitForSeconds(1.2f + delayThrowTime);
-        bossAnimator.SetTrigger(AnimationHash.IdleParameterHash);
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.IdleParameterHash);
         yield return new WaitForSeconds(postDelayTime);
     }
 }

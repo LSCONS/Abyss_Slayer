@@ -387,7 +387,7 @@ public class BossController : NetworkBehaviour
         {
             float x = Mathf.Lerp(startPosition.x, targetPosition.x, time / _jumpMoveTime);
             if (time >= hightestTime)
-                Animator .SetTrigger(AnimationHash.FallParameterHash);
+                Boss.Rpc_SetTriggerAnimationHash(AnimationHash.FallParameterHash);
             float y = startPosition.y + (startVelocityY * time) - (0.5f * jumpGravity * time * time);
             transform.position = new Vector3(x, y, 0);
             time += Time.deltaTime;

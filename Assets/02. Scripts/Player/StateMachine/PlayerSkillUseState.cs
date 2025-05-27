@@ -135,12 +135,15 @@ public class PlayerSkillUseState : PlayerBaseState
                 if ((SkillData.SkillCategory == SkillCategory.Dash && animationNum % 2 == 0) ||
                     SkillData.SkillCategory == SkillCategory.DashAttack)
                 {
-                    PoolManager.Instance.Get<DashPlayerSilhouette>().Rpc_Init
+                    if (playerStateMachine.Player.Runner.IsServer)
+                    {
+                        PoolManager.Instance.Get<DashPlayerSilhouette>().Rpc_Init
                     (
                         playerStateMachine.Player.PlayerRef,
                         playerStateMachine.Player.PlayerSpriteChange.transform.position,
                         playerStateMachine.Player.IsFlipX
                     );
+                    }
                 }
                 return;
             }

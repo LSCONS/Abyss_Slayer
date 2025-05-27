@@ -35,6 +35,7 @@ public class DashPlayerSilhouette : BasePoolable
     private IEnumerator ReturnPoolObject()
     {
         yield return waitSeconds;
+        if(Runner.IsServer)
         Rpc_ReturnToPool();
     }
 }

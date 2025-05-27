@@ -40,6 +40,15 @@ public static class AnimationHash
     public static int ExplosionParameterHash      { get; private set; } = Animator.StringToHash("Explosion");
     public static int WarningTimeParameterHash    { get; private set; } = Animator.StringToHash("WarningTime"); 
     public static int EndChasingParameterHash     { get; private set; } = Animator.StringToHash("EndChasing");
-    public static int PreDelayTimeParameterHash   { get; private set; } = Animator.StringToHash("PreDelayTime");
-    public static int AttackDurationParameterHash { get; private set; } = Animator.StringToHash("AttackDuration");
+    public static int PreDelayTimeParameterHash   { get; private set; } = Animator.StringToHash("PreDelayTime"); 
+    public static int AttackDurationParameterHash { get; private set; } = Animator.StringToHash("AttackDuration"); 
+    public static int kick1ParameterHash { get; private set; } = Animator.StringToHash("kick1");
+    public static int HomingMissaile3ParameterHash { get; private set; } = Animator.StringToHash("HomingMissaile3");
+    public static int ShockWave1ParameterHash { get; private set; } = Animator.StringToHash("ShockWave1");
+    public static int ShockWave2ParameterHash { get; private set; } = Animator.StringToHash("ShockWave2");
+    public static int Uppercut1ParameterHash { get; private set; } = Animator.StringToHash("Uppercut1");
+    public static int Uppercut2ParameterHash { get; private set; } = Animator.StringToHash("Uppercut2");
+    public static int Uppercut3ParameterHash { get; private set; } = Animator.StringToHash("Uppercut3");
+    public static int Uppercut4ParameterHash { get; private set; } = Animator.StringToHash("Uppercut4");
+    public static int Uppercut5ParameterHash { get; private set; } = Animator.StringToHash("Uppercut5");
 }
