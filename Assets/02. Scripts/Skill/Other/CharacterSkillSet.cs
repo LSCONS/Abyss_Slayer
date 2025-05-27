@@ -23,9 +23,6 @@ public class CharacterSkillSet : ScriptableObject
             // Z,X,A,S,D 중 어디랑 연결되어있는 스킬인지 명시하고 초기화
             skillSlots[i].skill.slotKey = skillSlots[i].key;
 
-            //첫 변수 초기화는 기존 Z,X,A,S,D로 설정
-            skillSlots[i].skill.TextInputSlotKey = skillSlots[i].skill.slotKey.ToString();
-
             //스킬에 해당하는 KeyAction을 배정함.
             skillSlots[i].skill.KeyAction = InitKeyAction(skillSlots[i].key);
         }
