@@ -37,6 +37,7 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
     }
 
     [SerializeField] private List<KeyBind> keys = new();
+    [SerializeField] private Button resetButton;
 
     private Dictionary<keyAction, Button> keyBindButtonMap = new();
     private Dictionary<keyAction, KeyCode> inputBindKeyMap = new();    // 입력해서 바뀐 값
@@ -74,6 +75,8 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
                 StartRebind(key.actionName);
             });
         }
+
+        resetButton.onClick.AddListener(ResetAllKeys);
 
         initSettingKey = true;
     }
