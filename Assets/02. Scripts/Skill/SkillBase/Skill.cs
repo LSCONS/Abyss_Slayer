@@ -12,6 +12,7 @@ public class Skill : ScriptableObject
     public Player player { get; set; }
     // 해당 스킬이 사용하고 있는 스킬 슬롯 enum 변수
     public SkillSlotKey slotKey { get; set; }
+    public keyAction KeyAction { get; set; }
     // 해당 스킬이 어떤 키와 연결 되고 있는지 알려주는 문자열 변수
     public string TextInputSlotKey {  get; set; }
     [field: Header("스킬 이름")]
