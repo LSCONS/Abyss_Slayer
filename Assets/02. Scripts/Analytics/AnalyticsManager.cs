@@ -89,7 +89,7 @@ public class AnalyticsManager : MonoBehaviour
     /// <summary>
     /// 퍼널 단계 이벤트 전송 함수
     /// </summary>
-    /// <param name="stepNumber">퍼널 단계 번호 (1~23)</param>
+    /// <param name="stepNumber">퍼널 단계 번호 (1~16)</param>
     public static void SendFunnelStep(int stepNumber)
     {
         if (!isInitialized) return;

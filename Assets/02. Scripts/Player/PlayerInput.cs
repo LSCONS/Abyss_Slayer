@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
+    [SerializeField] private Player player; // Player 컴포넌트 참조
 
     #region 프로퍼티 선언
     /// <summary>InputSystem의 C# 제너레이터로 만든 스크립트 저장</summary>
@@ -32,12 +33,27 @@ public class PlayerInput : MonoBehaviour
     /// <summary>플레이어가 스킬D을 입력했는지 확인</summary>
     public bool IsSkillD        { get; private set; }
     public bool IsConnectInput { get; private set; }
+
+    /// <summary>현재 키 셋팅 설정</summary>
+    private Dictionary<keyAction, InputAction> keySettings = new Dictionary<keyAction, InputAction>();
     #endregion
 
 
     private void Awake() 
     {
         Inputs = new PlayerInputs();
+        InitializeKeySettings();
+    }
+
+    private void InitializeKeySettings()
+    {
+        var playerAction = Inputs.Player;
+        keySettings[keyAction.DefaultAttack] = playerAction.SkillX;
+        keySettings[keyAction.Dash] = playerAction.SkillZ;
+        keySettings[keyAction.Skill1] = playerAction.SkillA;
+        keySettings[keyAction.Skill2] = playerAction.SkillS;
+        keySettings[keyAction.Skill3] = playerAction.SkillD;
+        keySettings[keyAction.Jump] = playerAction.Jump;
     }
 
 
@@ -61,6 +77,9 @@ public class PlayerInput : MonoBehaviour
         playerAction.SkillS.canceled    += StopSkillS;
         playerAction.SkillD.started     += StartSkillD;
         playerAction.SkillD.canceled    += StopSkillD;
+
+        // 키 바인드 변경 이벤트 구독
+        KeyBindPanel.Instance.OnKeyBindChanged += UpdateKeyBinding;
     }
 
 
@@ -93,8 +112,40 @@ public class PlayerInput : MonoBehaviour
         playerAction.SkillS.canceled    -= StopSkillS;
         playerAction.SkillD.started     -= StartSkillD;
         playerAction.SkillD.canceled    -= StopSkillD;
+
+        // 키 바인드 변경 이벤트 구독 해제
+        if (KeyBindPanel.Instance != null)
+        {
+            KeyBindPanel.Instance.OnKeyBindChanged -= UpdateKeyBinding;
+        }
     }
 
+    /// <summary>
+    /// 키 바인드 변경 이벤트 업데이트
+    /// </summary>
+    /// <param name="action">변경할 키 액션</param>
+    /// <param name="newKey">바인딩할 키코드</param>
+    private void UpdateKeyBinding(keyAction action, KeyCode newKey)
+    {
+        if (keySettings.TryGetValue(action, out var inputAction))
+        {
+            // InputSystem의 키 바인딩 업데이트
+            var binding = inputAction.bindings[0]; // 바인딩 첫번째 인덱스 = 키보드 입력 바인딩
+            var newPath = $"<Keyboard>/{newKey}"; // 키 바인딩 경로
+            inputAction.ChangeBinding(0).WithPath(newPath); // 키 바인딩 경로 변경
+
+            // 스킬의 TextInputSlotKey 업데이트
+            if (player != null)
+            {
+                var skillSlotKey = (SkillSlotKey)action;
+                if (player.DictSlotKeyToSkill.TryGetValue(skillSlotKey, out var skill))
+                {
+                    skill.TextInputSlotKey = newKey.ToString();
+                    Debug.LogAssertion(skill.TextInputSlotKey);
+                }
+            }
+        }
+    }
 
     /// <summary>플레이어 움직임 감지</summary>
     private void StartMove(InputAction.CallbackContext context) => MoveDir = context.ReadValue<Vector2>();

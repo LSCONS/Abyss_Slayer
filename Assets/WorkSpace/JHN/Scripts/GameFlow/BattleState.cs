@@ -58,11 +58,11 @@ public class BattleState : BaseGameState
         var boss = ServerManager.Instance.Boss;
         float hpPercent = boss.Hp.Value / boss.MaxHp.Value * 100f;
 
-        // 100%
-        if (!sentHP100 && Mathf.Approximately(hpPercent, 100f))
+        // 90%
+        if (!sentHP100 && hpPercent <= 90f)
         {
             sentHP100 = true;
-            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(100));
+            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(90));
         }
         // 66%
         if (!sentHP66 && hpPercent <= 66f)
@@ -115,9 +115,6 @@ public class BattleState : BaseGameState
                 player4Class: GetPlayerClass(3), player4Damage: GetPlayerDamage(3), player4Death: GetPlayerDeath(3),
                 player5Class: GetPlayerClass(4), player5Damage: GetPlayerDamage(4), player5Death: GetPlayerDeath(4)
             );
-
-            // 퍼널 스텝(클리어 단계) 전송
-            AnalyticsManager.SendFunnelStep(GetFunnelStepClear());
         }
 
         if (boss.IsDead)
@@ -321,34 +318,17 @@ public class BattleState : BaseGameState
         switch (stageIndex)
         {
             case 0: // 스테이지1
-                if (percent == 100) return 4;
+                if (percent == 90) return 4;
                 if (percent == 66) return 5;
                 if (percent == 33) return 6;
                 if (percent == 5) return 7;
                 break;
             case 1: // 스테이지2
-                if (percent == 100) return 11;
+                if (percent == 90) return 11;
                 if (percent == 66) return 12;
                 if (percent == 33) return 13;
                 if (percent == 5) return 14;
                 break;
-            case 2: // 스테이지3
-                if (percent == 100) return 18;
-                if (percent == 66) return 19;
-                if (percent == 33) return 20;
-                if (percent == 5) return 21;
-                break;
-        }
-        return -1;
-    }
-
-    private int GetFunnelStepClear()
-    {
-        switch (stageIndex)
-        {
-            case 0: return 8;   // 스테이지1 클리어
-            case 1: return 15;  // 스테이지2 클리어
-            case 2: return 22;  // 스테이지3 클리어
         }
         return -1;
     }
