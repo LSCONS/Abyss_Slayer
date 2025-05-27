@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fff22fb233e8ea47951d9b25134686a, type: 3}
-  m_Name: SquareLaser
+  m_Script: {fileID: 11500000, guid: 71f4434849457ad46beeae1281f9e797, type: 3}
+  m_Name: LaserBox 2
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   attackableAreas: []
@@ -21,14 +21,19 @@ MonoBehaviour:
     width: 40
     height: 20
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
-  <EAudioClip>k__BackingField: 2403000025030000
-  damage: 350
-  damageIntervalTime: 0.1
-  projectileCount: 7
-  projectileGap: 2
-  delayFireTime: 0.2
-  intervalFireTime: 0.08
-  effectSpeed: 1
-  postDelayTime: 2
-  pase2: 1
-  secondDelayTime: 1.2
+  <EAudioClip>k__BackingField: 8903000025030000
+  damage: 1200
+  isPiercing: 1
+  fireCount: 3
+  preDelayTime: 1
+  spawnPoint: {x: 0, y: 0, z: 0}
+  firePositions:
+  - {x: -10, y: 5, z: 0}
+  - {x: -10, y: 15, z: 0}
+  - {x: 10, y: 5, z: 0}
+  - {x: 10, y: 15, z: 0}
+  spawnTime: 1
+  moveTime: 1.2
+  chasingTime: 0.3
+  postDelayTime: 1
+  chasing: 0

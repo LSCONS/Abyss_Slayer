@@ -428,14 +428,30 @@ MonoBehaviour:
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
-    isCheckActiveFalse: 0
+    isCheckActiveFalse: 1
     bossCheckHP: 0.5
+  - weight: 1
+    patternData: {fileID: 11400000, guid: 50e2e14376ed9df49a401617ba05c919, type: 2}
+    samePatternDelayTime: 9
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckActiveTrue: 1
+    isCheckActiveFalse: 0
+    bossCheckHP: 0.67
   - weight: 1
     patternData: {fileID: 11400000, guid: ca4ceaddc4d5c8045b0b06622fd03155, type: 2}
     samePatternDelayTime: 9
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
+    isCheckActiveFalse: 1
+    bossCheckHP: 0.5
+  - weight: 1
+    patternData: {fileID: 11400000, guid: bd5f7593216b2404fb43f55e092f1604, type: 2}
+    samePatternDelayTime: 9
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckActiveTrue: 1
     isCheckActiveFalse: 0
     bossCheckHP: 0.5
   - weight: 1
