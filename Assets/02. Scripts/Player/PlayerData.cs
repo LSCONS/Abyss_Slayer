@@ -77,6 +77,10 @@ public class PlayerStatusData
             {
                 return GameValueManager.Instance.HardPlayerMultiypleOnDamage;
             }
+            else if (GameValueManager.Instance.EGameLevel == EGameLevel.Easy)
+            {
+                return GameValueManager.Instance.EasyPlayerMultiypleOnDamage;
+            }
             else
             {
                 return 1;
