@@ -8,7 +8,7 @@ public class Laser : BasePoolable
     int _damage;
     Transform _target;
     float _warningTime;
-    float _chasingTime;
+    float _chasingEndTime;
     float _width;
     LayerMask _layerMask;
     bool _isPiercing;
@@ -29,7 +29,7 @@ public class Laser : BasePoolable
     {
         if(!_chasingEnd)
         {
-            if(Time.time - _startTime >= _chasingTime)
+            if(Time.time >= _chasingEndTime)
             {
                 _chasingEnd = true;
                 _animator.SetTrigger(AnimationHash.EndChasingParameterHash);
@@ -74,7 +74,7 @@ public class Laser : BasePoolable
         transform.rotation = Quaternion.Euler(0,0,_angle);
 
         _animator.SetFloat(AnimationHash.WarningTimeParameterHash, 1/warningTime);
-        _chasingTime = chasingTime;
+        _chasingEndTime = Time.time + chasingTime;
         _startTime = Time.time;
         _chasingEnd = false;
 
