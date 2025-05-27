@@ -2,10 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FoxSphere2Data : BasePatternData
+public class FoxSphere2Data : MonoBehaviour
 {
-    public override IEnumerator ExecutePattern()
+    // Start is called before the first frame update
+    void Start()
     {
-        throw new System.NotImplementedException();
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

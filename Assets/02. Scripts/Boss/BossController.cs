@@ -82,7 +82,7 @@ public class BossController : NetworkBehaviour
 
     // 페이즈 관련
     private bool hasEnteredPhase2 = false;      // 2페 들갔나 확인
-    //[SerializeField] BasePatternData curPatternDebug;
+    [SerializeField] BossPattern curPatternDebug;
 
     public void Init()
     {
@@ -160,7 +160,7 @@ public class BossController : NetworkBehaviour
                     Target = GetClosestPlayerTransform();
 
                 Target = next.patternData.target;
-                //curPatternDebug = next.patternData;
+                curPatternDebug = next;
                 yield return StartCoroutine(next.patternData.ExecutePattern());
                 if (next.samePatternDelayTime > 0)
                     StartCoroutine(CheckDelayCompute(next));
@@ -175,8 +175,6 @@ public class BossController : NetworkBehaviour
     public void ReStartPatternLoop()
     {
         Invoke("Restart", 0.5f);
-        IsRun = false;
-        
     }
     void Restart()
     {
