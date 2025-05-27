@@ -54,6 +54,21 @@ public class MeleeDamageCheck : MonoBehaviour
 
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(MeleeDamageCheckData data, Vector2 colliderSize, Vector2 colliderOffset, float flipX)
+    {
+        if (BoxCollider == null) BoxCollider = GetComponent<BoxCollider2D>();
+        Data = data;
+
+        BoxCollider.size = colliderSize;
+        BoxCollider.offset = new Vector2(colliderOffset.x * flipX, colliderOffset.y);
+
+        hitObjects.Clear();
+        NextHitTime.Clear();
+        ColliderStartCoroutine = StartCoroutine(SetColliderDelay(Data.StartDelayTime));
+    }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_Init(MeleeDamageCheckData data, float flipX)
     {
         if (BoxCollider == null)
@@ -122,32 +137,20 @@ public class MeleeDamageCheck : MonoBehaviour
 
 
     private void TryHit(GameObject target)
-    {
-        Debug.Log("레이어 확인");
-        Debug.Log("1. " + (1 << target.layer));
-        Debug.Log("2. " + Data.TargetLayer);
-        Debug.Log("3. " + (LayerMask)Data.TargetLayer);
+    {;
         if (((1 << target.layer) & (LayerMask)Data.TargetLayer) == 0) return;
-        Debug.Log("레이어 통과");
 
         if (NextHitTime.TryGetValue(target, out float allowTime))
         {
-            Debug.Log($"1. {Time.time}");
-            Debug.Log($"2. {allowTime}");
-            Debug.Log("숫자 올라가용");
             if (Time.time < allowTime) return; // 아직 쿨타임 안지났으면 return
         }
-
-        Debug.Log("숫자 끝났어용");
         NextHitTime[target] = Time.time + Data.TickRate; // 다음 가능 시간 기록
 
         // 뎀지 처리
         if (target.TryGetComponent<IHasHealth>(out IHasHealth enemy))
         {
-            Debug.Log("타겟 찾았어용");
             if (DataManager.Instance.DictEnumToType.TryGetValue((EType)Data.ClassTypeInt, out Type type))
             {
-                Debug.Log("타겟 히트 이펙트 있어용");
                 BasePoolable effect = PoolManager.Instance.Get(type);
                 if (effect != null && enemy is MonoBehaviour mb)
                 {
@@ -166,7 +169,6 @@ public class MeleeDamageCheck : MonoBehaviour
             }
 
 
-            Debug.Log("타겟 데미지 줄게용");
             if (Data.GetSkill().SkillCategory == SkillCategory.DashAttack)
             {
                 ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].StartCoroutine(AttackEnemyCombo(enemy, 0.1f, 10));
@@ -180,7 +182,6 @@ public class MeleeDamageCheck : MonoBehaviour
 
     private void AttackEnemy(IHasHealth enemy)
     {
-        Debug.Log("타겟 데미지 주고 있어용");
         enemy.Rpc_Damage((int)(Data.Damage * ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].DamageValue.Value), ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position.x); // 백어택 계산하는 데미지 전달
         Data.GetSkill().AttackAction?.Invoke();    // 스킬이 적중하면 플레이어한테 알려줌
     }

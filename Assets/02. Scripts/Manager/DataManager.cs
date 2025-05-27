@@ -37,6 +37,7 @@ public class DataManager : Singleton<DataManager>
     public NetworkData PlayerNetworkDataPrefab { get; private set; }
     public Player PlayerPrefab { get; private set; }
     public GameObject DashEffectPrefab { get; private set; }
+    public FadeController ShieldPrefab { get; private set; }
     public NetworkObjectFollowServer CrossHairPrefab {  get; private set; }
     public List<BasePoolable> ListBasePoolablePrefab { get; private set; } = new();
     //첫 키의 int는 스타일, 두번 째 키의 int는 Color
@@ -166,6 +167,12 @@ public class DataManager : Singleton<DataManager>
         await dashEffectPrefab.Task;
         DashEffectPrefab = dashEffectPrefab.Result;
         if (DashEffectPrefab == null) { Debug.Log("Error DashEffectPrefab is null"); }
+
+        var shieldPrefab = Addressables.LoadAssetAsync<GameObject>("ShieldPrefab");
+        await shieldPrefab.Task;
+        ShieldPrefab = shieldPrefab.Result.GetComponent<FadeController>();
+        if(ShieldPrefab == null) { Debug.Log("Error ShieldPrefab is null"); }
+
         return;
     }
 

@@ -9,8 +9,9 @@ public class SkillEffectController : BasePoolable
     [SerializeField] private FadeController fadeController;
     [SerializeField] private Animator animator;
 
-    private void Awake()
+    public override void Spawned()
     {
+        base.Spawned();
         if (fadeController == null)
             fadeController = GetComponentInChildren<FadeController>();
         if (animator == null)

@@ -64,7 +64,8 @@ MonoBehaviour:
   SortKey: 441292275
   ObjectInterest: 1
   Flags: 262145
-  NestedObjects: []
+  NestedObjects:
+  - {fileID: 2348689987938121971}
   NetworkedBehaviours:
   - {fileID: 5159762399675091534}
   ForceRemoteRenderTimeframe: 0
@@ -80,6 +81,7 @@ GameObject:
   - component: {fileID: 4517691123494307799}
   - component: {fileID: 3140270689905205241}
   - component: {fileID: 8546013141969602920}
+  - component: {fileID: 2348689987938121971}
   m_Layer: 7
   m_Name: SpellSprite
   m_TagString: Untagged
@@ -188,3 +190,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeDuration: 1
+--- !u!114 &2348689987938121971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7142656088830486693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 995588177
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 8546013141969602920}
+  ForceRemoteRenderTimeframe: 0

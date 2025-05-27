@@ -39,13 +39,13 @@ public class Player : NetworkBehaviour, IHasHealth
     [HideInInspector] public int BaseMaxHp { get; private set; }
     [HideInInspector] public int HpStatLevel { get; set; } = 1;
     [HideInInspector] public int DamageStatLevel { get; set; } = 1;
-    public float ArmorAmount { get; set; } = 1.0f;                   // 방어력 계수
     public Coroutine HoldSkillCoroutine { get; private set; }
     public Action HoldSkillCoroutineStopAction { get; private set; }
     public NetworkData NetworkData { get; set; }
     public bool IsFlip
         => PlayerSpriteChange.WeaponBottom.flipX;
-    public bool Invincibility { get; set; } = false;
+    [Networked] public float ArmorAmount { get; set; } = 1.0f;                   // 방어력 계수
+    [Networked] public bool Invincibility { get; set; } = false;
     [Networked] public PlayerRef PlayerRef { get; set; }
     [Networked] public int PlayerStateIndex { get; set; } = -1;
     [Networked] public bool IsFlipX { get; set; } = false;
@@ -263,10 +263,6 @@ public class Player : NetworkBehaviour, IHasHealth
 
         // 스프라이트 기본으로 init
         PlayerSpriteChange.Init(playerCharacterClass, NetworkData.HairStyleKey, NetworkData.FaceKey, NetworkData.SkinKey);
-
-        // 커스터마이징 된 스프라이트를 적용
-        var info = PlayerManager.Instance.PlayerCustomizationInfo;
-        var data = DataManager.Instance;
 
         // 플레이어 기본 데이터 로드 및 복사
         PlayerData = DataManager.Instance.DictClassToPlayerData[playerCharacterClass];

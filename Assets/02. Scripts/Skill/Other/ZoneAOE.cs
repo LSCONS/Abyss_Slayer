@@ -10,8 +10,6 @@ public class ZoneAOE : BasePoolable
     private Coroutine ReturnToPoolCoroutine; // 풀로 돌려보내는 코루틴
     private HashSet<IHasHealth> targetsInRange = new();
 
-    [SerializeField] private GameObject effectPrefab; // 이펙트 프리팹
-
     public SpriteRenderer SpriteRenderer { get; private set; }
     public Animator Animator { get; private set; }
     public Vector2 SpawnOffset { get; private set; }
@@ -36,12 +34,12 @@ public class ZoneAOE : BasePoolable
         UseSkillStart(playerFlipX, spawnPosition);
     }
 
-    public void UseSkillSetting(float playerFlipX)
+    public void UseSkillSetting(float playerFlipX, Vector2 colliderSize, Vector2 colliderOffset)
     {
         // 위치 세팅
         SpawnOffset += MovePosition;
         Vector3 spawnPosition = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position + new Vector3(SpawnOffset.x * playerFlipX, SpawnOffset.y, 0);
-        UseSkillStart(playerFlipX, spawnPosition);
+        UseSkillStart(playerFlipX, spawnPosition, colliderSize, colliderOffset);
     }
 
     public void UseSkillSetting(float flipX, Vector3 playerPosition)
@@ -63,11 +61,9 @@ public class ZoneAOE : BasePoolable
         SetActiveAnimator();
         MeleeDamageCheck.Rpc_Init(Data, playerFlipX);
         // duration 후 풀에 자동 반환
-
         if (Data.GetSkill() != null && Data.GetSkill().SkillCategory == SkillCategory.Hold)
         {
-            Debug.Log("홀드 스킬 코루틴 등록 완료");
-            ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].StartHoldSkillCoroutine(ReturnTOPool(Data.ColliderDuration), Exit);
+            ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].StartHoldSkillCoroutine(ReturnTOPool(Data.ColliderDuration), Rpc_Exit);
         }
         else
         {
@@ -77,7 +73,7 @@ public class ZoneAOE : BasePoolable
     }
 
 
-    public void UseSkillStart(Vector3 spawnPosition)
+    public void UseSkillStart(float playerFlipX, Vector3 spawnPosition, Vector2 colliderSize, Vector2 colliderOffset)
     {
         gameObject.SetActive(true);
         transform.position = spawnPosition;
@@ -85,13 +81,12 @@ public class ZoneAOE : BasePoolable
 
         // 애니메이터 세팅
         SetActiveAnimator();
-        MeleeDamageCheck.Rpc_Init(Data);
+        MeleeDamageCheck.Rpc_Init(Data, colliderSize, colliderOffset, playerFlipX);
         // duration 후 풀에 자동 반환
 
         if (Data.GetSkill() != null && Data.GetSkill().SkillCategory == SkillCategory.Hold)
         {
-            Debug.Log("홀드 스킬 코루틴 등록 완료");
-            ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].StartHoldSkillCoroutine(ReturnTOPool(Data.ColliderDuration), Exit);
+            ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].StartHoldSkillCoroutine(ReturnTOPool(Data.ColliderDuration), Rpc_Exit);
         }
         else
         {
@@ -99,7 +94,7 @@ public class ZoneAOE : BasePoolable
             ReturnToPoolCoroutine = StartCoroutine(ReturnTOPool(Data.ColliderDuration));
         }
     }
-
+    
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_RepeatInit(MeleeDamageCheckData data, Vector2 spawnSize, Vector2 spawnOffset, Vector2 move, float flipX, Vector3 playerPosition)
     {
@@ -157,14 +152,12 @@ public class ZoneAOE : BasePoolable
     private IEnumerator ReturnTOPool(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        Exit();
+        Rpc_Exit();
     }
 
-    private void Exit()
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void Rpc_Exit()
     {
-        if (effectPrefab != null)
-            effectPrefab.SetActive(false);
-
         if (Runner.IsServer)
         {
             Rpc_ReturnToPool();
@@ -181,8 +174,7 @@ public class ZoneAOE : BasePoolable
     private void SetActiveAnimator()
     {
         //EffectName과 관련된 애니메이터가 있는지 확인하고 가져오고 실행.
-        RuntimeAnimatorController pathAnimator
-            = DataManager.Instance.DictEnumToAnimatorData[(EAnimatorController)Data.AnimatorControllerInt];
+        if(DataManager.Instance.DictEnumToAnimatorData.TryGetValue((EAnimatorController)Data.AnimatorControllerInt, out var pathAnimator))
         if (pathAnimator != null)
         {
             //찾아둔 애니메이터와 연결하고 활성화
@@ -202,7 +194,6 @@ public class ZoneAOE : BasePoolable
                     Animator.Play(clips[0].name, 0, 0f);
                 }
             }
-            effectPrefab.SetActive(true);
         }
     }
 
@@ -214,7 +205,7 @@ public class ZoneAOE : BasePoolable
         float time = 0;
         Vector2 startPos = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position;
         Vector2 targetPos = startPos + dashDirection * dashDistance + Vector2.up * 0.01f; ;
-
+        Debug.Log($"startPos = {startPos}");
         // 대쉬 이펙트 생성
         // 위치 설정
         Vector3 effectOffset = new Vector3(-dashDirection.x, -0.5f, 0);   // 플립되어있으면 1f, 아니면 -1f
@@ -250,15 +241,17 @@ public class ZoneAOE : BasePoolable
 
         // 끝/중간 위치 설정
         Vector2 endPos = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position;
+        Debug.Log($"endPos = {endPos}");
         float distance = Vector2.Distance(startPos, endPos);
+        Debug.Log($"distance = {distance}");
 
         // 콜라이더 위치 저장 이동
         Vector2 originalPos = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].PlayerMeleeCollider.transform.position;
 
         Vector2 ColliderSize = new Vector2(distance, 1.0f);
+        Debug.Log($"ColliderSize = {ColliderSize}");
         Vector2 ColliderOffset = new Vector2(-distance / 2, 0);
-        Data.SetCollider(ColliderSize, ColliderOffset);
-        Debug.Log("켜짐");
-        UseSkillSetting(playerFlipX);
+        Debug.Log($"ColliderOffset = {ColliderOffset}");
+        UseSkillSetting(playerFlipX, ColliderSize, ColliderOffset);
     }
 }
