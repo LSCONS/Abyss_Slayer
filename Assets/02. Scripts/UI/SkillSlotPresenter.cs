@@ -18,7 +18,7 @@ public class SkillSlotPresenter : IPresenter
         SetHoldIcon();
         view.SetCoolTime(model.CurCoolTime.Value, model.MaxCoolTime.Value);
         view.SetPresenter(this);
-        view.SetKeyText(model.TextInputSlotKey);
+        // view.SetKeyText(model.);
         model.CurCoolTime
             .Subscribe(cur => view.SetCoolTime(cur, model.MaxCoolTime.Value))
             .AddTo(disposable);

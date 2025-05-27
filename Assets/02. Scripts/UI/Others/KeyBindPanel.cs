@@ -52,10 +52,15 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
     // 이전 키 저장(복구용)
     private KeyCode prevKey;
 
+    // 한 번만 초기화 해야됨
+    private bool initSettingKey = false;
+
     // 맵에다가 리스너 붙이기
     protected override void Awake()
     {
         base.Awake();
+
+        if (initSettingKey) return;
 
         foreach(var key in keys)
         {
@@ -70,6 +75,7 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
                 StartRebind(key.actionName);
             });
         }
+        initSettingKey = true;
     }
 
     // 일단 업데이트에 박아두고 리팩하자
