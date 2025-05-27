@@ -12,9 +12,17 @@ public class CharacterSkillSet : ScriptableObject
     {
         for (int i = 0; i < skillSlots.Count; i++)
         {
+            //서로 스킬의 데이터가 겹치지 않게 복사해서 가져옴.
             skillSlots[i].skill = Instantiate(skillSlots[i].skill);
+
+            //어떤 플레이어가 사용하고 있는 스킬인지 초기화
             skillSlots[i].skill.player = player;
+
+            // Z,X,A,S,D 중 어디랑 연결되어있는 스킬인지 명시하고 초기화
             skillSlots[i].skill.slotKey = skillSlots[i].key;
+
+            //첫 변수 초기화는 기존 Z,X,A,S,D로 설정
+            skillSlots[i].skill.TextInputSlotKey = skillSlots[i].skill.slotKey.ToString();
         }
     }
 }

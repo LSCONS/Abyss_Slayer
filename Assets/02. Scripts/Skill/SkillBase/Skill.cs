@@ -10,7 +10,10 @@ public class Skill : ScriptableObject
 {
     // 모든 스킬에 공통으로 적용되는 플레이어 변수
     public Player player { get; set; }
+    // 해당 스킬이 사용하고 있는 스킬 슬롯 enum 변수
     public SkillSlotKey slotKey { get; set; }
+    // 해당 스킬이 어떤 키와 연결 되고 있는지 알려주는 문자열 변수
+    public string TextInputSlotKey {  get; set; }
     [field: Header("스킬 이름")]
     [field: SerializeField]public string SkillName { get; private set; } = "스킬 이름";
 
