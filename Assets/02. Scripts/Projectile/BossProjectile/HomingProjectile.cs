@@ -1,9 +1,6 @@
 using Fusion;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public enum HomingProjectileType
 {
@@ -150,7 +147,7 @@ public class HomingProjectile : BasePoolable
         if (hits.Length <= 0) return;
         for (int i = 0; i < hits.Length; i++)
         {
-            hits[i].GetComponent<Player>().Damage(_damage);
+            hits[i].GetComponent<Player>().Rpc_Damage(_damage);
         }
     }
     public void Sound()

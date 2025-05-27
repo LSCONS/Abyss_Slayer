@@ -220,7 +220,8 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// </summary>
     /// <param name="damage">입힐 데미지</param>
     /// <param name="attackPosX">데미지 입히는 주체의 위치X값</param>
-    public void Damage(int damage, float attackPosX = -1000)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Damage(int damage, float attackPosX = -1000)
     {
 #if AllMethodDebug
         Debug.Log("Damage");
@@ -232,26 +233,22 @@ public class Boss : NetworkBehaviour, IHasHealth
 
         float finalDamage = damage * DamageMultiplier;  // 데미지 배율 적용
 
-        
         Vector3 worldPos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);        // 보스 위치 기준으로 worldPos 잡아주기 (데미지 인디케이터를 위한)
 
-        if (attackPosX == -1000 || (attackPosX - transform.position.x < 0) == IsLeft)
+        //보스가 뒤를 바라보고 있는 것이 true 일 경우
+        if (attackPosX != -1000 && (attackPosX - transform.position.x < 0) != IsLeft)
         {
-            ChangeHP(-(int)finalDamage);
-            Damaged();
-            Animator.SetTrigger(AnimationHash.DamagedParameterHash);
-            DamageTextSpawner.Show((int)finalDamage, worldPos);                                             // 데미지 인디케이터 스폰
+            finalDamage *= 1.1f;
         }
-        else
-        {
-            int totalFinalDamage = (int)(finalDamage * 1.1f);
-            ChangeHP((int)(-totalFinalDamage));
-            Damaged();
-            Animator.SetTrigger(AnimationHash.DamagedParameterHash);
-            DamageTextSpawner.Show((int)(totalFinalDamage), worldPos);                                    // 데미지 인디케이터 스폰
+        ChangeHP(-(int)finalDamage);
+        Damaged();
+        Animator.SetTrigger(AnimationHash.DamagedParameterHash);
 
+        if(Runner.IsServer)
+        {
+            DamageTextSpawner.Show((int)finalDamage, worldPos);
         }
-        Debug.Log(finalDamage);
+
         //TODO: 피해입을때 효과,소리
     }
 

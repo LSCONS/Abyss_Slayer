@@ -10,7 +10,7 @@ public class HPTest : MonoBehaviour, IHasHealth
     public ReactiveProperty<int> Hp { get; private set; } = new ReactiveProperty<int>(100);
     public ReactiveProperty<int> MaxHp { get; private set; } = new ReactiveProperty<int>(100);
 
-    public void Damage(int damage, float attackPosX = -1000)
+    public void Rpc_Damage(int damage, float attackPosX = -1000)
     {
     }
 

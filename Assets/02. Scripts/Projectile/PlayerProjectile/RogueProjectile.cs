@@ -64,7 +64,7 @@ public class RogueProjectile : BasePoolable
     {
         if (collision.gameObject.layer == LayerData.EnemyLayerIndex && collision.TryGetComponent<IHasHealth>(out IHasHealth enemy))
         {
-            enemy.Damage((int)(damage * Player.DamageValue.Value), transform.position.x); // 데미지 전달
+            enemy.Rpc_Damage((int)(damage * Player.DamageValue.Value), transform.position.x); // 데미지 전달
         }
 
         if ((1 << collision.gameObject.layer | includeLayer) == includeLayer)

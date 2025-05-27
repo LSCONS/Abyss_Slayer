@@ -94,7 +94,7 @@ public class PoolManager : NetworkBehaviour
     /// <typeparam name="T"></typeparam>
     /// <param name="parentTransform">붙일 부모 오브젝트 위치</param>
     /// <returns></returns>
-    public T Get<T>(Transform parentTransform) where T : BasePoolable
+    public T GetCanvas<T>() where T : BasePoolable
     {
         var type = typeof(T);
 
@@ -105,7 +105,11 @@ public class PoolManager : NetworkBehaviour
         }
 
         T instance = (T)pool.Get();
-        instance.transform.SetParent(parentTransform, false);
+
+        if(instance is UIDamageText text)
+        {
+            text.Rpc_SetParent();
+        }
 
         return instance;
     }

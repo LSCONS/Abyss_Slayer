@@ -53,7 +53,7 @@ public class CrossSlash : BasePoolable
         if(collision.TryGetComponent<Player>(out Player player) && !_hitPlayers.Contains(player))
         {
             _hitPlayers.Add(player);
-            player.Damage(_damage);
+            player.Rpc_Damage(_damage);
         }
     }
     public void Sound()

@@ -20,7 +20,7 @@ public class DotDamageCollider : MonoBehaviour
             _damageTime = Time.time  + _attackRate;
             foreach(Player p in hitPlayers)
             {
-                p.Damage(_damage);
+                p.Rpc_Damage(_damage);
             }
         }
         

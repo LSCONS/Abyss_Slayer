@@ -45,7 +45,7 @@ public class NormalDamageCollider : NetworkBehaviour
             !(player.PlayerStateMachine.IsDash) &&
             hitPlayers.Add(player))
         {
-            player.Damage(_damage);            //데미지 입힘
+            player.Rpc_Damage(_damage);            //데미지 입힘
             Debug.Log($"{_damage}데미지");
             if (hitPlayers.Count < piercingAttackCount)
             {

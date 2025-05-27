@@ -72,7 +72,7 @@ public class TutorialState : BaseGameState
         Debug.Log("RestState 개방");
 #endif
         SoundManager.Instance.PlayBGM(EAudioClip.BGM_RestScene);
-        UIManager.Instance.OpenUI(UISceneType.Rest);
+        UIManager.Instance.OpenUI(UISceneType.Tutorial);
 
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
         await ServerManager.Instance.WaitForAllPlayerIsReady();
