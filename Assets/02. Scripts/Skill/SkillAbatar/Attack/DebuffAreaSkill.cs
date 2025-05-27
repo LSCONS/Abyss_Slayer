@@ -13,7 +13,6 @@ public class DebuffAreaSkill : AreaSkill
     public override void UseSkill()
     {
         base.UseSkill();
-
         var target = GetTargetsInArea();
 
         // 디버프 타입에 맞는 효과 생성

@@ -11,17 +11,18 @@ public class DashPlayerSilhouette : BasePoolable
 
     public override void Rpc_Init() { }
 
-    public void Init
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init
         (
-            SpriteChange spriteChange,
-            AnimationState state, 
-            int num, 
+            PlayerRef playerRef,
             Vector3 position,
             bool flipX
         )
     {
         //잔상의 Sprite에 포지션값, Icon, FlipX, Color값을 지정하고 활성화 시킴
         transform.position = position;
+        SpriteChange spriteChange = ServerManager.Instance.DictRefToPlayer[playerRef].PlayerSpriteChange;
         SpriteChange.SetSpriteCopy(spriteChange);
         SpriteChange.SetFlipXCopy(flipX);
         SpriteChange.SetSpriteColorSilhouette(color);

@@ -41,7 +41,8 @@ public class Laser : BasePoolable
     }
     void Scale()
     {
-        _hit = Physics2D.Raycast(transform.position, transform.right, 1000f, _layerMask);
+        PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
+        _hit = scene2D.Raycast(transform.position, transform.right, 1000f, _layerMask);
         transform.localScale = _hit? new Vector3(Vector2.Distance(transform.position, _hit.point),transform.localScale.y,1) : new Vector3(100,transform.localScale.y);
     }
     void Chasing()

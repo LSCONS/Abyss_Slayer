@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -60,7 +61,7 @@ public class ZoneAOE : BasePoolable
 
         // 애니메이터 세팅
         SetActiveAnimator();
-        MeleeDamageCheck.Init(Data, playerFlipX);
+        MeleeDamageCheck.Rpc_Init(Data, playerFlipX);
         // duration 후 풀에 자동 반환
 
         if (Data.GetSkill() != null && Data.GetSkill().SkillCategory == SkillCategory.Hold)
@@ -84,7 +85,7 @@ public class ZoneAOE : BasePoolable
 
         // 애니메이터 세팅
         SetActiveAnimator();
-        MeleeDamageCheck.Init(Data);
+        MeleeDamageCheck.Rpc_Init(Data);
         // duration 후 풀에 자동 반환
 
         if (Data.GetSkill() != null && Data.GetSkill().SkillCategory == SkillCategory.Hold)
@@ -99,12 +100,15 @@ public class ZoneAOE : BasePoolable
         }
     }
 
-    public void RepeatInit(MeleeDamageCheckData data, Vector2 spawnSize, Vector2 spawnOffset, Vector2 move, float flipX, Vector3 playerPosition)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_RepeatInit(MeleeDamageCheckData data, Vector2 spawnSize, Vector2 spawnOffset, Vector2 move, float flipX, Vector3 playerPosition)
     {
         Init(data, spawnSize, spawnOffset, move, flipX, playerPosition);
     }
 
-    public void DashInit(MeleeDamageCheckData data, Vector2 spawnSize, Vector2 spawnOffset, float dashDistance, float dashTime)
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_DashInit(MeleeDamageCheckData data, Vector2 spawnSize, Vector2 spawnOffset, float dashDistance, float dashTime)
     {
         gameObject.SetActive(true);
         DataInit(data, spawnSize, spawnOffset, Vector2.zero); 
@@ -112,7 +116,8 @@ public class ZoneAOE : BasePoolable
         StartCoroutine(DashCoroutine(dashDirection, dashDistance, dashTime));
     }
 
-    public void Init(MeleeDamageCheckData data, Vector2 spawnSize, Vector2 spawnOffset, Vector2 move)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(MeleeDamageCheckData data, Vector2 spawnSize, Vector2 spawnOffset, Vector2 move)
     {
         DataInit(data, spawnSize, spawnOffset, move);
         UseSkillSetting();

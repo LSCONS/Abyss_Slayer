@@ -70,8 +70,6 @@ public class RestState : BaseGameState
             runner.MoveGameObjectToScene(boss.gameObject, SceneRef.FromIndex((int)ESceneName.RestScene));
         }
         await ServerManager.Instance.WaitforBossSpawn();
-        //TODO: 보스 씬 옮겨야함
-        //TODO: 보스 위치 옮겨야함
 
         state?.SetLoadingBarValue(0.6f);
 
