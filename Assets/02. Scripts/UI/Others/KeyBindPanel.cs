@@ -50,8 +50,10 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
     private KeyCode prevKey;
 
     // 맵에다가 리스너 붙이기
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         foreach(var key in keys)
         {
             keyBindButtonMap[key.actionName] = key.bindButton;
