@@ -44,11 +44,10 @@ public class PlayerSkillUseState : PlayerBaseState
 
         if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {
-            PoolManager.Instance.Get<DashPlayerSilhouette>().Init
+            if (playerStateMachine.Player.Runner.IsServer)
+                PoolManager.Instance.Get<DashPlayerSilhouette>().Rpc_Init
                 (
-                    playerStateMachine.Player.PlayerSpriteChange,
-                    SkillData.SkillUseState,
-                    0,
+                    playerStateMachine.Player.PlayerRef,
                     playerStateMachine.Player.PlayerSpriteChange.transform.position,
                     playerStateMachine.Player.IsFlipX
                 );
@@ -59,7 +58,7 @@ public class PlayerSkillUseState : PlayerBaseState
         playerStateMachine.UseSkillData = SkillData;
 
         if (playerStateMachine.Player.Runner.IsServer)
-            playerStateMachine.Player.Rpc_UseSkill();
+            playerStateMachine.UseSkill();
 
         if (SkillData.EAudioClip != EAudioClip.None)
         {
@@ -136,14 +135,15 @@ public class PlayerSkillUseState : PlayerBaseState
                 if ((SkillData.SkillCategory == SkillCategory.Dash && animationNum % 2 == 0) ||
                     SkillData.SkillCategory == SkillCategory.DashAttack)
                 {
-                    PoolManager.Instance.Get<DashPlayerSilhouette>().Init
+                    if (playerStateMachine.Player.Runner.IsServer)
+                    {
+                        PoolManager.Instance.Get<DashPlayerSilhouette>().Rpc_Init
                     (
-                        playerStateMachine.Player.PlayerSpriteChange,
-                        SkillData.SkillUseState,
-                        animationNum,
+                        playerStateMachine.Player.PlayerRef,
                         playerStateMachine.Player.PlayerSpriteChange.transform.position,
                         playerStateMachine.Player.IsFlipX
                     );
+                    }
                 }
                 return;
             }

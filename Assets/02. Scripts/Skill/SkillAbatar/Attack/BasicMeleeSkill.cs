@@ -21,6 +21,6 @@ public class BasicMeleeSkill : MeleeAttackSkill
 
         MeleeDamageCheckData data = new MeleeDamageCheckData(player.PlayerRef, (int)slotKey, ColliderSize, ColliderOffset, TargetMask.value, 0, Damage, ColliderDuration, 100, (int)EHitEffectType.Normal, (int)EType.None);
 
-        meleeDamageCheck.BasicInit(data);
+        meleeDamageCheck.Rpc_BasicInit(data);
     }
 }

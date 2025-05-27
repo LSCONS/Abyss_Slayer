@@ -16,12 +16,10 @@ public class ShockWaveData : BasePatternData
     [SerializeField] float postDelayTime = 3f;
     public override IEnumerator ExecutePattern()
     {
-        //TODO: 나중에 추가 시 트리거 설정
-        bossAnimator.SetTrigger("ShockWave1");
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.ShockWave1ParameterHash);
         yield return new WaitForSeconds(preDelayTime);
 
-        //TODO: 나중에 추가 시 트리거 설정
-        bossAnimator.SetTrigger("ShockWave2");
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.ShockWave2ParameterHash);
         yield return new WaitForSeconds(stompTime);
 
         Vector3 startPosition = bossTransform.position + Vector3.down * bossCenterHight;
@@ -41,8 +39,6 @@ public class ShockWaveData : BasePatternData
         {
             ServerManager.Instance.InitSupporter.Rpc_StartShockWaveInit(startPosition + (Vector3.right * shockOffsetWidth * (i + 1)), damage);
             ServerManager.Instance.InitSupporter.Rpc_StartShockWaveInit(startPosition + (Vector3.left * shockOffsetWidth * (i + 1)), damage);
-            //PoolManager.Instance.Get<ShockWave>().Init(startPosition + (Vector3.right * shockOffsetWidth * (i + 1)), damage);
-            //PoolManager.Instance.Get<ShockWave>().Init(startPosition + (Vector3.left * shockOffsetWidth * (i + 1)), damage);
 
             yield return new WaitForSeconds(shockOffsetTime);
         }

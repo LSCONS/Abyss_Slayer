@@ -21,7 +21,6 @@ public enum keyAction
     RightMove,
     DownMove,
     Jump,
-    
 }
 
 

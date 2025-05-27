@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Pipeline;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewCharacterSkillSet", menuName = "Skill/New Skill Set")]
@@ -23,6 +25,23 @@ public class CharacterSkillSet : ScriptableObject
 
             //첫 변수 초기화는 기존 Z,X,A,S,D로 설정
             skillSlots[i].skill.TextInputSlotKey = skillSlots[i].skill.slotKey.ToString();
+
+            //스킬에 해당하는 KeyAction을 배정함.
+            skillSlots[i].skill.KeyAction = InitKeyAction(skillSlots[i].key);
         }
+    }
+
+    public keyAction InitKeyAction(SkillSlotKey slotKey)
+    {
+        keyAction temp = slotKey switch
+        {
+            SkillSlotKey.X => keyAction.DefaultAttack,
+            SkillSlotKey.Z => keyAction.Dash,
+            SkillSlotKey.A => keyAction.Skill1,
+            SkillSlotKey.S => keyAction.Skill2,
+            SkillSlotKey.D => keyAction.Skill3,
+            _ => keyAction.None,
+        };
+        return temp;
     }
 }

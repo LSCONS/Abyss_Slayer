@@ -45,7 +45,8 @@ public class RogueProjectile : BasePoolable
     /// <param name="range">표창 최대 이동 거리</param>
     /// <param name="speed">표창 이동 속도</param>
     /// <param name="damage">표창 데미지</param>
-    public void Init(Player player, Vector3 spawnPos, Vector3 dir, float range, float speed, float damage)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(PlayerRef playerRef, Vector3 spawnPos, Vector3 dir, float range, float speed, float damage)
     {
         gameObject.SetActive(true);
         transform.position = spawnPos; // 실제 화살 위치
@@ -56,7 +57,7 @@ public class RogueProjectile : BasePoolable
         this.damage = damage; // 데미지
         spriteRenderer.sprite = sprite;
         spriteRenderer.flipX = direction.x < 0 ? true : false;
-        Player = player;
+        Player = ServerManager.Instance.DictRefToPlayer[playerRef];
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -33,7 +33,7 @@ public class RandomMoveData : BasePatternData
         {
             float posX = Random.Range(-mapWidth / 2 + 1, mapWidth / 2 - 1);
             float posY = Random.Range(0, 4) * 5 + 1;
-            posY = scene2D.Raycast(new Vector3(posX, posY), Vector3.down, 40, LayerMask.GetMask("GroundPlane", "GroundPlatform")).point.y;
+            posY = scene2D.Raycast(new Vector3(posX, posY), Vector3.down, 40, (LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask)).point.y;
             targetPos = new Vector3(posX, posY + bossCenterHight);
         } while (Vector3.Distance(targetPos, bossTransform.position) < minDistance);
 

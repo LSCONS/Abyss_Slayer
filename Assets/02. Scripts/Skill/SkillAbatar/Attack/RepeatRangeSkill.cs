@@ -59,7 +59,7 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
                 (int)EHitEffectType.Normal,
                 (int)EType.None
             );
-            PoolManager.Instance.Get<ZoneAOE>().RepeatInit(data, SpawnSize, SpawnOffset, MovePosition, flipX, playerPosition);
+            PoolManager.Instance.Get<ZoneAOE>().Rpc_RepeatInit(data, SpawnSize, SpawnOffset, MovePosition, flipX, playerPosition);
             Vector2 spawnPosition = (Vector2)playerPosition + new Vector2(SpawnOffset.x * flipX, SpawnOffset.y);
             Vector2 startPosition = spawnPosition + resultMovePosition * flipX;
             Vector2 colliderTotalSize = new Vector2(ColliderSize.x * SpawnSize.x, ColliderSize.y * SpawnSize.y);

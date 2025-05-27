@@ -37,6 +37,9 @@ public abstract class BasePoolable : NetworkBehaviour
         Debug.Log("Rpc_ReturnToPool");
 #endif
         gameObject.SetActive(false);
-        _pool.ReturnToPool(this);
+        if (Runner.IsServer)
+        {
+            _pool.ReturnToPool(this);
+        }
     }
 }

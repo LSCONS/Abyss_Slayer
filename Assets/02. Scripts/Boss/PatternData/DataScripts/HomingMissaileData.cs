@@ -63,8 +63,7 @@ public class HomingMissaileData : BasePatternData
 
             yield return new WaitForSeconds(0.1f);
         }
-        //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
-        bossAnimator.SetTrigger("HomingMissaile3");
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.HomingMissaile3ParameterHash);
         yield return new WaitForSeconds(postDelayTime);
     }
 }
