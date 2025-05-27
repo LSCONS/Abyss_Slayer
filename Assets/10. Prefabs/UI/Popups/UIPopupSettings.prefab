@@ -3493,7 +3493,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 0.21226418, b: 0.21226418, a: 1}
     m_HighlightedColor: {r: 1, g: 0.5990566, b: 0.5990566, a: 1}
     m_PressedColor: {r: 0.5849056, g: 0.20692417, b: 0.20692417, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 1, g: 0.21176472, b: 0.21176472, a: 1}
     m_DisabledColor: {r: 0.3490566, g: 0.16300283, b: 0.16300283, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -8591,7 +8591,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 4216115881199431064}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1059982229511391487}
