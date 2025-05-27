@@ -30,6 +30,6 @@ public class DashMeleeSkill : RemoteZoneRangeSkill
             (int)EHitEffectType.Dash,
             (int)EType.BossHitEffect
         );
-        PoolManager.Instance.Get<ZoneAOE>().DashInit(data, SpawnSize, SpawnOffset, DashDistance, DashTime);
+        PoolManager.Instance.Get<ZoneAOE>().Rpc_DashInit(data, SpawnSize, SpawnOffset, DashDistance, DashTime);
     }
 }

@@ -100,7 +100,7 @@ public class HomingProjectile : BasePoolable
             this.speedCurve = DataManager.Instance.DictEnumToCurve[(EAniamtionCurve)speedCurve];
         _animator.SetTrigger(((HomingProjectileType)HomingProjectileType).ToString());
 
-        hitCollider.Init(damage, Destroy);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
+        hitCollider.Init(damage, Rpc_Destroy);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
         transform.position = _position;
         Debug.Log("position = " + position);
         _inited = true;
@@ -131,7 +131,8 @@ public class HomingProjectile : BasePoolable
     }
 
 
-    public void Destroy()
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Destroy()
     {
         trailRenderer.enabled = false;  //탄궤적 비활성화(오브젝트풀 사용하기에 안끄면 생성시 마지막 위치에서 생성위치까지 궤적생김)
         _inited = false;

@@ -22,4 +22,5 @@ public enum EAniamtionCurve
     None = 0,
     Boss0HormingCurve,
     Boss0SpeedCurve,
+    MageSkillACurve,
 }

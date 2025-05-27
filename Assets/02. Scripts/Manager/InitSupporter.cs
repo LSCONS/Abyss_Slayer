@@ -13,7 +13,6 @@ public class InitSupporter : NetworkBehaviour
         ServerManager.Instance.InitSupporter = this;
     }
 
-    
     public void Rpc_StartCrossSlashInit(Vector3 position, bool isLeft, int damage, int hash, float speed , float scaleX, float scaleY )
     {
         PoolManager.Instance.Get<CrossSlash>().Rpc_Init(position, isLeft, damage, hash, speed, scaleX, scaleY);
@@ -36,8 +35,6 @@ public class InitSupporter : NetworkBehaviour
     {
         PoolManager.Instance.Get<Tornado>().Rpc_Init(position, damage, durationTime, attackPerSec, warningTime, width, hight);
     }
-
-
 
 
     public void Rpc_StartHomingProjectileInit(int damage, Vector3 position, Quaternion rotate, PlayerRef target, float speed, int HomingProjectileType, float delayFireTime = 0f, float homingPower = 10f, float explosionSize = 0.5f, int homingCurve = 0, int speedCurve = 0)

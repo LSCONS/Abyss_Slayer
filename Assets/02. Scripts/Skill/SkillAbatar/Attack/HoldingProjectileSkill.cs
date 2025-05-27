@@ -45,15 +45,15 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
             {
                 float x = Random.Range(-1f, 1f);
                 Vector3 distanceX = new Vector3(x, 0, 0);
-                PoolManager.Instance.Get<RogueProjectile>().Init(player, spawnPos + distanceY + distanceX, dir, Range, Speed, Damage);
+                PoolManager.Instance.Get<RogueProjectile>().Rpc_Init(player.PlayerRef, spawnPos + distanceY + distanceX, dir, Range, Speed, Damage);
 
                 x = Random.Range(-1f, 1f);
                 distanceX = new Vector3(x, 0, 0);
-                PoolManager.Instance.Get<RogueProjectile>().Init(player, spawnPos - distanceY + distanceX, dir, Range, Speed, Damage * DamageMultiple);
+                PoolManager.Instance.Get<RogueProjectile>().Rpc_Init(player.PlayerRef, spawnPos - distanceY + distanceX, dir, Range, Speed, Damage * DamageMultiple);
             }
             else
             {
-                PoolManager.Instance.Get<RogueProjectile>().Init(player, spawnPos, dir, Range, Speed, Damage);
+                PoolManager.Instance.Get<RogueProjectile>().Rpc_Init(player.PlayerRef, spawnPos, dir, Range, Speed, Damage);
             }
 
             // 다음 화살 발사까지 대기

@@ -29,6 +29,9 @@ public class NetworkData : NetworkBehaviour
 
     public override void Spawned()
     {
+#if AllMethodDebug
+        Debug.Log("Spawned");
+#endif
         base.Spawned();
 
         //위치를 DontDestroyOnLoad로 고정
@@ -64,6 +67,9 @@ public class NetworkData : NetworkBehaviour
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
+#if AllMethodDebug
+        Debug.Log("Despawned");
+#endif
         ServerManager.Instance.DictRefToNetData.Remove(PlayerDataRef);
         try
         {
@@ -83,6 +89,9 @@ public class NetworkData : NetworkBehaviour
     /// </summary>
     private void PlayerEnterRoomText()
     {
+#if AllMethodDebug
+        Debug.Log("PlayerEnterRoomText");
+#endif
         string enterText = $"\"{GetName()}\"님이 접속하셨습니다.\n";
         ServerManager.Instance.ChattingTextController?.SendChatMessage(enterText.StringToBytes());
     }
@@ -93,6 +102,9 @@ public class NetworkData : NetworkBehaviour
     /// </summary>
     private void PlayerEixtRoomText()
     {
+#if AllMethodDebug
+        Debug.Log("PlayerEixtRoomText");
+#endif
         string exitText = $"\"{GetName()}\"님이 접속을 종료했습니다.\n";
         ServerManager.Instance.ChattingTextController?.SendChatMessage(exitText.StringToBytes());
     }
@@ -104,6 +116,9 @@ public class NetworkData : NetworkBehaviour
     /// <returns>이름 string으로 반환</returns>
     public string GetName()
     {
+#if AllMethodDebug
+        Debug.Log("GetName");
+#endif
         var bytes = new System.Collections.Generic.List<byte>();
         foreach (var b in NameBuffer)
         {
@@ -121,6 +136,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_RequestSetName(byte[] nameBytes)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_RequestSetName");
+#endif
         // 2) NameBuffer 에 한 번에 채워 넣기
         for (int i = 0; i < NameBuffer.Length; i++)
             NameBuffer.Set(i, i < nameBytes.Length ? nameBytes[i] : (byte)0);
@@ -141,6 +159,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_ChangeClass(CharacterClass characterClass)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_ChangeClass");
+#endif
         IntPlayerClass = (int)characterClass;
         ServerManager.Instance.LobbyMainPanel.UIUpdateSprite();
     }
@@ -153,6 +174,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_EnterToChatting(byte[] bytes)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_EnterToChatting");
+#endif
         ServerManager.Instance.ChattingTextController.SendChatMessage(bytes);
     }
 
@@ -163,6 +187,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void Rpc_ClickReadyBtn()
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_ClickReadyBtn");
+#endif
         IsReady = !IsReady;
         Rpc_SetReadyText(IsReady);
         ServerManager.Instance.LobbySelectPanel.CheckAllPlayerIsReady();
@@ -176,6 +203,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetReadyText(bool isActive)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_SetReadyText");
+#endif
         ServerManager.Instance.LobbyMainPanel.SetReadyText(PlayerDataRef, isActive);
     }
 
@@ -204,6 +234,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_ConnectInput()
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_ConnectInput");
+#endif
         ServerManager.Instance.PlayerInput.InputEvent();
     }
 
@@ -214,6 +247,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_DisconnectInput()
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_DisconnectInput");
+#endif
         ServerManager.Instance.PlayerInput.OutPutEvent();
     }
 
@@ -224,11 +260,17 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_PlayerActiveTrue()
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_PlayerActiveTrue");
+#endif
         StartCoroutine(ActivePlayer());
     }
 
     private IEnumerator ActivePlayer()
     {
+#if AllMethodDebug
+        Debug.Log("ActivePlayer");
+#endif
         while (ServerManager.Instance.DictRefToPlayer.Count != ServerManager.Instance.DictRefToNetData.Count)
         {
             yield return null;
@@ -255,6 +297,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_PlayerIsReady(bool isReady)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_PlayerIsReady");
+#endif
         if (Runner.LocalPlayer == PlayerDataRef) return;
 
         if (Runner.IsServer)
@@ -270,6 +315,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void Rpc_SetReady(bool isReady)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_SetReady");
+#endif
         IsReady = isReady;
     }
 
@@ -277,6 +325,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_ResetPlayerPosition()
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_ResetPlayerPosition");
+#endif
         Player player = ServerManager.Instance.DictRefToPlayer[PlayerDataRef];
         if((Vector2)player.transform.position != player.PlayerPosition)
         {
@@ -287,6 +338,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_InitPlayerCustom(int hairStyle, int skin, int face)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_InitPlayerCustom");
+#endif
         HairStyleKey = hairStyle;
         SkinKey = skin;
         FaceKey = face;
@@ -296,6 +350,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_VirtualCamera(float size, int priority)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_VirtualCamera");
+#endif
         ServerManager.Instance.Boss.BossController.VirtualCamera.m_Lens.OrthographicSize = size;
         ServerManager.Instance.Boss.BossController.VirtualCamera.Priority = priority;
     }
@@ -304,6 +361,9 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_LobbySelectLevelUpdateUI(int level)
     {
+#if AllMethodDebug
+        Debug.Log("Rpc_LobbySelectLevelUpdateUI");
+#endif
         ServerManager.Instance.LobbySelectPanel.UpdateUI(level);
     }
 
@@ -311,7 +371,10 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetInvincibilityAllPlayer(bool isInvincibility)
     {
-        foreach(Player player in ServerManager.Instance.DictRefToPlayer.Values)
+#if AllMethodDebug
+        Debug.Log("Rpc_SetInvincibilityAllPlayer");
+#endif
+        foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
         {
             player.Invincibility = isInvincibility;
         }

@@ -16,7 +16,7 @@ public class FlyKickData : BasePatternData
     public override IEnumerator ExecutePattern()
     {
         //TODO: 나중에 Rpc 추가. 지금은 해당 애니메이션 트리거가 안보임
-        bossAnimator.SetTrigger("kick1");       //날아오르는 애니메이션 재생
+        boss.Rpc_SetTriggerAnimationHash(AnimationHash.kick1ParameterHash);       //날아오르는 애니메이션 재생
         bossController.ChasingTarget = true;        //타겟따라 방향전환
         bossController.ShowTargetCrosshair = true;  //타겟 조준선 활성화
         float elapsed = 0f;

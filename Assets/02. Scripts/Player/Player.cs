@@ -148,7 +148,7 @@ public class Player : NetworkBehaviour, IHasHealth
 
     public async Task PlayerPositionReset(Vector2 position)
     {
-        gameObject.SetActive(true);
+        Rpc_SetAcitvePlayer(true);
         playerRigidbody.gravityScale = 0f;
         while ((Vector2)transform.position != position)
         {
@@ -190,10 +190,11 @@ public class Player : NetworkBehaviour, IHasHealth
         }
     }
 
+
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_UseSkill()
+    public void Rpc_SetAcitvePlayer(bool isActive)
     {
-        PlayerStateMachine.UseSkill();
+        gameObject.SetActive(isActive);
     }
 
 

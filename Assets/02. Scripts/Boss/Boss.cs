@@ -45,11 +45,6 @@ public class Boss : NetworkBehaviour, IHasHealth
 
     private void Update()
     {
-        if (!HasStateAuthority) return;
-        if (BossController.ShowTargetCrosshair && PoolManager.Instance.CrossHairObject.TargetPosition != (Vector2)BossController.Target.position)
-        {
-            PoolManager.Instance.CrossHairObject.Rpc_ChangePosition((Vector2)BossController.Target.position);
-        }
         ServerUpdate();
         ClientUpdate();
         if(Sprite.flipX != IsLeft) { Sprite.flipX = IsLeft; }
@@ -76,6 +71,12 @@ public class Boss : NetworkBehaviour, IHasHealth
             {
                 IsLeft = temp;
             }
+        }
+
+        if (BossController.ShowTargetCrosshair &&
+            PoolManager.Instance.CrossHairObject.TargetPosition != (Vector2)BossController.Target.position)
+        {
+            PoolManager.Instance.CrossHairObject.Rpc_ChangePosition((Vector2)BossController.Target.position);
         }
     }
 

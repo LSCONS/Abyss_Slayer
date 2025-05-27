@@ -36,7 +36,8 @@ public class MeleeDamageCheck : MonoBehaviour
     /// <param name="damage">데미지</param>
     /// <param name="effectType">이펙트 타입</param>
     /// <param name="aliveTime">이펙트 지속 시간</param>
-    public void Init(MeleeDamageCheckData data)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(MeleeDamageCheckData data)
     {
         if(BoxCollider == null) BoxCollider = GetComponent<BoxCollider2D>();
         Data = data;
@@ -52,7 +53,8 @@ public class MeleeDamageCheck : MonoBehaviour
     }
 
 
-    public void Init(MeleeDamageCheckData data, float flipX)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(MeleeDamageCheckData data, float flipX)
     {
         if (BoxCollider == null)
             BoxCollider = GetComponent<BoxCollider2D>();
@@ -68,9 +70,10 @@ public class MeleeDamageCheck : MonoBehaviour
     }
 
 
-    public void BasicInit(MeleeDamageCheckData data)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_BasicInit(MeleeDamageCheckData data)
     {
-        Init(data);
+        Rpc_Init(data);
         StartCoroutine(ExitColliderDelay(data.ColliderDuration));
     }
 

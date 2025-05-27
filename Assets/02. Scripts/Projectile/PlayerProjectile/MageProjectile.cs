@@ -49,17 +49,18 @@ public class MageProjectile : BasePoolable
     /// <param name="homingPower">투사체 유도력(비례하여 유동적으로 변경)</param>
     /// <param name="homingTime">투사체 유도시간</param>
     /// <param name="homingCurve">투사체 유도곡선</param>
-    public void Init(Player player, float damage, Vector3 position, Quaternion rotation, Transform target, float speed, float homingPower, float homingTime, AnimationCurve homingCurve)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(PlayerRef playerRef, float damage, Vector3 position, Quaternion rotation, float speed, float homingPower, float homingTime, int homingCurve)
     {
         gameObject.SetActive(true);
-        Player = player;
+        Player = ServerManager.Instance.DictRefToPlayer[playerRef];
         transform.position = position; // 투사체 위치
         transform.rotation = rotation; // 투사체 회전
         this.damage = damage; // 데미지
-        this.target = target; // 타겟
+        this.target = ServerManager.Instance.Boss.transform; // 타겟
         inputSpeed = speed; // 입력 속도
         this.homingPower = homingPower; // 유도력
-        if(homingCurve != null) this.homingCurve = homingCurve; // 유도 곡선
+        if(homingCurve != -1) this.homingCurve = DataManager.Instance.DictEnumToCurve[(EAniamtionCurve)homingCurve]; // 유도 곡선
         this.homingTime = homingTime; // 유도 시간
         trailRenderer.Clear();
         trailRenderer.enabled = false; // 궤적 비활성화
