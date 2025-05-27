@@ -2211,7 +2211,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4216115881199431064}
   - component: {fileID: 1477093607089858626}
-  - component: {fileID: 3098710623129674333}
   m_Layer: 5
   m_Name: SettingsPopupViewport
   m_TagString: Untagged
@@ -2253,49 +2252,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: 0, y: 0, z: 0, w: 0}
   m_Softness: {x: 0, y: 0}
---- !u!114 &3098710623129674333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1718884271172444402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e9eb85b2ac6ce64680d02efe31e9c5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keys:
-  - actionName: 1
-    bindButton: {fileID: 9015688552408789303}
-    defaultKey: 120
-  - actionName: 2
-    bindButton: {fileID: 6994983689164298556}
-    defaultKey: 122
-  - actionName: 10
-    bindButton: {fileID: 2027050428913786926}
-    defaultKey: 97
-  - actionName: 11
-    bindButton: {fileID: 2910921078216284361}
-    defaultKey: 115
-  - actionName: 12
-    bindButton: {fileID: 6074172165358822673}
-    defaultKey: 100
-  - actionName: 20
-    bindButton: {fileID: 7601456106967290104}
-    defaultKey: 273
-  - actionName: 21
-    bindButton: {fileID: 2132658476527319194}
-    defaultKey: 276
-  - actionName: 22
-    bindButton: {fileID: 5708383155379559603}
-    defaultKey: 275
-  - actionName: 23
-    bindButton: {fileID: 1347861000494107796}
-    defaultKey: 274
-  - actionName: 24
-    bindButton: {fileID: 6849606341544125657}
-    defaultKey: 99
 --- !u!1 &1737081086044487423
 GameObject:
   m_ObjectHideFlags: 0
@@ -4618,6 +4574,7 @@ GameObject:
   - component: {fileID: 2674208835051465590}
   - component: {fileID: 7693652165411729763}
   - component: {fileID: 1746158341907525496}
+  - component: {fileID: 7742440646121795329}
   m_Layer: 5
   m_Name: KeySettingsContents
   m_TagString: Untagged
@@ -4686,6 +4643,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &7742440646121795329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3888028986686005799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e9eb85b2ac6ce64680d02efe31e9c5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keys:
+  - actionName: 1
+    bindButton: {fileID: 9015688552408789303}
+    defaultKey: 120
+  - actionName: 2
+    bindButton: {fileID: 6994983689164298556}
+    defaultKey: 122
+  - actionName: 10
+    bindButton: {fileID: 2027050428913786926}
+    defaultKey: 97
+  - actionName: 11
+    bindButton: {fileID: 2910921078216284361}
+    defaultKey: 115
+  - actionName: 12
+    bindButton: {fileID: 6074172165358822673}
+    defaultKey: 100
+  - actionName: 20
+    bindButton: {fileID: 7601456106967290104}
+    defaultKey: 273
+  - actionName: 21
+    bindButton: {fileID: 2132658476527319194}
+    defaultKey: 276
+  - actionName: 22
+    bindButton: {fileID: 5708383155379559603}
+    defaultKey: 275
+  - actionName: 23
+    bindButton: {fileID: 1347861000494107796}
+    defaultKey: 274
+  - actionName: 24
+    bindButton: {fileID: 6849606341544125657}
+    defaultKey: 99
 --- !u!1 &4069542879609365857
 GameObject:
   m_ObjectHideFlags: 0
@@ -7507,8 +7507,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1359100675301595367}
   m_HandleRect: {fileID: 4857689622591637462}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.2956989
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9138,7 +9138,7 @@ MonoBehaviour:
     m_Left: 0
     m_Right: 0
     m_Top: 0
-    m_Bottom: 0
+    m_Bottom: 50
   m_ChildAlignment: 1
   m_Spacing: 100
   m_ChildForceExpandWidth: 0
