@@ -23,7 +23,7 @@ public class FoxClone : BasePoolable,IHasHealth
     {
         animator = GetComponent<Animator>();
     }
-    public void Damage(int damage, float attackPosX = -1000)
+    public void Rpc_Damage(int damage, float attackPosX = -1000)
     {
         Hp.Value = Mathf.Clamp(Hp.Value - damage, 0, MaxHp.Value);
         Hp.Value = 0;
@@ -61,7 +61,7 @@ public class FoxClone : BasePoolable,IHasHealth
         {
             if(hits[i].TryGetComponent<Player>(out Player hitPlayer))
             {
-                hitPlayer.Damage(_deadDamage);
+                hitPlayer.Rpc_Damage(_deadDamage);
             }
         }
     }

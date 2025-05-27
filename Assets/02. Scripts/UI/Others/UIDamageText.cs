@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -33,7 +34,8 @@ public class UIDamageText : BasePoolable
     /// </summary>
     /// <param name="damage">표시할 데미지 텍스트</param>
     /// <param name="worldPos">시작 기준 월드 좌표</param>
-    public void Show(string damage, Vector3 worldPos)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(string damage, Vector3 worldPos)
     {
         this.gameObject.SetActive(true);
         this.worldPosition = worldPos;
@@ -54,8 +56,17 @@ public class UIDamageText : BasePoolable
         canvasGroup.DOFade(0f, 1f)
             .OnComplete(() =>
             {
-                Rpc_ReturnToPool();
+                if(Runner.IsServer)
+                {
+                    Rpc_ReturnToPool();
+                }
             });
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_SetParent()
+    {
+        transform.SetParent(UIManager.Instance.canvas.transform, false);
     }
 
     private void Update()

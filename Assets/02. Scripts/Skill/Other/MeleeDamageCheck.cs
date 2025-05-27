@@ -181,7 +181,7 @@ public class MeleeDamageCheck : MonoBehaviour
     private void AttackEnemy(IHasHealth enemy)
     {
         Debug.Log("타겟 데미지 주고 있어용");
-        enemy.Damage((int)(Data.Damage * ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].DamageValue.Value), ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position.x); // 백어택 계산하는 데미지 전달
+        enemy.Rpc_Damage((int)(Data.Damage * ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].DamageValue.Value), ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position.x); // 백어택 계산하는 데미지 전달
         Data.GetSkill().AttackAction?.Invoke();    // 스킬이 적중하면 플레이어한테 알려줌
     }
 

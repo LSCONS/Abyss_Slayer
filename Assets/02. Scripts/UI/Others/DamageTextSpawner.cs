@@ -54,7 +54,6 @@ public static class DamageTextSpawner
             old.Rpc_ReturnToPool();
         }
 
-
         //// 현재 오프셋 위치 계산
         //int index = activeTexts.Count % maxTextCount;                               // 살아있는 텍스트 수 기반으로 인덱스 계산
         float offsetY = baseOffsetY + (textYOffsetStep * indexToUse);                    // 거기다가 오프셋 계산해서 추가
@@ -67,10 +66,10 @@ public static class DamageTextSpawner
             old.Rpc_ReturnToPool(); // 여기서 강제로 풀로 리턴해버리기
         }
 
-        // 풀에서 꺼내기
-        var text = PoolManager.Instance.Get<UIDamageText>(UIManager.Instance.canvas.transform);
+        // 풀에서 꺼내기)
+        var text = PoolManager.Instance.GetCanvas<UIDamageText>();
         text.OffsetIndex = indexToUse;  // 인덱스에 저장하기
-        text.Show(damage.ToString(), spawnPosition);
+        text.Rpc_Init(damage.ToString(), spawnPosition);
 
         // 큐에 추가
         activeTexts.Enqueue(text);

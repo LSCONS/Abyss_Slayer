@@ -91,7 +91,7 @@ public class Laser : BasePoolable
     {
         for(int i = 0; i < _players.Count; i++)
         {
-            _players[i].Damage(_damage);
+            _players[i].Rpc_Damage(_damage);
         }
     }
 }

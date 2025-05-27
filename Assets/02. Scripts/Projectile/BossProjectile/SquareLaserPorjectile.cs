@@ -24,7 +24,7 @@ public class SquareLaserPorjectile : BasePoolable
             _time = 0;
             for (int i = 0; i < players.Count; i++)
             {
-                players[i].Damage(_damage);
+                players[i].Rpc_Damage(_damage);
             }
         }
     }

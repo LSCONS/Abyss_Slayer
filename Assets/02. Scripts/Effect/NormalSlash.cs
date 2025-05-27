@@ -29,7 +29,7 @@ public class NormalSlash : BasePoolable
     {
         for (int i = 0; i < players.Count; i++)
         {
-            players[i].Damage(_damage);
+            players[i].Rpc_Damage(_damage);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

@@ -23,7 +23,6 @@ public enum CharacterClass
 public class Player : NetworkBehaviour, IHasHealth
 {
     [field: SerializeField] public Rigidbody2D playerRigidbody { get; private set; }
-    //[field: SerializeField] public PlayerInput PlayerInput { get;private set; }
     [field: SerializeField] public PlayerCheckGround playerCheckGround { get; private set; }
     [field: SerializeField] public BoxCollider2D PlayerGroundCollider {  get; private set; }
     [field: SerializeField] public BoxCollider2D PlayerMeleeCollider { get; private set; }
@@ -57,7 +56,6 @@ public class Player : NetworkBehaviour, IHasHealth
     public ReactiveProperty <int> StatPoint { get; set; } = new(1);
     public ReactiveProperty <int> SkillPoint { get; set; } = new(1);
     public NetworkInputData NetworkInput;
-
 
 
     public override void Spawned()
@@ -95,10 +93,10 @@ public class Player : NetworkBehaviour, IHasHealth
             PlayerStateMachine.ChangeState(PlayerStateMachine.DictIntToState[PlayerStateIndex]);
         }
 
+        SkillCoolTimeCompute();
+        BuffDurationCompute();
         if (Runner.IsServer)
         {
-            SkillCoolTimeCompute();
-            BuffDurationCompute();
             ComputeHealingTime();
         }
 
@@ -134,7 +132,7 @@ public class Player : NetworkBehaviour, IHasHealth
         data.HealingCurTime -= Time.deltaTime;
         if (data.HealingCurTime <= 0)
         {
-            HealPlayerHP(data.HealingHealth);
+            Rpc_HealPlayerHP(data.HealingHealth);
             data.HealingCurTime = data.HealingDelay;
         }
     }
@@ -329,7 +327,8 @@ public class Player : NetworkBehaviour, IHasHealth
     /// 플레이어 체력 닳는 메서드
     /// </summary>
     /// <param name="value">변환을 줄 값. +를 넣어야 체력이 깎임.</param>
-    public void Damage(int value, float attackPosX = -1000)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Damage(int value, float attackPosX = -1000)
     {
         if (Hp.Value == 0 || Invincibility) return;
         value = (int)(value * PlayerData.PlayerStatusData.PlayerOnDamageLevelMultiple);
@@ -362,7 +361,8 @@ public class Player : NetworkBehaviour, IHasHealth
     /// 플레이어 체력 회복 메서드
     /// </summary>
     /// <param name="value">변환을 줄 값. +를 넣어야 체력이 회복.</param>
-    public void HealPlayerHP(int value)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_HealPlayerHP(int value)
     {
         Hp.Value = Hp.Value.PlusAndIntClamp(value, MaxHp.Value);
     }

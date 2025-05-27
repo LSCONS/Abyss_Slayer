@@ -19,11 +19,14 @@ public class GravityProjectile : BasePoolable
     Transform _target;
     float _throwTime;
     bool _throwed;
-    private void Awake()
+
+    public override void Spawned()
     {
+        base.Spawned();
         _rigidbody = GetComponent<Rigidbody2D>();
         _sprite.SetActive(false);
     }
+
     public override void FixedUpdateNetwork()
     {
         if (!_throwed && Time.time >= _throwTime)
@@ -32,6 +35,7 @@ public class GravityProjectile : BasePoolable
             Throw();
         }
     }
+
     public override void Rpc_Init()
     {
     }
@@ -39,11 +43,11 @@ public class GravityProjectile : BasePoolable
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_Init(int damage, Vector3 position, float baseSpeed, float maxSpeed,float minSpeed, PlayerRef target,float delayThorwTime,int piercingCount , float size = 3f, float gravityScale = 1f)
     {
+        gameObject.SetActive(true);
+        _sprite.SetActive(true);
         _collider.enabled = false;
         _rigidbody.bodyType = RigidbodyType2D.Kinematic;
         _throwed = false;
-        gameObject.SetActive(true);
-        _sprite.SetActive(true);
         _damage = damage;
         transform.position = new Vector3(Mathf.Clamp(position.x, -20 + size * 1.81f, 20 - size * 1.81f),position.y);
         transform.rotation = Quaternion.identity;
@@ -60,7 +64,6 @@ public class GravityProjectile : BasePoolable
 
     public void Init(Vector3 direction, int damage, float speed, int piercingCount, float size = 1f, float gravityScale = 1f)
     {
-
     }
 
     void Throw()
