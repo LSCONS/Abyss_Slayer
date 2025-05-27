@@ -76,7 +76,11 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
             });
         }
 
-        resetButton.onClick.AddListener(ResetAllKeys);
+        try
+        {
+            resetButton.onClick.AddListener(ResetAllKeys);
+        }
+        catch { }
 
         initSettingKey = true;
     }
