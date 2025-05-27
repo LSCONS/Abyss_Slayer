@@ -205,6 +205,10 @@ public class BattleState : BaseGameState
                     {
                         nowBoss.MaxHp.Value = (int)(nowBoss.MaxHp.Value * GameValueManager.Instance.HardBossMultipleHealth);
                     }
+                    else if(GameValueManager.Instance.EGameLevel == EGameLevel.Easy)
+                    {
+                        nowBoss.MaxHp.Value = (int)(nowBoss.MaxHp.Value * GameValueManager.Instance.EasyBossMultipleHealth);
+                    }
                 }
                 );
             runner.MoveGameObjectToScene(boss.gameObject, runner.GetSceneRef(GameFlowManager.Instance.GetSceneNameFromState(this)));

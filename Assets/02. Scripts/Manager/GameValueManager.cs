@@ -26,6 +26,10 @@ public class GameValueManager : Singleton<GameValueManager>
     [field: SerializeField] public float HardBossMultipleHealth { get; private set; } = 1.3f;
     [field: Header("하드모드에서 플레이어 입는 피해 증가 비율")]
     [field: SerializeField] public float HardPlayerMultiypleOnDamage { get; private set; } = 1.3f;
+    [field: Header("이지모드에서 보스 최대 체력 증가 비율")]
+    [field: SerializeField] public float EasyBossMultipleHealth { get; private set; } = 0.7f;
+    [field: Header("이지모드에서 플레이어 입는 피해 증가 비율")]
+    [field: SerializeField] public float EasyPlayerMultiypleOnDamage { get; private set; } = 0.7f;
     //플레이어가 선택한 스테이지 난이도
     public EGameLevel EGameLevel { get; private set; } = EGameLevel.Easy;
     //현재 배틀 스테이지
