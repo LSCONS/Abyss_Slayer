@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Build.Pipeline;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewCharacterSkillSet", menuName = "Skill/New Skill Set")]

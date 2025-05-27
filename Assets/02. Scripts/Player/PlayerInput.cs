@@ -43,6 +43,8 @@ public class PlayerInput : MonoBehaviour
     {
         Inputs = new PlayerInputs();
         InitializeKeySettings();
+
+        ApplyLoadedKeyBinds();  // 플레이어 프리팹에 있는거 불러온걸로 업데이트
     }
 
     // 키 설정 초기화
@@ -134,6 +136,26 @@ public class PlayerInput : MonoBehaviour
             var binding = inputAction.bindings[0]; // 바인딩 첫번째 인덱스 = 키보드 입력 바인딩
             var newPath = $"<Keyboard>/{newKey}"; // 키 바인딩 경로
             inputAction.ChangeBinding(0).WithPath(newPath); // 키 바인딩 경로 변경
+        }
+    }
+
+    /// <summary>
+    /// 플레이어 프리팹에 있는 걸로 키 바인딩 변경
+    /// </summary>
+    private void ApplyLoadedKeyBinds()
+    {
+        foreach (var key in keySettings)
+        {
+            keyAction action = key.Key;
+            InputAction inputAction = key.Value;
+
+            KeyCode loadedKey = KeyBindPanel.Instance.GetKeyCode(action);
+            if (loadedKey == KeyCode.None) continue;
+
+            // InputSystem의 키 바인딩 업데이트
+            var newPath = $"<Keyboard>/{loadedKey.ToString().ToLower()}"; // 키 바인딩 경로
+            inputAction.ChangeBinding(0).WithPath(newPath); // 키 바인딩 경로 변경
+
         }
     }
 
