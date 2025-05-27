@@ -175,6 +175,8 @@ public class BossController : NetworkBehaviour
     public void ReStartPatternLoop()
     {
         Invoke("Restart", 0.5f);
+        IsRun = false;
+        
     }
     void Restart()
     {
