@@ -18,7 +18,10 @@ public enum SkillSlotKey
     A,
     S,
     D,
-    Z
+    Z,
+
+    Move,
+    Jump
 }
 
 public enum DamageType

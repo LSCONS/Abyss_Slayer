@@ -27,6 +27,9 @@ public enum keyAction
 
 public class KeyBindPanel : Singleton<KeyBindPanel>
 {
+    // 키 바인드 변경 이벤트
+    public event Action<keyAction, KeyCode> OnKeyBindChanged;
+
     [Serializable]
     public class KeyBind
     {
@@ -93,6 +96,7 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
                     {
                         inputBindKeyMap[inputKey.Key] = KeyCode.None;
                         SetButtonText(keyBindButtonMap[inputKey.Key], "None");
+                        OnKeyBindChanged?.Invoke(inputKey.Key, KeyCode.None);
                         break;
                     }
                 }
@@ -103,6 +107,9 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
 
                 // 버튼 텍스트를 바꿔
                 SetButtonText(keyBindButtonMap[curBindAction], key.ToString());
+
+                // 이벤트 발생
+                OnKeyBindChanged?.Invoke(curBindAction, key);
 
                 // 상태 초기화
                 isWaitingForKey = false;
