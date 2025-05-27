@@ -5,27 +5,46 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class KeyBindPanel : MonoBehaviour
+public enum keyAction
+{
+    None = 0,
+
+    DefaultAttack= 1,
+    Dash,
+
+    Skill1 = 10,
+    Skill2,
+    Skill3,
+
+    UpMove = 20,
+    LeftMove,
+    RightMove,
+    DownMove,
+    Jump,
+    
+}
+
+
+public class KeyBindPanel : Singleton<KeyBindPanel>
 {
     [Serializable]
     public class KeyBind
     {
-        public string actionName;       // 무슨 키랑 연결될 지
+        public keyAction actionName;       // 무슨 키랑 연결될 지
         public Button bindButton;       // 연결될 버튼
         public KeyCode defaultKey;      // 기본 키값
     }
 
     [SerializeField] private List<KeyBind> keys;
 
-    private Dictionary<string, Button> keyBindButtonMap = new();
-    private Dictionary<string, KeyCode> inputBindKeyMap = new();    // 입력해서 바뀐 값
-    private Dictionary<string, KeyCode> defaultBindKeyMap = new();  // 초기값
+    private Dictionary<keyAction, Button> keyBindButtonMap = new();
+    private Dictionary<keyAction, KeyCode> inputBindKeyMap = new();    // 입력해서 바뀐 값
 
 
     // 키 기다리기
     private bool isWaitingForKey = false;
     // 지금 키
-    private string curBindAction = null;
+    private keyAction curBindAction = keyAction.None;
 
     // 이전 키 저장(복구용)
     private KeyCode prevKey;
@@ -52,7 +71,7 @@ public class KeyBindPanel : MonoBehaviour
     private void Update()
     {
         // 키 기다려
-        if (!isWaitingForKey || string.IsNullOrEmpty(curBindAction)) return;
+        if (!isWaitingForKey) return;
 
         foreach(KeyCode key in Enum.GetValues(typeof(KeyCode)))
         {
@@ -85,7 +104,7 @@ public class KeyBindPanel : MonoBehaviour
 
                 // 상태 초기화
                 isWaitingForKey = false;
-                curBindAction = null;
+                curBindAction = keyAction.None;
                 break;
             }
         }
@@ -100,7 +119,7 @@ public class KeyBindPanel : MonoBehaviour
 
 
     // 다시 바인드 하는 메서드
-    private void StartRebind(string actionName)
+    private void StartRebind(keyAction actionName)
     {
         if (isWaitingForKey) return;
 
@@ -119,7 +138,7 @@ public class KeyBindPanel : MonoBehaviour
         SetButtonText(keyBindButtonMap[curBindAction], prevKey.ToString());
         // 다 돌리기
         isWaitingForKey = false;
-        curBindAction = null;
+        curBindAction = keyAction.None;
     }
 
     private void ResetAllKeys()
@@ -129,6 +148,18 @@ public class KeyBindPanel : MonoBehaviour
             inputBindKeyMap[key.actionName] = key.defaultKey;
             SetButtonText(key.bindButton, key.defaultKey.ToString());
         }
+    }
+
+    /// <summary>
+    /// 액션 이름으로 키코드 반환시켜주는 메서드
+    /// </summary>
+    /// <param name="actionName">keyAction enum으로 가져옴</param>
+    /// <returns></returns>
+    public KeyCode GetKeyCode(keyAction actionName)
+    {
+        if(inputBindKeyMap.TryGetValue(actionName, out var key)) return key;    
+
+        return KeyCode.None;
     }
 
 }

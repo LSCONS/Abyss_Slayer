@@ -2266,34 +2266,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keys:
-  - actionName: DefaultAttack
+  - actionName: 1
     bindButton: {fileID: 9015688552408789303}
     defaultKey: 120
-  - actionName: Dash
+  - actionName: 2
     bindButton: {fileID: 6994983689164298556}
     defaultKey: 122
-  - actionName: Skill1
+  - actionName: 10
     bindButton: {fileID: 2027050428913786926}
     defaultKey: 97
-  - actionName: Skill2
+  - actionName: 11
     bindButton: {fileID: 2910921078216284361}
     defaultKey: 115
-  - actionName: Skill3
+  - actionName: 12
     bindButton: {fileID: 6074172165358822673}
     defaultKey: 100
-  - actionName: Front
+  - actionName: 20
     bindButton: {fileID: 7601456106967290104}
     defaultKey: 273
-  - actionName: Left
+  - actionName: 21
     bindButton: {fileID: 2132658476527319194}
     defaultKey: 276
-  - actionName: Right
+  - actionName: 22
     bindButton: {fileID: 5708383155379559603}
     defaultKey: 275
-  - actionName: Bottom
+  - actionName: 23
     bindButton: {fileID: 1347861000494107796}
     defaultKey: 274
-  - actionName: Jump
+  - actionName: 24
     bindButton: {fileID: 6849606341544125657}
     defaultKey: 99
 --- !u!1 &1737081086044487423
@@ -7507,7 +7507,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1359100675301595367}
   m_HandleRect: {fileID: 4857689622591637462}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.3038674
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -9119,7 +9119,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1260}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &6806960019459733347
