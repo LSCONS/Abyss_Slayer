@@ -18,7 +18,7 @@ public class SkillSlotPresenter : IPresenter
         SetHoldIcon();
         view.SetCoolTime(model.CurCoolTime.Value, model.MaxCoolTime.Value);
         view.SetPresenter(this);
-        // view.SetKeyText(model.);
+        SetKeyText();
         model.CurCoolTime
             .Subscribe(cur => view.SetCoolTime(cur, model.MaxCoolTime.Value))
             .AddTo(disposable);
@@ -30,6 +30,12 @@ public class SkillSlotPresenter : IPresenter
         {
             view.SetHoldIcon(true);
         }
+    }
+
+    public void SetKeyText()
+    {
+        KeyCode curKey = KeyBindPanel.Instance.GetKeyCode(model.KeyAction);
+        view.SetKeyText(curKey.ToString());
     }
 
     public void Dispose()

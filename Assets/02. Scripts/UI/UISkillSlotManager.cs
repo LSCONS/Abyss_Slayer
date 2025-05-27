@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
-using UniRx;
 using UnityEngine;
 
 public class UISkillSlotManager : Singleton<UISkillSlotManager>
@@ -63,6 +61,14 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
                 var presenter = new SkillSlotPresenter(kvp.Value, slotView);
                 presenters.Add(presenter);
             }
+        }
+    }
+
+    public void SettingKeySlot()
+    {
+        foreach (var presenter in presenters)
+        {
+            presenter.SetKeyText();
         }
     }
 

@@ -69,9 +69,9 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
         skillName.text = skillData.SkillName;
     }
 
-    public void SetKeyText(keyAction key)
+    public void SetKeyText(string keyName)
     {
-        keyText.text = KeyBindPanel.Instance.GetKeyCode(key).ToString();
+        keyText.text = keyName;
     }
 
     public void SetHoldIcon(bool isshow)

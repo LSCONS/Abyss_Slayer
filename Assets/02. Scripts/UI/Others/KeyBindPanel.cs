@@ -119,6 +119,9 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
                 // 상태 초기화
                 isWaitingForKey = false;
                 curBindAction = keyAction.None;
+
+                // 스킬 슬롯에 키 설정
+                UISkillSlotManager.Instance.SettingKeySlot();
                 break;
             }
         }
