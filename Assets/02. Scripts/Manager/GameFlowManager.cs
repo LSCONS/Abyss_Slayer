@@ -192,16 +192,13 @@ public class GameFlowManager : Singleton<GameFlowManager>
             case ESceneName.StartScene: return 1; // 스타트 씬 진입 시 퍼널 스텝 기록
             case ESceneName.RestScene:
                 if (stageIndex == 0) return 2;
-                if (stageIndex == 1) return 9;
-                if (stageIndex == 2) return 16;
+                if (stageIndex == 1) return 8;
                 break;
             case ESceneName.BattleScene:
                 if (stageIndex == 0) return 3;
-                if (stageIndex == 1) return 10;
-                if (stageIndex == 2) return 17;
-                if (stageIndex == 3) return 24;
+                if (stageIndex == 1) return 9;
                 break;
-            case ESceneName.LobbyScene: return 23;
+            case ESceneName.EndingScene: return 16;
         }
         return null;
     }

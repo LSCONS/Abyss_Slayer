@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <AppearPattern>k__BackingField: {fileID: 0}
+  <Phase2Pattern>k__BackingField: {fileID: 0}
   <AllPatterns>k__BackingField: []
   <MapWidth>k__BackingField: 0
   <BossCenterHight>k__BackingField: 0
@@ -84,6 +85,15 @@ MonoBehaviour:
   <JumpMoveHight>k__BackingField: 0
   <GravityMultiplier>k__BackingField: 0
   <runSpeed>k__BackingField: 0
+  curPatternDebug:
+    weight: 1
+    patternData: {fileID: 0}
+    samePatternDelayTime: 0
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckActiveTrue: 0
+    isCheckActiveFalse: 0
+    bossCheckHP: 0.5
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 576
