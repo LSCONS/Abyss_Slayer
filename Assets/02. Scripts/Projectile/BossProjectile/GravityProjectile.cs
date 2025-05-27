@@ -1,5 +1,6 @@
 using Fusion;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GravityProjectile : BasePoolable
 {
@@ -8,6 +9,7 @@ public class GravityProjectile : BasePoolable
     [SerializeField] NormalDamageCollider _bossProjectileCollider;
     [SerializeField] GameObject _sprite;
     [SerializeField] Collider2D _collider;
+    Vector3 _position;
     float _gravity;
     int _damage;
     float _velocityX;
@@ -34,6 +36,10 @@ public class GravityProjectile : BasePoolable
             _throwed = true;
             Throw();
         }
+        else if(!_throwed)
+        {
+            transform.position = _position;
+        }
     }
 
     public override void Rpc_Init()
@@ -49,7 +55,8 @@ public class GravityProjectile : BasePoolable
         _rigidbody.bodyType = RigidbodyType2D.Kinematic;
         _throwed = false;
         _damage = damage;
-        transform.position = new Vector3(Mathf.Clamp(position.x, -20 + size * 1.81f, 20 - size * 1.81f),position.y);
+        _position = new Vector3(Mathf.Clamp(position.x, -20 + size * 1.81f, 20 - size * 1.81f), position.y);
+        transform.position = _position;
         transform.rotation = Quaternion.identity;
         _baseSpeed = baseSpeed;
         _maxSpeed = maxSpeed;
