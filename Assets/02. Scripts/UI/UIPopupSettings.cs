@@ -32,7 +32,7 @@ public class UIPopupSettings : UIPopup
     {
         base.Init();
 
-        // 슬라이더 값 동기화
+       // 슬라이더 값 동기화
         masterSlider.value = SoundManager.Instance.MasterVolume;
         bgmSlider.value = SoundManager.Instance.BGMVolume;
         sfxSlider.value = SoundManager.Instance.SFXVolume;

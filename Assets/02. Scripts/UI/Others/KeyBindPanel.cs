@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -37,7 +36,8 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
         public KeyCode defaultKey;      // 기본 키값
     }
 
-    [SerializeField] private List<KeyBind> keys;
+    [SerializeField] private List<KeyBind> keys = new();
+    [SerializeField] private Button resetButton;
 
     private Dictionary<keyAction, Button> keyBindButtonMap = new();
     private Dictionary<keyAction, KeyCode> inputBindKeyMap = new();    // 입력해서 바뀐 값
@@ -57,33 +57,42 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
     // 맵에다가 리스너 붙이기
     protected override void Awake()
     {
-        base.Awake();
-
         if (initSettingKey) return;
 
-        foreach(var key in keys)
+        foreach (var key in keys)
         {
             keyBindButtonMap[key.actionName] = key.bindButton;
+        }
 
-            // 초기화
-            ResetAllKeys();
+        LoadKeyBinds();
 
+        // 초기화 => 플레이어 프리팹에 저장되어있는 애 가져오기
+        foreach (var key in keys)
+        {
             // 리스너 등록
             key.bindButton.onClick.AddListener(() =>
             {
                 StartRebind(key.actionName);
             });
         }
+
+        resetButton.onClick.AddListener(ResetAllKeys);
+
         initSettingKey = true;
     }
 
     // 일단 업데이트에 박아두고 리팩하자
     private void Update()
     {
+        UpdateBinds();
+    }
+
+    private void UpdateBinds()
+    {
         // 키 기다려
         if (!isWaitingForKey) return;
 
-        foreach(KeyCode key in Enum.GetValues(typeof(KeyCode)))
+        foreach (KeyCode key in Enum.GetValues(typeof(KeyCode)))
         {
             if (Input.GetKeyDown(key))
             {
@@ -97,7 +106,7 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
                 // 키가 중복인지 확인
                 foreach (var inputKey in inputBindKeyMap)
                 {
-                    if(inputKey.Key != curBindAction && inputKey.Value == key)
+                    if (inputKey.Key != curBindAction && inputKey.Value == key)
                     {
                         inputBindKeyMap[inputKey.Key] = KeyCode.None;
                         SetButtonText(keyBindButtonMap[inputKey.Key], "None");
@@ -119,6 +128,12 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
                 // 상태 초기화
                 isWaitingForKey = false;
                 curBindAction = keyAction.None;
+
+                // 스킬 슬롯에 키 설정
+                UISkillSlotManager.Instance.SettingKeySlot();
+
+                // 플레이어 프리팹에도 저장
+                SaveKeyBinds();
                 break;
             }
         }
@@ -127,6 +142,8 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
     // 버튼 텍스트 해주는 메서드
     private void SetButtonText(Button button, string newText)
     {
+        if(button == null) return;
+
         var text = button.GetComponentInChildren<TextMeshProUGUI>();
         if (text != null) text.text = newText;
     }
@@ -162,6 +179,7 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
             inputBindKeyMap[key.actionName] = key.defaultKey;
             SetButtonText(key.bindButton, key.defaultKey.ToString());
         }
+        SaveKeyBinds();
     }
 
     /// <summary>
@@ -174,6 +192,42 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
         if(inputBindKeyMap.TryGetValue(actionName, out var key)) return key;    
 
         return KeyCode.None;
+    }
+
+    /// <summary>
+    /// 플레이어 프리팹에 키 저장
+    /// </summary>
+    private void SaveKeyBinds()
+    {
+        foreach(var pair in inputBindKeyMap)
+        {
+            PlayerPrefs.SetString($"KeyBind_{pair.Key}", pair.Value.ToString());
+        }
+        PlayerPrefs.Save();
+    }
+
+    /// <summary>
+    /// 저장한 플레이어 프리팹 로드하기
+    /// </summary>
+    public void LoadKeyBinds()
+    {
+        foreach (var key in keys)
+        {
+            string prefkey = $"KeyBind_{key.actionName}";
+            if(PlayerPrefs.HasKey(prefkey))
+            {
+                if(Enum.TryParse(PlayerPrefs.GetString(prefkey), ignoreCase: true, out KeyCode savedKey))
+                {
+                    inputBindKeyMap[key.actionName] = savedKey;
+                    SetButtonText(key.bindButton, savedKey.ToString());
+                }
+            }
+            else
+            {
+                inputBindKeyMap[key.actionName] = key.defaultKey;
+                SetButtonText(key.bindButton, key.defaultKey.ToString());
+            }
+        }
     }
 
 }
