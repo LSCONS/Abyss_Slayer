@@ -236,7 +236,8 @@ MonoBehaviour:
   - m_GUID: cf8f46003ca70c74bb5cb0d447f2cd25
     m_Address: AuidoClipDatas
     m_ReadOnly: 0
-    m_SerializedLabels: []
+    m_SerializedLabels:
+    - AudioClipDatas
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f4df67f0a639554489aa2d65f5a4b6ae
     m_Address: InitSupporter
@@ -275,6 +276,90 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - GamePlay
+    - Popup
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc5396bf2df41e64396c3ce969831978
+    m_Address: DashEffectPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6da113ff3dbfea4e9348db6d49d73cf
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/RogueSkillClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5441f4c2d1175494cac17c5adb8d7b58
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/MageSkillClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c84a3c89e10f42048a2b921b7e9c4448
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/MagicalBlasterSkillClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 391ffeb15d4c33945b3672ee1f2ff0e5
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/TankerSkillClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8c12b031421b67840bbddbdfcc02eabf
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/HealerSkillClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0dd3ed4a90bb7a44bac4c9165f79b57
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/BGMClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d93d4e79e1c7a84bb1eaea7fe97b3e8
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/SFXClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 963b07a19de2e01499f2fdcb8e4890eb
+    m_Address: Assets/08. Datas/AddressalbeData/AnimatorControllerDatas/RogueSkillAnimatorDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AnimatorController
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ffbf453bc1191d46a41d097718a0361
+    m_Address: Assets/08. Datas/AddressalbeData/AnimatorControllerDatas/MageSkillAnimatorDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AnimatorController
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b63afb4972e87c746a8df4032c410677
+    m_Address: Assets/08. Datas/AddressalbeData/AnimatorControllerDatas/TankerSkillAnimatorDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AnimatorController
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 04de964af50caee4d85599007dada1f5
+    m_Address: Assets/08. Datas/AddressalbeData/AnimatorControllerDatas/HealerSkillAnimatorDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AnimatorController
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74c657c5d199f65429a2eb405b28ef0f
+    m_Address: Assets/08. Datas/AddressalbeData/AnimatorControllerDatas/MagicalBlasterSkillAnimatorDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AnimatorController
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 06f3cf1b2c422ab4894b044010c95cc4
+    m_Address: Assets/10. Prefabs/UI/Popups/TutorialSelecClassPanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NonGamePlay
     - Popup
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0

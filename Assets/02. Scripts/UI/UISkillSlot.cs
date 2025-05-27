@@ -5,12 +5,14 @@ using UnityEngine.UI;
 using TMPro;
 using UniRx;
 using UnityEngine.EventSystems;
+using System.Globalization;
 public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI skillName;
 
     [SerializeField] private Image iconHold;
+    [SerializeField] private TextMeshProUGUI keyText;
 
     [SerializeField] private Image coolTimeOverlay;
     [SerializeField] private TextMeshProUGUI coolTimeText;
@@ -65,6 +67,11 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
         Debug.Log("SetName");
 #endif
         skillName.text = skillData.SkillName;
+    }
+
+    public void SetKeyText(SkillSlotKey key)
+    {
+        keyText.text = key.ToString();
     }
 
     public void SetHoldIcon(bool isshow)

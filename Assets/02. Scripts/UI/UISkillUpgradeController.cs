@@ -1,6 +1,7 @@
 using Analytics;
 using Photon.Realtime;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,7 +43,7 @@ public class UISkillUpgradeController : UIPopup
 
 
         // 슬롯 설정
-        foreach (var skill in player.EquippedSkills.Values)
+        foreach (var skill in player.DictSlotKeyToSkill.Values)
         {
             if (skill.Level.Value == 0) // 스킬 레벨 0으로 설정된 것들은 스킬 강화 안할거임
                 continue;
@@ -204,8 +205,10 @@ public class UISkillUpgradeController : UIPopup
 
 
     // 닫을 때 적용안한 것들 초기화
-    private void ResetUnappliedChange()
+    private async void ResetUnappliedChange()
     {
+        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+
         // 포인트 돌려놓기
         SkillPoint = OriginalSkillPoint;
         UpdateSkillPointText();

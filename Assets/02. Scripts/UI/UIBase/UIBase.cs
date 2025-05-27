@@ -30,6 +30,7 @@ public enum UISceneType
     Rest = 1 << 4,
     Loading = 1 << 5,
     Ending = 1 << 6,
+    Tutorial = 1 << 7,
 }
 
 public abstract class UIBase : MonoBehaviour

@@ -10,6 +10,10 @@ public class Skill : ScriptableObject
 {
     // 모든 스킬에 공통으로 적용되는 플레이어 변수
     public Player player { get; set; }
+    // 해당 스킬이 사용하고 있는 스킬 슬롯 enum 변수
+    public SkillSlotKey slotKey { get; set; }
+    // 해당 스킬이 어떤 키와 연결 되고 있는지 알려주는 문자열 변수
+    public string TextInputSlotKey {  get; set; }
     [field: Header("스킬 이름")]
     [field: SerializeField]public string SkillName { get; private set; } = "스킬 이름";
 
@@ -56,13 +60,15 @@ public class Skill : ScriptableObject
 
     //이 스킬이 적중할 때마다 실행하고 싶은 Action들을 저장
     [field: SerializeField] public Action AttackAction { get; set; } = null;
-    [field: Header("원하는 스킬 이펙트 클립 이름")]
-    [field: SerializeField] public string SkillEffectsClipName { get; set; } = "";
+    [field: Header("스킬을 사용하기 전 효과를 줄 스킬 이펙트 애니메이터")]
+    [field: SerializeField] public ESkillStartClipName SkillEffectsClipName { get; set; }
+
     [field: Header("스킬 이펙트 지속시간")]
     [field: SerializeField] public float SkillEffectsDuration { get; set; } = 1.0f;
 
     [field: Header("원하는 히트 이펙트 타입")]
     [field: SerializeField] public EHitEffectType HitEffectType { get; set; }
+
     [field: Header("스킬 레벨")] 
     public ReactiveProperty<int> Level = new ReactiveProperty<int>(1); // 스킬 레벨
 
@@ -112,20 +118,12 @@ public class Skill : ScriptableObject
     // 스킬 이펙트 재생
     public void PlaySkillEffect()
     {
-        if (string.IsNullOrWhiteSpace(SkillEffectsClipName)) return; 
+        if (SkillEffectsClipName == ESkillStartClipName.None) return; 
         
         BasePoolable effectObj = PoolManager.Instance.Get(typeof(SkillEffectController));
-        if(effectObj == null) return;
-
-
         SkillEffectController effect = effectObj as SkillEffectController;
-        if (effect == null) return;
 
         // 이제 이펙트 설정해주기
-        effect.transform.position = this.PlayerPosition();
-        effect.transform.localScale = Vector3.one;
-        effect.Rpc_Init();
-        effect.PlayClip(SkillEffectsClipName);
-        effect.AutoReturn(SkillEffectsDuration);
+        effect.Rpc_Init((int)SkillEffectsClipName, SkillEffectsDuration, player.transform.position, Vector3.one);
     }
 }

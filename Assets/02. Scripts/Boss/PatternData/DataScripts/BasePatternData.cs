@@ -27,6 +27,9 @@ public abstract class BasePatternData : ScriptableObject
 
     public void Init(BossController controller)
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         this.bossTransform = controller.transform;
         this.bossController = controller;
         boss = controller.Boss;

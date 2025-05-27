@@ -28,8 +28,8 @@ public class LoadingState : BaseGameState
 
     public override async Task OnEnter()
     {
-#if MoveSceneDebug
-        Debug.Log("LoadingState OnEnter");
+#if AllMethodDebug
+        Debug.Log("OnEnter");
 #endif
         IGameState prev = GameFlowManager.Instance.PrevState;
         TaskProgressBar = null;
@@ -42,7 +42,7 @@ public class LoadingState : BaseGameState
                 await Task.Yield();
 
 
-            if (!(prev is LobbyState || prev is BattleState || prev is RestState))
+            if (!(prev is LobbyState || prev is BattleState || prev is RestState || prev is TutorialState))
             {
                 SceneManager.UnloadSceneAsync(GameFlowManager.Instance.GetSceneNameFromState(prev));
             }
@@ -126,6 +126,9 @@ public class LoadingState : BaseGameState
     /// <exception cref="System.Exception"></exception>
     public override async Task OnRunnerEnter()
     {
+#if AllMethodDebug
+        Debug.Log("OnRunnerEnter");
+#endif
         TaskProgressBar = null;
         LoadingTargetValue = 0;
 
@@ -234,7 +237,9 @@ public class LoadingState : BaseGameState
 
     public override async Task OnExit()
     {
-        Debug.Log("LoadingState OnExit");
+#if AllMethodDebug
+        Debug.Log("OnExit");
+#endif
         await Task.CompletedTask;
     }
 }

@@ -28,7 +28,7 @@ MonoBehaviour:
   <SkillUseState>k__BackingField: 27
   <AnimationChangeDelayTime>k__BackingField: 0.06
   <IsConnectSkillCoolDown>k__BackingField: 0
-  <SkillEffectsClipName>k__BackingField: 
+  <SkillEffectsClipName>k__BackingField: 0
   <SkillEffectsDuration>k__BackingField: 0.8
   <HitEffectType>k__BackingField: 0
   Level:
@@ -46,6 +46,6 @@ MonoBehaviour:
   <SpawnOffset>k__BackingField: {x: 1.5, y: 0.1}
   <ColliderDuration>k__BackingField: 0.8
   <TickRate>k__BackingField: 1
-  <EffectName>k__BackingField: MageSkill_X
+  <EEffectAnimatorController>k__BackingField: 101
   <ColliderSetDelayTime>k__BackingField: 0.2
   <CanRepeatHit>k__BackingField: 1

@@ -137,6 +137,33 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     }
 
 
+    public async Task WaitForHairCrossObject()
+    {
+#if AllMethodDebug
+        Debug.Log("WaitForHairCrossObject");
+#endif
+        await WaitForPoolManager();
+        while (PoolManager.CrossHairObject == null)
+        {
+            await Task.Delay(100);
+        }
+        return;
+    }
+
+
+    public async Task WaitForPoolManager()
+    {
+#if AllMethodDebug
+        Debug.Log("WaitForPoolManager");
+#endif
+        while (PoolManager == null)
+        {
+            await Task.Delay(100);
+        }
+        return;
+    }
+
+
     public async Task WaitforBossSpawn()
     {
 #if AllMethodDebug
@@ -183,7 +210,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// </summary>
     /// <param name="ct"></param>
     /// <returns></returns>
-    public async Task<Player> WaitForThisPlayerAsync(CancellationToken ct = default)
+    public async Task<Player> WaitForThisPlayerAsync()
     {
 #if AllMethodDebug
         Debug.Log("WaitForThisPlayerAsync");
@@ -191,7 +218,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         Player player;
         while ((player = ThisPlayer) == null) 
         {
-            ct.ThrowIfCancellationRequested();
             await Task.Delay(100);
         }
         return player;
@@ -358,6 +384,24 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         runner.ProvideInput = true;
         IsServer = false;
         GameFlowManager.Instance.ClientSceneLoad(ESceneName.LobbyScene);
+    }
+
+    public async Task InitTutorial()
+    {
+#if AllMethodDebug
+        Debug.Log("InitTutorial");
+#endif
+        var runner = RunnerManager.Instance.GetRunner();
+        Debug.Log("방 만들기 시작");
+        var temp = runner.StartGame(new StartGameArgs()
+        {
+            GameMode = GameMode.Host,
+            SessionName = $"{PlayerName}-Tutorial-",
+            Scene = SceneRef.FromIndex((int)ESceneName.TutorialScene),
+            AuthValues = new Fusion.Photon.Realtime.AuthenticationValues(PlayerName)
+        });
+        await temp;
+        return;
     }
 
     public async Task InitHost()

@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: f42c4174a27bcb943a07de2faef1fd1d
   m_currentHash:
     serializedVersion: 2
-    Hash: 5afb8e4c99fa5d09682e69d74f95b495
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -55,6 +55,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a828fa327f4d08b4981710b3306e6706, type: 2}
   - {fileID: 11400000, guid: e33aeb5c3dc1b734c95c634ed09b6961, type: 2}
   - {fileID: 11400000, guid: 2e40fa0d6f13ed14fba76d6f85672f16, type: 2}
+  - {fileID: 11400000, guid: e0a032dda6576d14d8523ffbfacffde5, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -116,6 +117,8 @@ MonoBehaviour:
     - CharacterData
     - CharacterSkillSet
     - PoolablePrefab
+    - AudioClipDatas
+    - AnimatorController
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 34d877ec853ce1e40987ad922d126888, type: 2}

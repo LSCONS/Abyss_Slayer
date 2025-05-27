@@ -26,7 +26,7 @@ public class RemoteZoneRangeSkill : RangeAttackSkill
     [field: SerializeField] public float TickRate { get; private set; } = 0.2f;
 
     [field: Header("Effect 이름")]
-    [field: SerializeField] public string EffectName { get; private set; } = "이펙트 이름";
+    [field: SerializeField] public EAnimatorController EEffectAnimatorController { get; private set; } = EAnimatorController.None;
 
     [field: Header("콜라이더 생성 딜레이 시간")]//TODO: 로직 구현 필요
     [field: SerializeField] public float ColliderSetDelayTime { get; private set; } = 0f;
@@ -38,6 +38,7 @@ public class RemoteZoneRangeSkill : RangeAttackSkill
     {
         base.UseSkill();
         // 풀에서 ZoneAOE 꺼내기
-        PoolManager.Instance.Get<ZoneAOE>().Init(this, Vector2.zero, null);
+        MeleeDamageCheckData data = new MeleeDamageCheckData(player.PlayerRef, (int)slotKey, ColliderSize, ColliderOffset, TargetLayer.value, 0, Damage, ColliderDuration, TickRate, (int)EEffectAnimatorController, (int)EHitEffectType.Normal, (int)EType.None);
+        PoolManager.Instance.Get<ZoneAOE>().Init(data, SpawnSize, SpawnOffset, Vector2.zero);
     }
 }

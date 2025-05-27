@@ -12,8 +12,9 @@ public enum ESceneName  // 게임 시작 상태
     StartScene = 2,
     LobbyScene = 3,
     RestScene = 4,
-    BattleScene = 5,
-    EndingScene = 6
+    TutorialScene = 5,
+    BattleScene = 6,
+    EndingScene = 7,
 }
 
 public class GameFlowManager : Singleton<GameFlowManager>
@@ -28,6 +29,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
     RestState RestSceneState { get; set; } = new RestState();
     BattleState BattleSceneState { get; set; } = new BattleState();
     EndingState EndingSceneState { get; set; } = new EndingState();
+    TutorialState TutorialSceneState { get; set; } = new TutorialState();
 
     [HideInInspector] public CreditRoller endCredit;    // 엔딩 크래딧 캐싱
     [HideInInspector] public Fireworks fireworks;      // 엔딩에 쓸 폭죽 캐싱
@@ -179,6 +181,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
             ESceneName.RestScene => RestSceneState,
             ESceneName.BattleScene => BattleSceneState,
             ESceneName.EndingScene => EndingSceneState,
+            ESceneName.TutorialScene => TutorialSceneState,
             // EGameState.Loading => new LoadingState(state), // 애초에 로딩으로 씬 전환하면 그게 문제지
 
             _ => null
@@ -222,6 +225,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
             RestState => "RestScene",
             BattleState => "BossScene_" + GameValueManager.Instance.CurrentStageIndex.ToString(), // 보스 인덱스 기반으로 생성
             EndingState => "EndingScene",
+            TutorialState => "TutorialScene",
             _ => throw new System.Exception($"[LoadingState] Unknown state: {state.GetType().Name}")
         };
     }

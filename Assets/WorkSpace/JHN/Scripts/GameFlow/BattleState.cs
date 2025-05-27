@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Threading.Tasks;
 using Fusion;
 using System.Linq;
+using System.Threading.Tasks;
+using UnityEngine;
 public class BattleState : BaseGameState
 {
     public static int BossSceneCount { get; private set; } = 4;
@@ -177,8 +175,11 @@ public class BattleState : BaseGameState
         await ServerManager.Instance.WaitForAllPlayerIsReady();
         state?.SetLoadingBarValue(0.5f);
 
-        if (runner.IsServer)
+        if (runner.IsServer && PoolManager.Instance.CrossHairObject == null)
+        {
+            runner.Spawn(DataManager.Instance.CrossHairPrefab);
             ServerManager.Instance.AllPlayerIsReadyFalse();
+        }
         bool isFinalBoss = (GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1);
             if (isFinalBoss) SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene_Last);
             else SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene);

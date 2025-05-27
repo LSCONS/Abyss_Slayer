@@ -16,7 +16,7 @@ public class PlayerSkillUseState : PlayerBaseState
     public PlayerSkillUseState(PlayerStateMachine playerStateMachine, SkillSlotKey key) : base(playerStateMachine)
     {
         Slotkey = key;
-        SkillData = playerStateMachine.Player.EquippedSkills[key];
+        SkillData = playerStateMachine.Player.DictSlotKeyToSkill[key];
         SkillInputKey = SlotKeyConvertFunc(key);
         ChangeSpriteTime = SkillData.AnimationChangeDelayTime;
     }

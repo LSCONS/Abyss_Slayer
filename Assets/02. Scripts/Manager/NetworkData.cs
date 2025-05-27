@@ -41,7 +41,11 @@ public class NetworkData : NetworkBehaviour
             ServerManager.Instance.ThisPlayerRef = PlayerDataRef;
         }
         ServerManager.Instance.DictRefToNetData[PlayerDataRef] = this;
-        ServerManager.Instance.LobbyMainPanel?.UpdateNewData(PlayerDataRef);
+        try
+        {
+            ServerManager.Instance.LobbyMainPanel?.UpdateNewData(PlayerDataRef);
+        }
+        catch { }
 
         if (IsServer) ServerManager.Instance.LobbyMainPanel?.SetServerText(PlayerDataRef);
 
@@ -51,7 +55,11 @@ public class NetworkData : NetworkBehaviour
             Rpc_RequestSetName(ServerManager.Instance.PlayerNameBytes);
         }
 
-        ServerManager.Instance.LobbyMainPanel?.UIUpdateSprite();
+        try
+        {
+            ServerManager.Instance.LobbyMainPanel?.UIUpdateSprite();
+        }
+        catch { }
     }
 
     public override void Despawned(NetworkRunner runner, bool hasState)
@@ -118,7 +126,11 @@ public class NetworkData : NetworkBehaviour
             NameBuffer.Set(i, i < nameBytes.Length ? nameBytes[i] : (byte)0);
 
         ServerManager.Instance.LobbyMainPanel?.UpdateNameData(PlayerDataRef, nameBytes.BytesToString());
-        PlayerEnterRoomText();
+        try
+        {
+            PlayerEnterRoomText();
+        }
+        catch { }
     }
 
 
