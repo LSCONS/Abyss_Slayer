@@ -45,6 +45,7 @@ public class PlayerInput : MonoBehaviour
         InitializeKeySettings();
     }
 
+    // 키 설정 초기화
     private void InitializeKeySettings()
     {
         var playerAction = Inputs.Player;
@@ -133,17 +134,6 @@ public class PlayerInput : MonoBehaviour
             var binding = inputAction.bindings[0]; // 바인딩 첫번째 인덱스 = 키보드 입력 바인딩
             var newPath = $"<Keyboard>/{newKey}"; // 키 바인딩 경로
             inputAction.ChangeBinding(0).WithPath(newPath); // 키 바인딩 경로 변경
-
-            // 스킬의 TextInputSlotKey 업데이트
-            if (player != null)
-            {
-                var skillSlotKey = (SkillSlotKey)action;
-                if (player.DictSlotKeyToSkill.TryGetValue(skillSlotKey, out var skill))
-                {
-                    skill.TextInputSlotKey = newKey.ToString();
-                    Debug.LogAssertion(skill.TextInputSlotKey);
-                }
-            }
         }
     }
 
