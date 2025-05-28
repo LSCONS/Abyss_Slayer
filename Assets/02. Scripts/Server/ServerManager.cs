@@ -61,6 +61,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public CustomPanelManager CustomPanelManager { get; set; }
     public PoolManager PoolManager { get; set; }
     public UIStartTitle UIStartTitle { get; set; }
+    public UIReadyBossStage UIReadyBossStage { get; set; }
     public Vector3 Vec3PlayerBattlePosition { get; private set; } = new Vector3(-18, 1.5f, 0);
     public Vector3 Vec3PlayerRestPosition { get; private set; } = new Vector3(-5, 1.5f, 0);
     public Action<bool> IsAllReadyAction { get; set; }
@@ -134,6 +135,18 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
                 data.IsReady = false;
             }
         }
+    }
+
+
+    public List<Player> GetActiveTruePlayer()
+    {
+        List<Player> list = new List<Player>();
+        foreach (Player player in DictRefToPlayer.Values)
+        {
+            if (player.PlayerData.PlayerStatusData.IsDead) continue;
+            list.Add(player);
+        }
+        return list;
     }
 
 

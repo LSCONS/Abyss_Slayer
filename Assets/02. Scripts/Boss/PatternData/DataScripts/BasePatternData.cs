@@ -94,6 +94,8 @@ public abstract class BasePatternData : ScriptableObject
 
         foreach(Player player in ServerManager.Instance.DictRefToPlayer.Values)
         {
+            if (player.PlayerData.PlayerStatusData.IsDead) continue;
+
             Vector2 playerVector2 = player.transform.position;
             if (playerVector2.x < minXY.x || playerVector2.y < minXY.y) continue;
             if (playerVector2.x > maxXY.x || playerVector2.y > maxXY.y) continue;

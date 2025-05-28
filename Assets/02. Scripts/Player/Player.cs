@@ -6,6 +6,7 @@ using UniRx;
 using System.Threading.Tasks;
 using UnityEngine.UI;
 using UnityEngine;
+using static FoxClone;
 public enum CharacterClass
 {
     Rogue,
@@ -155,6 +156,7 @@ public class Player : NetworkBehaviour, IHasHealth
             playerRigidbody.velocity = Vector2.zero;
             PlayerPosition = position;
             transform.position = position;
+            PlayerData.PlayerStatusData.IsDead = false;
             await Task.Delay(50);
         }
         return;
@@ -334,7 +336,6 @@ public class Player : NetworkBehaviour, IHasHealth
         Hp.Value = Hp.Value.PlusAndIntClamp(-finalDamage, MaxHp.Value);
         if (Hp.Value == 0)
         {
-            PlayerData.PlayerStatusData.IsDead = true;
             PlayerDie();
         }
     }
@@ -370,18 +371,22 @@ public class Player : NetworkBehaviour, IHasHealth
     public void PlayerDie()
     {
         PlayerStateMachine.ChangeState(PlayerStateMachine.DieState, true);
-        
+
         // 게임오버 애널리틱스 전송
-        int deadPlayerCount = 0;
+        PlayerData.PlayerStatusData.IsDead = true;
+        int deadPlayerCount = 0; 
         foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
         {
-            if (player.Hp.Value <= 0)
+            if (player.PlayerData.PlayerStatusData.IsDead)
             {
                 deadPlayerCount++;
             }
         }
 
-        StartCoroutine(PlayerDieCoroutine());
+        if (Runner.IsServer && deadPlayerCount == ServerManager.Instance.DictRefToPlayer.Values.Count)
+        {
+            StartCoroutine(PlayerDieCoroutine());
+        }
     }
 
     /// <summary>
@@ -400,7 +405,6 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             ServerManager.Instance.ExitRoom();
         }
-
     }
 
     /// <summary>

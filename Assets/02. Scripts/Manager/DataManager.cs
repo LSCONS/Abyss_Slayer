@@ -39,6 +39,7 @@ public class DataManager : Singleton<DataManager>
     public GameObject DashEffectPrefab { get; private set; }
     public FadeController ShieldPrefab { get; private set; }
     public NetworkObjectFollowServer CrossHairPrefab {  get; private set; }
+    public UITeamStatusSlot PlayerStatusPrefab { get; private set; }
     public List<BasePoolable> ListBasePoolablePrefab { get; private set; } = new();
     //첫 키의 int는 스타일, 두번 째 키의 int는 Color
     public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
@@ -172,6 +173,11 @@ public class DataManager : Singleton<DataManager>
         await shieldPrefab.Task;
         ShieldPrefab = shieldPrefab.Result.GetComponent<FadeController>();
         if(ShieldPrefab == null) { Debug.Log("Error ShieldPrefab is null"); }
+
+        var teamStatusSlot = Addressables.LoadAssetAsync<GameObject>("TeamStatusSlot");
+        await teamStatusSlot.Task;
+        PlayerStatusPrefab = teamStatusSlot.Result.GetComponent<UITeamStatusSlot>();
+        if (PlayerStatusPrefab == null) { Debug.Log("Error PlayerStatusPrefab is null"); }
 
         return;
     }
