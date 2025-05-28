@@ -406,7 +406,9 @@ public class BossController : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("RunMove");
 #endif
-        
+        bool endMap = false;
+        float endTime = float.MaxValue;
+
         bool isfall = false;
         float startHight = transform.position.y;
         float time = 0f;
@@ -419,6 +421,19 @@ public class BossController : NetworkBehaviour
         
         while (IsRun)
         {
+            if (!endMap && (transform.position.x >= MapWidth/2 - 0.7f || transform.position.x <= -MapWidth / 2 + 0.7f))
+            {
+                endMap = true;
+                endTime = Time.time + 2f;
+            }
+            else if(Time.time > endTime)
+            {
+                endTime = float.MaxValue;
+                endMap = false;
+                IsRun = false;
+                ReStartPatternLoop();
+            }
+
             float x = Mathf.Clamp(transform.position.x + _speed * Time.deltaTime, -MapWidth / 2 + 0.7f, MapWidth / 2 - 0.7f);
             transform.position = new Vector3 (x, transform.position.y, 0);
 
