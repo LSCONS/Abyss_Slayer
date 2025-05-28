@@ -30,8 +30,9 @@ public class RestState : BaseGameState
             }
             catch { }
             ServerManager.Instance.ThisPlayerData.Rpc_DisconnectInput();
+            ServerManager.Instance.AllPlayerIsReadyFalse();
+            ServerManager.Instance.ThisPlayerData.Rpc_ResetRestButton();
         }
-
         await Task.CompletedTask;
     }
 
@@ -103,6 +104,8 @@ public class RestState : BaseGameState
             Debug.Log("모든 플레이어 활성화 하고 입력 연결해줄게");
 #endif
             ServerManager.Instance.AllPlayerIsReadyFalse();
+            //UI텍스트 초기화
+            ServerManager.Instance.ThisPlayerData.Rpc_SetInRestTeamText();
 
             Vector3 temp = StartPosition;
             foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
@@ -134,6 +137,7 @@ public class RestState : BaseGameState
         Debug.Log("loadingState 삭제");
 #endif
             await runner.UnloadScene("LoadingScene");
+            ServerManager.Instance.AllPlayerIsReadyFalse();
         }
     }
 }

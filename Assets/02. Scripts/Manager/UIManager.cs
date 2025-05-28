@@ -546,35 +546,32 @@ public class UIManager : Singleton<UIManager>
         uiBase.gameObject.SetActive(true);
         yield return null; // 한 프레임 대기 후
 
-        RectTransform layoutRoot = null;
-
         if (uiBase == null || uiBase.gameObject == null) // 대상이 없는데 갱신을 하려고하면 오류 생김 체크해줘야됨
         {
             yield break;
         }
 
+        ResetAllRectTransform();
+    }
+
+
+    public void ResetAllRectTransform()
+    {
         // VerticalLayoutGroup이나 HorizontalLayoutGroup이 있으면 그것을 기준으로
-        var layoutGroup = uiBase.GetComponentInChildren<LayoutGroup>(true);
-        var verticalGroups = uiBase.GetComponentsInChildren<VerticalLayoutGroup>(true);
-        var horizontalGroups = uiBase.GetComponentsInChildren<HorizontalLayoutGroup>(true);
-        if (layoutGroup != null)
-        {
-            layoutRoot = layoutGroup.GetComponent<RectTransform>();
-        }
-        else
-        {
-            // 없으면 자기 자신의 RectTransform 사용
-            layoutRoot = uiBase.GetComponent<RectTransform>();
-        }
+        var layoutGroup = canvas.GetComponentsInChildren<LayoutGroup>(true);
+        var verticalGroups = canvas.GetComponentsInChildren<VerticalLayoutGroup>(true);
+        var horizontalGroups = canvas.GetComponentsInChildren<HorizontalLayoutGroup>(true);
 
         Canvas.ForceUpdateCanvases();
-        LayoutRebuilder.ForceRebuildLayoutImmediate(layoutRoot);
-
-        foreach(var group in verticalGroups)
+        foreach (var group in layoutGroup)
         {
             LayoutRebuilder.ForceRebuildLayoutImmediate(group.GetComponent<RectTransform>());
         }
-        foreach(var group in horizontalGroups)
+        foreach (var group in verticalGroups)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(group.GetComponent<RectTransform>());
+        }
+        foreach (var group in horizontalGroups)
         {
             LayoutRebuilder.ForceRebuildLayoutImmediate(group.GetComponent<RectTransform>());
         }
