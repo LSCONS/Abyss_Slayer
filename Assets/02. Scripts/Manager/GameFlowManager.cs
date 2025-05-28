@@ -190,19 +190,31 @@ public class GameFlowManager : Singleton<GameFlowManager>
 
     private int? GetFunnelStepForScene(ESceneName scene, int stageIndex)
     {
-        switch (scene)
-        {
-            case ESceneName.StartScene: return 1; // 스타트 씬 진입 시 퍼널 스텝 기록
-            case ESceneName.RestScene:
-                if (stageIndex == 0) return 2;
-                if (stageIndex == 1) return 8;
-                break;
-            case ESceneName.BattleScene:
-                if (stageIndex == 0) return 3;
-                if (stageIndex == 1) return 9;
-                break;
-            case ESceneName.EndingScene: return 16;
-        }
+        // 엔딩 씬
+        if (scene == ESceneName.EndingScene) 
+            return 16;
+
+        // 첫 번째 보스
+        if (scene == ESceneName.BattleScene && stageIndex == 0)
+            return 3;
+
+        // 두 번째 보스
+        if ((scene == (ESceneName)((int)ESceneName.BattleScene + 2)) && stageIndex == 1)
+            return 10;
+
+        // 스타트 씬
+        if (scene == ESceneName.StartScene)
+            return 1;
+
+        // 레스트 씬
+        if (scene == ESceneName.RestScene)
+            return stageIndex switch
+            {
+                0 => 2,
+                1 => 9,
+                _ => null
+            };
+
         return null;
     }
 

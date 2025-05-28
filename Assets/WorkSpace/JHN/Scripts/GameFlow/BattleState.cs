@@ -6,7 +6,7 @@ public class BattleState : BaseGameState
 {
     public static int BossSceneCount { get; private set; } = 4;
     public override UIType StateUIType => UIType.GamePlay;
-    public override ESceneName SceneName => (ESceneName)((int)ESceneName.BattleScene + stageIndex);
+    public override ESceneName SceneName => stageIndex == 0 ? ESceneName.BattleScene : (ESceneName)((int)ESceneName.BattleScene + 2);
     public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
 
     public int stageIndex => GameValueManager.Instance.CurrentStageIndex;
@@ -25,6 +25,7 @@ public class BattleState : BaseGameState
     private bool sentStageFail = false;
 
     private float stageStartTime = 0f;
+    private float previousHpPercent = 100f;
 
     public override Task OnEnter()
     {
@@ -56,7 +57,7 @@ public class BattleState : BaseGameState
         if (!(isStart) || ServerManager.Instance.Boss == null) return;
 
         var boss = ServerManager.Instance.Boss;
-        float hpPercent = boss.Hp.Value / boss.MaxHp.Value * 100f;
+        float hpPercent = (float)boss.Hp.Value / (float)boss.MaxHp.Value * 100f;
 
         // 90%
         if (!sentHP100 && hpPercent <= 90f)
@@ -82,6 +83,8 @@ public class BattleState : BaseGameState
             sentHP5 = true;
             AnalyticsManager.SendFunnelStep(GetFunnelStepHP(5));
         }
+
+        previousHpPercent = hpPercent;
 
         int stageElapsedTime = (int)(Time.time - stageStartTime);
 
@@ -115,6 +118,12 @@ public class BattleState : BaseGameState
                 player4Class: GetPlayerClass(3), player4Damage: GetPlayerDamage(3), player4Death: GetPlayerDeath(3),
                 player5Class: GetPlayerClass(4), player5Damage: GetPlayerDamage(4), player5Death: GetPlayerDeath(4)
             );
+
+            // 퍼널 스텝: 스테이지 클리어
+            if (stageIndex == 0)
+                AnalyticsManager.SendFunnelStep(8);  // 스테이지 1 클리어
+            else if (stageIndex == 1)
+                AnalyticsManager.SendFunnelStep(15); // 스테이지 2 클리어
         }
 
         if (boss.IsDead)
