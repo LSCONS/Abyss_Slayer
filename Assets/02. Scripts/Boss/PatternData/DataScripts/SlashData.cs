@@ -7,6 +7,7 @@ public class SlashData : BasePatternData
     [SerializeField] int damage;
     [SerializeField] float attackSpeed;
     [SerializeField] List<float> attackAngles;
+    [SerializeField] float attackDistance;
     [SerializeField] float intervalTime;
 
     [SerializeField] float preDelayTime;

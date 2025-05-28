@@ -390,6 +390,14 @@ MonoBehaviour:
     isCheckActiveTrue: 0
     isCheckActiveFalse: 0
     bossCheckHP: 0.5
+  - weight: 1
+    patternData: {fileID: 11400000, guid: 2fde54833a759af40a9283b006606ded, type: 2}
+    samePatternDelayTime: 9
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckActiveTrue: 0
+    isCheckActiveFalse: 0
+    bossCheckHP: 0.67
   - weight: 1.35
     patternData: {fileID: 11400000, guid: 3f6e544e1cf5f1647ada228445235923, type: 2}
     samePatternDelayTime: 9
@@ -469,7 +477,23 @@ MonoBehaviour:
     showGizmos: 1
     isCheckActiveTrue: 0
     isCheckActiveFalse: 0
-    bossCheckHP: 0.67
+    bossCheckHP: 0.5
+  - weight: 1
+    patternData: {fileID: 11400000, guid: d589f163c6356054388e78590c25789b, type: 2}
+    samePatternDelayTime: 9
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckActiveTrue: 1
+    isCheckActiveFalse: 0
+    bossCheckHP: 0.5
+  - weight: 1
+    patternData: {fileID: 11400000, guid: 2fde54833a759af40a9283b006606ded, type: 2}
+    samePatternDelayTime: 9
+    setActivePatternForTest: 1
+    showGizmos: 1
+    isCheckActiveTrue: 1
+    isCheckActiveFalse: 0
+    bossCheckHP: 0.5
   <MapWidth>k__BackingField: 40
   <BossCenterHight>k__BackingField: 2.2
   <Boss>k__BackingField: {fileID: 3758152715141030970}
