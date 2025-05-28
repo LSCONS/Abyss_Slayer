@@ -29,7 +29,7 @@ MonoBehaviour:
   <SkillUseState>k__BackingField: 24
   <AnimationChangeDelayTime>k__BackingField: 0.06
   <IsConnectSkillCoolDown>k__BackingField: 0
-  <SkillEffectsClipName>k__BackingField: 
+  <SkillEffectsClipName>k__BackingField: 0
   <SkillEffectsDuration>k__BackingField: 1
   <HitEffectType>k__BackingField: 0
   Level:
@@ -40,8 +40,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 0
-  baseEffectAmount: 1
-  effectAmount: 1
-  baseDuration: 5
-  duration: 5
-  shieldPrefab: {fileID: 4607254346907308908, guid: 92fec74cf58d0fa42882ad42e9b70eca, type: 3}
+  baseEffectAmount: 0.9
+  effectAmount: 0.9
+  baseDuration: 3
+  duration: 3
