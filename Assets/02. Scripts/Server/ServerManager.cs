@@ -169,9 +169,11 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 #if AllMethodDebug
         Debug.Log("WaitforBossSpawn");
 #endif
-        while (Boss == null)
+        int LoopNum = 0;
+        while (Boss == null || LoopNum > 10)
         {
             await Task.Delay(100);
+            LoopNum++;
         }
         return;
     }

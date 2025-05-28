@@ -76,8 +76,6 @@ public class RestState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("Rpc 래디 해주세용");
 #endif
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
         state?.SetLoadingBarValue(0.7f);
 
 #if MoveSceneDebug
@@ -86,7 +84,6 @@ public class RestState : BaseGameState
         if (runner.IsServer)
         {
             //모든 플레이어의 데이터가 들어있는지 확인하는 메서드
-            ServerManager.Instance.AllPlayerIsReadyFalse();
             await ServerManager.Instance.WaitForAllPlayerLoadingAsync();
         }
 

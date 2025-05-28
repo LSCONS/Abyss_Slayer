@@ -32,8 +32,10 @@ public class SkillEffectController : BasePoolable
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_Init(int EClipNameInt, float skillEffectsDuration, Vector3 position, Vector3 scale)
     {
+        Debug.Log("이펙트 실행");
         // 시작할 때 페이드인
         gameObject.SetActive(true);
+        fadeController.gameObject.SetActive(true);
         transform.position = position;
         transform.localScale = scale;
         fadeController?.FadeIn(1f);     // 딱 보일 때까지 페이드인
@@ -60,6 +62,7 @@ public class SkillEffectController : BasePoolable
     {
         yield return new WaitForSeconds(duration - fadeDuration);
 
+        fadeController.gameObject.SetActive(false);
         fadeController?.FadeOut(() => Rpc_ReturnToPool()); // 페이드 아웃 끝나면 풀로 리턴 해줌
     }
 }
