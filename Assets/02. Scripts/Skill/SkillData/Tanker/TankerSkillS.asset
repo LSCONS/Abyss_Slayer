@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SkillName>k__BackingField: "\uC57D\uD654 (S)"
   <SkillDesription>k__BackingField: "\uBCF4\uC2A4\uC5D0\uAC8C \uBC1B\uB294 \uD53C\uD574\uB7C9\uC744
-    35% \uC99D\uAC00\uC2DC\uD0A4\uB294 \uB514\uBC84\uD504\uB97C \uAC81\uB2C8\uB2E4."
+    25% \uC99D\uAC00\uC2DC\uD0A4\uB294 \uB514\uBC84\uD504\uB97C \uAC81\uB2C8\uB2E4."
   <SkillCategory>k__BackingField: 4
   <SkillIcon>k__BackingField: {fileID: 21300000, guid: 86d981a8742aea349ad18e8b929ca7ff, type: 3}
   <EAudioClip>k__BackingField: 502
@@ -34,15 +34,15 @@ MonoBehaviour:
   <HitEffectType>k__BackingField: 0
   Level:
     value: 1
-  <Magnification>k__BackingField: 0.035
+  <Magnification>k__BackingField: 0.025
   <isDurationUp>k__BackingField: 0
   radius: 10
   targetLayer:
     serializedVersion: 2
     m_Bits: 256
-  baseEffectAmount: 1.35
-  effectAmount: 1.35
+  baseEffectAmount: 1.25
+  effectAmount: 1.25
   baseDuration: 0
   duration: 0
   debuffType: 1
-  debuffDuration: 15
+  debuffDuration: 20

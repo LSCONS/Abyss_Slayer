@@ -16,14 +16,14 @@ public class NormalSlash : BasePoolable
 
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_Init(Vector3 position, int damage, bool isleft, float angle, float speed = 1)
+    public void Rpc_Init(Vector3 position, int damage, bool isleft, float angle, float speed = 1, float distance = 11f, float hight = 0.35f)
     {
         gameObject.SetActive(true);
         transform.position = position;
         _damage = damage;
         transform.rotation = Quaternion.Euler(0,isleft? 180: 0, angle);
         animator.SetFloat(AnimationHash.SpeedParameterHash, speed);
-
+        transform.localScale = new Vector3(3.5f/11f * distance,hight,1);
     }
     public void Damage()
     {

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83288de7190f2744eadce8254ee64ef1, type: 3}
+  m_Name: GraySphere2
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  attackableAreas: []
+  globalAttackableAreas: []
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  <EAudioClip>k__BackingField: 
+  damage: 1
+  startSpeed: 25
+  distance: 13
+  color: 1
+  preDelayTime: 1
+  fireIntervalTime: 0.25
+  postDelayTime: 0.5

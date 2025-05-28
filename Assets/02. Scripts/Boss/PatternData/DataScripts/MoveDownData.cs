@@ -13,7 +13,7 @@ public class MoveDownData : BasePatternData
             yield return new WaitForSeconds(0.1f);
             yield break;
         }
-        float posY = scene2D.Raycast(bossTransform.position - Vector3.down * 5, Vector3.down, 20, (LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask)).point.y + bossCenterHight;
+        float posY = scene2D.Raycast(bossTransform.position + Vector3.down * 5, Vector3.down, 20, (LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask)).point.y + bossCenterHight;
         posY = Random.Range(0, 2f) < 1 ? posY : bossCenterHight;
 
         if (EAudioClip != null && EAudioClip.Count > 0)
