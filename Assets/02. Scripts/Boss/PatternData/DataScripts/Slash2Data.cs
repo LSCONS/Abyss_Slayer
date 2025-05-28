@@ -55,7 +55,7 @@ public class Slash2Data : BasePatternData
             {
                 PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
                 float posY2 = scene2D.Raycast(target.position, Vector3.down, 40, (LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask)).point.y + bossCenterHight;
-                posY2 = Mathf.Min(posY2, scene2D.Raycast(bossTransform.position, Vector3.down, 40, (LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask)).point.y + bossCenterHight);
+                posY2 = Mathf.Min(posY2, scene2D.Raycast(bossTransform.position + Vector3.down * (bossCenterHight + 0.5f), Vector3.down, 40, (LayerData.GroundPlaneLayerMask | LayerData.GroundPlatformLayerMask)).point.y + bossCenterHight);
                 yield return bossController.StartCoroutine(bossController.JumpMove(new Vector3(bossTransform.position.x, posY2), jumpTime, jumpHight));
             }
 
