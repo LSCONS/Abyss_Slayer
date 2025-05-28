@@ -52,7 +52,7 @@ public class HomingMissaileData : BasePatternData
 
             if (isMultyTarget)
             {
-                Player[] players = ServerManager.Instance.DictRefToPlayer.Values.ToArray();
+                Player[] players = ServerManager.Instance.GetActiveTruePlayer().ToArray();
                 target = players[Random.Range(0, players.Length)].transform;
             }
             ServerManager.Instance.InitSupporter.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed * Random.Range(1,(100 + randomSpeedRate)/100f), (int)projectileType, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, explosionSize, (int)homingCurve, (int)speedCurve);

@@ -379,4 +379,51 @@ public class NetworkData : NetworkBehaviour
             player.Invincibility = isInvincibility;
         }
     }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_SetGameLevel(int gameLevel)
+    {
+#if AllMethodDebug
+        Debug.Log("Rpc_SetGameLevel");
+#endif
+        GameValueManager.Instance.SetEGameLevel(gameLevel);
+    }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_ResetRestButton()
+    {
+#if AllMethodDebug
+        Debug.Log("Rpc_ResetRestButton");
+#endif
+        if(Runner.IsServer)
+        {
+            ServerManager.Instance.UIReadyBossStage?.SetActiveButton(false);
+        }
+        else
+        {
+            ServerManager.Instance.UIReadyBossStage?.SetActiveButton(true);
+        }
+    }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_SetInGameTeamText()
+    {
+#if AllMethodDebug
+        Debug.Log("Rpc_SetInGameTeamText");
+#endif
+        ServerManager.Instance.UITeamStatus?.ChagneInGamePlayerText();
+    }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_SetInRestTeamText()
+    {
+#if AllMethodDebug
+        Debug.Log("Rpc_SetInRestTeamText");
+#endif
+        ServerManager.Instance.UITeamStatus?.ChagneInRestText();
+    }
 }

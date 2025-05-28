@@ -20,6 +20,7 @@ public class UIReadyBossStage : UIButton
     protected override void Awake()
     {
         base.Awake();
+        ServerManager.Instance.UIReadyBossStage = this;
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         TextBtnReadyOrStart.text = runner.IsServer ? ServerText : ClientText;
         BtnReadyOrStart.interactable = runner.IsServer ? false : true;
@@ -53,7 +54,6 @@ public class UIReadyBossStage : UIButton
             bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReadyInServer();
             ServerManager.Instance.IsAllReadyAction(isAllReday);
         }
-       // gameObject.SetActive(true);
     }
 
     private void ClickReadyButton()
@@ -72,7 +72,7 @@ public class UIReadyBossStage : UIButton
         ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.BattleScene);
     }
 
-    private void SetActiveButton(bool isAllReady)
+    public void SetActiveButton(bool isAllReady)
     {
         BtnReadyOrStart.interactable = isAllReady;
     }

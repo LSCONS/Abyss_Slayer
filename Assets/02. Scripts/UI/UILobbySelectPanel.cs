@@ -91,9 +91,14 @@ public class UILobbySelectPanel : UIPermanent
         SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         if (RunnerManager.Instance.GetRunner().IsServer)
         {
+            //새로운 플레이어 생성
             ServerManager.Instance.InstantiatePlayer();
+            //RestScene으로 이동
             ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
+            //다른 플레이어가 못 들어오게 막음
             RunnerManager.Instance.GetRunner().SessionInfo.IsOpen = false;
+            //난이도 동기화도 해줌
+            ServerManager.Instance.ThisPlayerData.Rpc_SetGameLevel((int)GameValueManager.Instance.EGameLevel);
         }
 
         // 파티 직업 정보 수집
