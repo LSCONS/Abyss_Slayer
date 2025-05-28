@@ -422,7 +422,7 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     public void LoadVolumeSettings()
     {
-        masterVolume = PlayerPrefs.GetFloat("Volume_Master", 1f); // 기본값 1
+        masterVolume = PlayerPrefs.GetFloat("Volume_Master", 0.5f); // 기본값 1
         bgmVolume = PlayerPrefs.GetFloat("Volume_BGM", 1f);
         sfxVolume = PlayerPrefs.GetFloat("Volume_SFX", 1f);
 
