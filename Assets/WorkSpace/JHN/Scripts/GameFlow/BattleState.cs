@@ -6,7 +6,7 @@ public class BattleState : BaseGameState
 {
     public static int BossSceneCount { get; private set; } = 4;
     public override UIType StateUIType => UIType.GamePlay;
-    public override ESceneName SceneName => stageIndex == 0 ? ESceneName.BattleScene : (ESceneName)((int)ESceneName.BattleScene + 2);
+    public override ESceneName SceneName => ESceneName.BattleScene;
     public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
 
     public int stageIndex => GameValueManager.Instance.CurrentStageIndex;
@@ -17,7 +17,7 @@ public class BattleState : BaseGameState
 
 
     // 퍼널 스텝 전송 플래그
-    private bool sentHP100 = false;
+    private bool sentHP90 = false;
     private bool sentHP66 = false;
     private bool sentHP33 = false;
     private bool sentHP5 = false;
@@ -30,6 +30,14 @@ public class BattleState : BaseGameState
     public override Task OnEnter()
     {
         stageStartTime = Time.time;
+        // 퍼널 플래그 초기화
+        sentHP90 = false;
+        sentHP66 = false;
+        sentHP33 = false;
+        sentHP5 = false;
+        sentStageClear = false;
+        sentStageFail = false;
+        previousHpPercent = 100f;
         return Task.CompletedTask;
     }
 
@@ -59,29 +67,95 @@ public class BattleState : BaseGameState
         var boss = ServerManager.Instance.Boss;
         float hpPercent = (float)boss.Hp.Value / (float)boss.MaxHp.Value * 100f;
 
+        Debug.LogAssertion($"현재 스테이지: {stageIndex}, 보스 HP: {hpPercent}%, Analytics 초기화 상태: {AnalyticsManager.IsInitialized}");
+
         // 90%
-        if (!sentHP100 && hpPercent <= 90f)
+        if (!sentHP90 && hpPercent <= 90f)
         {
-            sentHP100 = true;
-            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(90));
+            sentHP90 = true;
+            int stepNumber = GetFunnelStepHP(90);
+            Debug.LogAssertion($"90% 퍼널 스텝 전송 시작: {stepNumber}, Analytics 초기화 상태: {AnalyticsManager.IsInitialized}");
+            try 
+            {
+                if (!AnalyticsManager.IsInitialized)
+                {
+                    Debug.LogError("Analytics가 초기화되지 않았습니다.");
+                    return;
+                }
+                Debug.LogAssertion($"SendFunnelStep 호출 전: stepNumber={stepNumber}");
+                AnalyticsManager.SendFunnelStep(stepNumber);
+                Debug.LogAssertion($"SendFunnelStep 호출 후: stepNumber={stepNumber}");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"90% 퍼널 스텝 전송 실패: {e.Message}\n{e.StackTrace}");
+            }
         }
         // 66%
         if (!sentHP66 && hpPercent <= 66f)
         {
             sentHP66 = true;
-            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(66));
+            int stepNumber = GetFunnelStepHP(66);
+            Debug.LogAssertion($"66% 퍼널 스텝 전송 시작: {stepNumber}, Analytics 초기화 상태: {AnalyticsManager.IsInitialized}");
+            try 
+            {
+                if (!AnalyticsManager.IsInitialized)
+                {
+                    Debug.LogError("Analytics가 초기화되지 않았습니다.");
+                    return;
+                }
+                Debug.LogAssertion($"SendFunnelStep 호출 전: stepNumber={stepNumber}");
+                AnalyticsManager.SendFunnelStep(stepNumber);
+                Debug.LogAssertion($"SendFunnelStep 호출 후: stepNumber={stepNumber}");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"66% 퍼널 스텝 전송 실패: {e.Message}\n{e.StackTrace}");
+            }
         }
         // 33%
         if (!sentHP33 && hpPercent <= 33f)
         {
             sentHP33 = true;
-            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(33));
+            int stepNumber = GetFunnelStepHP(33);
+            Debug.LogAssertion($"33% 퍼널 스텝 전송 시작: {stepNumber}, Analytics 초기화 상태: {AnalyticsManager.IsInitialized}");
+            try 
+            {
+                if (!AnalyticsManager.IsInitialized)
+                {
+                    Debug.LogError("Analytics가 초기화되지 않았습니다.");
+                    return;
+                }
+                Debug.LogAssertion($"SendFunnelStep 호출 전: stepNumber={stepNumber}");
+                AnalyticsManager.SendFunnelStep(stepNumber);
+                Debug.LogAssertion($"SendFunnelStep 호출 후: stepNumber={stepNumber}");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"33% 퍼널 스텝 전송 실패: {e.Message}\n{e.StackTrace}");
+            }
         }
         // 5%
         if (!sentHP5 && hpPercent <= 5f)
         {
             sentHP5 = true;
-            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(5));
+            int stepNumber = GetFunnelStepHP(5);
+            Debug.LogAssertion($"5% 퍼널 스텝 전송 시작: {stepNumber}, Analytics 초기화 상태: {AnalyticsManager.IsInitialized}");
+            try 
+            {
+                if (!AnalyticsManager.IsInitialized)
+                {
+                    Debug.LogError("Analytics가 초기화되지 않았습니다.");
+                    return;
+                }
+                Debug.LogAssertion($"SendFunnelStep 호출 전: stepNumber={stepNumber}");
+                AnalyticsManager.SendFunnelStep(stepNumber);
+                Debug.LogAssertion($"SendFunnelStep 호출 후: stepNumber={stepNumber}");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"5% 퍼널 스텝 전송 실패: {e.Message}\n{e.StackTrace}");
+            }
         }
 
         previousHpPercent = hpPercent;

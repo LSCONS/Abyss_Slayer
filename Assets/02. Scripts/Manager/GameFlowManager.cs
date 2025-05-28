@@ -194,13 +194,14 @@ public class GameFlowManager : Singleton<GameFlowManager>
         if (scene == ESceneName.EndingScene) 
             return 16;
 
-        // 첫 번째 보스
-        if (scene == ESceneName.BattleScene && stageIndex == 0)
-            return 3;
-
-        // 두 번째 보스
-        if ((scene == (ESceneName)((int)ESceneName.BattleScene + 2)) && stageIndex == 1)
-            return 10;
+        // 배틀 씬 (스테이지별로 구분)
+        if (scene == ESceneName.BattleScene)
+        {
+            if (stageIndex == 0)
+                return 3;   // 1스테이지 입장
+            else if (stageIndex == 1)
+                return 10;  // 2스테이지 입장
+        }
 
         // 스타트 씬
         if (scene == ESceneName.StartScene)
