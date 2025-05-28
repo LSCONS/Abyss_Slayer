@@ -7,10 +7,11 @@ public class FoxSphere2Data : BasePatternData
     [SerializeField] int damage;
     [SerializeField] int projectileCountPerAttack;
     [SerializeField] int AttackCount;
+    [SerializeField] float startAngle;
     [SerializeField] float startSpeed;
     [SerializeField] float distance;
     [SerializeField] Color color;
-    [SerializeField] float gap;
+    [SerializeField] float spawnGap;
 
     [SerializeField] float preDelayTime;
     [SerializeField] float fireIntervalTime;
@@ -32,10 +33,11 @@ public class FoxSphere2Data : BasePatternData
         {
             for (int j = 0; j < projectileCountPerAttack; ++j)
             {
-                float angle = ((360/projectileCountPerAttack)*j + ((360/projectileCountPerAttack)/AttackCount * i)) * Mathf.Deg2Rad;
-                
+                float angle = startAngle + ((360/projectileCountPerAttack)*j + ((360/projectileCountPerAttack)/AttackCount * i)) * Mathf.Deg2Rad;
+                angle += boss.IsLeft ? Mathf.PI : 0f;
                 Vector3 direction = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle));
-                Vector3 startPosition = spawnPos + direction.normalized * gap;
+                Vector3 startPosition = spawnPos + direction.normalized * spawnGap;
+                
 
                 PoolManager.Instance.Get<FoxSphereProjectile>().Rpc_Init(damage, startPosition, preDelayTime, playerRef, startSpeed, distance, (int)color, angle);
             }
