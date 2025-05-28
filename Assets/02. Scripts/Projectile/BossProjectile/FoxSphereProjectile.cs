@@ -18,7 +18,7 @@ public class FoxSphereProjectile : BasePoolable
     bool _isReturn;
     bool _end;
     Vector3 targetDirection;
-
+    Vector3 _direction;
     private void Update()
     {
         if (_fired)
@@ -38,7 +38,7 @@ public class FoxSphereProjectile : BasePoolable
         }
         else if(Time.time >= _fireTime)
         {
-            targetDirection = (_target.position - transform.position).normalized;
+            targetDirection =(_direction == Vector3.zero)? (_target.position - transform.position).normalized : _direction;
             _fired = true;
         }
     }
@@ -47,7 +47,7 @@ public class FoxSphereProjectile : BasePoolable
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_Init(int damage,Vector3 startPosition, float preDelayTime, PlayerRef target, float speed, float distance, int color)
+    public void Rpc_Init(int damage,Vector3 startPosition, float preDelayTime, PlayerRef target, float speed, float distance, int color, float angle = 10)
     {
         gameObject.SetActive(true);
         damageCollider.Init(damage, null, int.MaxValue);
@@ -65,6 +65,7 @@ public class FoxSphereProjectile : BasePoolable
         _fired = false;
         _isReturn = false;
         _end = false;
+        _direction = angle == 10? Vector3.zero : new Vector3(Mathf.Cos(angle),Mathf.Sin(angle));
     }
 
     void Move()
