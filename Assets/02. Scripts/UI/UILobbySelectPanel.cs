@@ -22,6 +22,7 @@ public class UILobbySelectPanel : UIPermanent
         BtnLevelDown.onClick.AddListener(() => ChangeLevel(-1));
         BtnLevelUp.onClick.AddListener(() => ChangeLevel(1));
         BtnExitGame.onClick.AddListener(ServerManager.Instance.ExitRoom);
+        BtnExitGame.onClick.AddListener(() => SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick));
         ServerManager.Instance.LobbySelectPanel = this;
     }
 
