@@ -25,7 +25,7 @@ public class Player : NetworkBehaviour, IHasHealth
 {
     [field: SerializeField] public Rigidbody2D playerRigidbody { get; private set; }
     [field: SerializeField] public PlayerCheckGround playerCheckGround { get; private set; }
-    [field: SerializeField] public BoxCollider2D PlayerGroundCollider {  get; private set; }
+    [field: SerializeField] public BoxCollider2D PlayerGroundCollider { get; private set; }
     [field: SerializeField] public BoxCollider2D PlayerMeleeCollider { get; private set; }
     [field: SerializeField] public SpriteChange PlayerSpriteChange { get; private set; }
     public PlayerStateMachine PlayerStateMachine { get; private set; }
@@ -54,8 +54,8 @@ public class Player : NetworkBehaviour, IHasHealth
     public int tempSmooth = 5;
     public bool IsThisRunner => PlayerRef == Runner.LocalPlayer;
 
-    public ReactiveProperty <int> StatPoint { get; set; } = new(1);
-    public ReactiveProperty <int> SkillPoint { get; set; } = new(1);
+    public ReactiveProperty<int> StatPoint { get; set; } = new(1);
+    public ReactiveProperty<int> SkillPoint { get; set; } = new(1);
     public NetworkInputData NetworkInput;
 
 
@@ -74,7 +74,7 @@ public class Player : NetworkBehaviour, IHasHealth
         transform.position = PlayerPosition;
         StatPoint.Value = GameValueManager.Instance.InitStatusPointValue;
         SkillPoint.Value = GameValueManager.Instance.InitSkillPointValue;
-        if(Runner.LocalPlayer == PlayerRef)
+        if (Runner.LocalPlayer == PlayerRef)
         {
             ServerManager.Instance.UIPlayerState.UIHealthBar.ConnectPlayerObject(this);
         }
@@ -173,7 +173,8 @@ public class Player : NetworkBehaviour, IHasHealth
     /// <param name="skill">실행 시킬 코루틴</param>
     /// <param name="action">종료할 때 실행시킬 Action</param>
     public void StartHoldSkillCoroutine(IEnumerator skill, Action action)
-    {;
+    {
+        ;
         StopHoldSkillActionCoroutine();
         HoldSkillCoroutine = StartCoroutine(skill);
         HoldSkillCoroutineStopAction = action;
@@ -184,7 +185,8 @@ public class Player : NetworkBehaviour, IHasHealth
     /// 등록해둔 Action을 실행시키며 코루틴을 종료시키는 메서드
     /// </summary>
     public void StopHoldSkillActionCoroutine()
-    {;
+    {
+        ;
         if (HoldSkillCoroutine != null)
         {
             StopCoroutine(HoldSkillCoroutine);
@@ -378,7 +380,7 @@ public class Player : NetworkBehaviour, IHasHealth
 
         // 게임오버 애널리틱스 전송
         PlayerData.PlayerStatusData.IsDead = true;
-        int deadPlayerCount = 0; 
+        int deadPlayerCount = 0;
         foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
         {
             if (player.PlayerData.PlayerStatusData.IsDead)
@@ -401,7 +403,7 @@ public class Player : NetworkBehaviour, IHasHealth
     {
         yield return new WaitForSeconds(3);
 
-        if(GameValueManager.Instance.EGameLevel == EGameLevel.Easy)
+        if (GameValueManager.Instance.EGameLevel == EGameLevel.Easy)
         {
             ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
         }
@@ -418,11 +420,11 @@ public class Player : NetworkBehaviour, IHasHealth
     public void SetBuff(Skill skill)
     {
         BuffSkill buffSkill = skill as BuffSkill;
-        if(buffSkill != null)
+        if (buffSkill != null)
         {
             buffSkill.CurBuffDuration.Value = buffSkill.MaxBuffDuration.Value;
             buffSkill.IsApply = true;
-            DictBuffTypeToBuffSkill[buffSkill.Type] = buffSkill; 
+            DictBuffTypeToBuffSkill[buffSkill.Type] = buffSkill;
         }
     }
 

@@ -129,6 +129,21 @@ public class PlayerInput : MonoBehaviour
     }
 
     /// <summary>
+    /// 바인딩 경로 문자열 키코드로 반환
+    /// </summary>
+    /// <param name="keyCode">반환하고싶은 키코드</param>
+    /// <returns>인풋액션에서 쓸 수 있는 문자열</returns>
+    private string GetKeyPath(KeyCode keyCode)
+    {
+        return keyCode switch
+        {
+            KeyCode.LeftControl => "<Keyboard>/leftCtrl",
+            KeyCode.RightControl => "<Keyboard>/rightCtrl",
+            _ => $"<Keyboard>/{keyCode.ToString().ToLower()}"
+        };
+    }
+
+    /// <summary>
     /// 키 바인드 변경 이벤트 업데이트
     /// </summary>
     /// <param name="action">변경할 키 액션</param>
@@ -138,8 +153,7 @@ public class PlayerInput : MonoBehaviour
         if (keySettings.TryGetValue(action, out var inputAction))
         {
             // InputSystem의 키 바인딩 업데이트
-            var binding = inputAction.bindings[0]; // 바인딩 첫번째 인덱스 = 키보드 입력 바인딩
-            var newPath = $"<Keyboard>/{newKey}"; // 키 바인딩 경로
+            var newPath = GetKeyPath(newKey);
             inputAction.ChangeBinding(0).WithPath(newPath); // 키 바인딩 경로 변경
         }
     }
@@ -158,7 +172,7 @@ public class PlayerInput : MonoBehaviour
 
             if (keyMap.TryGetValue(action, out var keyCode) && keyCode != KeyCode.None)
             {
-                var newPath = $"<Keyboard>/{keyCode.ToString().ToLower()}";
+                var newPath = GetKeyPath(keyCode);
                 inputAction.ChangeBinding(0).WithPath(newPath);
             }
         }

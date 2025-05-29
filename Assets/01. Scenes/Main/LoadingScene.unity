@@ -291,10 +291,15 @@ MonoBehaviour:
   <OnDamagePlayerColorDuration>k__BackingField: 0.3
   <MinTypingSoundPitch>k__BackingField: 0.8
   <MaxTypingSoundPitch>k__BackingField: 1.2
-  <HardBossMultipleHealth>k__BackingField: 1.35
-  <HardPlayerMultiypleOnDamage>k__BackingField: 1.35
-  <EasyBossMultipleHealth>k__BackingField: 0.65
+  <EasyBossHealthMultipleForLevel>k__BackingField: 0.65
+  <NormalBossHealthMultipleForLevel>k__BackingField: 1
+  <HardBossHealthMultipleForLevel>k__BackingField: 1.35
   <EasyPlayerMultiypleOnDamage>k__BackingField: 0.65
+  <NormalPlayerMultiypleOnDamage>k__BackingField: 1
+  <HardPlayerMultiypleOnDamage>k__BackingField: 1.35
+  <EasyBossHealthMultipleForPlayerCount>k__BackingField: 0.9
+  <NormalBossHealthMultipleForPlayerCount>k__BackingField: 0.9
+  <HardBossHealthMultipleForPlayerCount>k__BackingField: 0.9
 --- !u!1 &313214707
 GameObject:
   m_ObjectHideFlags: 0

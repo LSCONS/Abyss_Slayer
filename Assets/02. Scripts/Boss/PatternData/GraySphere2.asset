@@ -13,14 +13,23 @@ MonoBehaviour:
   m_Name: GraySphere2
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  attackableAreas: []
+  attackableAreas:
+  - serializedVersion: 2
+    x: -13
+    y: -10
+    width: 26
+    height: 20
   globalAttackableAreas: []
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
   <EAudioClip>k__BackingField: 
-  damage: 1
+  damage: 300
+  projectileCountPerAttack: 3
+  AttackCount: 6
+  startAngle: 20
   startSpeed: 25
   distance: 13
   color: 1
-  preDelayTime: 1
-  fireIntervalTime: 0.25
+  spawnGap: 0
+  preDelayTime: 1.2
+  fireIntervalTime: 0.2
   postDelayTime: 0.5

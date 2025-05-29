@@ -14,17 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   attackableAreas: []
-  globalAttackableAreas: []
-  gizmoColor: {r: 0, g: 0, b: 0, a: 0}
+  globalAttackableAreas:
+  - serializedVersion: 2
+    x: -20
+    y: 0
+    width: 40
+    height: 40
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.31764707}
   <EAudioClip>k__BackingField: 
-  damage: 0
-  attackAngles: []
-  attackIntervalTime: 0
+  damage: 500
+  attackAngles:
+  - 0
+  - 7.5
+  - -7.5
+  - 15
+  - -15
+  attackIntervalTime: 0.1
   attackSpeed: 1
   attackDistance: 11
-  attackStartDistance: 4
-  attackCount: 0
-  preDelayTime: 0
-  attackDelayTime: 0
+  attackStartDistance: 6
+  attackCount: 3
+  jumpHight: 1
+  jumpTime: 0.8
+  preDelayTime: 1
+  attackDelayTime: 0.5
   comboAttackIntervalTime: 0
-  postDelayTime: 0
+  postDelayTime: 2
