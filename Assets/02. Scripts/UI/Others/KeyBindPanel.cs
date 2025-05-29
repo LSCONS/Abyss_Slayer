@@ -107,41 +107,51 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
                     break;
                 }
 
-                // 키가 중복인지 확인
-                foreach (var inputKey in inputBindKeyMap)
-                {
-                    if (inputKey.Key != curBindAction && inputKey.Value == key)
-                    {
-                        inputBindKeyMap[inputKey.Key] = KeyCode.None;
-                        SetButtonText(keyBindButtonMap[inputKey.Key], "None");
-                        OnKeyBindChanged?.Invoke(inputKey.Key, KeyCode.None);
-                        break;
-                    }
-                }
-
-                // 키 바인드 하기
-                // 키를 저장해
-                inputBindKeyMap[curBindAction] = key;
-
-                // 버튼 텍스트를 바꿔
-                SetButtonText(keyBindButtonMap[curBindAction], key.ToString());
-
-                // 이벤트 발생
-                OnKeyBindChanged?.Invoke(curBindAction, key);
-
-                // 상태 초기화
-                isWaitingForKey = false;
-                curBindAction = keyAction.None;
-
-                // 스킬 슬롯에 키 설정
-                UISkillSlotManager.Instance.SettingKeySlot();
-
-                // 플레이어 프리팹에도 저장
-                SaveKeyBinds();
+                ApplyKeyBind(key);
                 break;
             }
         }
     }
+
+    /// <summary>
+    /// 실제 키 바인딩 데이터 업데이트 + 중복키 해제 처리
+    /// </summary>
+    /// <param name="key"></param>
+    private void ApplyKeyBind(KeyCode key)
+    {
+        // 키가 중복인지 확인
+        foreach (var inputKey in inputBindKeyMap)
+        {
+            if (inputKey.Key != curBindAction && inputKey.Value == key)
+            {
+                inputBindKeyMap[inputKey.Key] = KeyCode.None;
+                SetButtonText(keyBindButtonMap[inputKey.Key], "None");
+                OnKeyBindChanged?.Invoke(inputKey.Key, KeyCode.None);
+                break;
+            }
+        }
+
+        // 키 바인드 하기
+        // 키를 저장해
+        inputBindKeyMap[curBindAction] = key;
+
+        // 버튼 텍스트를 바꿔
+        SetButtonText(keyBindButtonMap[curBindAction], key.ToString());
+
+        // 이벤트 발생
+        OnKeyBindChanged?.Invoke(curBindAction, key);
+
+        // 상태 초기화
+        isWaitingForKey = false;
+        curBindAction = keyAction.None;
+
+        // 스킬 슬롯에 키 설정
+        UISkillSlotManager.Instance.SettingKeySlot();
+
+        // 플레이어 프리팹에도 저장
+        SaveKeyBinds();
+    }
+
 
     // 버튼 텍스트 해주는 메서드
     private void SetButtonText(Button button, string newText)
