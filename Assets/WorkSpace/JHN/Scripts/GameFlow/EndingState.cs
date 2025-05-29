@@ -37,7 +37,7 @@ public class EndingState : BaseGameState
         Debug.Log("RestState OnRunnerEnter 실행");
 #endif
         LoadingState state = GameFlowManager.Instance.prevLodingState;
-
+        await UIManager.Instance.Init();
         state?.SetLoadingBarValue(0.3f);
 
 #if MoveSceneDebug
@@ -55,7 +55,6 @@ public class EndingState : BaseGameState
         }
         state?.SetLoadingBarValue(1);
         await state?.TaskProgressBar;
-        await UIManager.Instance.Init();
 
         SoundManager.Instance.PlayBGM(EAudioClip.BGM_EndingScene);
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);

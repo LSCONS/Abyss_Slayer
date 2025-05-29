@@ -61,7 +61,7 @@ public class BattleState : BaseGameState
         base.OnUpdate();
 
         if (!(isStart) || ServerManager.Instance.Boss == null) return;
-
+        NetworkRunner runner = RunnerManager.Instance.GetRunner();
         var boss = ServerManager.Instance.Boss;
         float hpPercent = (float)boss.Hp.Value / (float)boss.MaxHp.Value * 100f;
 
@@ -126,16 +126,15 @@ public class BattleState : BaseGameState
             bool isFinalBoss = (GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1);
             float sceneDelay = isFinalBoss ? changeEndingSceneTime : changeSceneTime;
 
-            if (isFinalBoss && ServerManager.Instance.fireworks == null)
+            if (runner.IsServer && isFinalBoss && ServerManager.Instance.fireworks == null)
             {
-                ServerManager.Instance.fireworks = GameObject.Instantiate(DataManager.Instance.FireworksPrefab); // 마지막 보스 잡으면 불꽃놀이 실행
-                ServerManager.Instance.fireworks.StartFireworks();
+                ServerManager.Instance.ThisPlayerData.Rpc_SetActiveTrueFireWorks();
             }
 
 
             if (deadTimer >= sceneDelay)
             {
-                if (RunnerManager.Instance.GetRunner().IsServer)
+                if (runner.IsServer)
                 {
 
                     //모든 보스를 모두 처치한 상태일 경우
