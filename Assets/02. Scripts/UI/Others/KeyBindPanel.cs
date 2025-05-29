@@ -191,6 +191,8 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
         {
             inputBindKeyMap[key.actionName] = key.defaultKey;
             SetButtonText(key.bindButton, key.defaultKey.ToString());
+
+            OnKeyBindChanged?.Invoke(key.actionName, key.defaultKey);
         }
         SaveKeyBinds();
     }
