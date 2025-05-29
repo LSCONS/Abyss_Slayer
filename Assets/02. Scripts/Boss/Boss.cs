@@ -37,7 +37,7 @@ public class Boss : NetworkBehaviour, IHasHealth
         base.Spawned();
         MaxHp.Value = (int)(MaxHp.Value * GameValueManager.Instance.GetBossHealthMultipleForLevelValue());
 
-        int playerCount = ServerManager.Instance.DictRefToPlayer.Values.Count;
+        int playerCount = Runner.SessionInfo.PlayerCount;
         MaxHp.Value *= (int)(1 +  (playerCount - 1) * GameValueManager.Instance.GetBossHealthMultipleForPlayerCountValue());
 
         Hp.Value = MaxHp.Value;
