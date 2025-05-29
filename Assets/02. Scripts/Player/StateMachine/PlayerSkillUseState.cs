@@ -31,6 +31,7 @@ public class PlayerSkillUseState : PlayerBaseState
         if (SkillData.SkillCategory == SkillCategory.Dash)
         {
             playerStateMachine.IsDash = true;
+            playerStateMachine.Player.Invincibility = true;
             playerStateMachine.IsTriggerTrue();   
         }
 
@@ -77,6 +78,7 @@ public class PlayerSkillUseState : PlayerBaseState
         if (SkillData.SkillCategory == SkillCategory.Dash)
         {
             playerStateMachine.IsDash = false;
+            playerStateMachine.Player.Invincibility = false;
             playerStateMachine.Player.PlayerGroundCollider.isTrigger = false;
         }
             
