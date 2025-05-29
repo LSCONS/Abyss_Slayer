@@ -35,6 +35,11 @@ public class Boss : NetworkBehaviour, IHasHealth
         Debug.Log("Spawned");
 #endif
         base.Spawned();
+        MaxHp.Value = (int)(MaxHp.Value * GameValueManager.Instance.GetBossHealthMultipleForLevelValue());
+
+        int playerCount = ServerManager.Instance.DictRefToPlayer.Values.Count;
+        MaxHp.Value *= (int)(1 +  (playerCount - 1) * GameValueManager.Instance.GetBossHealthMultipleForPlayerCountValue());
+
         Hp.Value = MaxHp.Value;
         ServerManager.Instance.Boss = this;
         Animator.enabled = IsOpenSprtie;

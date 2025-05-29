@@ -197,22 +197,8 @@ public class BattleState : BaseGameState
             DataManager.Instance.DictEnumToBossObjcet[(EBossStage)GameValueManager.Instance.CurrentStageIndex],
             Vector3.right * 100,
             Quaternion.identity,
-            ServerManager.Instance.ThisPlayerRef,
-            (runner, obj) =>
-            {
-                Boss nowBoss = obj.GetComponent<Boss>();
-                Debug.Log("보스 체력 적용 시작합니둥");
-                if (GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
-                {
-                    Debug.Log($"이런 하드모드였어용");
-                    nowBoss.MaxHp.Value = (int)(nowBoss.MaxHp.Value * GameValueManager.Instance.HardBossMultipleHealth);
-                }
-                else if(GameValueManager.Instance.EGameLevel == EGameLevel.Easy)
-                {
-                    Debug.Log($"이런 이지모드였어용");
-                    nowBoss.MaxHp.Value = (int)(nowBoss.MaxHp.Value * GameValueManager.Instance.EasyBossMultipleHealth);
-                }
-            });
+            ServerManager.Instance.ThisPlayerRef
+            );
             runner.MoveGameObjectToScene(boss.gameObject, runner.GetSceneRef(GameFlowManager.Instance.GetSceneNameFromState(this)));
             //UI초기화
             ServerManager.Instance.ThisPlayerData.Rpc_SetInGameTeamText();

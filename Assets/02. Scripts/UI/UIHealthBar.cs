@@ -16,7 +16,6 @@ public class UIHealthBar : UIPermanent, IView
 
     public void ConnectPlayerObject(Player player)
     {
-        Debug.LogError("본인 연결 시도");
         bool bindSuccess = UIBinder.BindPlayer<IHasHealth, UIHealthBar, HealthPresenter>(player, this.gameObject);
         if (!bindSuccess)
         {
@@ -28,7 +27,6 @@ public class UIHealthBar : UIPermanent, IView
 
     public void ConnectOtherPlayerObject(PlayerRef playerRef)
     {
-        Debug.LogError($"slot.playerRef = {playerRef}를 연결하려고 함");
         bool bindSuccess = UIBinder.BindPlayer<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.DictRefToPlayer[playerRef], this.gameObject);
         if (!bindSuccess)
         {
@@ -40,7 +38,6 @@ public class UIHealthBar : UIPermanent, IView
 
     public void ConnectBossObject(Boss boss)
     {
-        Debug.LogError("보스 연결 시도");
         bool bindSuccess = UIBinder.BindBoss<IHasHealth, UIHealthBar, HealthPresenter>(boss, this.gameObject);
         if (!bindSuccess)
         {
