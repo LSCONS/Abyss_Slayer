@@ -52,7 +52,6 @@ public class UIReadyBossStage : UIButton
                     ServerManager.Instance.IsAllReadyAction = SetActiveButton;
                     continue; 
                 }
-                data.Value.IsReady = false;
             }
             bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReadyInServer();
             ServerManager.Instance.IsAllReadyAction(isAllReday);
