@@ -24,6 +24,7 @@ public class UISkillPointArlamPopup : UIPopup
 
     private void ClickYesButton()
     {
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
@@ -33,12 +34,13 @@ public class UISkillPointArlamPopup : UIPopup
         {
             UIReadyBossStage.ClientActionButton();
         }
-            OnClose();
+        OnClose();
     }
 
 
     private void ClickNoButton()
     {
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         OnClose();
     }
 }
