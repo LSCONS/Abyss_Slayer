@@ -92,6 +92,14 @@ public class UIReadyBossStage : UIButton
         }
     }
 
+    public void ResetClientButton()
+    {
+        if (RunnerManager.Instance.GetRunner().IsServer) return;
+        IsReady = false;
+        ImgBtnColor.color = OffReadyColor;
+        ServerManager.Instance.ThisPlayerData.Rpc_PlayerIsReady(IsReady);
+    }
+
     public void ClientActionButton()
     {
         IsReady = !IsReady;
