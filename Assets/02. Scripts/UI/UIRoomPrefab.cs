@@ -51,6 +51,7 @@ public class UIRoomPrefab : MonoBehaviour
     /// </summary>
     private void OnClickRoom()
     {
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         UIRoomSearch.SelectRoomSession = SessionInfo;
         UIRoomSearch.BtnJoin.interactable = true;
     }

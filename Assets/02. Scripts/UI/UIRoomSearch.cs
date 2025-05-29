@@ -30,6 +30,7 @@ public class UIRoomSearch : UIPopup
         ServerManager.Instance.RoomSearch = this;
         BtnJoin.onClick.AddListener(TryJoinRoom);
         BtnSearchAgain.onClick.AddListener(UpdateRoomList);
+        BtnSearchAgain.onClick.AddListener(()=>SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick));
         var data = Addressables.LoadAssetAsync<GameObject>("RoomPrefab");
         await data.Task;
         RoomPrefabs = data.Result.GetComponent<UIRoomPrefab>();
@@ -115,6 +116,7 @@ public class UIRoomSearch : UIPopup
     /// </summary>
     private void TryJoinRoom()
     {
+        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         //새로고침 한 번 실행
         UpdateRoomList();
 

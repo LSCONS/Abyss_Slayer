@@ -571,17 +571,16 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public void OnSceneLoadStart(NetworkRunner runner) { }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        AllSessionList = sessionList;
         //플레이어가 없는 터진 방은 보이지 않도록 함.
-        List<SessionInfo> temp = new List<SessionInfo>();
-        foreach (SessionInfo sessionInfo in sessionList)
-        {
-            if (sessionInfo.PlayerCount == 0) continue;
-            if (!(sessionInfo.IsOpen)) continue;
-            temp.Add(sessionInfo);
-        }
+        //List<SessionInfo> temp = new List<SessionInfo>();
+        //foreach (SessionInfo sessionInfo in sessionList)
+        //{
+        //    if (sessionInfo.PlayerCount == 0) continue;
+        //    if (!(sessionInfo.IsOpen)) continue;
+        //    temp.Add(sessionInfo);
+        //}
 
-        CurrentSessionList = temp;
+        CurrentSessionList = sessionList;
         try
         {
             RoomSearch.UpdateRoomList();
