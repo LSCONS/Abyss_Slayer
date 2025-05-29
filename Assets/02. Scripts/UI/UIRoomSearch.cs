@@ -21,7 +21,7 @@ public class UIRoomSearch : UIPopup
     //룸 리스트를 담을 오브젝트 트랜스폼
     [field: SerializeField] public Transform TrRoomList { get; private set; }
     //생성한 룸을 오브젝트 형태로 저장할 딕셔너리
-    [field: SerializeField] public Dictionary<SessionInfo, UIRoomPrefab> DictSessionObject { get; private set; } = new();
+    [field: SerializeField] public Dictionary<SessionInfo, UIRoomPrefab> DictSessionToRoom { get; private set; } = new();
     [field: SerializeField] public UIRoomPrefab RoomPrefabs { get; private set; }
     public SessionInfo SelectRoomSession { get; set; } = null;
     
@@ -48,23 +48,41 @@ public class UIRoomSearch : UIPopup
     {
         foreach (SessionInfo sessionInfo in ServerManager.Instance.CurrentSessionList)
         {
-            if (DictSessionObject.ContainsKey(sessionInfo))
+            if (DictSessionToRoom.ContainsKey(sessionInfo))
             {
                 //인원수가 변했는지 확인하고 텍스트 업데이트
-                DictSessionObject[sessionInfo].CheckSameHeadCount();
+                DictSessionToRoom[sessionInfo].CheckSameHeadCount();
             }
             else
             {
                 //없는 session일 경우 딕셔너리에 프리팹을 추가함.
-                DictSessionObject[sessionInfo] = Instantiate(RoomPrefabs, TrRoomList);
-                DictSessionObject[sessionInfo].Init(sessionInfo, this);
+                DictSessionToRoom[sessionInfo] = Instantiate(RoomPrefabs, TrRoomList);
+                DictSessionToRoom[sessionInfo].Init(sessionInfo, this);
             }
         }
 
         //목록 세션이 매개변수 세션보다 많다면 삭제할 세션을 찾고 목록에서 제거
-        if(DictSessionObject.Count > ServerManager.Instance.CurrentSessionList.Count)
+        if(DictSessionToRoom.Count > ServerManager.Instance.CurrentSessionList.Count)
         {
             RemoveRoomList(ServerManager.Instance.CurrentSessionList);
+        }
+
+
+        foreach (SessionInfo sessionInfo in ServerManager.Instance.CurrentSessionList)
+        {
+            if(!(sessionInfo.IsOpen) || sessionInfo.PlayerCount >= ServerManager.Instance.MaxHeadCount)
+            {
+                DictSessionToRoom[sessionInfo].BtnRoom.interactable = false;
+                if (SelectRoomSession == sessionInfo)
+                {
+                    SelectRoomSession = null;
+                    BtnJoin.interactable = false;
+                }
+            }
+            else
+            {
+                DictSessionToRoom[sessionInfo].BtnRoom.interactable = true;
+            }
         }
     }
 
@@ -77,7 +95,7 @@ public class UIRoomSearch : UIPopup
         var sessionSet = new HashSet<SessionInfo>(sessionInfos);
         var keysRemove = new List<SessionInfo>();
 
-        foreach(SessionInfo key in DictSessionObject.Keys)
+        foreach(SessionInfo key in DictSessionToRoom.Keys)
         {
             if (!sessionSet.Contains(key))
                 keysRemove.Add(key);
@@ -85,9 +103,9 @@ public class UIRoomSearch : UIPopup
 
         foreach(SessionInfo key in keysRemove)
         {
-            UIRoomPrefab obj = DictSessionObject[key];
+            UIRoomPrefab obj = DictSessionToRoom[key];
             Destroy(obj.gameObject);
-            DictSessionObject.Remove(key);
+            DictSessionToRoom.Remove(key);
         }
     }
 
