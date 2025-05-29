@@ -38,7 +38,7 @@ public class BossPhase2Data : BasePatternData
             SoundManager.Instance.PlaySFX(EAudioClip[0]);
 
         // 5. UI 넣고
-        UIManager.Instance.OpenPopup("Phase2StartPopup", phase2UIText);
+        ServerManager.Instance.ThisPlayerData.Rpc_OpenPopup("Phase2StartPopup".StringToBytes(), phase2UIText.StringToBytes());
 
         // 6. 잠깐 대기
         yield return new WaitForSeconds(delayBeforeStart);
@@ -46,8 +46,8 @@ public class BossPhase2Data : BasePatternData
         // 7. UI 유지 시간
         yield return new WaitForSeconds(phase2Duration);
 
-        // 8. UI 닫기
-        UIManager.Instance.ClosePopup("Phase2StartPopup");
+        // 8. UI 닫기\
+        ServerManager.Instance.ThisPlayerData.Rpc_ClosePopup("Phase2StartPopup".StringToBytes());
 
         // 9. 카메라 복원
         ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(5f, 5);

@@ -397,14 +397,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_ResetRestButton");
 #endif
-        if(Runner.IsServer)
-        {
-            ServerManager.Instance.UIReadyBossStage?.SetActiveButton(false);
-        }
-        else
-        {
-            ServerManager.Instance.UIReadyBossStage?.SetActiveButton(true);
-        }
+        ServerManager.Instance.UIReadyBossStage.ResetClientButton();
     }
 
 
@@ -434,5 +427,19 @@ public class NetworkData : NetworkBehaviour
         Player player = ServerManager.Instance.DictRefToPlayer[playerRef];
         Skill skill = player.DictSlotKeyToSkill[(SkillSlotKey)slotKeyInt];
         skill.SkillUpgrade();
+    }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_OpenPopup(byte[] popupName, byte[] descriptionText)
+    {
+        UIManager.Instance.OpenPopup(popupName.BytesToString(), descriptionText.BytesToString());
+    }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_ClosePopup(byte[] popupName)
+    {
+        UIManager.Instance.ClosePopup(popupName.BytesToString());
     }
 }
