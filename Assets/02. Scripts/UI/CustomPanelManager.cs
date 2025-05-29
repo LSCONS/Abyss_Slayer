@@ -179,6 +179,7 @@ public class CustomPanelManager : UIPopup
 #endif
         await ServerManager.Instance.WaitForThisPlayerDataAsync();
         ServerManager.Instance.ThisPlayerData.Rpc_InitPlayerCustom(HairStyleID, SkinId, FaceId);
+        OnClose();
     }
 
 
