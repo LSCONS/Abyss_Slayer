@@ -436,7 +436,7 @@ public class Player : NetworkBehaviour, IHasHealth
     public void FlipRenderer(float nowMoveX)
     {
         if (nowMoveX == 0 || IsFlipX == nowMoveX < 0) return;
-        Rpc_SpriteFlipXSynchro(nowMoveX < 0);
+        SpriteFlipXSynchro(nowMoveX < 0);
     }
 
 
@@ -474,7 +474,7 @@ public class Player : NetworkBehaviour, IHasHealth
     /// 플레이어의 상태를 공유하는 메서드
     /// </summary>
     /// <param name="stateIndex"></param>
-    public void Rpc_ChagneState(int stateIndex)
+    public void ChagneState(int stateIndex)
     {
         PlayerStateIndex = stateIndex;
     }
@@ -484,7 +484,7 @@ public class Player : NetworkBehaviour, IHasHealth
     /// 플레이어의 포지션을 공유하는 메서드
     /// </summary>
     /// <param name="playerPosition"></param>
-    public void Rpc_PlayerPositionSynchro(Vector2 playerPosition)
+    public void PlayerPositionSynchro(Vector2 playerPosition)
     {
         PlayerPosition = playerPosition;
     }
@@ -494,7 +494,7 @@ public class Player : NetworkBehaviour, IHasHealth
     /// 플레이어의 좌우 뒤집힌 상태를 공유하는 메서드
     /// </summary>
     /// <param name="flipX"></param>
-    public void Rpc_SpriteFlipXSynchro(bool flipX)
+    public void SpriteFlipXSynchro(bool flipX)
     {
         IsFlipX = flipX;
     }
@@ -505,7 +505,8 @@ public class Player : NetworkBehaviour, IHasHealth
     /// <param name="hpLevel"></param>
     /// <param name="dmgLevel"></param>
     /// <param name="amount"></param>
-    public void ApplyStatUpgrade(int hpLevel, int dmgLevel, float amount)
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void Rpc_ApplyStatUpgrade(int hpLevel, int dmgLevel, float amount)
     {
         HpStatLevel = hpLevel;
         DamageStatLevel = dmgLevel;
@@ -513,6 +514,8 @@ public class Player : NetworkBehaviour, IHasHealth
         MaxHp.Value = Mathf.RoundToInt(BaseMaxHp * (1f + amount * (hpLevel - 1)));
         DamageValue.Value = BaseDamage * (1f + amount * (dmgLevel - 1));
     }
+
+
 
 
     /// <summary>

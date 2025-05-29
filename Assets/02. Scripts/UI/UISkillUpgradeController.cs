@@ -169,7 +169,7 @@ public class UISkillUpgradeController : UIPopup
 
             for(int i = 0; i < levelDiff; i++)
             {
-                skill.SkillUpgrade();
+                ServerManager.Instance.ThisPlayerData.Rpc_ApplySkillUpgrade(ServerManager.Instance.ThisPlayerRef, (int)skill.slotKey);
                 // 스킬 업그레이드 애널리틱스 전송
                 string stageNumber = ServerManager.Instance.BossCount.ToString();
                 string classType = player.NetworkData.Class.ToString();

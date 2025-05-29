@@ -36,7 +36,7 @@ public class PlayerBaseState : IPlayerState
 
         if(playerStateMachine.Player.PlayerPosition != (Vector2)playerStateMachine.Player.transform.position)
         {
-            playerStateMachine.Player.Rpc_PlayerPositionSynchro(playerStateMachine.Player.transform.position);
+            playerStateMachine.Player.PlayerPositionSynchro(playerStateMachine.Player.transform.position);
         }
     }
 

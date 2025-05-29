@@ -90,7 +90,7 @@ public class PlayerStateMachine : StateMachine
         if (!(ServerManager.Instance.PlayerInput.IsConnectInput) && !(loading)) return;
         base.ChangeState(state);
         if (!(Player.Runner.IsServer)) return;
-        Player.Rpc_ChagneState(GetIntDictStateToInit(state));
+        Player.ChagneState(GetIntDictStateToInit(state));
     }
 
     /// <summary>

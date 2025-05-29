@@ -224,7 +224,7 @@ public class UIStatStore : UIPopup
         SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         var player = ServerManager.Instance.ThisPlayer;
 
-        player.ApplyStatUpgrade(TempHpLevel, TempDamageLevel, Amount);
+        player.Rpc_ApplyStatUpgrade(TempHpLevel, TempDamageLevel, Amount);
 
         // 스텟 포인트 반영
         OriginalPoint = RemainingPoint;

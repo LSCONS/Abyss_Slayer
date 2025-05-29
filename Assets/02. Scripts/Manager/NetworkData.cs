@@ -426,4 +426,13 @@ public class NetworkData : NetworkBehaviour
 #endif
         ServerManager.Instance.UITeamStatus?.ChagneInRestText();
     }
+
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void Rpc_ApplySkillUpgrade(PlayerRef playerRef, int slotKeyInt)
+    {
+        Player player = ServerManager.Instance.DictRefToPlayer[playerRef];
+        Skill skill = player.DictSlotKeyToSkill[(SkillSlotKey)slotKeyInt];
+        skill.SkillUpgrade();
+    }
 }
