@@ -32,7 +32,6 @@ public class GameFlowManager : Singleton<GameFlowManager>
     TutorialState TutorialSceneState { get; set; } = new TutorialState();
 
     [HideInInspector] public CreditRoller endCredit;    // 엔딩 크래딧 캐싱
-    [HideInInspector] public Fireworks fireworks;      // 엔딩에 쓸 폭죽 캐싱
 
     protected override void Awake()
     {

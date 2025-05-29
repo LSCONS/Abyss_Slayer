@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class Fireworks : MonoBehaviour
 {
-    [SerializeField] private GameObject fireworks;
-    private void Start()
-    {
-        GameFlowManager.Instance.fireworks = this;
-    }
-
+    [field: SerializeField] public GameObject FireworksObject { get; private set; }
 
     /// <summary>
     /// 불꽃놀이 시작하기
@@ -22,6 +17,6 @@ public class Fireworks : MonoBehaviour
     private IEnumerator DelayFireworks()
     {
         yield return new WaitForSeconds(5);
-        fireworks.gameObject.SetActive(true);
+        Instantiate(FireworksObject);
     }
 }

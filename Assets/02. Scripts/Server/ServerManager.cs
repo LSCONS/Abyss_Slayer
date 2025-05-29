@@ -53,6 +53,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     //방에 참가 할 수 있는 최대 인원 수
     public int MaxHeadCount { get; private set; } = 5;
     public bool IsServer { get; private set; } = false;
+    public Fireworks fireworks { get; set; }
     public UIChatController ChattingTextController { get; set; }
     public UILobbyMainPanel LobbyMainPanel { get; set; }
     public UILobbySelectPanel LobbySelectPanel { get; set; }

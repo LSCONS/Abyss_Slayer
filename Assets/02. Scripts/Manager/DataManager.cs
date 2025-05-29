@@ -40,6 +40,7 @@ public class DataManager : Singleton<DataManager>
     public FadeController ShieldPrefab { get; private set; }
     public NetworkObjectFollowServer CrossHairPrefab {  get; private set; }
     public UITeamStatusSlot PlayerStatusPrefab { get; private set; }
+    public Fireworks FireworksPrefab { get; private set; }
     public List<BasePoolable> ListBasePoolablePrefab { get; private set; } = new();
     //첫 키의 int는 스타일, 두번 째 키의 int는 Color
     public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
@@ -179,6 +180,11 @@ public class DataManager : Singleton<DataManager>
         PlayerStatusPrefab = teamStatusSlot.Result.GetComponent<UITeamStatusSlot>();
         if (PlayerStatusPrefab == null) { Debug.Log("Error PlayerStatusPrefab is null"); }
 
+        var fireworksPrefab = Addressables.LoadAssetAsync<GameObject>("FireworksPrefab");
+        await fireworksPrefab.Task;
+        FireworksPrefab = fireworksPrefab.Result.GetComponent<Fireworks>();
+        if (FireworksPrefab == null) { Debug.Log("Error FireworksPrefab is null"); }
+        
         return;
     }
 

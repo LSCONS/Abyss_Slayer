@@ -507,4 +507,11 @@ public class NetworkData : NetworkBehaviour
         ServerManager.Instance.ThisPlayer.AddSkillPoint(GameValueManager.Instance.AddSkillPointValue);
         ServerManager.Instance.ThisPlayer.AddStatusPoint(GameValueManager.Instance.AddStatusPointValue);
     }
+
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_SetActiveTrueFireWorks()
+    {
+
+    }
 }

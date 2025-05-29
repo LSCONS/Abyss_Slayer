@@ -126,9 +126,10 @@ public class BattleState : BaseGameState
             bool isFinalBoss = (GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1);
             float sceneDelay = isFinalBoss ? changeEndingSceneTime : changeSceneTime;
 
-            if (isFinalBoss)
+            if (isFinalBoss && ServerManager.Instance.fireworks == null)
             {
-                GameFlowManager.Instance.fireworks?.StartFireworks(); // 마지막 보스 잡으면 불꽃놀이 실행
+                ServerManager.Instance.fireworks = GameObject.Instantiate(DataManager.Instance.FireworksPrefab); // 마지막 보스 잡으면 불꽃놀이 실행
+                ServerManager.Instance.fireworks.StartFireworks();
             }
 
 
