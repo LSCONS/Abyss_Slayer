@@ -193,24 +193,26 @@ public class BattleState : BaseGameState
         if (runner.IsServer)
         {
             NetworkObject boss = runner.Spawn
-                (
-                DataManager.Instance.DictEnumToBossObjcet[(EBossStage)GameValueManager.Instance.CurrentStageIndex],
-                Vector3.right * 100,
-                Quaternion.identity,
-                ServerManager.Instance.ThisPlayerRef,
-                (runner, obj) =>
+            (
+            DataManager.Instance.DictEnumToBossObjcet[(EBossStage)GameValueManager.Instance.CurrentStageIndex],
+            Vector3.right * 100,
+            Quaternion.identity,
+            ServerManager.Instance.ThisPlayerRef,
+            (runner, obj) =>
+            {
+                Boss nowBoss = obj.GetComponent<Boss>();
+                Debug.Log("보스 체력 적용 시작합니둥");
+                if (GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
                 {
-                    Boss nowBoss = obj.GetComponent<Boss>();
-                    if (GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
-                    {
-                        nowBoss.MaxHp.Value = (int)(nowBoss.MaxHp.Value * GameValueManager.Instance.HardBossMultipleHealth);
-                    }
-                    else if(GameValueManager.Instance.EGameLevel == EGameLevel.Easy)
-                    {
-                        nowBoss.MaxHp.Value = (int)(nowBoss.MaxHp.Value * GameValueManager.Instance.EasyBossMultipleHealth);
-                    }
+                    Debug.Log($"이런 하드모드였어용");
+                    nowBoss.MaxHp.Value = (int)(nowBoss.MaxHp.Value * GameValueManager.Instance.HardBossMultipleHealth);
                 }
-                );
+                else if(GameValueManager.Instance.EGameLevel == EGameLevel.Easy)
+                {
+                    Debug.Log($"이런 이지모드였어용");
+                    nowBoss.MaxHp.Value = (int)(nowBoss.MaxHp.Value * GameValueManager.Instance.EasyBossMultipleHealth);
+                }
+            });
             runner.MoveGameObjectToScene(boss.gameObject, runner.GetSceneRef(GameFlowManager.Instance.GetSceneNameFromState(this)));
             //UI초기화
             ServerManager.Instance.ThisPlayerData.Rpc_SetInGameTeamText();
@@ -222,7 +224,6 @@ public class BattleState : BaseGameState
         }
         await ServerManager.Instance.WaitforBossSpawn();
         state?.SetLoadingBarValue(0.7f);
-
 #if MoveSceneDebug
         Debug.Log("Rpc 래디 해주세용");
 #endif

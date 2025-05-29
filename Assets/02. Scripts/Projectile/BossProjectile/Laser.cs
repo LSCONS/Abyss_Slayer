@@ -56,8 +56,16 @@ public class Laser : BasePoolable
     {
     }
 
-    public void Init(int damage, Vector3 position, Transform target,float width =0.5f, float warningTime = 0.5f, float chasingTime = 0f, bool isPiercing = true)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(int damage, Vector3 position, NetworkId networkId, int targetNum,float width =0.5f, float warningTime = 0.5f, float chasingTime = 0f, bool isPiercing = true)
     {
+        LaserBoxProjectile laserBoxProjectile = null;
+        if(Runner.TryFindObject(networkId, out NetworkObject temp))
+        {
+            laserBoxProjectile = temp.GetComponent<LaserBoxProjectile>();
+        }
+        if (laserBoxProjectile == null) return;
+
         gameObject.SetActive(true);
         _players.Clear();
         _isFiered = false;
@@ -68,7 +76,7 @@ public class Laser : BasePoolable
 
         laserSprite.localScale = new Vector3(laserSprite.localScale.x, width, 1);
 
-        _target = target;
+        _target = laserBoxProjectile.transforms[targetNum];
         //_direction = _target.position - transform.position;
         //_angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0,0,_angle);

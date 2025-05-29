@@ -74,6 +74,10 @@ public class Player : NetworkBehaviour, IHasHealth
         transform.position = PlayerPosition;
         StatPoint.Value = GameValueManager.Instance.InitStatusPointValue;
         SkillPoint.Value = GameValueManager.Instance.InitSkillPointValue;
+        if(Runner.LocalPlayer == PlayerRef)
+        {
+            ServerManager.Instance.UIPlayerState.UIHealthBar.ConnectPlayerObject(this);
+        }
     }
 
 

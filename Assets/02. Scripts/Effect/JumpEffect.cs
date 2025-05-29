@@ -18,6 +18,7 @@ public class JumpEffect : BasePoolable
 
     public override void Rpc_ReturnToPool()
     {
+        if(Runner.IsServer)
         base.Rpc_ReturnToPool();
     }
 }

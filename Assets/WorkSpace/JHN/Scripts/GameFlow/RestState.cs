@@ -46,8 +46,9 @@ public class RestState : BaseGameState
         await UIManager.Instance.Init();
         state?.SetLoadingBarValue(0.3f);
 
-
-
+        ServerManager.Instance.UIPlayerState.UIHealthBar.ConnectPlayerObject(await ServerManager.Instance.WaitForThisPlayerAsync());
+        await Task.Yield();
+        UIManager.Instance.ResetAllRectTransform();
 #if MoveSceneDebug
         Debug.Log("서버에서 보스 스폰 실행");
 #endif
@@ -58,8 +59,6 @@ public class RestState : BaseGameState
             {
                 ServerManager.Instance.PoolManager = runner.Spawn(DataManager.Instance.PoolManagerPrefab);
             }
-
-
             NetworkObject boss = runner.Spawn
             (
                 DataManager.Instance.DictEnumToBossObjcet[EBossStage.Rest],
@@ -115,9 +114,14 @@ public class RestState : BaseGameState
             }
             ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
         }
+        else
+        {
+            //클라이언트들은 휴식 씬 들어오면 기본적으로 준비 버튼을 활성화 하도록 함.
+            ServerManager.Instance.UIReadyBossStage?.SetActiveButton(true);
+        }
 
 #if MoveSceneDebug
-        Debug.Log("프로그래스 바 끝났는지 확인하자");
+            Debug.Log("프로그래스 바 끝났는지 확인하자");
 #endif
         state?.SetLoadingBarValue(1);
         await state?.TaskProgressBar;
