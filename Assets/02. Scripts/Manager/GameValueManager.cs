@@ -22,6 +22,8 @@ public class GameValueManager : Singleton<GameValueManager>
     [field: SerializeField] public float MinTypingSoundPitch { get; private set; } = 0.5f;
     [field: Header("타이핑 소리 랜덤Pitch 최대 값")]
     [field: SerializeField] public float MaxTypingSoundPitch { get; private set; } = 1f;
+    [field: Header("클라이언트 서버에서 서버에서 공유받은 위치를 이동하는 보간 속도")]
+    [field: SerializeField] public float MoveSmoothObjectPositionForClientValue { get; private set; } = 50f;
     [field: Header("특정모드에서 보스 최대 체력 증가 비율")]
     [field: SerializeField] public float EasyBossHealthMultipleForLevel { get; private set; } = 0.7f;
     [field: SerializeField] public float NormalBossHealthMultipleForLevel { get; private set; } = 1f;

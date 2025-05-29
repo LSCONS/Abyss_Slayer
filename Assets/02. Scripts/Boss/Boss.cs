@@ -104,10 +104,13 @@ public class Boss : NetworkBehaviour, IHasHealth
         }
 
         //서버에서 공유 받은 포지션을 적용
-        if ((Vector2)transform.position != BossPosition)
+        Vector2 target = BossPosition;
+        Vector2 current = transform.position;
+        if (current != target)
         {
-            //TODO: 보간을 하며 점점 따라갈 수 있도록 만듦.
-            transform.position = BossPosition;
+            float t = GameValueManager.Instance.MoveSmoothObjectPositionForClientValue * Time.deltaTime;
+            Vector2 newPos = Vector2.Lerp(current, target, t);
+            transform.position = newPos;
         }
     }
 
