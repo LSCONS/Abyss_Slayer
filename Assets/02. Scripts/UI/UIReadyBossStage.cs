@@ -67,6 +67,7 @@ public class UIReadyBossStage : UIButton
         //준비가 안 된 상태에서 스킬 포인트가 남아 있을 경우
         if(!(IsReady) && player.SkillPoint.Value + player.StatPoint.Value > 0)
         {
+            UISkillPointArlamPopup.TextDescription.text = UISkillPointArlamPopup.strClientText;
             UISkillPointArlamPopup.OnOpen();
         }
         else
@@ -82,6 +83,7 @@ public class UIReadyBossStage : UIButton
         Player player = ServerManager.Instance.ThisPlayer;
         if (player.SkillPoint.Value + player.StatPoint.Value > 0)
         {
+            UISkillPointArlamPopup.TextDescription.text = UISkillPointArlamPopup.strServerText;
             UISkillPointArlamPopup.OnOpen();
         }
         else
