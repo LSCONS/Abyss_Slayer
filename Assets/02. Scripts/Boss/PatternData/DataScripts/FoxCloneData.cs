@@ -14,8 +14,6 @@ public class FoxCloneData : BasePatternData
     [SerializeField] int cloneHp;
     float explosionTime;
     int curHp;
-
-    List<FoxClone> clones = new List<FoxClone>();
     public override IEnumerator ExecutePattern()
     {
         PhysicsScene2D scene2D = RunnerManager.Instance.GetRunner().GetPhysicsScene2D();
@@ -25,7 +23,7 @@ public class FoxCloneData : BasePatternData
         int realPosition = Random.Range(0, cloneCount + 1);
 
         float width = mapWidth / (cloneCount + 1);
-        clones.Clear();
+        boss.Clones.Clear();
         for (int i = 0; i < cloneCount + 1; i++)
         {
             float positionX = -(mapWidth / 2) + (i * width) + Random.Range(0, width);
@@ -40,8 +38,8 @@ public class FoxCloneData : BasePatternData
             else
             { 
                 FoxClone foxClone = PoolManager.Instance.Get<FoxClone>();
-                foxClone.Init(position, cloneDeadDamage, cloneExplosionDamage, CloneDead, 1, cloneHp);
-                clones.Add(foxClone);
+                foxClone.Rpc_Init(position, cloneDeadDamage, cloneExplosionDamage, 1, cloneHp);
+                boss.Clones.Add(foxClone);
             }
             yield return new WaitForSeconds(0.1f);
         }
@@ -54,7 +52,7 @@ public class FoxCloneData : BasePatternData
         explosionTime = Time.time + explosionDelayTime;
         yield return new WaitUntil(CheckExplosion);
         
-        if(clones.Count <= 0)
+        if(boss.Clones.Count <= 0)
         {
             if (EAudioClip != null && EAudioClip.Count > 1)
                 SoundManager.Instance.PlaySFX(EAudioClip[1]);
@@ -67,9 +65,9 @@ public class FoxCloneData : BasePatternData
         {
             boss.Rpc_SetTriggerAnimationHash(AnimationHash.CloneExplosionParameterHash);
 
-            for(int i = 0 ; i < clones.Count ; i++)
+            for(int i = 0 ; i < boss.Clones.Count ; i++)
             {
-                clones[i].Explosion();
+                boss.Clones[i].Explosion();
             }
 
             if (EAudioClip != null && EAudioClip.Count > 2)
@@ -80,14 +78,8 @@ public class FoxCloneData : BasePatternData
         }
 
     }
-    void CloneDead(FoxClone foxClone)
-    {
-        clones.Remove(foxClone);
-        if (EAudioClip != null && EAudioClip.Count > 1)
-            SoundManager.Instance.PlaySFX(EAudioClip[1]);
-    }
     bool CheckExplosion()
     {
-        return (clones.Count == 0) || (Time.time >= explosionTime) || (curHp != boss.Hp.Value);
+        return (boss.Clones.Count == 0) || (Time.time >= explosionTime) || (curHp != boss.Hp.Value);
     }
 }

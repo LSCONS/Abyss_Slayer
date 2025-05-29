@@ -24,6 +24,9 @@ public class Boss : NetworkBehaviour, IHasHealth
     public bool                                             IsDead            { get; private set;}  = false;
     public float                                            DamageMultiplier  { get; set; }         = 1f;      // 보스가 받는 데미지 배율 (기본은 1.0)
 
+
+    public List<FoxClone> Clones { get; set; } = new();
+
     [field: Header("네트워크에 공유할 데이터들")]
     [Networked] public bool IsLeft { get; set; }
     [Networked] public Vector2 BossPosition { get; set; }
@@ -38,7 +41,7 @@ public class Boss : NetworkBehaviour, IHasHealth
         MaxHp.Value = (int)(MaxHp.Value * GameValueManager.Instance.GetBossHealthMultipleForLevelValue());
 
         int playerCount = Runner.SessionInfo.PlayerCount;
-        MaxHp.Value *= (int)(1 +  (playerCount - 1) * GameValueManager.Instance.GetBossHealthMultipleForPlayerCountValue());
+        MaxHp.Value = (int)(MaxHp.Value * (1 +  (playerCount - 1) * GameValueManager.Instance.GetBossHealthMultipleForPlayerCountValue()));
 
         Hp.Value = MaxHp.Value;
         ServerManager.Instance.Boss = this;
@@ -125,6 +128,13 @@ public class Boss : NetworkBehaviour, IHasHealth
             PoolManager.Instance.CrossHairObject.gameObject.SetActive(false);
             GameValueManager.Instance.SetClearStage(true);
         }
+    }
+
+
+    public void CloneDead(FoxClone foxClone)
+    {
+        Clones.Remove(foxClone);
+        //TODO 분신 사라지는 소리 필요
     }
 
 

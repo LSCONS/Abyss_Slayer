@@ -16,13 +16,14 @@ public class FoxClone : BasePoolable,IHasHealth
     float _deadExplosionScale;
     [SerializeField] DotDamageCollider dotCollidier;
     [SerializeField] SpriteRenderer cloneSprite;
-    public delegate void Dead(FoxClone foxClone);
-    Dead dead;
 
-    private void Awake()
+
+    public override void Spawned()
     {
+        base.Spawned();
         animator = GetComponent<Animator>();
     }
+
     public void Rpc_Damage(int damage, float attackPosX = -1000)
     {
         Hp.Value = Mathf.Clamp(Hp.Value - damage, 0, MaxHp.Value);
@@ -30,23 +31,26 @@ public class FoxClone : BasePoolable,IHasHealth
         if (Hp.Value <= 0)
             animator.SetTrigger(AnimationHash.DamagedParameterHash);
     }
+
     public override void Rpc_Init()
     {
     }
 
-    public void Init(Vector3 position, int deadDamage, int explosionDamage, Dead cloneDead, float deadExplosionSize = 1f, int cloneHP = 1)
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Init(Vector3 position, int deadDamage, int explosionDamage, float deadExplosionSize = 1f, int cloneHP = 1)
     {
         gameObject.SetActive(true);
         Hp.Value = MaxHp.Value;
         transform.position = position;
         _deadDamage = deadDamage;
         dotCollidier.Init(explosionDamage,5);
-        dead = cloneDead;
         _deadExplosionScale = deadExplosionSize;
         cloneSprite.flipX = UnityEngine.Random.value < 0.5f;
         MaxHp.Value = cloneHP;
         Hp.Value = MaxHp.Value;
     }
+
     public void Explosion()
     {
         if(Hp.Value > 0)
@@ -54,6 +58,7 @@ public class FoxClone : BasePoolable,IHasHealth
             animator.SetTrigger(AnimationHash.ExplosionParameterHash);
         }
     }
+
     public void DeadExplosionDamage()
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 5.5f * _deadExplosionScale, LayerData.PlayerLayerMask);
@@ -65,9 +70,10 @@ public class FoxClone : BasePoolable,IHasHealth
             }
         }
     }
+
     public override void Rpc_ReturnToPool()
     {
-        dead?.Invoke(this);
+        ServerManager.Instance.Boss.CloneDead(this);
         base.Rpc_ReturnToPool();
     }
 }
