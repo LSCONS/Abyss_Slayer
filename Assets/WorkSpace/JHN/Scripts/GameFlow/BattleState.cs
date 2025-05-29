@@ -202,7 +202,7 @@ public class BattleState : BaseGameState
             );
             runner.MoveGameObjectToScene(boss.gameObject, runner.GetSceneRef(GameFlowManager.Instance.GetSceneNameFromState(this)));
             //UI초기화
-            ServerManager.Instance.ThisPlayerData.Rpc_SetInGameTeamText();
+            ServerManager.Instance.ThisPlayerData.Rpc_SetBattleTeamText();
 
             if (ServerManager.Instance.InitSupporter == null)
             {

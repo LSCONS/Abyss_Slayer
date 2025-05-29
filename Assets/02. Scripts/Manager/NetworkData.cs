@@ -312,6 +312,10 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// 플레이어의 준비 상태를 공유하는 메서드
+    /// </summary>
+    /// <param name="isReady"></param>
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void Rpc_SetReady(bool isReady)
     {
@@ -322,6 +326,9 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// 플레이어의 포지션을 특정 위치로 고정되게 공유하는 메서드
+    /// </summary>
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_ResetPlayerPosition()
     {
@@ -335,6 +342,13 @@ public class NetworkData : NetworkBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 플레이어가 선택한 커스텀 번호를 공유할 메서드
+    /// </summary>
+    /// <param name="hairStyle">공유할 머리</param>
+    /// <param name="skin">공유할 피부</param>
+    /// <param name="face">공유할 머리</param>
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_InitPlayerCustom(int hairStyle, int skin, int face)
     {
@@ -347,6 +361,12 @@ public class NetworkData : NetworkBehaviour
         ServerManager.Instance.LobbyMainPanel.UIUpdateSprite();
     }
 
+
+    /// <summary>
+    /// VirtualCamera의 움직임을 공유할 메서드
+    /// </summary>
+    /// <param name="size">카메라 줌 사이즈</param>
+    /// <param name="priority"></param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_VirtualCamera(float size, int priority)
     {
@@ -358,6 +378,10 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// LobbyState에서 선택한 레벨의 정보를 공유할 메서드
+    /// </summary>
+    /// <param name="level"></param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_LobbySelectLevelUpdateUI(int level)
     {
@@ -368,6 +392,10 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// 플레이어의 무적 상태를 공유할 메서드
+    /// </summary>
+    /// <param name="isInvincibility">무적 유무</param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetInvincibilityAllPlayer(bool isInvincibility)
     {
@@ -381,6 +409,10 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// 게임에 적용시킨 레벨을 공유하는 메서드
+    /// </summary>
+    /// <param name="gameLevel">공유할 게임 레벨</param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetGameLevel(int gameLevel)
     {
@@ -390,7 +422,10 @@ public class NetworkData : NetworkBehaviour
         GameValueManager.Instance.SetEGameLevel(gameLevel);
     }
 
-
+     
+    /// <summary>
+    /// RestState에서 준비/시작의 버튼을 리셋해주는 메서드
+    /// </summary>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_ResetRestButton()
     {
@@ -401,8 +436,11 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// BattleState를 기준으로 TeamText를 변경해주는 메서드
+    /// </summary>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_SetInGameTeamText()
+    public void Rpc_SetBattleTeamText()
     {
 #if AllMethodDebug
         Debug.Log("Rpc_SetInGameTeamText");
@@ -411,6 +449,9 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// RestState의 기준으로 TeamText를 변경해주는 메서드
+    /// </summary>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetInRestTeamText()
     {
@@ -421,6 +462,11 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// 스킬 업그레이드 적용 공유
+    /// </summary>
+    /// <param name="playerRef">스킬 업그레이드를 적용하고 싶은 플레이어</param>
+    /// <param name="slotKeyInt">적용시킬 스킬 슬롯</param>
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_ApplySkillUpgrade(PlayerRef playerRef, int slotKeyInt)
     {
@@ -430,6 +476,11 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// 여는 팝업 창 공유
+    /// </summary>
+    /// <param name="popupName">열고 싶은 팝업 창 이름</param>
+    /// <param name="descriptionText">바꾸고 싶은 설명 Text</param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_OpenPopup(byte[] popupName, byte[] descriptionText)
     {
@@ -437,12 +488,19 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// 닫는 팝업 창 공유
+    /// </summary>
+    /// <param name="popupName">닫을 팝업 창 이름</param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_ClosePopup(byte[] popupName)
     {
         UIManager.Instance.ClosePopup(popupName.BytesToString());
     }
 
+    /// <summary>
+    /// 보스 처치 후 늘어나는 스킬 포인트 공유
+    /// </summary>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_AddSkillPoint()
     {
