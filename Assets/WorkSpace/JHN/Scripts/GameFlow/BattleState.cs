@@ -276,24 +276,12 @@ public class BattleState : BaseGameState
         if (runner.IsServer)
         {
             NetworkObject boss = runner.Spawn
-                (
-                DataManager.Instance.DictEnumToBossObjcet[(EBossStage)GameValueManager.Instance.CurrentStageIndex],
-                Vector3.right * 100,
-                Quaternion.identity,
-                ServerManager.Instance.ThisPlayerRef,
-                (runner, obj) =>
-                {
-                    Boss nowBoss = obj.GetComponent<Boss>();
-                    if (GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
-                    {
-                        nowBoss.MaxHp.Value = (int)(nowBoss.MaxHp.Value * GameValueManager.Instance.HardBossMultipleHealth);
-                    }
-                    else if(GameValueManager.Instance.EGameLevel == EGameLevel.Easy)
-                    {
-                        nowBoss.MaxHp.Value = (int)(nowBoss.MaxHp.Value * GameValueManager.Instance.EasyBossMultipleHealth);
-                    }
-                }
-                );
+            (
+            DataManager.Instance.DictEnumToBossObjcet[(EBossStage)GameValueManager.Instance.CurrentStageIndex],
+            Vector3.right * 100,
+            Quaternion.identity,
+            ServerManager.Instance.ThisPlayerRef
+            );
             runner.MoveGameObjectToScene(boss.gameObject, runner.GetSceneRef(GameFlowManager.Instance.GetSceneNameFromState(this)));
             //UI초기화
             ServerManager.Instance.ThisPlayerData.Rpc_SetInGameTeamText();
@@ -305,7 +293,6 @@ public class BattleState : BaseGameState
         }
         await ServerManager.Instance.WaitforBossSpawn();
         state?.SetLoadingBarValue(0.7f);
-
 #if MoveSceneDebug
         Debug.Log("Rpc 래디 해주세용");
 #endif

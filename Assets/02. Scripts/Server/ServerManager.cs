@@ -62,6 +62,8 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public PoolManager PoolManager { get; set; }
     public UIStartTitle UIStartTitle { get; set; }
     public UIReadyBossStage UIReadyBossStage { get; set; }
+    public UIBossState UIBossState { get; set; }
+    public UIPlayerState UIPlayerState { get; set; }
     public Vector3 Vec3PlayerBattlePosition { get; private set; } = new Vector3(-18, 1.5f, 0);
     public Vector3 Vec3PlayerRestPosition { get; private set; } = new Vector3(-5, 1.5f, 0);
     public Action<bool> IsAllReadyAction { get; set; }

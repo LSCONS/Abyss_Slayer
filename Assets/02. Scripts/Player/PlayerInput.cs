@@ -43,7 +43,10 @@ public class PlayerInput : MonoBehaviour
     {
         Inputs = new PlayerInputs();
         InitializeKeySettings();
+    }
 
+    private void Start()
+    {
         ApplyLoadedKeyBinds();  // 플레이어 프리팹에 있는거 불러온걸로 업데이트
     }
 
@@ -64,6 +67,8 @@ public class PlayerInput : MonoBehaviour
     public void InputEvent()
     {
         Inputs.Enable();
+        ApplyLoadedKeyBinds();
+
         var playerAction = Inputs.Player;
         IsConnectInput = true;
         playerAction.Move.performed     += StartMove;
@@ -144,18 +149,18 @@ public class PlayerInput : MonoBehaviour
     /// </summary>
     private void ApplyLoadedKeyBinds()
     {
+        var keyMap = KeyBindStorage.Load();
+
         foreach (var key in keySettings)
         {
             keyAction action = key.Key;
             InputAction inputAction = key.Value;
 
-            KeyCode loadedKey = KeyBindPanel.Instance.GetKeyCode(action);
-            if (loadedKey == KeyCode.None) continue;
-
-            // InputSystem의 키 바인딩 업데이트
-            var newPath = $"<Keyboard>/{loadedKey.ToString().ToLower()}"; // 키 바인딩 경로
-            inputAction.ChangeBinding(0).WithPath(newPath); // 키 바인딩 경로 변경
-
+            if (keyMap.TryGetValue(action, out var keyCode) && keyCode != KeyCode.None)
+            {
+                var newPath = $"<Keyboard>/{keyCode.ToString().ToLower()}";
+                inputAction.ChangeBinding(0).WithPath(newPath);
+            }
         }
     }
 

@@ -35,11 +35,17 @@ public class Boss : NetworkBehaviour, IHasHealth
         Debug.Log("Spawned");
 #endif
         base.Spawned();
-        BossController.Init();
+        MaxHp.Value = (int)(MaxHp.Value * GameValueManager.Instance.GetBossHealthMultipleForLevelValue());
+
+        int playerCount = ServerManager.Instance.DictRefToPlayer.Values.Count;
+        MaxHp.Value *= (int)(1 +  (playerCount - 1) * GameValueManager.Instance.GetBossHealthMultipleForPlayerCountValue());
+
         Hp.Value = MaxHp.Value;
         ServerManager.Instance.Boss = this;
         Animator.enabled = IsOpenSprtie;
         Sprite.enabled = IsOpenSprtie;
+        BossController.Init();
+        ServerManager.Instance.UIBossState.UIHealthBar.ConnectBossObject(this);
     }
 
 
@@ -107,6 +113,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     {
 #if AllMethodDebug
         Debug.Log("ChangeHP");
+        Debug.Log($"{value}");
 #endif
         Hp.Value = Mathf.Clamp(Hp.Value + value, 0, MaxHp.Value);
         if (Hp.Value == 0)

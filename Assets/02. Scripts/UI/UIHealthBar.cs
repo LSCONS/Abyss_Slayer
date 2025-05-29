@@ -14,21 +14,12 @@ public class UIHealthBar : UIPermanent, IView
     [SerializeField] private TextMeshProUGUI hpText;
     [SerializeField] private RectTransform shakeTarget; // 체력 닳을 때 흔들릴 타겟
 
-    [Header("플레이어인지 체크")]
-    [SerializeField] private bool isPlayer;   // 플레이어인지 확인
-
-    // 색 조절
-    Color lowHpStart = new Color(0.7f, 0.1f, 0f); // 검붉
-    Color lowHpEnd = Color.black;              // 검정
-
-    private async void ConnectPlayerObject()
+    public void ConnectPlayerObject(Player player)
     {
-        Debug.LogError("본인 연결 시도");
-        await ServerManager.Instance.WaitForThisPlayerAsync();
-        bool bindSuccess = UIBinder.BindPlayer<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.ThisPlayer, this.gameObject);
+        bool bindSuccess = UIBinder.BindPlayer<IHasHealth, UIHealthBar, HealthPresenter>(player, this.gameObject);
         if (!bindSuccess)
         {
-            Debug.LogWarning($"[UIHealthBar] 플레이어 바인딩 실패: {ServerManager.Instance.ThisPlayer}");
+            Debug.LogWarning($"[UIHealthBar] 플레이어 바인딩 실패: {player}");
         }
         hpBar.fillAmount = 1;
         hpText.text = $"{100:F0}%";
@@ -36,39 +27,24 @@ public class UIHealthBar : UIPermanent, IView
 
     public void ConnectOtherPlayerObject(PlayerRef playerRef)
     {
-        Debug.LogError($"slot.playerRef = {playerRef}를 연결하려고 함");
         bool bindSuccess = UIBinder.BindPlayer<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.DictRefToPlayer[playerRef], this.gameObject);
         if (!bindSuccess)
         {
             Debug.LogWarning($"[UIHealthBar] 플레이어 바인딩 실패: {ServerManager.Instance.ThisPlayer}");
         }
+        hpBar.fillAmount = 1;
+        hpText.text = $"{100:F0}%";
     }
 
-    private async void ConnectBossObject()
+    public void ConnectBossObject(Boss boss)
     {
-        await ServerManager.Instance.WaitforBossSpawn();
-        bool bindSuccess = UIBinder.BindBoss<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.Boss, this.gameObject);
+        bool bindSuccess = UIBinder.BindBoss<IHasHealth, UIHealthBar, HealthPresenter>(boss, this.gameObject);
         if (!bindSuccess)
         {
             Debug.LogWarning($"[UIHealthBar] 보스 바인딩 실패: {ServerManager.Instance.ThisPlayer}");
         }
         hpBar.fillAmount = 1;
         hpText.text = $"{100:F0}%";
-    }
-
-    public async override void Init()
-    {
-        base.Init();
-        await ServerManager.Instance.WaitForThisPlayerAsync();
-        gameObject.SetActive(true);
-        if (isPlayer)
-        {
-            ConnectPlayerObject();
-        }
-        else
-        {
-            ConnectBossObject();
-        }
     }
 
     private int currentHp = 0;  // 애니메이션에 쓰일 현재 hp

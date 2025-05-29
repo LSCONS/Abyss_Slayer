@@ -9,7 +9,7 @@ public class LaserBoxProjectile : BasePoolable
 {
     [SerializeField] AnimationCurve curveX;
     [SerializeField] AnimationCurve curveY;
-    [SerializeField] Transform[] transforms = new Transform[4];
+    [SerializeField] public Transform[] transforms = new Transform[4];
     [SerializeField] Transform virtualTarget;
     [SerializeField] SpriteRenderer sprite;
     int _damage;
@@ -23,7 +23,19 @@ public class LaserBoxProjectile : BasePoolable
     int _fireCount;
     bool _isPiercing;
     bool _chasing;
+    [Networked] public Vector3 BoxRotate {  get; set; }
 
+    public void Update()
+    {
+        if(Runner.IsServer)
+        {
+            BoxRotate = transform.localEulerAngles;
+        }
+        else
+        {
+            transform.localEulerAngles = BoxRotate;
+        }
+    }
 
 
     public override void Rpc_Init()
@@ -57,6 +69,7 @@ public class LaserBoxProjectile : BasePoolable
 
     IEnumerator BoxStart()
     {
+        NetworkId objID = GetComponent<NetworkObject>().Id;
         float time = 0;
         while ( time < 0.5f * _delayTime)
         {
@@ -104,7 +117,8 @@ public class LaserBoxProjectile : BasePoolable
             }
             for (int j = 0; j < 4; j++)
             {
-                PoolManager.Instance.Get<Laser>().Init(_damage, transform.position, transforms[j], 0.5f, 0.5f, _chasingTime,_isPiercing);
+                if(Runner.IsServer)
+                PoolManager.Instance.Get<Laser>().Rpc_Init(_damage, transform.position, objID, j, 0.5f, 0.5f, _chasingTime,_isPiercing);
             }
 
             time = 0f;
