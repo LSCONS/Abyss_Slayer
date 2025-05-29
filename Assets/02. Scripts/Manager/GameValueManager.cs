@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,14 +56,10 @@ public class GameValueManager : Singleton<GameValueManager>
         {
             CurrentStageIndex++;
             SetClearStage(false);
-            if (RunnerManager.Instance.GetRunner().IsServer)
+            NetworkRunner runner = RunnerManager.Instance.GetRunner();
+            if (runner.IsServer)
             {
-                //TODO: 스킬포인트 주는 로직 변경 필요. 모든 플레이어들에게 RPC로 줘야함.
-                foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
-                {
-                    player.AddSkillPoint(AddSkillPointValue);
-                    player.AddStatusPoint(AddStatusPointValue);
-                }
+                ServerManager.Instance.ThisPlayerData.Rpc_AddSkillPoint();
             }
         }
     }

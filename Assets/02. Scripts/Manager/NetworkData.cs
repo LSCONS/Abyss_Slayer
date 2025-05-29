@@ -442,4 +442,11 @@ public class NetworkData : NetworkBehaviour
     {
         UIManager.Instance.ClosePopup(popupName.BytesToString());
     }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_AddSkillPoint()
+    {
+        ServerManager.Instance.ThisPlayer.AddSkillPoint(GameValueManager.Instance.AddSkillPointValue);
+        ServerManager.Instance.ThisPlayer.AddStatusPoint(GameValueManager.Instance.AddStatusPointValue);
+    }
 }
