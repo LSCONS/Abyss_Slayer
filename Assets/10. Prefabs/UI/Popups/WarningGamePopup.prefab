@@ -88,7 +88,6 @@ GameObject:
   - component: {fileID: 1380048713899595263}
   - component: {fileID: 1077709118361292134}
   - component: {fileID: 1714377090751203402}
-  - component: {fileID: 2973127589775484793}
   m_Layer: 5
   m_Name: WarningYesBtn
   m_TagString: Untagged
@@ -197,32 +196,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1077709118361292134}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2973127589775484793}
-        m_TargetAssemblyTypeName: QuitGame, Assembly-CSharp
-        m_MethodName: Quit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &2973127589775484793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 675605176819481745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ce6fe9fd7019e5419f879f218e0984a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isQuitRoom: 1
+      m_Calls: []
 --- !u!1 &852823763216883718
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,7 +612,6 @@ GameObject:
   - component: {fileID: 8146925013330093455}
   - component: {fileID: 1206473696668018063}
   - component: {fileID: 6067977193784425103}
-  - component: {fileID: 6225839797950395537}
   m_Layer: 5
   m_Name: WarningNoBtn
   m_TagString: Untagged
@@ -748,24 +721,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6225839797950395537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5506644659890025287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26e04396ada859041a7ff17b8475166f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiType: 130
-  uISceneType: 16
-  isClose: 1
-  popupName: 
-  alarmIcon: {fileID: 0}
-  escCanOpen: 0
 --- !u!1 &5810692253269935895
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,7 +942,8 @@ GameObject:
   - component: {fileID: 3865422165396219721}
   - component: {fileID: 4527899610558469514}
   - component: {fileID: 3000713615656776176}
-  - component: {fileID: 115377306427943280}
+  - component: {fileID: 7495386830506656354}
+  - component: {fileID: 3913540610327828246}
   m_Layer: 5
   m_Name: WarningGamePopup
   m_TagString: Untagged
@@ -1055,7 +1011,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &115377306427943280
+--- !u!114 &7495386830506656354
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1064,12 +1020,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 8471566436683632660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 001a670eb6946c54db918c180e695c9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 2021bc3b726bd9b438f936ccff033a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   uiType: 130
   uISceneType: 16
-  desc: {fileID: 4575229999733326125}
+  desc: {fileID: 0}
+  <BtnYesClick>k__BackingField: {fileID: 1714377090751203402}
+  <BtnNoClick>k__BackingField: {fileID: 6067977193784425103}
+--- !u!114 &3913540610327828246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8471566436683632660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 1
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &8994853136781686833
 GameObject:
   m_ObjectHideFlags: 0

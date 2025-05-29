@@ -455,6 +455,7 @@ public class UIManager : Singleton<UIManager>
         OpenPopup(popup);
     }
 
+
     /// <summary>
     /// 팝업 이름으로 팝업을 열고 설명 수정가능
     /// </summary>

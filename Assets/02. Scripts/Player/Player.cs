@@ -58,7 +58,7 @@ public class Player : NetworkBehaviour, IHasHealth
     public NetworkInputData NetworkInput;
 
 
-    public override void Spawned()
+    public override async void Spawned()
     {
         gameObject.SetActive(false);
         base.Spawned();
@@ -75,6 +75,7 @@ public class Player : NetworkBehaviour, IHasHealth
         SkillPoint.Value = GameValueManager.Instance.InitSkillPointValue;
         if (Runner.LocalPlayer == PlayerRef)
         {
+            await ServerManager.Instance.WaitForPlayerState();
             ServerManager.Instance.UIPlayerState.UIHealthBar.ConnectPlayerObject(this);
         }
     }

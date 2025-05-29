@@ -1,4 +1,5 @@
 using Fusion;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,6 +17,7 @@ public class UIReadyBossStage : UIButton
     private bool IsReady { get; set; } = false;
     [field: SerializeField] public Color OnReadyColor { get; private set; }
     [field: SerializeField] public Color OffReadyColor { get; private set; }
+    [field: SerializeField] public UISkillPointArlamPopup  UISkillPointArlamPopup { get; private set; }
 
     protected override void Awake()
     {
@@ -34,6 +36,7 @@ public class UIReadyBossStage : UIButton
         }
         BtnReadyOrStart.onClick.RemoveListener(PlayClickSound);
        BtnReadyOrStart.onClick.AddListener(PlayClickSound);
+        UISkillPointArlamPopup.UIReadyBossStage = this;
     }
 
     public override void Init()
@@ -60,15 +63,42 @@ public class UIReadyBossStage : UIButton
     {
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer) return;
-        IsReady = !IsReady;
-        ImgBtnColor.color = IsReady ? OnReadyColor : OffReadyColor;
-        ServerManager.Instance.ThisPlayerData.Rpc_PlayerIsReady(IsReady);
+        Player player = ServerManager.Instance.ThisPlayer;
+        //준비가 안 된 상태에서 스킬 포인트가 남아 있을 경우
+        if(!(IsReady) && player.SkillPoint.Value + player.StatPoint.Value > 0)
+        {
+            UISkillPointArlamPopup.OnOpen();
+        }
+        else
+        {
+            ClientActionButton();
+        }
     }
 
     private void ClickStartButton()
     {
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (!(runner.IsServer)) return;
+        Player player = ServerManager.Instance.ThisPlayer;
+        if (player.SkillPoint.Value + player.StatPoint.Value > 0)
+        {
+            UISkillPointArlamPopup.OnOpen();
+        }
+        else
+        {
+            ServerActionButton();
+        }
+    }
+
+    public void ClientActionButton()
+    {
+        IsReady = !IsReady;
+        ImgBtnColor.color = IsReady ? OnReadyColor : OffReadyColor;
+        ServerManager.Instance.ThisPlayerData.Rpc_PlayerIsReady(IsReady);
+    }
+
+    public void ServerActionButton()
+    {
         ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.BattleScene);
     }
 

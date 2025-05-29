@@ -152,6 +152,16 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     }
 
 
+    public async Task WaitForPlayerState()
+    {
+        while (UIPlayerState == null)
+        {
+            await Task.Delay(100);
+        }
+        return;
+    }
+
+
     public async Task WaitForHairCrossObject()
     {
 #if AllMethodDebug
