@@ -6,7 +6,7 @@ public class BattleState : BaseGameState
 {
     public static int BossSceneCount { get; private set; } = 4;
     public override UIType StateUIType => UIType.GamePlay;
-    public override ESceneName SceneName => (ESceneName)((int)ESceneName.BattleScene + stageIndex);
+    public override ESceneName SceneName => ESceneName.BattleScene;
     public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
 
     public int stageIndex => GameValueManager.Instance.CurrentStageIndex;
@@ -17,7 +17,7 @@ public class BattleState : BaseGameState
 
 
     // 퍼널 스텝 전송 플래그
-    private bool sentHP100 = false;
+    private bool sentHP90 = false;
     private bool sentHP66 = false;
     private bool sentHP33 = false;
     private bool sentHP5 = false;
@@ -25,10 +25,17 @@ public class BattleState : BaseGameState
     private bool sentStageFail = false;
 
     private float stageStartTime = 0f;
+    private float previousHpPercent = 100f;
+
+    private int lastStageIndex = -1;
 
     public override Task OnEnter()
     {
+        Debug.LogAssertion($"[BattleState] OnEnter 호출! stageIndex={stageIndex}");
         stageStartTime = Time.time;
+        ResetFunnelFlags();
+        previousHpPercent = 100f;
+        lastStageIndex = stageIndex;
         return Task.CompletedTask;
     }
 
@@ -56,32 +63,20 @@ public class BattleState : BaseGameState
         if (!(isStart) || ServerManager.Instance.Boss == null) return;
 
         var boss = ServerManager.Instance.Boss;
-        float hpPercent = boss.Hp.Value / boss.MaxHp.Value * 100f;
+        float hpPercent = (float)boss.Hp.Value / (float)boss.MaxHp.Value * 100f;
 
-        // 90%
-        if (!sentHP100 && hpPercent <= 90f)
+        if (lastStageIndex != stageIndex)
         {
-            sentHP100 = true;
-            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(90));
+            ResetFunnelFlags();
+            lastStageIndex = stageIndex;
         }
-        // 66%
-        if (!sentHP66 && hpPercent <= 66f)
-        {
-            sentHP66 = true;
-            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(66));
-        }
-        // 33%
-        if (!sentHP33 && hpPercent <= 33f)
-        {
-            sentHP33 = true;
-            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(33));
-        }
-        // 5%
-        if (!sentHP5 && hpPercent <= 5f)
-        {
-            sentHP5 = true;
-            AnalyticsManager.SendFunnelStep(GetFunnelStepHP(5));
-        }
+
+        TrySendHpFunnelStep(ref sentHP90, hpPercent, 90f);
+        TrySendHpFunnelStep(ref sentHP66, hpPercent, 66f);
+        TrySendHpFunnelStep(ref sentHP33, hpPercent, 33f);
+        TrySendHpFunnelStep(ref sentHP5,  hpPercent, 5f);
+
+        previousHpPercent = hpPercent;
 
         int stageElapsedTime = (int)(Time.time - stageStartTime);
 
@@ -115,6 +110,12 @@ public class BattleState : BaseGameState
                 player4Class: GetPlayerClass(3), player4Damage: GetPlayerDamage(3), player4Death: GetPlayerDeath(3),
                 player5Class: GetPlayerClass(4), player5Damage: GetPlayerDamage(4), player5Death: GetPlayerDeath(4)
             );
+
+            // 퍼널 스텝: 스테이지 클리어
+            if (stageIndex == 0)
+                AnalyticsManager.SendFunnelStep(8);  // 스테이지 1 클리어
+            else if (stageIndex == 1)
+                AnalyticsManager.SendFunnelStep(15); // 스테이지 2 클리어
         }
 
         if (boss.IsDead)
@@ -304,26 +305,6 @@ public class BattleState : BaseGameState
         deadTimer = 0;
     }
 
-    // 퍼널 스텝 번호 반환 함수들
-    private int GetFunnelStepHP(int percent)
-    {
-        switch (stageIndex)
-        {
-            case 0: // 스테이지1
-                if (percent == 90) return 4;
-                if (percent == 66) return 5;
-                if (percent == 33) return 6;
-                if (percent == 5) return 7;
-                break;
-            case 1: // 스테이지2
-                if (percent == 90) return 11;
-                if (percent == 66) return 12;
-                if (percent == 33) return 13;
-                if (percent == 5) return 14;
-                break;
-        }
-        return -1;
-    }
 
     // 모든 플레이어가 죽었는지 체크
     private bool AllPlayersDead()
@@ -353,5 +334,58 @@ public class BattleState : BaseGameState
     {
         // 실제 사망 횟수 집계 로직에 맞게 구현 필요
         return 0;
+    }
+
+    private void ResetFunnelFlags()
+    {
+        sentHP90 = false;
+        sentHP66 = false;
+        sentHP33 = false;
+        sentHP5 = false;
+        sentStageClear = false;
+        sentStageFail = false;
+    }
+    
+
+    // 퍼널 스텝 번호 반환 함수들
+    private int GetFunnelStepHP(int percent)
+    {
+        int stepNumber = -1;
+        switch (stageIndex)
+        {
+            case 0: // 스테이지1
+                if (percent == 90) stepNumber = 4;
+                if (percent == 66) stepNumber = 5;
+                if (percent == 33) stepNumber = 6;
+                if (percent == 5) stepNumber = 7;
+                break;
+            case 1: // 스테이지2
+                if (percent == 90) stepNumber = 11;
+                if (percent == 66) stepNumber = 12;
+                if (percent == 33) stepNumber = 13;
+                if (percent == 5) stepNumber = 14;
+                break;
+        }
+        return stepNumber;
+    }
+
+
+    private void TrySendHpFunnelStep(ref bool sentFlag, float hpPercent, float threshold)
+    {
+        if (!sentFlag && hpPercent <= threshold)
+        {
+            sentFlag = true;
+            int stepNumber = GetFunnelStepHP((int)threshold);
+            
+            try
+            {
+                if (!AnalyticsManager.IsInitialized) return;
+                AnalyticsManager.SendFunnelStep(stepNumber);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"{threshold}% 퍼널 스텝 전송 실패: {e.Message}\n{e.StackTrace}");
+            }
+        }
     }
 }
