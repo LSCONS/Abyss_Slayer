@@ -31,7 +31,8 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public string RoomName { get; private set; } = "Empty";
     //플레이어의 이름이 바뀔 때 실행할 Action
     public Action ChangeNameAction { get; set; }
-    public List<SessionInfo> CurrentSessionList { get; private set; } = new List<SessionInfo>();
+    public List<SessionInfo> CurrentSessionList { get; private set; } = new();
+    public List<SessionInfo> AllSessionList { get; private set; } = new();
 
     //플레이어의 다양한 정보가 담겨있는 NetworkData를 딕셔너리로 저장함.
     public Dictionary<PlayerRef, NetworkData> DictRefToNetData { get; private set; } = new();
@@ -273,26 +274,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         }
         return;
     }
-
-
-    /// <summary>
-    /// 자신의 Input에 값이 들어올 때까지 대기하고 반환하는 메서드
-    /// </summary>
-    /// <param name="ct"></param>
-    /// <returns></returns>
-    //    public async Task<PlayerInput> WaitForThisInputAsync(CancellationToken ct = default)
-//    {
-//#if AllMethodDebug
-//        Debug.Log("WaitForThisInputAsync");
-//#endif
-//        Player player = await WaitForThisPlayerAsync();
-//        while (player.PlayerInput == null)
-//        {
-//            ct.ThrowIfCancellationRequested();
-//            await Task.Yield();
-//        }
-//        return player.PlayerInput;
-//    }
 
 
     /// <summary>
@@ -576,10 +557,13 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         //누군가 방에서 나갔을 때 서버가 해당 플레이어의 데이터를 삭제하고 모든 플레이어에게 업데이트 하는 메서드
         if (runner.IsServer)
         {
-            DictRefToNetData[player].IsReady = false;
+            runner.Despawn(DictRefToPlayer[player].GetComponent<NetworkObject>());
             runner.Despawn(DictRefToNetData[player].GetComponent<NetworkObject>());
-            LobbySelectPanel.CheckAllPlayerIsReady();
+
+            LobbySelectPanel?.CheckAllPlayerIsReady();
         }
+        DictRefToNetData.Remove(player);
+        DictRefToPlayer.Remove(player);
     }
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
