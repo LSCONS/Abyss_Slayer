@@ -67,7 +67,7 @@ public class FoxCloneData : BasePatternData
 
             for(int i = 0 ; i < boss.Clones.Count ; i++)
             {
-                boss.Clones[i].Explosion();
+                boss.Clones[i].Rpc_Explosion();
             }
 
             if (EAudioClip != null && EAudioClip.Count > 2)

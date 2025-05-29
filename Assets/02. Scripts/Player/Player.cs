@@ -51,7 +51,6 @@ public class Player : NetworkBehaviour, IHasHealth
     [Networked] public int PlayerStateIndex { get; set; } = -1;
     [Networked] public bool IsFlipX { get; set; } = false;
     [Networked] public Vector2 PlayerPosition { get; set; }
-    public int tempSmooth = 5;
     public bool IsThisRunner => PlayerRef == Runner.LocalPlayer;
 
     public ReactiveProperty<int> StatPoint { get; set; } = new(1);
@@ -120,7 +119,7 @@ public class Player : NetworkBehaviour, IHasHealth
 
         if (current != target)
         {
-            float t = tempSmooth * Time.deltaTime;
+            float t = GameValueManager.Instance.MoveSmoothObjectPositionForClientValue * Time.deltaTime;
             Vector2 newPos = Vector2.Lerp(current, target, t);
             transform.position = newPos;
         }

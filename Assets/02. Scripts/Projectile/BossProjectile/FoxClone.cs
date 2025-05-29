@@ -51,7 +51,9 @@ public class FoxClone : BasePoolable,IHasHealth
         Hp.Value = MaxHp.Value;
     }
 
-    public void Explosion()
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_Explosion()
     {
         if(Hp.Value > 0)
         {
