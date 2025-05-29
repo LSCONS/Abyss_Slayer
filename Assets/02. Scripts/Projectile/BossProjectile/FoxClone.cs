@@ -24,6 +24,8 @@ public class FoxClone : BasePoolable,IHasHealth
         animator = GetComponent<Animator>();
     }
 
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_Damage(int damage, float attackPosX = -1000)
     {
         Hp.Value = Mathf.Clamp(Hp.Value - damage, 0, MaxHp.Value);
