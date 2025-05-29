@@ -26,7 +26,7 @@ public class GameValueManager : Singleton<GameValueManager>
     [field: SerializeField] public float EasyBossHealthMultipleForLevel { get; private set; } = 0.7f;
     [field: SerializeField] public float NormalBossHealthMultipleForLevel { get; private set; } = 1f;
     [field: SerializeField] public float HardBossHealthMultipleForLevel { get; private set; } = 1.3f;
-    [field: Header("특정모드에서 플레이어 입는 피해 증가 비율")]
+    [field: Header("특정모드에서 플레이어 입는 피해 증가 비율"              )]
     [field: SerializeField] public float EasyPlayerMultiypleOnDamage { get; private set; } = 0.7f;
     [field: SerializeField] public float NormalPlayerMultiypleOnDamage { get; private set; } = 1f;
     [field: SerializeField] public float HardPlayerMultiypleOnDamage { get; private set; } = 1.3f;
