@@ -152,7 +152,6 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
         if (text != null) text.text = newText;
     }
 
-
     // 다시 바인드 하는 메서드
     private void StartRebind(keyAction actionName)
     {
@@ -233,5 +232,26 @@ public class KeyBindPanel : Singleton<KeyBindPanel>
             }
         }
     }
+}
 
+public static class KeyBindStorage
+{
+    public static Dictionary<keyAction, KeyCode> Load()
+    {
+        var dict = new Dictionary<keyAction, KeyCode>();
+        foreach (keyAction action in Enum.GetValues(typeof(keyAction)))
+        {
+            if (action == keyAction.None) continue;
+
+            string prefKey = $"KeyBind_{action}";
+            if (PlayerPrefs.HasKey(prefKey))
+            {
+                if (Enum.TryParse(PlayerPrefs.GetString(prefKey), ignoreCase: true, out KeyCode key))
+                {
+                    dict[action] = key;
+                }
+            }
+        }
+        return dict;
+    }
 }
