@@ -140,10 +140,19 @@ public class BattleState : BaseGameState
                     //모든 보스를 모두 처치한 상태일 경우
                     if(isFinalBoss)
                     {
+                        //클리어한 모드가 하드 일 경우
                         if(GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
                         {
-                            PlayerPrefs.SetString("ClearTime", Util.GetNowTimeStirng());
-                            ServerManager.Instance.UIStartTitle?.ClearTimeUpdate();
+                            //여러 사람과 플레이 했을 때
+                            if(runner.SessionInfo.PlayerCount > 1)
+                            {
+                                ServerManager.Instance.ThisPlayerData.Rpc_MultiClearTime(Util.GetNowTimeStirng().StringToBytes());
+                            }
+                            else//혼자서 플레이 했을 때
+                            {
+                                PlayerPrefs.SetString(PlayerPrefabData.SoloClearTime, $"[{ServerManager.Instance.PlayerName}]\n{Util.GetNowTimeStirng()}");
+                                ServerManager.Instance.UIStartTitle?.SoloClearTimeUpdate();
+                            }
                         }
                         ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.EndingScene);
                     }
