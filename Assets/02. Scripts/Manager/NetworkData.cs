@@ -270,7 +270,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("ActivePlayer");
 #endif
-        while (ServerManager.Instance.DictRefToPlayer.Values.Count == Runner.SessionInfo.PlayerCount)
+        while (ServerManager.Instance.DictRefToPlayer.Values.Count != Runner.SessionInfo.PlayerCount)
         {
             yield return new WaitForSeconds(0.1f);
         }
