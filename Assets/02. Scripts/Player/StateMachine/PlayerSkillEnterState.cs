@@ -63,7 +63,7 @@ public class PlayerSkillEnterState : PlayerBaseState
         }
 
         if (ChangeSpriteTime + CurTime > Time.time) return;
-            CurTime = Time.time;
+            CurTime = ChangeSpriteTime + CurTime;
 
         if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillEnterState, ++animationNum)) return;
 

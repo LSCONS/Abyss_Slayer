@@ -43,7 +43,7 @@ public class PlayerDeadState : PlayerAbnomalState
     {
         if (ChangeSpriteTime + CurTime < Time.time)
         {
-            CurTime = Time.time;
+            CurTime = ChangeSpriteTime + CurTime;
             playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Dying, ++animationNum);
         }
     }

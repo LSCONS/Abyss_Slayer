@@ -53,7 +53,7 @@ public class PlayerIdleState : PlayerGroundState
     {
         if (ChangeSpriteTime + CurTime < Time.time)
         {
-            CurTime = Time.time;
+            CurTime = ChangeSpriteTime + CurTime;
             playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Idle1, ++animationNum);
         }
 

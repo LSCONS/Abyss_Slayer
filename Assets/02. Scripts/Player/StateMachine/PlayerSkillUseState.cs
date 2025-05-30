@@ -119,7 +119,7 @@ public class PlayerSkillUseState : PlayerBaseState
             }
 
             if (ChangeSpriteTime + CurTime > Time.time) return;
-            CurTime = Time.time;
+            CurTime = ChangeSpriteTime + CurTime;
 
             playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(SkillData.SkillUseState, ++animationNum);
         }
@@ -129,8 +129,10 @@ public class PlayerSkillUseState : PlayerBaseState
         }
         else if (SkillData.SkillCategory == SkillCategory.Dash || SkillData.SkillCategory == SkillCategory.DashAttack)
         {
+            //남는 시간 = Time.time - (ChangeSpriteTime + CurTime)
+            //
             if (ChangeSpriteTime + CurTime > Time.time) return;
-            CurTime = Time.time;
+            CurTime = ChangeSpriteTime + CurTime;
 
             if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, ++animationNum))
             {
@@ -158,7 +160,7 @@ public class PlayerSkillUseState : PlayerBaseState
         else
         {
             if (ChangeSpriteTime + CurTime > Time.time) return;
-            CurTime = Time.time;
+            CurTime = ChangeSpriteTime + CurTime;
 
             if (playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(SkillData.SkillUseState, ++animationNum)) return;
 

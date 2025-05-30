@@ -214,10 +214,10 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// 모든 플레이어의 준비가 true가 될 때까지 대기하는 메서드
     /// </summary>
     /// <returns></returns>
-    public async Task WaitForAllPlayerIsReady()
+    public async Task WaitForAllPlayerIsReadyTrue()
     {
 #if AllMethodDebug
-        Debug.Log("WaitForAllPlayerIsReady");
+        Debug.Log("WaitForAllPlayerIsReadyTrue");
 #endif
         while (true)
         {
@@ -228,8 +228,36 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
                 if(data.IsReady) isReadyPlayerCount++;
             }
 
-            await Task.Delay(100);
+            await Task.Yield();
             if(sessionPlayerCount == isReadyPlayerCount)
+            {
+                break;
+            }
+        }
+        return;
+    }
+
+
+    /// <summary>
+    /// 모든 플레이어의 준비가 true가 될 때까지 대기하는 메서드
+    /// </summary>
+    /// <returns></returns>
+    public async Task WaitForAllPlayerIsReadyFalse()
+    {
+#if AllMethodDebug
+        Debug.Log("WaitForAllPlayerIsReadyFalse");
+#endif
+        while (true)
+        {
+            int sessionPlayerCount = RunnerManager.Instance.GetRunner().SessionInfo.PlayerCount;
+            int isReadyPlayerCount = 0;
+            foreach (NetworkData data in DictRefToNetData.Values)
+            {
+                if (!(data.IsReady)) isReadyPlayerCount++;
+            }
+
+            await Task.Yield();
+            if (sessionPlayerCount == isReadyPlayerCount)
             {
                 break;
             }
