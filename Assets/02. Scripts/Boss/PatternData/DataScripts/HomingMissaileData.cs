@@ -20,6 +20,7 @@ public class HomingMissaileData : BasePatternData
     [SerializeField] float fireDegree = 60f;
     [SerializeField] float spreadDegree = 30f;
     [SerializeField] int missaileCount = 8;
+    [SerializeField] int addCountPerPlayer = 2;
     [Header("투사체 정보")]
     [SerializeField] float homingPower = 15f;
     [SerializeField] float randomSpeedRate;
@@ -40,7 +41,11 @@ public class HomingMissaileData : BasePatternData
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.Attack2ParameterHash);
         yield return new WaitForSeconds(preDelayTime/2);
         bool isLeft = boss.IsLeft;
-        for (int i = 0; i < missaileCount; i++)
+
+        Player[] players = ServerManager.Instance.GetActiveTruePlayer().ToArray();
+        int missaileCounts = missaileCount + (addCountPerPlayer * (players.Length - 1));
+
+        for (int i = 0; i < missaileCounts; i++)
         {
             float degree = fireDegree - ((spreadDegree / 2) - (i * spreadDegree / (missaileCount - 1)));
             degree = isLeft ? 180 - degree : degree;
@@ -52,9 +57,9 @@ public class HomingMissaileData : BasePatternData
 
             if (isMultyTarget)
             {
-                Player[] players = ServerManager.Instance.GetActiveTruePlayer().ToArray();
                 target = players[Random.Range(0, players.Length)].transform;
             }
+
             ServerManager.Instance.InitSupporter.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed * Random.Range(1,(100 + randomSpeedRate)/100f), (int)projectileType, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, explosionSize, (int)homingCurve, (int)speedCurve);
             //PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
 
