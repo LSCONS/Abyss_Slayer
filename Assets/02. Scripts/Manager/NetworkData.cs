@@ -539,7 +539,7 @@ public class NetworkData : NetworkBehaviour
     /// 멀티로 클리어한 클리어 타임을 공유하는 메서드
     /// </summary>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_MultiClearTime(byte[] clearTime)
+    public void Rpc_MultiClearTime(byte[] clearTime, int playerCount)
     {
         string temp = $"[{ServerManager.Instance.PlayerName}]\n{clearTime.BytesToString()}";
         PlayerPrefs.SetString(PlayerPrefabData.MultiClearTime, temp);
