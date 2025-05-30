@@ -55,7 +55,7 @@ public class SelectClassPanelController : UIPopup
 #endif
         selectedCharacterClass = cc;
         // 설명 갱신
-        descText.text = cc.GetDescription();
+        descText.text = DataManager.Instance.DictCharacterClassData[selectedCharacterClass].description;
         int hairStyleKey = 1;
         int hairColorkey = HairColorConfig.HairColorIndexByClass[cc];
         int skinkey = 1;
