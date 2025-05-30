@@ -187,6 +187,7 @@ public class BattleState : BaseGameState
         if (runner.IsServer && PoolManager.Instance.CrossHairObject == null)
         {
             runner.Spawn(DataManager.Instance.CrossHairPrefab);
+            await Task.Delay(1000);
             ServerManager.Instance.AllPlayerIsReadyFalse();
         }
         bool isFinalBoss = (GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1);
@@ -232,6 +233,7 @@ public class BattleState : BaseGameState
         if (runner.IsServer)
         {
             //모든 플레이어의 데이터가 들어있는지 확인하는 메서드
+            await Task.Delay(1000);
             ServerManager.Instance.AllPlayerIsReadyFalse();
             await ServerManager.Instance.WaitForAllPlayerLoadingAsync();
         }
@@ -246,6 +248,7 @@ public class BattleState : BaseGameState
         //플레이어 시작 위치 값 초기화
         if (runner.IsServer)
         {
+            await Task.Delay(1000);
             ServerManager.Instance.AllPlayerIsReadyFalse();
 #if MoveSceneDebug
             Debug.Log("모든 플레이어 활성화 하고 입력 연결해줄게");
