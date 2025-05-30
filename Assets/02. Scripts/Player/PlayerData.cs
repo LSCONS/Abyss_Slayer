@@ -11,7 +11,7 @@ public class PlayerData : ScriptableObject
     [field: SerializeField]public PlayerStatusData PlayerStatusData { get; private set; }
     public void PlayerDataInit(Player player)
     {
-        player.playerRigidbody.gravityScale = PlayerStatusData.GravityForce;
+        player.PlayerRigidbody.gravityScale = PlayerStatusData.GravityForce;
     }
 }
 

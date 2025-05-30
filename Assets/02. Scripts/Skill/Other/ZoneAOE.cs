@@ -225,13 +225,13 @@ public class ZoneAOE : BasePoolable
         // dashDistance만큼을 dashDuration 시간동안 이동
         while (time < dashTime)
         {
-            ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].playerRigidbody.MovePosition(Vector2.Lerp(startPos, targetPos, time / dashTime));
+            ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].PlayerRigidbody.MovePosition(Vector2.Lerp(startPos, targetPos, time / dashTime));
             time += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
 
         // 대시 이후 위치
-        ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].playerRigidbody.MovePosition(targetPos);
+        ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].PlayerRigidbody.MovePosition(targetPos);
 
         // 이펙트 제거
         if (dashEffect != null)

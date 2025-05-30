@@ -139,7 +139,7 @@ public class PlayerStateMachine : StateMachine
     private bool IsZeroMoveDir() => Player.NetworkInput.MoveDir == Vector2.zero;
 
     /// <summary>점프가 가능한 상태인지 확인</summary>
-    private bool IsCanJump() => Player.playerCheckGround.CanJump;
+    private bool IsCanJump() => Player.PlayerCheckGround.CanJump;
 
     /// <summary>isTrigger가 어떤 상태인지 확인</summary>
     private bool IsTrigger() => Player.PlayerGroundCollider.isTrigger;
@@ -148,13 +148,13 @@ public class PlayerStateMachine : StateMachine
     public void IsTriggerTrue() => Player.PlayerGroundCollider.isTrigger = true;
 
     /// <summary>velocity.y의 값이 0에 가까운지 확인</summary>
-    private bool IsZeroVelocityY() => Mathf.Approximately(Player.playerRigidbody.velocity.y, 0);
+    private bool IsZeroVelocityY() => Mathf.Approximately(Player.PlayerRigidbody.velocity.y, 0);
 
     /// <summary>velocity.y의 값이 0보다 작거나 같은지 확인</summary>
-    private bool IsLowVelocityY() => Player.playerRigidbody.velocity.y <= 0;
+    private bool IsLowVelocityY() => Player.PlayerRigidbody.velocity.y <= 0;
 
     /// <summary>현재 닿고 있는 땅이 있는지 확인</summary>
-    private bool IsZeroGround() => (Player.playerCheckGround.GroundPlaneCount + Player.playerCheckGround.GroundPlatformCount) == 0;
+    private bool IsZeroGround() => (Player.PlayerCheckGround.GroundPlaneCount + Player.PlayerCheckGround.GroundPlatformCount) == 0;
 
     /// <summary>해당 SlotKey의 스킬이 사용 가능한지 확인</summary>
     private bool IsSkillCanUse(SkillSlotKey slotKey) => Player.DictSlotKeyToSkill[slotKey].CanUse;
@@ -166,7 +166,7 @@ public class PlayerStateMachine : StateMachine
     private bool IsCanDashCount() => Player.PlayerData.PlayerAirData.CurDashCount > 0;
 
     /// <summary>현재 닿고 있는 GroundPlane이 0인지 확인</summary>
-    private bool IsZeroGroundPlane() => Player.playerCheckGround.GroundPlaneCount == 0;
+    private bool IsZeroGroundPlane() => Player.PlayerCheckGround.GroundPlaneCount == 0;
 
 
     /// <summary>

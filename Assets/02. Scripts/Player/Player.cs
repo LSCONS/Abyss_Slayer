@@ -23,11 +23,12 @@ public enum CharacterClass
 )]
 public class Player : NetworkBehaviour, IHasHealth
 {
-    [field: SerializeField] public Rigidbody2D playerRigidbody { get; private set; }
-    [field: SerializeField] public PlayerCheckGround playerCheckGround { get; private set; }
+    [field: SerializeField] public Rigidbody2D PlayerRigidbody { get; private set; }
+    [field: SerializeField] public PlayerCheckGround PlayerCheckGround { get; private set; }
     [field: SerializeField] public BoxCollider2D PlayerGroundCollider { get; private set; }
     [field: SerializeField] public BoxCollider2D PlayerMeleeCollider { get; private set; }
     [field: SerializeField] public SpriteChange PlayerSpriteChange { get; private set; }
+    [field: SerializeField] public SpriteRenderer LocalPlayerTargetObject { get; private set; }
     public PlayerStateMachine PlayerStateMachine { get; private set; }
     public PlayerData PlayerData { get; private set; }
     [field: Header("스킬 관련")]
@@ -51,6 +52,8 @@ public class Player : NetworkBehaviour, IHasHealth
     [Networked] public int PlayerStateIndex { get; set; } = -1;
     [Networked] public bool IsFlipX { get; set; } = false;
     [Networked] public Vector2 PlayerPosition { get; set; }
+    private Vector2 temp1 = new Vector2(-0.2f, 1.8f);
+    private Vector2 temp2 = new Vector2(0.1f, 1.8f);
     public bool IsThisRunner => PlayerRef == Runner.LocalPlayer;
 
     public ReactiveProperty<int> StatPoint { get; set; } = new(1);
@@ -67,7 +70,7 @@ public class Player : NetworkBehaviour, IHasHealth
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
         InitPlayerData();
-        playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
+        PlayerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
         PlayerStateMachine = new PlayerStateMachine(this);
         PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState, true);
         transform.position = PlayerPosition;
@@ -77,6 +80,11 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             await ServerManager.Instance.WaitForPlayerState();
             ServerManager.Instance.UIPlayerState.UIHealthBar.ConnectPlayerObject(this);
+            LocalPlayerTargetObject.gameObject.SetActive(true);
+        }
+        else
+        {
+            LocalPlayerTargetObject.gameObject.SetActive(false);
         }
     }
 
@@ -111,6 +119,7 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             PlayerSpriteChange.SetFlipxSpriteRenderer(IsFlipX);
             IsFlipX = IsFlip;
+            LocalPlayerTargetObject.transform.localPosition = IsFlipX ? temp1 : temp2;
         }
 
         if (Runner.IsServer) return;
@@ -152,12 +161,12 @@ public class Player : NetworkBehaviour, IHasHealth
     public async Task PlayerPositionReset(Vector2 position)
     {
         Rpc_SetAcitvePlayer(true);
-        playerRigidbody.gravityScale = 0f;
+        PlayerRigidbody.gravityScale = 0f;
         while ((Vector2)transform.position != position)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState, true);
             PlayerStateIndex = PlayerStateMachine.GetIntDictStateToInit(PlayerStateMachine.IdleState);
-            playerRigidbody.velocity = Vector2.zero;
+            PlayerRigidbody.velocity = Vector2.zero;
             PlayerPosition = position;
             transform.position = position;
             PlayerData.PlayerStatusData.IsDead = false;
@@ -265,7 +274,7 @@ public class Player : NetworkBehaviour, IHasHealth
     private void InitPlayerData()
     {
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
-        playerCheckGround.Init(this);
+        PlayerCheckGround.Init(this);
         // 선택된 클래스 정보 가져옴
         CharacterClass playerCharacterClass = NetworkData.Class;
 
