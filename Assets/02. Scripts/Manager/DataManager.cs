@@ -52,7 +52,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponBot { get; set; } = new();
     public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothTop { get; set; } = new();
     public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothBot { get; set; } = new();
-    public Dictionary<CharacterClass, Image> DictClassToImage { get; set; } = new();
+    public Dictionary<CharacterClass, Sprite> DictClassToImage { get; set; } = new();
     private int[] HairColorVariants { get; set; } = new int[] { 1, 2, 4, 5, 6, 10 };  // 클래스별 머리색 c1,c2...
     public int MaxHairFKey, MaxHairMKey, MaxSkinKey, MaxFaceKey;
     public Dictionary<EType, Type> DictEnumToType { get; set; } = new()

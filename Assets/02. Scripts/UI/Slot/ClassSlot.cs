@@ -10,6 +10,7 @@ public class ClassSlot : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI classText;
     [SerializeField] private Button button;
+    [SerializeField] private Image icon;
 
     private CharacterClass characterClass;
     public CharacterClass CharacterClass => characterClass;
@@ -17,6 +18,15 @@ public class ClassSlot : MonoBehaviour
 
     private Subject<CharacterClass> onClickSubject = new Subject<CharacterClass>();
     public IObservable<CharacterClass> OnClickAsObservable => onClickSubject;
+
+    public void SetIcon(CharacterClass cls)
+    {
+        if (DataManager.Instance.DictClassToImage.TryGetValue(cls, out var classImage))
+        {
+            icon.sprite = classImage;
+        }
+        else return;
+    }
 
     public void SetData(CharacterClass cls)
     {

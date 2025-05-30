@@ -29,6 +29,7 @@ public class ClassSlotController : MonoBehaviour
             var go = Instantiate(classSlotPrefab, slotParent);
             var slot = go.GetComponent<ClassSlot>();
             slot.SetData(cc);
+            slot.SetIcon(cc);
             slots.Add(slot);    //리스트에 저장
         }
     }
