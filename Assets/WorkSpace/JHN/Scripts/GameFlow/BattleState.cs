@@ -182,10 +182,7 @@ public class BattleState : BaseGameState
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
         await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
         await Task.Delay(60);
-        state?.SetLoadingBarValue(0.4f);
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(false);
-        await ServerManager.Instance.WaitForAllPlayerIsReadyFalse();
-        await Task.Delay(60);
 
         state?.SetLoadingBarValue(0.5f);
 
@@ -231,8 +228,6 @@ public class BattleState : BaseGameState
         await Task.Delay(60); ;
 
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(false);
-        await ServerManager.Instance.WaitForAllPlayerIsReadyFalse();
-        await Task.Delay(60);
         state?.SetLoadingBarValue(0.9f);
 
 #if MoveSceneDebug
@@ -255,8 +250,6 @@ public class BattleState : BaseGameState
         await Task.Delay(60); ;
 
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(false);
-        await ServerManager.Instance.WaitForAllPlayerIsReadyFalse();
-        await Task.Delay(60);
 
         //플레이어 시작 위치 값 초기화
         if (runner.IsServer)
