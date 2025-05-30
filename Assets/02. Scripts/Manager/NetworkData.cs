@@ -445,7 +445,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_SetInGameTeamText");
 #endif
-        ServerManager.Instance.UITeamStatus?.ChagneInGamePlayerText();
+        ServerManager.Instance.UITeamStatus?.ChagneInBattleScenePlayerText();
     }
 
 
@@ -458,7 +458,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_SetInRestTeamText");
 #endif
-        ServerManager.Instance.UITeamStatus?.ChagneInRestText();
+        ServerManager.Instance.UITeamStatus?.ChagneInRestSceneText();
     }
 
 

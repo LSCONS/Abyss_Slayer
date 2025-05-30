@@ -29,13 +29,22 @@ public class UITeamStatus : UIPermanent
         UIManager.Instance.ResetAllRectTransform();
     }
 
+
+    /// <summary>
+    /// 플레이어의 준비 상태를 바꿔주는 메서드
+    /// </summary>
+    /// <param name="playerRef">바꿔줄 플레이어</param>
+    /// <param name="isReady">바꿔줄 준비 상태</param>
     public void ChangeIsReadyPlayerText(PlayerRef playerRef, bool isReady)
     {
         DictRefToSlot[playerRef].ChagnePlayerReadyText(isReady);
     }
 
 
-    public void ChagneInRestText()
+    /// <summary>
+    /// RestScene으로 갔을 때 팀원의 정보 Text를 맞춰서 변환해주는 메서드
+    /// </summary>
+    public void ChagneInRestSceneText()
     {
         foreach (PlayerRef playerRef in ServerManager.Instance.DictRefToPlayer.Keys)
         {
@@ -47,13 +56,16 @@ public class UITeamStatus : UIPermanent
     }
 
 
-    public void ChagneInGamePlayerText()
+    /// <summary>
+    /// BattleScene으로 갔을 때 팀원의 정보 Text를 맞춰서 변환해주는 메서드
+    /// </summary>
+    public void ChagneInBattleScenePlayerText()
     {
         foreach (PlayerRef playerRef in ServerManager.Instance.DictRefToPlayer.Keys)
         {
             if ((ServerManager.Instance.ThisPlayerRef != playerRef) && DictRefToSlot.ContainsKey(playerRef))
             {
-                DictRefToSlot[playerRef].ChangeInGameText();
+                DictRefToSlot[playerRef].ChangeBattleSceneText();
             }
         }
     }

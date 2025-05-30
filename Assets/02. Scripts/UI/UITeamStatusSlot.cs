@@ -18,11 +18,19 @@ public class UITeamStatusSlot : MonoBehaviour
     public string ServerReadyText { get; private set; } = "[방장]";
     public PlayerRef playerRef { get; set; }
 
+
+    /// <summary>
+    /// 특정 플레이어와 HpBar를 연결해주는 메서드
+    /// </summary>
     public void ConnectUIHpBar()
     {
         UIHealthBar.ConnectOtherPlayerObject(playerRef);
     }
 
+
+    /// <summary>
+    /// RestScene에서 사용할 Text로 바꿔주는 메서드
+    /// </summary>
     public void ChagneInRestText()
     {
         TextPlayerName.text = ServerManager.Instance.DictRefToNetData[playerRef].GetName();
@@ -38,13 +46,22 @@ public class UITeamStatusSlot : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// 플레이어의 준비 상태에 따라 Text를 바꿔주는 메서드
+    /// </summary>
+    /// <param name="isReady">바꿔 줄 준비 상태</param>
     public void ChagnePlayerReadyText(bool isReady)
     {
         TextReadyPlayer.text = isReady ? OnReadyText : OffReadyText;
         TextReadyPlayer.color = isReady ? Color.red : Color.white;
     }
 
-    public void ChangeInGameText()
+
+    /// <summary>
+    /// BattleScene에서 사용할 Text로 바꿔줄 메서드
+    /// </summary>
+    public void ChangeBattleSceneText()
     {
         TextReadyPlayer.text = InGameText;
         TextReadyPlayer.color = Color.yellow;
