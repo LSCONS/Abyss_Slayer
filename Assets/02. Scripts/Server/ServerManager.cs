@@ -613,23 +613,14 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
             bool isAllReday = CheckAllPlayerIsReadyInServer();
             IsAllReadyAction?.Invoke(isAllReday);
         }
-
     }
+
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
     public void OnSceneLoadDone(NetworkRunner runner) { }
     public void OnSceneLoadStart(NetworkRunner runner) { }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        //플레이어가 없는 터진 방은 보이지 않도록 함.
-        //List<SessionInfo> temp = new List<SessionInfo>();
-        //foreach (SessionInfo sessionInfo in sessionList)
-        //{
-        //    if (sessionInfo.PlayerCount == 0) continue;
-        //    if (!(sessionInfo.IsOpen)) continue;
-        //    temp.Add(sessionInfo);
-        //}
-
         CurrentSessionList = sessionList;
         try
         {
