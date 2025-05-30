@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa13ea3e2ca99c4cbc100e0fc9a2282, type: 3}
+  m_Name: JumpMissailDiamond
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  attackableAreas:
+  - serializedVersion: 2
+    x: -10
+    y: -3
+    width: 20
+    height: 5
+  globalAttackableAreas: []
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  <EAudioClip>k__BackingField: c9000000
+  damage: 130
+  projectileCount: 10
+  preDelayTime: 1
+  movePositions:
+  - {x: 18, y: 18, z: 0}
+  - {x: -18, y: 18, z: 0}
+  - {x: 4, y: 8, z: 0}
+  - {x: -3, y: 23, z: 0}
+  moveableDistance: 30
+  jumpDuration: 1.5
+  baseProjectileSpeed: 2
+  baseHomingPower: 10
+  projectileType: 2
+  postDelayTime: 1
+  homingCurve: 1
+  speedCurve: 2

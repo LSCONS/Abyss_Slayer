@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b1a08f66a6e1cc41a5edc66145263a4, type: 3}
+  m_Name: FlyKick
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  attackableAreas:
+  - serializedVersion: 2
+    x: 4
+    y: -1
+    width: 10
+    height: 3
+  - serializedVersion: 2
+    x: -14
+    y: -1
+    width: 10
+    height: 3
+  globalAttackableAreas: []
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.20392157}
+  <EAudioClip>k__BackingField: 8c0300008b030000
+  damage: 1
+  flyupHight: 5
+  flyupTime: 0.5
+  flyingTime: 0.3
+  kickSpeed: 100
+  explosionSize: 1
+  postDelayTime: 0.3

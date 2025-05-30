@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55229235275080949b2499fcd0dca21b, type: 3}
+  m_Name: JumpSlash
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  attackableAreas:
+  - serializedVersion: 2
+    x: 4
+    y: 3
+    width: 40
+    height: 20
+  - serializedVersion: 2
+    x: -44
+    y: 3
+    width: 40
+    height: 20
+  globalAttackableAreas: []
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  <EAudioClip>k__BackingField: 8803000022030000
+  damage: 500
+  attackAngles:
+  - 0
+  - 10
+  - -10
+  - 20
+  - -10
+  attackIntervalTime: 0.1
+  attackSpeed: 1
+  preDelayTime: 1
+  jumpStartDistance: 3
+  jumpHight: 0.1
+  jumpSpeedTime: 0.8
+  attackDelayTime: 0.7
+  postDelayTime: 1.5
+  normalSlashData: {fileID: 11400000, guid: 589feabd1741bf14794d8a767c2a0d43, type: 2}

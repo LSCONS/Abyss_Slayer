@@ -1,0 +1,1794 @@
+fileFormatVersion: 2
+guid: 83b264239324bcf4d927817bc1ebf05a
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 903
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 043452f6473d7f64284123d5a7108d1d
+      internalID: -1741863276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_1
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 903
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 711d52c361d814b43b18afe21ba8dcf9
+      internalID: -1094828013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_2
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 903
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a2a93592af70e34ab79e72676aabed2
+      internalID: -1635312200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_3
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 903
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a50df5a4f2ac9044d9920c332536ac6e
+      internalID: 689232102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_4
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 903
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9de01978cdcfe53409d938792a5ccb9e
+      internalID: -681094733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_5
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 903
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 882de500ff621c84bb50df13221f958c
+      internalID: 434108914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_6
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 903
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc627f83255f85b41b753729ed7c867e
+      internalID: -1823213051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_7
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 903
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca0c339ebfbd43e40858c106f1e5fb5d
+      internalID: -1961117632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_8
+      rect:
+        serializedVersion: 2
+        x: 968
+        y: 903
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b7d062849b27164ab47b58838dd96a7
+      internalID: 644239631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_9
+      rect:
+        serializedVersion: 2
+        x: 1089
+        y: 903
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe8c9eef76cc8ac4a887fa61ac614b45
+      internalID: -740711764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 782
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bed062c3724642846b96277359a93778
+      internalID: 300004627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_11
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 782
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 327294b62c1efc14486d0be822b566cf
+      internalID: 135381667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_12
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 782
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4140a753cb0ecae4eb9e58b20976004f
+      internalID: 228915774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_13
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 782
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 323787755c3821d41ae5f725c2d1b690
+      internalID: -1189374637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_14
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 782
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 396fa5f6a20368e44a2447f1c7dc5e4f
+      internalID: -960535419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_15
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 782
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45692f26ad68ca549929e47f980099c1
+      internalID: 445428506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_16
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 782
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6834f3c125485d4e8b82d5d37aa7816
+      internalID: -1423852872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_17
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 782
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db90ba4bb413f964483fb4c52584f65b
+      internalID: -231108988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_18
+      rect:
+        serializedVersion: 2
+        x: 968
+        y: 782
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 738fc5d5b252b544994e1524b53054e4
+      internalID: 832319742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_19
+      rect:
+        serializedVersion: 2
+        x: 1089
+        y: 782
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8d8c50755028ef418f8977385c721cc
+      internalID: -840853636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 661
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 817824c73d157c34c993d1df2a46bf48
+      internalID: 222628981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_21
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 661
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48416f2f4e7139e4aa9bb8f3a032f2f2
+      internalID: -1765681800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_22
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 661
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97b174b89e0cc894584e1801b69c5122
+      internalID: 624253038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_23
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 661
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6c565a4e3e19894391e2ce395202c45
+      internalID: -584728261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_24
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 661
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bae1a5a846505749908cd7f6000244b
+      internalID: 692363406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_25
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 661
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79c1bed15605f64489baaae97702fcec
+      internalID: 1418433505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_26
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 661
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8ae196b430cfb648aefccb0c836cfdf
+      internalID: 1714387787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_27
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 661
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2791a601af1431d4690f234c9b9582b1
+      internalID: 1943515927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_28
+      rect:
+        serializedVersion: 2
+        x: 968
+        y: 661
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42256e132f4680d4793a7eeead99a28b
+      internalID: -1872319873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_29
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 540
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb270634013a8494eac9be1dcfc0107c
+      internalID: -536853332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_30
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 540
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 768d4ce4128fae54c98abd8ee8326a2c
+      internalID: 759332472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_31
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 540
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b45cdfffbe011554da09ea79844b4e6c
+      internalID: -1865617043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_32
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 540
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb7606cf299955342a425ff69144a24d
+      internalID: -1237252915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_33
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 540
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13450828b12ab88448dae50595d48f5a
+      internalID: 1639484539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_34
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 540
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efefe61332e038c4abd3e0403c06f601
+      internalID: -2101394756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_35
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 540
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a56e7be4dbb939a4a97ddfab1814cc63
+      internalID: -1929655004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_36
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 540
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c736d41f5d5028042a271712b5fc7e28
+      internalID: -1024239520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_37
+      rect:
+        serializedVersion: 2
+        x: 968
+        y: 540
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0ab253eec2fb9c4ca5a587d275d828d
+      internalID: -1575774122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_38
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 419
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ed01668414e2404da74048740103b5b
+      internalID: -1147159018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_39
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 419
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4c63d2b7d5530046a0e4569d62b9737
+      internalID: 1580160621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_40
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 419
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92ed9628de466fa4ab8f32f9695f6a08
+      internalID: -708723796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_41
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 419
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dee7337278af52648b9124c6d9b23e35
+      internalID: -1187370709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_42
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 419
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b30d95b22a7f59c49953f5897e637ffb
+      internalID: -888993209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_43
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 419
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be043891ca5a5de48882f2c5d540ba7d
+      internalID: -982546946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_44
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 419
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f863768236e609b4993fa9d433e6829d
+      internalID: 672276182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_45
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 419
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27e437839771d4042ada0ec55b442905
+      internalID: 1498169732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_46
+      rect:
+        serializedVersion: 2
+        x: 968
+        y: 419
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e1980239f2c12345af488029f01d66d
+      internalID: 254667845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_47
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 298
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94bba1b3db3159c40a048eea25872e3b
+      internalID: 1286098170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_48
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 298
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41a7f11a4d1ca67459610b0a153977ba
+      internalID: -1120851824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_49
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 298
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50196c3aa8889514eb3b82061769b585
+      internalID: 312527564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_50
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 298
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5530ded2828dd4469855149e0fa8613
+      internalID: 18423259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_51
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 298
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd75f69f04228304d8caf0ee60cd0e15
+      internalID: -126532933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_52
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 298
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04f304fd7d8380e4f949801c6da8bacf
+      internalID: 1500008946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_53
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 298
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bb335985c7842741a7c34d34f462697
+      internalID: -2106116622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_54
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 298
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60f11a702b9e2824c9057471670273d6
+      internalID: 642832230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_55
+      rect:
+        serializedVersion: 2
+        x: 968
+        y: 298
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20d0a57c615bdc446a7ed3cfacda105d
+      internalID: -587209672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_56
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 177
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d412b68d1223e8478327868fce678d1
+      internalID: -425774673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_57
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 177
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ed3c5c2ec988464ab56c9167abaa853
+      internalID: 821790369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_58
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 177
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25ad0ba7849df4d48a14c3416a18da5c
+      internalID: 1007248524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_59
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 177
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29935b3123da89544ab95492d479e86b
+      internalID: 1867089249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_60
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 177
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15fbc55d7987aa642b12067a114e9bfd
+      internalID: 1213697121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_61
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 177
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a572b891f4a65b47a7c7cdcef4ce2f9
+      internalID: 938370793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_62
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 177
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b5d50a57d2d6494a80487007e6e29bb
+      internalID: 1415514343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_63
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 177
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1835dc99fcafccb4e8ead82390b6cd5e
+      internalID: -1346207155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_64
+      rect:
+        serializedVersion: 2
+        x: 968
+        y: 177
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11943ea66fa74a64d8bade5e0842a01d
+      internalID: 239205562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_65
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 56
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85767923a7854684e8db867933338344
+      internalID: 974130103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_66
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 56
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70a20fafb76c1574d921f8da44a22661
+      internalID: -527866019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_67
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 56
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1054c12f3b8e1534ab3d1c089ced5b46
+      internalID: -1597239259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_68
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 56
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a76e9f2ad1740a344a04872fa9e18a50
+      internalID: -2061599615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_69
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 56
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1339ed34d1285464a888194aed1dc12f
+      internalID: 1604628540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_70
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 56
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bfd7f38165129e499ddcaacfd7273e3
+      internalID: 1698655790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_71
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 56
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 635ed3931d84a0440bd77fb922c07e39
+      internalID: -527865643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_72
+      rect:
+        serializedVersion: 2
+        x: 847
+        y: 56
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59a7433b286d84244ab166eefca1c331
+      internalID: -1737112712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_borealjuggernaut_73
+      rect:
+        serializedVersion: 2
+        x: 968
+        y: 56
+        width: 121
+        height: 121
+      alignment: 9
+      pivot: {x: 0.5, y: 0.2644628}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cad23a009bb6de49abbceb6c8c18706
+      internalID: -1829247951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      boss_borealjuggernaut_0: -1741863276
+      boss_borealjuggernaut_1: -1094828013
+      boss_borealjuggernaut_10: 300004627
+      boss_borealjuggernaut_11: 135381667
+      boss_borealjuggernaut_12: 228915774
+      boss_borealjuggernaut_13: -1189374637
+      boss_borealjuggernaut_14: -960535419
+      boss_borealjuggernaut_15: 445428506
+      boss_borealjuggernaut_16: -1423852872
+      boss_borealjuggernaut_17: -231108988
+      boss_borealjuggernaut_18: 832319742
+      boss_borealjuggernaut_19: -840853636
+      boss_borealjuggernaut_2: -1635312200
+      boss_borealjuggernaut_20: 222628981
+      boss_borealjuggernaut_21: -1765681800
+      boss_borealjuggernaut_22: 624253038
+      boss_borealjuggernaut_23: -584728261
+      boss_borealjuggernaut_24: 692363406
+      boss_borealjuggernaut_25: 1418433505
+      boss_borealjuggernaut_26: 1714387787
+      boss_borealjuggernaut_27: 1943515927
+      boss_borealjuggernaut_28: -1872319873
+      boss_borealjuggernaut_29: -536853332
+      boss_borealjuggernaut_3: 689232102
+      boss_borealjuggernaut_30: 759332472
+      boss_borealjuggernaut_31: -1865617043
+      boss_borealjuggernaut_32: -1237252915
+      boss_borealjuggernaut_33: 1639484539
+      boss_borealjuggernaut_34: -2101394756
+      boss_borealjuggernaut_35: -1929655004
+      boss_borealjuggernaut_36: -1024239520
+      boss_borealjuggernaut_37: -1575774122
+      boss_borealjuggernaut_38: -1147159018
+      boss_borealjuggernaut_39: 1580160621
+      boss_borealjuggernaut_4: -681094733
+      boss_borealjuggernaut_40: -708723796
+      boss_borealjuggernaut_41: -1187370709
+      boss_borealjuggernaut_42: -888993209
+      boss_borealjuggernaut_43: -982546946
+      boss_borealjuggernaut_44: 672276182
+      boss_borealjuggernaut_45: 1498169732
+      boss_borealjuggernaut_46: 254667845
+      boss_borealjuggernaut_47: 1286098170
+      boss_borealjuggernaut_48: -1120851824
+      boss_borealjuggernaut_49: 312527564
+      boss_borealjuggernaut_5: 434108914
+      boss_borealjuggernaut_50: 18423259
+      boss_borealjuggernaut_51: -126532933
+      boss_borealjuggernaut_52: 1500008946
+      boss_borealjuggernaut_53: -2106116622
+      boss_borealjuggernaut_54: 642832230
+      boss_borealjuggernaut_55: -587209672
+      boss_borealjuggernaut_56: -425774673
+      boss_borealjuggernaut_57: 821790369
+      boss_borealjuggernaut_58: 1007248524
+      boss_borealjuggernaut_59: 1867089249
+      boss_borealjuggernaut_6: -1823213051
+      boss_borealjuggernaut_60: 1213697121
+      boss_borealjuggernaut_61: 938370793
+      boss_borealjuggernaut_62: 1415514343
+      boss_borealjuggernaut_63: -1346207155
+      boss_borealjuggernaut_64: 239205562
+      boss_borealjuggernaut_65: 974130103
+      boss_borealjuggernaut_66: -527866019
+      boss_borealjuggernaut_67: -1597239259
+      boss_borealjuggernaut_68: -2061599615
+      boss_borealjuggernaut_69: 1604628540
+      boss_borealjuggernaut_7: -1961117632
+      boss_borealjuggernaut_70: 1698655790
+      boss_borealjuggernaut_71: -527865643
+      boss_borealjuggernaut_72: -1737112712
+      boss_borealjuggernaut_73: -1829247951
+      boss_borealjuggernaut_8: 644239631
+      boss_borealjuggernaut_9: -740711764
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

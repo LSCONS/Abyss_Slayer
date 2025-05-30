@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: SFX
+  m_EditorClassIdentifier: 
+  m_GroupName: SFX
+  m_Data:
+    m_SerializedData: []
+  m_GUID: f9c08ed670d508d469884d5926f4813e
+  m_SerializeEntries:
+  - m_GUID: 280cc743e25904046a0954201a3d6345
+    m_Address: SFX_Walk
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    - Battle
+    - Rest
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9f4dc58971191e47abde3a953ce28cc
+    m_Address: SFX_Jump
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SFX
+    - Battle
+    - Rest
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab729949017fd8b4085fbe6fc44211dd
+    m_Address: BossAudioDatas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}
+  m_SchemaSet:
+    m_Schemas: []

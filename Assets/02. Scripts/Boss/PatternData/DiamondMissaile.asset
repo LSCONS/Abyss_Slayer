@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f57709d9479134ab73ddfda399421e, type: 3}
+  m_Name: DiamondMissaile
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  attackableAreas: []
+  globalAttackableAreas:
+  - serializedVersion: 2
+    x: -20
+    y: 0
+    width: 40
+    height: 20
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.3}
+  <EAudioClip>k__BackingField: 22030000
+  damage: 150
+  startPositions: []
+  preDelayTime: 1
+  postDelayTime: 1
+  isMultyTarget: 1
+  startCircleR: 5
+  fireDegree: 80
+  spreadDegree: 50
+  missaileCount: 10
+  homingPower: 13
+  missailSpeed: 2
+  explosionSize: 0.5
+  homingCurve: 1
+  speedCurve: 2
+  projectileType: 2

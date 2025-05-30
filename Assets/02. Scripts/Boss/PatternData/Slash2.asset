@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a32be75a21d1fc4c817ba445a28df26, type: 3}
+  m_Name: Slash2
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  attackableAreas: []
+  globalAttackableAreas:
+  - serializedVersion: 2
+    x: -20
+    y: 0
+    width: 40
+    height: 40
+  gizmoColor: {r: 1, g: 0, b: 0, a: 0.31764707}
+  <EAudioClip>k__BackingField: 
+  damage: 500
+  attackAngles:
+  - 0
+  - 7.5
+  - -7.5
+  - 15
+  - -15
+  attackIntervalTime: 0.1
+  attackSpeed: 1
+  attackDistance: 11
+  attackStartDistance: 6
+  attackCount: 3
+  jumpHight: 1
+  jumpTime: 0.8
+  preDelayTime: 1
+  attackDelayTime: 0.5
+  comboAttackIntervalTime: 0
+  postDelayTime: 2

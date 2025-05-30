@@ -1,0 +1,2630 @@
+fileFormatVersion: 2
+guid: e2408adcfbee39d4381109deafbd7ddd
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: boss_antiswarm_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1917
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60d8a0c645ffd4b4b96580e5c322dadb
+      internalID: 2026696841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_1
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1917
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25c193b333b7a0a488f1d49e0ac651bb
+      internalID: 796532937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_2
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1917
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93d665cca475f9a40a76d9dbdec907b6
+      internalID: -50116598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_3
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 1917
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07312d951bf317d4088e9fc02aadab56
+      internalID: -1733450101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_4
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1917
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb08ad066855a8b499dce0169699eaf2
+      internalID: -1006854555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_5
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 1917
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e2b35486b64ae74088291d5ab8a58b0
+      internalID: 168959713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_6
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 1917
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d647bf4cb45768e48813d8dc0b7282f6
+      internalID: 1923510042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_7
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 1917
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f9b9964ee1f9624db8be0fb7205e4c1
+      internalID: -1046303464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1786
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7f73100638ff2e438f847a77ce7cde0
+      internalID: -736034713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_9
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1786
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea733d99c0e50154ca715b484ecc2bca
+      internalID: 1013464386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_10
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1786
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d12da02e6f795a849b148d4f3513c509
+      internalID: 244536801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_11
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 1786
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7616d7d87a4cf734d96db1e239467a71
+      internalID: 1500434990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_12
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1786
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d02c9a069f5b1fb4ba3971908d98b9fe
+      internalID: 2010590375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_13
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 1786
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d27e80fbf0ff2ea44b58a63e072def66
+      internalID: 280704258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_14
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 1786
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b61aeaec00e7a2479667b452ce8e1c8
+      internalID: -1529642400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_15
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 1786
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a3d8377611dcc94abd93b6a897739ef
+      internalID: -865321373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1655
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d1bd254644add347be4d53c7739df7b
+      internalID: 377116216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_17
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1655
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fcaa78cad59a5c4fbfb4156f4b8edec
+      internalID: -2007513647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_18
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1655
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2096ca69bf4d8f742bd3fe6821dfb074
+      internalID: -809244351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_19
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 1655
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a46404f5934a5564584c095a9e445d79
+      internalID: -1730388581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_20
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1655
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f47090198ddb0e46ae1380441ae8acc
+      internalID: -618841786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_21
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 1655
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d384124efcf88ca4f8189cd076738073
+      internalID: 2134127738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_22
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 1655
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c80d7abd031be57489bc0e508f1b912a
+      internalID: -2019903316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_23
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 1655
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86f46cc852a9676439376023b5fc381d
+      internalID: 1489646985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1524
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1806e875940bdf0428510b855a700b25
+      internalID: -1384143141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_25
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1524
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e58211dc010a9be4986628e36a2f60de
+      internalID: -282094003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_26
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1524
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16c263ab6d8e16044b607c00df07080a
+      internalID: 1409447346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_27
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 1524
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7bc24261f0e81548966cf62d69288c1
+      internalID: -1643196898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_28
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1524
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f750c66a99fb15a4ab546142d2442d87
+      internalID: 1941160405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_29
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 1524
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d026392ac1e1104f8ecc6f94db780f0
+      internalID: -1577756096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_30
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 1524
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea4fb7607fc39f84bafbd18b66312394
+      internalID: 732693928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_31
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 1524
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a09dee6eed3c8094f82fe4e16a64663b
+      internalID: 887653345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1393
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 175c55338cac381468a5a65c744ca92e
+      internalID: -1035565108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_33
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1393
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3997f4a62aa1a1f498e222f6cc28d8a2
+      internalID: 1276538292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_34
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1393
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b1c4140cdb33ec42a1a999c796ccb3c
+      internalID: 1139158796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_35
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 1393
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4f3cf14ed6e70842899b760f219d79f
+      internalID: 1271061143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_36
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1393
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be931ca18cebaa540b42c4753c964eec
+      internalID: 1562863756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_37
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 1393
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ff410b5c4e561f41b51526188052e28
+      internalID: -477029846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_38
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 1393
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab8c4625a2c26554dab6ce6d6d71e96a
+      internalID: -217693561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_39
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 1393
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e27b015ac1c4b604f8872488eed4ae12
+      internalID: -13829497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1262
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5b375cb719b14b458b57573db6b1c23
+      internalID: 851043145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_41
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1262
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab14ec1f6efd3dd4ca43449f2f4d6576
+      internalID: 1082231290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_42
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1262
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3627478d6c6452d43861c07e2599f251
+      internalID: -360237404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_43
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 1262
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e0dbe2862002a445b8ab7da5f4a31b8
+      internalID: -2066601175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_44
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1262
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 024818ebffe5ace4a9d1551570257954
+      internalID: -1515345742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_45
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 1262
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c26ae030c37ca04a95447dfd8dd425f
+      internalID: -2042466191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_46
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 1262
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c75d3e8bca30a945959af23a3167bfd
+      internalID: -297068677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_47
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 1262
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d4a1cd01a4d56b4a99e3fe1ac08d615
+      internalID: 702005460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_48
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1131
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc1633768fd99d548ae6efee8946c9cd
+      internalID: 1464160435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_49
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1131
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efc23363f5254f843884f373795b1b00
+      internalID: 1919917753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_50
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1131
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 439c80d7bcc02ac4080bb178f1818854
+      internalID: 1287274968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_51
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 1131
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9673e1e13ae64c64eba205cd228a7147
+      internalID: 1067632226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_52
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1131
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd87c9e14de069c408f8a91acba720a2
+      internalID: 13774243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_53
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 1131
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46815f175ed9c7748861ace9e76972c8
+      internalID: -1429750449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_54
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 1131
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f01e90d5fe6cf24bb29fa63844c5df0
+      internalID: 1089380465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_55
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 1131
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef09898feaa573a48b740d2fe694ca3a
+      internalID: -863601474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_56
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1000
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 339bfe9b0183c7c4d86ab070a52814bf
+      internalID: 634783492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_57
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 1000
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3266e673aa08914ca488895d887fd7f
+      internalID: 898660612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_58
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 1000
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfaeb8e08c84cb3469a576f803b9eaa4
+      internalID: -1310764983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_59
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 1000
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2e4142b61b710d48843fe6692a147f8
+      internalID: 323992608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_60
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 1000
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c7873c0c0890cc45b0c4c2e9dba36a9
+      internalID: 652965825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_61
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 1000
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba1badd356a0ce94e8aa660cb34555d5
+      internalID: -1336599065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_62
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 1000
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af70fdf3f01cfa34aac076c93676d204
+      internalID: 871718644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_63
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 869
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b2dc873a33c8d542806915ef3298ee3
+      internalID: -2036434137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_64
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 869
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3163b9f5a851aca4a8012779a5de03f1
+      internalID: -1566265235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_65
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 869
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f505252e92401694dba4709bcc0b8297
+      internalID: -1550477553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_66
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 869
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b9d62551f9ddf5408b0bd9fc0b7978f
+      internalID: 1242637752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_67
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 869
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f967996c7ce961543b50dfb58878b874
+      internalID: -979965053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_68
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 869
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86e4b80ebbc80c74a9208df8d4603500
+      internalID: 1178619428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_69
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 869
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02a2ce62116c3494a9cc855a00399c76
+      internalID: 878418491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_70
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 738
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c9a6291f93c23344bb0b89a63246a99
+      internalID: -1962447163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_71
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 738
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 763cfd923948d6c409bcccbe7caf0e10
+      internalID: 1767807103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_72
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 738
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5eccfa2dbe740c4d9440e1bb4ba1725
+      internalID: -532609807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_73
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 738
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79b45c72198cb4f46bcdeb53a9934909
+      internalID: 325813614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_74
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 738
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27daa03c12c087c4c9ab9d8bc9b776d0
+      internalID: 977717323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_75
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 738
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de0260905d5d78043bdd499ea2b0af36
+      internalID: 899416633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_76
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 738
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ba901a19173ef54fa0dd2f105e5b073
+      internalID: -485004818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_77
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 607
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 769a6a1af4a1e064a81062e3553ffd0c
+      internalID: -1444545213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_78
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 607
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8f633b6875a5e34f8e8d9bf98b3ad83
+      internalID: 852644908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_79
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 607
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbc55d44c93690b41afb0009737d100f
+      internalID: -1898243347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_80
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 607
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 413692fd8401bb24797b8569d37180cb
+      internalID: -1789542542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_81
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 607
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ce5018fc2bc1bc479be54ec726d8cce
+      internalID: 24701188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_82
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 607
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3092e8974f631b6469d40b41dd9c7e47
+      internalID: 2051195120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_83
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 607
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2bfade165732e44aa151431c2031ce9
+      internalID: -559762359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_84
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 476
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d35a18fc85efee40bcde3343eed5702
+      internalID: -1105233201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_85
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 476
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95bbbadaca644ee4a9043cfc5cdf93d8
+      internalID: -1898189050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_86
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 476
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0742411b8d88e9a439bda0178f0de0b9
+      internalID: 1977379943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_87
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 476
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44b22003bb3474a4d9469724b28d9ae5
+      internalID: -1360662227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_88
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 476
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32151249665cc10408d04b95916e2777
+      internalID: -501129648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_89
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 476
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e9a8c71b6b4ccf41937c1470cb8a9ed
+      internalID: -67494389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_90
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 476
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6a542958f5d8a84cb8cc77102126798
+      internalID: 291752365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_91
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 345
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3e6134e7b75ff14294a95c602333764
+      internalID: -1835254621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_92
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 345
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 331e46d4071d63f46ae84e2f7f78bc02
+      internalID: 888085774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_93
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 345
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8382cdf71d4a1df4582b86ea0b7b8db3
+      internalID: 1093558528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_94
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 345
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b4dce910f0628f4caafba3933513eca
+      internalID: 2000817502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_95
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 345
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 628837adfd25c8c4cb20cafd29e2c789
+      internalID: 1026664287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_96
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 345
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9302ee6292e64c84e83cae42d70b9916
+      internalID: 1517076311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_97
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 345
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86f94ccdb91fea145905c18dfb0e2f3e
+      internalID: -2126687355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_98
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 214
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29e32231eee3c0d41b0ca89a8f0bbd37
+      internalID: -382174919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_99
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 214
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ee8cb035cc13f4488d76c7dcf9effcb
+      internalID: -1779755120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_100
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 214
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0175872a7b730be4c84aad6dc45b6966
+      internalID: 501884167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_101
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 214
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba4e728f6251ec3469412e79ed450dd8
+      internalID: 878498393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_102
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 214
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e9b2561d0009124e8c54bf85a67df09
+      internalID: 1345790899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_103
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 214
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f08dc470836b8ac4eb2110896ebeda96
+      internalID: -662661781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_104
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 214
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38dd596c0301f2140879e01505439dc8
+      internalID: -1982232833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_105
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 83
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57d78c3ea99dc934b8949a0f32701840
+      internalID: -694951753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_106
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 83
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bbb5bcb93b0c6b43b67902f27e6f98b
+      internalID: -1644017744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_107
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 83
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db11b58d943e5c446be406d03b0dc899
+      internalID: -28037923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_108
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 83
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c26e322b6dd5fd44a2b8c6f5fce30e3
+      internalID: -599327622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_109
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 83
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6e2781184669bf4aafe7923daa85242
+      internalID: 1252632342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_110
+      rect:
+        serializedVersion: 2
+        x: 655
+        y: 83
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e36c7f047a5a4441849754349d94386
+      internalID: -1348319019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_antiswarm_111
+      rect:
+        serializedVersion: 2
+        x: 786
+        y: 83
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c71a1785bcb299240ae0536933785ebc
+      internalID: -1365727988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      boss_antiswarm_0: 2026696841
+      boss_antiswarm_1: 796532937
+      boss_antiswarm_10: 244536801
+      boss_antiswarm_100: 501884167
+      boss_antiswarm_101: 878498393
+      boss_antiswarm_102: 1345790899
+      boss_antiswarm_103: -662661781
+      boss_antiswarm_104: -1982232833
+      boss_antiswarm_105: -694951753
+      boss_antiswarm_106: -1644017744
+      boss_antiswarm_107: -28037923
+      boss_antiswarm_108: -599327622
+      boss_antiswarm_109: 1252632342
+      boss_antiswarm_11: 1500434990
+      boss_antiswarm_110: -1348319019
+      boss_antiswarm_111: -1365727988
+      boss_antiswarm_12: 2010590375
+      boss_antiswarm_13: 280704258
+      boss_antiswarm_14: -1529642400
+      boss_antiswarm_15: -865321373
+      boss_antiswarm_16: 377116216
+      boss_antiswarm_17: -2007513647
+      boss_antiswarm_18: -809244351
+      boss_antiswarm_19: -1730388581
+      boss_antiswarm_2: -50116598
+      boss_antiswarm_20: -618841786
+      boss_antiswarm_21: 2134127738
+      boss_antiswarm_22: -2019903316
+      boss_antiswarm_23: 1489646985
+      boss_antiswarm_24: -1384143141
+      boss_antiswarm_25: -282094003
+      boss_antiswarm_26: 1409447346
+      boss_antiswarm_27: -1643196898
+      boss_antiswarm_28: 1941160405
+      boss_antiswarm_29: -1577756096
+      boss_antiswarm_3: -1733450101
+      boss_antiswarm_30: 732693928
+      boss_antiswarm_31: 887653345
+      boss_antiswarm_32: -1035565108
+      boss_antiswarm_33: 1276538292
+      boss_antiswarm_34: 1139158796
+      boss_antiswarm_35: 1271061143
+      boss_antiswarm_36: 1562863756
+      boss_antiswarm_37: -477029846
+      boss_antiswarm_38: -217693561
+      boss_antiswarm_39: -13829497
+      boss_antiswarm_4: -1006854555
+      boss_antiswarm_40: 851043145
+      boss_antiswarm_41: 1082231290
+      boss_antiswarm_42: -360237404
+      boss_antiswarm_43: -2066601175
+      boss_antiswarm_44: -1515345742
+      boss_antiswarm_45: -2042466191
+      boss_antiswarm_46: -297068677
+      boss_antiswarm_47: 702005460
+      boss_antiswarm_48: 1464160435
+      boss_antiswarm_49: 1919917753
+      boss_antiswarm_5: 168959713
+      boss_antiswarm_50: 1287274968
+      boss_antiswarm_51: 1067632226
+      boss_antiswarm_52: 13774243
+      boss_antiswarm_53: -1429750449
+      boss_antiswarm_54: 1089380465
+      boss_antiswarm_55: -863601474
+      boss_antiswarm_56: 634783492
+      boss_antiswarm_57: 898660612
+      boss_antiswarm_58: -1310764983
+      boss_antiswarm_59: 323992608
+      boss_antiswarm_6: 1923510042
+      boss_antiswarm_60: 652965825
+      boss_antiswarm_61: -1336599065
+      boss_antiswarm_62: 871718644
+      boss_antiswarm_63: -2036434137
+      boss_antiswarm_64: -1566265235
+      boss_antiswarm_65: -1550477553
+      boss_antiswarm_66: 1242637752
+      boss_antiswarm_67: -979965053
+      boss_antiswarm_68: 1178619428
+      boss_antiswarm_69: 878418491
+      boss_antiswarm_7: -1046303464
+      boss_antiswarm_70: -1962447163
+      boss_antiswarm_71: 1767807103
+      boss_antiswarm_72: -532609807
+      boss_antiswarm_73: 325813614
+      boss_antiswarm_74: 977717323
+      boss_antiswarm_75: 899416633
+      boss_antiswarm_76: -485004818
+      boss_antiswarm_77: -1444545213
+      boss_antiswarm_78: 852644908
+      boss_antiswarm_79: -1898243347
+      boss_antiswarm_8: -736034713
+      boss_antiswarm_80: -1789542542
+      boss_antiswarm_81: 24701188
+      boss_antiswarm_82: 2051195120
+      boss_antiswarm_83: -559762359
+      boss_antiswarm_84: -1105233201
+      boss_antiswarm_85: -1898189050
+      boss_antiswarm_86: 1977379943
+      boss_antiswarm_87: -1360662227
+      boss_antiswarm_88: -501129648
+      boss_antiswarm_89: -67494389
+      boss_antiswarm_9: 1013464386
+      boss_antiswarm_90: 291752365
+      boss_antiswarm_91: -1835254621
+      boss_antiswarm_92: 888085774
+      boss_antiswarm_93: 1093558528
+      boss_antiswarm_94: 2000817502
+      boss_antiswarm_95: 1026664287
+      boss_antiswarm_96: 1517076311
+      boss_antiswarm_97: -2126687355
+      boss_antiswarm_98: -382174919
+      boss_antiswarm_99: -1779755120
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

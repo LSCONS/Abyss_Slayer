@@ -1,0 +1,936 @@
+fileFormatVersion: 2
+guid: 9e6fa81ef3aeffb428352fd0e857375b
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fx_bouldersphere_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1827
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da264e492ff61d840a4552842648130b
+      internalID: -1265874639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_bouldersphere_1
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1827
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb0e5f18327a2a047a8f711fc74f3c8a
+      internalID: 789752823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 16
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1827
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70b7d77080412214ebdce441cdf349f7
+      internalID: -498614468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 07
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1827
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39128ea6f1adcc24dbda7fdad8de4cd5
+      internalID: -463540004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_bouldersphere_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1606
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6da74f8e91b4bdf4e8a75590691d27b5
+      internalID: -1417815801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_bouldersphere_5
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1606
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ede25be255546d43bd70f4ec98e93eb
+      internalID: 311925682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 15
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1606
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c376c3378e59a4b4ea7fe16fafa4d3bf
+      internalID: -334047189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 06
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1606
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b8bc4d511c16e04aa8aca73607f86fc
+      internalID: -1036031312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_bouldersphere_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1385
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e71e6be6d149274fa8e63e179ca0868
+      internalID: 125521091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 23
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1385
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 071815987d8e94140b2c15736600d212
+      internalID: 1286428054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 14
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1385
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8fd7ec05df715c4dbc9d3c7cc16cb78
+      internalID: 2032876836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 05
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1385
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 139204d57f4985f489df86dd3d0dd89b
+      internalID: 662249082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_bouldersphere_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1164
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a9c91776a52b594781eb07a66607cb2
+      internalID: 867931530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 22
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1164
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 967ed1f148f868f43a02667c56dea6b2
+      internalID: -47366313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 13
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 1164
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 806de0c13881ebd4ba4eca335c10abef
+      internalID: 1646332728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 04
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 1164
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc3af37c3e2354b42b1e2aea67ad9e94
+      internalID: 243529665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_bouldersphere_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 943
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c95846af32a17524db9bc937d94caecd
+      internalID: -50163141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 21
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 943
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f034ded6ad3c7f4ca0092ef6b86acda
+      internalID: -631227527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 12
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 943
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a5fcda0b38c02d49b45650662ee1ef7
+      internalID: -100586961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 03
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 943
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9b5613ec213ae4408a6f3206cdad3a5
+      internalID: -357118321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_bouldersphere_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 722
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e48edb6b506778040897c9f6768e7fa2
+      internalID: 1188684172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 20
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 722
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd6ca2713172cc24a980edd3bc5eb61b
+      internalID: -1951025348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 11
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 722
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3f96a8d9097b79429b1a40e84a5fc26
+      internalID: -649616619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 02
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 722
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 673579eaa3831b04abda60b496c18340
+      internalID: -1254570297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_bouldersphere_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 501
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19a63e4079d902a4e98401c74e204951
+      internalID: 1607906632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 19
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 501
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43fcfe99fa6f9d4439ffe1b66836c7b1
+      internalID: 1984897249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 10
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 501
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 920659dac204d89489ec9d8120e1343c
+      internalID: 854339861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 01
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 501
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7abda286d0dca13449f6c1439bb92a81
+      internalID: 94789633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_bouldersphere_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 280
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5050078c71ecece49bd173c9072d91ea
+      internalID: 345801163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 18
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 280
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e830c82cfc5d1a14695609c87bf182ab
+      internalID: 1995994188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 09
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 280
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b5a6ed8ad8cd84409b83e2897102ad4
+      internalID: -1937287593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 17
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 280
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c1b3f9f551c44d4b9251e54c262f6ee
+      internalID: 78541652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fx_bouldersphere_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 59
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30a92e42313c39147b2514b0f43e9fd0
+      internalID: -1521977672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 00
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 59
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f175b80c4e3d71748a3123e0a4304cc4
+      internalID: -484288656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 08
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 59
+        width: 300
+        height: 221
+      alignment: 9
+      pivot: {x: 0.50666666, y: 0.7647059}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d52962cb4640a9b44bed52e1086a91da
+      internalID: -1172897448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      00: -484288656
+      01: 94789633
+      02: -1254570297
+      03: -357118321
+      04: 243529665
+      05: 662249082
+      06: -1036031312
+      07: -463540004
+      08: -1172897448
+      09: -1937287593
+      10: 854339861
+      11: -649616619
+      12: -100586961
+      13: 1646332728
+      14: 2032876836
+      15: -334047189
+      16: -498614468
+      17: 78541652
+      18: 1995994188
+      19: 1984897249
+      20: -1951025348
+      21: -631227527
+      22: -47366313
+      23: 1286428054
+      fx_bouldersphere_0: -1265874639
+      fx_bouldersphere_1: 789752823
+      fx_bouldersphere_12: 867931530
+      fx_bouldersphere_16: -50163141
+      fx_bouldersphere_20: 1188684172
+      fx_bouldersphere_24: 1607906632
+      fx_bouldersphere_28: 345801163
+      fx_bouldersphere_32: -1521977672
+      fx_bouldersphere_4: -1417815801
+      fx_bouldersphere_5: 311925682
+      fx_bouldersphere_8: 125521091
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

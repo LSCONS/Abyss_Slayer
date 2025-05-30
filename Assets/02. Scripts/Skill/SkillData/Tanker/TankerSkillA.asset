@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37dde014a4932e84181cc9f60a73359d, type: 3}
+  m_Name: TankerSkillA
+  m_EditorClassIdentifier: 
+  <SkillName>k__BackingField: "\uC2E4\uB4DC \uC5B4\uD0DD (A)"
+  <SkillDesription>k__BackingField: "\uCFE8 \uC9E7\uC740 \uB51C\uB9C1\uAE30\uC784"
+  <SkillCategory>k__BackingField: 0
+  <SkillIcon>k__BackingField: {fileID: 21300000, guid: fe77b778dcbf2344aa21fa65347166c9, type: 3}
+  <EAudioClip>k__BackingField: 501
+  <CanUse>k__BackingField: 1
+  <CanMove>k__BackingField: 1
+  <MaxCoolTime>k__BackingField:
+    value: 5
+  <CurCoolTime>k__BackingField:
+    value: 0
+  <ApplyState>k__BackingField: -1
+  <SkillEnterState>k__BackingField: 6
+  <SkillUseState>k__BackingField: 24
+  <AnimationChangeDelayTime>k__BackingField: 0.06
+  <IsConnectSkillCoolDown>k__BackingField: 0
+  <SkillEffectsClipName>k__BackingField: 0
+  <SkillEffectsDuration>k__BackingField: 1
+  <HitEffectType>k__BackingField: 0
+  Level:
+    value: 1
+  <Magnification>k__BackingField: 0.1
+  <isDurationUp>k__BackingField: 0
+  <BaseDamage>k__BackingField: 1900
+  <Damage>k__BackingField: 1900
+  <TargetLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 256
+  <ColliderSize>k__BackingField: {x: 5.5, y: 5.5}
+  <SpawnSize>k__BackingField: {x: 1, y: 1}
+  <ColliderOffset>k__BackingField: {x: 0, y: 0}
+  <SpawnOffset>k__BackingField: {x: 1, y: 0.5}
+  <ColliderDuration>k__BackingField: 0.7
+  <TickRate>k__BackingField: 1
+  <EEffectAnimatorController>k__BackingField: 402
+  <ColliderSetDelayTime>k__BackingField: 0
+  <CanRepeatHit>k__BackingField: 1

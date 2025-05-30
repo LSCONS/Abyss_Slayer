@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 984ec404fbdf81b4dbebb183cd26a2c0, type: 3}
+  m_Name: TankerSkillS
+  m_EditorClassIdentifier: 
+  <SkillName>k__BackingField: "\uC57D\uD654 (S)"
+  <SkillDesription>k__BackingField: "\uBCF4\uC2A4\uC5D0\uAC8C \uBC1B\uB294 \uD53C\uD574\uB7C9\uC744
+    25% \uC99D\uAC00\uC2DC\uD0A4\uB294 \uB514\uBC84\uD504\uB97C \uAC81\uB2C8\uB2E4."
+  <SkillCategory>k__BackingField: 4
+  <SkillIcon>k__BackingField: {fileID: 21300000, guid: 86d981a8742aea349ad18e8b929ca7ff, type: 3}
+  <EAudioClip>k__BackingField: 502
+  <CanUse>k__BackingField: 1
+  <CanMove>k__BackingField: 1
+  <MaxCoolTime>k__BackingField:
+    value: 20
+  <CurCoolTime>k__BackingField:
+    value: 0
+  <ApplyState>k__BackingField: -1
+  <SkillEnterState>k__BackingField: 6
+  <SkillUseState>k__BackingField: 27
+  <AnimationChangeDelayTime>k__BackingField: 0.06
+  <IsConnectSkillCoolDown>k__BackingField: 0
+  <SkillEffectsClipName>k__BackingField: 1
+  <SkillEffectsDuration>k__BackingField: 1
+  <HitEffectType>k__BackingField: 0
+  Level:
+    value: 1
+  <Magnification>k__BackingField: 0.025
+  <isDurationUp>k__BackingField: 0
+  radius: 10
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  baseEffectAmount: 1.25
+  effectAmount: 1.25
+  baseDuration: 0
+  duration: 0
+  debuffType: 2
+  debuffDuration: 20

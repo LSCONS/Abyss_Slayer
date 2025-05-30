@@ -1,0 +1,78 @@
+using Fusion;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UITeamStatusSlot : MonoBehaviour
+{
+    [field: SerializeField] public Image ImgPlayerIcon { get;private set; }
+    [field: SerializeField] public TextMeshProUGUI TextPlayerName { get; private set; }
+    [field: SerializeField] public Image ImgPalyerHP { get; private set; }
+    [field: SerializeField] public TextMeshProUGUI TextReadyPlayer { get; private set; }
+    [field: SerializeField] public UIHealthBar UIHealthBar { get; private set; }
+    [field:SerializeField] public Image classIcon { get; private set; }
+    public string OnReadyText { get; private set; } = "[준비 완료]";
+    public string OffReadyText { get; private set; } = "[준비 중...]";
+    public string InGameText { get; private set; } = "[게임 중...]";
+    public string ServerReadyText { get; private set; } = "[방장]";
+    public PlayerRef SlotPlayerRef { get; set; }
+
+
+    /// <summary>
+    /// 특정 플레이어와 HpBar를 연결해주는 메서드
+    /// </summary>
+    public void ConnectUIHpBar()
+    {
+        UIHealthBar.ConnectOtherPlayerObject(SlotPlayerRef);
+    }
+
+
+    /// <summary>
+    /// RestScene에서 사용할 Text로 바꿔주는 메서드
+    /// </summary>
+    public void ChagneInRestText()
+    {
+        TextPlayerName.text = ServerManager.Instance.DictRefToNetData[SlotPlayerRef].GetName();
+        if (ServerManager.Instance.DictRefToNetData[SlotPlayerRef].IsServer)
+        {
+            TextReadyPlayer.text = ServerReadyText;
+            TextReadyPlayer.color = Color.red;
+        }
+        else
+        {
+            TextReadyPlayer.text = OffReadyText;
+            TextReadyPlayer.color = Color.white;
+        }
+    }
+
+
+    /// <summary>
+    /// 플레이어의 준비 상태에 따라 Text를 바꿔주는 메서드
+    /// </summary>
+    /// <param name="isReady">바꿔 줄 준비 상태</param>
+    public void ChagnePlayerReadyText(bool isReady)
+    {
+        TextReadyPlayer.text = isReady ? OnReadyText : OffReadyText;
+        TextReadyPlayer.color = isReady ? Color.red : Color.white;
+    }
+
+
+    /// <summary>
+    /// BattleScene에서 사용할 Text로 바꿔줄 메서드
+    /// </summary>
+    public void ChangeBattleSceneText()
+    {
+        TextReadyPlayer.text = InGameText;
+        TextReadyPlayer.color = Color.yellow;
+    }
+
+    public void SetIcon(CharacterClass cls)
+    {
+        if (DataManager.Instance.DictClassToImage.TryGetValue(cls, out var icon))
+        {
+            classIcon.sprite = icon;
+        }
+    }
+}

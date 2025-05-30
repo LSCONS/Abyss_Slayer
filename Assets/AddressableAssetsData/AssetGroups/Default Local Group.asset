@@ -1,0 +1,385 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: f42c4174a27bcb943a07de2faef1fd1d
+  m_SerializeEntries:
+  - m_GUID: ed6f95591d6d06644b05c16c34a7857d
+    m_Address: Assets/11.Audio/Impact Grenade.wav
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 682af4711971fd343afd1b34774dd246
+    m_Address: Assets/10. Prefabs/UI/Popups/UIPopupSettings.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
+    - GamePlay
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6895cd51b5fa48b4ba01576d8c3ecd53
+    m_Address: Assets/10. Prefabs/UI/Popups/PlayerState.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - Bottom
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f0140ef48ff3b044b2fb7d4b1d5ec13
+    m_Address: Assets/10. Prefabs/UI/Permanent/SkillSlot.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 51d06763acbd6cf44a4c66767e452b95
+    m_Address: Assets/10. Prefabs/UI/Permanent/SkillSpace.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - Bottom
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e322a8852f544a48b5d8baf0687515f
+    m_Address: Assets/10. Prefabs/UI/Permanent/SettingsOpenBTN.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - Top
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7dc520fe136655741830c1f6c4c39d4e
+    m_Address: Assets/10. Prefabs/UI/Permanent/BossState.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - TopMid
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c1586a66b002154d9165b847d7b48ac
+    m_Address: Assets/10. Prefabs/UI/Popups/SkillTooltip.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
+    - GamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 576735568703f494ca86dd04789ce474
+    m_Address: InvitationWindow
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f302ddc42de6524da200da0fc6c11ec
+    m_Address: Assets/10. Prefabs/UI/Permanent/Robby/RobbyRightSide_LevelSelectNStartPanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Permanent
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d8fd56d41e311f40b1234289d8bbfd8
+    m_Address: Assets/10. Prefabs/UI/Popups/SelectPanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 35602e98bd81f4d4dab1671559739ec9
+    m_Address: Assets/10. Prefabs/UI/Permanent/Robby/ChatNPlayerInfoPanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Permanent
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4220149aa1f6a18408391eb2c4a9a419
+    m_Address: Assets/10. Prefabs/UI/Popups/RoomMakerPopup.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1d50dcfac26fabb4fa77fd8f3ec161b7
+    m_Address: Assets/10. Prefabs/UI/Permanent/Start/Title.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NonGamePlay
+    - Permanent
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c85266a5d817cd147bf76c66e7bada7a
+    m_Address: Assets/10. Prefabs/UI/Permanent/Rest/NextGameButtons.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - Permanent
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6784708300895048902eabf9c680e09
+    m_Address: Assets/10. Prefabs/UI/Permanent/Robby/RobbyBG.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NonGamePlay
+    - Permanent
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b26980da19aeb53469a97d36830d2e82
+    m_Address: Assets/10. Prefabs/UI/Permanent/BossStage.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - Top
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5241572010fbeaa44ac03e297636feff
+    m_Address: Assets/10. Prefabs/UI/Loading.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - None
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 04855dab9ffc80040a643c1ee556a485
+    m_Address: Assets/10. Prefabs/UI/Popups/StatWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - Popup
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 529b43a2ef941644990ee27b6b92b239
+    m_Address: Assets/10. Prefabs/UI/Permanent/Rest/StatStoreButton.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - Permanent
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca4fbc116bc1d2a479c91d8beb16d5c8
+    m_Address: Assets/10. Prefabs/UI/Popups/SkillStoreWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - Popup
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cc58251dc6bb40d4a9839173d52b0f8f
+    m_Address: Assets/10. Prefabs/UI/Permanent/Rest/SkillStoreButton.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - Permanent
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d26bad866acb49a4ea5dc5a68fca048e
+    m_Address: SFX_Dash
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d5f4ceb4f327cc43b95dfca09b55232
+    m_Address: BossPrefabDatas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dbe8bdace8307974aa6a9970c6cd4dea
+    m_Address: AnimationCurveDatas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2cb4cd51b96c5f243b738ee39d12a0f5
+    m_Address: Assets/10. Prefabs/UI/Permanent/Img_InputNamePanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NonGamePlay
+    - Permanent
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f51f7f9bf4fb79946b9edc91a34029a5
+    m_Address: Assets/10. Prefabs/UI/Permanent/TeamStatus.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Permanent
+    - GamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a8b689fb140cd784790ab6a582360be5
+    m_Address: TeamStatusSlot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76b50cec767932b4381855f7df61a7b7
+    m_Address: Assets/10. Prefabs/UI/Popups/QuitGamePopup.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NonGamePlay
+    - GamePlay
+    - Popup
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 04d9efccd0a49b4489bd8cdc3f30e07a
+    m_Address: Assets/10. Prefabs/UI/Popups/Img_RoomSearch.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23d25d0949cdef74988e6c0062dcdcfe
+    m_Address: Assets/10. Prefabs/UI/Popups/Img_CreateRoomPanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df74d9373a2a00b409b2d147734e361e
+    m_Address: PlayerPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0c0cd4d75897ae140a879ddf6d786a37
+    m_Address: RoomPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf8f46003ca70c74bb5cb0d447f2cd25
+    m_Address: AuidoClipDatas
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f4df67f0a639554489aa2d65f5a4b6ae
+    m_Address: InitSupporter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 190ac7bc7058e7840ae7ce254a2e6285
+    m_Address: Assets/10. Prefabs/UI/Permanent/Robby/CustomPanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NonGamePlay
+    - Popup
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4ff5de64f5e0d5d46a33fe0b3853bf84
+    m_Address: PoolManager
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c0894803ff5c82a4aaa98040d1c6552f
+    m_Address: CrossHairPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a8ab63de88ea22f4c9cdf379b9202021
+    m_Address: Intro
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 23953d69db559394484b4ff14ea61f56
+    m_Address: NetworkData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aa3292b0c901df1458f39f8a6d937437
+    m_Address: Assets/10. Prefabs/UI/Popups/Phase2StartPopup.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - Popup
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bc5396bf2df41e64396c3ce969831978
+    m_Address: DashEffectPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6da113ff3dbfea4e9348db6d49d73cf
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/RogueSkillClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5441f4c2d1175494cac17c5adb8d7b58
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/MageSkillClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c84a3c89e10f42048a2b921b7e9c4448
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/MagicalBlasterSkillClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 391ffeb15d4c33945b3672ee1f2ff0e5
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/TankerSkillClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8c12b031421b67840bbddbdfcc02eabf
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/HealerSkillClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d0dd3ed4a90bb7a44bac4c9165f79b57
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/BGMClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4d93d4e79e1c7a84bb1eaea7fe97b3e8
+    m_Address: Assets/08. Datas/AddressalbeData/AudioClipDatas/SFXClipDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AudioClipDatas
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 963b07a19de2e01499f2fdcb8e4890eb
+    m_Address: Assets/08. Datas/AddressalbeData/AnimatorControllerDatas/RogueSkillAnimatorDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AnimatorController
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ffbf453bc1191d46a41d097718a0361
+    m_Address: Assets/08. Datas/AddressalbeData/AnimatorControllerDatas/MageSkillAnimatorDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AnimatorController
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b63afb4972e87c746a8df4032c410677
+    m_Address: Assets/08. Datas/AddressalbeData/AnimatorControllerDatas/TankerSkillAnimatorDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AnimatorController
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 04de964af50caee4d85599007dada1f5
+    m_Address: Assets/08. Datas/AddressalbeData/AnimatorControllerDatas/HealerSkillAnimatorDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AnimatorController
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74c657c5d199f65429a2eb405b28ef0f
+    m_Address: Assets/08. Datas/AddressalbeData/AnimatorControllerDatas/MagicalBlasterSkillAnimatorDatas.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - AnimatorController
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 06f3cf1b2c422ab4894b044010c95cc4
+    m_Address: Assets/10. Prefabs/UI/Popups/TutorialSelecClassPanel.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NonGamePlay
+    - Popup
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 92fec74cf58d0fa42882ad42e9b70eca
+    m_Address: ShieldPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9e12c59a010166b4b888913286a856ab
+    m_Address: FireworksPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 74d0dc0eea02e7443bc98e813db8c8f4
+    m_Address: BuffSpriteDatas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9aa44f6f96019344698b67df3150f8ee, type: 2}
+    - {fileID: 11400000, guid: bd78f0236b6559c45a153e7c85789778, type: 2}
