@@ -32,7 +32,7 @@ public class Player : NetworkBehaviour, IHasHealth
     public PlayerData PlayerData { get; private set; }
     [field: Header("스킬 관련")]
     public Dictionary<SkillSlotKey, Skill> DictSlotKeyToSkill { get; private set; } = new(); // 스킬 연결용 딕셔너리
-    public Dictionary<BuffType, BuffSkill> DictBuffTypeToBuffSkill { get; private set; } = new();
+    public Dictionary<EBuffType, BuffSkill> DictBuffTypeToBuffSkill { get; private set; } = new();
     public ReactiveProperty<int> Hp { get; set; } = new();
     public ReactiveProperty<int> MaxHp { get; set; } = new();
     public ReactiveProperty<float> DamageValue { get; set; } = new(1);

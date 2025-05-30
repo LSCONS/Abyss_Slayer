@@ -509,10 +509,19 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// 마지막 보스 처치 후 폭죽 이벤트를 공유
+    /// </summary>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetActiveTrueFireWorks()
     {
         ServerManager.Instance.fireworks = GameObject.Instantiate(DataManager.Instance.FireworksPrefab); // 마지막 보스 잡으면 불꽃놀이 실행
         ServerManager.Instance.fireworks.StartFireworks();
+    }
+
+
+    public void Rpc_CreateBossBuffSlot()
+    {
+
     }
 }

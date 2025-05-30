@@ -8,25 +8,24 @@ public class UIBossBuffSlotManager : Singleton<UIBossBuffSlotManager>
     [SerializeField] private GameObject buffSlotPrefab;
     [SerializeField] private Transform buffSlotParent;
 
-    private Dictionary<DebuffType, GameObject> debuffSlot = new();
+    private Dictionary<EBuffType, GameObject> debuffSlot = new();
 
     /// <summary>
     /// 보스 디버프 UI 슬롯 생성
     /// </summary>
-    public void CreateSlot(DebuffType type, DebuffData data, Sprite icon)
+    public void CreateSlot(int typeInt, byte[] debuffDataName, byte[] debuffDataDescription, float debuffDataDuration, float debuffDataStartTime, Sprite icon)
     {
-
         GameObject slotOb;
 
         // 이미 전에 있었는지 확인하고 있으면 그거 재사용해야됨
-        if(debuffSlot.TryGetValue(type, out slotOb))
+        if(debuffSlot.TryGetValue((EBuffType)typeInt, out slotOb))
         {
             slotOb.SetActive(true);
         }
         else
         {
             slotOb = Instantiate(buffSlotPrefab, buffSlotParent);
-            debuffSlot[type] = slotOb;
+            debuffSlot[(EBuffType)typeInt] = slotOb;
             // 새로 생기면 젤 앞으로 보내주고 싶음
             slotOb.transform.SetAsLastSibling();
         }
@@ -36,21 +35,20 @@ public class UIBossBuffSlotManager : Singleton<UIBossBuffSlotManager>
         slot.SetIcon(icon);
 
         // 슬롯 업데이트 해줌
-        StartCoroutine(UpdateSlot(slot, type, data));
-        slot.SetBuffInfo(data.Name, data.Description);
-
+        StartCoroutine(UpdateSlot(slot, (EBuffType)typeInt, debuffDataDuration, debuffDataStartTime));
+        slot.SetBuffInfo(debuffDataName.BytesToString(), debuffDataDescription.BytesToString());
     }
 
     /// <summary>
     /// 디버프 시간 기준으로 UI 업데이트 → 시간이 끝나면 자동 제거
     /// </summary>
-    private IEnumerator UpdateSlot(UIBuffSlot slot, DebuffType type, DebuffData data)
+    private IEnumerator UpdateSlot(UIBuffSlot slot, EBuffType type,float debuffDataDuration, float debuffDataStartTime)
     {
-        float duration = data.Duration;
+        float duration = debuffDataDuration;
 
         while (true)
         {
-            float elapsed = Time.time - data.StartTime;
+            float elapsed = Time.time - debuffDataStartTime;
             float remaining = Mathf.Clamp(duration - elapsed, 0, duration);
 
             float ratio = remaining / duration;

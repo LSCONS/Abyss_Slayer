@@ -11,8 +11,8 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
     [SerializeField] private Transform buffSlotParent;
 
 
-    private Dictionary<BuffType, GameObject> slotInstances = new();
-    private Dictionary<BuffType, BuffSlotPresenter> activePresenters = new();
+    private Dictionary<EBuffType, GameObject> slotInstances = new();
+    private Dictionary<EBuffType, BuffSlotPresenter> activePresenters = new();
 
     protected override void Awake()
     {
@@ -37,7 +37,7 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
     /// <summary>
     /// 새로운 버프가 추가되었을 때 외부에서 호출할 것
     /// </summary>
-    public void RegisterBuff(BuffType buffType, BuffSkill buffSkill)
+    public void RegisterBuff(EBuffType buffType, BuffSkill buffSkill)
     {
         if (activePresenters.ContainsKey(buffType))
             return;
@@ -60,7 +60,7 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
             })
             .AddTo(this);
     }
-    private void ShowBuffSlot(BuffType buffType, BuffSkill buffSkill)
+    private void ShowBuffSlot(EBuffType buffType, BuffSkill buffSkill)
     {
         var slotInstance = Instantiate(buffSlotPrefab, buffSlotParent);
         var view = slotInstance.GetComponent<UIBuffSlot>();
@@ -70,7 +70,7 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
         activePresenters[buffType] = presenter;
     }
 
-    private void HideBuffSlot(BuffType buffType, BuffSkill buffSkill)
+    private void HideBuffSlot(EBuffType buffType, BuffSkill buffSkill)
     {
         if (activePresenters.TryGetValue(buffType, out var presenter))
         {

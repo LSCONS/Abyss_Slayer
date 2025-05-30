@@ -1,14 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public enum DebuffType
-{
-    Stun,
-    Weaken,
-    Slow
-}
 
 // 디버프 데이터 클래스
 public class DebuffData

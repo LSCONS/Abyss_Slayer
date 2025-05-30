@@ -19,7 +19,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     [field: SerializeField] public ReactiveProperty<int>    MaxHp             { get; private set; } = new ReactiveProperty<int> (1000);
     [field: SerializeField] public bool                     IsRest            { get; set; }         = true;
     [field: SerializeField] public bool                     IsOpenSprtie     { get; set; }         = false;
-    private Dictionary<DebuffType, DebuffData>              ActiveDebuffs     { get; set; }         = new();   // 디버프 상태를 저장              
+    private Dictionary<EBuffType, DebuffData>              ActiveDebuffs     { get; set; }         = new();   // 디버프 상태를 저장              
     public ReactiveProperty<int>                            Hp                { get; private set; } = new ReactiveProperty<int>(1000);
     public bool                                             IsDead            { get; private set;}  = false;
     public float                                            DamageMultiplier  { get; set; }         = 1f;      // 보스가 받는 데미지 배율 (기본은 1.0)
@@ -299,7 +299,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// <param name="duration">디버프 지속 시간</param>
     /// <param name="onApply">적용 시 실행할 행동</param>
     /// <param name="onExpire">디버프 끝날 시 실행할 행동</param>
-    public void ApplyDebuff(DebuffType debuffType, float duration, Action onApply = null, Action onExpire = null)
+    public void ApplyDebuff(EBuffType debuffType, float duration, Action onApply = null, Action onExpire = null)
     {
 #if AllMethodDebug
         Debug.Log("ApplyDebuff");
@@ -339,7 +339,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// <param name="type">자동으로 해제시킬 디버프 타입</param>
     /// <param name="duration">디버프 지속 시간</param>
     /// <returns></returns>
-    private IEnumerator RemoveDebuffAfterTime(DebuffType type, float duration)
+    private IEnumerator RemoveDebuffAfterTime(EBuffType type, float duration)
     {
 #if AllMethodDebug
         Debug.Log("RemoveDebuffAfterTime");
@@ -357,7 +357,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// </summary>
     /// <param name="type">확인할 디버프 타입</param>
     /// <returns></returns>
-    public bool HasDebuff(DebuffType type)
+    public bool HasDebuff(EBuffType type)
     {
 #if AllMethodDebug
         Debug.Log("HasDebuff");
@@ -370,7 +370,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
-    public DebuffData GetDebuffData(DebuffType type)
+    public DebuffData GetDebuffData(EBuffType type)
     {
 #if AllMethodDebug
         Debug.Log("GetDebuffData");

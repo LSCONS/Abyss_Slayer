@@ -7,11 +7,11 @@ using UnityEngine;
 /// </summary>
 public static class DebuffEffectFactory
 {
-    public static IDebuff Create(DebuffType type)
+    public static IDebuff Create(EBuffType type)
     {
         switch (type)
         {
-            case DebuffType.Weaken:
+            case EBuffType.Weaken:
                 return new WeakenDebuff();
             default:
                 Debug.LogWarning($"이상한 디버프 들어옴");

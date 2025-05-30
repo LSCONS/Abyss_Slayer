@@ -6,7 +6,7 @@ using UnityEngine;
 public class DebuffAreaSkill : AreaSkill
 {
     [Header("디버프 타입 설정")]
-    [SerializeField] private DebuffType debuffType;
+    [SerializeField] private EBuffType debuffType;
     [Header("디버프 지속시간 설정")]
     [SerializeField] private float debuffDuration = 3f;
 
@@ -27,7 +27,7 @@ public class DebuffAreaSkill : AreaSkill
                 {
                     effect.Apply(boss, effectAmount);   // 디버프 효과 적용시킴 ui등록 해줘야됨
                     DebuffData data = boss.GetDebuffData(debuffType);
-                    UIBossBuffSlotManager.Instance.CreateSlot(debuffType, data, SkillIcon);
+                    UIBossBuffSlotManager.Instance.CreateSlot((int)debuffType, data.Name.StringToBytes(), data.Description.StringToBytes(), data.Duration, data.StartTime, SkillIcon);
                 },
                 onExpire: () => effect.Expire(boss)
             );
