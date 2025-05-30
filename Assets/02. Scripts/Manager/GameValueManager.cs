@@ -42,11 +42,19 @@ public class GameValueManager : Singleton<GameValueManager>
     //현재 배틀 스테이지
     public int CurrentStageIndex { get; private set; } = 0;
     public bool IsStageClear { get; private set; } = false;
-    public string GameClearTime
+    public string GameSoloClearTime
     {
         get 
         {
-            return PlayerPrefs.GetString("ClearTime", "하드 모드를 클리어 해주세요.");
+            return PlayerPrefs.GetString(PlayerPrefabData.SoloClearTime, $"[닉네임]\n해금 조건: 하드 모드 1인 클리어");
+        }
+    }
+
+    public string GameMultiClearTime
+    {
+        get
+        {
+            return PlayerPrefs.GetString(PlayerPrefabData.MultiClearTime, $"[닉네임]\n해금 조건: 하드 모드 2인 이상 클리어");
         }
     }
 

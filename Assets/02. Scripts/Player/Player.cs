@@ -527,6 +527,7 @@ public class Player : NetworkBehaviour, IHasHealth
     public void AddSkillPoint(int count)
     {
         SkillPoint.Value += count;
+        ServerManager.Instance.UISkillUpgradeStore?.Init();
     }
 
 
@@ -537,5 +538,6 @@ public class Player : NetworkBehaviour, IHasHealth
     public void AddStatusPoint(int count)
     {
         StatPoint.Value += count;
+        ServerManager.Instance.UIStatUpgradeStore?.Init();
     }
 }

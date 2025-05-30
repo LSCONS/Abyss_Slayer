@@ -66,6 +66,8 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public UIReadyBossStage UIReadyBossStage { get; set; }
     public UIBossState UIBossState { get; set; }
     public UIPlayerState UIPlayerState { get; set; }
+    public UISkillUpgradeStore UISkillUpgradeStore { get; set; }
+    public UIStatUpgradeStore UIStatUpgradeStore { get; set; }
     public Vector3 Vec3PlayerBattlePosition { get; private set; } = new Vector3(-18, 1.5f, 0);
     public Vector3 Vec3PlayerRestPosition { get; private set; } = new Vector3(-5, 1.5f, 0);
     public Action<bool> IsAllReadyAction { get; set; }
@@ -560,11 +562,18 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         {
             runner.Despawn(DictRefToPlayer[player].GetComponent<NetworkObject>());
             runner.Despawn(DictRefToNetData[player].GetComponent<NetworkObject>());
+            DictRefToNetData.Remove(player);
+            DictRefToPlayer.Remove(player);
 
             LobbySelectPanel?.CheckAllPlayerIsReady();
+            bool isAllReday = CheckAllPlayerIsReadyInServer();
+            IsAllReadyAction?.Invoke(isAllReday);
         }
-        DictRefToNetData.Remove(player);
-        DictRefToPlayer.Remove(player);
+        else
+        {
+            DictRefToNetData.Remove(player);
+            DictRefToPlayer.Remove(player);
+        }
     }
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }

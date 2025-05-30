@@ -3,8 +3,7 @@ using System;
 // 디버프 데이터 클래스
 public class DebuffData
 {
-    public float Duration;      // 디버프 지속 시간
-    public float StartTime;     // 디버프 시작 시간
+    public float Duration { get; set; }      // 디버프 지속 시간
     public Action OnApply;      // 디버프 처음 적용되면 실행될 액션
     public Action OnExpire;     // 디버프 해제되면 실행될 액션
 

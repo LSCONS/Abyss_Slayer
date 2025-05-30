@@ -411,9 +411,9 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     public void SaveVolumeSettings()
     {
-        PlayerPrefs.SetFloat("Volume_Master", masterVolume);
-        PlayerPrefs.SetFloat("Volume_BGM", bgmVolume);
-        PlayerPrefs.SetFloat("Volume_SFX", sfxVolume);
+        PlayerPrefs.SetFloat(PlayerPrefabData.Volume_Master, masterVolume);
+        PlayerPrefs.SetFloat(PlayerPrefabData.Volume_BGM, bgmVolume);
+        PlayerPrefs.SetFloat(PlayerPrefabData.Volume_SFX, sfxVolume);
         PlayerPrefs.Save();
     }
 
@@ -422,9 +422,9 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     public void LoadVolumeSettings()
     {
-        masterVolume = PlayerPrefs.GetFloat("Volume_Master", 0.5f); // 기본값 1
-        bgmVolume = PlayerPrefs.GetFloat("Volume_BGM", 1f);
-        sfxVolume = PlayerPrefs.GetFloat("Volume_SFX", 1f);
+        masterVolume = PlayerPrefs.GetFloat(PlayerPrefabData.Volume_Master, 0.5f); // 기본값 1
+        bgmVolume = PlayerPrefs.GetFloat(PlayerPrefabData.Volume_BGM, 1f);
+        sfxVolume = PlayerPrefs.GetFloat(PlayerPrefabData.Volume_SFX, 1f);
 
         // AudioMixer에도 즉시 반영
         SetMasterVolume(masterVolume);

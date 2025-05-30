@@ -55,10 +55,12 @@ public class RestState : BaseGameState
         var runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
-            if(ServerManager.Instance.PoolManager == null)
+            ServerManager.Instance.AllPlayerIsReadyFalse();
+            if (ServerManager.Instance.PoolManager == null)
             {
                 ServerManager.Instance.PoolManager = runner.Spawn(DataManager.Instance.PoolManagerPrefab);
             }
+
             NetworkObject boss = runner.Spawn
             (
                 DataManager.Instance.DictEnumToBossObjcet[EBossStage.Rest],
@@ -129,7 +131,6 @@ public class RestState : BaseGameState
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
         if (runner.IsServer)
         {
-
 #if MoveSceneDebug
             Debug.Log("1초만 기다려줘");
 #endif
