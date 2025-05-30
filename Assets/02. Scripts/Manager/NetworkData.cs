@@ -520,8 +520,9 @@ public class NetworkData : NetworkBehaviour
     }
 
 
-    public void Rpc_CreateBossBuffSlot()
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_CreateBossBuffSlot(int buffTypeInt, byte[] debuffDataName, byte[] debuffDataDescription, float debuffDataDuration, float debuffDataStartTime)
     {
-
+        UIBossBuffSlotManager.Instance.CreateSlot(buffTypeInt, debuffDataName.BytesToString(), debuffDataDescription.BytesToString(), debuffDataDuration, debuffDataStartTime);
     }
 }

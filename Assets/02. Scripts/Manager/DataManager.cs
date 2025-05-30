@@ -39,7 +39,7 @@ public class DataManager : Singleton<DataManager>
     public Player PlayerPrefab { get; private set; }
     public GameObject DashEffectPrefab { get; private set; }
     public FadeController ShieldPrefab { get; private set; }
-    public NetworkObjectFollowServer CrossHairPrefab {  get; private set; }
+    public NetworkObjectFollowServer CrossHairPrefab { get; private set; }
     public UITeamStatusSlot PlayerStatusPrefab { get; private set; }
     public Fireworks FireworksPrefab { get; private set; }
     public List<BasePoolable> ListBasePoolablePrefab { get; private set; } = new();
@@ -53,6 +53,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothTop { get; set; } = new();
     public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothBot { get; set; } = new();
     public Dictionary<CharacterClass, Sprite> DictClassToImage { get; set; } = new();
+    public Dictionary<EBuffType, Sprite> DictBuffToSprite { get; set; } = new();
     private int[] HairColorVariants { get; set; } = new int[] { 1, 2, 4, 5, 6, 10 };  // 클래스별 머리색 c1,c2...
     public int MaxHairFKey, MaxHairMKey, MaxSkinKey, MaxFaceKey;
     public Dictionary<EType, Type> DictEnumToType { get; set; } = new()
@@ -78,7 +79,24 @@ public class DataManager : Singleton<DataManager>
         await DataLoadCharacterToSpriteData();
         await DataLoadPoolObjectData();
         await DataLoadAnimatorControllerData();
+        await DataLoadBuffSpriteData();
 
+        return;
+    }
+
+
+    public async Task DataLoadBuffSpriteData()
+    {
+#if AllMethodDebug
+        Debug.Log("DataLoadBuffSpriteData");
+#endif
+        var data = Addressables.LoadAssetAsync<BuffSpriteDataGather>("BuffSpriteDatas");
+        await data.Task;
+        foreach (BuffSpriteData buffData in data.Result.ListBuffImageData)
+        {
+            if(buffData.BuffSprite == null) continue;
+            DictBuffToSprite[buffData.EBuffType] = buffData.BuffSprite;
+        }
         return;
     }
 
@@ -104,7 +122,7 @@ public class DataManager : Singleton<DataManager>
                 ListBasePoolablePrefab.Add(poolable);
                 types.Add(poolable.GetType());
             }
-            
+
         );
         await poolablePrefabs.Task;
         return;
@@ -159,7 +177,7 @@ public class DataManager : Singleton<DataManager>
 
         var crossHair = Addressables.LoadAssetAsync<GameObject>("CrossHairPrefab");
         await crossHair.Task;
-        CrossHairPrefab = crossHair.Result.GetComponent< NetworkObjectFollowServer>();
+        CrossHairPrefab = crossHair.Result.GetComponent<NetworkObjectFollowServer>();
         if (CrossHairPrefab == null) { Debug.Log("Error Player is null"); }
 
         var networkData = Addressables.LoadAssetAsync<GameObject>("NetworkData");
@@ -175,7 +193,7 @@ public class DataManager : Singleton<DataManager>
         var shieldPrefab = Addressables.LoadAssetAsync<GameObject>("ShieldPrefab");
         await shieldPrefab.Task;
         ShieldPrefab = shieldPrefab.Result.GetComponent<FadeController>();
-        if(ShieldPrefab == null) { Debug.Log("Error ShieldPrefab is null"); }
+        if (ShieldPrefab == null) { Debug.Log("Error ShieldPrefab is null"); }
 
         var teamStatusSlot = Addressables.LoadAssetAsync<GameObject>("TeamStatusSlot");
         await teamStatusSlot.Task;
@@ -186,7 +204,7 @@ public class DataManager : Singleton<DataManager>
         await fireworksPrefab.Task;
         FireworksPrefab = fireworksPrefab.Result.GetComponent<Fireworks>();
         if (FireworksPrefab == null) { Debug.Log("Error FireworksPrefab is null"); }
-        
+
         return;
     }
 
@@ -237,7 +255,7 @@ public class DataManager : Singleton<DataManager>
             Debug.LogError($"PlayerData초기화 실패: {ex}");
         }
 
-        foreach(var dict in DictClassToPlayerData)
+        foreach (var dict in DictClassToPlayerData)
         {
             if (dict.Value.PlayerStatusData.ClassImageSprite == null) continue;
             DictClassToImage[dict.Key] = dict.Value.PlayerStatusData.ClassImageSprite;
@@ -394,7 +412,7 @@ public class DataManager : Singleton<DataManager>
         }
         return;
     }
-    
+
 
     /// <summary>
     /// 딕셔너리를 복사해서 반환해주는 메서드

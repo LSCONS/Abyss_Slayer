@@ -13,30 +13,31 @@ public class UIBossBuffSlotManager : Singleton<UIBossBuffSlotManager>
     /// <summary>
     /// 보스 디버프 UI 슬롯 생성
     /// </summary>
-    public void CreateSlot(int typeInt, byte[] debuffDataName, byte[] debuffDataDescription, float debuffDataDuration, float debuffDataStartTime, Sprite icon)
+    public void CreateSlot(int buffTypeInt, string debuffDataName, string debuffDataDescription, float debuffDataDuration, float debuffDataStartTime)
     {
         GameObject slotOb;
 
         // 이미 전에 있었는지 확인하고 있으면 그거 재사용해야됨
-        if(debuffSlot.TryGetValue((EBuffType)typeInt, out slotOb))
+        if(debuffSlot.TryGetValue((EBuffType)buffTypeInt, out slotOb))
         {
             slotOb.SetActive(true);
         }
         else
         {
             slotOb = Instantiate(buffSlotPrefab, buffSlotParent);
-            debuffSlot[(EBuffType)typeInt] = slotOb;
+            debuffSlot[(EBuffType)buffTypeInt] = slotOb;
             // 새로 생기면 젤 앞으로 보내주고 싶음
             slotOb.transform.SetAsLastSibling();
         }
         var slot = slotOb.GetComponent<UIBuffSlot>();
 
-        // 아이콘 설정
+        // 아이콘 설정 찾을 수 없다면 return
+        if (!(DataManager.Instance.DictBuffToSprite.TryGetValue((EBuffType)buffTypeInt, out Sprite icon))) return;
         slot.SetIcon(icon);
 
         // 슬롯 업데이트 해줌
-        StartCoroutine(UpdateSlot(slot, (EBuffType)typeInt, debuffDataDuration, debuffDataStartTime));
-        slot.SetBuffInfo(debuffDataName.BytesToString(), debuffDataDescription.BytesToString());
+        StartCoroutine(UpdateSlot(slot, (EBuffType)buffTypeInt, debuffDataDuration, debuffDataStartTime));
+        slot.SetBuffInfo(debuffDataName, debuffDataDescription);
     }
 
     /// <summary>

@@ -1,3 +1,4 @@
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +28,7 @@ public class DebuffAreaSkill : AreaSkill
                 {
                     effect.Apply(boss, effectAmount);   // 디버프 효과 적용시킴 ui등록 해줘야됨
                     DebuffData data = boss.GetDebuffData(debuffType);
-                    UIBossBuffSlotManager.Instance.CreateSlot((int)debuffType, data.Name.StringToBytes(), data.Description.StringToBytes(), data.Duration, data.StartTime, SkillIcon);
+                    ServerManager.Instance.ThisPlayerData.Rpc_CreateBossBuffSlot((int)debuffType, data.Name.StringToBytes(), data.Description.StringToBytes(), data.Duration, data.StartTime);
                 },
                 onExpire: () => effect.Expire(boss)
             );
