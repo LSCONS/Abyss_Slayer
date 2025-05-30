@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.UI;
 
 
 /// <summary>
@@ -51,6 +52,7 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponBot { get; set; } = new();
     public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothTop { get; set; } = new();
     public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothBot { get; set; } = new();
+    public Dictionary<CharacterClass, Image> DictClassToImage { get; set; } = new();
     private int[] HairColorVariants { get; set; } = new int[] { 1, 2, 4, 5, 6, 10 };  // 클래스별 머리색 c1,c2...
     public int MaxHairFKey, MaxHairMKey, MaxSkinKey, MaxFaceKey;
     public Dictionary<EType, Type> DictEnumToType { get; set; } = new()
@@ -234,6 +236,13 @@ public class DataManager : Singleton<DataManager>
         {
             Debug.LogError($"PlayerData초기화 실패: {ex}");
         }
+
+        foreach(var dict in DictClassToPlayerData)
+        {
+            if (dict.Value.PlayerStatusData.ClassImageSprite == null) continue;
+            DictClassToImage[dict.Key] = dict.Value.PlayerStatusData.ClassImageSprite;
+        }
+
         return;
     }
 
