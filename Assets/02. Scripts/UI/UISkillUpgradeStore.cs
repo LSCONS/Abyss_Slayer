@@ -29,6 +29,10 @@ public class UISkillUpgradeStore : UIPopup
     }
     private Dictionary<Skill, SkillUpgradeData> upgradeData = new();
 
+    public void Awake()
+    {
+        ServerManager.Instance.UISkillUpgradeStore = this;
+    }
     public async override void Init()
     {
         base.Init();
@@ -72,7 +76,6 @@ public class UISkillUpgradeStore : UIPopup
 
     public override void OnOpen()
     {
-        Init();
         if (ServerManager.Instance.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
         base.OnOpen();
     }

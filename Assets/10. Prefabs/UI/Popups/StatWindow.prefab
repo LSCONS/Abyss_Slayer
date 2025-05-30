@@ -223,12 +223,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 553962029491798504}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a75acb2498138f42ad3b1b082ff9395, type: 3}
+  m_Script: {fileID: 11500000, guid: b53c8adad32ca5249aa09bb69a606ab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   uiType: 130
   uISceneType: 16
-  desc: {fileID: 0}
+  desc: {fileID: 9219066627022621840}
   hpLevelText: {fileID: 5414051937196846200}
   damageLevelText: {fileID: 3456686531902817226}
   hpFigure: {fileID: 8800153997857969026}
@@ -3458,6 +3458,7 @@ MonoBehaviour:
   isClose: 1
   popupName: 
   alarmIcon: {fileID: 0}
+  escCanOpen: 0
 --- !u!1 &9138387484680212608
 GameObject:
   m_ObjectHideFlags: 0
