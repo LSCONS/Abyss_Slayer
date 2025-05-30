@@ -21,15 +21,15 @@ MonoBehaviour:
     height: 30
   globalAttackableAreas: []
   gizmoColor: {r: 1, g: 0, b: 0, a: 0.15686275}
-  <EAudioClip>k__BackingField: 
+  <EAudioClip>k__BackingField: 27030000
   damage: 300
   projectileCountPerAttack: 2
   AttackCount: 9
   startAngle: 15
-  startSpeed: 0
-  distance: 0
+  startSpeed: 25
+  distance: 13
   color: 0
   spawnGap: 0
-  preDelayTime: 0
-  fireIntervalTime: 0
-  postDelayTime: 0
+  preDelayTime: 1.5
+  fireIntervalTime: 0.2
+  postDelayTime: 0.5
