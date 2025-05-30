@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UISkillUpgradeController : UIPopup
+public class UISkillUpgradeStore : UIPopup
 {
     [Header("스킬 슬롯 프리팹")]
     [SerializeField] private GameObject skillSlotPrefab;
@@ -72,6 +72,7 @@ public class UISkillUpgradeController : UIPopup
 
     public override void OnOpen()
     {
+        Init();
         if (ServerManager.Instance.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
         base.OnOpen();
     }

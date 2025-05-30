@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Analytics;
 
-public class UIStatStore : UIPopup
+public class UIStatUpgradeStore : UIPopup
 {
     [SerializeField] TextMeshProUGUI hpLevelText;
     [SerializeField] TextMeshProUGUI damageLevelText;
@@ -83,8 +83,9 @@ public class UIStatStore : UIPopup
 
     public override void OnOpen()
     {
-        base.OnOpen();
+        Init();
         if (ServerManager.Instance.ThisPlayer.StatPoint.Value > 0) SetAllUpgradeBtn(true);
+        base.OnOpen();
     }
 
     public override void Close()
