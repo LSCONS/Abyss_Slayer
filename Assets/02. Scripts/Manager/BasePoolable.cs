@@ -39,7 +39,7 @@ public abstract class BasePoolable : NetworkBehaviour
         gameObject.SetActive(false);
         if (Runner.IsServer)
         {
-            _pool.ReturnToPool(this);
+            _pool?.ReturnToPool(this);
         }
     }
 }

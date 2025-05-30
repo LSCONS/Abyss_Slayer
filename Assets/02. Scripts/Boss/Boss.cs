@@ -124,12 +124,12 @@ public class Boss : NetworkBehaviour, IHasHealth
         Hp.Value = Mathf.Clamp(Hp.Value + value, 0, MaxHp.Value);
         if (Hp.Value == 0)
         {
+            GameValueManager.Instance.SetClearStage(true);
             IsDead = true;
+            PoolManager.Instance.CrossHairObject?.gameObject.SetActive(false);
             ServerManager.Instance.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(true);
             BossController.OnDead();
             if (Runner.IsServer) PoolManager.Instance.ReturnPoolAllObject();
-            PoolManager.Instance.CrossHairObject.gameObject.SetActive(false);
-            GameValueManager.Instance.SetClearStage(true);
         }
     }
 
