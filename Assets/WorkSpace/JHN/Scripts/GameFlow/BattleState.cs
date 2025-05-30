@@ -146,7 +146,7 @@ public class BattleState : BaseGameState
                             //여러 사람과 플레이 했을 때
                             if(runner.SessionInfo.PlayerCount > 1)
                             {
-                                ServerManager.Instance.ThisPlayerData.Rpc_MultiClearTime(Util.GetNowTimeStirng().StringToBytes());
+                                ServerManager.Instance.ThisPlayerData.Rpc_MultiClearTime(Util.GetNowTimeStirng().StringToBytes(), runner.SessionInfo.PlayerCount);
                             }
                             else//혼자서 플레이 했을 때
                             {
@@ -160,7 +160,6 @@ public class BattleState : BaseGameState
                     {
                         ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
                     }
-
                 }
             }
         }

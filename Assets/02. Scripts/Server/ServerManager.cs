@@ -174,6 +174,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         await WaitForPoolManager();
         while (PoolManager.CrossHairObject == null)
         {
+            PoolManager.CrossHairObject = FindAnyObjectByType<NetworkObjectFollowServer>();
             await Task.Delay(100);
         }
         return;
@@ -187,6 +188,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 #endif
         while (PoolManager == null)
         {
+            PoolManager = FindAnyObjectByType<PoolManager>();
             await Task.Delay(100);
         }
         return;
