@@ -61,8 +61,8 @@ public class PlayerStatusData
     [field: Header("해당 직업의 클래스 설정")]
     [field: SerializeField] public CharacterClass Class { get; private set; }
 
-    [field: Header("플레이어 체력 재생 수치(1이면 1씩 회복)")]
-    [field: SerializeField] public int HealingHealth { get; private set; } = 1;
+    [field: Header("플레이어 체력 재생 수치(1이면 최대 체력의 100%씩 회복)")]
+    [field: SerializeField] public float HealingHealth { get; private set; } = 0.1f;
 
     [field: Header("플레이어 체력 재생 시간 기준(1이면 1초마다)")]
     [field: SerializeField] public float HealingDelay { get; private set; } = 1;
