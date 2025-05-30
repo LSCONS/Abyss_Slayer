@@ -55,7 +55,8 @@ public class RestState : BaseGameState
         var runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
-            if(ServerManager.Instance.PoolManager == null)
+            ServerManager.Instance.AllPlayerIsReadyFalse();
+            if (ServerManager.Instance.PoolManager == null)
             {
                 ServerManager.Instance.PoolManager = runner.Spawn(DataManager.Instance.PoolManagerPrefab);
             }
