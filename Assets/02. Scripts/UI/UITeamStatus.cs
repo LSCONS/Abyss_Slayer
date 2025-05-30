@@ -22,6 +22,7 @@ public class UITeamStatus : UIPermanent
                 DictRefToSlot[playerRef].playerRef = playerRef;
                 DictRefToSlot[playerRef].ChagneInRestText();
                 DictRefToSlot[playerRef].ConnectUIHpBar();
+                DictRefToSlot[playerRef].SetIcon(ServerManager.Instance.DictRefToNetData[playerRef].Class);
             }
         }
         gameObject.SetActive(true);

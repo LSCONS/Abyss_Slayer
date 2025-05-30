@@ -68,7 +68,7 @@ public class PlayerStatusData
     [field: SerializeField] public float HealingDelay { get; private set; } = 1;
 
     [field: Header("직업 이미지")]
-    [field: SerializeField] public Image ClassImageSprite { get; private set; } = null;
+    [field: SerializeField] public Sprite ClassImageSprite { get; private set; } = null;
     public float HealingCurTime { get; set; } = 0;
     //플레이어의 사망 여부
     public bool IsDead { get; set; } = false;

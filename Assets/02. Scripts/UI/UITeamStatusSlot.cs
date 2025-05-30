@@ -12,6 +12,7 @@ public class UITeamStatusSlot : MonoBehaviour
     [field: SerializeField] public Image ImgPalyerHP { get; private set; }
     [field: SerializeField] public TextMeshProUGUI TextReadyPlayer { get; private set; }
     [field: SerializeField] public UIHealthBar UIHealthBar { get; private set; }
+    [field:SerializeField] public Image classIcon { get; private set; }
     public string OnReadyText { get; private set; } = "[준비 완료]";
     public string OffReadyText { get; private set; } = "[준비 중...]";
     public string InGameText { get; private set; } = "[게임 중...]";
@@ -48,5 +49,13 @@ public class UITeamStatusSlot : MonoBehaviour
     {
         TextReadyPlayer.text = InGameText;
         TextReadyPlayer.color = Color.yellow;
+    }
+
+    public void SetIcon(CharacterClass cls)
+    {
+        if (DataManager.Instance.DictClassToImage.TryGetValue(cls, out var icon))
+        {
+            classIcon.sprite = icon;
+        }
     }
 }
