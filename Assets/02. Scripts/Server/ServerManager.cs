@@ -214,10 +214,10 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     /// 모든 플레이어의 준비가 true가 될 때까지 대기하는 메서드
     /// </summary>
     /// <returns></returns>
-    public async Task WaitForAllPlayerIsReady()
+    public async Task WaitForAllPlayerIsReadyTrue()
     {
 #if AllMethodDebug
-        Debug.Log("WaitForAllPlayerIsReady");
+        Debug.Log("WaitForAllPlayerIsReadyTrue");
 #endif
         while (true)
         {
@@ -228,8 +228,36 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
                 if(data.IsReady) isReadyPlayerCount++;
             }
 
-            await Task.Delay(100);
+            await Task.Yield();
             if(sessionPlayerCount == isReadyPlayerCount)
+            {
+                break;
+            }
+        }
+        return;
+    }
+
+
+    /// <summary>
+    /// 모든 플레이어의 준비가 true가 될 때까지 대기하는 메서드
+    /// </summary>
+    /// <returns></returns>
+    public async Task WaitForAllPlayerIsReadyFalse()
+    {
+#if AllMethodDebug
+        Debug.Log("WaitForAllPlayerIsReadyFalse");
+#endif
+        while (true)
+        {
+            int sessionPlayerCount = RunnerManager.Instance.GetRunner().SessionInfo.PlayerCount;
+            int isReadyPlayerCount = 0;
+            foreach (NetworkData data in DictRefToNetData.Values)
+            {
+                if (!(data.IsReady)) isReadyPlayerCount++;
+            }
+
+            await Task.Yield();
+            if (sessionPlayerCount == isReadyPlayerCount)
             {
                 break;
             }
@@ -557,41 +585,42 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 
     //플레이어가 나갔을 때 다른 플레이어들에게 실행되는 메서드. runner.SessionInfo는 유효하지만 해당 세션의 인원수는 감소된 형태로 적용된다.
     //나간 플레이어는 해당 메서드를 실행시키지 못한다.
-    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
+    public void OnPlayerLeft(NetworkRunner runner, PlayerRef playerRef)
     {
         //누군가 방에서 나갔을 때 서버가 해당 플레이어의 데이터를 삭제하고 모든 플레이어에게 업데이트 하는 메서드
+        if(DictRefToNetData.TryGetValue(playerRef, out var networkData))
+        {
+            if (runner.IsServer)
+            {
+                runner.Despawn(networkData.GetComponent<NetworkObject>());
+            }
+            DictRefToNetData.Remove(playerRef);
+        }
+
+        if (DictRefToPlayer.TryGetValue(playerRef, out var player))
+        {
+            if (runner.IsServer)
+            {
+                runner.Despawn(player.GetComponent<NetworkObject>());
+            }
+            DictRefToPlayer.Remove(playerRef);
+        }
+
+
         if (runner.IsServer)
         {
-            runner.Despawn(DictRefToPlayer[player].GetComponent<NetworkObject>());
-            runner.Despawn(DictRefToNetData[player].GetComponent<NetworkObject>());
-            DictRefToNetData.Remove(player);
-            DictRefToPlayer.Remove(player);
-
             LobbySelectPanel?.CheckAllPlayerIsReady();
             bool isAllReday = CheckAllPlayerIsReadyInServer();
             IsAllReadyAction?.Invoke(isAllReday);
         }
-        else
-        {
-            DictRefToNetData.Remove(player);
-            DictRefToPlayer.Remove(player);
-        }
     }
+
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }
     public void OnSceneLoadDone(NetworkRunner runner) { }
     public void OnSceneLoadStart(NetworkRunner runner) { }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        //플레이어가 없는 터진 방은 보이지 않도록 함.
-        //List<SessionInfo> temp = new List<SessionInfo>();
-        //foreach (SessionInfo sessionInfo in sessionList)
-        //{
-        //    if (sessionInfo.PlayerCount == 0) continue;
-        //    if (!(sessionInfo.IsOpen)) continue;
-        //    temp.Add(sessionInfo);
-        //}
-
         CurrentSessionList = sessionList;
         try
         {

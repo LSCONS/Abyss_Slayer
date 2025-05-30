@@ -70,7 +70,6 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Despawned");
 #endif
-        ServerManager.Instance.DictRefToNetData.Remove(PlayerDataRef);
         try
         {
             ServerManager.Instance.LobbyMainPanel.SetActiveFalseRef(PlayerDataRef);

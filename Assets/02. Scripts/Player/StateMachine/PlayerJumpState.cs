@@ -74,7 +74,7 @@ public class PlayerJumpState : PlayerAirState
     {
         if (ChangeSpriteTime + CurTime < Time.time)
         {
-            CurTime = Time.time;
+            CurTime = ChangeSpriteTime + CurTime;
             playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Jump, ++animationNum);
         }
     }
