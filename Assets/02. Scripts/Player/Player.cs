@@ -23,8 +23,8 @@ public enum CharacterClass
 )]
 public class Player : NetworkBehaviour, IHasHealth
 {
-    [field: SerializeField] public Rigidbody2D playerRigidbody { get; private set; }
-    [field: SerializeField] public PlayerCheckGround playerCheckGround { get; private set; }
+    [field: SerializeField] public Rigidbody2D PlayerRigidbody { get; private set; }
+    [field: SerializeField] public PlayerCheckGround PlayerCheckGround { get; private set; }
     [field: SerializeField] public BoxCollider2D PlayerGroundCollider { get; private set; }
     [field: SerializeField] public BoxCollider2D PlayerMeleeCollider { get; private set; }
     [field: SerializeField] public SpriteChange PlayerSpriteChange { get; private set; }
@@ -68,7 +68,7 @@ public class Player : NetworkBehaviour, IHasHealth
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
         InitPlayerData();
-        playerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
+        PlayerCheckGround.playerTriggerOff += PlayerColliderTriggerOff;
         PlayerStateMachine = new PlayerStateMachine(this);
         PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState, true);
         transform.position = PlayerPosition;
@@ -158,12 +158,12 @@ public class Player : NetworkBehaviour, IHasHealth
     public async Task PlayerPositionReset(Vector2 position)
     {
         Rpc_SetAcitvePlayer(true);
-        playerRigidbody.gravityScale = 0f;
+        PlayerRigidbody.gravityScale = 0f;
         while ((Vector2)transform.position != position)
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState, true);
             PlayerStateIndex = PlayerStateMachine.GetIntDictStateToInit(PlayerStateMachine.IdleState);
-            playerRigidbody.velocity = Vector2.zero;
+            PlayerRigidbody.velocity = Vector2.zero;
             PlayerPosition = position;
             transform.position = position;
             PlayerData.PlayerStatusData.IsDead = false;
@@ -271,7 +271,7 @@ public class Player : NetworkBehaviour, IHasHealth
     private void InitPlayerData()
     {
         //TODO: 임시 플레이어 데이터 복사 나중에 개선 필요
-        playerCheckGround.Init(this);
+        PlayerCheckGround.Init(this);
         // 선택된 클래스 정보 가져옴
         CharacterClass playerCharacterClass = NetworkData.Class;
 
