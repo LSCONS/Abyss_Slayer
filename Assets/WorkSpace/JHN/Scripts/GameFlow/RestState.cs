@@ -131,7 +131,6 @@ public class RestState : BaseGameState
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
         if (runner.IsServer)
         {
-
 #if MoveSceneDebug
             Debug.Log("1초만 기다려줘");
 #endif

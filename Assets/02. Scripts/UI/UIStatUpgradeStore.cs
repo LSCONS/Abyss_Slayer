@@ -41,6 +41,10 @@ public class UIStatUpgradeStore : UIPopup
     private int BaseMaxHp { get; set; } = 0;
     private float BaseDamage { get; set; } = 0;
 
+    public void Awake()
+    {
+        ServerManager.Instance.UIStatUpgradeStore = this;
+    }
     public override async void Init()
     {
 # if AllMethodDebug
@@ -83,7 +87,6 @@ public class UIStatUpgradeStore : UIPopup
 
     public override void OnOpen()
     {
-        Init();
         if (ServerManager.Instance.ThisPlayer.StatPoint.Value > 0) SetAllUpgradeBtn(true);
         base.OnOpen();
     }
