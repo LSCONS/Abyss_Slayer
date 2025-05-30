@@ -25,10 +25,11 @@ public class ThrowRockData : BasePatternData
             SoundManager.Instance.PlaySFX(EAudioClip[0]);
 
         ServerManager.Instance.InitSupporter.Rpc_StartGravityProjectileInit(damage, bossTransform.position + Vector3.up * spawnPositionY, rockSpeed, maxSpeed, minSpeed, playerRef, delayThrowTime, int.MaxValue, rockSize, gravityScale);
-        bossController.ChasingTarget = false;
-        bossController.ShowTargetCrosshair = false;
+        
         yield return new WaitForSeconds(1.2f + delayThrowTime);
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.IdleParameterHash);
         yield return new WaitForSeconds(postDelayTime);
+        bossController.ChasingTarget = false;
+        bossController.ShowTargetCrosshair = false;
     }
 }
