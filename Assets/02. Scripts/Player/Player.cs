@@ -417,8 +417,10 @@ public class Player : NetworkBehaviour, IHasHealth
     /// 버프 활성화 메서드
     /// </summary>
     /// <param name="value">활성화 여부</param>
-    public void SetBuff(Skill skill)
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_SetBuff(int slotKeyInt)
     {
+        Skill skill = DictSlotKeyToSkill[(SkillSlotKey)slotKeyInt];
         BuffSkill buffSkill = skill as BuffSkill;
         if (buffSkill != null)
         {

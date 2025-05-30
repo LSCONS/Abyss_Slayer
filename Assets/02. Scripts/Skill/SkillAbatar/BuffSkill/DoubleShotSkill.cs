@@ -8,6 +8,6 @@ public class DoubleShotSkill : BuffSkill
     public override void UseSkill()
     {
         base.UseSkill();
-        player.SetBuff(this);
+        player.Rpc_SetBuff((int)slotKey);
     }
 }
