@@ -28,6 +28,7 @@ public class Player : NetworkBehaviour, IHasHealth
     [field: SerializeField] public BoxCollider2D PlayerGroundCollider { get; private set; }
     [field: SerializeField] public BoxCollider2D PlayerMeleeCollider { get; private set; }
     [field: SerializeField] public SpriteChange PlayerSpriteChange { get; private set; }
+    [field: SerializeField] public GameObject LocalPlayerTargetObject { get; private set; }
     public PlayerStateMachine PlayerStateMachine { get; private set; }
     public PlayerData PlayerData { get; private set; }
     [field: Header("스킬 관련")]
@@ -77,6 +78,11 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             await ServerManager.Instance.WaitForPlayerState();
             ServerManager.Instance.UIPlayerState.UIHealthBar.ConnectPlayerObject(this);
+            LocalPlayerTargetObject.SetActive(true);
+        }
+        else
+        {
+            LocalPlayerTargetObject.SetActive(false);
         }
     }
 
