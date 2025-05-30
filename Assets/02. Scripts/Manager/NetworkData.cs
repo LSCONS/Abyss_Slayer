@@ -529,9 +529,9 @@ public class NetworkData : NetworkBehaviour
     /// <param name="debuffDataDuration"></param>
     /// <param name="debuffDataStartTime"></param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_CreateBossBuffSlot(int buffTypeInt, byte[] debuffDataName, byte[] debuffDataDescription, float debuffDataDuration, float debuffDataStartTime)
+    public void Rpc_CreateBossBuffSlot(int buffTypeInt, byte[] debuffDataName, byte[] debuffDataDescription, float debuffDataDuration)
     {
-        UIBossBuffSlotManager.Instance.CreateSlot(buffTypeInt, debuffDataName.BytesToString(), debuffDataDescription.BytesToString(), debuffDataDuration, debuffDataStartTime);
+        UIBossBuffSlotManager.Instance.CreateSlot(buffTypeInt, debuffDataName.BytesToString(), debuffDataDescription.BytesToString(), debuffDataDuration);
     }
 
 

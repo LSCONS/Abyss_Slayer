@@ -307,7 +307,6 @@ public class Boss : NetworkBehaviour, IHasHealth
         // 이미 존재하는 디버프만 시간 갱신
         if (ActiveDebuffs.ContainsKey(debuffType))
         {
-            ActiveDebuffs[debuffType].StartTime = Time.time;
             ActiveDebuffs[debuffType].Duration = duration;
             return;
         }
@@ -319,7 +318,6 @@ public class Boss : NetworkBehaviour, IHasHealth
         var debuff = new DebuffData
         {
             Duration = duration,
-            StartTime = Time.time,
             OnApply = onApply,
             OnExpire = onExpire,
             debuff = debuffeffect,
