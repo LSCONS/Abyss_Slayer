@@ -7,8 +7,8 @@ using UniRx;
 using UnityEngine;
 
 
-[RequireComponent(typeof(BoxCollider2D))]
-public class MeleeDamageCheck : MonoBehaviour
+[RequireComponent(typeof(BoxCollider2D), typeof(NetworkObject))]
+public class MeleeDamageCheck : NetworkBehaviour
 {
     public BoxCollider2D BoxCollider { get; set; }
     public Dictionary<GameObject, float> NextHitTime { get; private set; } = new();    // 맞은 시간 저장하는 딕셔너리
