@@ -19,7 +19,7 @@ public class UITeamStatus : UIPermanent
             if ((ServerManager.Instance.ThisPlayerRef != playerRef) && !(DictRefToSlot.ContainsKey(playerRef)))
             {
                 DictRefToSlot[playerRef] = Instantiate(DataManager.Instance.PlayerStatusPrefab, transform);
-                DictRefToSlot[playerRef].playerRef = playerRef;
+                DictRefToSlot[playerRef].SlotPlayerRef = playerRef;
                 DictRefToSlot[playerRef].ChagneInRestText();
                 DictRefToSlot[playerRef].ConnectUIHpBar();
             }

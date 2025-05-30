@@ -16,7 +16,7 @@ public class UITeamStatusSlot : MonoBehaviour
     public string OffReadyText { get; private set; } = "[준비 중...]";
     public string InGameText { get; private set; } = "[게임 중...]";
     public string ServerReadyText { get; private set; } = "[방장]";
-    public PlayerRef playerRef { get; set; }
+    public PlayerRef SlotPlayerRef { get; set; }
 
 
     /// <summary>
@@ -24,7 +24,7 @@ public class UITeamStatusSlot : MonoBehaviour
     /// </summary>
     public void ConnectUIHpBar()
     {
-        UIHealthBar.ConnectOtherPlayerObject(playerRef);
+        UIHealthBar.ConnectOtherPlayerObject(SlotPlayerRef);
     }
 
 
@@ -33,8 +33,8 @@ public class UITeamStatusSlot : MonoBehaviour
     /// </summary>
     public void ChagneInRestText()
     {
-        TextPlayerName.text = ServerManager.Instance.DictRefToNetData[playerRef].GetName();
-        if (ServerManager.Instance.DictRefToNetData[playerRef].IsServer)
+        TextPlayerName.text = ServerManager.Instance.DictRefToNetData[SlotPlayerRef].GetName();
+        if (ServerManager.Instance.DictRefToNetData[SlotPlayerRef].IsServer)
         {
             TextReadyPlayer.text = ServerReadyText;
             TextReadyPlayer.color = Color.red;
