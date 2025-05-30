@@ -295,25 +295,25 @@ public class Boss : NetworkBehaviour, IHasHealth
     /// <summary>
     /// 보스에게 디버프를 적용하는 메서드
     /// </summary>
-    /// <param name="type">적용할 디버프 종류</param>
+    /// <param name="debuffType">적용할 디버프 종류</param>
     /// <param name="duration">디버프 지속 시간</param>
     /// <param name="onApply">적용 시 실행할 행동</param>
     /// <param name="onExpire">디버프 끝날 시 실행할 행동</param>
-    public void ApplyDebuff(DebuffType type, float duration, Action onApply = null, Action onExpire = null)
+    public void ApplyDebuff(DebuffType debuffType, float duration, Action onApply = null, Action onExpire = null)
     {
 #if AllMethodDebug
         Debug.Log("ApplyDebuff");
 #endif
         // 이미 존재하는 디버프만 시간 갱신
-        if (ActiveDebuffs.ContainsKey(type))
+        if (ActiveDebuffs.ContainsKey(debuffType))
         {
-            ActiveDebuffs[type].StartTime = Time.time;
-            ActiveDebuffs[type].Duration = duration;
+            ActiveDebuffs[debuffType].StartTime = Time.time;
+            ActiveDebuffs[debuffType].Duration = duration;
             return;
         }
 
         // 디버프 인터페이스 넣어줌
-        IDebuff debuffeffect = DebuffEffectFactory.Create(type);
+        IDebuff debuffeffect = DebuffEffectFactory.Create(debuffType);
 
         // 새 디버프 데이터 생성 및 등록
         var debuff = new DebuffData
@@ -324,13 +324,13 @@ public class Boss : NetworkBehaviour, IHasHealth
             OnExpire = onExpire,
             debuff = debuffeffect,
         };
-        ActiveDebuffs[type] = debuff;
+        ActiveDebuffs[debuffType] = debuff;
 
         // 디버프 시작할 때 로직 실행
         debuff.OnApply?.Invoke();
 
         // 디버프 자동으로 끝내기
-        StartCoroutine(RemoveDebuffAfterTime(type, duration));
+        StartCoroutine(RemoveDebuffAfterTime(debuffType, duration));
     }
 
     /// <summary>

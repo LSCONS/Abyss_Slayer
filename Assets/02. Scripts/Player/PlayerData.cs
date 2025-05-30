@@ -1,6 +1,7 @@
 using System;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Player", menuName = "Data/Player")]
 public class PlayerData : ScriptableObject
@@ -65,6 +66,9 @@ public class PlayerStatusData
 
     [field: Header("플레이어 체력 재생 시간 기준(1이면 1초마다)")]
     [field: SerializeField] public float HealingDelay { get; private set; } = 1;
+
+    [field: Header("직업 이미지")]
+    [field: SerializeField] public Image ClassImageSprite { get; private set; } = null;
     public float HealingCurTime { get; set; } = 0;
     //플레이어의 사망 여부
     public bool IsDead { get; set; } = false;
