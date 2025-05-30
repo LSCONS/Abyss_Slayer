@@ -50,7 +50,7 @@ public class PlayerWalkState : PlayerGroundState
     {
         if (ChangeSpriteTime + CurTime < Time.time)
         {
-            CurTime = Time.time;
+            CurTime = ChangeSpriteTime + CurTime;
             playerStateMachine.Player.PlayerSpriteChange.SetLoopAnimation(AnimationState.Run1, ++animationNum);
         }
 

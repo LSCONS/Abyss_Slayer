@@ -34,7 +34,7 @@ public class PlayerAirState : PlayerBaseState
 
         if (input.IsJump &&
             input.MoveDir.y < 0f &&
-            playerStateMachine.Player.playerCheckGround.GroundPlatformCount > 0)
+            playerStateMachine.Player.PlayerCheckGround.GroundPlatformCount > 0)
         {
             playerStateMachine.Player.PlayerGroundCollider.isTrigger = true;
             playerStateMachine.DidDownJump = true;

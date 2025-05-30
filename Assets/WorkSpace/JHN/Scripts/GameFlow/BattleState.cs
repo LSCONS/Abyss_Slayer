@@ -146,7 +146,7 @@ public class BattleState : BaseGameState
                             //여러 사람과 플레이 했을 때
                             if(runner.SessionInfo.PlayerCount > 1)
                             {
-                                ServerManager.Instance.ThisPlayerData.Rpc_MultiClearTime(Util.GetNowTimeStirng().StringToBytes());
+                                ServerManager.Instance.ThisPlayerData.Rpc_MultiClearTime(Util.GetNowTimeStirng().StringToBytes(), runner.SessionInfo.PlayerCount);
                             }
                             else//혼자서 플레이 했을 때
                             {
@@ -160,7 +160,6 @@ public class BattleState : BaseGameState
                     {
                         ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
                     }
-
                 }
             }
         }
@@ -182,12 +181,13 @@ public class BattleState : BaseGameState
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
         state?.SetLoadingBarValue(0.4f);
 
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
+        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
         state?.SetLoadingBarValue(0.5f);
 
         if (runner.IsServer && PoolManager.Instance.CrossHairObject == null)
         {
             runner.Spawn(DataManager.Instance.CrossHairPrefab);
+            await Task.Delay(1000);
             ServerManager.Instance.AllPlayerIsReadyFalse();
         }
         bool isFinalBoss = (GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1);
@@ -224,7 +224,7 @@ public class BattleState : BaseGameState
         Debug.Log("Rpc 래디 해주세용");
 #endif
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
+        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
         state?.SetLoadingBarValue(0.9f);
 
 #if MoveSceneDebug
@@ -233,6 +233,7 @@ public class BattleState : BaseGameState
         if (runner.IsServer)
         {
             //모든 플레이어의 데이터가 들어있는지 확인하는 메서드
+            await Task.Delay(1000);
             ServerManager.Instance.AllPlayerIsReadyFalse();
             await ServerManager.Instance.WaitForAllPlayerLoadingAsync();
         }
@@ -242,11 +243,12 @@ public class BattleState : BaseGameState
         Debug.Log("Battle 개방");
 #endif
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
+        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
 
         //플레이어 시작 위치 값 초기화
         if (runner.IsServer)
         {
+            await Task.Delay(1000);
             ServerManager.Instance.AllPlayerIsReadyFalse();
 #if MoveSceneDebug
             Debug.Log("모든 플레이어 활성화 하고 입력 연결해줄게");
@@ -298,7 +300,7 @@ public class BattleState : BaseGameState
 #endif
             await Task.Delay(100);
 
-            await ServerManager.Instance.WaitForAllPlayerIsReady();
+            await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
 #if MoveSceneDebug
             Debug.Log("보스 패턴 시작");
 #endif

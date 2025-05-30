@@ -74,7 +74,7 @@ public class PlayerJumpState : PlayerAirState
     {
         if (ChangeSpriteTime + CurTime < Time.time)
         {
-            CurTime = Time.time;
+            CurTime = ChangeSpriteTime + CurTime;
             playerStateMachine.Player.PlayerSpriteChange.SetOnceAnimation(AnimationState.Jump, ++animationNum);
         }
     }
@@ -87,9 +87,9 @@ public class PlayerJumpState : PlayerAirState
         Vector2 jumpVector = playerStateMachine.Player.PlayerData.PlayerAirData.JumpForce * Vector2.up;
 
         // 기존 y속도 제거하고 새 점프력 적용함
-        var velocity = playerStateMachine.Player.playerRigidbody.velocity;
-        playerStateMachine.Player.playerRigidbody.velocity = new Vector2(velocity.x, 0);
-        playerStateMachine.Player.playerRigidbody.AddForce(jumpVector, ForceMode2D.Impulse);
+        var velocity = playerStateMachine.Player.PlayerRigidbody.velocity;
+        playerStateMachine.Player.PlayerRigidbody.velocity = new Vector2(velocity.x, 0);
+        playerStateMachine.Player.PlayerRigidbody.AddForce(jumpVector, ForceMode2D.Impulse);
 
         playerStateMachine.Player.PlayerData.PlayerAirData.UseJump();   // 점프 카운트 --
     }

@@ -96,7 +96,12 @@ public class RestState : BaseGameState
         UIManager.Instance.OpenUI(UISceneType.Rest);
 
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
+        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
+        await Task.Delay(60);
+        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(false);
+        await ServerManager.Instance.WaitForAllPlayerIsReadyFalse();
+        await Task.Delay(60);
+
 
         //플레이어 시작 위치 값 초기화
         if (runner.IsServer)
@@ -134,7 +139,7 @@ public class RestState : BaseGameState
 #if MoveSceneDebug
             Debug.Log("1초만 기다려줘");
 #endif
-            await ServerManager.Instance.WaitForAllPlayerIsReady();
+            await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
             await Task.Delay(100);
             ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
 

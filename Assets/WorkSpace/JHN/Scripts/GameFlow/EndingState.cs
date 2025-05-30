@@ -39,6 +39,7 @@ public class EndingState : BaseGameState
         LoadingState state = GameFlowManager.Instance.prevLodingState;
         await UIManager.Instance.Init();
         state?.SetLoadingBarValue(0.3f);
+        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(false);
 
 #if MoveSceneDebug
         Debug.Log("서버에서 보스 스폰 실행");
@@ -58,7 +59,8 @@ public class EndingState : BaseGameState
 
         SoundManager.Instance.PlayBGM(EAudioClip.BGM_EndingScene);
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
+        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
+        await Task.Delay(60);
         if (runner.IsServer)
         {
 #if MoveSceneDebug

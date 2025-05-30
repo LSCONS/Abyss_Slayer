@@ -55,7 +55,7 @@ public class TutorialState : BaseGameState
         Debug.Log("Rpc 래디 해주세용");
 #endif
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
+        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
         state?.SetLoadingBarValue(0.7f);
 
 #if MoveSceneDebug
@@ -75,7 +75,7 @@ public class TutorialState : BaseGameState
         UIManager.Instance.OpenUI(UISceneType.Tutorial);
 
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
+        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
 
         //플레이어 시작 위치 값 초기화
         if (runner.IsServer)
@@ -107,7 +107,7 @@ public class TutorialState : BaseGameState
 #if MoveSceneDebug
             Debug.Log("1초만 기다려줘");
 #endif
-            await ServerManager.Instance.WaitForAllPlayerIsReady();
+            await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
             await Task.Delay(100);
             ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
 
