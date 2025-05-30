@@ -560,11 +560,18 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         {
             runner.Despawn(DictRefToPlayer[player].GetComponent<NetworkObject>());
             runner.Despawn(DictRefToNetData[player].GetComponent<NetworkObject>());
+            DictRefToNetData.Remove(player);
+            DictRefToPlayer.Remove(player);
 
             LobbySelectPanel?.CheckAllPlayerIsReady();
+            bool isAllReday = CheckAllPlayerIsReadyInServer();
+            IsAllReadyAction?.Invoke(isAllReday);
         }
-        DictRefToNetData.Remove(player);
-        DictRefToPlayer.Remove(player);
+        else
+        {
+            DictRefToNetData.Remove(player);
+            DictRefToPlayer.Remove(player);
+        }
     }
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data) { }

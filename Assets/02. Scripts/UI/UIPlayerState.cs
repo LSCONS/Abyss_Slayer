@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,9 +18,9 @@ public class UIPlayerState : UIPermanent
     public override void Init()
     {
         base.Init();
-        SetIcon(ServerManager.Instance.ThisPlayer.PlayerData.PlayerStatusData.Class);
-
+        SetIcon(ServerManager.Instance.ThisPlayerData.Class);
     }
+
     public void SetIcon(CharacterClass cls)
     {
         if (DataManager.Instance.DictClassToImage.TryGetValue(cls, out var classImage))
