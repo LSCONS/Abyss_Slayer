@@ -306,7 +306,7 @@ public class NetworkData : NetworkBehaviour
         {
             IsReady = isReady;
             bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReadyInServer();
-            ServerManager.Instance.IsAllReadyAction(isAllReday);
+            ServerManager.Instance.IsAllReadyAction?.Invoke(isAllReday);
         }
         ServerManager.Instance.UITeamStatus?.ChangeIsReadyPlayerText(PlayerDataRef, isReady);
     }
