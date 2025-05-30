@@ -6,11 +6,13 @@ using UnityEngine;
 public class UIStartTitle : UIPermanent
 {
     [field: SerializeField] public TextMeshProUGUI TextName { get; private set;}
-    [field: SerializeField] public TextMeshProUGUI TextClearTime { get; private set;}
+    [field: SerializeField] public TextMeshProUGUI TextSoloClearTime { get; private set; }
+    [field: SerializeField] public TextMeshProUGUI TextMultiClearTime { get; private set; }
     private void Awake()
     {
         ServerManager.Instance.UIStartTitle = this;
-        ClearTimeUpdate();
+        SoloClearTimeUpdate();
+        MultiClearTimeUpdate();
     }
 
     public void TextUpdate()
@@ -18,8 +20,13 @@ public class UIStartTitle : UIPermanent
         TextName.text = ServerManager.Instance.PlayerName;
     }
 
-    public void ClearTimeUpdate()
+    public void SoloClearTimeUpdate()
     {
-        TextClearTime.text = GameValueManager.Instance.GameClearTime;
+        TextSoloClearTime.text = GameValueManager.Instance.GameSoloClearTime;
+    }
+
+    public void MultiClearTimeUpdate()
+    {
+        TextMultiClearTime.text = GameValueManager.Instance.GameMultiClearTime;
     }
 }

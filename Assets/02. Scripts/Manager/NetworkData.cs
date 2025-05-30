@@ -520,9 +520,29 @@ public class NetworkData : NetworkBehaviour
     }
 
 
+    /// <summary>
+    /// 보스에게 걸린 버프에 대한 정보를 공유
+    /// </summary>
+    /// <param name="buffTypeInt"></param>
+    /// <param name="debuffDataName"></param>
+    /// <param name="debuffDataDescription"></param>
+    /// <param name="debuffDataDuration"></param>
+    /// <param name="debuffDataStartTime"></param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_CreateBossBuffSlot(int buffTypeInt, byte[] debuffDataName, byte[] debuffDataDescription, float debuffDataDuration, float debuffDataStartTime)
+    public void Rpc_CreateBossBuffSlot(int buffTypeInt, byte[] debuffDataName, byte[] debuffDataDescription, float debuffDataDuration)
     {
-        UIBossBuffSlotManager.Instance.CreateSlot(buffTypeInt, debuffDataName.BytesToString(), debuffDataDescription.BytesToString(), debuffDataDuration, debuffDataStartTime);
+        UIBossBuffSlotManager.Instance.CreateSlot(buffTypeInt, debuffDataName.BytesToString(), debuffDataDescription.BytesToString(), debuffDataDuration);
+    }
+
+
+    /// <summary>
+    /// 멀티로 클리어한 클리어 타임을 공유하는 메서드
+    /// </summary>
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_MultiClearTime(byte[] clearTime)
+    {
+        string temp = $"[{ServerManager.Instance.PlayerName}]\n{clearTime.BytesToString()}";
+        PlayerPrefs.SetString(PlayerPrefabData.MultiClearTime, temp);
+        ServerManager.Instance.UIStartTitle?.MultiClearTimeUpdate();
     }
 }
