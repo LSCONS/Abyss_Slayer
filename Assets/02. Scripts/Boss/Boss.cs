@@ -22,7 +22,6 @@ public class Boss : NetworkBehaviour, IHasHealth
     private Dictionary<EBuffType, DebuffData>              ActiveDebuffs     { get; set; }         = new();   // 디버프 상태를 저장              
     public ReactiveProperty<int>                            Hp                { get; private set; } = new ReactiveProperty<int>(1000);
     public bool                                             IsDead            { get; private set;}  = false;
-    public float                                            DamageMultiplier  { get; set; }         = 1f;      // 보스가 받는 데미지 배율 (기본은 1.0)
 
 
     public List<FoxClone> Clones { get; set; } = new();
@@ -30,6 +29,7 @@ public class Boss : NetworkBehaviour, IHasHealth
     [field: Header("네트워크에 공유할 데이터들")]
     [Networked] public bool IsLeft { get; set; }
     [Networked] public Vector2 BossPosition { get; set; }
+    [Networked] public float DamageMultiplier { get; set; } = 1f;      // 보스가 받는 데미지 배율 (기본은 1.0)
 
 
     public override void Spawned()
