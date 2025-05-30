@@ -28,7 +28,7 @@ public class Player : NetworkBehaviour, IHasHealth
     [field: SerializeField] public BoxCollider2D PlayerGroundCollider { get; private set; }
     [field: SerializeField] public BoxCollider2D PlayerMeleeCollider { get; private set; }
     [field: SerializeField] public SpriteChange PlayerSpriteChange { get; private set; }
-    [field: SerializeField] public GameObject LocalPlayerTargetObject { get; private set; }
+    [field: SerializeField] public SpriteRenderer LocalPlayerTargetObject { get; private set; }
     public PlayerStateMachine PlayerStateMachine { get; private set; }
     public PlayerData PlayerData { get; private set; }
     [field: Header("스킬 관련")]
@@ -52,6 +52,8 @@ public class Player : NetworkBehaviour, IHasHealth
     [Networked] public int PlayerStateIndex { get; set; } = -1;
     [Networked] public bool IsFlipX { get; set; } = false;
     [Networked] public Vector2 PlayerPosition { get; set; }
+    private Vector2 temp1 = new Vector2(-0.2f, 1.8f);
+    private Vector2 temp2 = new Vector2(0.1f, 1.8f);
     public bool IsThisRunner => PlayerRef == Runner.LocalPlayer;
 
     public ReactiveProperty<int> StatPoint { get; set; } = new(1);
@@ -78,11 +80,11 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             await ServerManager.Instance.WaitForPlayerState();
             ServerManager.Instance.UIPlayerState.UIHealthBar.ConnectPlayerObject(this);
-            LocalPlayerTargetObject.SetActive(true);
+            LocalPlayerTargetObject.gameObject.SetActive(true);
         }
         else
         {
-            LocalPlayerTargetObject.SetActive(false);
+            LocalPlayerTargetObject.gameObject.SetActive(false);
         }
     }
 
@@ -117,6 +119,7 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             PlayerSpriteChange.SetFlipxSpriteRenderer(IsFlipX);
             IsFlipX = IsFlip;
+            LocalPlayerTargetObject.transform.localPosition = IsFlipX ? temp1 : temp2;
         }
 
         if (Runner.IsServer) return;
