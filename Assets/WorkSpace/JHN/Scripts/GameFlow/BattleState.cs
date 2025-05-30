@@ -181,7 +181,7 @@ public class BattleState : BaseGameState
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
         state?.SetLoadingBarValue(0.4f);
 
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
+        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
         state?.SetLoadingBarValue(0.5f);
 
         if (runner.IsServer && PoolManager.Instance.CrossHairObject == null)
@@ -224,7 +224,7 @@ public class BattleState : BaseGameState
         Debug.Log("Rpc 래디 해주세용");
 #endif
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
+        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
         state?.SetLoadingBarValue(0.9f);
 
 #if MoveSceneDebug
@@ -243,7 +243,7 @@ public class BattleState : BaseGameState
         Debug.Log("Battle 개방");
 #endif
         ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReady();
+        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
 
         //플레이어 시작 위치 값 초기화
         if (runner.IsServer)
@@ -300,7 +300,7 @@ public class BattleState : BaseGameState
 #endif
             await Task.Delay(100);
 
-            await ServerManager.Instance.WaitForAllPlayerIsReady();
+            await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
 #if MoveSceneDebug
             Debug.Log("보스 패턴 시작");
 #endif
