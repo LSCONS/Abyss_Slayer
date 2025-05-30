@@ -104,6 +104,7 @@ public class RestState : BaseGameState
 #if MoveSceneDebug
             Debug.Log("모든 플레이어 활성화 하고 입력 연결해줄게");
 #endif
+            await Task.Delay(1000);
             ServerManager.Instance.AllPlayerIsReadyFalse();
             //UI텍스트 초기화
             ServerManager.Instance.ThisPlayerData.Rpc_SetInRestTeamText();
