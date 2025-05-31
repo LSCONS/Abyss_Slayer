@@ -13,6 +13,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public Dictionary<PlayerRef, Player> DictRefToPlayer { get; private set; } = new();
     public int BossCount { get; private set; } = 0;
     public string PlayerName { get; set; } = "Empty";
+    public string ServerVersion => Application.version;
     public byte[] PlayerNameBytes
     {
         get
