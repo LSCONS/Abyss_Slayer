@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 1380048713899595263}
   - component: {fileID: 1077709118361292134}
   - component: {fileID: 1714377090751203402}
+  - component: {fileID: 3418366435589281751}
   m_Layer: 5
   m_Name: WarningYesBtn
   m_TagString: Untagged
@@ -197,6 +198,24 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3418366435589281751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675605176819481745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e04396ada859041a7ff17b8475166f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiType: 129
+  uISceneType: 2
+  isClose: 1
+  popupName: 
+  alarmIcon: {fileID: 0}
+  escCanOpen: 0
 --- !u!1 &2771084518229314419
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +416,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uD638\uC2A4\uD2B8\uC640 \uAC8C\uC784 \uBC84\uC804\uC774 \uB2EC\uB77C\n\uC811\uC18D\uD560
-    \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.\n\n\uC694\uAD6C \uBC84\uC804: 3.6V"
+    \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.\n\n\uC694\uAD6C \uBC84\uC804: 3.6V\n\uD604\uC7AC
+    \uBC84\uC804: 3.7V"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
   m_sharedMaterial: {fileID: 4235015433858947674, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
@@ -790,7 +810,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiType: 129
   uISceneType: 2
-  desc: {fileID: 0}
+  <desc>k__BackingField: {fileID: 4575229999733326125}
 --- !u!1 &8994853136781686833
 GameObject:
   m_ObjectHideFlags: 0

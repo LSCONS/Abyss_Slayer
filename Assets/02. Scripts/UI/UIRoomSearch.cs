@@ -123,12 +123,41 @@ public class UIRoomSearch : UIPopup
         if (SelectRoomSession.PlayerCount >= ServerManager.Instance.MaxHeadCount)
         {
             //TODO: 인원 수 초과 알림 필요
+            string strWarningMaxPlayerCount = "방의 플레이어 제한 수가 가득 찼습니다.";
+            UIPopup popup = UIManager.Instance.GetPopup("WarningGameVersionPopup");
+            popup.desc.text = strWarningMaxPlayerCount;
+            UIManager.Instance.OpenPopup(popup);
             return;
         }
 
         if (!(SelectRoomSession.IsOpen))
         {
             //TODO: 이미 시작하거나 파괴된 방입니다.
+            string strWarningNotOpenRoom = "이미 시작하거나 파괴된 방입니다.";
+            UIPopup popup = UIManager.Instance.GetPopup("WarningGameVersionPopup");
+            popup.desc.text = strWarningNotOpenRoom;
+            UIManager.Instance.OpenPopup(popup);
+            return;
+        }
+
+        if(!(SelectRoomSession.Properties.TryGetValue(ServerManager.Instance.StrHostVersionKey, out SessionProperty value)))
+        {
+            //TODO: 호스트의 버전을 확인할 수 없다는 알림 필요
+            string strWarningNotUseVersion = "호스트의 버전을 찾을 수 없습니다.";
+            UIPopup popup = UIManager.Instance.GetPopup("WarningGameVersionPopup");
+            popup.desc.text = strWarningNotUseVersion;
+            UIManager.Instance.OpenPopup(popup);
+            return;
+        }
+
+        string strHostVersion = (string)value;
+        if (ServerManager.Instance.ServerVersion != strHostVersion)
+        {
+            //TODO: 호스트와의 버전이 다르다는 알림 필요
+            string strWarningNotSameVersion = $"호스트와 게임 버전이 달라\r\n접속할 수 없습니다.\r\n\r\n요구 버전: {strHostVersion}V\r\n현재 버전: {ServerManager.Instance.ServerVersion}V";
+            UIPopup popup = UIManager.Instance.GetPopup("WarningGameVersionPopup");
+            popup.desc.text = strWarningNotSameVersion;
+            UIManager.Instance.OpenPopup(popup);
             return;
         }
 
