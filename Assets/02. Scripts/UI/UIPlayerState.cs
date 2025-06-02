@@ -17,12 +17,18 @@ public class UIPlayerState : UIPermanent
 
     public override void Init()
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         base.Init();
         SetIcon(ServerManager.Instance.ThisPlayerData.Class);
     }
 
     public void SetIcon(CharacterClass cls)
     {
+#if AllMethodDebug
+        Debug.Log("SetIcon");
+#endif
         if (DataManager.Instance.DictClassToImage.TryGetValue(cls, out var classImage))
         {
             classIcon.sprite = classImage;

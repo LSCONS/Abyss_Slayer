@@ -14,6 +14,9 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
 
     public async void Init()
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         player = await ServerManager.Instance.WaitForThisPlayerAsync();
 
         if (!init)
@@ -25,7 +28,10 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
     }
 
     private void CreateSkillSlots()
-    { 
+    {
+#if AllMethodDebug
+        Debug.Log("CreateSkillSlots");
+#endif
         init = true;
 
         foreach (var kvp in ServerManager.Instance.ThisPlayer.DictSlotKeyToSkill)
@@ -43,6 +49,9 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
     // 슬롯 바인딩
     private void BindSlots()
     {
+#if AllMethodDebug
+        Debug.Log("BindSlots");
+#endif
         // 기존에 있는 그 머냐 presenter를 제거함
         foreach (var presenter in presenters)
         {
@@ -66,6 +75,9 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
 
     public void SettingKeySlot()
     {
+#if AllMethodDebug
+        Debug.Log("SettingKeySlot");
+#endif
         foreach (var presenter in presenters)
         {
             presenter.SetKeyText();
@@ -74,11 +86,17 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
 
     private bool IsASDKey(SkillSlotKey key)
     {
+#if AllMethodDebug
+        Debug.Log("IsASDKey");
+#endif
         return key == SkillSlotKey.Z || key == SkillSlotKey.A || key == SkillSlotKey.S || key == SkillSlotKey.D;
     }
 
     private void OnDestroy()
     {
+#if AllMethodDebug
+        Debug.Log("OnDestroy");
+#endif
         foreach (var presenter in presenters)
             presenter.Dispose();
         presenters.Clear();

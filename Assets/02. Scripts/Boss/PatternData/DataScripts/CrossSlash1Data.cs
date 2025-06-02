@@ -57,7 +57,7 @@ public class CrossSlash1Data : BasePatternData
             SoundManager.Instance.PlaySFX(EAudioClip[1]);
 
         float x = Mathf.Clamp(bossTransform.position.x + (scale.x + 2) * (isleft ? -1 : 1), -mapWidth/2 + 0.7f,mapWidth/2 - 0.7f);
-        float y = scene2D.Raycast(new Vector3(x, bossTransform.position.y - scale.y, 0), Vector3.down, 20, LayerMask.GetMask("GroundPlane", "GroundPlatform")).point.y + bossCenterHight;
+        float y = scene2D.Raycast(new Vector3(x, bossTransform.position.y - scale.y, 0), Vector3.down, 20, (LayerData.GroundPlaneLayerMask|LayerData.GroundPlatformLayerMask)).point.y + bossCenterHight;
         bossTransform.position = new Vector3(x, y);
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.SlashEndParameterHash);
         bossController.Sprite.enabled = true;

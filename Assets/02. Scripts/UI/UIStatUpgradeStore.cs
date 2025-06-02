@@ -43,6 +43,9 @@ public class UIStatUpgradeStore : UIPopup
 
     public void Awake()
     {
+#if AllMethodDebug
+        Debug.Log("Awake");
+#endif
         ServerManager.Instance.UIStatUpgradeStore = this;
     }
     public override async void Init()
@@ -87,6 +90,9 @@ public class UIStatUpgradeStore : UIPopup
 
     public override void OnOpen()
     {
+#if AllMethodDebug
+        Debug.Log("OnOpen");
+#endif
         if (ServerManager.Instance.ThisPlayer.StatPoint.Value > 0) SetAllUpgradeBtn(true);
         base.OnOpen();
     }

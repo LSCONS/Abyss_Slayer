@@ -21,6 +21,9 @@ public class UIReadyBossStage : UIButton
 
     protected override void Awake()
     {
+#if AllMethodDebug
+        Debug.Log("Awake");
+#endif
         base.Awake();
         ServerManager.Instance.UIReadyBossStage = this;
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
@@ -41,6 +44,9 @@ public class UIReadyBossStage : UIButton
 
     public override void Init()
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         base.Init();
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
@@ -60,6 +66,9 @@ public class UIReadyBossStage : UIButton
 
     private void ClickReadyButton()
     {
+#if AllMethodDebug
+        Debug.Log("ClickReadyButton");
+#endif
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer) return;
         Player player = ServerManager.Instance.ThisPlayer;
@@ -77,6 +86,9 @@ public class UIReadyBossStage : UIButton
 
     private void ClickStartButton()
     {
+#if AllMethodDebug
+        Debug.Log("ClickStartButton");
+#endif
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (!(runner.IsServer)) return;
         Player player = ServerManager.Instance.ThisPlayer;
@@ -93,6 +105,9 @@ public class UIReadyBossStage : UIButton
 
     public void ResetClientButton()
     {
+#if AllMethodDebug
+        Debug.Log("ResetClientButton");
+#endif
         if (RunnerManager.Instance.GetRunner().IsServer) return;
         IsReady = false;
         ImgBtnColor.color = OffReadyColor;
@@ -101,6 +116,9 @@ public class UIReadyBossStage : UIButton
 
     public void ClientActionButton()
     {
+#if AllMethodDebug
+        Debug.Log("ClientActionButton");
+#endif
         IsReady = !IsReady;
         ImgBtnColor.color = IsReady ? OnReadyColor : OffReadyColor;
         ServerManager.Instance.ThisPlayerData.Rpc_PlayerIsReady(IsReady);
@@ -108,11 +126,17 @@ public class UIReadyBossStage : UIButton
 
     public void ServerActionButton()
     {
+#if AllMethodDebug
+        Debug.Log("ServerActionButton");
+#endif
         ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.BattleScene);
     }
 
     public void SetActiveButton(bool isAllReady)
     {
+#if AllMethodDebug
+        Debug.Log("SetActiveButton");
+#endif
         BtnReadyOrStart.interactable = isAllReady;
     }
 }

@@ -11,6 +11,9 @@ public class UITeamStatus : UIPermanent
     public Dictionary<PlayerRef, UITeamStatusSlot> DictRefToSlot { get; private set; } = new();
     public override async void Init()
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         base.Init();
 
         await ServerManager.Instance.WaitForAllPlayerLoadingAsync();
@@ -38,6 +41,9 @@ public class UITeamStatus : UIPermanent
     /// <param name="isReady">바꿔줄 준비 상태</param>
     public void ChangeIsReadyPlayerText(PlayerRef playerRef, bool isReady)
     {
+#if AllMethodDebug
+        Debug.Log("ChangeIsReadyPlayerText");
+#endif
         DictRefToSlot[playerRef].ChagnePlayerReadyText(isReady);
     }
 
@@ -47,6 +53,9 @@ public class UITeamStatus : UIPermanent
     /// </summary>
     public void ChagneInRestSceneText()
     {
+#if AllMethodDebug
+        Debug.Log("ChagneInRestSceneText");
+#endif
         foreach (PlayerRef playerRef in ServerManager.Instance.DictRefToPlayer.Keys)
         {
             if ((ServerManager.Instance.ThisPlayerRef != playerRef) && DictRefToSlot.ContainsKey(playerRef))
@@ -62,6 +71,9 @@ public class UITeamStatus : UIPermanent
     /// </summary>
     public void ChagneInBattleScenePlayerText()
     {
+#if AllMethodDebug
+        Debug.Log("ChagneInBattleScenePlayerText");
+#endif
         foreach (PlayerRef playerRef in ServerManager.Instance.DictRefToPlayer.Keys)
         {
             if ((ServerManager.Instance.ThisPlayerRef != playerRef) && DictRefToSlot.ContainsKey(playerRef))

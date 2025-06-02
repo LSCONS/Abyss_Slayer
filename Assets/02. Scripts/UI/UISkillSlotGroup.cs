@@ -7,6 +7,9 @@ public class UISkillSlotGroup : UIPermanent
 {
     public override void Init()
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         base.Init();
         gameObject.SetActive(true);
         UISkillSlotManager.Instance.Init();

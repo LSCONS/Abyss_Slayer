@@ -27,6 +27,9 @@ public class UIRoomSearch : UIPopup
     
     private async void Awake()
     {
+#if AllMethodDebug
+        Debug.Log("Awake");
+#endif
         ServerManager.Instance.RoomSearch = this;
         BtnJoin.onClick.AddListener(TryJoinRoom);
         BtnSearchAgain.onClick.AddListener(UpdateRoomList);
@@ -38,6 +41,9 @@ public class UIRoomSearch : UIPopup
 
     private void OnEnable()
     {
+#if AllMethodDebug
+        Debug.Log("OnEnable");
+#endif
         BtnJoin.interactable = false;
     }
 
@@ -47,6 +53,9 @@ public class UIRoomSearch : UIPopup
     /// </summary>
     public void UpdateRoomList()
     {
+#if AllMethodDebug
+        Debug.Log("UpdateRoomList");
+#endif
         foreach (SessionInfo sessionInfo in ServerManager.Instance.CurrentSessionList)
         {
             if (DictSessionToRoom.ContainsKey(sessionInfo))
@@ -93,6 +102,9 @@ public class UIRoomSearch : UIPopup
     /// <param name="sessionInfos"></param>
     private void RemoveRoomList(List<SessionInfo> sessionInfos)
     {
+#if AllMethodDebug
+        Debug.Log("RemoveRoomList");
+#endif
         var sessionSet = new HashSet<SessionInfo>(sessionInfos);
         var keysRemove = new List<SessionInfo>();
 
@@ -116,6 +128,9 @@ public class UIRoomSearch : UIPopup
     /// </summary>
     private void TryJoinRoom()
     {
+#if AllMethodDebug
+        Debug.Log("TryJoinRoom");
+#endif
         SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         //새로고침 한 번 실행
         UpdateRoomList();

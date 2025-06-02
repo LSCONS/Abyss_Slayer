@@ -25,6 +25,9 @@ public class UITeamStatusSlot : MonoBehaviour
     /// </summary>
     public void ConnectUIHpBar()
     {
+#if AllMethodDebug
+        Debug.Log("ConnectUIHpBar");
+#endif
         UIHealthBar.ConnectOtherPlayerObject(SlotPlayerRef);
     }
 
@@ -34,6 +37,9 @@ public class UITeamStatusSlot : MonoBehaviour
     /// </summary>
     public void ChagneInRestText()
     {
+#if AllMethodDebug
+        Debug.Log("ChagneInRestText");
+#endif
         TextPlayerName.text = ServerManager.Instance.DictRefToNetData[SlotPlayerRef].GetName();
         if (ServerManager.Instance.DictRefToNetData[SlotPlayerRef].IsServer)
         {
@@ -54,6 +60,9 @@ public class UITeamStatusSlot : MonoBehaviour
     /// <param name="isReady">바꿔 줄 준비 상태</param>
     public void ChagnePlayerReadyText(bool isReady)
     {
+#if AllMethodDebug
+        Debug.Log("ChagnePlayerReadyText");
+#endif
         TextReadyPlayer.text = isReady ? OnReadyText : OffReadyText;
         TextReadyPlayer.color = isReady ? Color.red : Color.white;
     }
@@ -64,12 +73,18 @@ public class UITeamStatusSlot : MonoBehaviour
     /// </summary>
     public void ChangeBattleSceneText()
     {
+#if AllMethodDebug
+        Debug.Log("ChangeBattleSceneText");
+#endif
         TextReadyPlayer.text = InGameText;
         TextReadyPlayer.color = Color.yellow;
     }
 
     public void SetIcon(CharacterClass cls)
     {
+#if AllMethodDebug
+        Debug.Log("SetIcon");
+#endif
         if (DataManager.Instance.DictClassToImage.TryGetValue(cls, out var icon))
         {
             classIcon.sprite = icon;

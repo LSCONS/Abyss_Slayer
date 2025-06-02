@@ -15,6 +15,9 @@ public class UISkillTooltip : UIPopup
 
     private void Start()
     {
+#if AllMethodDebug
+        Debug.Log("Start");
+#endif
         tooltipRect = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
     }

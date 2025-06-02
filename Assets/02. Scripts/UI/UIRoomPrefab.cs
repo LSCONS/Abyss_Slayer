@@ -16,6 +16,9 @@ public class UIRoomPrefab : MonoBehaviour
 
     public void Init(SessionInfo info, UIRoomSearch roomList)
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         SessionInfo = info;
         TextRoomName.text = info.Name;
         UpdateHeadCountText();
@@ -28,6 +31,9 @@ public class UIRoomPrefab : MonoBehaviour
     /// </summary>
     private void UpdateHeadCountText()
     {
+#if AllMethodDebug
+        Debug.Log("UpdateHeadCountText");
+#endif
         CurrentHeadCount = SessionInfo.PlayerCount;
         TextRoomHeadCount.text = $"{CurrentHeadCount.ToString()} / {ServerManager.Instance.MaxHeadCount}";
     }
@@ -37,6 +43,9 @@ public class UIRoomPrefab : MonoBehaviour
     /// </summary>
     public void CheckSameHeadCount()
     {
+#if AllMethodDebug
+        Debug.Log("CheckSameHeadCount");
+#endif
         if (SessionInfo != null && SessionInfo.PlayerCount != CurrentHeadCount)
         {
             UpdateHeadCountText();
@@ -51,6 +60,9 @@ public class UIRoomPrefab : MonoBehaviour
     /// </summary>
     private void OnClickRoom()
     {
+#if AllMethodDebug
+        Debug.Log("OnClickRoom");
+#endif
         SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         UIRoomSearch.SelectRoomSession = SessionInfo;
         UIRoomSearch.BtnJoin.interactable = true;

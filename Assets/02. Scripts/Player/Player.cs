@@ -420,6 +420,10 @@ public class Player : NetworkBehaviour, IHasHealth
         else
         {
             ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.LobbyScene);
+            //TODO: 모든 준비 해제
+            ServerManager.Instance.AllPlayerIsReadyFalse();
+            //TODO: 방 오픈 상태 true로 변환
+            Runner.SessionInfo.IsOpen = true;
         }
     }
 

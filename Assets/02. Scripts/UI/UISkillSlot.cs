@@ -46,6 +46,9 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
     }
     private void OnDisable()
     {
+#if AllMethodDebug
+        Debug.Log("OnDisable");
+#endif
         Tooltip.Close();
     }
 
@@ -71,11 +74,17 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 
     public void SetKeyText(string keyName)
     {
+#if AllMethodDebug
+        Debug.Log("SetKeyText");
+#endif
         keyText.text = keyName;
     }
 
     public void SetHoldIcon(bool isshow)
     {
+#if AllMethodDebug
+        Debug.Log("SetHoldIcon");
+#endif
         iconHold?.gameObject.SetActive(isshow);
     }
 
