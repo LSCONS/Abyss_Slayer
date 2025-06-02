@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAbnomalState : PlayerBaseState
+public class PlayerAbnormalState : PlayerBaseState
 {
-    public PlayerAbnomalState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
+    public PlayerAbnormalState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
     {
     }
 

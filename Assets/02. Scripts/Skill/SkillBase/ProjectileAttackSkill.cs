@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class ProjectileAttackSkill : Skill
 {
+    public override void SkillUpgrade()
+    {
+        base.SkillUpgrade();
+        Damage = BaseDamage * (1.0f + (Level.Value - 1) * Magnification);
+    }
+
     [field: Header("투사체 초기 데미지")]
     [field: SerializeField] public float BaseDamage { get; private set; } // 초기 데미지
 
@@ -42,11 +48,5 @@ public class ProjectileAttackSkill : Skill
     public void ThrowProjectile(Vector3 startPos, Vector3 dir, float Damage)
     {
         PoolManager.Instance.Get<RogueProjectile>().Rpc_Init(player.PlayerRef, startPos, dir, Range, Speed, Damage * DamageMultiple);
-    }
-
-    public override void SkillUpgrade()
-    {
-        base.SkillUpgrade();
-        Damage = BaseDamage * (1.0f + (Level.Value - 1) * Magnification);
     }
 }

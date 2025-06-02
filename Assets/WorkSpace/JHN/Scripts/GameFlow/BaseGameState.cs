@@ -16,8 +16,6 @@ public abstract class BaseGameState : IGameState
     public abstract Task OnEnter();
     public abstract Task OnExit();
     public abstract Task OnRunnerEnter();
-    public virtual void OnUpdate()
-    {
-    }
+    public virtual void OnUpdate() { }
     public abstract ESceneName SceneName { get; }
 }

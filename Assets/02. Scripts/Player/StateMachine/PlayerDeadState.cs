@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerDeadState : PlayerAbnomalState
+public class PlayerDeadState : PlayerAbnormalState
 {
     private int animationNum = 0;
     public PlayerDeadState(PlayerStateMachine playerStateMachine) : base(playerStateMachine)
