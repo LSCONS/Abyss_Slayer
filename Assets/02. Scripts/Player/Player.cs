@@ -419,7 +419,7 @@ public class Player : NetworkBehaviour, IHasHealth
         }
         else
         {
-            ServerManager.Instance.ExitRoom();
+            ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.LobbyScene);
         }
     }
 

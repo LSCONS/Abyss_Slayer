@@ -6,6 +6,9 @@ using UnityEngine;
 
 public abstract class BasePatternData : ScriptableObject
 {
+    public abstract IEnumerator ExecutePattern();
+
+
     protected Transform bossTransform;
     protected BossController bossController;
     protected Animator bossAnimator;
@@ -113,5 +116,4 @@ public abstract class BasePatternData : ScriptableObject
     }
 
 
-    public abstract IEnumerator ExecutePattern();
 }

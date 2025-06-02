@@ -4,19 +4,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Pattern", menuName = "BossPattern/BossAppear")]
 public class BossAppearData : BasePatternData
 {
-    [SerializeField] Vector3 appearPosition;
-    [SerializeField] float preDelayTime;
-    [SerializeField] float spawnAnimationTime;
-    [SerializeField] float postDelayTime;
-    [SerializeField] float zoomScale;
     public override IEnumerator ExecutePattern()
     {
         bossController.HitCollider.enabled = false;
         bossTransform.position = appearPosition;
         boss.IsLeft = true;
-        
 
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+
+        SoundManager.Instance.PlaySFX(EAudioClip[0]);
         yield return new WaitForSeconds(preDelayTime);
         ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(10 / zoomScale, 20);
         if (EAudioClip != null && EAudioClip.Count > 1)
@@ -32,5 +27,10 @@ public class BossAppearData : BasePatternData
         ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
         ServerManager.Instance.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(false);
     }
+    [SerializeField] Vector3 appearPosition;
+    [SerializeField] float preDelayTime;
+    [SerializeField] float spawnAnimationTime;
+    [SerializeField] float postDelayTime;
+    [SerializeField] float zoomScale;
 
 }
