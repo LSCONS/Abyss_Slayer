@@ -22,7 +22,6 @@ public class RandomMoveData : BasePatternData
         if (!isdone)
         {
             bossController.ReStartPatternLoop();
-            bossController.StopAllCoroutines();
         }
     }
     IEnumerator Pattern()

@@ -161,6 +161,8 @@ public class UILobbySelectPanel : UIPermanent
     {
         foreach (NetworkData data in ServerManager.Instance.DictRefToNetData.Values)
         {
+            if (data.IsServer) continue;
+
             if (!(data.IsReady))
             {
                 BtnStartGame.interactable = false;

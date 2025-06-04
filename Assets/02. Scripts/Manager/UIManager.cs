@@ -456,6 +456,14 @@ public class UIManager : Singleton<UIManager>
     }
 
 
+    public UIPopup GetPopup(string popupName)
+    {
+        if (!UIMap.TryGetValue(popupName, out var popupGO)) return null;
+        UIPopup popup = popupGO.GetComponentInChildren<UIPopup>(true);
+        return popup;
+    }
+
+
     /// <summary>
     /// 팝업 이름으로 팝업을 열고 설명 수정가능
     /// </summary>

@@ -8,6 +8,11 @@ using UnityEngine;
 /// </summary>
 public class Skill : ScriptableObject
 {
+    // 스킬 사용 메서드
+    public virtual void UseSkill()
+    {
+        PlaySkillEffect();
+    }
     // 모든 스킬에 공통으로 적용되는 플레이어 변수
     public Player player { get; set; }
     // 해당 스킬이 사용하고 있는 스킬 슬롯 enum 변수
@@ -29,9 +34,7 @@ public class Skill : ScriptableObject
 
     [field: Header("스킬 사운드 설정")]
     [field: SerializeField] public EAudioClip EAudioClip { get; private set; }
-
-    [field: Header("스킬 사용 가능 여부")]
-    [field: SerializeField] public bool CanUse { get; set; } = true; // 스킬 사용 가능 여부
+    public bool CanUse { get; set; } = true; // 스킬 사용 가능 여부
 
     [field: Header("스킬 사용 중 움직임 가능 여부")]
     [field: SerializeField] public bool CanMove { get; private set; } = true; // 스킬 사용 중 움직임 가능 여부
@@ -80,12 +83,6 @@ public class Skill : ScriptableObject
 
     // 플레이어 초기화
     public virtual void Init() { }
-
-    // 스킬 사용 추상 메서드
-    public virtual void UseSkill() 
-    { 
-        PlaySkillEffect(); 
-    }
 
     public virtual void SkillUpgrade()
     {

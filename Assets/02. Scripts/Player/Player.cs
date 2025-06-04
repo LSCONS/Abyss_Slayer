@@ -374,9 +374,10 @@ public class Player : NetworkBehaviour, IHasHealth
     /// </summary>
     /// <param name="value">변환을 줄 값. +를 넣어야 체력이 회복.</param>
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_HealPlayerHP(int value)
+    public void Rpc_HealPlayerHP(float value)
     {
-        Hp.Value = Hp.Value.PlusAndIntClamp(value, MaxHp.Value);
+        int healHP = (int)(MaxHp.Value * value);
+        Hp.Value = Hp.Value.PlusAndIntClamp(healHP, MaxHp.Value);
     }
 
 

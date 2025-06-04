@@ -12,8 +12,8 @@ public class UIPopup : UIBase
     private Tween openTween;
     private Tween closeTween;
 
-    [Header("설명을 바꾸고싶다면 설정해주세요.")]
-    [SerializeField] private TextMeshProUGUI desc;
+    [field: Header("설명을 바꾸고싶다면 설정해주세요.")]
+    [field: SerializeField] public TextMeshProUGUI desc { get;private set; }
     private string descriptionText;
 
     public virtual void OnDisable()

@@ -31,7 +31,12 @@ public class ClassSlot : MonoBehaviour
     public void SetData(CharacterClass cls)
     {
         characterClass = cls;
-        classText.text = cls.ToKoreanString(); // 클래스 이름 텍스트 설정
+
+        if (DataManager.Instance.DictCharacterClassData.TryGetValue(cls, out var data))
+        {
+            classText.text = data.classNameKorean;
+            icon.sprite = data.classIcon;
+        }
 
         if (button == null)
             button = GetComponent<Button>();

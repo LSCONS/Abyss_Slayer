@@ -176,7 +176,7 @@ public class BossController : NetworkBehaviour
     {
         Invoke("Restart", 0.5f);
         IsRun = false;
-        
+        StopAllCoroutines();
     }
     void Restart()
     {
@@ -421,10 +421,10 @@ public class BossController : NetworkBehaviour
         
         while (IsRun)
         {
-            if (!endMap && (transform.position.x >= MapWidth/2 - 0.7f || transform.position.x <= -MapWidth / 2 + 0.7f))
+            if (!endMap && (transform.position.x >= (MapWidth/2) - 0.8f || transform.position.x <= -(MapWidth / 2) + 0.8f))
             {
                 endMap = true;
-                endTime = Time.time + 2f;
+                endTime = Time.time + 1.5f;
             }
             else if(Time.time > endTime)
             {

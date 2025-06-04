@@ -94,7 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3414f06d5f5920748a447c6e1dda9a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectPrefab: {fileID: 3405910839843231857}
 --- !u!114 &7527216689834434670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +151,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 1640822207898752333}
+  - {fileID: 7527216689834434670}
   ForceRemoteRenderTimeframe: 0
 --- !u!1001 &8722371720527193026
 PrefabInstance:
@@ -237,10 +237,5 @@ PrefabInstance:
 --- !u!4 &531135001053955624 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9102600192686204394, guid: e0c078b031d747642a3da9d8c4af7a51, type: 3}
-  m_PrefabInstance: {fileID: 8722371720527193026}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3405910839843231857 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6217270966681975731, guid: e0c078b031d747642a3da9d8c4af7a51, type: 3}
   m_PrefabInstance: {fileID: 8722371720527193026}
   m_PrefabAsset: {fileID: 0}

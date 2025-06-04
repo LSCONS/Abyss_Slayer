@@ -206,7 +206,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - NonGamePlay
-    - GamePlay
     - Popup
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 04d9efccd0a49b4489bd8cdc3f30e07a
@@ -376,6 +375,25 @@ MonoBehaviour:
     m_Address: BuffSpriteDatas
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 002e88d3638f73841a1b4f794b96a1ac
+    m_Address: CharacterClassDatas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c914c5e27b2e10e4ab3b1834a595abb8
+    m_Address: Assets/10. Prefabs/UI/Popups/WarningGameVersionPopup.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Popup
+    - NonGamePlay
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 50a694fadd69da44eaea00747122be20
+    m_Address: Assets/10. Prefabs/UI/Popups/QuitBattlePopup.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GamePlay
+    - Popup
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 18a0a0d152cee614d80e0e74a49f9b6f, type: 2}

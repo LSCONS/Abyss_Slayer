@@ -180,7 +180,7 @@ public class ZoneAOE : BasePoolable
             //찾아둔 애니메이터와 연결하고 활성화
             Animator.runtimeAnimatorController = pathAnimator;
             Animator.enabled = true;
-            //스프라이트 값 초기화
+                //스프라이트 값 초기화
             SpriteRenderer.transform.localScale = Vector3.one;
             SpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
             SpriteRenderer.flipX = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].IsFlipX;

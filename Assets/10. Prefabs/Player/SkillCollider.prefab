@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3796276617976453782}
   - component: {fileID: 7405768752640135550}
   - component: {fileID: 2379393096046951670}
+  - component: {fileID: 3017777267508097383}
   m_Layer: 7
   m_Name: SkillCollider
   m_TagString: Untagged
@@ -90,3 +91,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091e6a6f314bfe740bf23db387cda825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3017777267508097383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2447310417550558937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3052472276
+  ObjectInterest: 1
+  Flags: 1
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 2379393096046951670}
+  ForceRemoteRenderTimeframe: 0

@@ -327,6 +327,7 @@ MonoBehaviour:
   <IsOpenSprtie>k__BackingField: 1
   _IsLeft: 0
   _BossPosition: {x: 0, y: 0}
+  _DamageMultiplier: 1
 --- !u!114 &7201112847391276116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,9 +375,9 @@ MonoBehaviour:
     isCheckActiveTrue: 0
     isCheckActiveFalse: 0
     bossCheckHP: 0.5
-  - weight: 1
+  - weight: 1.5
     patternData: {fileID: 11400000, guid: 48db344ef5578754b88b99bc1ba5d2ad, type: 2}
-    samePatternDelayTime: 9
+    samePatternDelayTime: 30
     setActivePatternForTest: 1
     showGizmos: 1
     isCheckActiveTrue: 0
@@ -384,14 +385,6 @@ MonoBehaviour:
     bossCheckHP: 0.5
   - weight: 1.35
     patternData: {fileID: 11400000, guid: 589feabd1741bf14794d8a767c2a0d43, type: 2}
-    samePatternDelayTime: 9
-    setActivePatternForTest: 1
-    showGizmos: 1
-    isCheckActiveTrue: 0
-    isCheckActiveFalse: 0
-    bossCheckHP: 0.5
-  - weight: 1.35
-    patternData: {fileID: 11400000, guid: 3f6e544e1cf5f1647ada228445235923, type: 2}
     samePatternDelayTime: 9
     setActivePatternForTest: 1
     showGizmos: 1

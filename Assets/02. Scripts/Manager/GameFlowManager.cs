@@ -19,16 +19,18 @@ public enum ESceneName  // 게임 시작 상태
 
 public class GameFlowManager : Singleton<GameFlowManager>
 {
+    IntroState IntroSceneState { get; set; } = new();
+    StartState StartSceneState { get; set; } = new();
+    LobbyState LobbySceneState { get; set; } = new();
+    RestState RestSceneState { get; set; } = new();
+    BattleState BattleSceneState { get; set; } = new();
+    EndingState EndingSceneState { get; set; } = new();
+
+
     public LoadingState prevLodingState { get; set; }
     public IGameState PrevState { get; set; }
     public IGameState CurrentState { get; set; }   // 지금 스테이트
     [SerializeField] private ESceneName startStateEnum = ESceneName.IntroScene;   // 시작 스테이트 인스펙터 창에서 설정가능하게 해줌
-    IntroState IntroSceneState { get; set; } = new IntroState();
-    StartState StartSceneState { get; set; } = new StartState();
-    LobbyState LobbySceneState { get; set; } = new LobbyState();
-    RestState RestSceneState { get; set; } = new RestState();
-    BattleState BattleSceneState { get; set; } = new BattleState();
-    EndingState EndingSceneState { get; set; } = new EndingState();
     TutorialState TutorialSceneState { get; set; } = new TutorialState();
 
     [HideInInspector] public CreditRoller endCredit;    // 엔딩 크래딧 캐싱
@@ -52,12 +54,10 @@ public class GameFlowManager : Singleton<GameFlowManager>
 #if AllMethodDebug || MoveSceneDebug
         Debug.Log("ChangeStateWithLoading");
 #endif
-        if (nextEnum == ESceneName.LoadingScene)
-            return;
-
-        PrevState = CurrentState;
+        if (nextEnum == ESceneName.LoadingScene) return;
 
         // 1) 이전 UIType 캐시
+        PrevState = CurrentState;
         UIType prevUIType = UIType.None;
         if (CurrentState is BaseGameState prevBase)
             prevUIType = prevBase.StateUIType;

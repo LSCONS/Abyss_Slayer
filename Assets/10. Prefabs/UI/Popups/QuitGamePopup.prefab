@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ce6fe9fd7019e5419f879f218e0984a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isQuitRoom: 1
+  isQuitRoom: 0
 --- !u!1 &1083797366660062246
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +352,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBC29\uC744 \uB098\uAC00\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
+  m_text: "\uAC8C\uC784\uC744 \uC885\uB8CC\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
   m_sharedMaterial: {fileID: 4235015433858947674, guid: 1a84f22eb8d59fe429c931923d7fbcbb, type: 2}
@@ -1067,9 +1067,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 001a670eb6946c54db918c180e695c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiType: 131
-  uISceneType: 26
-  desc: {fileID: 5759031063648683856}
+  uiType: 129
+  uISceneType: 2
+  <desc>k__BackingField: {fileID: 5759031063648683856}
 --- !u!1 &5661963077779733272
 GameObject:
   m_ObjectHideFlags: 0

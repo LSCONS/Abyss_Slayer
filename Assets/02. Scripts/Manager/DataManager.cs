@@ -33,6 +33,8 @@ public class DataManager : Singleton<DataManager>
     public Dictionary<EAnimatorController, RuntimeAnimatorController> DictEnumToAnimatorData { get; private set; } = new();
     public Dictionary<CharacterClass, CharacterSkillSet> DictClassToSkillSet { get; private set; } = new();
     public Dictionary<CharacterClass, PlayerData> DictClassToPlayerData { get; private set; } = new();
+    public Dictionary<CharacterClass, CharacterClassData> DictCharacterClassData { get; private set; }
+
     public PoolManager PoolManagerPrefab { get; private set; }
     public InitSupporter InitSupporterPrefab { get; private set; }
     public NetworkData PlayerNetworkDataPrefab { get; private set; }
@@ -80,6 +82,7 @@ public class DataManager : Singleton<DataManager>
         await DataLoadPoolObjectData();
         await DataLoadAnimatorControllerData();
         await DataLoadBuffSpriteData();
+        await LoadCharacterClassData();
 
         return;
     }
@@ -94,7 +97,7 @@ public class DataManager : Singleton<DataManager>
         await data.Task;
         foreach (BuffSpriteData buffData in data.Result.ListBuffImageData)
         {
-            if(buffData.BuffSprite == null) continue;
+            if (buffData.BuffSprite == null) continue;
             DictBuffToSprite[buffData.EBuffType] = buffData.BuffSprite;
         }
         return;
@@ -434,10 +437,33 @@ public class DataManager : Singleton<DataManager>
         }
         return result;
     }
+
+    /// <summary>
+    /// 캐릭터 클래스 데이터 로드
+    /// </summary>
+    /// <returns></returns>
+    private async Task LoadCharacterClassData()
+    {
+#if AllMethodDebug
+        Debug.Log("LoadCharacterClassData");
+#endif
+        var handle = Addressables.LoadAssetAsync<CharacterClassDatas>("CharacterClassDatas");
+        await handle.Task;
+
+        var gather = handle.Result;
+        DictCharacterClassData = new();
+
+        foreach (var data in gather.classDataList)
+        {
+            if (!DictCharacterClassData.ContainsKey(data.characterClass))
+                DictCharacterClassData[data.characterClass] = data;
+        }
+    }
+
 }
 
-public enum EType
-{
-    None = 0,
-    BossHitEffect,
-}
+    public enum EType
+    {
+        None = 0,
+        BossHitEffect,
+    }

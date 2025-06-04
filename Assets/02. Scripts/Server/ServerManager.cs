@@ -13,6 +13,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     public Dictionary<PlayerRef, Player> DictRefToPlayer { get; private set; } = new();
     public int BossCount { get; private set; } = 0;
     public string PlayerName { get; set; } = "Empty";
+    public string ServerVersion => Application.version;
     public byte[] PlayerNameBytes
     {
         get
@@ -28,6 +29,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         }
     }
     [field: SerializeField] public List<NetworkObject> BossObject { get; private set; }
+    public string StrHostVersionKey { get; private set; } = "HostVersion";
     public string RoomName { get; private set; } = "Empty";
     //플레이어의 이름이 바뀔 때 실행할 Action
     public Action ChangeNameAction { get; set; }
@@ -457,8 +459,13 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         {
             GameMode = GameMode.Host,
             SessionName = RoomName,
+            SessionProperties = new Dictionary<string, SessionProperty>()
+                {
+                    { StrHostVersionKey, ServerVersion }
+                },
             Scene = SceneRef.FromIndex((int)ESceneName.LobbyScene),
             AuthValues = new Fusion.Photon.Realtime.AuthenticationValues(PlayerName)
+            
         });
         await temp;
         LobbySelectPanel.SetServerInit();

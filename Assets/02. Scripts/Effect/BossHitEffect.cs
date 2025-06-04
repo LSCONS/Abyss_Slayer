@@ -79,4 +79,7 @@ public enum EHitEffectType
 {
     Normal, // 일반공격
     Dash,   // 마검사 대쉬 공격
+    
+    Fire = 10,   // 마법사 불 공격
+    Smoke,
 }

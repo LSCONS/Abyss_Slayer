@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 400
   m_Sprite: {fileID: 1042030862, guid: 45af1fc792989f342a52c605b1f11890, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7058824}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -239,7 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3414f06d5f5920748a447c6e1dda9a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectPrefab: {fileID: 7843340872266542274}
 --- !u!114 &6777291315781303096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,5 +256,6 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: -3633896019085844845}
   - {fileID: 6827139483093492416}
   ForceRemoteRenderTimeframe: 0
