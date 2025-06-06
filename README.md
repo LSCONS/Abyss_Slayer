@@ -60,19 +60,14 @@ Unity 엔진으로 개발되었으며, 최대 5명의 플레이어가 실시간�
 - SFX 풀링으로 GC 최소화
 
 ### 스킬 시스템
-- ScriptableObject 기반
+- ScriptableObject 및 상속 구조 기반
 - Skill → AttackSkill / BuffSkill 등으로 카테고리 분류
 - 인스펙터 기반 시각화 및 데이터 수정 용이
 
 ### 보스 패턴
-- ScriptableObject로 정의된 패턴
+- ScriptableObject 기반
 - 쿨타임, 가중치, 체력 조건 기반 랜덤 선택
 - 코루틴 기반 연출 및 공격 처리
-
-### 디버프 시스템
-- DebuffType Enum 기반 관리
-- Boss.cs에서 Coroutine으로 지속시간 관리
-- IDebuff 인터페이스로 효과 분리 및 확장 용이
 
 ### 멀티플레이 네트워크
 - Photon Fusion 2 사용
