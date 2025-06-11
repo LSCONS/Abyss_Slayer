@@ -2,6 +2,7 @@ using Fusion;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Unity.Collections.Unicode;
 public class LobbyState : BaseGameState
 {
     public override UIType StateUIType => UIType.NonGamePlay;
@@ -67,11 +68,50 @@ public class LobbyState : BaseGameState
         await Task.CompletedTask;
     }
 
-    public override Task OnRunnerEnter()
+    public override async Task OnRunnerEnter()
     {
 #if MoveSceneDebug
         Debug.Log("LobbtyState OnRunnerEnter 실행");
 #endif
-        return Task.CompletedTask;
+        NetworkRunner runner = RunnerManager.Instance.GetRunner();
+
+        LoadingState state = GameFlowManager.Instance.prevLodingState;
+        GameValueManager.Instance.ResetStageIndex();
+        await UIManager.Instance.Init();
+        state?.SetLoadingBarValue(0.3f);
+
+        ServerManager.Instance.LobbySelectPanel.JoinRoom();
+
+
+#if MoveSceneDebug
+        Debug.Log("이미지 Sprite 불러오기");
+#endif
+        SpriteImageChange[] imageChanges = Util.FindObjectsByTypeDebug<SpriteImageChange>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (SpriteImageChange imageChange in imageChanges)
+        {
+            await ServerManager.Instance.WaitForThisPlayerDataAsync();
+            NetworkData data = ServerManager.Instance.ThisPlayerData;
+            imageChange.Init(data.Class, data.HairStyleKey, data.SkinKey, data.FaceKey);
+        }
+
+        int hairStyleKey = ServerManager.Instance.ThisPlayerData.HairStyleKey;
+        int skinKey = ServerManager.Instance.ThisPlayerData.SkinKey;
+        int faceKey = ServerManager.Instance.ThisPlayerData.FaceKey;
+
+        ServerManager.Instance.CustomPanelManager.InitID(hairStyleKey, skinKey, faceKey);
+        ServerManager.Instance.CustomPanelManager.ApplyPreview();
+
+
+#if MoveSceneDebug
+        Debug.Log("프로그래스 바 끝날 때까지 대기");
+#endif
+        state?.SetLoadingBarValue(1f);
+        await state?.TaskProgressBar;
+
+
+#if MoveSceneDebug
+        Debug.Log("loadingState 삭제");
+#endif
+        await runner.UnloadScene("LoadingScene");
     }
 }

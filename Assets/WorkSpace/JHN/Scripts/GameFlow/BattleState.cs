@@ -45,7 +45,7 @@ public class BattleState : BaseGameState
         UIManager.Instance.CloseUI(UISceneType.Boss);
         try
         {
-            if(runner.IsServer) PoolManager.Instance.ReturnPoolAllObject();
+            if (runner.IsServer) PoolManager.Instance.ReturnPoolAllObject();
             PoolManager.Instance.CrossHairObject.gameObject.SetActive(false);
         }
         catch { }
@@ -74,7 +74,7 @@ public class BattleState : BaseGameState
         TrySendHpFunnelStep(ref sentHP90, hpPercent, 90f);
         TrySendHpFunnelStep(ref sentHP66, hpPercent, 66f);
         TrySendHpFunnelStep(ref sentHP33, hpPercent, 33f);
-        TrySendHpFunnelStep(ref sentHP5,  hpPercent, 5f);
+        TrySendHpFunnelStep(ref sentHP5, hpPercent, 5f);
 
         previousHpPercent = hpPercent;
 
@@ -138,13 +138,13 @@ public class BattleState : BaseGameState
                 {
 
                     //모든 보스를 모두 처치한 상태일 경우
-                    if(isFinalBoss)
+                    if (isFinalBoss)
                     {
                         //클리어한 모드가 하드 일 경우
-                        if(GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
+                        if (GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
                         {
                             //여러 사람과 플레이 했을 때
-                            if(runner.SessionInfo.PlayerCount > 1)
+                            if (runner.SessionInfo.PlayerCount > 1)
                             {
                                 ServerManager.Instance.ThisPlayerData.Rpc_MultiClearTime(Util.GetNowTimeStirng().StringToBytes(), runner.SessionInfo.PlayerCount);
                             }
@@ -191,8 +191,8 @@ public class BattleState : BaseGameState
             runner.Spawn(DataManager.Instance.CrossHairPrefab);
         }
         bool isFinalBoss = (GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1);
-            if (isFinalBoss) SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene_Last);
-            else SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene);
+        if (isFinalBoss) SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene_Last);
+        else SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene);
         UIManager.Instance.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
 
         // 보스 찾기
@@ -360,7 +360,7 @@ public class BattleState : BaseGameState
         sentStageClear = false;
         sentStageFail = false;
     }
-    
+
 
     // 퍼널 스텝 번호 반환 함수들
     private int GetFunnelStepHP(int percent)
@@ -391,7 +391,7 @@ public class BattleState : BaseGameState
         {
             sentFlag = true;
             int stepNumber = GetFunnelStepHP((int)threshold);
-            
+
             try
             {
                 if (!AnalyticsManager.IsInitialized) return;

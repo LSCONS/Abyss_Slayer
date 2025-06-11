@@ -75,6 +75,11 @@ public class UILobbySelectPanel : UIPermanent
         ServerManager.Instance.ThisPlayerData.Rpc_LobbySelectLevelUpdateUI(newIndex);
     }
 
+
+    /// <summary>
+    /// 난이도 조절 버튼의 활성화 여부를 조절 하는 메서드
+    /// </summary>
+    /// <param name="EGameLevelInt"></param>
     private void SetActiveButton(int EGameLevelInt)
     {
 #if AllMethodDebug

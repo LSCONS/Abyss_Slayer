@@ -98,9 +98,7 @@ public class CustomPanelManager : UIPopup
 #endif
         SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         SkinId = Mathf.Clamp(SkinId + id, 1, maxSkinId);
-        skinNameText.text = $"Skin {SkinId}";
-        UpdatePreview();
-        UpdateButtonInteractable();
+        ChangeIndex();
     }
 
     private void ChangeFaceIndex(int id)
@@ -110,9 +108,7 @@ public class CustomPanelManager : UIPopup
 #endif
         SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         FaceId = Mathf.Clamp(FaceId + id, 1, maxFaceId);
-        faceNameText.text = $"Face {FaceId}";
-        UpdatePreview();
-        UpdateButtonInteractable();
+        ChangeIndex();
     }
     private void ChangeHairIndex(int id)
     {
@@ -121,6 +117,13 @@ public class CustomPanelManager : UIPopup
 #endif
         SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
         HairStyleID = Mathf.Clamp(HairStyleID + id, 1, maxHairId);
+        ChangeIndex();
+    }
+
+    private void ChangeIndex()
+    {
+        skinNameText.text = $"Skin {SkinId}";
+        faceNameText.text = $"Face {FaceId}";
         hairNameText.text = $"Hair {HairStyleID}";
         UpdatePreview();
         UpdateButtonInteractable();
@@ -180,6 +183,15 @@ public class CustomPanelManager : UIPopup
         await ServerManager.Instance.WaitForThisPlayerDataAsync();
         ServerManager.Instance.ThisPlayerData.Rpc_InitPlayerCustom(HairStyleID, SkinId, FaceId);
         OnClose();
+    }
+
+
+    public void InitID(int hairStyleID, int skinID, int faceID)
+    {
+        HairStyleID = hairStyleID;
+        SkinId = skinID;
+        FaceId = faceID;
+        ChangeIndex();
     }
 
 

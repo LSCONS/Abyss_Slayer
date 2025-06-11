@@ -11,8 +11,10 @@ public class UIPlayerState : UIPermanent
 
     private void Awake()
     {
+#if AllMethodDebug
+        Debug.Log("Awake");
+#endif
         ServerManager.Instance.UIPlayerState = this;
-        
     }
 
     public override void Init()
