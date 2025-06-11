@@ -27,18 +27,18 @@ public class BossPhase2Data : BasePatternData
         bossController.HitCollider.enabled = false;
 
         // 2. 플레이어도 멈추고 무적
-        ServerManager.Instance.ThisPlayerData.Rpc_DisconnectInput();
-        ServerManager.Instance.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(true);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_DisconnectInput();
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(true);
 
         // 3. 카메라 줌하기
-        ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(phase2ZoomScale, 20);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_VirtualCamera(phase2ZoomScale, 20);
 
         // 4. 사운드 넣고
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
         // 5. UI 넣고
-        ServerManager.Instance.ThisPlayerData.Rpc_OpenPopup("Phase2StartPopup".StringToBytes(), phase2UIText.StringToBytes());
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_OpenPopup("Phase2StartPopup".StringToBytes(), phase2UIText.StringToBytes());
 
         // 6. 잠깐 대기
         yield return new WaitForSeconds(delayBeforeStart);
@@ -47,14 +47,14 @@ public class BossPhase2Data : BasePatternData
         yield return new WaitForSeconds(phase2Duration);
 
         // 8. UI 닫기\
-        ServerManager.Instance.ThisPlayerData.Rpc_ClosePopup("Phase2StartPopup".StringToBytes());
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_ClosePopup("Phase2StartPopup".StringToBytes());
 
         // 9. 카메라 복원
-        ServerManager.Instance.ThisPlayerData.Rpc_VirtualCamera(5f, 5);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_VirtualCamera(5f, 5);
 
         // 10. 보스 피격 가능 & 플레이어 조작 복구
         bossController.HitCollider.enabled = true;
-        ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
-        ServerManager.Instance.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(false);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_ConnectInput();
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(false);
     }
 }

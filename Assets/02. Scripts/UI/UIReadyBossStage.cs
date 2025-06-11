@@ -25,7 +25,7 @@ public class UIReadyBossStage : UIButton
         Debug.Log("Awake");
 #endif
         base.Awake();
-        ServerManager.Instance.UIReadyBossStage = this;
+        ManagerHub.Instance.UIConnectManager.UIReadyBossStage = this;
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         TextBtnReadyOrStart.text = runner.IsServer ? ServerText : ClientText;
         BtnReadyOrStart.interactable = runner.IsServer ? false : true;
@@ -51,16 +51,16 @@ public class UIReadyBossStage : UIButton
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
-            foreach(var data in ServerManager.Instance.DictRefToNetData)
+            foreach(var data in ManagerHub.Instance.ServerManager.DictRefToNetData)
             {
                 if (runner.LocalPlayer == data.Key)
                 {
-                    ServerManager.Instance.IsAllReadyAction = SetActiveButton;
+                    ManagerHub.Instance.ServerManager.IsAllReadyAction = SetActiveButton;
                     continue; 
                 }
             }
-            bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReadyInServer();
-            ServerManager.Instance.IsAllReadyAction(isAllReday);
+            bool isAllReday = ManagerHub.Instance.ServerManager.CheckAllPlayerIsReadyInServer();
+            ManagerHub.Instance.ServerManager.IsAllReadyAction(isAllReday);
         }
     }
 
@@ -71,7 +71,7 @@ public class UIReadyBossStage : UIButton
 #endif
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer) return;
-        Player player = ServerManager.Instance.ThisPlayer;
+        Player player = ManagerHub.Instance.ServerManager.ThisPlayer;
         //준비가 안 된 상태에서 스킬 포인트가 남아 있을 경우
         if(!(IsReady) && player.SkillPoint.Value + player.StatPoint.Value > 0)
         {
@@ -91,7 +91,7 @@ public class UIReadyBossStage : UIButton
 #endif
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (!(runner.IsServer)) return;
-        Player player = ServerManager.Instance.ThisPlayer;
+        Player player = ManagerHub.Instance.ServerManager.ThisPlayer;
         if (player.SkillPoint.Value + player.StatPoint.Value > 0)
         {
             UISkillPointArlamPopup.TextDescription.text = UISkillPointArlamPopup.strServerText;
@@ -111,7 +111,7 @@ public class UIReadyBossStage : UIButton
         if (RunnerManager.Instance.GetRunner().IsServer) return;
         IsReady = false;
         ImgBtnColor.color = OffReadyColor;
-        ServerManager.Instance.ThisPlayerData.Rpc_PlayerIsReady(IsReady);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_PlayerIsReady(IsReady);
     }
 
     public void ClientActionButton()
@@ -121,7 +121,7 @@ public class UIReadyBossStage : UIButton
 #endif
         IsReady = !IsReady;
         ImgBtnColor.color = IsReady ? OnReadyColor : OffReadyColor;
-        ServerManager.Instance.ThisPlayerData.Rpc_PlayerIsReady(IsReady);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_PlayerIsReady(IsReady);
     }
 
     public void ServerActionButton()
@@ -129,7 +129,7 @@ public class UIReadyBossStage : UIButton
 #if AllMethodDebug
         Debug.Log("ServerActionButton");
 #endif
-        ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.BattleScene);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_MoveScene(ESceneName.BattleScene);
     }
 
     public void SetActiveButton(bool isAllReady)

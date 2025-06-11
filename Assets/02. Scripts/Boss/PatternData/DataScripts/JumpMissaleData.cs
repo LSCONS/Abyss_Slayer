@@ -32,7 +32,7 @@ public class JumpMissaleData : BasePatternData
         } while (distance >= moveableDistance || distance <= 5);
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
         bossController.StartCoroutine(bossController.JumpMove(targetPos, jumpDuration));
 
@@ -45,7 +45,7 @@ public class JumpMissaleData : BasePatternData
             Quaternion rot = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x));
             float speed = Random.Range(baseProjectileSpeed * 0.9f, baseProjectileSpeed * 1.1f);
             float homingPow = Random.Range(baseHomingPower * 0.9f, baseHomingPower * 1.1f);
-            ServerManager.Instance.InitSupporter.Rpc_StartHomingProjectileInit(damage, bossTransform.position, rot, playerRef, speed, (int)projectileType, jumpDuration - i * intervalTime, homingPow,0.5f,(int)homingCurve,(int)speedCurve);
+            ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartHomingProjectileInit(damage, bossTransform.position, rot, playerRef, speed, (int)projectileType, jumpDuration - i * intervalTime, homingPow,0.5f,(int)homingCurve,(int)speedCurve);
             yield return new WaitForSeconds(intervalTime);
         }
         yield return new WaitForSeconds(postDelayTime);

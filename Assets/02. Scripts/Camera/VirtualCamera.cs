@@ -16,7 +16,7 @@ public class VirtualCamera : MonoBehaviour
         mainCamera = Camera.main;
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
         confiner = GetComponent<CinemachineConfiner>();
-        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+        Player player = await ManagerHub.Instance.ServerManager.WaitForThisPlayerAsync();
 
         virtualCamera.Follow = player.transform;
         virtualCamera.LookAt = player.transform;

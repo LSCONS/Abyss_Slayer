@@ -9,36 +9,18 @@ using System.Linq;
 /// Unity Analytics의 기본 매니저 클래스
 /// Unity Services 초기화 및 공통 이벤트 전송 기능을 제공
 /// </summary>
-public class AnalyticsManager : MonoBehaviour
+public class AnalyticsManager
 {
-    // 싱글톤 인스턴스
-    private static AnalyticsManager instance;
-    
     // 애널리틱스 서비스 초기화 상태 확인용 플래그
     private static bool isInitialized = false;
 
     // 애널리틱스 서비스 초기화 상태 프로퍼티
     public static bool IsInitialized => isInitialized;
-
-    // 외부에서 접근 가능한 인스턴스 프로퍼티
-    public static AnalyticsManager Instance => instance;
-    
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-            Destroy(gameObject);
-    }
-
     /// <summary>
     /// Unity Services 초기화 및 데이터 수집 시작
     /// 초기화 실패 시 에러 로그를 출력하고 isInitialized 플래그를 false로 설정합니다.
     /// </summary>
-    async void Start()
+    public async void Init()
     {
         try
         {            
@@ -50,7 +32,9 @@ public class AnalyticsManager : MonoBehaviour
             // 초기화 성공 플래그 설정
             isInitialized = true;
             // 초기화 성공 로그 출력
+#if AnalyticsDebug
             Debug.LogAssertion("[Analytics] Analytics data collection started successfully");
+#endif
         }
         catch (System.Exception e)
         {
@@ -66,7 +50,7 @@ public class AnalyticsManager : MonoBehaviour
     /// </summary>
     /// <param name="eventName">전송할 이벤트의 이름</param>
     /// <param name="parameters">이벤트와 함께 전송할 파라미터 딕셔너리</param>
-    public static void SendAnalyticsEvent(string eventName, Dictionary<string, object> parameters)
+    public void SendAnalyticsEvent(string eventName, Dictionary<string, object> parameters)
     {
         // 서비스 초기화 상태 확인
         if (!isInitialized)
@@ -90,7 +74,9 @@ public class AnalyticsManager : MonoBehaviour
             // 이벤트 전송
             AnalyticsService.Instance.RecordEvent(analyticsEvent);
             // 전송 성공 로그 출력
-            Debug.Log($"[Analytics] Event '{eventName}' sent successfully");
+#if AnalyticsDebug
+            Debug.LogAssertion($"[Analytics] Event '{eventName}' sent successfully");
+#endif
         }
         catch (System.Exception e)
         {
@@ -108,7 +94,7 @@ public class AnalyticsManager : MonoBehaviour
     /// 서비스가 초기화되지 않은 경우 이벤트를 전송하지 않습니다.
     /// 이벤트 전송 시 'Funnel_Step' 이벤트 이름과 함께 단계 번호를 파라미터로 전송합니다.
     /// </remarks>
-    public static void SendFunnelStep(int stepNumber)
+    public void SendFunnelStep(int stepNumber)
     {
         // 서비스 초기화 상태 확인
         if (!isInitialized) return;
@@ -120,6 +106,8 @@ public class AnalyticsManager : MonoBehaviour
         // 이벤트 전송
         AnalyticsService.Instance.RecordEvent(funnelEvent);
         // 전송 성공 로그 출력
+#if AnalyticsDebug
         Debug.LogAssertion($"[Analytics] Funnel Step Sent: {stepNumber}");
+#endif
     }
 }

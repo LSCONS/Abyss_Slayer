@@ -30,10 +30,10 @@ public class UIRoomSearch : UIPopup
 #if AllMethodDebug
         Debug.Log("Awake");
 #endif
-        ServerManager.Instance.RoomSearch = this;
+        ManagerHub.Instance.UIConnectManager.UIRoomSearch = this;
         BtnJoin.onClick.AddListener(TryJoinRoom);
         BtnSearchAgain.onClick.AddListener(UpdateRoomList);
-        BtnSearchAgain.onClick.AddListener(()=>SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick));
+        BtnSearchAgain.onClick.AddListener(()=>ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick));
         var data = Addressables.LoadAssetAsync<GameObject>("RoomPrefab");
         await data.Task;
         RoomPrefabs = data.Result.GetComponent<UIRoomPrefab>();
@@ -56,7 +56,7 @@ public class UIRoomSearch : UIPopup
 #if AllMethodDebug
         Debug.Log("UpdateRoomList");
 #endif
-        foreach (SessionInfo sessionInfo in ServerManager.Instance.CurrentSessionList)
+        foreach (SessionInfo sessionInfo in ManagerHub.Instance.ServerManager.CurrentSessionList)
         {
             if (DictSessionToRoom.ContainsKey(sessionInfo))
             {
@@ -72,15 +72,15 @@ public class UIRoomSearch : UIPopup
         }
 
         //목록 세션이 매개변수 세션보다 많다면 삭제할 세션을 찾고 목록에서 제거
-        if(DictSessionToRoom.Count > ServerManager.Instance.CurrentSessionList.Count)
+        if(DictSessionToRoom.Count > ManagerHub.Instance.ServerManager.CurrentSessionList.Count)
         {
-            RemoveRoomList(ServerManager.Instance.CurrentSessionList);
+            RemoveRoomList(ManagerHub.Instance.ServerManager.CurrentSessionList);
         }
 
 
-        foreach (SessionInfo sessionInfo in ServerManager.Instance.CurrentSessionList)
+        foreach (SessionInfo sessionInfo in ManagerHub.Instance.ServerManager.CurrentSessionList)
         {
-            if(!(sessionInfo.IsOpen) || sessionInfo.PlayerCount >= ServerManager.Instance.MaxHeadCount)
+            if(!(sessionInfo.IsOpen) || sessionInfo.PlayerCount >= ManagerHub.Instance.ServerManager.MaxHeadCount)
             {
                 DictSessionToRoom[sessionInfo].BtnRoom.interactable = false;
                 if (SelectRoomSession == sessionInfo)
@@ -131,17 +131,17 @@ public class UIRoomSearch : UIPopup
 #if AllMethodDebug
         Debug.Log("TryJoinRoom");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         //새로고침 한 번 실행
         UpdateRoomList();
 
-        if (SelectRoomSession.PlayerCount >= ServerManager.Instance.MaxHeadCount)
+        if (SelectRoomSession.PlayerCount >= ManagerHub.Instance.ServerManager.MaxHeadCount)
         {
             //TODO: 인원 수 초과 알림 필요
             string strWarningMaxPlayerCount = "방의 플레이어 제한 수가 가득 찼습니다.";
-            UIPopup popup = UIManager.Instance.GetPopup("WarningGameVersionPopup");
+            UIPopup popup = ManagerHub.Instance.UIManager.GetPopup("WarningGameVersionPopup");
             popup.desc.text = strWarningMaxPlayerCount;
-            UIManager.Instance.OpenPopup(popup);
+            ManagerHub.Instance.UIManager.OpenPopup(popup);
             return;
         }
 
@@ -149,33 +149,33 @@ public class UIRoomSearch : UIPopup
         {
             //TODO: 이미 시작하거나 파괴된 방입니다.
             string strWarningNotOpenRoom = "이미 시작하거나 파괴된 방입니다.";
-            UIPopup popup = UIManager.Instance.GetPopup("WarningGameVersionPopup");
+            UIPopup popup = ManagerHub.Instance.UIManager.GetPopup("WarningGameVersionPopup");
             popup.desc.text = strWarningNotOpenRoom;
-            UIManager.Instance.OpenPopup(popup);
+            ManagerHub.Instance.UIManager.OpenPopup(popup);
             return;
         }
 
-        if(!(SelectRoomSession.Properties.TryGetValue(ServerManager.Instance.StrHostVersionKey, out SessionProperty value)))
+        if(!(SelectRoomSession.Properties.TryGetValue(ManagerHub.Instance.ServerManager.StrHostVersionKey, out SessionProperty value)))
         {
             //TODO: 호스트의 버전을 확인할 수 없다는 알림 필요
             string strWarningNotUseVersion = "호스트의 버전을 찾을 수 없습니다.";
-            UIPopup popup = UIManager.Instance.GetPopup("WarningGameVersionPopup");
+            UIPopup popup = ManagerHub.Instance.UIManager.GetPopup("WarningGameVersionPopup");
             popup.desc.text = strWarningNotUseVersion;
-            UIManager.Instance.OpenPopup(popup);
+            ManagerHub.Instance.UIManager.OpenPopup(popup);
             return;
         }
 
         string strHostVersion = (string)value;
-        if (ServerManager.Instance.ServerVersion != strHostVersion)
+        if (ManagerHub.Instance.ServerManager.ServerVersion != strHostVersion)
         {
             //TODO: 호스트와의 버전이 다르다는 알림 필요
-            string strWarningNotSameVersion = $"호스트와 게임 버전이 달라\r\n접속할 수 없습니다.\r\n\r\n요구 버전: {strHostVersion}V\r\n현재 버전: {ServerManager.Instance.ServerVersion}V";
-            UIPopup popup = UIManager.Instance.GetPopup("WarningGameVersionPopup");
+            string strWarningNotSameVersion = $"호스트와 게임 버전이 달라\r\n접속할 수 없습니다.\r\n\r\n요구 버전: {strHostVersion}V\r\n현재 버전: {ManagerHub.Instance.ServerManager.ServerVersion}V";
+            UIPopup popup = ManagerHub.Instance.UIManager.GetPopup("WarningGameVersionPopup");
             popup.desc.text = strWarningNotSameVersion;
-            UIManager.Instance.OpenPopup(popup);
+            ManagerHub.Instance.UIManager.OpenPopup(popup);
             return;
         }
 
-        ServerManager.Instance.JoinRoom(SelectRoomSession);
+        ManagerHub.Instance.ServerManager.JoinRoom(SelectRoomSession);
     }
 }

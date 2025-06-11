@@ -87,7 +87,7 @@ public class PlayerStateMachine : StateMachine
 
     public override void ChangeState(IPlayerState state, bool loading = false)
     {
-        if (!(ServerManager.Instance.PlayerInput.IsConnectInput) && !(loading)) return;
+        if (!(ManagerHub.Instance.ServerManager.PlayerInput.IsConnectInput) && !(loading)) return;
         base.ChangeState(state);
         if (!(Player.Runner.IsServer)) return;
         Player.ChagneState(GetIntDictStateToInit(state));

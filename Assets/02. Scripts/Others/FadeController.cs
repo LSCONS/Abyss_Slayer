@@ -29,7 +29,7 @@ public class FadeController : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_Init(PlayerRef playerRef, float radius, float duration, float effectAmount)
     {
-        player = ServerManager.Instance.DictRefToPlayer[playerRef];
+        player = ManagerHub.Instance.ServerManager.DictRefToPlayer[playerRef];
         transform.parent = player.transform;
         transform.localPosition = Vector3.zero;
         player.ArmorAmount -= effectAmount;

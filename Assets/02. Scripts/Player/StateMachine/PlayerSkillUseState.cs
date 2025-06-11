@@ -63,7 +63,7 @@ public class PlayerSkillUseState : PlayerBaseState
 
         if (SkillData.EAudioClip != EAudioClip.None)
         {
-            SoundManager.Instance.PlaySFX(SkillData.EAudioClip);
+            ManagerHub.Instance.SoundManager.PlaySFX(SkillData.EAudioClip);
         }
 
 
@@ -91,9 +91,9 @@ public class PlayerSkillUseState : PlayerBaseState
 
         if (SkillData.EAudioClip != EAudioClip.None)
         {
-            if (!(DataManager.Instance.DictEnumToAudioData.TryGetValue(SkillData.EAudioClip, out var audioData))) return;
+            if (!(ManagerHub.Instance.DataManager.DictEnumToAudioData.TryGetValue(SkillData.EAudioClip, out var audioData))) return;
             if (audioData.Audio == null || !(audioData.IsLoop)) return;
-            SoundManager.Instance.StopSFX(SkillData.EAudioClip);
+            ManagerHub.Instance.SoundManager.StopSFX(SkillData.EAudioClip);
         }
 
 #if StateMachineDebug

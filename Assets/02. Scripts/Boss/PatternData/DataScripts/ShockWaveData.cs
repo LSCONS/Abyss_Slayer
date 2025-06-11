@@ -25,9 +25,9 @@ public class ShockWaveData : BasePatternData
         Vector3 startPosition = bossTransform.position + Vector3.down * bossCenterHight;
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
-        ServerManager.Instance.InitSupporter.Rpc_StartExplosionInit(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
+        ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartExplosionInit(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
         //PoolManager.Instance.Get<Explosion>().Init(startPosition + (Vector3.up * 0.3f), damage, 0.5f);
         bossController.StartCoroutine(ShockWave(startPosition));
 
@@ -37,8 +37,8 @@ public class ShockWaveData : BasePatternData
     {
         for (int i = 0; i < shockCount; i++)
         {
-            ServerManager.Instance.InitSupporter.Rpc_StartShockWaveInit(startPosition + (Vector3.right * shockOffsetWidth * (i + 1)), damage);
-            ServerManager.Instance.InitSupporter.Rpc_StartShockWaveInit(startPosition + (Vector3.left * shockOffsetWidth * (i + 1)), damage);
+            ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartShockWaveInit(startPosition + (Vector3.right * shockOffsetWidth * (i + 1)), damage);
+            ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartShockWaveInit(startPosition + (Vector3.left * shockOffsetWidth * (i + 1)), damage);
 
             yield return new WaitForSeconds(shockOffsetTime);
         }

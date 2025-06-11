@@ -86,15 +86,15 @@ public class HomingProjectile : BasePoolable
         transform.position = _position;
         transform.localScale = Vector3.one;
         transform.rotation = rotate;
-        _target = ServerManager.Instance.DictRefToPlayer[target].transform;
+        _target = ManagerHub.Instance.ServerManager.DictRefToPlayer[target].transform;
         _inputSpeed = speed;
         _homingPower = homingPower;
         _explosionSize = explosionSize;
         _fireTime = Time.time + delayFireTime;
         if (homingCurve != 0)
-            this.homingCurve = DataManager.Instance.DictEnumToCurve[(EAniamtionCurve)homingCurve];
+            this.homingCurve = ManagerHub.Instance.DataManager.DictEnumToCurve[(EAniamtionCurve)homingCurve];
         if (speedCurve != 0)
-            this.speedCurve = DataManager.Instance.DictEnumToCurve[(EAniamtionCurve)speedCurve];
+            this.speedCurve = ManagerHub.Instance.DataManager.DictEnumToCurve[(EAniamtionCurve)speedCurve];
         _animator.SetTrigger(((HomingProjectileType)HomingProjectileType).ToString());
 
         hitCollider.Init(damage, Rpc_Destroy);     //하위 충돌여부 판단하는 콜라이더 소지 오브젝트 초기화
@@ -152,6 +152,6 @@ public class HomingProjectile : BasePoolable
     }
     public void Sound()
     {
-        SoundManager.Instance.PlaySFX(sound);
+        ManagerHub.Instance.SoundManager.PlaySFX(sound);
     }
 }

@@ -18,9 +18,9 @@ public class UIPopup : UIBase
 
     public virtual void OnDisable()
     {
-        if (UIManager.Instance != null && UIManager.Instance.popupStack.Contains(this))
+        if (ManagerHub.Instance.UIManager != null && ManagerHub.Instance.UIManager.PopupStack.Contains(this))
         {
-            UIManager.Instance.CloseCurrentPopup(this);
+            ManagerHub.Instance.UIManager.CloseCurrentPopup(this);
         }
     }
 
@@ -83,7 +83,7 @@ public class UIPopup : UIBase
     /// </summary>
     public override void Close()
     {
-        // SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        // ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
 
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
@@ -112,7 +112,7 @@ public class UIPopup : UIBase
     public virtual void OnClose()
     {
         Close();
-        UIManager.Instance.CloseCurrentPopup(this);
+        ManagerHub.Instance.UIManager.CloseCurrentPopup(this);
     }
 
     public void SetDesc(string text)

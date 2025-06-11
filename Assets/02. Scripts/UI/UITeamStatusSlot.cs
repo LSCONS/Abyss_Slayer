@@ -8,11 +8,11 @@ using UnityEngine.UI;
 public class UITeamStatusSlot : MonoBehaviour
 {
     [field: SerializeField] public Image ImgPlayerIcon { get;private set; }
-    [field: SerializeField] public TextMeshProUGUI TextPlayerName { get; private set; }
     [field: SerializeField] public Image ImgPalyerHP { get; private set; }
+    [field: SerializeField] public Image classIcon { get; private set; }
+    [field: SerializeField] public TextMeshProUGUI TextPlayerName { get; private set; }
     [field: SerializeField] public TextMeshProUGUI TextReadyPlayer { get; private set; }
     [field: SerializeField] public UIHealthBar UIHealthBar { get; private set; }
-    [field:SerializeField] public Image classIcon { get; private set; }
     public string OnReadyText { get; private set; } = "[준비 완료]";
     public string OffReadyText { get; private set; } = "[준비 중...]";
     public string InGameText { get; private set; } = "[게임 중...]";
@@ -40,8 +40,8 @@ public class UITeamStatusSlot : MonoBehaviour
 #if AllMethodDebug
         Debug.Log("ChagneInRestText");
 #endif
-        TextPlayerName.text = ServerManager.Instance.DictRefToNetData[SlotPlayerRef].GetName();
-        if (ServerManager.Instance.DictRefToNetData[SlotPlayerRef].IsServer)
+        TextPlayerName.text = ManagerHub.Instance.ServerManager.DictRefToNetData[SlotPlayerRef].GetName();
+        if (ManagerHub.Instance.ServerManager.DictRefToNetData[SlotPlayerRef].IsServer)
         {
             TextReadyPlayer.text = ServerReadyText;
             TextReadyPlayer.color = Color.red;
@@ -85,9 +85,9 @@ public class UITeamStatusSlot : MonoBehaviour
 #if AllMethodDebug
         Debug.Log("SetIcon");
 #endif
-        if (DataManager.Instance.DictClassToImage.TryGetValue(cls, out var icon))
+        if (ManagerHub.Instance.DataManager.DictClassToCharacterData.TryGetValue(cls, out CharacterClassData data))
         {
-            classIcon.sprite = icon;
+            classIcon.sprite = data.IconClass;
         }
     }
 }

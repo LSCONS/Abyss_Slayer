@@ -17,7 +17,7 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
 #if AllMethodDebug
         Debug.Log("Init");
 #endif
-        player = await ServerManager.Instance.WaitForThisPlayerAsync();
+        player = await ManagerHub.Instance.ServerManager.WaitForThisPlayerAsync();
 
         if (!init)
         {
@@ -34,7 +34,7 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
 #endif
         init = true;
 
-        foreach (var kvp in ServerManager.Instance.ThisPlayer.DictSlotKeyToSkill)
+        foreach (var kvp in ManagerHub.Instance.ServerManager.ThisPlayer.DictSlotKeyToSkill)
         {
             if (!IsASDKey(kvp.Key))
                 continue;
@@ -61,7 +61,7 @@ public class UISkillSlotManager : Singleton<UISkillSlotManager>
 
 
         // 이제 플레이어 스킬 다시 돌면서 재연결
-        foreach (var kvp in ServerManager.Instance.ThisPlayer.DictSlotKeyToSkill)
+        foreach (var kvp in ManagerHub.Instance.ServerManager.ThisPlayer.DictSlotKeyToSkill)
         {
             if (!IsASDKey(kvp.Key))
                 continue;

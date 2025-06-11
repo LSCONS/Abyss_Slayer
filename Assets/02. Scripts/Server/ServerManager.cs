@@ -8,8 +8,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
+public class ServerManager : INetworkRunnerCallbacks
 {
+    public UIConnectManager UIConnectManager => ManagerHub.Instance.UIConnectManager;
+    public Transform TrManagerHub => ManagerHub.Instance.transform;
     public Dictionary<PlayerRef, Player> DictRefToPlayer { get; private set; } = new();
     public int BossCount { get; private set; } = 0;
     public string PlayerName { get; set; } = "Empty";
@@ -45,31 +47,11 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         => DictRefToNetData.TryGetValue(ThisPlayerRef, out var data) ? data : null;
     public Player ThisPlayer 
         => DictRefToPlayer.TryGetValue(ThisPlayerRef, out var player) ? player : null;
-    //public PlayerInput ThisPlayerInput
-    //    => ThisPlayer.PlayerInput;
-    //플레이어가 접속할 경우 복사해서 생성할 데이터 프리팹
-    [field: SerializeField] public NetworkData DataPrefab { get; private set; }
-
-    //플레이어의 입력을 담당할 인풋
-    //public PlayerInput LocalInput { get; private set; }
-    //방에 참가 할 수 있는 최대 인원 수
     public int MaxHeadCount { get; private set; } = 5;
     public bool IsServer { get; private set; } = false;
     public Fireworks fireworks { get; set; }
-    public UIChatController ChattingTextController { get; set; }
-    public UILobbyMainPanel LobbyMainPanel { get; set; }
-    public UILobbySelectPanel LobbySelectPanel { get; set; }
-    public UIRoomSearch RoomSearch { get; set; }
-    public UITeamStatus UITeamStatus { get; set; }
     public InitSupporter InitSupporter { get; set; }
-    public CustomPanelManager CustomPanelManager { get; set; }
     public PoolManager PoolManager { get; set; }
-    public UIStartTitle UIStartTitle { get; set; }
-    public UIReadyBossStage UIReadyBossStage { get; set; }
-    public UIBossState UIBossState { get; set; }
-    public UIPlayerState UIPlayerState { get; set; }
-    public UISkillUpgradeStore UISkillUpgradeStore { get; set; }
-    public UIStatUpgradeStore UIStatUpgradeStore { get; set; }
     public Vector3 Vec3PlayerBattlePosition { get; private set; } = new Vector3(-18, 1.5f, 0);
     public Vector3 Vec3PlayerRestPosition { get; private set; } = new Vector3(-5, 1.5f, 0);
     public Action<bool> IsAllReadyAction { get; set; }
@@ -78,17 +60,11 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         get
         {
             if (playerInput != null) return playerInput;
-            return playerInput = GetComponent<PlayerInput>() ?? gameObject.AddComponent<PlayerInput>();
+            return playerInput = TrManagerHub.GetComponent<PlayerInput>() ?? TrManagerHub.gameObject.AddComponent<PlayerInput>();
         }
     }
     private PlayerInput playerInput;
     public Boss Boss { get; set; } = null;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
-    }
 
 
     /// <summary>
@@ -105,23 +81,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         foreach (NetworkData data in DictRefToNetData.Values)
         {
             if (data == ThisPlayerData) continue;
-            if (!(data.IsReady)) return false;
-        }
-        return true;
-    }
-
-
-    /// <summary>
-    /// 모든 플레이어가 준비 되었는지 클라이언트에서 확인하는 메서드
-    /// </summary>
-    /// <returns></returns>
-    public bool CheckAllPlayerIsReadyInClient()
-    {
-#if AllMethodDebug
-        Debug.Log("CheckAllPlayerIsReadyInClient");
-#endif
-        foreach (NetworkData data in DictRefToNetData.Values)
-        {
             if (!(data.IsReady)) return false;
         }
         return true;
@@ -160,7 +119,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 
     public async Task WaitForPlayerState()
     {
-        while (UIPlayerState == null)
+        while (UIConnectManager.UIPlayerState == null)
         {
             await Task.Delay(100);
         }
@@ -176,7 +135,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         await WaitForPoolManager();
         while (PoolManager.CrossHairObject == null)
         {
-            PoolManager.CrossHairObject = FindAnyObjectByType<NetworkObjectFollowServer>();
+            PoolManager.CrossHairObject = GameObject.FindAnyObjectByType<NetworkObjectFollowServer>();
             await Task.Delay(100);
         }
         return;
@@ -190,7 +149,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 #endif
         while (PoolManager == null)
         {
-            PoolManager = FindAnyObjectByType<PoolManager>();
+            PoolManager = GameObject.FindAnyObjectByType<PoolManager>();
             await Task.Delay(100);
         }
         return;
@@ -330,19 +289,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
     }
 
 
-    public async Task WaitForPlayerPositionResetAsync(Vector2 position, CancellationToken ct = default)
-    {
-#if AllMethodDebug
-        Debug.Log("WaitForPlayerPositionResetAsync");
-#endif
-        while((Vector2)ThisPlayer.transform.position != position)
-        {
-            ct.ThrowIfCancellationRequested();
-            await Task.Delay(100);
-        }
-        return;
-    }
-
     /// <summary>
     /// 플레이어의 수 만큼 Player를 생성하는 메서드
     /// </summary>
@@ -358,7 +304,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         {
             var spawnResult = runner.Spawn
             (
-                DataManager.Instance.PlayerPrefab,
+                ManagerHub.Instance.DataManager.PlayerPrefab,
                 tempVec3,
                 Quaternion.identity,
                 playerRef,
@@ -383,13 +329,13 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 #if AllMethodDebug
         Debug.Log("CreateRoom");
 #endif
-        ChattingTextController.TextChattingRecord.text = "";//채팅 초기화
+        UIConnectManager.UIChatController.TextChattingRecord.text = "";//채팅 초기화
         RoomName = roomName;
-        LobbyMainPanel.ChangeRoomText();
+        UIConnectManager.UILobbyMainPanel.ChangeRoomText();
         var runner = RunnerManager.Instance.GetRunner();
         runner.ProvideInput = true;
         IsServer = true;
-        GameFlowManager.Instance.ClientSceneLoad(ESceneName.LobbyScene);
+        ManagerHub.Instance.GameFlowManager.ClientSceneLoad(ESceneName.LobbyScene);
     }
 
 
@@ -420,13 +366,13 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         Debug.Log("JoinRoom");
         Debug.Log($"RoomName = {RoomName}");
 #endif
-        ChattingTextController.TextChattingRecord.text = "";//채팅 초기화
+        UIConnectManager.UIChatController.TextChattingRecord.text = "";//채팅 초기화
         RoomName = info.Name;
-        LobbyMainPanel.ChangeRoomText();
+        UIConnectManager.UILobbyMainPanel.ChangeRoomText();
         var runner = RunnerManager.Instance.GetRunner();
         runner.ProvideInput = true;
         IsServer = false;
-        GameFlowManager.Instance.ClientSceneLoad(ESceneName.LobbyScene);
+        ManagerHub.Instance.GameFlowManager.ClientSceneLoad(ESceneName.LobbyScene);
     }
 
     public async Task InitTutorial()
@@ -454,7 +400,6 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         Debug.Log($"RoomName = {RoomName}");
 #endif
         var runner = RunnerManager.Instance.GetRunner();
-        Debug.Log("방 만들기 시작");
         var temp = runner.StartGame(new StartGameArgs()
         {
             GameMode = GameMode.Host,
@@ -468,7 +413,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
             
         });
         await temp;
-        LobbySelectPanel.SetServerInit();
+        UIConnectManager.UILobbySelectPanel.SetServerInit();
         return;
     }
 
@@ -486,7 +431,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
             AuthValues = new Fusion.Photon.Realtime.AuthenticationValues(PlayerName)
         });
         await temp;
-        LobbySelectPanel.SetClientInit();
+        UIConnectManager.UILobbySelectPanel.SetClientInit();
         return;
     }
 
@@ -503,11 +448,11 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         await runner.Shutdown();
         try
         {
-            Destroy(runner.gameObject);
+            GameObject.Destroy(runner.gameObject);
         }
         catch { }
         await Task.Yield();
-        GameFlowManager.Instance.ClientSceneLoad(ESceneName.StartScene);
+        ManagerHub.Instance.GameFlowManager.ClientSceneLoad(ESceneName.StartScene);
         await ConnectRoomSearch();
         Scene temp = SceneManager.GetSceneByName("FusionSceneManager_TempEmptyScene");
         if (temp.IsValid() && temp.isLoaded)
@@ -571,7 +516,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         if (!runner.IsServer) return;
 
         runner.Spawn(
-            DataPrefab,           // NetworkPrefabRef
+            ManagerHub.Instance.DataManager.PlayerNetworkDataPrefab,           // NetworkPrefabRef
             Vector3.zero,         // 초기 위치
             Quaternion.identity,  // 초기 회전
             player,               // Input Authority 지정
@@ -587,7 +532,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
                 data.HairStyleKey = 1;
             }
         );
-        LobbySelectPanel.CheckAllPlayerIsReady();
+        ManagerHub.Instance.UIConnectManager.UILobbySelectPanel.CheckAllPlayerIsReady();
     }
 
     //플레이어가 나갔을 때 다른 플레이어들에게 실행되는 메서드. runner.SessionInfo는 유효하지만 해당 세션의 인원수는 감소된 형태로 적용된다.
@@ -616,7 +561,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
 
         if (runner.IsServer)
         {
-            LobbySelectPanel?.CheckAllPlayerIsReady();
+            UIConnectManager.UILobbySelectPanel?.CheckAllPlayerIsReady();
             bool isAllReday = CheckAllPlayerIsReadyInServer();
             IsAllReadyAction?.Invoke(isAllReday);
         }
@@ -631,7 +576,7 @@ public class ServerManager : Singleton<ServerManager>, INetworkRunnerCallbacks
         CurrentSessionList = sessionList;
         try
         {
-            RoomSearch.UpdateRoomList();
+            UIConnectManager.UIRoomSearch.UpdateRoomList();
         }
         catch { }
     }

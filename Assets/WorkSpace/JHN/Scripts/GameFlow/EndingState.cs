@@ -21,11 +21,11 @@ public class EndingState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("RestState OnExit 실행");
 #endif
-        UIManager.Instance.CloseUI(UISceneType.Rest);
+        ManagerHub.Instance.UIManager.CloseUI(UISceneType.Rest);
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
-            ServerManager.Instance.ThisPlayerData.Rpc_DisconnectInput();
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_DisconnectInput();
         }
 
         await Task.CompletedTask;
@@ -36,10 +36,10 @@ public class EndingState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("RestState OnRunnerEnter 실행");
 #endif
-        LoadingState state = GameFlowManager.Instance.prevLodingState;
-        await UIManager.Instance.Init();
+        LoadingState state = ManagerHub.Instance.GameFlowManager.prevLodingState;
+        await ManagerHub.Instance.UIManager.UIInit();
         state?.SetLoadingBarValue(0.3f);
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(false);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(false);
 
 #if MoveSceneDebug
         Debug.Log("서버에서 보스 스폰 실행");
@@ -52,14 +52,14 @@ public class EndingState : BaseGameState
         if (runner.IsServer)
         {
             //모든 플레이어의 데이터가 들어있는지 확인하는 메서드
-            await ServerManager.Instance.WaitForAllPlayerLoadingAsync();
+            await ManagerHub.Instance.ServerManager.WaitForAllPlayerLoadingAsync();
         }
         state?.SetLoadingBarValue(1);
         await state?.TaskProgressBar;
 
-        SoundManager.Instance.PlayBGM(EAudioClip.BGM_EndingScene);
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
+        ManagerHub.Instance.SoundManager.PlayBGM(EAudioClip.BGM_EndingScene);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(true);
+        await ManagerHub.Instance.ServerManager.WaitForAllPlayerIsReadyTrue();
         await Task.Delay(60);
         if (runner.IsServer)
         {
@@ -69,13 +69,13 @@ public class EndingState : BaseGameState
             await runner.UnloadScene("LoadingScene");
         }
 
-        GameFlowManager.Instance.endCredit.StartScrollCredit();
+        ManagerHub.Instance.GameFlowManager.endCredit.StartScrollCredit();
     }
 
     // 크레딧 끝나면 다음 스테이트로 넘어갈 수 있도록 대기
     private async Task WaitForCreditEnd()
     {
-        CreditRoller creditObj = GameFlowManager.Instance.endCredit;
+        CreditRoller creditObj = ManagerHub.Instance.GameFlowManager.endCredit;
 
         if (creditObj == null) return;
 

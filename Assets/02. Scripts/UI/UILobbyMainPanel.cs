@@ -22,7 +22,7 @@ public class UILobbyMainPanel : UIPermanent
 #if AllMethodDebug
         Debug.Log("Awake");
 #endif
-        ServerManager.Instance.LobbyMainPanel = this;
+        ManagerHub.Instance.UIConnectManager.UILobbyMainPanel = this;
     }
 
 
@@ -34,7 +34,7 @@ public class UILobbyMainPanel : UIPermanent
 #if AllMethodDebug
         Debug.Log("ChangeRoomText");
 #endif
-        TextRoomName.text = ServerManager.Instance.RoomName;
+        TextRoomName.text = ManagerHub.Instance.ServerManager.RoomName;
         SetActiveFalseData();
     }
 
@@ -44,7 +44,7 @@ public class UILobbyMainPanel : UIPermanent
 #if AllMethodDebug
         Debug.Log("AddDictRefToRoomData");
 #endif
-        if (playerRef == ServerManager.Instance.ThisPlayerRef)
+        if (playerRef == ManagerHub.Instance.ServerManager.ThisPlayerRef)
         {
             DictRefToRoomData[playerRef] = ThisPlayerData;
             return;
@@ -70,7 +70,7 @@ public class UILobbyMainPanel : UIPermanent
         Debug.Log("UIUpdateSprite");
 #endif
         //서버에 연결되어 있는 데이터 순회
-        foreach (var item in ServerManager.Instance.DictRefToNetData)
+        foreach (var item in ManagerHub.Instance.ServerManager.DictRefToNetData)
         {
             SetChangeClassSubSprite(item.Key);   //CharacterClass의 Sprite를 바꿔주는 메서드
         }
@@ -88,11 +88,11 @@ public class UILobbyMainPanel : UIPermanent
 #endif
         AddDictRefToRoomData(playerRef);
         PlayerRoomData roomData = DictRefToRoomData[playerRef];
-        DictRoomDataToNetworkData[roomData] = ServerManager.Instance.DictRefToNetData[playerRef];
+        DictRoomDataToNetworkData[roomData] = ManagerHub.Instance.ServerManager.DictRefToNetData[playerRef];
         roomData.TextPlayerName.gameObject.SetActive(true);
         roomData.PlayerSpriteChange.gameObject.SetActive(true);
         roomData.TextPlayerState.gameObject.SetActive(true);
-        roomData.TextPlayerName.text = ServerManager.Instance.DictRefToNetData[playerRef].GetName();
+        roomData.TextPlayerName.text = ManagerHub.Instance.ServerManager.DictRefToNetData[playerRef].GetName();
 
         NetworkData data = DictRoomDataToNetworkData[roomData];
         roomData.PlayerSpriteChange.Init(data.Class, data.HairStyleKey, data.SkinKey, data.FaceKey);
@@ -119,7 +119,7 @@ public class UILobbyMainPanel : UIPermanent
         Debug.Log("SetChangeClassSubSprite");
 #endif
         PlayerRoomData roomData = DictRefToRoomData[playerRef];
-        NetworkData data = ServerManager.Instance.DictRefToNetData[playerRef];
+        NetworkData data = ManagerHub.Instance.ServerManager.DictRefToNetData[playerRef];
         roomData.PlayerSpriteChange.Init(data.Class, data.HairStyleKey, data.SkinKey, data.FaceKey);
     }
 

@@ -30,7 +30,7 @@ public class Player : NetworkBehaviour, IHasHealth
     [field: SerializeField] public SpriteChange PlayerSpriteChange { get; private set; }
     [field: SerializeField] public SpriteRenderer LocalPlayerTargetObject { get; private set; }
     public PlayerStateMachine PlayerStateMachine { get; private set; }
-    public PlayerData PlayerData { get; private set; }
+    public CharacterData PlayerData { get; private set; }
     [field: Header("스킬 관련")]
     public Dictionary<SkillSlotKey, Skill> DictSlotKeyToSkill { get; private set; } = new(); // 스킬 연결용 딕셔너리
     public Dictionary<EBuffType, BuffSkill> DictBuffTypeToBuffSkill { get; private set; } = new();
@@ -65,8 +65,8 @@ public class Player : NetworkBehaviour, IHasHealth
     {
         gameObject.SetActive(false);
         base.Spawned();
-        ServerManager.Instance.DictRefToPlayer[PlayerRef] = this;
-        NetworkData = ServerManager.Instance.DictRefToNetData[PlayerRef];
+        ManagerHub.Instance.ServerManager.DictRefToPlayer[PlayerRef] = this;
+        NetworkData = ManagerHub.Instance.ServerManager.DictRefToNetData[PlayerRef];
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
         InitPlayerData();
@@ -74,12 +74,12 @@ public class Player : NetworkBehaviour, IHasHealth
         PlayerStateMachine = new PlayerStateMachine(this);
         PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState, true);
         transform.position = PlayerPosition;
-        StatPoint.Value = GameValueManager.Instance.InitStatusPointValue;
-        SkillPoint.Value = GameValueManager.Instance.InitSkillPointValue;
+        StatPoint.Value = ManagerHub.Instance.GameValueManager.InitStatusPointValue;
+        SkillPoint.Value = ManagerHub.Instance.GameValueManager.InitSkillPointValue;
         if (Runner.LocalPlayer == PlayerRef)
         {
-            await ServerManager.Instance.WaitForPlayerState();
-            ServerManager.Instance.UIPlayerState.UIHealthBar.ConnectPlayerObject(this);
+            await ManagerHub.Instance.ServerManager.WaitForPlayerState();
+            ManagerHub.Instance.UIConnectManager.UIPlayerState.UIHealthBar.ConnectPlayerObject(this);
             LocalPlayerTargetObject.gameObject.SetActive(true);
         }
         else
@@ -92,8 +92,8 @@ public class Player : NetworkBehaviour, IHasHealth
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
         gameObject.SetActive(false);
-        if (ServerManager.Instance.DictRefToPlayer[PlayerRef] != this)
-            ServerManager.Instance.DictRefToPlayer.Remove(PlayerRef);
+        if (ManagerHub.Instance.ServerManager.DictRefToPlayer[PlayerRef] != this)
+            ManagerHub.Instance.ServerManager.DictRefToPlayer.Remove(PlayerRef);
         base.Despawned(runner, hasState);
     }
 
@@ -129,7 +129,7 @@ public class Player : NetworkBehaviour, IHasHealth
 
         if (current != target)
         {
-            float t = GameValueManager.Instance.MoveSmoothObjectPositionForClientValue * Time.deltaTime;
+            float t = ManagerHub.Instance.GameValueManager.MoveSmoothObjectPositionForClientValue * Time.deltaTime;
             Vector2 newPos = Vector2.Lerp(current, target, t);
             transform.position = newPos;
         }
@@ -282,7 +282,7 @@ public class Player : NetworkBehaviour, IHasHealth
         PlayerSpriteChange.Init(playerCharacterClass, NetworkData.HairStyleKey, NetworkData.FaceKey, NetworkData.SkinKey);
 
         // 플레이어 기본 데이터 로드 및 복사
-        PlayerData = DataManager.Instance.DictClassToPlayerData[playerCharacterClass];
+        PlayerData = ManagerHub.Instance.DataManager.DictClassToCharacterData[playerCharacterClass].CharacterData;
         PlayerData = Instantiate(PlayerData);
 
         Hp.Value = PlayerData.PlayerStatusData.HP_Cur;
@@ -292,7 +292,7 @@ public class Player : NetworkBehaviour, IHasHealth
         BaseDamage = PlayerData.PlayerStatusData.Damage_Base;
 
         //TODO: 이 데이터 언젠가 바꿔야함
-        CharacterSkillSet skillSet = DataManager.Instance.DictClassToSkillSet[NetworkData.Class];
+        CharacterSkillSet skillSet = ManagerHub.Instance.DataManager.DictClassToCharacterData[NetworkData.Class].CharacterSkillSet;
         skillSet = Instantiate(skillSet);
         skillSet.InstantiateSkillData(this);
 
@@ -359,7 +359,7 @@ public class Player : NetworkBehaviour, IHasHealth
     {
         CancelInvoke(nameof(DamagedEnd));
         PlayerSpriteChange.SetSpriteColor(Color.red);
-        Invoke(nameof(DamagedEnd), GameValueManager.Instance.OnDamagePlayerColorDuration);
+        Invoke(nameof(DamagedEnd), ManagerHub.Instance.GameValueManager.OnDamagePlayerColorDuration);
     }
 
 
@@ -391,7 +391,7 @@ public class Player : NetworkBehaviour, IHasHealth
         // 게임오버 애널리틱스 전송
         PlayerData.PlayerStatusData.IsDead = true;
         int deadPlayerCount = 0;
-        foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+        foreach (var player in ManagerHub.Instance.ServerManager.DictRefToPlayer.Values)
         {
             if (player.PlayerData.PlayerStatusData.IsDead)
             {
@@ -399,7 +399,7 @@ public class Player : NetworkBehaviour, IHasHealth
             }
         }
 
-        if (Runner.IsServer && deadPlayerCount == ServerManager.Instance.DictRefToPlayer.Values.Count)
+        if (Runner.IsServer && deadPlayerCount == ManagerHub.Instance.ServerManager.DictRefToPlayer.Values.Count)
         {
             StartCoroutine(PlayerDieCoroutine());
         }
@@ -413,15 +413,15 @@ public class Player : NetworkBehaviour, IHasHealth
     {
         yield return new WaitForSeconds(3);
 
-        if (GameValueManager.Instance.EGameLevel == EGameLevel.Easy)
+        if (ManagerHub.Instance.GameValueManager.EGameLevel == EGameLevel.Easy)
         {
-            ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
         }
         else
         {
-            ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.LobbyScene);
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_MoveScene(ESceneName.LobbyScene);
             //TODO: 모든 준비 해제
-            ServerManager.Instance.AllPlayerIsReadyFalse();
+            ManagerHub.Instance.ServerManager.AllPlayerIsReadyFalse();
             //TODO: 방 오픈 상태 true로 변환
             Runner.SessionInfo.IsOpen = true;
         }
@@ -541,7 +541,7 @@ public class Player : NetworkBehaviour, IHasHealth
     public void AddSkillPoint(int count)
     {
         SkillPoint.Value += count;
-        ServerManager.Instance.UISkillUpgradeStore?.Init();
+        ManagerHub.Instance.UIConnectManager.UISkillUpgradeStore?.Init();
     }
 
 
@@ -552,6 +552,6 @@ public class Player : NetworkBehaviour, IHasHealth
     public void AddStatusPoint(int count)
     {
         StatPoint.Value += count;
-        ServerManager.Instance.UIStatUpgradeStore?.Init();
+        ManagerHub.Instance.UIConnectManager.UILobbyMainPanel?.Init();
     }
 }

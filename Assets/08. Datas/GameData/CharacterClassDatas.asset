@@ -13,27 +13,37 @@ MonoBehaviour:
   m_Name: CharacterClassDatas
   m_EditorClassIdentifier: 
   classDataList:
-  - characterClass: 0
-    classNameKorean: "\uB3C4\uC801"
-    description: "\uC6D0\uAC70\uB9AC\uC5D0\uC11C \uBE60\uB974\uAC8C \uACF5\uACA9\uD558\uB294
-      \uB3C4\uC801\uC785\uB2C8\uB2E4."
-    classIcon: {fileID: 21300000, guid: e211b620d4f344184b2e098eee4f570d, type: 3}
-  - characterClass: 1
-    classNameKorean: "\uD790\uB7EC"
-    description: "\uD300\uC744 \uCE58\uC720\uD558\uACE0 \uBCF4\uD638\uD558\uB294
-      \uD790\uB7EC\uC785\uB2C8\uB2E4."
-    classIcon: {fileID: 0}
-  - characterClass: 2
-    classNameKorean: "\uB9C8\uBC95\uC0AC"
-    description: "\uAC15\uB825\uD55C \uB9C8\uBC95\uC744 \uC0AC\uC6A9\uD558\uB294
-      \uB9C8\uBC95\uC0AC\uC785\uB2C8\uB2E4."
-    classIcon: {fileID: 21300000, guid: 516af4deac0b04177992ca278089feba, type: 3}
-  - characterClass: 3
-    classNameKorean: "\uB9C8\uAC80\uC0AC"
-    description: "\uAC80\uACFC \uB9C8\uBC95\uC744 \uD568\uAED8 \uC0AC\uC6A9\uD558\uB294
-      \uB9C8\uAC80\uC0AC\uC785\uB2C8\uB2E4."
-    classIcon: {fileID: 21300000, guid: 5eec0cf9e8ff94ee38a599e54bdc32b6, type: 3}
-  - characterClass: 4
-    classNameKorean: "\uD0F1\uCEE4"
-    description: "\uACF5\uACA9\uC744 \uBC84\uD168\uB0B4\uB294 \uD0F1\uCEE4\uC785\uB2C8\uB2E4."
-    classIcon: {fileID: 21300000, guid: 91a8980acbaad4aee85b695d3caed882, type: 3}
+  - <CharacterClass>k__BackingField: 0
+    <ClassNameKorean>k__BackingField: "\uB3C4\uC801"
+    <Description>k__BackingField: "\uBA40\uB9AC\uC11C \uC6D0\uAC70\uB9AC \uD22C\uC0AC\uCCB4\uB97C
+      \uB358\uC9D1\uB2C8\uB2E4."
+    <CharacterData>k__BackingField: {fileID: 11400000, guid: 71d4b9a76e0c60344a6eb21fcb0897c6, type: 2}
+    <CharacterSkillSet>k__BackingField: {fileID: 11400000, guid: 9d2417720d3648a41a4daf8a540908b7, type: 2}
+    <IconClass>k__BackingField: {fileID: 21300000, guid: e211b620d4f344184b2e098eee4f570d, type: 3}
+  - <CharacterClass>k__BackingField: 1
+    <ClassNameKorean>k__BackingField: "\uD790\uB7EC"
+    <Description>k__BackingField: "\uD300\uC6D0\uB4E4\uC744 \uC9C0\uCF1C\uC90D\uB2C8\uB2E4."
+    <CharacterData>k__BackingField: {fileID: 11400000, guid: 96ef07ac8f67ca84aaf1d770034f6052, type: 2}
+    <CharacterSkillSet>k__BackingField: {fileID: 11400000, guid: 8991672de7fb11f4493b936cbcfe8aa3, type: 2}
+    <IconClass>k__BackingField: {fileID: 21300000, guid: bdf61281d398c41d994dd17f775cfe8c, type: 3}
+  - <CharacterClass>k__BackingField: 2
+    <ClassNameKorean>k__BackingField: "\uB9C8\uBC95\uC0AC"
+    <Description>k__BackingField: "\uC6D0\uAC70\uB9AC\uC5D0\uC11C \uAC15\uB825\uD55C
+      \uB9C8\uBC95\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
+    <CharacterData>k__BackingField: {fileID: 11400000, guid: 506f42da3ed54394d92d4623fffcf201, type: 2}
+    <CharacterSkillSet>k__BackingField: {fileID: 11400000, guid: f7bb97c24d6dfd043b5eab2d5f5c0c82, type: 2}
+    <IconClass>k__BackingField: {fileID: 21300000, guid: 516af4deac0b04177992ca278089feba, type: 3}
+  - <CharacterClass>k__BackingField: 3
+    <ClassNameKorean>k__BackingField: "\uB9C8\uAC80\uC0AC"
+    <Description>k__BackingField: "\uBBFC\uCCA9\uD558\uACE0 \uC2A4\uD0C0\uC77C\uB9AC\uC26C\uD55C
+      \uADFC\uC811 \uC804\uD22C\uB97C \uD569\uB2C8\uB2E4."
+    <CharacterData>k__BackingField: {fileID: 11400000, guid: f1b3a15f9c042304789b5aef43249899, type: 2}
+    <CharacterSkillSet>k__BackingField: {fileID: 11400000, guid: fdc19d1977968e54d921a84a1e21b84f, type: 2}
+    <IconClass>k__BackingField: {fileID: 21300000, guid: 5eec0cf9e8ff94ee38a599e54bdc32b6, type: 3}
+  - <CharacterClass>k__BackingField: 4
+    <ClassNameKorean>k__BackingField: "\uD0F1\uCEE4"
+    <Description>k__BackingField: "\uD300\uC6D0\uB4E4\uC744 \uC9C0\uCF1C\uC8FC\uB294
+      \uD0F1\uCEE4\uC785\uB2C8\uB2E4."
+    <CharacterData>k__BackingField: {fileID: 11400000, guid: ed154abb81ebbc24f8fa7ad648d9f67f, type: 2}
+    <CharacterSkillSet>k__BackingField: {fileID: 11400000, guid: 8d0857ebbac196a45bbe4572c5ae56d9, type: 2}
+    <IconClass>k__BackingField: {fileID: 21300000, guid: 7e90e810597984e9d992c5445b61875a, type: 3}

@@ -14,7 +14,7 @@ public class UILobbySelectPanel : UIPermanent
     [field: SerializeField] private TextMeshProUGUI TextLevelDesc { get; set; }  // 난이도 설명
     [field: SerializeField] private TextMeshProUGUI TextStartGame { get; set; } //시작 버튼 텍스트
 
-    private EGameLevel currentLevel => GameValueManager.Instance.EGameLevel;
+    private EGameLevel currentLevel => ManagerHub.Instance.GameValueManager.EGameLevel;
 
     private void Awake()
     {
@@ -24,9 +24,9 @@ public class UILobbySelectPanel : UIPermanent
         UpdateUI((int)currentLevel);
         BtnLevelDown.onClick.AddListener(() => ChangeLevel(-1));
         BtnLevelUp.onClick.AddListener(() => ChangeLevel(1));
-        BtnExitGame.onClick.AddListener(ServerManager.Instance.ExitRoom);
-        BtnExitGame.onClick.AddListener(() => SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick));
-        ServerManager.Instance.LobbySelectPanel = this;
+        BtnExitGame.onClick.AddListener(ManagerHub.Instance.ServerManager.ExitRoom);
+        BtnExitGame.onClick.AddListener(() => ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick));
+        ManagerHub.Instance.UIConnectManager.UILobbySelectPanel = this;
     }
 
     private void OnDisable()
@@ -64,15 +64,15 @@ public class UILobbySelectPanel : UIPermanent
 #if AllMethodDebug
         Debug.Log("ChangeLevel");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         int total = System.Enum.GetValues(typeof(EGameLevel)).Length - 1;
         int newIndex = (int)currentLevel + direction;
 
         SetActiveButton(newIndex);
         
-        GameValueManager.Instance.SetEGameLevel(newIndex);
+        ManagerHub.Instance.GameValueManager.SetEGameLevel(newIndex);
         //RPC로 모든 플레이어에게 데이터 공유
-        ServerManager.Instance.ThisPlayerData.Rpc_LobbySelectLevelUpdateUI(newIndex);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_LobbySelectLevelUpdateUI(newIndex);
     }
 
 
@@ -109,15 +109,15 @@ public class UILobbySelectPanel : UIPermanent
 #if AllMethodDebug
         Debug.Log("StartGame");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         if (RunnerManager.Instance.GetRunner().IsServer)
         {
             //난이도 동기화도 해줌
-            ServerManager.Instance.ThisPlayerData.Rpc_SetGameLevel((int)GameValueManager.Instance.EGameLevel);
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetGameLevel((int)ManagerHub.Instance.GameValueManager.EGameLevel);
             //새로운 플레이어 생성
-            ServerManager.Instance.InstantiatePlayer();
+            ManagerHub.Instance.ServerManager.InstantiatePlayer();
             //RestScene으로 이동
-            ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
             //다른 플레이어가 못 들어오게 막음
             RunnerManager.Instance.GetRunner().SessionInfo.IsOpen = false;
         }
@@ -125,7 +125,7 @@ public class UILobbySelectPanel : UIPermanent
         // 파티 직업 정보 수집
         var playerClasses = new string[5];
         int index = 0;
-        foreach (var data in ServerManager.Instance.DictRefToNetData.Values)
+        foreach (var data in ManagerHub.Instance.ServerManager.DictRefToNetData.Values)
         {
             if (index < 5)
             {
@@ -136,7 +136,7 @@ public class UILobbySelectPanel : UIPermanent
 
         // 애널리틱스 전송
         GameStartAnalytics.SendStartUserInfo(
-            ServerManager.Instance.DictRefToNetData.Count,
+            ManagerHub.Instance.ServerManager.DictRefToNetData.Count,
             playerClasses[0], playerClasses[1], playerClasses[2], playerClasses[3], playerClasses[4]
         );
     }
@@ -150,8 +150,8 @@ public class UILobbySelectPanel : UIPermanent
 #if AllMethodDebug
         Debug.Log("ReadyGame");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
-        ServerManager.Instance.ThisPlayerData.Rpc_ClickReadyBtn();
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_ClickReadyBtn();
     }
 
 
@@ -191,7 +191,7 @@ public class UILobbySelectPanel : UIPermanent
 #if AllMethodDebug
         Debug.Log("CheckAllPlayerIsReady");
 #endif
-        foreach (NetworkData data in ServerManager.Instance.DictRefToNetData.Values)
+        foreach (NetworkData data in ManagerHub.Instance.ServerManager.DictRefToNetData.Values)
         {
             if (data.IsServer) continue;
 

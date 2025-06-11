@@ -21,13 +21,13 @@ public class UIBuffSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerEx
 
     private void Start()
     {
-        tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+        tooltip = ManagerHub.Instance.UIManager.GetUI<UISkillTooltip>();
         slotRect = GetComponent<RectTransform>();
     }
 
     private void OnDisable()
     {
-        var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+        var tooltip = ManagerHub.Instance.UIManager.GetUI<UISkillTooltip>();
         if (tooltip != null && tooltip.gameObject.activeSelf)
         {
             tooltip.Close();
@@ -59,13 +59,13 @@ public class UIBuffSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerEx
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+        var tooltip = ManagerHub.Instance.UIManager.GetUI<UISkillTooltip>();
         tooltip.ShowTooltip(buffName, buffDescription, slotRect);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        var tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+        var tooltip = ManagerHub.Instance.UIManager.GetUI<UISkillTooltip>();
         tooltip.Close();
     }
 

@@ -77,7 +77,7 @@ public class FoxClone : BasePoolable,IHasHealth
 
     public override void Rpc_ReturnToPool()
     {
-        ServerManager.Instance.Boss.CloneDead(this);
+        ManagerHub.Instance.ServerManager.Boss.CloneDead(this);
         base.Rpc_ReturnToPool();
     }
 }

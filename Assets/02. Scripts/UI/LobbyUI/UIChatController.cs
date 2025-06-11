@@ -16,7 +16,7 @@ public class UIChatController : MonoBehaviour
 
     private void Awake()
     {
-        ServerManager.Instance.ChattingTextController = this;
+        ManagerHub.Instance.UIConnectManager.UIChatController = this;
         TextChattingRecord.text = "";
         InputChatting.onValueChanged.AddListener(ChangeInputText);
     }
@@ -38,7 +38,7 @@ public class UIChatController : MonoBehaviour
     private void ChangeInputText(string text)
     {
         if(text != "")
-        SoundManager.Instance.PlayTypingSoundSFX();
+        ManagerHub.Instance.SoundManager.PlayTypingSoundSFX();
     }
 
     private void EnterMessage()
@@ -46,8 +46,8 @@ public class UIChatController : MonoBehaviour
         string trimmedText = InputChatting.text.Trim();
 
         if (string.IsNullOrEmpty(trimmedText)) return;
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
-        textBuilder.Append(ServerManager.Instance.PlayerName);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
+        textBuilder.Append(ManagerHub.Instance.ServerManager.PlayerName);
         textBuilder.Append(": ");
         textBuilder.Append(trimmedText);
         textBuilder.AppendLine();
@@ -58,7 +58,7 @@ public class UIChatController : MonoBehaviour
         textBuilder.Clear();
 
         //TODO: 여기에 네트워크로 메시지 전달
-        ServerManager.Instance.ThisPlayerData.Rpc_EnterToChatting(bytes);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_EnterToChatting(bytes);
 
         StartCoroutine(FocusInputNextFrame());
     }

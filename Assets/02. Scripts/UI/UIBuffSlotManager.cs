@@ -22,7 +22,7 @@ public class UIBuffSlotManager : Singleton<UIBuffSlotManager>
     public async void Init()
     {
         ClearSlot();    
-        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+        Player player = await ManagerHub.Instance.ServerManager.WaitForThisPlayerAsync();
 
         // Player의 모든 스킬 중 BuffSkill만 감지
         foreach (var skill in player.DictSlotKeyToSkill.Values)

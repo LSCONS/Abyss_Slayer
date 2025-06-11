@@ -42,7 +42,7 @@ public class MeleeDamageCheck : NetworkBehaviour
         if(BoxCollider == null) BoxCollider = GetComponent<BoxCollider2D>();
         Data = data;
 
-        float flag = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].IsFlipX ? -1f : 1f;
+        float flag = ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].IsFlipX ? -1f : 1f;
 
         BoxCollider.size = Data.ColliderSize;
         BoxCollider.offset = new Vector2(Data.ColliderOffset.x * flag, Data.ColliderOffset.y);
@@ -149,7 +149,7 @@ public class MeleeDamageCheck : NetworkBehaviour
         // 뎀지 처리
         if (target.TryGetComponent<IHasHealth>(out IHasHealth enemy))
         {
-            if (DataManager.Instance.DictEnumToType.TryGetValue((EType)Data.ClassTypeInt, out Type type))
+            if (ManagerHub.Instance.DataManager.DictEnumToType.TryGetValue((EType)Data.ClassTypeInt, out Type type))
             {
                 BasePoolable effect = PoolManager.Instance.Get(type);
                 if (effect != null && enemy is MonoBehaviour mb)
@@ -171,7 +171,7 @@ public class MeleeDamageCheck : NetworkBehaviour
 
             if (Data.GetSkill().SkillCategory == SkillCategory.DashAttack)
             {
-                ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].StartCoroutine(AttackEnemyCombo(enemy, 0.1f, 10));
+                ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].StartCoroutine(AttackEnemyCombo(enemy, 0.1f, 10));
             }
             else
             {
@@ -182,7 +182,7 @@ public class MeleeDamageCheck : NetworkBehaviour
 
     private void AttackEnemy(IHasHealth enemy)
     {
-        enemy.Rpc_Damage((int)(Data.Damage * ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].DamageValue.Value), ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position.x); // 백어택 계산하는 데미지 전달
+        enemy.Rpc_Damage((int)(Data.Damage * ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].DamageValue.Value), ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].transform.position.x); // 백어택 계산하는 데미지 전달
         Rpc_AttackAction();    // 스킬이 적중하면 플레이어한테 알려줌
     }
 
@@ -280,7 +280,7 @@ public struct MeleeDamageCheckData : INetworkStruct
 
     public Skill GetSkill()
     {
-        return ServerManager.Instance.DictRefToPlayer[PlayerRef].DictSlotKeyToSkill[(SkillSlotKey)SkillSlotKeyInt];
+        return ManagerHub.Instance.ServerManager.DictRefToPlayer[PlayerRef].DictSlotKeyToSkill[(SkillSlotKey)SkillSlotKeyInt];
     }
 
     public void SetCollider(Vector2 colliderSize, Vector2 colliderOffset)

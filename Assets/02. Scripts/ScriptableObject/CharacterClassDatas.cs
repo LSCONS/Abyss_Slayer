@@ -11,8 +11,10 @@ public class CharacterClassDatas : ScriptableObject
 [System.Serializable]
 public class CharacterClassData
 {
-    public CharacterClass characterClass;
-    public string classNameKorean;
-    [TextArea] public string description;
-    public Sprite classIcon;
+    [field: SerializeField] public CharacterClass CharacterClass { get; private set; } = CharacterClass.Rogue;
+    [field: SerializeField] public string ClassNameKorean { get; private set; } = "";
+    [field: SerializeField, TextArea] public string Description { get; private set; } = "";
+    [field: SerializeField] public CharacterData CharacterData { get; private set; } = null;
+    [field: SerializeField] public CharacterSkillSet CharacterSkillSet { get; private set; } = null;
+    [field: SerializeField] public Sprite IconClass { get; private set; } = null;
 }

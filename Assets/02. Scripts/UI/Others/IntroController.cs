@@ -22,8 +22,8 @@ public class IntroController : MonoBehaviour
     private async void Start()
     {
         IntroBG.SetActive(true);
-        SoundManager.Instance.Init();
-        await SoundManager.Instance.PlayBGMIntro();
+        ManagerHub.Instance.SoundManager.Init();
+        await ManagerHub.Instance.SoundManager.PlayBGMIntro();
         StartCoroutine(PlayIntro());
     }
 
@@ -57,7 +57,7 @@ public class IntroController : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+                    ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
                     // 타이핑 중에 스페이스 누르면 텍스트 전부 출력
                     StopCoroutine(currentTypingCoroutine);
                     introText.text = cut.line;
@@ -81,7 +81,7 @@ public class IntroController : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+                    ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
                     break;
                 }
 
@@ -109,7 +109,7 @@ public class IntroController : MonoBehaviour
         {
             float waitTime = Random.Range(typingMinSpeed, typingMaxSpeed);
             introText.text += c;
-            SoundManager.Instance.PlayTypingSoundSFX();
+            ManagerHub.Instance.SoundManager.PlayTypingSoundSFX();
             yield return new WaitForSeconds(waitTime);
         }
 

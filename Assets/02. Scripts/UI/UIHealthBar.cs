@@ -27,10 +27,10 @@ public class UIHealthBar : UIPermanent, IView
 
     public void ConnectOtherPlayerObject(PlayerRef playerRef)
     {
-        bool bindSuccess = UIBinder.BindPlayer<IHasHealth, UIHealthBar, HealthPresenter>(ServerManager.Instance.DictRefToPlayer[playerRef], this.gameObject);
+        bool bindSuccess = UIBinder.BindPlayer<IHasHealth, UIHealthBar, HealthPresenter>(ManagerHub.Instance.ServerManager.DictRefToPlayer[playerRef], this.gameObject);
         if (!bindSuccess)
         {
-            Debug.LogWarning($"[UIHealthBar] 플레이어 바인딩 실패: {ServerManager.Instance.ThisPlayer}");
+            Debug.LogWarning($"[UIHealthBar] 플레이어 바인딩 실패: {ManagerHub.Instance.ServerManager.ThisPlayer}");
         }
         hpBar.fillAmount = 1;
         hpText.text = $"{100:F0}%";
@@ -41,7 +41,7 @@ public class UIHealthBar : UIPermanent, IView
         bool bindSuccess = UIBinder.BindBoss<IHasHealth, UIHealthBar, HealthPresenter>(boss, this.gameObject);
         if (!bindSuccess)
         {
-            Debug.LogWarning($"[UIHealthBar] 보스 바인딩 실패: {ServerManager.Instance.ThisPlayer}");
+            Debug.LogWarning($"[UIHealthBar] 보스 바인딩 실패: {ManagerHub.Instance.ServerManager.ThisPlayer}");
         }
         hpBar.fillAmount = 1;
         hpText.text = $"{100:F0}%";

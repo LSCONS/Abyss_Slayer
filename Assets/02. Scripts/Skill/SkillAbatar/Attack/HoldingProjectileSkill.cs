@@ -29,7 +29,7 @@ public class HoldingProjectileSkill : ProjectileAttackSkill
         for (int i = 0; i < ProjectileCount; i++)
         {
             //소리 시작
-            SoundManager.Instance.PlaySFX(EAudioClip);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip);
 
             // 플레이어가 바라보는 방향 계산
             Vector2 dir = new Vector2(PlayerFrontXNormalized(), 0);

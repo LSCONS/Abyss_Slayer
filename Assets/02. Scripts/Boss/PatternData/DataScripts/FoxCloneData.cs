@@ -45,7 +45,7 @@ public class FoxCloneData : BasePatternData
         }
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
         boss = bossController.GetComponentInParent<Boss>();
         curHp = boss.Hp.Value;
@@ -55,7 +55,7 @@ public class FoxCloneData : BasePatternData
         if(boss.Clones.Count <= 0)
         {
             if (EAudioClip != null && EAudioClip.Count > 1)
-                SoundManager.Instance.PlaySFX(EAudioClip[1]);
+                ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[1]);
 
             boss.Rpc_SetTriggerAnimationHash(AnimationHash.StunParameterHash);
             yield return new WaitForSeconds(stunTime);
@@ -71,7 +71,7 @@ public class FoxCloneData : BasePatternData
             }
 
             if (EAudioClip != null && EAudioClip.Count > 2)
-                SoundManager.Instance.PlaySFX(EAudioClip[2]);
+                ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[2]);
 
 
             yield return new WaitForSeconds(1.1f + postDelayTime);

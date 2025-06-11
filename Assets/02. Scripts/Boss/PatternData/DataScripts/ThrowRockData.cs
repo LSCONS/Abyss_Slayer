@@ -22,9 +22,9 @@ public class ThrowRockData : BasePatternData
         yield return new WaitForSeconds(preDelayTime + 0.5f);
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
-        ServerManager.Instance.InitSupporter.Rpc_StartGravityProjectileInit(damage, bossTransform.position + Vector3.up * spawnPositionY, rockSpeed, maxSpeed, minSpeed, playerRef, delayThrowTime, int.MaxValue, rockSize, gravityScale);
+        ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartGravityProjectileInit(damage, bossTransform.position + Vector3.up * spawnPositionY, rockSpeed, maxSpeed, minSpeed, playerRef, delayThrowTime, int.MaxValue, rockSize, gravityScale);
         
         yield return new WaitForSeconds(1.2f + delayThrowTime);
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.IdleParameterHash);

@@ -31,11 +31,11 @@ public class TornadoData : BasePatternData
 
         //자신위치에 토네이도 한개 생성
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
         if (selfTornado)
         {
             //PoolManager.Instance.Get<Tornado>().Init(new Vector3(bossTransform.position.x, groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
-            ServerManager.Instance.InitSupporter.Rpc_StartTornadoInit(new Vector3(bossTransform.position.x, tornadoScale.y / 20), damage, durationTime, attackPerSec, warningTime, tornadoScale.x, tornadoScale.y);
+            ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartTornadoInit(new Vector3(bossTransform.position.x, tornadoScale.y / 20), damage, durationTime, attackPerSec, warningTime, tornadoScale.x, tornadoScale.y);
         }
         
         
@@ -58,7 +58,7 @@ public class TornadoData : BasePatternData
         //지정된 위치 중 지정 숫자만큼 토네이도 생성
         for (int i = 0; i < tornadoCount; i++)
         {
-            ServerManager.Instance.InitSupporter.Rpc_StartTornadoInit(new Vector3(spawnPositionsX[_listIndex[i]], tornadoScale.y/20), damage, durationTime, attackPerSec, warningTime, tornadoScale.x, tornadoScale.y);
+            ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartTornadoInit(new Vector3(spawnPositionsX[_listIndex[i]], tornadoScale.y/20), damage, durationTime, attackPerSec, warningTime, tornadoScale.x, tornadoScale.y);
             //PoolManager.Instance.Get<Tornado>().Init(new Vector3(spawnPositionsX[i], groundPositionY), damage, durationTime, attackPerSec, warningTime, tornadoWidth);
         }
 

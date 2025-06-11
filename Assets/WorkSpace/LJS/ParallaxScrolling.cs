@@ -16,7 +16,7 @@ public class ParallaxScrolling : MonoBehaviour
 
     private async void Awake()
     {
-        player = await ServerManager.Instance.WaitForThisPlayerAsync();
+        player = await ManagerHub.Instance.ServerManager.WaitForThisPlayerAsync();
     }
 
 

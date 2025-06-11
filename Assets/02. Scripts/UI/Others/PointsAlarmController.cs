@@ -26,7 +26,7 @@ public class PointsAlarmController : MonoBehaviour
     {
         if (targetButton == null) targetButton = GetComponent<UIPopupButton>();
 
-        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+        Player player = await ManagerHub.Instance.ServerManager.WaitForThisPlayerAsync();
 
         // pointType에 따라서 추적할 ReactiveProperty를 선택함
         ReactiveProperty<int> targetProperty = pointType switch

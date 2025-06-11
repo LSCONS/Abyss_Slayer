@@ -55,7 +55,7 @@ public class SelectClassPanelController : UIPopup
 #endif
         selectedCharacterClass = cc;
         // 설명 갱신
-        descText.text = DataManager.Instance.DictCharacterClassData[selectedCharacterClass].description;
+        descText.text = ManagerHub.Instance.DataManager.DictClassToCharacterData[selectedCharacterClass].Description;
         int hairStyleKey = 1;
         int hairColorkey = HairColorConfig.HairColorIndexByClass[cc];
         int skinkey = 1;
@@ -63,9 +63,9 @@ public class SelectClassPanelController : UIPopup
 
         if(uISceneType == UISceneType.Lobby)
         {
-            hairStyleKey = ServerManager.Instance.ThisPlayerData.HairStyleKey;
-            skinkey = ServerManager.Instance.ThisPlayerData.SkinKey;
-            facekey = ServerManager.Instance.ThisPlayerData.FaceKey;
+            hairStyleKey = ManagerHub.Instance.ServerManager.ThisPlayerData.HairStyleKey;
+            skinkey = ManagerHub.Instance.ServerManager.ThisPlayerData.SkinKey;
+            facekey = ManagerHub.Instance.ServerManager.ThisPlayerData.FaceKey;
         }
 
 
@@ -79,11 +79,11 @@ public class SelectClassPanelController : UIPopup
 #endif        
         if(uISceneType == UISceneType.Lobby)
         {
-            ServerManager.Instance.ThisPlayerData.Rpc_ChangeClass(selectedCharacterClass);
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_ChangeClass(selectedCharacterClass);
         }
         else if (uISceneType == UISceneType.Start)
         {
-            GameFlowManager.Instance.ClientSceneLoad(ESceneName.TutorialScene);
+            ManagerHub.Instance.GameFlowManager.ClientSceneLoad(ESceneName.TutorialScene);
         }
         OnClose();
     }
@@ -93,7 +93,7 @@ public class SelectClassPanelController : UIPopup
 #if AllMethodDebug
         Debug.Log("OnClose");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         disposables.Clear();
         base.OnClose();
     }

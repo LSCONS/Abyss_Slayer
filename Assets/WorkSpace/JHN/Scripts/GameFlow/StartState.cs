@@ -1,62 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Threading.Tasks;
-using UnityEngine.SceneManagement;
+using UnityEngine;
+
 public class StartState : BaseGameState
 {
-    public override UIType StateUIType => UIType.NonGamePlay;
-    public override ESceneName SceneName => ESceneName.StartScene;
-    public override async Task OnEnter()
+    public override UIType StateUIType => UIType.GamePlay;
+    public override ESceneName SceneName => ESceneName.BattleScene;
+
+    public override Task OnEnter()
     {
-#if MoveSceneDebug
-        Debug.Log("StartState OnEnter진입");
-#endif
-        LoadingState state = GameFlowManager.Instance.prevLodingState;
-        await UIManager.Instance.Init();
-        state?.SetLoadingBarValue(0.3f);
-
-
-#if MoveSceneDebug
-        Debug.Log("서버에 연결 중");
-#endif
-        var temp = ServerManager.Instance.ConnectRoomSearch();
-        await temp;
-
-
-#if MoveSceneDebug
-        Debug.Log("프로그래스 바 종료 시키기는 중");
-#endif
-        state?.SetLoadingBarValue(1);
-        await state?.TaskProgressBar;
-
-#if MoveSceneDebug
-        Debug.Log("StartState UI 오픈");
-#endif
-        SoundManager.Instance.PlayBGM(EAudioClip.BGM_StartScene);
-        UIManager.Instance.OpenUI(UISceneType.Start);
-        ServerManager.Instance.UIStartTitle.TextUpdate();
-#if MoveSceneDebug
-        Debug.Log("LoadingScene 삭제");
-#endif
-        SceneManager.UnloadSceneAsync("LoadingScene");
-
-        return;
+        return Task.CompletedTask;
     }
 
-    public override async Task OnExit()
+    public override Task OnExit()
     {
-#if MoveSceneDebug
-        Debug.Log("StartScene OnExit 실행");
-#endif
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 
     public override Task OnRunnerEnter()
     {
-#if MoveSceneDebug
-        Debug.Log("StartState OnRunnerEnter 실행");
-#endif
         return Task.CompletedTask;
     }
 }

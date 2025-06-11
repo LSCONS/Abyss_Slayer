@@ -31,7 +31,8 @@ public class LoadingState : BaseGameState
 #if AllMethodDebug
         Debug.Log("OnEnter");
 #endif
-        IGameState prev = GameFlowManager.Instance.PrevState;
+        IGameState prev = ManagerHub.Instance.GameFlowManager.PrevState;
+        Debug.Log($"Loading bar value: {prev}");
         TaskProgressBar = null;
         LoadingTargetValue = 0;
         if (prev != null)
@@ -44,7 +45,8 @@ public class LoadingState : BaseGameState
 
             if (!(prev is LobbyState || prev is BattleState || prev is RestState || prev is TutorialState))
             {
-                SceneManager.UnloadSceneAsync(GameFlowManager.Instance.GetSceneNameFromState(prev));
+                Debug.Log($"prev: {prev}");
+                SceneManager.UnloadSceneAsync(ManagerHub.Instance.GameFlowManager.GetSceneNameFromState(prev));
             }
         }
 
@@ -66,7 +68,7 @@ public class LoadingState : BaseGameState
         Debug.Log("다음 State 정보 가져와");
 #endif
         // 2. 다음 상태와 UIType 결정
-        var nextState = GameFlowManager.Instance.CreateStateForPublic(nextStateEnum) as BaseGameState;
+        var nextState = ManagerHub.Instance.GameFlowManager.CreateStateForPublic(nextStateEnum) as BaseGameState;
         if (nextState == null)
             throw new System.Exception($"Unknown state: {nextStateEnum}");
         UIType nextUIType = nextState.StateUIType;
@@ -78,7 +80,7 @@ public class LoadingState : BaseGameState
         // 이제 유아이 타입 바뀌면 옛날 유아이타입은 다 삭제해야됨
         if (prevUIType != UIType.None && prevUIType != nextUIType)
         {
-            UIManager.Instance.ClearUI(prevUIType);
+            ManagerHub.Instance.UIManager.ClearUI(prevUIType);
         }
 
         // 3. 다음 ui를 미리 로드 생성
@@ -91,8 +93,8 @@ public class LoadingState : BaseGameState
         if (needLoadUI)
         {
             // 첫 진입이거나 UIType이 바뀔 때만 로드/생성
-            await UIManager.Instance.LoadAllUI(nextUIType);
-            UIManager.Instance.CreateAllUI(nextUIType);
+            await ManagerHub.Instance.UIManager.LoadAllUI(nextUIType);
+            ManagerHub.Instance.UIManager.CreateAllUI(nextUIType);
         }
 
 
@@ -102,7 +104,7 @@ public class LoadingState : BaseGameState
         SetLoadingBarValue(0.1f);
 
         // 4. 씬 로드
-        string nextSceneName = GameFlowManager.Instance.GetSceneNameFromState(nextState);
+        string nextSceneName = ManagerHub.Instance.GameFlowManager.GetSceneNameFromState(nextState);
         var sceneOp = SceneManager.LoadSceneAsync(nextSceneName, LoadSceneMode.Additive);
         while (!sceneOp.isDone) await Task.Yield();
 
@@ -113,9 +115,9 @@ public class LoadingState : BaseGameState
         SetLoadingBarValue(0.2f);
 
         //다음 state로 이동
-        await GameFlowManager.Instance.ChangeState(nextState);
-        UIManager.Instance.popupBG?.SetActive(false);
-        UIManager.Instance.CloseAllPopup();
+        await ManagerHub.Instance.GameFlowManager.ChangeState(nextState);
+        ManagerHub.Instance.UIManager.PopupBG?.SetActive(false);
+        ManagerHub.Instance.UIManager.CloseAllPopup();
     }
 
 
@@ -136,14 +138,14 @@ public class LoadingState : BaseGameState
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
-            ServerManager.Instance.AllPlayerIsReadyFalse();
+            ManagerHub.Instance.ServerManager.AllPlayerIsReadyFalse();
             NetworkSceneAsyncOp = runner.LoadScene("LoadingScene", LoadSceneMode.Additive);
             while (!NetworkSceneAsyncOp.IsDone)
                 await Task.Yield();
 
-            var temp = runner.UnloadScene(GameFlowManager.Instance.GetSceneNameFromState(GameFlowManager.Instance.PrevState));
+            var temp = runner.UnloadScene(ManagerHub.Instance.GameFlowManager.GetSceneNameFromState(ManagerHub.Instance.GameFlowManager.PrevState));
             await temp;
-            if (GameFlowManager.Instance.PrevState is BattleState) GameValueManager.Instance.NextStageIndex();
+            if (ManagerHub.Instance.GameFlowManager.PrevState is BattleState) ManagerHub.Instance.GameValueManager.NextStageIndex();
         }
 
 #if MoveSceneDebug
@@ -163,7 +165,7 @@ public class LoadingState : BaseGameState
         Debug.Log("UIType 결정하자");
 #endif
         // 3.. 다음 상태와 UIType 결정
-        var nextState = GameFlowManager.Instance.CreateStateForPublic(nextStateEnum) as BaseGameState;
+        var nextState = ManagerHub.Instance.GameFlowManager.CreateStateForPublic(nextStateEnum) as BaseGameState;
         if (nextState == null)
             throw new System.Exception($"Unknown state: {nextStateEnum}");
         UIType nextUIType = nextState.StateUIType;
@@ -174,7 +176,7 @@ public class LoadingState : BaseGameState
         // 이제 유아이 타입 바뀌면 옛날 유아이타입은 다 삭제해야됨
         if (prevUIType != UIType.None && prevUIType != nextUIType)
         {
-            UIManager.Instance.ClearUI(prevUIType);
+            ManagerHub.Instance.UIManager.ClearUI(prevUIType);
         }
 
 
@@ -188,8 +190,8 @@ public class LoadingState : BaseGameState
         if (needLoadUI)
         {
             // 첫 진입이거나 UIType이 바뀔 때만 로드/생성
-            await UIManager.Instance.LoadAllUI(nextUIType);
-            UIManager.Instance.CreateAllUI(nextUIType);
+            await ManagerHub.Instance.UIManager.LoadAllUI(nextUIType);
+            ManagerHub.Instance.UIManager.CreateAllUI(nextUIType);
         }
 
         SetLoadingBarValue(0.1f);
@@ -200,7 +202,7 @@ public class LoadingState : BaseGameState
         // 4. 씬 로드
         if (runner.IsServer)
         {
-            var temp = runner.LoadScene(GameFlowManager.Instance.GetSceneNameFromState(nextState), LoadSceneMode.Additive);
+            var temp = runner.LoadScene(ManagerHub.Instance.GameFlowManager.GetSceneNameFromState(nextState), LoadSceneMode.Additive);
             await temp;
         }
 
@@ -210,9 +212,9 @@ public class LoadingState : BaseGameState
         Debug.Log("씬을 바꿔보자");
 #endif
         // 7. 최종 상태 진입
-        await GameFlowManager.Instance.ChangeRunnerState(nextState);
-        UIManager.Instance.popupBG?.SetActive(false);
-        UIManager.Instance.CloseAllPopup();
+        await ManagerHub.Instance.GameFlowManager.ChangeRunnerState(nextState);
+        ManagerHub.Instance.UIManager.PopupBG?.SetActive(false);
+        ManagerHub.Instance.UIManager.CloseAllPopup();
     }
 
     private async Task SetProgressBar(ProgressBar progressBar)

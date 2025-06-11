@@ -13,7 +13,7 @@ public class UIStartTitle : UIPermanent
 #if AllMethodDebug
         Debug.Log("Awake");
 #endif
-        ServerManager.Instance.UIStartTitle = this;
+        ManagerHub.Instance.UIConnectManager.UIStartTitle = this;
         SoloClearTimeUpdate();
         MultiClearTimeUpdate();
     }
@@ -23,7 +23,7 @@ public class UIStartTitle : UIPermanent
 #if AllMethodDebug
         Debug.Log("TextUpdate");
 #endif
-        TextName.text = ServerManager.Instance.PlayerName;
+        TextName.text = ManagerHub.Instance.ServerManager.PlayerName;
     }
 
     public void SoloClearTimeUpdate()
@@ -31,7 +31,7 @@ public class UIStartTitle : UIPermanent
 #if AllMethodDebug
         Debug.Log("SoloClearTimeUpdate");
 #endif
-        TextSoloClearTime.text = GameValueManager.Instance.GameSoloClearTime;
+        TextSoloClearTime.text = ManagerHub.Instance.GameValueManager.GameSoloClearTime;
     }
 
     public void MultiClearTimeUpdate()
@@ -39,6 +39,6 @@ public class UIStartTitle : UIPermanent
 #if AllMethodDebug
         Debug.Log("MultiClearTimeUpdate");
 #endif
-        TextMultiClearTime.text = GameValueManager.Instance.GameMultiClearTime;
+        TextMultiClearTime.text = ManagerHub.Instance.GameValueManager.GameMultiClearTime;
     }
 }

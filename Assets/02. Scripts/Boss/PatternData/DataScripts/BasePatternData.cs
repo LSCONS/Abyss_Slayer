@@ -95,7 +95,7 @@ public abstract class BasePatternData : ScriptableObject
     {
         List<Player> playerList = new();
 
-        foreach(Player player in ServerManager.Instance.DictRefToPlayer.Values)
+        foreach(Player player in ManagerHub.Instance.ServerManager.DictRefToPlayer.Values)
         {
             if (player.PlayerData.PlayerStatusData.IsDead) continue;
 

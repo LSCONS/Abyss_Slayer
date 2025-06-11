@@ -17,17 +17,17 @@
 
 //    private async void Start()
 //    {
-//        await SoundManager.Instance.Init(EGameState.Start);
-//        SoundManager.Instance.PlayBGM("BGM1");
+//        await ManagerHub.Instance.SoundManager.Init(EGameState.Start);
+//        ManagerHub.Instance.SoundManager.PlayBGM("BGM1");
 //    }
 
 
 //    private void PlayTestSound()
 //    {
-//        if (SoundManager.Instance != null)
+//        if (ManagerHub.Instance.SoundManager != null)
 //        {
 //            Debug.Log($"[SoundTest] Try playing sound: {testSoundName}");
-//            SoundManager.Instance.PlaySound(testSoundName);
+//            ManagerHub.Instance.SoundManager.PlaySound(testSoundName);
 //        }
 //        else
 //        {
@@ -37,10 +37,10 @@
 
 //    private void PlayTestSound2()
 //    {
-//        if (SoundManager.Instance != null)
+//        if (ManagerHub.Instance.SoundManager != null)
 //        {
 //            Debug.Log($"[SoundTest] Try playing sound: {testSoundName2}");
-//            SoundManager.Instance.PlaySound(testSoundName2);
+//            ManagerHub.Instance.SoundManager.PlaySound(testSoundName2);
 //        }
 //        else
 //        {
@@ -50,12 +50,12 @@
 
 //    private void PlayBGM1()
 //    {
-//        SoundManager.Instance.PlayBGM(bgmName1);
+//        ManagerHub.Instance.SoundManager.PlayBGM(bgmName1);
 //    }
 
 //    private void PlayBGM2()
 //    {
-//        SoundManager.Instance.PlayBGM(bgmName2);
+//        ManagerHub.Instance.SoundManager.PlayBGM(bgmName2);
 //    }
 
 //}

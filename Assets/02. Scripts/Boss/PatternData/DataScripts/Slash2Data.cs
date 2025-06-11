@@ -71,7 +71,7 @@ public class Slash2Data : BasePatternData
             for (int i = 0; i < attackAngles.Count; i++)
             {
                 if (EAudioClip != null && EAudioClip.Count > 1)
-                    SoundManager.Instance.PlaySFX(EAudioClip[1]);
+                    ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[1]);
 
                 PoolManager.Instance.Get<NormalSlash>().Rpc_Init(new Vector3(posX, posY), damage, isLeft, degree + attackAngles[i], attackSpeed);
                 bossController.StartCoroutine(AttackEffect());
@@ -113,7 +113,7 @@ public class Slash2Data : BasePatternData
         for (int i = 0; i < attackAngles.Count; i++)
         {
             if (EAudioClip != null && EAudioClip.Count > 1)
-                SoundManager.Instance.PlaySFX(EAudioClip[1]);
+                ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[1]);
 
             PoolManager.Instance.Get<NormalSlash>().Rpc_Init(new Vector3(posX, posY), damage, isLeft, degree + attackAngles[i], attackSpeed);
             bossController.StartCoroutine(AttackEffect());

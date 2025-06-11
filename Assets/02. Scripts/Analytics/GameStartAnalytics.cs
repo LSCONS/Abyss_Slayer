@@ -22,7 +22,10 @@ public static class GameStartAnalytics
         if (!string.IsNullOrEmpty(player5Class)) evt["Player5_Class"] = player5Class;
 
         AnalyticsService.Instance.RecordEvent(evt);
+
+#if AnalyticsDebug
         Debug.LogAssertion($"[Analytics] Start_User_Info: Member_Count={memberCount}, Player1={player1Class}, Player2={player2Class}, Player3={player3Class}, Player4={player4Class}, Player5={player5Class}");
+#endif
     }
 
     //// <summary>

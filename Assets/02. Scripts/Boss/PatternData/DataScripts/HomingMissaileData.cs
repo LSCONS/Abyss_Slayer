@@ -42,7 +42,7 @@ public class HomingMissaileData : BasePatternData
         yield return new WaitForSeconds(preDelayTime/2);
         bool isLeft = boss.IsLeft;
 
-        Player[] players = ServerManager.Instance.GetActiveTruePlayer().ToArray();
+        Player[] players = ManagerHub.Instance.ServerManager.GetActiveTruePlayer().ToArray();
         int missaileCounts = missaileCount + (addCountPerPlayer * (players.Length - 1));
 
         for (int i = 0; i < missaileCounts; i++)
@@ -60,11 +60,11 @@ public class HomingMissaileData : BasePatternData
                 target = players[Random.Range(0, players.Length)].transform;
             }
 
-            ServerManager.Instance.InitSupporter.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed * Random.Range(1,(100 + randomSpeedRate)/100f), (int)projectileType, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, explosionSize, (int)homingCurve, (int)speedCurve);
+            ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartHomingProjectileInit(damage, position, rotate, playerRef, missailSpeed * Random.Range(1,(100 + randomSpeedRate)/100f), (int)projectileType, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, explosionSize, (int)homingCurve, (int)speedCurve);
             //PoolManager.Instance.Get<HomingProjectile>().Init(damage, position, rotate, target, missailSpeed, (preDelayTime / 2 + 0.1f * missaileCount) - (i * 0.1f), homingPower, homingTime, explosionSize, homingCurve,speedCurve);
 
             if (EAudioClip != null && EAudioClip.Count > 0)
-                SoundManager.Instance.PlaySFX(EAudioClip[0]);
+                ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
             yield return new WaitForSeconds(0.1f);
         }

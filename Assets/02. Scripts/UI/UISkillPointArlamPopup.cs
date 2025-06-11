@@ -30,7 +30,7 @@ public class UISkillPointArlamPopup : UIPopup
 #if AllMethodDebug
         Debug.Log("ClickYesButton");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
@@ -49,7 +49,7 @@ public class UISkillPointArlamPopup : UIPopup
 #if AllMethodDebug
         Debug.Log("ClickNoButton");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         OnClose();
     }
 }

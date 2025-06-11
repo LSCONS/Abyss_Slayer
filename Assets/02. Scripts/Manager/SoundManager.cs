@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -5,43 +6,31 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Audio;
 
-public class SoundManager : Singleton<SoundManager>
+[Serializable]
+public class SoundManager
 {
-    [Header("오디오 믹서 그룹")]
-    [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private AudioMixerGroup bgmGroup;
-    [SerializeField] private AudioMixerGroup sfxGroup;
-    private Dictionary<ESceneName, List<AudioClip>> stateToSoundList { get; set; } = new();   // 어떤 상태가 무슨 사운드를 불러왔는지 추적할 수 있는 딕셔너리
+    [field: Header("오디오 믹서 그룹")]
+    [field: SerializeField] private AudioMixer AudioMixer { get; set; }
+    [field: SerializeField] private AudioMixerGroup BGMGroup { get; set; }
+    [field: SerializeField] private AudioMixerGroup SFXGroup { get; set; }
     private readonly Dictionary<EAudioClip, AudioSource> loopingSources = new();    // 현재 루프 중인 클립 저장
 
 
-    [Header("오디오 소스 풀")]
+    [field: Header("오디오 소스 풀")]
+    [field: SerializeField] private int PoolSize { get; set; } = 10; // 풀 크기
     private Queue<AudioSource> sfxPool = new Queue<AudioSource>();      // sfx 풀
     private List<AudioSource> activeSources = new List<AudioSource>();  // 활성화된 소스
-    [SerializeField] private int poolSize = 10; // 풀 크기
 
-    [Header("브금 소스")]
+    [field: Header("브금 소스")]
+    [field: SerializeField] private int CurrentBgmIndex { get; set; } = 0;
     private AudioSource[] bgmSources = new AudioSource[2];
-    [SerializeField] private int currentBgmIndex = 0;
     private Coroutine bgmCoroutine;                         // 페이드인아웃에 쓸 브금 코루틴
-    [SerializeField] private float bgmFadeTime = 1f;        // 브금 페이드 시간
+    [field: SerializeField] private float BGMFadeTime { get; set; } = 1f;        // 브금 페이드 시간
 
-    [Header("볼륨")]
-    [SerializeField] private float masterVolume = 0f;    // 마스터 볼륨
-    [SerializeField] private float bgmVolume = 0f;       // 브금 볼륨
-    [SerializeField] private float sfxVolume = 0f;       // sfx 볼륨
-
-    public float MasterVolume => masterVolume;
-    public float BGMVolume => bgmVolume;
-    public float SFXVolume => sfxVolume;
-
-
-
-    protected override void Awake()
-    {
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
-    }
+    [field:Header("볼륨")]
+    [field: SerializeField] public float MasterVolume { get; private set; } = 0f;    // 마스터 볼륨
+    [field: SerializeField] public float BGMVolume { get; private set; } = 0f;       // 브금 볼륨
+    [field: SerializeField] public float SFXVolume { get; private set; } = 0f;       // sfx 볼륨
 
     /// <summary>
     /// 초기화
@@ -64,7 +53,7 @@ public class SoundManager : Singleton<SoundManager>
     private void InitPool()
     {
         if (sfxPool.Count > 0) return;
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < PoolSize; i++)
         {
             var src = CreateAudioSource();
             src.gameObject.SetActive(false);
@@ -82,12 +71,12 @@ public class SoundManager : Singleton<SoundManager>
         for (int i = 0; i < 2; i++)
         {
             GameObject bgmObj = new GameObject($"BGM_AudioSource_{i}");
-            bgmObj.transform.SetParent(this.transform);
+            bgmObj.transform.SetParent(ManagerHub.Instance.transform);
             AudioSource src = bgmObj.AddComponent<AudioSource>();
             src.playOnAwake = false;
             src.loop = true;
             src.volume = 0f;
-            src.outputAudioMixerGroup = bgmGroup;          // 오디오 믹서 그룹 연결
+            src.outputAudioMixerGroup = BGMGroup;          // 오디오 믹서 그룹 연결
             bgmSources[i] = src;
         }
     }
@@ -97,8 +86,8 @@ public class SoundManager : Singleton<SoundManager>
         PlayRandomPitchSFX
         (
             EAudioClip.SFX_KeyBoardTyping,
-            GameValueManager.Instance.MinTypingSoundPitch,
-            GameValueManager.Instance.MaxTypingSoundPitch
+            ManagerHub.Instance.GameValueManager.MinTypingSoundPitch,
+            ManagerHub.Instance.GameValueManager.MaxTypingSoundPitch
         );
     }
 
@@ -110,7 +99,7 @@ public class SoundManager : Singleton<SoundManager>
         AudioClipDataGather gatherData = data.Result;
         foreach (var datas in gatherData.ListAudioClipEnumData)
         {
-            DataManager.Instance.DictEnumToAudioData[datas.EnumClip] = datas.AudioClipData;
+            ManagerHub.Instance.DataManager.DictEnumToAudioData[datas.EnumClip] = datas.AudioClipData;
         }
         PlayBGM(EAudioClip.BGM_IntroScene);
         return;
@@ -123,11 +112,11 @@ public class SoundManager : Singleton<SoundManager>
     private AudioSource CreateAudioSource()
     {
         GameObject go = new GameObject("SFX_AudioSource");
-        go.transform.SetParent(this.transform);
+        go.transform.SetParent(ManagerHub.Instance.transform);
         var src = go.AddComponent<AudioSource>();
         src.playOnAwake = false;
         src.loop = false;
-        src.outputAudioMixerGroup = sfxGroup;               // 오디오 믹서 그룹 연결
+        src.outputAudioMixerGroup = SFXGroup;               // 오디오 믹서 그룹 연결
         return src;
     }
 
@@ -138,11 +127,11 @@ public class SoundManager : Singleton<SoundManager>
     {
         foreach(var src in activeSources)
         {
-            Destroy(src);
+            GameObject.Destroy(src);
         }
         while (sfxPool.Count > 0)
         {
-            Destroy(sfxPool.Dequeue());
+            GameObject.Destroy(sfxPool.Dequeue());
         }
         activeSources.Clear();
     }
@@ -163,16 +152,16 @@ public class SoundManager : Singleton<SoundManager>
     /// 
     public void PlaySFX(EAudioClip EAudioClip)
     {
-        if (!(DataManager.Instance.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData data))) return;
+        if (!(ManagerHub.Instance.DataManager.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData data))) return;
         if(data.Audio == null) return;
 
         PlaySound(EAudioClip, data);
     }
     public void PlayRandomPitchSFX(EAudioClip EAudioClip, float minPitch, float maxPitch)
     {
-        if (!(DataManager.Instance.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData data))) return;
+        if (!(ManagerHub.Instance.DataManager.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData data))) return;
         if (data.Audio == null) return;
-        float ptich = Random.Range(minPitch, maxPitch);
+        float ptich = UnityEngine.Random.Range(minPitch, maxPitch);
         PlayRandomPitchSound(EAudioClip, data, ptich);
     }
 
@@ -185,12 +174,12 @@ public class SoundManager : Singleton<SoundManager>
         src.clip = data.Audio;
         src.loop = data.IsLoop;
         src.pitch = pitch;
-        src.volume = sfxVolume * masterVolume * data.Volume;
+        src.volume = SFXVolume * MasterVolume * data.Volume;
         src.Play();
 
         if (!data.IsLoop)
         {
-            StartCoroutine(ReturnWhenDone(src));
+            ManagerHub.Instance.StartCoroutine(ReturnWhenDone(src));
         }
         else
         {
@@ -208,12 +197,12 @@ public class SoundManager : Singleton<SoundManager>
         src.clip = data.Audio;
         src.loop = data.IsLoop;
         src.pitch = data.Pitch;
-        src.volume = sfxVolume * masterVolume * data.Volume;
+        src.volume = SFXVolume * MasterVolume * data.Volume;
         src.Play();
 
         if (!data.IsLoop)
         {
-            StartCoroutine(ReturnWhenDone(src));
+            ManagerHub.Instance.StartCoroutine(ReturnWhenDone(src));
         }
         else
         {
@@ -284,13 +273,13 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="soundName">브금 이름</param>
     public void PlayBGM(EAudioClip EAudioClip)
     {
-        if (!(DataManager.Instance.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData audioData))) return;
+        if (!(ManagerHub.Instance.DataManager.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData audioData))) return;
         if (audioData.Audio == null) return;
 
         //TODO: 나중에 BGM에 pitch, volume 등 포함
 
-        if (bgmCoroutine != null) StopCoroutine(bgmCoroutine);
-        bgmCoroutine = StartCoroutine(FadeInOutBGM(audioData));
+        if (bgmCoroutine != null) ManagerHub.Instance.StopCoroutine(bgmCoroutine);
+        bgmCoroutine = ManagerHub.Instance.StartCoroutine(FadeInOutBGM(audioData));
     }
 
     /// <summary>
@@ -299,7 +288,7 @@ public class SoundManager : Singleton<SoundManager>
     /// <param name="soundName">멈출 사운드 이름</param>
     public void StopSound(EAudioClip EAudioClip)
     {
-        if(!(DataManager.Instance.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData audioData))) return;
+        if(!(ManagerHub.Instance.DataManager.DictEnumToAudioData.TryGetValue(EAudioClip, out AudioClipData audioData))) return;
         if(audioData.Audio == null) return;
 
         for (int i = activeSources.Count - 1; i >= 0; i--)
@@ -337,18 +326,18 @@ public class SoundManager : Singleton<SoundManager>
     /// <returns></returns>
     private IEnumerator FadeInOutBGM(AudioClipData newClip)
     {
-        float volume = bgmVolume * masterVolume * newClip.Volume;
+        float volume = BGMVolume * MasterVolume * newClip.Volume;
 
-        int nextIndex = 1 - currentBgmIndex;
-        AudioSource current = bgmSources[currentBgmIndex];
+        int nextIndex = 1 - CurrentBgmIndex;
+        AudioSource current = bgmSources[CurrentBgmIndex];
         AudioSource next = bgmSources[nextIndex];
 
         // 페이드 아웃
         float time = 0f;
         float startVolume = current.volume;
-        while (time < bgmFadeTime)
+        while (time < BGMFadeTime)
         {
-            current.volume = Mathf.Lerp(startVolume, 0f, time / bgmFadeTime);
+            current.volume = Mathf.Lerp(startVolume, 0f, time / BGMFadeTime);
             time += Time.deltaTime;
             yield return null;
         }
@@ -359,40 +348,40 @@ public class SoundManager : Singleton<SoundManager>
         next.pitch = newClip.Pitch;
         next.Play();
         time = 0f;
-        while (time < bgmFadeTime)
+        while (time < BGMFadeTime)
         {
-            next.volume = Mathf.Lerp(0f, volume, time / bgmFadeTime);
+            next.volume = Mathf.Lerp(0f, volume, time / BGMFadeTime);
             time += Time.deltaTime;
             yield return null;
         }
         next.volume = volume;
-        currentBgmIndex = nextIndex;
+        CurrentBgmIndex = nextIndex;
     }
 
     // 브금 볼륨 설정
     public void SetBGMVolume(float value)
     {
-        bgmVolume = value;
-        audioMixer.SetFloat("BGMVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f);
+        BGMVolume = value;
+        AudioMixer.SetFloat("BGMVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f);
     }
 
     // sfx 볼륨 설정
     public void SetSFXVolume(float value)
     {
-        sfxVolume = value;
-        audioMixer.SetFloat("SFXVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f);
+        SFXVolume = value;
+        AudioMixer.SetFloat("SFXVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f);
     }
     // 마스터 볼륨 설정 
     public void SetMasterVolume(float value)
     {
-        masterVolume = value;
-        audioMixer.SetFloat("MasterVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f);
+        MasterVolume = value;
+        AudioMixer.SetFloat("MasterVolume", Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f);
     }
 
     // 브금 볼륨 적용
     private void ApplyBGMVolume()
     {
-        bgmSources[currentBgmIndex].volume = bgmVolume * masterVolume;
+        bgmSources[CurrentBgmIndex].volume = BGMVolume * MasterVolume;
     }
 
     // sfx 볼륨 적용
@@ -400,7 +389,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         foreach (var src in activeSources)
         {
-            src.volume = sfxVolume * masterVolume;
+            src.volume = SFXVolume * MasterVolume;
         }
     }
 
@@ -411,9 +400,9 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     public void SaveVolumeSettings()
     {
-        PlayerPrefs.SetFloat(PlayerPrefabData.Volume_Master, masterVolume);
-        PlayerPrefs.SetFloat(PlayerPrefabData.Volume_BGM, bgmVolume);
-        PlayerPrefs.SetFloat(PlayerPrefabData.Volume_SFX, sfxVolume);
+        PlayerPrefs.SetFloat(PlayerPrefabData.Volume_Master, MasterVolume);
+        PlayerPrefs.SetFloat(PlayerPrefabData.Volume_BGM, BGMVolume);
+        PlayerPrefs.SetFloat(PlayerPrefabData.Volume_SFX, SFXVolume);
         PlayerPrefs.Save();
     }
 
@@ -422,15 +411,14 @@ public class SoundManager : Singleton<SoundManager>
     /// </summary>
     public void LoadVolumeSettings()
     {
-        masterVolume = PlayerPrefs.GetFloat(PlayerPrefabData.Volume_Master, 0.5f); // 기본값 1
-        bgmVolume = PlayerPrefs.GetFloat(PlayerPrefabData.Volume_BGM, 1f);
-        sfxVolume = PlayerPrefs.GetFloat(PlayerPrefabData.Volume_SFX, 1f);
+        MasterVolume = PlayerPrefs.GetFloat(PlayerPrefabData.Volume_Master, 0.5f); // 기본값 1
+        BGMVolume = PlayerPrefs.GetFloat(PlayerPrefabData.Volume_BGM, 1f);
+        SFXVolume = PlayerPrefs.GetFloat(PlayerPrefabData.Volume_SFX, 1f);
 
         // AudioMixer에도 즉시 반영
-        SetMasterVolume(masterVolume);
-        SetBGMVolume(bgmVolume);
-        SetSFXVolume(sfxVolume);
+        SetMasterVolume(MasterVolume);
+        SetBGMVolume(BGMVolume);
+        SetSFXVolume(SFXVolume);
     }
-
 }
 

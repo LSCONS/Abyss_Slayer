@@ -50,7 +50,7 @@ public class RandomMoveData : BasePatternData
         }
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
         yield return bossController.StartCoroutine(bossController.JumpMove(targetPos));
         isdone = true;

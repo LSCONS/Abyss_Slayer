@@ -41,26 +41,26 @@ public class NetworkData : NetworkBehaviour
 
         if (Runner.LocalPlayer == PlayerDataRef)
         {
-            ServerManager.Instance.ThisPlayerRef = PlayerDataRef;
+            ManagerHub.Instance.ServerManager.ThisPlayerRef = PlayerDataRef;
         }
-        ServerManager.Instance.DictRefToNetData[PlayerDataRef] = this;
+        ManagerHub.Instance.ServerManager.DictRefToNetData[PlayerDataRef] = this;
         try
         {
-            ServerManager.Instance.LobbyMainPanel?.UpdateNewData(PlayerDataRef);
+            ManagerHub.Instance.UIConnectManager.UILobbyMainPanel?.UpdateNewData(PlayerDataRef);
         }
         catch { }
 
-        if (IsServer) ServerManager.Instance.LobbyMainPanel?.SetServerText(PlayerDataRef);
+        if (IsServer) ManagerHub.Instance.UIConnectManager.UILobbyMainPanel?.SetServerText(PlayerDataRef);
 
         //서버에 본인 데이터와 이름을 등록
         if (Runner.LocalPlayer == PlayerDataRef)
         {
-            Rpc_RequestSetName(ServerManager.Instance.PlayerNameBytes);
+            Rpc_RequestSetName(ManagerHub.Instance.ServerManager.PlayerNameBytes);
         }
 
         try
         {
-            ServerManager.Instance.LobbyMainPanel?.UIUpdateSprite();
+            ManagerHub.Instance.UIConnectManager.UILobbyMainPanel?.UIUpdateSprite();
         }
         catch { }
     }
@@ -72,7 +72,7 @@ public class NetworkData : NetworkBehaviour
 #endif
         try
         {
-            ServerManager.Instance.LobbyMainPanel.SetActiveFalseRef(PlayerDataRef);
+            ManagerHub.Instance.UIConnectManager.UILobbyMainPanel.SetActiveFalseRef(PlayerDataRef);
         }
         catch { }
         try
@@ -92,7 +92,7 @@ public class NetworkData : NetworkBehaviour
         Debug.Log("PlayerEnterRoomText");
 #endif
         string enterText = $"\"{GetName()}\"님이 접속하셨습니다.\n";
-        ServerManager.Instance.ChattingTextController?.SendChatMessage(enterText.StringToBytes());
+        ManagerHub.Instance.UIConnectManager.UIChatController?.SendChatMessage(enterText.StringToBytes());
     }
 
 
@@ -105,7 +105,7 @@ public class NetworkData : NetworkBehaviour
         Debug.Log("PlayerEixtRoomText");
 #endif
         string exitText = $"\"{GetName()}\"님이 접속을 종료했습니다.\n";
-        ServerManager.Instance.ChattingTextController?.SendChatMessage(exitText.StringToBytes());
+        ManagerHub.Instance.UIConnectManager.UIChatController?.SendChatMessage(exitText.StringToBytes());
     }
 
 
@@ -142,7 +142,7 @@ public class NetworkData : NetworkBehaviour
         for (int i = 0; i < NameBuffer.Length; i++)
             NameBuffer.Set(i, i < nameBytes.Length ? nameBytes[i] : (byte)0);
 
-        ServerManager.Instance.LobbyMainPanel?.UpdateNameData(PlayerDataRef, nameBytes.BytesToString());
+        ManagerHub.Instance.UIConnectManager.UILobbyMainPanel?.UpdateNameData(PlayerDataRef, nameBytes.BytesToString());
         try
         {
             PlayerEnterRoomText();
@@ -162,7 +162,7 @@ public class NetworkData : NetworkBehaviour
         Debug.Log("Rpc_ChangeClass");
 #endif
         IntPlayerClass = (int)characterClass;
-        ServerManager.Instance.LobbyMainPanel.UIUpdateSprite();
+        ManagerHub.Instance.UIConnectManager.UILobbyMainPanel.UIUpdateSprite();
     }
 
 
@@ -176,7 +176,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_EnterToChatting");
 #endif
-        ServerManager.Instance.ChattingTextController.SendChatMessage(bytes);
+        ManagerHub.Instance.UIConnectManager.UIChatController.SendChatMessage(bytes);
     }
 
 
@@ -191,7 +191,7 @@ public class NetworkData : NetworkBehaviour
 #endif
         IsReady = !IsReady;
         Rpc_SetReadyText(IsReady);
-        ServerManager.Instance.LobbySelectPanel.CheckAllPlayerIsReady();
+        ManagerHub.Instance.UIConnectManager.UILobbySelectPanel.CheckAllPlayerIsReady();
     }
 
 
@@ -205,7 +205,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_SetReadyText");
 #endif
-        ServerManager.Instance.LobbyMainPanel.SetReadyText(PlayerDataRef, isActive);
+        ManagerHub.Instance.UIConnectManager.UILobbyMainPanel.SetReadyText(PlayerDataRef, isActive);
     }
 
 
@@ -219,11 +219,11 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_MoveScene");
 #endif
-        foreach (var item in ServerManager.Instance.DictRefToPlayer.Values)
+        foreach (var item in ManagerHub.Instance.ServerManager.DictRefToPlayer.Values)
         {
             item.ResetPlayerStatus();
         }
-        GameFlowManager.Instance.RpcServerSceneLoad(enumScene);
+        ManagerHub.Instance.GameFlowManager.RpcServerSceneLoad(enumScene);
     }
 
 
@@ -236,7 +236,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_ConnectInput");
 #endif
-        ServerManager.Instance.PlayerInput.InputEvent();
+        ManagerHub.Instance.ServerManager.PlayerInput.InputEvent();
     }
 
 
@@ -249,7 +249,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_DisconnectInput");
 #endif
-        ServerManager.Instance.PlayerInput.OutPutEvent();
+        ManagerHub.Instance.ServerManager.PlayerInput.OutPutEvent();
     }
 
 
@@ -270,18 +270,18 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("ActivePlayer");
 #endif
-        while (ServerManager.Instance.DictRefToPlayer.Values.Count != Runner.SessionInfo.PlayerCount)
+        while (ManagerHub.Instance.ServerManager.DictRefToPlayer.Values.Count != Runner.SessionInfo.PlayerCount)
         {
             yield return new WaitForSeconds(0.1f);
         }
 
-        foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
+        foreach (Player player in ManagerHub.Instance.ServerManager.DictRefToPlayer.Values)
         {
             SceneManager.MoveGameObjectToScene(player.gameObject, SceneManager.GetActiveScene());
             player.PlayerData.PlayerDataInit(player);
         }
 
-        foreach (NetworkData data in ServerManager.Instance.DictRefToNetData.Values)
+        foreach (NetworkData data in ManagerHub.Instance.ServerManager.DictRefToNetData.Values)
         {
             SceneManager.MoveGameObjectToScene(data.gameObject, SceneManager.GetActiveScene());
         }
@@ -304,10 +304,10 @@ public class NetworkData : NetworkBehaviour
         if (Runner.IsServer)
         {
             IsReady = isReady;
-            bool isAllReday = ServerManager.Instance.CheckAllPlayerIsReadyInServer();
-            ServerManager.Instance.IsAllReadyAction?.Invoke(isAllReday);
+            bool isAllReday = ManagerHub.Instance.ServerManager.CheckAllPlayerIsReadyInServer();
+            ManagerHub.Instance.ServerManager.IsAllReadyAction?.Invoke(isAllReday);
         }
-        ServerManager.Instance.UITeamStatus?.ChangeIsReadyPlayerText(PlayerDataRef, isReady);
+        ManagerHub.Instance.UIConnectManager.UITeamStatus?.ChangeIsReadyPlayerText(PlayerDataRef, isReady);
     }
 
 
@@ -334,7 +334,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_ResetPlayerPosition");
 #endif
-        Player player = ServerManager.Instance.DictRefToPlayer[PlayerDataRef];
+        Player player = ManagerHub.Instance.ServerManager.DictRefToPlayer[PlayerDataRef];
         if((Vector2)player.transform.position != player.PlayerPosition)
         {
             player.transform.position = (Vector3)player.PlayerPosition;
@@ -357,7 +357,7 @@ public class NetworkData : NetworkBehaviour
         HairStyleKey = hairStyle;
         SkinKey = skin;
         FaceKey = face;
-        ServerManager.Instance.LobbyMainPanel.UIUpdateSprite();
+        ManagerHub.Instance.UIConnectManager.UILobbyMainPanel.UIUpdateSprite();
     }
 
 
@@ -372,8 +372,8 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_VirtualCamera");
 #endif
-        ServerManager.Instance.Boss.BossController.VirtualCamera.m_Lens.OrthographicSize = size;
-        ServerManager.Instance.Boss.BossController.VirtualCamera.Priority = priority;
+        ManagerHub.Instance.ServerManager.Boss.BossController.VirtualCamera.m_Lens.OrthographicSize = size;
+        ManagerHub.Instance.ServerManager.Boss.BossController.VirtualCamera.Priority = priority;
     }
 
 
@@ -387,7 +387,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_LobbySelectLevelUpdateUI");
 #endif
-        ServerManager.Instance.LobbySelectPanel.UpdateUI(level);
+        ManagerHub.Instance.UIConnectManager.UILobbySelectPanel.UpdateUI(level);
     }
 
 
@@ -401,7 +401,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_SetInvincibilityAllPlayer");
 #endif
-        foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
+        foreach (Player player in ManagerHub.Instance.ServerManager.DictRefToPlayer.Values)
         {
             player.Invincibility = isInvincibility;
         }
@@ -418,7 +418,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_SetGameLevel");
 #endif
-        GameValueManager.Instance.SetEGameLevel(gameLevel);
+        ManagerHub.Instance.GameValueManager.SetEGameLevel(gameLevel);
     }
 
      
@@ -431,7 +431,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_ResetRestButton");
 #endif
-        ServerManager.Instance.UIReadyBossStage.ResetClientButton();
+        ManagerHub.Instance.UIConnectManager.UIReadyBossStage.ResetClientButton();
     }
 
 
@@ -444,7 +444,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_SetInGameTeamText");
 #endif
-        ServerManager.Instance.UITeamStatus?.ChagneInBattleScenePlayerText();
+        ManagerHub.Instance.UIConnectManager.UITeamStatus?.ChagneInBattleScenePlayerText();
     }
 
 
@@ -457,7 +457,7 @@ public class NetworkData : NetworkBehaviour
 #if AllMethodDebug
         Debug.Log("Rpc_SetInRestTeamText");
 #endif
-        ServerManager.Instance.UITeamStatus?.ChagneInRestSceneText();
+        ManagerHub.Instance.UIConnectManager.UITeamStatus?.ChagneInRestSceneText();
     }
 
 
@@ -469,7 +469,7 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void Rpc_ApplySkillUpgrade(PlayerRef playerRef, int slotKeyInt)
     {
-        Player player = ServerManager.Instance.DictRefToPlayer[playerRef];
+        Player player = ManagerHub.Instance.ServerManager.DictRefToPlayer[playerRef];
         Skill skill = player.DictSlotKeyToSkill[(SkillSlotKey)slotKeyInt];
         skill.SkillUpgrade();
     }
@@ -483,7 +483,7 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_OpenPopup(byte[] popupName, byte[] descriptionText)
     {
-        UIManager.Instance.OpenPopup(popupName.BytesToString(), descriptionText.BytesToString());
+        ManagerHub.Instance.UIManager.OpenPopup(popupName.BytesToString(), descriptionText.BytesToString());
     }
 
 
@@ -494,7 +494,7 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_ClosePopup(byte[] popupName)
     {
-        UIManager.Instance.ClosePopup(popupName.BytesToString());
+        ManagerHub.Instance.UIManager.ClosePopup(popupName.BytesToString());
     }
 
     /// <summary>
@@ -503,8 +503,8 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_AddSkillPoint()
     {
-        ServerManager.Instance.ThisPlayer.AddSkillPoint(GameValueManager.Instance.AddSkillPointValue);
-        ServerManager.Instance.ThisPlayer.AddStatusPoint(GameValueManager.Instance.AddStatusPointValue);
+        ManagerHub.Instance.ServerManager.ThisPlayer.AddSkillPoint(ManagerHub.Instance.GameValueManager.AddSkillPointValue);
+        ManagerHub.Instance.ServerManager.ThisPlayer.AddStatusPoint(ManagerHub.Instance.GameValueManager.AddStatusPointValue);
     }
 
 
@@ -514,8 +514,8 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetActiveTrueFireWorks()
     {
-        ServerManager.Instance.fireworks = GameObject.Instantiate(DataManager.Instance.FireworksPrefab); // 마지막 보스 잡으면 불꽃놀이 실행
-        ServerManager.Instance.fireworks.StartFireworks();
+        ManagerHub.Instance.ServerManager.fireworks = GameObject.Instantiate(ManagerHub.Instance.DataManager.FireworksPrefab); // 마지막 보스 잡으면 불꽃놀이 실행
+        ManagerHub.Instance.ServerManager.fireworks.StartFireworks();
     }
 
 
@@ -540,8 +540,8 @@ public class NetworkData : NetworkBehaviour
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_MultiClearTime(byte[] clearTime, int playerCount)
     {
-        string temp = $"[{ServerManager.Instance.PlayerName}] 클리어 인원: {playerCount}명\n{clearTime.BytesToString()}";
+        string temp = $"[{ManagerHub.Instance.ServerManager.PlayerName}] 클리어 인원: {playerCount}명\n{clearTime.BytesToString()}";
         PlayerPrefs.SetString(PlayerPrefabData.MultiClearTime, temp);
-        ServerManager.Instance.UIStartTitle?.MultiClearTimeUpdate();
+        ManagerHub.Instance.UIConnectManager.UIStartTitle?.MultiClearTimeUpdate();
     }
 }

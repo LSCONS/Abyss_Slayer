@@ -9,7 +9,7 @@ public class BattleState : BaseGameState
     public override ESceneName SceneName => ESceneName.BattleScene;
     public Vector3 StartPosition { get; private set; } = new Vector3(-18, 1.5f, 0);
 
-    public int stageIndex => GameValueManager.Instance.CurrentStageIndex;
+    public int stageIndex => ManagerHub.Instance.GameValueManager.CurrentStageIndex;
     public bool isStart { get; set; } = false;
     private float deadTimer { get; set; } = 0.0f; // 보스 죽고 몇초 지남?
     private float changeSceneTime { get; set; } = 5.0f; // 보스 죽고 몇초 지나야 씬 넘어갈거임?
@@ -42,7 +42,7 @@ public class BattleState : BaseGameState
     public override async Task OnExit()
     {
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
-        UIManager.Instance.CloseUI(UISceneType.Boss);
+        ManagerHub.Instance.UIManager.CloseUI(UISceneType.Boss);
         try
         {
             if (runner.IsServer) PoolManager.Instance.ReturnPoolAllObject();
@@ -51,7 +51,7 @@ public class BattleState : BaseGameState
         catch { }
         if (runner.IsServer)
         {
-            ServerManager.Instance.ThisPlayerData.Rpc_DisconnectInput();
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_DisconnectInput();
         }
         await Task.CompletedTask;
     }
@@ -60,9 +60,9 @@ public class BattleState : BaseGameState
     {
         base.OnUpdate();
 
-        if (!(isStart) || ServerManager.Instance.Boss == null) return;
+        if (!(isStart) || ManagerHub.Instance.ServerManager.Boss == null) return;
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
-        var boss = ServerManager.Instance.Boss;
+        var boss = ManagerHub.Instance.ServerManager.Boss;
         float hpPercent = (float)boss.Hp.Value / (float)boss.MaxHp.Value * 100f;
 
         if (lastStageIndex != stageIndex)
@@ -113,9 +113,9 @@ public class BattleState : BaseGameState
 
             // 퍼널 스텝: 스테이지 클리어
             if (stageIndex == 0)
-                AnalyticsManager.SendFunnelStep(8);  // 스테이지 1 클리어
+                ManagerHub.Instance.AnalyticsManager.SendFunnelStep(8);  // 스테이지 1 클리어
             else if (stageIndex == 1)
-                AnalyticsManager.SendFunnelStep(15); // 스테이지 2 클리어
+                ManagerHub.Instance.AnalyticsManager.SendFunnelStep(15); // 스테이지 2 클리어
         }
 
         if (boss.IsDead)
@@ -123,12 +123,12 @@ public class BattleState : BaseGameState
             deadTimer += Time.deltaTime;
 
             // 마지막 보스인지 체크
-            bool isFinalBoss = (GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1);
+            bool isFinalBoss = (ManagerHub.Instance.GameValueManager.MaxBossStageCount - ManagerHub.Instance.GameValueManager.CurrentStageIndex == 1);
             float sceneDelay = isFinalBoss ? changeEndingSceneTime : changeSceneTime;
 
-            if (runner.IsServer && isFinalBoss && ServerManager.Instance.fireworks == null)
+            if (runner.IsServer && isFinalBoss && ManagerHub.Instance.ServerManager.fireworks == null)
             {
-                ServerManager.Instance.ThisPlayerData.Rpc_SetActiveTrueFireWorks();
+                ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetActiveTrueFireWorks();
             }
 
 
@@ -141,24 +141,24 @@ public class BattleState : BaseGameState
                     if (isFinalBoss)
                     {
                         //클리어한 모드가 하드 일 경우
-                        if (GameValueManager.Instance.EGameLevel == EGameLevel.Hard)
+                        if (ManagerHub.Instance.GameValueManager.EGameLevel == EGameLevel.Hard)
                         {
                             //여러 사람과 플레이 했을 때
                             if (runner.SessionInfo.PlayerCount > 1)
                             {
-                                ServerManager.Instance.ThisPlayerData.Rpc_MultiClearTime(Util.GetNowTimeStirng().StringToBytes(), runner.SessionInfo.PlayerCount);
+                                ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_MultiClearTime(Util.GetNowTimeStirng().StringToBytes(), runner.SessionInfo.PlayerCount);
                             }
                             else//혼자서 플레이 했을 때
                             {
-                                PlayerPrefs.SetString(PlayerPrefabData.SoloClearTime, $"[{ServerManager.Instance.PlayerName}]\n{Util.GetNowTimeStirng()}");
-                                ServerManager.Instance.UIStartTitle?.SoloClearTimeUpdate();
+                                PlayerPrefs.SetString(PlayerPrefabData.SoloClearTime, $"[{ManagerHub.Instance.ServerManager.PlayerName}]\n{Util.GetNowTimeStirng()}");
+                                ManagerHub.Instance.UIConnectManager.UIStartTitle?.SoloClearTimeUpdate();
                             }
                         }
-                        ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.EndingScene);
+                        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_MoveScene(ESceneName.EndingScene);
                     }
                     else
                     {
-                        ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
+                        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
                     }
                 }
             }
@@ -170,30 +170,30 @@ public class BattleState : BaseGameState
 #if AllMethodDebug
         Debug.Log("BattleState OnRunnerEnter");
 #endif
-        LoadingState state = GameFlowManager.Instance.prevLodingState;
+        LoadingState state = ManagerHub.Instance.GameFlowManager.prevLodingState;
         isStart = false;
-        await UIManager.Instance.Init();
+        await ManagerHub.Instance.UIManager.UIInit();
         state?.SetLoadingBarValue(0.3f);
 
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
-        await ServerManager.Instance.WaitForDespawnBossAsync();
+        await ManagerHub.Instance.ServerManager.WaitForDespawnBossAsync();
 
 
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(true);
+        await ManagerHub.Instance.ServerManager.WaitForAllPlayerIsReadyTrue();
         await Task.Delay(60);
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(false);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(false);
 
         state?.SetLoadingBarValue(0.5f);
 
         if (runner.IsServer && PoolManager.Instance.CrossHairObject == null)
         {
-            runner.Spawn(DataManager.Instance.CrossHairPrefab);
+            runner.Spawn(ManagerHub.Instance.DataManager.CrossHairPrefab);
         }
-        bool isFinalBoss = (GameValueManager.Instance.MaxBossStageCount - GameValueManager.Instance.CurrentStageIndex == 1);
-        if (isFinalBoss) SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene_Last);
-        else SoundManager.Instance.PlayBGM(EAudioClip.BGM_BattleScene);
-        UIManager.Instance.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
+        bool isFinalBoss = (ManagerHub.Instance.GameValueManager.MaxBossStageCount - ManagerHub.Instance.GameValueManager.CurrentStageIndex == 1);
+        if (isFinalBoss) ManagerHub.Instance.SoundManager.PlayBGM(EAudioClip.BGM_BattleScene_Last);
+        else ManagerHub.Instance.SoundManager.PlayBGM(EAudioClip.BGM_BattleScene);
+        ManagerHub.Instance.UIManager.OpenUI(UISceneType.Boss);       // 게임 플레이 UI 열기
 
         // 보스 찾기
 
@@ -204,30 +204,30 @@ public class BattleState : BaseGameState
         {
             NetworkObject boss = runner.Spawn
             (
-            DataManager.Instance.DictEnumToBossObjcet[(EBossStage)GameValueManager.Instance.CurrentStageIndex],
+            ManagerHub.Instance.DataManager.DictEnumToBossObjcet[(EBossStage)ManagerHub.Instance.GameValueManager.CurrentStageIndex],
             Vector3.right * 100,
             Quaternion.identity,
-            ServerManager.Instance.ThisPlayerRef
+            ManagerHub.Instance.ServerManager.ThisPlayerRef
             );
-            runner.MoveGameObjectToScene(boss.gameObject, runner.GetSceneRef(GameFlowManager.Instance.GetSceneNameFromState(this)));
+            runner.MoveGameObjectToScene(boss.gameObject, runner.GetSceneRef(ManagerHub.Instance.GameFlowManager.GetSceneNameFromState(this)));
             //UI초기화
-            ServerManager.Instance.ThisPlayerData.Rpc_SetBattleTeamText();
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetBattleTeamText();
 
-            if (ServerManager.Instance.InitSupporter == null)
+            if (ManagerHub.Instance.ServerManager.InitSupporter == null)
             {
-                runner.Spawn(DataManager.Instance.InitSupporterPrefab);
+                runner.Spawn(ManagerHub.Instance.DataManager.InitSupporterPrefab);
             }
         }
-        await ServerManager.Instance.WaitforBossSpawn();
+        await ManagerHub.Instance.ServerManager.WaitforBossSpawn();
         state?.SetLoadingBarValue(0.7f);
 #if MoveSceneDebug
         Debug.Log("Rpc 래디 해주세용");
 #endif
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(true);
+        await ManagerHub.Instance.ServerManager.WaitForAllPlayerIsReadyTrue();
         await Task.Delay(60); ;
 
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(false);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(false);
         state?.SetLoadingBarValue(0.9f);
 
 #if MoveSceneDebug
@@ -238,18 +238,18 @@ public class BattleState : BaseGameState
         if (runner.IsServer)
         {
             //모든 플레이어의 데이터가 들어있는지 확인하는 메서드
-            await ServerManager.Instance.WaitForAllPlayerLoadingAsync();
+            await ManagerHub.Instance.ServerManager.WaitForAllPlayerLoadingAsync();
         }
         //TODO: 플레이어 위치 동기화도 필요함
 
 #if MoveSceneDebug
         Debug.Log("Battle 개방");
 #endif
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(true);
+        await ManagerHub.Instance.ServerManager.WaitForAllPlayerIsReadyTrue();
         await Task.Delay(60); ;
 
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(false);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(false);
 
         //플레이어 시작 위치 값 초기화
         if (runner.IsServer)
@@ -259,12 +259,12 @@ public class BattleState : BaseGameState
 #endif
 
             Vector3 temp = StartPosition;
-            foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
+            foreach (Player player in ManagerHub.Instance.ServerManager.DictRefToPlayer.Values)
             {
                 await player.PlayerPositionReset(temp);
                 temp += Vector3.right;
             }
-            ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_PlayerActiveTrue();
         }
 
 #if MoveSceneDebug
@@ -273,17 +273,17 @@ public class BattleState : BaseGameState
         state?.SetLoadingBarValue(1);
         await (state?.TaskProgressBar ?? Task.CompletedTask);
 
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(true);
 
         if (runner.IsServer)
         {
 
             // 모든 준비가 끝나고, 스테이지 입장 직후
-            int memberCount = ServerManager.Instance.DictRefToPlayer.Count;
+            int memberCount = ManagerHub.Instance.ServerManager.DictRefToPlayer.Count;
 
             var playerClasses = new string[5];
             int idx = 0;
-            foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+            foreach (var player in ManagerHub.Instance.ServerManager.DictRefToPlayer.Values)
             {
                 playerClasses[idx] = player.NetworkData.Class.ToString();
                 idx++;
@@ -291,7 +291,7 @@ public class BattleState : BaseGameState
             }
             for (; idx < 5; idx++) playerClasses[idx] = "";
 
-            // string difficulty = ServerManager.Instance.Difficulty;
+            // string difficulty = ManagerHub.Instance.ServerManager.Difficulty;
 
             GameStartAnalytics.SendStartUserInfo(
                 memberCount,
@@ -304,11 +304,11 @@ public class BattleState : BaseGameState
 #endif
             await Task.Delay(100);
 
-            await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
+            await ManagerHub.Instance.ServerManager.WaitForAllPlayerIsReadyTrue();
 #if MoveSceneDebug
             Debug.Log("보스 패턴 시작");
 #endif
-            ServerManager.Instance.Boss.BossController.StartBossPattern();
+            ManagerHub.Instance.ServerManager.Boss.BossController.StartBossPattern();
 
 #if MoveSceneDebug
             Debug.Log("loadingState 삭제");
@@ -324,7 +324,7 @@ public class BattleState : BaseGameState
     // 모든 플레이어가 죽었는지 체크
     private bool AllPlayersDead()
     {
-        foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+        foreach (var player in ManagerHub.Instance.ServerManager.DictRefToPlayer.Values)
         {
             if (player.Hp.Value > 0)
                 return false;
@@ -335,7 +335,7 @@ public class BattleState : BaseGameState
     // 플레이어 클래스/데미지/사망 횟수 가져오는 함수 예시
     private string GetPlayerClass(int idx)
     {
-        var players = ServerManager.Instance.DictRefToPlayer.Values.ToList();
+        var players = ManagerHub.Instance.ServerManager.DictRefToPlayer.Values.ToList();
         if (idx < players.Count)
             return players[idx].NetworkData.Class.ToString();
         return "";
@@ -395,7 +395,7 @@ public class BattleState : BaseGameState
             try
             {
                 if (!AnalyticsManager.IsInitialized) return;
-                AnalyticsManager.SendFunnelStep(stepNumber);
+                ManagerHub.Instance.AnalyticsManager.SendFunnelStep(stepNumber);
             }
             catch (System.Exception e)
             {

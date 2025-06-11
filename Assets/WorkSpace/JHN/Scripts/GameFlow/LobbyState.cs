@@ -13,20 +13,20 @@ public class LobbyState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LobbyState Onenter 진입");
 #endif
-        LoadingState state = GameFlowManager.Instance.prevLodingState;
-        GameValueManager.Instance.ResetStageIndex();
-        await UIManager.Instance.Init();
+        LoadingState state = ManagerHub.Instance.GameFlowManager.prevLodingState;
+        ManagerHub.Instance.GameValueManager.ResetStageIndex();
+        await ManagerHub.Instance.UIManager.UIInit();
         state?.SetLoadingBarValue(0.3f);
 
 #if MoveSceneDebug
         Debug.Log("방 생성 및 들어가기");
 #endif
-        if (ServerManager.Instance.IsServer)
-            await ServerManager.Instance.InitHost();
+        if (ManagerHub.Instance.ServerManager.IsServer)
+            await ManagerHub.Instance.ServerManager.InitHost();
         else
-            await ServerManager.Instance.InitClient();
+            await ManagerHub.Instance.ServerManager.InitClient();
 
-        ServerManager.Instance.LobbySelectPanel.JoinRoom();
+        ManagerHub.Instance.UIConnectManager.UILobbySelectPanel.JoinRoom();
 
 #if MoveSceneDebug
         Debug.Log("이미지 Sprite 불러오기");
@@ -34,11 +34,11 @@ public class LobbyState : BaseGameState
         SpriteImageChange[] imageChanges = Util.FindObjectsByTypeDebug<SpriteImageChange>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (SpriteImageChange imageChange in imageChanges)
         {
-            await ServerManager.Instance.WaitForThisPlayerDataAsync();
-            NetworkData data = ServerManager.Instance.ThisPlayerData;
+            await ManagerHub.Instance.ServerManager.WaitForThisPlayerDataAsync();
+            NetworkData data = ManagerHub.Instance.ServerManager.ThisPlayerData;
             imageChange.Init(data.Class, data.HairStyleKey, data.SkinKey, data.FaceKey);
         }
-        ServerManager.Instance.CustomPanelManager.ApplyPreview();
+        ManagerHub.Instance.UIConnectManager.UICustomPanelManager.ApplyPreview();
 
 #if MoveSceneDebug
         Debug.Log("프로그래스 바 끝날 때까지 대기");
@@ -49,8 +49,8 @@ public class LobbyState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("LobbyState 오픈");
 #endif
-        SoundManager.Instance.PlayBGM(EAudioClip.BGM_LobbyScene);
-        UIManager.Instance.OpenUI(UISceneType.Lobby);
+        ManagerHub.Instance.SoundManager.PlayBGM(EAudioClip.BGM_LobbyScene);
+        ManagerHub.Instance.UIManager.OpenUI(UISceneType.Lobby);
 
 #if MoveSceneDebug
         Debug.Log("LoadingScene 삭제");
@@ -75,12 +75,12 @@ public class LobbyState : BaseGameState
 #endif
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
 
-        LoadingState state = GameFlowManager.Instance.prevLodingState;
-        GameValueManager.Instance.ResetStageIndex();
-        await UIManager.Instance.Init();
+        LoadingState state = ManagerHub.Instance.GameFlowManager.prevLodingState;
+        ManagerHub.Instance.GameValueManager.ResetStageIndex();
+        await ManagerHub.Instance.UIManager.UIInit();
         state?.SetLoadingBarValue(0.3f);
 
-        ServerManager.Instance.LobbySelectPanel.JoinRoom();
+        ManagerHub.Instance.UIConnectManager.UILobbySelectPanel.JoinRoom();
 
 
 #if MoveSceneDebug
@@ -89,17 +89,17 @@ public class LobbyState : BaseGameState
         SpriteImageChange[] imageChanges = Util.FindObjectsByTypeDebug<SpriteImageChange>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (SpriteImageChange imageChange in imageChanges)
         {
-            await ServerManager.Instance.WaitForThisPlayerDataAsync();
-            NetworkData data = ServerManager.Instance.ThisPlayerData;
+            await ManagerHub.Instance.ServerManager.WaitForThisPlayerDataAsync();
+            NetworkData data = ManagerHub.Instance.ServerManager.ThisPlayerData;
             imageChange.Init(data.Class, data.HairStyleKey, data.SkinKey, data.FaceKey);
         }
 
-        int hairStyleKey = ServerManager.Instance.ThisPlayerData.HairStyleKey;
-        int skinKey = ServerManager.Instance.ThisPlayerData.SkinKey;
-        int faceKey = ServerManager.Instance.ThisPlayerData.FaceKey;
+        int hairStyleKey = ManagerHub.Instance.ServerManager.ThisPlayerData.HairStyleKey;
+        int skinKey = ManagerHub.Instance.ServerManager.ThisPlayerData.SkinKey;
+        int faceKey = ManagerHub.Instance.ServerManager.ThisPlayerData.FaceKey;
 
-        ServerManager.Instance.CustomPanelManager.InitID(hairStyleKey, skinKey, faceKey);
-        ServerManager.Instance.CustomPanelManager.ApplyPreview();
+        ManagerHub.Instance.UIConnectManager.UICustomPanelManager.InitID(hairStyleKey, skinKey, faceKey);
+        ManagerHub.Instance.UIConnectManager.UICustomPanelManager.ApplyPreview();
 
 
 #if MoveSceneDebug

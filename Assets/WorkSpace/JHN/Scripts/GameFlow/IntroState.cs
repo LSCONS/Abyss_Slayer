@@ -12,15 +12,15 @@ public class IntroState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("IntroState OnEnter 실행");
 #endif
-        LoadingState state = GameFlowManager.Instance.prevLodingState;
-        await UIManager.Instance.LoadAllUI(UIType.NonGamePlay);
-        SoundManager.Instance.Init();
+        LoadingState state = ManagerHub.Instance.GameFlowManager.prevLodingState;
+        await ManagerHub.Instance.UIManager.LoadAllUI(UIType.NonGamePlay);
+        ManagerHub.Instance.SoundManager.Init();
         state?.SetLoadingBarValue(0.3f);
 
-        await DataManager.Instance.Init();
+        await ManagerHub.Instance.DataManager.Init();
 
-        UIManager.Instance.CreateAllUI(UIType.NonGamePlay);
-        await UIManager.Instance.Init();
+        ManagerHub.Instance.UIManager.CreateAllUI(UIType.NonGamePlay);
+        await ManagerHub.Instance.UIManager.UIInit();
         state?.SetLoadingBarValue(0.4f);
 
 #if MoveSceneDebug
@@ -32,7 +32,7 @@ public class IntroState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("IntroState 오픈");
 #endif
-        UIManager.Instance.OpenUI(UISceneType.Intro);
+        ManagerHub.Instance.UIManager.OpenUI(UISceneType.Intro);
 #if MoveSceneDebug
         Debug.Log("LoadingScene 삭제");
 #endif
@@ -41,9 +41,11 @@ public class IntroState : BaseGameState
 
     public override async Task OnExit()
     {
+#if MoveSceneDebug
         Debug.Log("IntroState OnExit");
-        UIManager.Instance.CloseUI(UISceneType.Intro);
-        UIManager.Instance.CleanupUIMap();
+#endif
+        ManagerHub.Instance.UIManager.CloseUI(UISceneType.Intro);
+        ManagerHub.Instance.UIManager.CleanupUIMap();
 
         await Task.CompletedTask;   // 아무 일도 안함
     }

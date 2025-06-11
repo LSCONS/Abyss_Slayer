@@ -22,7 +22,7 @@ public class DashPlayerSilhouette : BasePoolable
     {
         //잔상의 Sprite에 포지션값, Icon, FlipX, Color값을 지정하고 활성화 시킴
         transform.position = position;
-        SpriteChange spriteChange = ServerManager.Instance.DictRefToPlayer[playerRef].PlayerSpriteChange;
+        SpriteChange spriteChange = ManagerHub.Instance.ServerManager.DictRefToPlayer[playerRef].PlayerSpriteChange;
         SpriteChange.SetSpriteCopy(spriteChange);
         SpriteChange.SetFlipXCopy(flipX);
         SpriteChange.SetSpriteColorSilhouette(color);

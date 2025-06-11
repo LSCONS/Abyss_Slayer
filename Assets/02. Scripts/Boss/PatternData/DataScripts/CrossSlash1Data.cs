@@ -21,7 +21,7 @@ public class CrossSlash1Data : BasePatternData
         bossController.ShowTargetCrosshair = true;
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.ReadyRunParameterHash);
         yield return new WaitForSeconds(preDelayTime);
@@ -54,7 +54,7 @@ public class CrossSlash1Data : BasePatternData
 
         
         if (EAudioClip != null && EAudioClip.Count > 1)
-            SoundManager.Instance.PlaySFX(EAudioClip[1]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[1]);
 
         float x = Mathf.Clamp(bossTransform.position.x + (scale.x + 2) * (isleft ? -1 : 1), -mapWidth/2 + 0.7f,mapWidth/2 - 0.7f);
         float y = scene2D.Raycast(new Vector3(x, bossTransform.position.y - scale.y, 0), Vector3.down, 20, (LayerData.GroundPlaneLayerMask|LayerData.GroundPlatformLayerMask)).point.y + bossCenterHight;
@@ -63,7 +63,7 @@ public class CrossSlash1Data : BasePatternData
         bossController.Sprite.enabled = true;
 
         yield return new WaitForSeconds(attackDelayTime);
-        ServerManager.Instance.InitSupporter.Rpc_StartCrossSlashInit(attackPos, isleft, damage, AnimationHash.CrossSlash1ParameterHash, attackSpeed, scale.x, scale.y);
+        ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartCrossSlashInit(attackPos, isleft, damage, AnimationHash.CrossSlash1ParameterHash, attackSpeed, scale.x, scale.y);
         
         yield return new WaitForSeconds(1 + postDelayTime);
         boss.Rpc_ResetTriggerAnimationHash(AnimationHash.SlashEndParameterHash);

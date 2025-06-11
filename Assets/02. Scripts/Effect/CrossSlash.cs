@@ -58,6 +58,6 @@ public class CrossSlash : BasePoolable
     }
     public void Sound()
     {
-        SoundManager.Instance.PlaySFX(sound);
+        ManagerHub.Instance.SoundManager.PlaySFX(sound);
     }
 }

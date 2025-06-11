@@ -29,7 +29,7 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
         get
         {
             if(tooltip != null) return tooltip;
-            return tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+            return tooltip = ManagerHub.Instance.UIManager.GetUI<UISkillTooltip>();
         }
     }
     private UISkillTooltip tooltip;
@@ -39,7 +39,7 @@ public class UISkillSlot : MonoBehaviour, IView, IPointerEnterHandler, IPointerE
 # if AllMethodDebug
         Debug.Log("Init");
 #endif
-        tooltip = UIManager.Instance.GetUI<UISkillTooltip>();
+        tooltip = ManagerHub.Instance.UIManager.GetUI<UISkillTooltip>();
         slotRect = GetComponent<RectTransform>();
         if(BtnDowngrade!=null)
             BtnDowngrade.interactable = false;

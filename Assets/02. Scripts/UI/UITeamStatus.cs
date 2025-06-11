@@ -16,21 +16,21 @@ public class UITeamStatus : UIPermanent
 #endif
         base.Init();
 
-        await ServerManager.Instance.WaitForAllPlayerLoadingAsync();
-        foreach(PlayerRef playerRef in ServerManager.Instance.DictRefToPlayer.Keys)
+        await ManagerHub.Instance.ServerManager.WaitForAllPlayerLoadingAsync();
+        foreach(PlayerRef playerRef in ManagerHub.Instance.ServerManager.DictRefToPlayer.Keys)
         {
-            if ((ServerManager.Instance.ThisPlayerRef != playerRef) && !(DictRefToSlot.ContainsKey(playerRef)))
+            if ((ManagerHub.Instance.ServerManager.ThisPlayerRef != playerRef) && !(DictRefToSlot.ContainsKey(playerRef)))
             {
-                DictRefToSlot[playerRef] = Instantiate(DataManager.Instance.PlayerStatusPrefab, transform);
+                DictRefToSlot[playerRef] = Instantiate(ManagerHub.Instance.DataManager.PlayerStatusPrefab, transform);
                 DictRefToSlot[playerRef].SlotPlayerRef = playerRef;
                 DictRefToSlot[playerRef].ChagneInRestText();
                 DictRefToSlot[playerRef].ConnectUIHpBar();
-                DictRefToSlot[playerRef].SetIcon(ServerManager.Instance.DictRefToNetData[playerRef].Class);
+                DictRefToSlot[playerRef].SetIcon(ManagerHub.Instance.ServerManager.DictRefToNetData[playerRef].Class);
             }
         }
         gameObject.SetActive(true);
-        ServerManager.Instance.UITeamStatus = this;
-        UIManager.Instance.ResetAllRectTransform();
+        ManagerHub.Instance.UIConnectManager.UITeamStatus = this;
+        ManagerHub.Instance.UIManager.ResetAllRectTransform();
     }
 
 
@@ -56,9 +56,9 @@ public class UITeamStatus : UIPermanent
 #if AllMethodDebug
         Debug.Log("ChagneInRestSceneText");
 #endif
-        foreach (PlayerRef playerRef in ServerManager.Instance.DictRefToPlayer.Keys)
+        foreach (PlayerRef playerRef in ManagerHub.Instance.ServerManager.DictRefToPlayer.Keys)
         {
-            if ((ServerManager.Instance.ThisPlayerRef != playerRef) && DictRefToSlot.ContainsKey(playerRef))
+            if ((ManagerHub.Instance.ServerManager.ThisPlayerRef != playerRef) && DictRefToSlot.ContainsKey(playerRef))
             {
                 DictRefToSlot[playerRef].ChagneInRestText();
             }
@@ -74,9 +74,9 @@ public class UITeamStatus : UIPermanent
 #if AllMethodDebug
         Debug.Log("ChagneInBattleScenePlayerText");
 #endif
-        foreach (PlayerRef playerRef in ServerManager.Instance.DictRefToPlayer.Keys)
+        foreach (PlayerRef playerRef in ManagerHub.Instance.ServerManager.DictRefToPlayer.Keys)
         {
-            if ((ServerManager.Instance.ThisPlayerRef != playerRef) && DictRefToSlot.ContainsKey(playerRef))
+            if ((ManagerHub.Instance.ServerManager.ThisPlayerRef != playerRef) && DictRefToSlot.ContainsKey(playerRef))
             {
                 DictRefToSlot[playerRef].ChangeBattleSceneText();
             }

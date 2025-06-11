@@ -19,7 +19,7 @@ public class QuitGame : MonoBehaviour
         }
         else
         {
-            ServerManager.Instance.ExitRoom();
+            ManagerHub.Instance.ServerManager.ExitRoom();
         }
     }
 }

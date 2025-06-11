@@ -57,7 +57,7 @@ public class RogueProjectile : BasePoolable
         this.damage = damage; // 데미지
         spriteRenderer.sprite = sprite;
         spriteRenderer.flipX = direction.x < 0 ? true : false;
-        Player = ServerManager.Instance.DictRefToPlayer[playerRef];
+        Player = ManagerHub.Instance.ServerManager.DictRefToPlayer[playerRef];
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -27,10 +27,10 @@ public class ZoneAOE : BasePoolable
     public void UseSkillSetting()
     {
         // 시작 위치 타겟위치 설정
-        float playerFlipX = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].IsFlipX ? -1 : 1;
+        float playerFlipX = ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].IsFlipX ? -1 : 1;
         // 위치 세팅
         SpawnOffset += MovePosition;
-        Vector3 spawnPosition = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position + new Vector3(SpawnOffset.x * playerFlipX, SpawnOffset.y, 0);
+        Vector3 spawnPosition = ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].transform.position + new Vector3(SpawnOffset.x * playerFlipX, SpawnOffset.y, 0);
         UseSkillStart(playerFlipX, spawnPosition);
     }
 
@@ -38,7 +38,7 @@ public class ZoneAOE : BasePoolable
     {
         // 위치 세팅
         SpawnOffset += MovePosition;
-        Vector3 spawnPosition = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position + new Vector3(SpawnOffset.x * playerFlipX, SpawnOffset.y, 0);
+        Vector3 spawnPosition = ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].transform.position + new Vector3(SpawnOffset.x * playerFlipX, SpawnOffset.y, 0);
         UseSkillStart(playerFlipX, spawnPosition, colliderSize, colliderOffset);
     }
 
@@ -63,7 +63,7 @@ public class ZoneAOE : BasePoolable
         // duration 후 풀에 자동 반환
         if (Data.GetSkill() != null && Data.GetSkill().SkillCategory == SkillCategory.Hold)
         {
-            ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].StartHoldSkillCoroutine(ReturnTOPool(Data.ColliderDuration), Rpc_Exit);
+            ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].StartHoldSkillCoroutine(ReturnTOPool(Data.ColliderDuration), Rpc_Exit);
         }
         else
         {
@@ -86,7 +86,7 @@ public class ZoneAOE : BasePoolable
 
         if (Data.GetSkill() != null && Data.GetSkill().SkillCategory == SkillCategory.Hold)
         {
-            ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].StartHoldSkillCoroutine(ReturnTOPool(Data.ColliderDuration), Rpc_Exit);
+            ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].StartHoldSkillCoroutine(ReturnTOPool(Data.ColliderDuration), Rpc_Exit);
         }
         else
         {
@@ -107,7 +107,7 @@ public class ZoneAOE : BasePoolable
     {
         gameObject.SetActive(true);
         DataInit(data, spawnSize, spawnOffset, Vector2.zero); 
-        Vector2 dashDirection = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].IsFlipX ? Vector2.left : Vector2.right;
+        Vector2 dashDirection = ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].IsFlipX ? Vector2.left : Vector2.right;
         StartCoroutine(DashCoroutine(dashDirection, dashDistance, dashTime));
     }
 
@@ -166,7 +166,7 @@ public class ZoneAOE : BasePoolable
         Animator.enabled = false;
         MeleeDamageCheck.Exit();
         if (Data.GetSkill().SkillCategory == SkillCategory.Hold)
-            ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].StopHoldSkillNoneCoroutine();
+            ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].StopHoldSkillNoneCoroutine();
         SpriteRenderer.sprite = null;
     }
 
@@ -174,7 +174,7 @@ public class ZoneAOE : BasePoolable
     private void SetActiveAnimator()
     {
         //EffectName과 관련된 애니메이터가 있는지 확인하고 가져오고 실행.
-        if(DataManager.Instance.DictEnumToAnimatorData.TryGetValue((EAnimatorController)Data.AnimatorControllerInt, out var pathAnimator))
+        if(ManagerHub.Instance.DataManager.DictEnumToAnimatorData.TryGetValue((EAnimatorController)Data.AnimatorControllerInt, out var pathAnimator))
         if (pathAnimator != null)
         {
             //찾아둔 애니메이터와 연결하고 활성화
@@ -183,7 +183,7 @@ public class ZoneAOE : BasePoolable
                 //스프라이트 값 초기화
             SpriteRenderer.transform.localScale = Vector3.one;
             SpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            SpriteRenderer.flipX = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].IsFlipX;
+            SpriteRenderer.flipX = ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].IsFlipX;
 
             if (Animator != null && Animator.runtimeAnimatorController != null)
             {
@@ -201,9 +201,9 @@ public class ZoneAOE : BasePoolable
     private IEnumerator DashCoroutine(Vector2 dashDirection, float dashDistance, float dashTime)
     {
         // 시작 위치 타겟위치 설정
-        float playerFlipX = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].IsFlipX ? -1 : 1;
+        float playerFlipX = ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].IsFlipX ? -1 : 1;
         float time = 0;
-        Vector2 startPos = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position;
+        Vector2 startPos = ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].transform.position;
         Vector2 targetPos = startPos + dashDirection * dashDistance + Vector2.up * 0.01f; ;
         Debug.Log($"startPos = {startPos}");
         // 대쉬 이펙트 생성
@@ -211,27 +211,27 @@ public class ZoneAOE : BasePoolable
         Vector3 effectOffset = new Vector3(-dashDirection.x, -0.5f, 0);   // 플립되어있으면 1f, 아니면 -1f
         Vector3 effectPos = (Vector3)startPos + effectOffset;
 
-        GameObject dashEffect = GameObject.Instantiate(DataManager.Instance.DashEffectPrefab, effectPos, Quaternion.identity, ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform);
+        GameObject dashEffect = GameObject.Instantiate(ManagerHub.Instance.DataManager.DashEffectPrefab, effectPos, Quaternion.identity, ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].transform);
         dashEffect.transform.right = dashDirection;
 
         // 이펙트 방향 설정
         SpriteRenderer effectSpriteRenderer = dashEffect.GetComponent<SpriteRenderer>();
         if (effectSpriteRenderer != null)
         {
-            effectSpriteRenderer.flipX = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].IsFlipX;
+            effectSpriteRenderer.flipX = ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].IsFlipX;
         }
 
 
         // dashDistance만큼을 dashDuration 시간동안 이동
         while (time < dashTime)
         {
-            ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].PlayerRigidbody.MovePosition(Vector2.Lerp(startPos, targetPos, time / dashTime));
+            ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].PlayerRigidbody.MovePosition(Vector2.Lerp(startPos, targetPos, time / dashTime));
             time += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
 
         // 대시 이후 위치
-        ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].PlayerRigidbody.MovePosition(targetPos);
+        ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].PlayerRigidbody.MovePosition(targetPos);
 
         // 이펙트 제거
         if (dashEffect != null)
@@ -240,13 +240,13 @@ public class ZoneAOE : BasePoolable
         }
 
         // 끝/중간 위치 설정
-        Vector2 endPos = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].transform.position;
+        Vector2 endPos = ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].transform.position;
         Debug.Log($"endPos = {endPos}");
         float distance = Vector2.Distance(startPos, endPos);
         Debug.Log($"distance = {distance}");
 
         // 콜라이더 위치 저장 이동
-        Vector2 originalPos = ServerManager.Instance.DictRefToPlayer[Data.PlayerRef].PlayerMeleeCollider.transform.position;
+        Vector2 originalPos = ManagerHub.Instance.ServerManager.DictRefToPlayer[Data.PlayerRef].PlayerMeleeCollider.transform.position;
 
         Vector2 ColliderSize = new Vector2(distance, 1.0f);
         Debug.Log($"ColliderSize = {ColliderSize}");

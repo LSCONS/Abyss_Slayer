@@ -17,7 +17,7 @@ public class MoveDownData : BasePatternData
         posY = Random.Range(0, 2f) < 1 ? posY : bossCenterHight;
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
         yield return bossController.StartCoroutine(bossController.JumpMove(new Vector3(bossTransform.position.x, posY)));
         yield return new WaitForSeconds(postDelayTime);

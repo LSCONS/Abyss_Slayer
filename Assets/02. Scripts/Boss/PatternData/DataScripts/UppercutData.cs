@@ -27,7 +27,7 @@ public class UppercutData : BasePatternData
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.Uppercut2ParameterHash);
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
         while (Mathf.Abs(targetPosition.x - bossTransform.position.x) >= 0.05f)
         {
@@ -39,7 +39,7 @@ public class UppercutData : BasePatternData
         bossController.ShowTargetCrosshair = false;
         //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.Uppercut3ParameterHash);
-        ServerManager.Instance.InitSupporter.Rpc_StartTornadoInit(bossTransform.position + Vector3.down * bossCenterHight, damage, duration, attackPerSec, warningTime, width);
+        ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartTornadoInit(bossTransform.position + Vector3.down * bossCenterHight, damage, duration, attackPerSec, warningTime, width);
         //PoolManager.Instance.Get<Tornado>().Init(bossTransform.position + Vector3.down * bossCenterHight, damage, duration, attackPerSec, warningTime, width);
         yield return new WaitForSeconds(warningTime);
         //TODO: 나중에 애니메이션 트리거 추가 시 Rpc 추가

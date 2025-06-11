@@ -17,6 +17,6 @@ public class UIButton : UIBase
 
     protected virtual void PlayClickSound()
     {
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
     }
 }

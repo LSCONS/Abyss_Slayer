@@ -61,7 +61,7 @@ public class GravityProjectile : BasePoolable
         _baseSpeed = baseSpeed;
         _maxSpeed = maxSpeed;
         _minSpeed = minSpeed;
-        _target = ServerManager.Instance.DictRefToPlayer[target].transform;
+        _target = ManagerHub.Instance.ServerManager.DictRefToPlayer[target].transform;
         _throwTime = Time.time + delayThorwTime + 1.2f;
         transform.localScale = Vector3.one * size;
         _gravity = 9.81f * gravityScale;
