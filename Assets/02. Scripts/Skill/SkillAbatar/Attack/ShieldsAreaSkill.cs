@@ -18,7 +18,7 @@ public class ShieldsAreaSkill : AreaSkill
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if(shieldInstance == null)
         {
-            shieldInstance = runner.Spawn(DataManager.Instance.ShieldPrefab);
+            shieldInstance = runner.Spawn(ManagerHub.Instance.DataManager.ShieldPrefab);
         }
         shieldInstance.Rpc_Init(player.PlayerRef, radius, duration, effectAmount);
     }

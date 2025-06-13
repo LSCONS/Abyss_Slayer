@@ -14,26 +14,35 @@ public class UILobbySelectPanel : UIPermanent
     [field: SerializeField] private TextMeshProUGUI TextLevelDesc { get; set; }  // 난이도 설명
     [field: SerializeField] private TextMeshProUGUI TextStartGame { get; set; } //시작 버튼 텍스트
 
-    private EGameLevel currentLevel => GameValueManager.Instance.EGameLevel;
+    private EGameLevel currentLevel => ManagerHub.Instance.GameValueManager.EGameLevel;
 
     private void Awake()
     {
+#if AllMethodDebug
+        Debug.Log("Awake");
+#endif
         UpdateUI((int)currentLevel);
         BtnLevelDown.onClick.AddListener(() => ChangeLevel(-1));
         BtnLevelUp.onClick.AddListener(() => ChangeLevel(1));
-        BtnExitGame.onClick.AddListener(ServerManager.Instance.ExitRoom);
-        BtnExitGame.onClick.AddListener(() => SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick));
-        ServerManager.Instance.LobbySelectPanel = this;
+        BtnExitGame.onClick.AddListener(ManagerHub.Instance.ServerManager.ExitRoom);
+        BtnExitGame.onClick.AddListener(() => ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick));
+        ManagerHub.Instance.UIConnectManager.UILobbySelectPanel = this;
     }
 
     private void OnDisable()
     {
+#if AllMethodDebug
+        Debug.Log("OnDisable");
+#endif
         BtnStartGame.onClick.RemoveAllListeners();
     }
 
     //나중에 로비 씬 입장할 때 해당 메서드 호출하게 해야 함. 꼭 서버 접속 후 호출
-    public void JoinRoom() 
+    public void JoinRoom()
     {
+#if AllMethodDebug
+        Debug.Log("JoinRoom");
+#endif
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if(runner.IsServer)
         {
@@ -52,19 +61,30 @@ public class UILobbySelectPanel : UIPermanent
     /// <param name="direction"></param>
     private void ChangeLevel(int direction)
     {
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+#if AllMethodDebug
+        Debug.Log("ChangeLevel");
+#endif
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         int total = System.Enum.GetValues(typeof(EGameLevel)).Length - 1;
         int newIndex = (int)currentLevel + direction;
 
         SetActiveButton(newIndex);
         
-        GameValueManager.Instance.SetEGameLevel(newIndex);
+        ManagerHub.Instance.GameValueManager.SetEGameLevel(newIndex);
         //RPC로 모든 플레이어에게 데이터 공유
-        ServerManager.Instance.ThisPlayerData.Rpc_LobbySelectLevelUpdateUI(newIndex);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_LobbySelectLevelUpdateUI(newIndex);
     }
 
+
+    /// <summary>
+    /// 난이도 조절 버튼의 활성화 여부를 조절 하는 메서드
+    /// </summary>
+    /// <param name="EGameLevelInt"></param>
     private void SetActiveButton(int EGameLevelInt)
     {
+#if AllMethodDebug
+        Debug.Log("SetActiveButton");
+#endif
         int total = System.Enum.GetValues(typeof(EGameLevel)).Length - 1;
         if (EGameLevelInt == 0)
         {
@@ -89,15 +109,15 @@ public class UILobbySelectPanel : UIPermanent
 #if AllMethodDebug
         Debug.Log("StartGame");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         if (RunnerManager.Instance.GetRunner().IsServer)
         {
             //난이도 동기화도 해줌
-            ServerManager.Instance.ThisPlayerData.Rpc_SetGameLevel((int)GameValueManager.Instance.EGameLevel);
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetGameLevel((int)ManagerHub.Instance.GameValueManager.EGameLevel);
             //새로운 플레이어 생성
-            ServerManager.Instance.InstantiatePlayer();
+            ManagerHub.Instance.ServerManager.InstantiatePlayer();
             //RestScene으로 이동
-            ServerManager.Instance.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_MoveScene(ESceneName.RestScene);
             //다른 플레이어가 못 들어오게 막음
             RunnerManager.Instance.GetRunner().SessionInfo.IsOpen = false;
         }
@@ -105,7 +125,7 @@ public class UILobbySelectPanel : UIPermanent
         // 파티 직업 정보 수집
         var playerClasses = new string[5];
         int index = 0;
-        foreach (var data in ServerManager.Instance.DictRefToNetData.Values)
+        foreach (var data in ManagerHub.Instance.ServerManager.DictRefToNetData.Values)
         {
             if (index < 5)
             {
@@ -116,7 +136,7 @@ public class UILobbySelectPanel : UIPermanent
 
         // 애널리틱스 전송
         GameStartAnalytics.SendStartUserInfo(
-            ServerManager.Instance.DictRefToNetData.Count,
+            ManagerHub.Instance.ServerManager.DictRefToNetData.Count,
             playerClasses[0], playerClasses[1], playerClasses[2], playerClasses[3], playerClasses[4]
         );
     }
@@ -127,8 +147,11 @@ public class UILobbySelectPanel : UIPermanent
     /// </summary>
     private void ReadyGame()
     {
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
-        ServerManager.Instance.ThisPlayerData.Rpc_ClickReadyBtn();
+#if AllMethodDebug
+        Debug.Log("ReadyGame");
+#endif
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_ClickReadyBtn();
     }
 
 
@@ -137,6 +160,9 @@ public class UILobbySelectPanel : UIPermanent
     /// </summary>
     public void SetServerInit()
     {
+#if AllMethodDebug
+        Debug.Log("SetServerInit");
+#endif
         TextStartGame.text = "시작하기";
         BtnStartGame.interactable = false;
         BtnStartGame.onClick.AddListener(StartGame);
@@ -148,6 +174,9 @@ public class UILobbySelectPanel : UIPermanent
     /// </summary>
     public void SetClientInit()
     {
+#if AllMethodDebug
+        Debug.Log("SetClientInit");
+#endif
         TextStartGame.text = "준비하기";
         BtnStartGame.interactable = true;
         BtnStartGame.onClick.AddListener(ReadyGame);
@@ -159,7 +188,10 @@ public class UILobbySelectPanel : UIPermanent
     /// </summary>
     public void CheckAllPlayerIsReady()
     {
-        foreach (NetworkData data in ServerManager.Instance.DictRefToNetData.Values)
+#if AllMethodDebug
+        Debug.Log("CheckAllPlayerIsReady");
+#endif
+        foreach (NetworkData data in ManagerHub.Instance.ServerManager.DictRefToNetData.Values)
         {
             if (data.IsServer) continue;
 
@@ -175,6 +207,9 @@ public class UILobbySelectPanel : UIPermanent
 
     public void UpdateUI(int level)
     {
+#if AllMethodDebug
+        Debug.Log("UpdateUI");
+#endif
         TextLevelTitle.text = ((EGameLevel)level).ToString();
 
         switch ((EGameLevel)level)

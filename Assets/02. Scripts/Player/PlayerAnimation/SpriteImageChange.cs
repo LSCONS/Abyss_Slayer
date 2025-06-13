@@ -43,7 +43,7 @@ public class SpriteImageChange : MonoBehaviour
 
     public void Init(CharacterClass character, int hairStyleKey, int skinKey, int faceKey)
     {
-        DataManager data = DataManager.Instance;
+        DataManager data = ManagerHub.Instance.DataManager;
         int hairColorKey = HairColorConfig.HairColorIndexByClass[character];
         SelectedClass = (int)character;
         (int, int) hairKey = (hairStyleKey, hairColorKey);
@@ -102,7 +102,7 @@ public class SpriteImageChange : MonoBehaviour
     //{
     //    if (info == null) return;
 
-    //    var data = DataManager.Instance;
+    //    var data = ManagerHub.Instance.DataManager;
     //    var state = AnimationState.Idle1;
     //    var key = HairColorConfig.HairColorIndexByClass[PlayerManager.Instance.selectedCharacterClass];
 

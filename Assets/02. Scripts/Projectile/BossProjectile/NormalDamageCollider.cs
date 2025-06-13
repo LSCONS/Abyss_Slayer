@@ -46,7 +46,6 @@ public class NormalDamageCollider : NetworkBehaviour
             hitPlayers.Add(player))
         {
             player.Rpc_Damage(_damage);            //데미지 입힘
-            Debug.Log($"{_damage}데미지");
             if (hitPlayers.Count < piercingAttackCount)
             {
                 return;

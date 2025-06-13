@@ -32,9 +32,9 @@ public class DashClawData : BasePatternData
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.Dash1ParameterHash);
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[1]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[1]);
 
-        ServerManager.Instance.InitSupporter.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, preDelayTime, attackDuration);
+        ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, preDelayTime, attackDuration);
         bossController.ChasingTarget = false;
 
         
@@ -42,7 +42,7 @@ public class DashClawData : BasePatternData
         yield return new WaitForSeconds(preDelayTime);
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
         bossAnimator.enabled = false;
         bossController.Sprite.enabled = false;
         bossController.HitCollider.enabled = false;
@@ -57,11 +57,11 @@ public class DashClawData : BasePatternData
         while(i < comboAttackCount)
         {
             isLeft = target.transform.position.x - bossTransform.position.x < 0;
-            ServerManager.Instance.InitSupporter.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, comboDelayTime, attackDuration);
+            ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartDashClawEffectInit(damage, bossTransform.position + 2 * (isLeft ? Vector3.right : Vector3.left), isLeft, distance, comboDelayTime, attackDuration);
                    
             yield return new WaitForSeconds(comboDelayTime);
             if (EAudioClip != null && EAudioClip.Count > 1)
-                SoundManager.Instance.PlaySFX(EAudioClip[0]);
+                ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
             bossController.Sprite.enabled = false;
             bossController.HitCollider.enabled = false;
             boss.IsLeft = isLeft;

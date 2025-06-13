@@ -22,7 +22,7 @@ public class SquareLaserData : BasePatternData
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.SpawnParameterHash);
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
         yield return new WaitForSeconds(0.3f);
 
@@ -30,7 +30,7 @@ public class SquareLaserData : BasePatternData
         for (int i = 0; i < projectileCount; i++)
         {
             //if (EAudioClip != null && EAudioClip.Count > 1)
-            //    SoundManager.Instance.PlaySFX(EAudioClip[1]);
+            //    ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[1]);
 
             targetPos = new Vector3(target.position.x + (projectileGap / 2) * (-projectileCount + 1 + (i * 2)) * (boss.IsLeft ? -1f : 1f), 0);
             PoolManager.Instance.Get<SquareLaserPorjectile>().Rpc_Init(damage, damageIntervalTime, bossTransform.position, targetPos, delayFireTime, 0.1f + i * intervalFireTime, effectSpeed);
@@ -45,7 +45,7 @@ public class SquareLaserData : BasePatternData
             for (int i = 0; i < projectileCount; i++)
             {
                 //if (EAudioClip != null && EAudioClip.Count > 1)
-                //    SoundManager.Instance.PlaySFX(EAudioClip[1]);
+                //    ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[1]);
 
                 targetPos = new Vector3(target.position.x - (projectileGap / 2) * (-projectileCount + 1 + (i * 2)) * (boss.IsLeft ? -1f : 1f), 0);
                 PoolManager.Instance.Get<SquareLaserPorjectile>().Rpc_Init(damage, damageIntervalTime, bossTransform.position, targetPos, 0.1f, 0.1f + i * intervalFireTime, effectSpeed);

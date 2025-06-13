@@ -16,7 +16,7 @@ public class SpriteChange : MonoBehaviour
 
     public void Init(CharacterClass character, int hairStyleKey, int faceKey, int skinKey)
     {
-        DataManager data = DataManager.Instance;
+        DataManager data = ManagerHub.Instance.DataManager;
         int hairColotKey = HairColorConfig.HairColorIndexByClass[character];
         (int, int) hairKey = (hairStyleKey, hairColotKey);
         DictAnimationState[WeaponTop]       = data.InstantiateDictionary(data.DictClassToStateToWeaponTop[character]);

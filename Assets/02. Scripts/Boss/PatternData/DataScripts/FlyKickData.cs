@@ -31,7 +31,7 @@ public class FlyKickData : BasePatternData
         }
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
         yield return new WaitForSeconds(flyingTime);    //공중에서 일정시간 대기
 
@@ -43,11 +43,11 @@ public class FlyKickData : BasePatternData
 
             if (Vector3.Distance(bossTransform.position, targetPosition) < 0.01f)               // 목표 지점 도달 여부 체크
             {
-                ServerManager.Instance.InitSupporter.Rpc_StartExplosionInit(targetPosition + (Vector3.down * 1f), damage, explosionSize);
+                ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartExplosionInit(targetPosition + (Vector3.down * 1f), damage, explosionSize);
                 //PoolManager.Instance.Get<Explosion>().Init(targetPosition + (Vector3.down * 1f), damage, explosionSize);    //폭발이펙트 생성
 
                 if (EAudioClip != null && EAudioClip.Count > 1)
-                    SoundManager.Instance.PlaySFX(EAudioClip[1]);
+                    ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[1]);
 
                 bossController.ShowTargetCrosshair = false; //타겟 조준선 비활성화
                 bossTransform.position = targetPosition; // 위치 보정

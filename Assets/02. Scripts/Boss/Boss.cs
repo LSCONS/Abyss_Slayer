@@ -38,17 +38,17 @@ public class Boss : NetworkBehaviour, IHasHealth
         Debug.Log("Spawned");
 #endif
         base.Spawned();
-        MaxHp.Value = (int)(MaxHp.Value * GameValueManager.Instance.GetBossHealthMultipleForLevelValue());
+        MaxHp.Value = (int)(MaxHp.Value * ManagerHub.Instance.GameValueManager.GetBossHealthMultipleForLevelValue());
 
         int playerCount = Runner.SessionInfo.PlayerCount;
-        MaxHp.Value = (int)(MaxHp.Value * (1 +  (playerCount - 1) * GameValueManager.Instance.GetBossHealthMultipleForPlayerCountValue()));
+        MaxHp.Value = (int)(MaxHp.Value * (1 +  (playerCount - 1) * ManagerHub.Instance.GameValueManager.GetBossHealthMultipleForPlayerCountValue()));
 
         Hp.Value = MaxHp.Value;
-        ServerManager.Instance.Boss = this;
+        ManagerHub.Instance.ServerManager.Boss = this;
         Animator.enabled = IsOpenSprtie;
         Sprite.enabled = IsOpenSprtie;
         BossController.Init();
-        ServerManager.Instance.UIBossState.UIHealthBar.ConnectBossObject(this);
+        ManagerHub.Instance.UIConnectManager.UIBossState.UIHealthBar.ConnectBossObject(this);
     }
 
 
@@ -108,7 +108,7 @@ public class Boss : NetworkBehaviour, IHasHealth
         Vector2 current = transform.position;
         if (current != target)
         {
-            float t = GameValueManager.Instance.MoveSmoothObjectPositionForClientValue * Time.deltaTime;
+            float t = ManagerHub.Instance.GameValueManager.MoveSmoothObjectPositionForClientValue * Time.deltaTime;
             Vector2 newPos = Vector2.Lerp(current, target, t);
             transform.position = newPos;
         }
@@ -124,10 +124,10 @@ public class Boss : NetworkBehaviour, IHasHealth
         Hp.Value = Mathf.Clamp(Hp.Value + value, 0, MaxHp.Value);
         if (Hp.Value == 0)
         {
-            GameValueManager.Instance.SetClearStage(true);
+            ManagerHub.Instance.GameValueManager.SetClearStage(true);
             IsDead = true;
             PoolManager.Instance.CrossHairObject?.gameObject.SetActive(false);
-            ServerManager.Instance.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(true);
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetInvincibilityAllPlayer(true);
             BossController.OnDead();
             if (Runner.IsServer) PoolManager.Instance.ReturnPoolAllObject();
         }
@@ -147,7 +147,7 @@ public class Boss : NetworkBehaviour, IHasHealth
 #if AllMethodDebug
         Debug.Log("Rpc_CrosshairObjectSetActive");
 #endif
-        await ServerManager.Instance.WaitForHairCrossObject();
+        await ManagerHub.Instance.ServerManager.WaitForHairCrossObject();
         PoolManager.Instance.CrossHairObject.gameObject.SetActive(isActive);
     }
 
@@ -280,7 +280,7 @@ public class Boss : NetworkBehaviour, IHasHealth
 #endif
         CancelInvoke(nameof(DamagedEnd));
         Sprite.color = Color.red;
-        Invoke(nameof(DamagedEnd), GameValueManager.Instance.OnDamageBossColorDuration);
+        Invoke(nameof(DamagedEnd), ManagerHub.Instance.GameValueManager.OnDamageBossColorDuration);
     }
 
 

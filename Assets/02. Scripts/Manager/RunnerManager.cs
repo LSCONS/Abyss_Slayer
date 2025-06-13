@@ -21,7 +21,7 @@ public class RunnerManager : Singleton<RunnerManager>
         }
     }
     public bool IsThisRunner
-        => ServerManager.Instance.ThisPlayerRef == MainRunner.LocalPlayer;
+        => ManagerHub.Instance.ServerManager.ThisPlayerRef == MainRunner.LocalPlayer;
 
     protected override void Awake()
     {

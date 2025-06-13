@@ -21,16 +21,16 @@ public class PoolConfig     //새로 풀을 추가할때 필요한 정보
 public class PoolManager : NetworkBehaviour
 {
     private Dictionary<Type, ObjectPool> poolDict = new();    //리스트의 풀을 저장하는 딕셔너리
-    public static PoolManager Instance => ServerManager.Instance.PoolManager;
+    public static PoolManager Instance => ManagerHub.Instance.ServerManager.PoolManager;
     public NetworkObjectFollowServer CrossHairObject {  get; set; }
     public override void Spawned()
     {
         base.Spawned();
-        ServerManager.Instance.PoolManager = this;
+        ManagerHub.Instance.ServerManager.PoolManager = this;
         transform.parent = null;
         DamageTextSpawner.activeTexts = new();
         if (Runner.IsServer) 
-            Runner.Spawn(DataManager.Instance.CrossHairPrefab);
+            Runner.Spawn(ManagerHub.Instance.DataManager.CrossHairPrefab);
         if (Runner.IsServer)
             SetObjectPoolDictionary();
     }
@@ -60,7 +60,7 @@ public class PoolManager : NetworkBehaviour
     /// </summary>
     private void SetObjectPoolDictionary()
     {
-        foreach(BasePoolable poolable in DataManager.Instance.ListBasePoolablePrefab)
+        foreach(BasePoolable poolable in ManagerHub.Instance.DataManager.ListBasePoolablePrefab)
         {
             //빈 오브젝트 추가 후 부모 오브젝트 설정
             Transform newObject = new GameObject(poolable.GetType().Name).transform;

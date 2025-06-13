@@ -31,13 +31,19 @@ public class UISkillUpgradeStore : UIPopup
 
     public void Awake()
     {
-        ServerManager.Instance.UISkillUpgradeStore = this;
+#if AllMethodDebug
+        Debug.Log("Awake");
+#endif
+        ManagerHub.Instance.UIConnectManager.UISkillUpgradeStore = this;
     }
     public async override void Init()
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         base.Init();
         // 스킬 포인트 초기화
-        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+        Player player = await ManagerHub.Instance.ServerManager.WaitForThisPlayerAsync();
         OriginalSkillPoint = player.SkillPoint.Value;      // 저장
         SkillPoint = OriginalSkillPoint;
         UpdateSkillPointText();
@@ -71,23 +77,32 @@ public class UISkillUpgradeStore : UIPopup
         applyButton.onClick.AddListener(ApplyUpgrade);
         applyButton.interactable = false;
         SetAllDowngradeBtn(false);
-        if (ServerManager.Instance.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
+        if (ManagerHub.Instance.ServerManager.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
     }
 
     public override void OnOpen()
     {
-        if (ServerManager.Instance.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
+#if AllMethodDebug
+        Debug.Log("OnOpen");
+#endif
+        if (ManagerHub.Instance.ServerManager.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
         base.OnOpen();
     }
 
     public override void Close()
     {
+#if AllMethodDebug
+        Debug.Log("Close");
+#endif
         base.Close();
         ResetUnappliedChange(); // 적용 안된 것들 초기화
     }
 
     public override void OnDisable()
     {
+#if AllMethodDebug
+        Debug.Log("OnDisable");
+#endif
         ResetUnappliedChange();
         base.OnDisable();
     }
@@ -97,6 +112,9 @@ public class UISkillUpgradeStore : UIPopup
     /// </summary>
     private void SetSlots(UISkillSlot slot, Skill skill)
     {
+#if AllMethodDebug
+        Debug.Log("SetSlots");
+#endif
         slot.SetSkillData(skill);
         slot.SetSkillUpgradeText(skill, skill.Level.Value);
         slot.SetIcon(skill.SkillIcon);
@@ -109,6 +127,9 @@ public class UISkillUpgradeStore : UIPopup
     /// </summary>
     private void SetButtons(UISkillSlot slot, Skill skill)
     {
+#if AllMethodDebug
+        Debug.Log("SetButtons");
+#endif
         // 버튼 세팅
         var buttons = slot.GetComponentsInChildren<Button>();
 
@@ -124,7 +145,7 @@ public class UISkillUpgradeStore : UIPopup
             var data = upgradeData[skill];
             if (SkillPoint > 0)
             {
-                SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+                ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
                 data.TempLevel++;                                       // 임시 레벨 올림
                 SkillPoint--;                                           // 스킬 포인트 낮춤
                 slot.SetSkillLevel(data.TempLevel);                     // 슬롯의 레벨 텍스트 수정
@@ -142,7 +163,7 @@ public class UISkillUpgradeStore : UIPopup
                                                          
             if (data.TempLevel > skill.Level.Value)
             {
-                SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+                ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
                 data.TempLevel--;                                       // 임시 레벨 올림
                 SkillPoint++;                                           // 스킬 포인트 낮춤
                 slot.SetSkillLevel(data.TempLevel);                     // 슬롯의 레벨 텍스트 수정
@@ -157,13 +178,19 @@ public class UISkillUpgradeStore : UIPopup
     }
     private void UpdateSkillPointText()
     {
+#if AllMethodDebug
+        Debug.Log("UpdateSkillPointText");
+#endif
         skillPointText.text = $"스킬 포인트: {SkillPoint}";
     }
 
     private async void ApplyUpgrade()
     {
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
-        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+#if AllMethodDebug
+        Debug.Log("ApplyUpgrade");
+#endif
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
+        Player player = await ManagerHub.Instance.ServerManager.WaitForThisPlayerAsync();
         foreach ( var upData in upgradeData )
         {
             var skill = upData.Key;
@@ -173,9 +200,9 @@ public class UISkillUpgradeStore : UIPopup
 
             for(int i = 0; i < levelDiff; i++)
             {
-                ServerManager.Instance.ThisPlayerData.Rpc_ApplySkillUpgrade(ServerManager.Instance.ThisPlayerRef, (int)skill.slotKey);
+                ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_ApplySkillUpgrade(ManagerHub.Instance.ServerManager.ThisPlayerRef, (int)skill.slotKey);
                 // 스킬 업그레이드 애널리틱스 전송
-                string stageNumber = ServerManager.Instance.BossCount.ToString();
+                string stageNumber = ManagerHub.Instance.ServerManager.BossCount.ToString();
                 string classType = player.NetworkData.Class.ToString();
                 string upgradeSkill = skill.SkillName;
                 UpgradeAnalytics.SendClassSkillUpgradeInfo(stageNumber, classType, upgradeSkill, data.TempLevel);
@@ -192,7 +219,10 @@ public class UISkillUpgradeStore : UIPopup
 
     private void SetAllUpgradeBtn(bool isActive)
     {
-        foreach(var slot in UpgradeSlots.Values)
+#if AllMethodDebug
+        Debug.Log("SetAllUpgradeBtn");
+#endif
+        foreach (var slot in UpgradeSlots.Values)
         {
             slot.BtnUpgrade.interactable = isActive;
         }
@@ -200,6 +230,9 @@ public class UISkillUpgradeStore : UIPopup
 
     private void SetAllDowngradeBtn(bool isActive)
     {
+#if AllMethodDebug
+        Debug.Log("SetAllDowngradeBtn");
+#endif
         foreach (var slot in UpgradeSlots.Values)
         {
             slot.BtnDowngrade.interactable = isActive;
@@ -211,7 +244,10 @@ public class UISkillUpgradeStore : UIPopup
     // 닫을 때 적용안한 것들 초기화
     private async void ResetUnappliedChange()
     {
-        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+#if AllMethodDebug
+        Debug.Log("ResetUnappliedChange");
+#endif
+        Player player = await ManagerHub.Instance.ServerManager.WaitForThisPlayerAsync();
 
         // 포인트 돌려놓기
         SkillPoint = OriginalSkillPoint;
@@ -231,7 +267,7 @@ public class UISkillUpgradeStore : UIPopup
                 slot.SetSkillUpgradeText(skill, data.TempLevel);
             }
         }
-        if (ServerManager.Instance.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
+        if (ManagerHub.Instance.ServerManager.ThisPlayer.SkillPoint.Value > 0) SetAllUpgradeBtn(true);
         SetAllDowngradeBtn(false);
         applyButton.interactable = false;
     }

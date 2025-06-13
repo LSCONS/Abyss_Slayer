@@ -20,7 +20,7 @@ public class RestState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("RestState OnExit 실행");
 #endif
-        UIManager.Instance.CloseUI(UISceneType.Rest);
+        ManagerHub.Instance.UIManager.CloseUI(UISceneType.Rest);
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
@@ -29,9 +29,9 @@ public class RestState : BaseGameState
                 PoolManager.Instance.ReturnPoolAllObject();
             }
             catch { }
-            ServerManager.Instance.ThisPlayerData.Rpc_DisconnectInput();
-            ServerManager.Instance.AllPlayerIsReadyFalse();
-            ServerManager.Instance.ThisPlayerData.Rpc_ResetRestButton();
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_DisconnectInput();
+            ManagerHub.Instance.ServerManager.AllPlayerIsReadyFalse();
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_ResetRestButton();
         }
         await Task.CompletedTask;
     }
@@ -41,37 +41,37 @@ public class RestState : BaseGameState
 #if MoveSceneDebug
         Debug.Log("RestState OnRunnerEnter 실행");
 #endif
-        LoadingState state = GameFlowManager.Instance.prevLodingState;
+        LoadingState state = ManagerHub.Instance.GameFlowManager.prevLodingState;
 
-        await UIManager.Instance.Init();
+        await ManagerHub.Instance.UIManager.UIInit();
         state?.SetLoadingBarValue(0.3f);
 
-        ServerManager.Instance.UIPlayerState.UIHealthBar.ConnectPlayerObject(await ServerManager.Instance.WaitForThisPlayerAsync());
+        ManagerHub.Instance.UIConnectManager.UIPlayerState.UIHealthBar.ConnectPlayerObject(await ManagerHub.Instance.ServerManager.WaitForThisPlayerAsync());
         await Task.Yield();
-        UIManager.Instance.ResetAllRectTransform();
+        ManagerHub.Instance.UIManager.ResetAllRectTransform();
 #if MoveSceneDebug
         Debug.Log("서버에서 보스 스폰 실행");
 #endif
         var runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
-            ServerManager.Instance.AllPlayerIsReadyFalse();
-            if (ServerManager.Instance.PoolManager == null)
+            ManagerHub.Instance.ServerManager.AllPlayerIsReadyFalse();
+            if (ManagerHub.Instance.ServerManager.PoolManager == null)
             {
-                ServerManager.Instance.PoolManager = runner.Spawn(DataManager.Instance.PoolManagerPrefab);
+                ManagerHub.Instance.ServerManager.PoolManager = runner.Spawn(ManagerHub.Instance.DataManager.PoolManagerPrefab);
             }
 
             NetworkObject boss = runner.Spawn
             (
-                DataManager.Instance.DictEnumToBossObjcet[EBossStage.Rest],
+                ManagerHub.Instance.DataManager.DictEnumToBossObjcet[EBossStage.Rest],
                 new Vector3(5, 6.5f, 0),
                 Quaternion.identity,
-                ServerManager.Instance.ThisPlayerRef
+                ManagerHub.Instance.ServerManager.ThisPlayerRef
             )
             ;
             runner.MoveGameObjectToScene(boss.gameObject, SceneRef.FromIndex((int)ESceneName.RestScene));
         }
-        await ServerManager.Instance.WaitforBossSpawn();
+        await ManagerHub.Instance.ServerManager.WaitforBossSpawn();
 
         state?.SetLoadingBarValue(0.6f);
 
@@ -86,20 +86,20 @@ public class RestState : BaseGameState
         if (runner.IsServer)
         {
             //모든 플레이어의 데이터가 들어있는지 확인하는 메서드
-            await ServerManager.Instance.WaitForAllPlayerLoadingAsync();
+            await ManagerHub.Instance.ServerManager.WaitForAllPlayerLoadingAsync();
         }
 
 #if MoveSceneDebug
         Debug.Log("RestState 개방");
 #endif
-        SoundManager.Instance.PlayBGM(EAudioClip.BGM_RestScene);
-        UIManager.Instance.OpenUI(UISceneType.Rest);
+        ManagerHub.Instance.SoundManager.PlayBGM(EAudioClip.BGM_RestScene);
+        ManagerHub.Instance.UIManager.OpenUI(UISceneType.Rest);
 
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
-        await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(true);
+        await ManagerHub.Instance.ServerManager.WaitForAllPlayerIsReadyTrue();
         await Task.Delay(60);
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(false);
-        await ServerManager.Instance.WaitForAllPlayerIsReadyFalse();
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(false);
+        await ManagerHub.Instance.ServerManager.WaitForAllPlayerIsReadyFalse();
         await Task.Delay(60);
 
 
@@ -109,22 +109,22 @@ public class RestState : BaseGameState
 #if MoveSceneDebug
             Debug.Log("모든 플레이어 활성화 하고 입력 연결해줄게");
 #endif
-            ServerManager.Instance.AllPlayerIsReadyFalse();
+            ManagerHub.Instance.ServerManager.AllPlayerIsReadyFalse();
             //UI텍스트 초기화
-            ServerManager.Instance.ThisPlayerData.Rpc_SetInRestTeamText();
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetInRestTeamText();
 
             Vector3 temp = StartPosition;
-            foreach (Player player in ServerManager.Instance.DictRefToPlayer.Values)
+            foreach (Player player in ManagerHub.Instance.ServerManager.DictRefToPlayer.Values)
             {
                 await player.PlayerPositionReset(temp);
                 temp += Vector3.right;
             }
-            ServerManager.Instance.ThisPlayerData.Rpc_PlayerActiveTrue();
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_PlayerActiveTrue();
         }
         else
         {
             //클라이언트들은 휴식 씬 들어오면 기본적으로 준비 버튼을 활성화 하도록 함.
-            ServerManager.Instance.UIReadyBossStage?.SetActiveButton(true);
+            ManagerHub.Instance.UIConnectManager.UIReadyBossStage?.SetActiveButton(true);
         }
 
 #if MoveSceneDebug
@@ -133,21 +133,21 @@ public class RestState : BaseGameState
         state?.SetLoadingBarValue(1);
         await state?.TaskProgressBar;
 
-        ServerManager.Instance.ThisPlayerData.Rpc_SetReady(true);
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_SetReady(true);
         if (runner.IsServer)
         {
 #if MoveSceneDebug
             Debug.Log("1초만 기다려줘");
 #endif
-            await ServerManager.Instance.WaitForAllPlayerIsReadyTrue();
+            await ManagerHub.Instance.ServerManager.WaitForAllPlayerIsReadyTrue();
             await Task.Delay(100);
-            ServerManager.Instance.ThisPlayerData.Rpc_ConnectInput();
+            ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_ConnectInput();
 
 #if MoveSceneDebug
         Debug.Log("loadingState 삭제");
 #endif
             await runner.UnloadScene("LoadingScene");
-            ServerManager.Instance.AllPlayerIsReadyFalse();
+            ManagerHub.Instance.ServerManager.AllPlayerIsReadyFalse();
         }
     }
 }

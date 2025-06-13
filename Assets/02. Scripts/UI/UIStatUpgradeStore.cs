@@ -43,7 +43,10 @@ public class UIStatUpgradeStore : UIPopup
 
     public void Awake()
     {
-        ServerManager.Instance.UIStatUpgradeStore = this;
+#if AllMethodDebug
+        Debug.Log("Awake");
+#endif
+        ManagerHub.Instance.UIConnectManager.UIStatUpgradeStore = this;
     }
     public override async void Init()
     {
@@ -51,7 +54,7 @@ public class UIStatUpgradeStore : UIPopup
         Debug.Log("Init");
 #endif
         base.Init();
-        Player player = await ServerManager.Instance.WaitForThisPlayerAsync();
+        Player player = await ManagerHub.Instance.ServerManager.WaitForThisPlayerAsync();
 
         OriginalPoint = player.StatPoint.Value;       // 저장
         RemainingPoint = OriginalPoint;
@@ -87,7 +90,10 @@ public class UIStatUpgradeStore : UIPopup
 
     public override void OnOpen()
     {
-        if (ServerManager.Instance.ThisPlayer.StatPoint.Value > 0) SetAllUpgradeBtn(true);
+#if AllMethodDebug
+        Debug.Log("OnOpen");
+#endif
+        if (ManagerHub.Instance.ServerManager.ThisPlayer.StatPoint.Value > 0) SetAllUpgradeBtn(true);
         base.OnOpen();
     }
 
@@ -129,7 +135,7 @@ public class UIStatUpgradeStore : UIPopup
 # if AllMethodDebug
         Debug.Log("UpdateUI");
 #endif
-        var player = ServerManager.Instance.ThisPlayer;
+        var player = ManagerHub.Instance.ServerManager.ThisPlayer;
 
         hpLevelText.text = $"lv.{TempHpLevel}";
         damageLevelText.text = $"lv.{TempDamageLevel}";
@@ -159,7 +165,7 @@ public class UIStatUpgradeStore : UIPopup
 #endif
         if (RemainingPoint > 0)
         {
-            SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
             TempHpLevel++;
             RemainingPoint--;
             UpdateUI();
@@ -176,7 +182,7 @@ public class UIStatUpgradeStore : UIPopup
 #endif
         if (TempHpLevel > AppliedHpLevel)
         {
-            SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
             TempHpLevel--;
             RemainingPoint++;
             UpdateUI();
@@ -193,7 +199,7 @@ public class UIStatUpgradeStore : UIPopup
 #endif
         if (RemainingPoint > 0)
         {
-            SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
             TempDamageLevel++;
             RemainingPoint--;
             UpdateUI();
@@ -210,7 +216,7 @@ public class UIStatUpgradeStore : UIPopup
 #endif
         if (TempDamageLevel > AppliedDamageLevel)
         {
-            SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
             TempDamageLevel--;
             RemainingPoint++;
             UpdateUI();
@@ -225,8 +231,8 @@ public class UIStatUpgradeStore : UIPopup
 # if AllMethodDebug
         Debug.Log("ApplyStatsToPlayer");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
-        var player = ServerManager.Instance.ThisPlayer;
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
+        var player = ManagerHub.Instance.ServerManager.ThisPlayer;
 
         player.Rpc_ApplyStatUpgrade(TempHpLevel, TempDamageLevel, Amount);
 
@@ -237,7 +243,7 @@ public class UIStatUpgradeStore : UIPopup
         player.StatPoint.Value = RemainingPoint;
 
         // 스탯 업그레이드 애널리틱스 전송
-        string stageNumber = ServerManager.Instance.BossCount.ToString();
+        string stageNumber = ManagerHub.Instance.ServerManager.BossCount.ToString();
         string classType = player.NetworkData.Class.ToString();
         if (TempHpLevel > AppliedHpLevel)
         {

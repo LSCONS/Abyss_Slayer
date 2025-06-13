@@ -18,13 +18,19 @@ public class UISkillPointArlamPopup : UIPopup
 
     public void Awake()
     {
+#if AllMethodDebug
+        Debug.Log("Awake");
+#endif
         BtnYesClick.onClick.AddListener(ClickYesButton);
         BtnNoClick.onClick.AddListener(ClickNoButton);
     }
 
     private void ClickYesButton()
     {
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+#if AllMethodDebug
+        Debug.Log("ClickYesButton");
+#endif
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         NetworkRunner runner = RunnerManager.Instance.GetRunner();
         if (runner.IsServer)
         {
@@ -40,7 +46,10 @@ public class UISkillPointArlamPopup : UIPopup
 
     private void ClickNoButton()
     {
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+#if AllMethodDebug
+        Debug.Log("ClickNoButton");
+#endif
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         OnClose();
     }
 }

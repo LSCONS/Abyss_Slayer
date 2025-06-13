@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 플레이어 커스터마이징 설정하는 팝업 UI (피부/얼굴/헤어 변경)
 /// </summary>
-public class CustomPanelManager : UIPopup
+public class UICustomPanelManager : UIPopup
 {
     [field: Header("프리뷰 연결")]
     [field: SerializeField] private SpriteImageChange SpritePreview { get; set; }
@@ -45,16 +45,20 @@ public class CustomPanelManager : UIPopup
     /// <summary>
     /// 최대 인덱스 구해주는 프로퍼티
     /// </summary>
-    private int maxSkinId => DataManager.Instance.MaxSkinKey;
-    private int maxFaceId => DataManager.Instance.MaxFaceKey;
-    private int maxHairId => DataManager.Instance.MaxHairFKey + DataManager.Instance.MaxHairMKey;
+    private int maxSkinId => ManagerHub.Instance.DataManager.MaxSkinKey;
+    private int maxFaceId => ManagerHub.Instance.DataManager.MaxFaceKey;
+    private int maxHairId => ManagerHub.Instance.DataManager.MaxHairFKey + ManagerHub.Instance.DataManager.MaxHairMKey;
+
+    public void Awake()
+    {
+        ManagerHub.Instance.UIConnectManager.UICustomPanelManager = this;
+        gameObject.SetActive(false);
+    }
 
     public override void Init()
     {
         base.Init();
         ConnectedButton();
-        ServerManager.Instance.CustomPanelManager = this;
-        gameObject.SetActive(false);
     }
 
     public override void Open(params object[] args)
@@ -96,11 +100,9 @@ public class CustomPanelManager : UIPopup
 #if AllMethodDebug
         Debug.Log("ChangeSkinIndex");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         SkinId = Mathf.Clamp(SkinId + id, 1, maxSkinId);
-        skinNameText.text = $"Skin {SkinId}";
-        UpdatePreview();
-        UpdateButtonInteractable();
+        ChangeIndex();
     }
 
     private void ChangeFaceIndex(int id)
@@ -108,19 +110,24 @@ public class CustomPanelManager : UIPopup
 #if AllMethodDebug
         Debug.Log("ChangeFaceIndex");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         FaceId = Mathf.Clamp(FaceId + id, 1, maxFaceId);
-        faceNameText.text = $"Face {FaceId}";
-        UpdatePreview();
-        UpdateButtonInteractable();
+        ChangeIndex();
     }
     private void ChangeHairIndex(int id)
     {
 #if AllMethodDebug
         Debug.Log("ChangeHairIndex");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         HairStyleID = Mathf.Clamp(HairStyleID + id, 1, maxHairId);
+        ChangeIndex();
+    }
+
+    private void ChangeIndex()
+    {
+        skinNameText.text = $"Skin {SkinId}";
+        faceNameText.text = $"Face {FaceId}";
         hairNameText.text = $"Hair {HairStyleID}";
         UpdatePreview();
         UpdateButtonInteractable();
@@ -166,7 +173,7 @@ public class CustomPanelManager : UIPopup
         Debug.Log("UpdatePreview");
 #endif
         if (SpritePreview == null) return;
-        SpritePreview.Init(ServerManager.Instance.ThisPlayerData.Class, HairStyleID, SkinId, FaceId);
+        SpritePreview.Init(ManagerHub.Instance.ServerManager.ThisPlayerData.Class, HairStyleID, SkinId, FaceId);
     }
 
     /// <summary>
@@ -177,9 +184,18 @@ public class CustomPanelManager : UIPopup
 #if AllMethodDebug
         Debug.Log("ApplyPreview");
 #endif
-        await ServerManager.Instance.WaitForThisPlayerDataAsync();
-        ServerManager.Instance.ThisPlayerData.Rpc_InitPlayerCustom(HairStyleID, SkinId, FaceId);
+        await ManagerHub.Instance.ServerManager.WaitForThisPlayerDataAsync();
+        ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_InitPlayerCustom(HairStyleID, SkinId, FaceId);
         OnClose();
+    }
+
+
+    public void InitID(int hairStyleID, int skinID, int faceID)
+    {
+        HairStyleID = hairStyleID;
+        SkinId = skinID;
+        FaceId = faceID;
+        ChangeIndex();
     }
 
 
@@ -188,7 +204,7 @@ public class CustomPanelManager : UIPopup
 #if AllMethodDebug
         Debug.Log("ClickApplyButton");
 #endif
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         ApplyPreview();
     }
 }

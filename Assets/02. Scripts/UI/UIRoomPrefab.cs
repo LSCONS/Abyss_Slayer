@@ -16,6 +16,9 @@ public class UIRoomPrefab : MonoBehaviour
 
     public void Init(SessionInfo info, UIRoomSearch roomList)
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         SessionInfo = info;
         TextRoomName.text = info.Name;
         UpdateHeadCountText();
@@ -28,8 +31,11 @@ public class UIRoomPrefab : MonoBehaviour
     /// </summary>
     private void UpdateHeadCountText()
     {
+#if AllMethodDebug
+        Debug.Log("UpdateHeadCountText");
+#endif
         CurrentHeadCount = SessionInfo.PlayerCount;
-        TextRoomHeadCount.text = $"{CurrentHeadCount.ToString()} / {ServerManager.Instance.MaxHeadCount}";
+        TextRoomHeadCount.text = $"{CurrentHeadCount.ToString()} / {ManagerHub.Instance.ServerManager.MaxHeadCount}";
     }
 
     /// <summary>
@@ -37,12 +43,15 @@ public class UIRoomPrefab : MonoBehaviour
     /// </summary>
     public void CheckSameHeadCount()
     {
+#if AllMethodDebug
+        Debug.Log("CheckSameHeadCount");
+#endif
         if (SessionInfo != null && SessionInfo.PlayerCount != CurrentHeadCount)
         {
             UpdateHeadCountText();
 
             //방이 꽉 찼을 경우 버튼 비활성화, 비어있을 경우 활성화
-            BtnRoom.interactable = CurrentHeadCount != ServerManager.Instance.MaxHeadCount;
+            BtnRoom.interactable = CurrentHeadCount != ManagerHub.Instance.ServerManager.MaxHeadCount;
         }
     }
 
@@ -51,7 +60,10 @@ public class UIRoomPrefab : MonoBehaviour
     /// </summary>
     private void OnClickRoom()
     {
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+#if AllMethodDebug
+        Debug.Log("OnClickRoom");
+#endif
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         UIRoomSearch.SelectRoomSession = SessionInfo;
         UIRoomSearch.BtnJoin.interactable = true;
     }

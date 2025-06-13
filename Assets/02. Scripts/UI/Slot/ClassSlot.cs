@@ -21,9 +21,9 @@ public class ClassSlot : MonoBehaviour
 
     public void SetIcon(CharacterClass cls)
     {
-        if (DataManager.Instance.DictClassToImage.TryGetValue(cls, out var classImage))
+        if (ManagerHub.Instance.DataManager.DictClassToCharacterData.TryGetValue(cls, out CharacterClassData classImage))
         {
-            icon.sprite = classImage;
+            icon.sprite = classImage.IconClass;
         }
         else return;
     }
@@ -32,10 +32,10 @@ public class ClassSlot : MonoBehaviour
     {
         characterClass = cls;
 
-        if (DataManager.Instance.DictCharacterClassData.TryGetValue(cls, out var data))
+        if (ManagerHub.Instance.DataManager.DictClassToCharacterData.TryGetValue(cls, out var data))
         {
-            classText.text = data.classNameKorean;
-            icon.sprite = data.classIcon;
+            classText.text = data.ClassNameKorean;
+            icon.sprite = data.IconClass;
         }
 
         if (button == null)
@@ -45,7 +45,7 @@ public class ClassSlot : MonoBehaviour
         button.OnClickAsObservable()
               .Subscribe(_ => 
               {
-                  SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+                  ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
                   onClickSubject.OnNext(characterClass);
               })
               .AddTo(this);

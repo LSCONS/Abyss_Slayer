@@ -8,6 +8,6 @@ public class UIBossState : UIPermanent
 
     private void Awake()
     {
-        ServerManager.Instance.UIBossState = this;
+        ManagerHub.Instance.UIConnectManager.UIBossState = this;
     }
 }

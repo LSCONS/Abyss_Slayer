@@ -55,7 +55,7 @@ public class FoxSphereProjectile : BasePoolable
         _fireTime = Time.time + preDelayTime;
         
         animator.SetFloat(AnimationHash.CreationSpeedParameterHash, 1 / (Mathf.Min(0.9f, preDelayTime)));
-        _target = ServerManager.Instance.DictRefToPlayer[target].transform;
+        _target = ManagerHub.Instance.ServerManager.DictRefToPlayer[target].transform;
         _v = speed;
         _a = _v * _v / (2 * distance);
         _returnTime = _fireTime + (2 * distance / _v);

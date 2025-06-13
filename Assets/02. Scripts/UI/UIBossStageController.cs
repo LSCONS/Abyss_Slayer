@@ -10,14 +10,14 @@ public class UIBossStageController : UIBase
     {
         base.Init();
 
-        var state = GameFlowManager.Instance.CurrentState;
+        var state = ManagerHub.Instance.GameFlowManager.CurrentState;
 
         if (state is RestState)
         {
             bossText.text = "휴게실";
         }
         else if (state is BattleState inGame)
-            bossText.text = $"보스{GameValueManager.Instance.CurrentStageIndex}";
+            bossText.text = $"보스{ManagerHub.Instance.GameValueManager.CurrentStageIndex}";
         else
             bossText.text = string.Empty;
 

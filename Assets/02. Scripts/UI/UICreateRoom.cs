@@ -23,12 +23,12 @@ public class UICreateRoom : UIPopup
 
     private void CheckNameLenght(string inputRoomName)
     {
-        SoundManager.Instance.PlayTypingSoundSFX();
+        ManagerHub.Instance.SoundManager.PlayTypingSoundSFX();
         string temp = inputRoomName.Trim();
 
         if(temp.Length >= 2 && temp.Length <= 8)
         {
-            if (ServerManager.Instance.CheckSameRoomName(temp))
+            if (ManagerHub.Instance.ServerManager.CheckSameRoomName(temp))
             {
                 TextNameError.text = "이미 생성된 방 이름입니다.";
                 TextNameError.color = Color.red;
@@ -52,16 +52,18 @@ public class UICreateRoom : UIPopup
 
     private void CreateRoom()
     {
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
-        Debug.Log($"방 이름 : {roomName}");
-        if(ServerManager.Instance.CheckSameRoomName(roomName))
+#if AllMethodDebug
+        Debug.Log("CreateRoom");
+#endif
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
+        if(ManagerHub.Instance.ServerManager.CheckSameRoomName(roomName))
         {
             CheckNameLenght(roomName);
         }
         else
         {
             OnClose();
-            ServerManager.Instance.CreateRoom(roomName);
+            ManagerHub.Instance.ServerManager.CreateRoom(roomName);
             InputRoomName.text = string.Empty;
         }
     }

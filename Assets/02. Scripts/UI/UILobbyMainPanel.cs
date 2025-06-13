@@ -19,7 +19,10 @@ public class UILobbyMainPanel : UIPermanent
 
     private void Awake()
     {
-        ServerManager.Instance.LobbyMainPanel = this;
+#if AllMethodDebug
+        Debug.Log("Awake");
+#endif
+        ManagerHub.Instance.UIConnectManager.UILobbyMainPanel = this;
     }
 
 
@@ -28,14 +31,20 @@ public class UILobbyMainPanel : UIPermanent
     /// </summary>
     public void ChangeRoomText()
     {
-        TextRoomName.text = ServerManager.Instance.RoomName;
+#if AllMethodDebug
+        Debug.Log("ChangeRoomText");
+#endif
+        TextRoomName.text = ManagerHub.Instance.ServerManager.RoomName;
         SetActiveFalseData();
     }
 
 
     public void AddDictRefToRoomData(PlayerRef playerRef)
     {
-        if (playerRef == ServerManager.Instance.ThisPlayerRef)
+#if AllMethodDebug
+        Debug.Log("AddDictRefToRoomData");
+#endif
+        if (playerRef == ManagerHub.Instance.ServerManager.ThisPlayerRef)
         {
             DictRefToRoomData[playerRef] = ThisPlayerData;
             return;
@@ -57,8 +66,11 @@ public class UILobbyMainPanel : UIPermanent
     /// </summary>
     public void UIUpdateSprite()
     {
+#if AllMethodDebug
+        Debug.Log("UIUpdateSprite");
+#endif
         //서버에 연결되어 있는 데이터 순회
-        foreach (var item in ServerManager.Instance.DictRefToNetData)
+        foreach (var item in ManagerHub.Instance.ServerManager.DictRefToNetData)
         {
             SetChangeClassSubSprite(item.Key);   //CharacterClass의 Sprite를 바꿔주는 메서드
         }
@@ -71,13 +83,16 @@ public class UILobbyMainPanel : UIPermanent
     /// <param name="item"></param>
     public void UpdateNewData(PlayerRef playerRef)
     {
+#if AllMethodDebug
+        Debug.Log("UpdateNewData");
+#endif
         AddDictRefToRoomData(playerRef);
         PlayerRoomData roomData = DictRefToRoomData[playerRef];
-        DictRoomDataToNetworkData[roomData] = ServerManager.Instance.DictRefToNetData[playerRef];
+        DictRoomDataToNetworkData[roomData] = ManagerHub.Instance.ServerManager.DictRefToNetData[playerRef];
         roomData.TextPlayerName.gameObject.SetActive(true);
         roomData.PlayerSpriteChange.gameObject.SetActive(true);
         roomData.TextPlayerState.gameObject.SetActive(true);
-        roomData.TextPlayerName.text = ServerManager.Instance.DictRefToNetData[playerRef].GetName();
+        roomData.TextPlayerName.text = ManagerHub.Instance.ServerManager.DictRefToNetData[playerRef].GetName();
 
         NetworkData data = DictRoomDataToNetworkData[roomData];
         roomData.PlayerSpriteChange.Init(data.Class, data.HairStyleKey, data.SkinKey, data.FaceKey);
@@ -86,6 +101,9 @@ public class UILobbyMainPanel : UIPermanent
 
     public void UpdateNameData(PlayerRef playerRef, string name)
     {
+#if AllMethodDebug
+        Debug.Log("UpdateNameData");
+#endif
         PlayerRoomData roomData = DictRefToRoomData[playerRef];
         roomData.TextPlayerName.text = name;
     }
@@ -97,8 +115,11 @@ public class UILobbyMainPanel : UIPermanent
     /// <param name="item"></param>
     private void SetChangeClassSubSprite(PlayerRef playerRef)
     {
+#if AllMethodDebug
+        Debug.Log("SetChangeClassSubSprite");
+#endif
         PlayerRoomData roomData = DictRefToRoomData[playerRef];
-        NetworkData data = ServerManager.Instance.DictRefToNetData[playerRef];
+        NetworkData data = ManagerHub.Instance.ServerManager.DictRefToNetData[playerRef];
         roomData.PlayerSpriteChange.Init(data.Class, data.HairStyleKey, data.SkinKey, data.FaceKey);
     }
 
@@ -108,6 +129,9 @@ public class UILobbyMainPanel : UIPermanent
     /// </summary>
     private void SetActiveFalseData()
     {
+#if AllMethodDebug
+        Debug.Log("SetActiveFalseData");
+#endif
         foreach (PlayerRoomData item in OtherPlayerData)
         {
             item.TextPlayerName.gameObject.SetActive(false);
@@ -125,6 +149,9 @@ public class UILobbyMainPanel : UIPermanent
     /// <param name="playerRef">삭제할 플레이어 정보</param>
     public void SetActiveFalseRef(PlayerRef playerRef)
     {
+#if AllMethodDebug
+        Debug.Log("SetActiveFalseRef");
+#endif
         PlayerRoomData data = DictRefToRoomData[playerRef];
         if (data == null) return;
         data.TextPlayerName?.gameObject.SetActive(false);
@@ -143,6 +170,9 @@ public class UILobbyMainPanel : UIPermanent
     /// <param name="isReady">준비 상태</param>
     public void SetReadyText(PlayerRef playerRef, bool isReady)
     {
+#if AllMethodDebug
+        Debug.Log("SetReadyText");
+#endif
         var roomData = DictRefToRoomData[playerRef];
         TextMeshProUGUI textPlayerState = roomData.TextPlayerState;
 
@@ -155,6 +185,9 @@ public class UILobbyMainPanel : UIPermanent
 
     public void SetServerText(PlayerRef playerRef)
     {
+#if AllMethodDebug
+        Debug.Log("SetServerText");
+#endif
         var roomData = DictRefToRoomData[playerRef];
 
         TextMeshProUGUI textPlayerState = roomData.TextPlayerState;

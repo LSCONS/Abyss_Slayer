@@ -11,21 +11,29 @@ public class UIPlayerState : UIPermanent
 
     private void Awake()
     {
-        ServerManager.Instance.UIPlayerState = this;
-        
+#if AllMethodDebug
+        Debug.Log("Awake");
+#endif
+        ManagerHub.Instance.UIConnectManager.UIPlayerState = this;
     }
 
     public override void Init()
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         base.Init();
-        SetIcon(ServerManager.Instance.ThisPlayerData.Class);
+        SetIcon(ManagerHub.Instance.ServerManager.ThisPlayerData.Class);
     }
 
     public void SetIcon(CharacterClass cls)
     {
-        if (DataManager.Instance.DictClassToImage.TryGetValue(cls, out var classImage))
+#if AllMethodDebug
+        Debug.Log("SetIcon");
+#endif
+        if (ManagerHub.Instance.DataManager.DictClassToCharacterData.TryGetValue(cls, out CharacterClassData classImage))
         {
-            classIcon.sprite = classImage;
+            classIcon.sprite = classImage.IconClass;
         }
         else return;
     }

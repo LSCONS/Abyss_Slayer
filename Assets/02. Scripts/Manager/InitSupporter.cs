@@ -10,7 +10,7 @@ public class InitSupporter : NetworkBehaviour
         base.Spawned();
         transform.parent = null;
         DontDestroyOnLoad(gameObject);
-        ServerManager.Instance.InitSupporter = this;
+        ManagerHub.Instance.ServerManager.InitSupporter = this;
     }
 
     public void Rpc_StartCrossSlashInit(Vector3 position, bool isLeft, int damage, int hash, float speed , float scaleX, float scaleY )

@@ -28,7 +28,7 @@ public class CreditRoller : UIPopup
 
     public void Start()
     {
-        GameFlowManager.Instance.endCredit = this;
+        ManagerHub.Instance.GameFlowManager.endCredit = this;
         scrollRect.gameObject.SetActive(false);
      
     }
@@ -51,7 +51,7 @@ public class CreditRoller : UIPopup
 
     private IEnumerator ScrollCredits()
     {
-        UIManager.Instance.DelayRebuildLayout(this);
+        ManagerHub.Instance.UIManager.DelayRebuildLayout(this);
         // 중앙에서 시작
         var layout = scrollRect.content.GetComponent<VerticalLayoutGroup>();
         float halfHeight = scrollRect.viewport.rect.height / 2f;
@@ -80,7 +80,7 @@ public class CreditRoller : UIPopup
         // 감사 텍스트 끝나고 thanksTextDuration 만큼 기다렸다가 크레딧 완료 알림
         yield return new WaitForSeconds(thanksTextDuration);
         creditEnd.TrySetResult(true);
-        GameFlowManager.Instance.QuitGame();
+        ManagerHub.Instance.GameFlowManager.QuitGame();
     }
     /// <summary>
     /// 감사 텍스트 페이드인

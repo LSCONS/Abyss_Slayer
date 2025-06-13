@@ -19,6 +19,9 @@ public class UIPopupSettings : UIPopup
 
     private void OnValidate()
     {
+#if AllMethodDebug
+        Debug.Log("OnValidate");
+#endif
         // 자식 오브젝트로 달려있는 슬라이더들을 찾아서 자동으로 연결
         masterSlider = transform.GetGameObjectSameNameDFS("Master Volume").GetComponent<Slider>();
         bgmSlider = transform.GetGameObjectSameNameDFS("BGM Volume").GetComponent<Slider>();
@@ -30,17 +33,20 @@ public class UIPopupSettings : UIPopup
     }
     public override void Init()
     {
+#if AllMethodDebug
+        Debug.Log("Init");
+#endif
         base.Init();
 
        // 슬라이더 값 동기화
-        masterSlider.value = SoundManager.Instance.MasterVolume;
-        bgmSlider.value = SoundManager.Instance.BGMVolume;
-        sfxSlider.value = SoundManager.Instance.SFXVolume;
+        masterSlider.value = ManagerHub.Instance.SoundManager.MasterVolume;
+        bgmSlider.value = ManagerHub.Instance.SoundManager.BGMVolume;
+        sfxSlider.value = ManagerHub.Instance.SoundManager.SFXVolume;
 
         // 믹서에 값 반영
-        SoundManager.Instance.SetMasterVolume(masterSlider.value);
-        SoundManager.Instance.SetBGMVolume(bgmSlider.value);
-        SoundManager.Instance.SetSFXVolume(sfxSlider.value);
+        ManagerHub.Instance.SoundManager.SetMasterVolume(masterSlider.value);
+        ManagerHub.Instance.SoundManager.SetBGMVolume(bgmSlider.value);
+        ManagerHub.Instance.SoundManager.SetSFXVolume(sfxSlider.value);
 
         if(closeButton == null)
         closeButton = transform.GetGameObjectSameNameDFS("Close").GetComponent<Button>();
@@ -48,25 +54,28 @@ public class UIPopupSettings : UIPopup
 
     public override void Open(params object[] args)
     {
+#if AllMethodDebug
+        Debug.Log("Open");
+#endif
         base.Open();
 
         // 슬라이더 값 동기화 (안전 위해?)
-        masterSlider.value = SoundManager.Instance.MasterVolume;
-        bgmSlider.value = SoundManager.Instance.BGMVolume;
-        sfxSlider.value = SoundManager.Instance.SFXVolume;
+        masterSlider.value = ManagerHub.Instance.SoundManager.MasterVolume;
+        bgmSlider.value = ManagerHub.Instance.SoundManager.BGMVolume;
+        sfxSlider.value = ManagerHub.Instance.SoundManager.SFXVolume;
 
         masterSlider.onValueChanged.AddListener(val =>{
-            SoundManager.Instance.SetMasterVolume(val);
+            ManagerHub.Instance.SoundManager.SetMasterVolume(val);
             masterInputField.text = Mathf.RoundToInt(val * 100).ToString();
         });
 
         bgmSlider.onValueChanged.AddListener(val =>{
-            SoundManager.Instance.SetBGMVolume(val);
+            ManagerHub.Instance.SoundManager.SetBGMVolume(val);
             bgmInputField.text = Mathf.RoundToInt(val * 100).ToString();
         });
 
         sfxSlider.onValueChanged.AddListener(val =>{
-            SoundManager.Instance.SetSFXVolume(val);
+            ManagerHub.Instance.SoundManager.SetSFXVolume(val);
             sfxInputField.text = Mathf.RoundToInt(val * 100).ToString();
         });
 
@@ -81,6 +90,9 @@ public class UIPopupSettings : UIPopup
 
     public override void Close()
     {
+#if AllMethodDebug
+        Debug.Log("Close");
+#endif
         base.Close();
         masterSlider.onValueChanged.RemoveAllListeners();
         bgmSlider.onValueChanged.RemoveAllListeners();
@@ -93,30 +105,45 @@ public class UIPopupSettings : UIPopup
 
     public override void OnClose()
     {
-        SoundManager.Instance.SaveVolumeSettings();
-        SoundManager.Instance.PlaySFX(EAudioClip.SFX_ButtonClick);
+#if AllMethodDebug
+        Debug.Log("OnClose");
+#endif
+        ManagerHub.Instance.SoundManager.SaveVolumeSettings();
+        ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip.SFX_ButtonClick);
         base.OnClose();
     }
 
     public void OnMasterSliderValueChanged(float value)
     {
-        SoundManager.Instance.SetMasterVolume(value);
+#if AllMethodDebug
+        Debug.Log("OnMasterSliderValueChanged");
+#endif
+        ManagerHub.Instance.SoundManager.SetMasterVolume(value);
     }
 
     public void OnBGMVolumeSliderValueChanged(float value)
     {
-        SoundManager.Instance.SetBGMVolume(value);
+#if AllMethodDebug
+        Debug.Log("OnBGMVolumeSliderValueChanged");
+#endif
+        ManagerHub.Instance.SoundManager.SetBGMVolume(value);
     }
 
     public void OnSFXVolumeSliderValueChanged(float value)
     {
-        SoundManager.Instance.SetSFXVolume(value);
+#if AllMethodDebug
+        Debug.Log("OnSFXVolumeSliderValueChanged");
+#endif
+        ManagerHub.Instance.SoundManager.SetSFXVolume(value);
     }
 
 
     // 슬라이더 값 입력 필드 동기화
     private void SyncInputfilds()
     {
+#if AllMethodDebug
+        Debug.Log("SyncInputfilds");
+#endif
         masterInputField.text = Mathf.RoundToInt(masterSlider.value * 100).ToString();
         bgmInputField.text = Mathf.RoundToInt(bgmSlider.value * 100).ToString();
         sfxInputField.text = Mathf.RoundToInt(sfxSlider.value * 100).ToString();
@@ -124,31 +151,40 @@ public class UIPopupSettings : UIPopup
 
     private void OnMasterInputChanged(string value)
     {
-        if(float.TryParse(value, out float result))
+#if AllMethodDebug
+        Debug.Log("OnMasterInputChanged");
+#endif
+        if (float.TryParse(value, out float result))
         {
             value = Mathf.Clamp(result, 0, 100).ToString();
             masterSlider.value = float.Parse(value) / 100f;
-            SoundManager.Instance.SetMasterVolume(masterSlider.value);
+            ManagerHub.Instance.SoundManager.SetMasterVolume(masterSlider.value);
         }
     }
 
     private void OnBGMInputChanged(string value)
     {
-        if(float.TryParse(value, out float result))
+#if AllMethodDebug
+        Debug.Log("OnBGMInputChanged");
+#endif
+        if (float.TryParse(value, out float result))
         {
             value = Mathf.Clamp(result, 0, 100).ToString();
             bgmSlider.value = float.Parse(value) / 100f;
-            SoundManager.Instance.SetBGMVolume(bgmSlider.value);
+            ManagerHub.Instance.SoundManager.SetBGMVolume(bgmSlider.value);
         }
     }
 
     private void OnSFXInputChanged(string value)
     {
-        if(float.TryParse(value, out float result))     
+#if AllMethodDebug
+        Debug.Log("OnSFXInputChanged");
+#endif
+        if (float.TryParse(value, out float result))     
         {
             value = Mathf.Clamp(result, 0, 100).ToString();
             sfxSlider.value = float.Parse(value) / 100f;
-            SoundManager.Instance.SetSFXVolume(sfxSlider.value);
+            ManagerHub.Instance.SoundManager.SetSFXVolume(sfxSlider.value);
         }
     }
 

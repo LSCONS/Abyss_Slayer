@@ -32,7 +32,7 @@ public class UIBossBuffSlotManager : Singleton<UIBossBuffSlotManager>
         var slot = slotOb.GetComponent<UIBuffSlot>();
 
         // 아이콘 설정 찾을 수 없다면 return
-        if (!(DataManager.Instance.DictBuffToSprite.TryGetValue((EBuffType)buffTypeInt, out Sprite icon))) return;
+        if (!(ManagerHub.Instance.DataManager.DictBuffToSprite.TryGetValue((EBuffType)buffTypeInt, out Sprite icon))) return;
         slot.SetIcon(icon);
 
         // 슬롯 업데이트 해줌

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Player", menuName = "Data/Player")]
-public class PlayerData : ScriptableObject
+public class CharacterData : ScriptableObject
 {
     [field: SerializeField]public PlayerGroundData PlayerGroundData { get; private set; }
     [field: SerializeField]public PlayerAirData PlayerAirData { get; private set; }
@@ -73,5 +73,5 @@ public class PlayerStatusData
     //플레이어의 사망 여부
     public bool IsDead { get; set; } = false;
     //플레이어 난이도에 따른 피격 데미지 적용 배수
-    public float PlayerOnDamageLevelMultiple => GameValueManager.Instance.GetPlayerMultiypleOnDamageValue();
+    public float PlayerOnDamageLevelMultiple => ManagerHub.Instance.GameValueManager.GetPlayerMultiypleOnDamageValue();
 }

@@ -167,7 +167,6 @@ public class BossController : NetworkBehaviour
             }
             else
             {
-                Debug.Log("선택 가능한 패턴 없음. 대기");
                 yield return new WaitForSeconds(1f);
             }
         }
@@ -273,8 +272,6 @@ public class BossController : NetworkBehaviour
 
             patterns.Add(pattern);
         }
-        Debug.Log($"AllpatternCount = {AllPatterns.Count}");
-        Debug.Log($"listCount = {patterns.Count}");
 
         if (patterns.Count == 0)
             return null;
@@ -517,7 +514,7 @@ public class BossController : NetworkBehaviour
         Player closestPlayer = null;
         float minDistance = float.MaxValue;
 
-        foreach (var player in ServerManager.Instance.DictRefToPlayer.Values)
+        foreach (var player in ManagerHub.Instance.ServerManager.DictRefToPlayer.Values)
         {
             float dist = Vector2.Distance(transform.position, player.transform.position);
             if (dist < minDistance)

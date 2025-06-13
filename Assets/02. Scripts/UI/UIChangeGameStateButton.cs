@@ -19,7 +19,7 @@ public class UIChangeGameStateButton : UIButton
 
     private async void ChangeState()
     {
-        await GameFlowManager.Instance.ChangeStateWithLoading(gameStartState);
+        await ManagerHub.Instance.GameFlowManager.ChangeStateWithLoading(gameStartState);
     }
 
 }

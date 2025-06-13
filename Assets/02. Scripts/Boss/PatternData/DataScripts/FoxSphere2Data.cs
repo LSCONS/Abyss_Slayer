@@ -42,7 +42,7 @@ public class FoxSphere2Data : BasePatternData
                 PoolManager.Instance.Get<FoxSphereProjectile>().Rpc_Init(damage, startPosition, preDelayTime, playerRef, startSpeed, distance, (int)color, angle);
             }
             if (EAudioClip != null && EAudioClip.Count > 0)
-                SoundManager.Instance.PlaySFX(EAudioClip[0]);
+                ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
             yield return new WaitForSeconds(fireIntervalTime);
         }
 

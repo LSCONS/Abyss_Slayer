@@ -1,9 +1,11 @@
 using Fusion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameValueManager : Singleton<GameValueManager>
+[Serializable]
+public class GameValueManager
 {
     [field: Header("보스를 잡은 이후 추가할 스킬 포인트 양")]
     [field: SerializeField] public int AddSkillPointValue { get; private set; } = 1;
@@ -37,6 +39,8 @@ public class GameValueManager : Singleton<GameValueManager>
     [field: SerializeField] public float EasyBossHealthMultipleForPlayerCount { get; private set; } = 0.85f;
     [field: SerializeField] public float NormalBossHealthMultipleForPlayerCount { get; private set; } = 0.85f;
     [field: SerializeField] public float HardBossHealthMultipleForPlayerCount { get; private set; } = 0.85f;
+    [field: Header("게임 시작 시 이동할 씬 선택")]
+    [field: SerializeField] public ESceneName StartScene { get; private set; } = ESceneName.IntroScene;
     //플레이어가 선택한 스테이지 난이도
     public EGameLevel EGameLevel { get; private set; } = EGameLevel.Easy;
     //현재 배틀 스테이지
@@ -67,7 +71,7 @@ public class GameValueManager : Singleton<GameValueManager>
             NetworkRunner runner = RunnerManager.Instance.GetRunner();
             if (runner.IsServer)
             {
-                ServerManager.Instance.ThisPlayerData.Rpc_AddSkillPoint();
+                ManagerHub.Instance.ServerManager.ThisPlayerData.Rpc_AddSkillPoint();
             }
         }
     }

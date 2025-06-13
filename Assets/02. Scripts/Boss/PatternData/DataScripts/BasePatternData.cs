@@ -6,6 +6,9 @@ using UnityEngine;
 
 public abstract class BasePatternData : ScriptableObject
 {
+    public abstract IEnumerator ExecutePattern();
+
+
     protected Transform bossTransform;
     protected BossController bossController;
     protected Animator bossAnimator;
@@ -92,7 +95,7 @@ public abstract class BasePatternData : ScriptableObject
     {
         List<Player> playerList = new();
 
-        foreach(Player player in ServerManager.Instance.DictRefToPlayer.Values)
+        foreach(Player player in ManagerHub.Instance.ServerManager.DictRefToPlayer.Values)
         {
             if (player.PlayerData.PlayerStatusData.IsDead) continue;
 
@@ -113,5 +116,4 @@ public abstract class BasePatternData : ScriptableObject
     }
 
 
-    public abstract IEnumerator ExecutePattern();
 }

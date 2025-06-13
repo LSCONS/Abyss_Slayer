@@ -1,50 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System.Threading.Tasks;
-using Fusion;
 using UnityEditor;
+using UnityEngine;
 
 public enum ESceneName  // 게임 시작 상태
 {
-    LoadingScene = 0,
-    IntroScene = 1,
-    StartScene = 2,
-    LobbyScene = 3,
-    RestScene = 4,
-    TutorialScene = 5,
-    BattleScene = 6,
-    EndingScene = 7,
+    StartScene = 0,
+    LoadingScene = 1,
+    IntroScene = 2,
+    InputNameScene = 3,
+    LobbyScene = 4,
+    RestScene = 5,
+    TutorialScene = 6,
+    BattleScene = 7,
+    EndingScene = 8,
 }
 
-public class GameFlowManager : Singleton<GameFlowManager>
+public class GameFlowManager
 {
-    IntroState IntroSceneState { get; set; } = new();
     StartState StartSceneState { get; set; } = new();
+    IntroState IntroSceneState { get; set; } = new();
+    InputNameState InputNameSceneState { get; set; } = new();
     LobbyState LobbySceneState { get; set; } = new();
     RestState RestSceneState { get; set; } = new();
     BattleState BattleSceneState { get; set; } = new();
     EndingState EndingSceneState { get; set; } = new();
-
+    TutorialState TutorialSceneState { get; set; } = new();
 
     public LoadingState prevLodingState { get; set; }
     public IGameState PrevState { get; set; }
-    public IGameState CurrentState { get; set; }   // 지금 스테이트
-    [SerializeField] private ESceneName startStateEnum = ESceneName.IntroScene;   // 시작 스테이트 인스펙터 창에서 설정가능하게 해줌
-    TutorialState TutorialSceneState { get; set; } = new TutorialState();
+    public IGameState CurrentState { get; set; }   // 현재 스테이트
+    public CreditRoller endCredit { get; set; }    // 엔딩 크래딧 캐싱
 
-    [HideInInspector] public CreditRoller endCredit;    // 엔딩 크래딧 캐싱
 
-    protected override void Awake()
+    public void Update()
     {
-        base.Awake();
-        DontDestroyOnLoad(this);
+        if (CurrentState is BaseGameState baseState)
+        {
+            baseState.OnUpdate();
+        }
     }
 
-    private void Start()
+
+    public void Init()
     {
-        CurrentState = null;
-        ClientSceneLoad(startStateEnum);    // 시작은 introstate
+#if AllMethodDebug || MoveSceneDebug
+        Debug.Log($"Init: {ManagerHub.Instance.GameValueManager.StartScene}");
+#endif
+        CurrentState = StartSceneState;
+        ClientSceneLoad(ManagerHub.Instance.GameValueManager.StartScene);
     }
 
 
@@ -96,7 +99,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
     public async void RpcServerSceneLoad(ESceneName nextStateEnum)
     {
 #if AllMethodDebug || MoveSceneDebug
-        Debug.Log("RpcServerSceneLoad");
+        Debug.Log($"RpcServerSceneLoad: {nextStateEnum}");
 #endif
         await ChangeRunnerStateWithLoading(nextStateEnum);
         return;
@@ -111,7 +114,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
     public async void ClientSceneLoad(ESceneName nextStateEnum)
     {
 #if AllMethodDebug || MoveSceneDebug
-        Debug.Log("ClientSceneLoad");
+        Debug.Log($"ClientSceneLoad : {nextStateEnum}");
 #endif
         await ChangeStateWithLoading(nextStateEnum);
         return;
@@ -133,12 +136,13 @@ public class GameFlowManager : Singleton<GameFlowManager>
         // 퍼널 스텝 기록
         if (newState is BaseGameState baseGameState)
         {
-            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, GameValueManager.Instance.CurrentStageIndex);
+            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, ManagerHub.Instance.GameValueManager.CurrentStageIndex);
             if (funnelStep.HasValue)
-                AnalyticsManager.SendFunnelStep(funnelStep.Value);
+                ManagerHub.Instance.AnalyticsManager.SendFunnelStep(funnelStep.Value);
         }
         await (CurrentState?.OnEnter() ?? Task.CompletedTask);
     }
+
 
     public async Task ChangeRunnerState(IGameState newState)
     {
@@ -150,12 +154,13 @@ public class GameFlowManager : Singleton<GameFlowManager>
         // 퍼널 스텝 기록
         if (newState is BaseGameState baseGameState)
         {
-            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, GameValueManager.Instance.CurrentStageIndex);
+            int? funnelStep = GetFunnelStepForScene(baseGameState.SceneName, ManagerHub.Instance.GameValueManager.CurrentStageIndex);
             if (funnelStep.HasValue)
-                AnalyticsManager.SendFunnelStep(funnelStep.Value);
+                ManagerHub.Instance.AnalyticsManager.SendFunnelStep(funnelStep.Value);
         }
         await (CurrentState?.OnRunnerEnter() ?? Task.CompletedTask);
     }
+
 
     // 상태 생성가능하게
     public IGameState CreateStateForPublic(ESceneName stateEnum)
@@ -174,8 +179,9 @@ public class GameFlowManager : Singleton<GameFlowManager>
 #endif
         return state switch
         {
-            ESceneName.IntroScene => IntroSceneState,
             ESceneName.StartScene => StartSceneState,
+            ESceneName.IntroScene => IntroSceneState,
+            ESceneName.InputNameScene => InputNameSceneState,
             ESceneName.LobbyScene => LobbySceneState,
             ESceneName.RestScene => RestSceneState,
             ESceneName.BattleScene => BattleSceneState,
@@ -203,7 +209,7 @@ public class GameFlowManager : Singleton<GameFlowManager>
         }
 
         // 스타트 씬
-        if (scene == ESceneName.StartScene)
+        if (scene == ESceneName.InputNameScene)
             return 1;
 
         // 레스트 씬
@@ -218,24 +224,17 @@ public class GameFlowManager : Singleton<GameFlowManager>
         return null;
     }
 
-    private void Update()
-    {
-        if (CurrentState is BaseGameState baseState)
-        {
-            baseState.OnUpdate();
-        }
-    }
-
 
     public string GetSceneNameFromState(IGameState state)
     {
         return state switch
         {
-            IntroState => "IntroScene",
             StartState => "StartScene",
+            IntroState => "IntroScene",
+            InputNameState => "InputNameScene",
             LobbyState => "LobbyScene",
             RestState => "RestScene",
-            BattleState => "BossScene_" + GameValueManager.Instance.CurrentStageIndex.ToString(), // 보스 인덱스 기반으로 생성
+            BattleState => "BossScene_" + ManagerHub.Instance.GameValueManager.CurrentStageIndex.ToString(), // 보스 인덱스 기반으로 생성
             EndingState => "EndingScene",
             TutorialState => "TutorialScene",
             _ => throw new System.Exception($"[LoadingState] Unknown state: {state.GetType().Name}")

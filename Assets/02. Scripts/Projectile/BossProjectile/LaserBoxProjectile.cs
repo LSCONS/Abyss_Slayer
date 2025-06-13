@@ -48,7 +48,7 @@ public class LaserBoxProjectile : BasePoolable
     {
         gameObject.SetActive(true);
         _damage = damage;
-        _target = ServerManager.Instance.DictRefToPlayer[target].transform;
+        _target = ManagerHub.Instance.ServerManager.DictRefToPlayer[target].transform;
         transform.position = startPosition;
         _scale = scale;
         transform.localScale = Vector3.zero;

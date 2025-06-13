@@ -43,7 +43,7 @@ public class RepeatRangeSkill : RemoteZoneRangeSkill
         for (int i = 0; i < 5; i++)
         {
             MovePosition = resultMovePosition;
-            SoundManager.Instance.PlaySFX(EAudioClip);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip);
             MeleeDamageCheckData data = new MeleeDamageCheckData
             (
                 player.PlayerRef,

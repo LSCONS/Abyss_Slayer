@@ -28,11 +28,11 @@ public class FoxSphereData : BasePatternData
         Vector3 startPosition = bossTransform.position + (Vector3.up * 0.5f) + (3 * (boss.IsLeft ? Vector3.left : Vector3.right));
         for (int i = 0; i < sphereCount; i++)
         {
-            ServerManager.Instance.InitSupporter.Rpc_StartFoxSphereProjectileInit(damage, startPosition, preDelayTime + (i * fireIntervalTime), playerRef, startSpeed, distance, (int)color);
+            ManagerHub.Instance.ServerManager.InitSupporter.Rpc_StartFoxSphereProjectileInit(damage, startPosition, preDelayTime + (i * fireIntervalTime), playerRef, startSpeed, distance, (int)color);
         }
 
         if (EAudioClip != null && EAudioClip.Count > 0)
-            SoundManager.Instance.PlaySFX(EAudioClip[0]);
+            ManagerHub.Instance.SoundManager.PlaySFX(EAudioClip[0]);
 
         yield return new WaitForSeconds(preDelayTime + sphereCount * fireIntervalTime + 0.5f);
         boss.Rpc_SetTriggerAnimationHash(AnimationHash.IdleParameterHash);

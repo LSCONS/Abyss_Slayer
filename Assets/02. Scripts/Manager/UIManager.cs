@@ -3,126 +3,31 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.UI;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using Unity.VisualScripting;
+using UnityEngine.UI;
 
-public class UIManager : Singleton<UIManager>
+public class UIManager
 {
-    [field: SerializeField] public Canvas canvas { get; set; }
-    public Transform permanentParent;
-    public Transform background;
-    public Transform topParent;
-    public Transform bottomParent;
-    public Transform popupParent;
-    public Transform topMidParent;
-    public Transform followParent;
-    public GameObject popupBG;
+    public Canvas           Canvas              { get; private set; }
+    public Transform        PermanentParent     { get; private set; }
+    public Transform        Background          { get; private set; }
+    public Transform        TopParent           { get; private set; }
+    public Transform        BottomParent        { get; private set; }
+    public Transform        PopupParent         { get; private set; }
+    public Transform        TopMidParent        { get; private set; }
+    public Transform        FollowParent        { get; private set; }
+    public GameObject       PopupBG             { get; private set; }
+    public Stack<UIPopup>   PopupStack          { get; private set; }   = new();
+
+    private Dictionary<string, GameObject>  UICachedMap         { get; set; }           = new();
+    private Dictionary<string, GameObject>  UIMap               { get; set; }           = new(); // 고정 ui 이름 맵
 
 
-    public Stack<UIPopup> popupStack = new();
-
-    private Dictionary<string, GameObject> UICachedMap = new();
-    private Dictionary<string, GameObject> UIMap = new(); // 고정 ui 이름 맵
-
-    // private void OnValidate() // 에디터에서 컴포넌트 변경 시 자동으로 호출됨 -> allUIList에 UIBase 가진 오브젝트들을 자동으로 추가함
-    // {
-    //     canvas = transform.GetGameObjectSameNameDFS("Canvas").GetComponent<Canvas>();
-    //     permanentParent = transform.GetGameObjectSameNameDFS("UI_Permanent").transform;
-    //     topParent = transform.GetGameObjectSameNameDFS("UI_Top").transform;
-    //     bottomParent = transform.GetGameObjectSameNameDFS("UI_Bottom").transform;
-    //     popupParent = transform.GetGameObjectSameNameDFS("UI_Popup").transform;
-    // }
-
-    protected override void Awake() {   
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
-    }
-
-    /// <summary>
-    /// 모든 ui 초기화  
-    /// </summary>
-    public Task Init()
-    {
-       // 모든 ui init 실행
-       foreach(var ui in UIMap)
-       {
-            if (ui.Value == null) continue;
-            // Debug.Log($"[Init] {ui.Key} 초기화 시작");
-            ui.Value.GetComponentInChildren<UIBase>(true).Init();
-       }
-       return Task.CompletedTask;
-    }
-    public void Start()
-    {
-        if (canvas == null)
-        {
-            canvas = transform.GetGameObjectSameNameDFS("Canvas").GetComponent<Canvas>();
-            if (canvas == null) return;
-        }
-        if (popupParent == null)
-        {
-            popupParent = canvas.transform.GetGameObjectSameNameDFS("UI_Popup")?.transform
-                    ?? new GameObject("UI_Popup", typeof(RectTransform)).transform;
-        }
-        if (permanentParent == null)
-        {
-            permanentParent = canvas.transform.GetGameObjectSameNameDFS("UI_Permanent")?.transform
-                      ?? new GameObject("UI_Permanent", typeof(RectTransform)).transform;
-        }
-        if (background == null)
-        {
-            background = canvas.transform.GetGameObjectSameNameDFS("UI_Background")?.transform
-                      ?? new GameObject("UI_Background", typeof(RectTransform)).transform;
-        }
-        if (topParent == null)
-        {
-            topParent = canvas.transform.GetGameObjectSameNameDFS("UI_Top")?.transform
-                 ?? new GameObject("UI_Top", typeof(RectTransform)).transform;
-        }
-        if (bottomParent == null)
-        {
-            bottomParent = canvas.transform.GetGameObjectSameNameDFS("UI_Bottom")?.transform
-                    ?? new GameObject("UI_Bottom", typeof(RectTransform)).transform;
-        }
-        if (topMidParent == null)
-        {
-            topMidParent = canvas.transform.GetGameObjectSameNameDFS("UI_TopMid")?.transform
-                    ?? new GameObject("UI_TopMid", typeof(RectTransform)).transform;
-        }
-        if (followParent == null)
-        {
-            followParent = canvas.transform.GetGameObjectSameNameDFS("UI_Follow")?.transform
-                    ?? new GameObject("UI_Follow", typeof(RectTransform)).transform;
-        }
-        if(popupBG == null)
-        {
-            popupBG = canvas.transform.GetGameObjectSameNameDFS("PopupBG").gameObject;
-            if (popupBG != null) return;
-            var bgGO = new GameObject("PopupBG", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
-            popupBG = bgGO;
-
-            var rect = popupBG.GetComponent<RectTransform>();
-            rect.SetParent(background, false);   // 부모를 popupParent로 설정
-            rect.anchorMin = Vector2.zero; 
-            rect.anchorMax = Vector2.one;    
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
-            rect.pivot = new Vector2(0.5f, 0.5f);
-            rect.localScale = Vector3.one;
-
-            var img = popupBG.GetComponent<Image>();
-            img.color = new Color(0f, 0f, 0f, 0.627f);
-            img.raycastTarget = true;
-
-            popupBG.SetActive(false);
-        }
-    }
-    private void Update()
+    public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (popupStack.Count > 0)
+            if (PopupStack.Count > 0)
             {
                 TryCloseTopPopup();
             }
@@ -132,11 +37,96 @@ public class UIManager : Singleton<UIManager>
             }
         }
     }
+
+
+    public void Init()
+    {
+        if (Canvas == null)
+        {
+            Canvas = ManagerHub.Instance.transform.GetComponentForTransformFindName<Canvas>("Canvas");
+            if (Canvas == null) return;
+        }
+        if (PopupParent == null)
+        {
+            PopupParent = Canvas.transform.GetGameObjectSameNameDFS("UI_Popup")?.transform
+                    ?? new GameObject("UI_Popup", typeof(RectTransform)).transform;
+        }
+        if (PermanentParent == null)
+        {
+            PermanentParent = Canvas.transform.GetGameObjectSameNameDFS("UI_Permanent")?.transform
+                      ?? new GameObject("UI_Permanent", typeof(RectTransform)).transform;
+        }
+        if (Background == null)
+        {
+            Background = Canvas.transform.GetGameObjectSameNameDFS("UI_Background")?.transform
+                      ?? new GameObject("UI_Background", typeof(RectTransform)).transform;
+        }
+        if (TopParent == null)
+        {
+            TopParent = Canvas.transform.GetGameObjectSameNameDFS("UI_Top")?.transform
+                 ?? new GameObject("UI_Top", typeof(RectTransform)).transform;
+        }
+        if (BottomParent == null)
+        {
+            BottomParent = Canvas.transform.GetGameObjectSameNameDFS("UI_Bottom")?.transform
+                    ?? new GameObject("UI_Bottom", typeof(RectTransform)).transform;
+        }
+        if (TopMidParent == null)
+        {
+            TopMidParent = Canvas.transform.GetGameObjectSameNameDFS("UI_TopMid")?.transform
+                    ?? new GameObject("UI_TopMid", typeof(RectTransform)).transform;
+        }
+        if (FollowParent == null)
+        {
+            FollowParent = Canvas.transform.GetGameObjectSameNameDFS("UI_Follow")?.transform
+                    ?? new GameObject("UI_Follow", typeof(RectTransform)).transform;
+        }
+        if(PopupBG == null)
+        {
+            PopupBG = Canvas.transform.GetGameObjectSameNameDFS("PopupBG").gameObject;
+            if (PopupBG != null) return;
+            var bgGO = new GameObject("PopupBG", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            PopupBG = bgGO;
+
+            var rect = PopupBG.GetComponent<RectTransform>();
+            rect.SetParent(Background, false);   // 부모를 popupParent로 설정
+            rect.anchorMin = Vector2.zero; 
+            rect.anchorMax = Vector2.one;    
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.localScale = Vector3.one;
+
+            var img = PopupBG.GetComponent<Image>();
+            img.color = new Color(0f, 0f, 0f, 0.627f);
+            img.raycastTarget = true;
+
+            PopupBG.SetActive(false);
+        }
+    }
+
+
+    /// <summary>
+    /// 모든 ui 초기화  
+    /// </summary>
+    public Task UIInit()
+    {
+        // 모든 ui init 실행
+        foreach (var ui in UIMap)
+        {
+            if (ui.Value == null) continue;
+            // Debug.Log($"[Init] {ui.Key} 초기화 시작");
+            ui.Value.GetComponentInChildren<UIBase>(true).Init();
+        }
+        return Task.CompletedTask;
+    }
+
+
     public void TryCloseTopPopup()
     {
-        if (popupStack.Count > 0)
+        if (PopupStack.Count > 0)
         {
-            var topPopup = popupStack.Peek();
+            var topPopup = PopupStack.Peek();
             topPopup.Close();
             CloseCurrentPopup(topPopup); // 스택에서 제거
         }
@@ -156,7 +146,7 @@ public class UIManager : Singleton<UIManager>
             var popup = popupButton.GetPopup(); // 내부에서 다시 FindPopupByName 호출함
             if (popup == null) continue;
 
-            if (popupStack.Contains(popup))
+            if (PopupStack.Contains(popup))
             {
                 CloseCurrentPopup(popup);
             }
@@ -244,32 +234,32 @@ public class UIManager : Singleton<UIManager>
         var uiBase = prefab.GetComponentInChildren<UIBase>(true);
 
         // 타입에 따라 부모 선택 근데 popup / top / bottom 이렇게 3개 중에 하나여야만 함 만약 다 아니면 permanent 부모에 만들기
-        Transform parent = permanentParent; // 기본
+        Transform parent = PermanentParent; // 기본
         if((uiBase.uiType & UIType.Popup) != 0){
-            parent = popupParent;
+            parent = PopupParent;
         }
         else if ((uiBase.uiType & UIType.Background) != 0)
         {
-            parent = background;
+            parent = Background;
         }
         else if((uiBase.uiType & UIType.Top) != 0){
-            parent = topParent;
+            parent = TopParent;
         }
         else if((uiBase.uiType & UIType.Bottom) != 0){
-            parent = bottomParent;
+            parent = BottomParent;
         }
         else if ((uiBase.uiType & UIType.TopMid) != 0)
         {
-            parent = topMidParent;
+            parent = TopMidParent;
         }
         else if ((uiBase.uiType & UIType.Follow) != 0)
         {
-            parent = followParent;
+            parent = FollowParent;
         }
 
         // Debug.Log($"[CreateUI] {uiBase.uiType} 타입의 UI 생성 완료");    
         // 부모에 만들기
-        var ui = Instantiate(prefab, parent);
+        var ui = GameObject.Instantiate(prefab, parent);
         ui.name = name; // 원래 프리팹 이름으로 나오게 설정 => clone 안뜨게
         UIMap.Add(name, ui);    // 맵에 추가
         CreateAllUnder(ui.transform);
@@ -334,7 +324,7 @@ public class UIManager : Singleton<UIManager>
         {
             if (UIMap.TryGetValue(name, out var go))
             {
-                Destroy(go);
+                GameObject.Destroy(go);
                 UIMap.Remove(name);
             }
         }
@@ -431,12 +421,12 @@ public class UIManager : Singleton<UIManager>
     public void OpenPopup(UIPopup popup)
     {
         if(popup==null) return;
-        if(popupStack.Contains(popup)) return;
+        if(PopupStack.Contains(popup)) return;
 
         popup.gameObject.SetActive(true);
-        popupStack.Push(popup);
+        PopupStack.Push(popup);
 
-        if(popupBG != null) popupBG.SetActive(true);
+        if(PopupBG != null) PopupBG.SetActive(true);
 
         popup.Open();
     }
@@ -486,10 +476,10 @@ public class UIManager : Singleton<UIManager>
     public void CloseCurrentPopup(UIPopup popup)
     {
        // Debug.Log($"[CloseCurrentPopup] stackCount={popupStack.Count} target={popup.name}");
-        if (popupStack.Count == 0) return;
+        if (PopupStack.Count == 0) return;
 
-        if(popupStack.Peek() == popup){
-            popupStack.Pop();
+        if(PopupStack.Peek() == popup){
+            PopupStack.Pop();
             popup.Close();
         }
         else
@@ -498,12 +488,12 @@ public class UIManager : Singleton<UIManager>
         }
 
         // 팝업 스택이 비워지면 팝업 bg 꺼줌
-        if (popupStack.Count == 0 && popupBG != null) popupBG.SetActive(false);
+        if (PopupStack.Count == 0 && PopupBG != null) PopupBG.SetActive(false);
     }
 
     public void CloseAllPopup(){
-        while(popupStack.Count > 0){
-            CloseCurrentPopup(popupStack.Pop());
+        while(PopupStack.Count > 0){
+            CloseCurrentPopup(PopupStack.Pop());
         }
     }
     
@@ -514,7 +504,7 @@ public class UIManager : Singleton<UIManager>
     /// <returns></returns>
     public bool isPopupOpen<T>() where T : UIPopup
     {
-        foreach(var popup in popupStack){
+        foreach(var popup in PopupStack){
             if(popup is T && popup.gameObject.activeSelf){
                 return true;
             }
@@ -542,8 +532,9 @@ public class UIManager : Singleton<UIManager>
     // ui정렬 깨짐현상을 해결하기 위한 레이아웃 빌드 딜레이
     public void DelayRebuildLayout(UIBase uiBase)
     {
-        StartCoroutine(DelayRebuildLayoutCoroutine(uiBase));
+        ManagerHub.Instance.StartCoroutine(DelayRebuildLayoutCoroutine(uiBase));
     }
+
 
     private IEnumerator DelayRebuildLayoutCoroutine(UIBase uiBase)
     {
@@ -567,9 +558,9 @@ public class UIManager : Singleton<UIManager>
     public void ResetAllRectTransform()
     {
         // VerticalLayoutGroup이나 HorizontalLayoutGroup이 있으면 그것을 기준으로
-        var layoutGroup = canvas.GetComponentsInChildren<LayoutGroup>(true);
-        var verticalGroups = canvas.GetComponentsInChildren<VerticalLayoutGroup>(true);
-        var horizontalGroups = canvas.GetComponentsInChildren<HorizontalLayoutGroup>(true);
+        var layoutGroup = Canvas.GetComponentsInChildren<LayoutGroup>(true);
+        var verticalGroups = Canvas.GetComponentsInChildren<VerticalLayoutGroup>(true);
+        var horizontalGroups = Canvas.GetComponentsInChildren<HorizontalLayoutGroup>(true);
 
         Canvas.ForceUpdateCanvases();
         foreach (var group in layoutGroup)
@@ -622,7 +613,7 @@ public class UIManager : Singleton<UIManager>
     /// </summary>
     public void ResetPopupState()
     {
-        popupStack.Clear();
+        PopupStack.Clear();
     }
 
 }

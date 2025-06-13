@@ -10,23 +10,35 @@ public class UIStartTitle : UIPermanent
     [field: SerializeField] public TextMeshProUGUI TextMultiClearTime { get; private set; }
     private void Awake()
     {
-        ServerManager.Instance.UIStartTitle = this;
+#if AllMethodDebug
+        Debug.Log("Awake");
+#endif
+        ManagerHub.Instance.UIConnectManager.UIStartTitle = this;
         SoloClearTimeUpdate();
         MultiClearTimeUpdate();
     }
 
     public void TextUpdate()
     {
-        TextName.text = ServerManager.Instance.PlayerName;
+#if AllMethodDebug
+        Debug.Log("TextUpdate");
+#endif
+        TextName.text = ManagerHub.Instance.ServerManager.PlayerName;
     }
 
     public void SoloClearTimeUpdate()
     {
-        TextSoloClearTime.text = GameValueManager.Instance.GameSoloClearTime;
+#if AllMethodDebug
+        Debug.Log("SoloClearTimeUpdate");
+#endif
+        TextSoloClearTime.text = ManagerHub.Instance.GameValueManager.GameSoloClearTime;
     }
 
     public void MultiClearTimeUpdate()
     {
-        TextMultiClearTime.text = GameValueManager.Instance.GameMultiClearTime;
+#if AllMethodDebug
+        Debug.Log("MultiClearTimeUpdate");
+#endif
+        TextMultiClearTime.text = ManagerHub.Instance.GameValueManager.GameMultiClearTime;
     }
 }

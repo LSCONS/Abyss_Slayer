@@ -66,7 +66,7 @@ public class UIDamageText : BasePoolable
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_SetParent()
     {
-        transform.SetParent(UIManager.Instance.canvas.transform, false);
+        transform.SetParent(ManagerHub.Instance.UIManager.Canvas.transform, false);
     }
 
     private void Update()

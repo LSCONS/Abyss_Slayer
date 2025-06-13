@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.UI;
 
 
 /// <summary>
@@ -25,16 +24,44 @@ public static class HairColorConfig
     };
 }
 
-public class DataManager : Singleton<DataManager>
+public class DataManager
 {
+    #region Dicitonary데이터들
+    //AnimationCurve값을 enum 값으로 찾기 위한 딕셔너리
     public Dictionary<EAniamtionCurve, AnimationCurve> DictEnumToCurve { get; private set; } = new();
-    public Dictionary<EBossStage, NetworkObject> DictEnumToBossObjcet { get; private set; } = new();
-    public Dictionary<EAudioClip, AudioClipData> DictEnumToAudioData { get; private set; } = new();
-    public Dictionary<EAnimatorController, RuntimeAnimatorController> DictEnumToAnimatorData { get; private set; } = new();
-    public Dictionary<CharacterClass, CharacterSkillSet> DictClassToSkillSet { get; private set; } = new();
-    public Dictionary<CharacterClass, PlayerData> DictClassToPlayerData { get; private set; } = new();
-    public Dictionary<CharacterClass, CharacterClassData> DictCharacterClassData { get; private set; }
 
+    //보스의 NetworkObject를 enum 값으로 찾기 위한 딕셔너리
+    public Dictionary<EBossStage, NetworkObject> DictEnumToBossObjcet { get; private set; } = new();
+
+    //AudioClipData를 enum 값으로 찾기 위한 딕셔너리
+    public Dictionary<EAudioClip, AudioClipData> DictEnumToAudioData { get; private set; } = new();
+
+    //Animator를 enum 값으로 찾기 위한 딕셔너리
+    public Dictionary<EAnimatorController, RuntimeAnimatorController> DictEnumToAnimatorData { get; private set; } = new();
+
+    //CharacterClassData을 enum 값으로 찾기 위한 딕셔너리
+    public Dictionary<CharacterClass, CharacterClassData> DictClassToCharacterData { get; private set; } = new();
+
+    //캐릭터의 각 행동에 따른 Sprite를 가지고 있는 딕셔너리
+    public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
+    public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
+    public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToFaceColorSprite { get; set; } = new();
+    public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToSkinColorSprite { get; set; } = new();
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponTop { get; set; } = new();
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponBot { get; set; } = new();
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothTop { get; set; } = new();
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothBot { get; set; } = new();
+
+    //버프 이펙트 Sprite를 enum 값으로 찾기 위한 딕셔너리
+    public Dictionary<EBuffType, Sprite> DictBuffToSprite { get; set; } = new();
+
+    public Dictionary<EType, Type> DictEnumToType { get; set; } = new()
+    {
+        { EType.BossHitEffect, typeof(BossHitEffect) },
+    };
+    #endregion
+
+    #region Prefab데이터들
     public PoolManager PoolManagerPrefab { get; private set; }
     public InitSupporter InitSupporterPrefab { get; private set; }
     public NetworkData PlayerNetworkDataPrefab { get; private set; }
@@ -45,29 +72,10 @@ public class DataManager : Singleton<DataManager>
     public UITeamStatusSlot PlayerStatusPrefab { get; private set; }
     public Fireworks FireworksPrefab { get; private set; }
     public List<BasePoolable> ListBasePoolablePrefab { get; private set; } = new();
-    //첫 키의 int는 스타일, 두번 째 키의 int는 Color
-    public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
-    public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
-    public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToFaceColorSprite { get; set; } = new();
-    public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToSkinColorSprite { get; set; } = new();
-    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponTop { get; set; } = new();
-    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponBot { get; set; } = new();
-    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothTop { get; set; } = new();
-    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothBot { get; set; } = new();
-    public Dictionary<CharacterClass, Sprite> DictClassToImage { get; set; } = new();
-    public Dictionary<EBuffType, Sprite> DictBuffToSprite { get; set; } = new();
+    #endregion
+
     private int[] HairColorVariants { get; set; } = new int[] { 1, 2, 4, 5, 6, 10 };  // 클래스별 머리색 c1,c2...
     public int MaxHairFKey, MaxHairMKey, MaxSkinKey, MaxFaceKey;
-    public Dictionary<EType, Type> DictEnumToType { get; set; } = new()
-    {
-        { EType.BossHitEffect, typeof(BossHitEffect) },
-    };
-
-    protected override void Awake()
-    {
-        base.Awake();
-        DontDestroyOnLoad(gameObject);
-    }
 
     public async Task Init()
     {
@@ -76,8 +84,6 @@ public class DataManager : Singleton<DataManager>
         await DataLoadAudioClipData();
         await DataLoadAnimationSpriteData();
         await DataLoadEachData();
-        await LoadSkillSetData();
-        await LoadPlayerData();
         await DataLoadCharacterToSpriteData();
         await DataLoadPoolObjectData();
         await DataLoadAnimatorControllerData();
@@ -207,62 +213,6 @@ public class DataManager : Singleton<DataManager>
         await fireworksPrefab.Task;
         FireworksPrefab = fireworksPrefab.Result.GetComponent<Fireworks>();
         if (FireworksPrefab == null) { Debug.Log("Error FireworksPrefab is null"); }
-
-        return;
-    }
-
-
-    /// <summary>
-    /// 직업 별 저장되어있는 캐릭터 스킬 데이터를 저장하는 메서드
-    /// </summary>
-    /// <returns></returns>
-    private async Task LoadSkillSetData()
-    {
-#if AllMethodDebug
-        Debug.Log("LoadSkillSetData");
-#endif
-        try
-        {
-            var data = Addressables.LoadAssetsAsync<CharacterSkillSet>("CharacterSkillSet", null);
-            await data.Task;
-            foreach (CharacterSkillSet character in data.Result)
-            {
-                DictClassToSkillSet[character.Class] = character;
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"SkillSetData초기화 실패: {ex}");
-        }
-        return;
-    }
-
-
-    /// <summary>
-    /// 플레이어가 사용할 캐릭터의 직업 별 데이터를 가져올 메서드
-    /// </summary>
-    /// <returns></returns>
-    private async Task LoadPlayerData()
-    {
-        try
-        {
-            var data = Addressables.LoadAssetsAsync<PlayerData>("CharacterData", null);
-            await data.Task;
-            foreach (PlayerData character in data.Result)
-            {
-                DictClassToPlayerData[character.PlayerStatusData.Class] = character;
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"PlayerData초기화 실패: {ex}");
-        }
-
-        foreach (var dict in DictClassToPlayerData)
-        {
-            if (dict.Value.PlayerStatusData.ClassImageSprite == null) continue;
-            DictClassToImage[dict.Key] = dict.Value.PlayerStatusData.ClassImageSprite;
-        }
 
         return;
     }
@@ -451,12 +401,12 @@ public class DataManager : Singleton<DataManager>
         await handle.Task;
 
         var gather = handle.Result;
-        DictCharacterClassData = new();
+        DictClassToCharacterData = new();
 
         foreach (var data in gather.classDataList)
         {
-            if (!DictCharacterClassData.ContainsKey(data.characterClass))
-                DictCharacterClassData[data.characterClass] = data;
+            if (!DictClassToCharacterData.ContainsKey(data.CharacterClass))
+                DictClassToCharacterData[data.CharacterClass] = data;
         }
     }
 

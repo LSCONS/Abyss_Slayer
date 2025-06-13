@@ -30,18 +30,18 @@ public class UIPopupButton : UIButton
     public void OpenByESC()
     {
         if (popup == null)
-            popup = UIManager.Instance.FindPopupByName(popupName);
+            popup = ManagerHub.Instance.UIManager.FindPopupByName(popupName);
 
         if (popup == null) return;
-        if (UIManager.Instance.popupStack.Contains(popup)) return;
+        if (ManagerHub.Instance.UIManager.PopupStack.Contains(popup)) return;
 
-        UIManager.Instance.OpenPopup(popup);
+        ManagerHub.Instance.UIManager.OpenPopup(popup);
     }
     public override void Init()
     {
         if (!isClose)
         {
-            popup = UIManager.Instance.FindPopupByName(popupName);  // 닫기 기능 수행하기 싫어야지 popupname으로 찾아서 그거 열기
+            popup = ManagerHub.Instance.UIManager.FindPopupByName(popupName);  // 닫기 기능 수행하기 싫어야지 popupname으로 찾아서 그거 열기
         }
         base.Init();
     }
@@ -65,11 +65,11 @@ public class UIPopupButton : UIButton
         if (isClose)
         {
             // ui 팝업 스택에서 젤 위에 있는 팝업을 닫아줌
-            if (UIManager.Instance.isPopupOpen<UIPopup>())  //  팝업 열려있는지 검사 후 열려있어야지 수행 (그래야 팝업 있는거니꺠)
+            if (ManagerHub.Instance.UIManager.isPopupOpen<UIPopup>())  //  팝업 열려있는지 검사 후 열려있어야지 수행 (그래야 팝업 있는거니꺠)
             {
                 
-                var currentPopup = UIManager.Instance.popupStack.Peek();    // 젤 위에 있는거 꺼내옴
-                UIManager.Instance.CloseCurrentPopup(currentPopup);
+                var currentPopup = ManagerHub.Instance.UIManager.PopupStack.Peek();    // 젤 위에 있는거 꺼내옴
+                ManagerHub.Instance.UIManager.CloseCurrentPopup(currentPopup);
             }
             else
             {
@@ -78,11 +78,11 @@ public class UIPopupButton : UIButton
             return;
         }
 
-        popup = UIManager.Instance.FindPopupByName(popupName);
+        popup = ManagerHub.Instance.UIManager.FindPopupByName(popupName);
 
         if (popup != null)
         {
-            UIManager.Instance.OpenPopup(popup);
+            ManagerHub.Instance.UIManager.OpenPopup(popup);
         }
         else
         {
@@ -93,7 +93,7 @@ public class UIPopupButton : UIButton
     public UIPopup GetPopup()
     {
         if (popup == null)
-            popup = UIManager.Instance.FindPopupByName(popupName);
+            popup = ManagerHub.Instance.UIManager.FindPopupByName(popupName);
 
         return popup;
     }
