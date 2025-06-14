@@ -169,51 +169,15 @@ public class DataManager
 #if AllMethodDebug
         Debug.Log("DataLoadEachData");
 #endif
-        var init = Addressables.LoadAssetAsync<GameObject>("InitSupporter");         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
-        await init.Task;
-        InitSupporterPrefab = init.Result.GetComponent<InitSupporter>();
-        if (InitSupporterPrefab == null) { Debug.Log("Error InitSupporter is null"); }
-
-        var pool = Addressables.LoadAssetAsync<GameObject>("PoolManager");         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
-        await pool.Task;
-        PoolManagerPrefab = pool.Result.GetComponent<PoolManager>();
-        if (PoolManagerPrefab == null) { Debug.Log("Error PoolManager is null"); }
-
-        var player = Addressables.LoadAssetAsync<GameObject>("PlayerPrefab");
-        await player.Task;
-        PlayerPrefab = player.Result.GetComponent<Player>();
-        if (PlayerPrefab == null) { Debug.Log("Error Player is null"); }
-
-        var crossHair = Addressables.LoadAssetAsync<GameObject>("CrossHairPrefab");
-        await crossHair.Task;
-        CrossHairPrefab = crossHair.Result.GetComponent<NetworkObjectFollowServer>();
-        if (CrossHairPrefab == null) { Debug.Log("Error Player is null"); }
-
-        var networkData = Addressables.LoadAssetAsync<GameObject>("NetworkData");
-        await networkData.Task;
-        PlayerNetworkDataPrefab = networkData.Result.GetComponent<NetworkData>();
-        if (PlayerNetworkDataPrefab == null) { Debug.Log("Error NetworkData is null"); }
-
-        var dashEffectPrefab = Addressables.LoadAssetAsync<GameObject>("DashEffectPrefab");
-        await dashEffectPrefab.Task;
-        DashEffectPrefab = dashEffectPrefab.Result;
-        if (DashEffectPrefab == null) { Debug.Log("Error DashEffectPrefab is null"); }
-
-        var shieldPrefab = Addressables.LoadAssetAsync<GameObject>("ShieldPrefab");
-        await shieldPrefab.Task;
-        ShieldPrefab = shieldPrefab.Result.GetComponent<FadeController>();
-        if (ShieldPrefab == null) { Debug.Log("Error ShieldPrefab is null"); }
-
-        var teamStatusSlot = Addressables.LoadAssetAsync<GameObject>("TeamStatusSlot");
-        await teamStatusSlot.Task;
-        PlayerStatusPrefab = teamStatusSlot.Result.GetComponent<UITeamStatusSlot>();
-        if (PlayerStatusPrefab == null) { Debug.Log("Error PlayerStatusPrefab is null"); }
-
-        var fireworksPrefab = Addressables.LoadAssetAsync<GameObject>("FireworksPrefab");
-        await fireworksPrefab.Task;
-        FireworksPrefab = fireworksPrefab.Result.GetComponent<Fireworks>();
-        if (FireworksPrefab == null) { Debug.Log("Error FireworksPrefab is null"); }
-
+        var init                = await Util.GetAddressableData<InitSupporter>              ("InitSupporter"    );
+        var pool                = await Util.GetAddressableData<PoolManager>                ("PoolManager"      );
+        var player              = await Util.GetAddressableData<Player>                     ("PlayerPrefab"     );
+        var crossHair           = await Util.GetAddressableData<NetworkObjectFollowServer>  ("CrossHairPrefab"  );
+        var networkData         = await Util.GetAddressableData<NetworkData>                ("NetworkData"      );
+        var dashEffectPrefab    = await Util.GetAddressableData<GameObject>                 ("DashEffectPrefab" );
+        var shieldPrefab        = await Util.GetAddressableData<FadeController>             ("ShieldPrefab"     );
+        var teamStatusSlot      = await Util.GetAddressableData<UITeamStatusSlot>           ("TeamStatusSlot"   );
+        var fireworksPrefab     = await Util.GetAddressableData<Fireworks>                  ("FireworksPrefab"  );
         return;
     }
 
