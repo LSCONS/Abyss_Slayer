@@ -11,6 +11,9 @@ Unity 엔진으로 개발되었으며, 최대 5명의 플레이어가 실시간�
 - **엔진:** Unity (2022.3.17f1)
 - **참조 게임:** 스컬: 더 히어로 슬레이어, 메이플스토리, 던전앤파이터
 
+## 📥 게임 다운로드
+- https://drive.google.com/drive/u/1/folders/1IPwHpUzmLGGqtLmUXT1STD0-OFq5_qSg
+
 ## 🧩 핵심 특징
 
 - 픽셀 아트 스타일의 실시간 협동 액션
