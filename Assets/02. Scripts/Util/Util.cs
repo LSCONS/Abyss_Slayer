@@ -5,8 +5,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public static class Util
 {
@@ -322,5 +324,15 @@ public static class Util
     {
         DateTime nowtime = DateTime.Now;
         return $"클리어 타임: {nowtime:MM월dd일 HH시mm분ss초}";
+    }
+
+
+    public static async Task<T> GetAddressableData<T>(string address) where T : class
+    {
+        var temp = Addressables.LoadAssetAsync<GameObject>(address);
+        await temp.Task;
+        T result = temp.Result.GetComponent<T>();
+        if (result == null) Debug.Log($"Error {typeof(T)} is null");
+        return result;
     }
 }
