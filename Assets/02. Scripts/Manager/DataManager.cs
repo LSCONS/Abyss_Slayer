@@ -16,17 +16,18 @@ public static class HairColorConfig
 {
     public static readonly Dictionary<CharacterClass, int> HairColorIndexByClass = new()
     {
-        { CharacterClass.Mage,           6 },
-        { CharacterClass.Tanker,         10  },
-        { CharacterClass.MagicalBlader,  4 },
-        { CharacterClass.Healer,         2 },
-        { CharacterClass.Rogue,          5 },
+        { CharacterClass.Mage, 6 },
+        { CharacterClass.Tanker, 10 },
+        { CharacterClass.MagicalBlader, 4 },
+        { CharacterClass.Healer, 2 },
+        { CharacterClass.Rogue, 5 },
     };
 }
 
 public class DataManager
 {
     #region Dicitonary데이터들
+
     //AnimationCurve값을 enum 값으로 찾기 위한 딕셔너리
     public Dictionary<EAniamtionCurve, AnimationCurve> DictEnumToCurve { get; private set; } = new();
 
@@ -37,20 +38,36 @@ public class DataManager
     public Dictionary<EAudioClip, AudioClipData> DictEnumToAudioData { get; private set; } = new();
 
     //Animator를 enum 값으로 찾기 위한 딕셔너리
-    public Dictionary<EAnimatorController, RuntimeAnimatorController> DictEnumToAnimatorData { get; private set; } = new();
+    public Dictionary<EAnimatorController, RuntimeAnimatorController> DictEnumToAnimatorData { get; private set; } =
+        new();
 
     //CharacterClassData을 enum 값으로 찾기 위한 딕셔너리
     public Dictionary<CharacterClass, CharacterClassData> DictClassToCharacterData { get; private set; } = new();
 
     //캐릭터의 각 행동에 따른 Sprite를 가지고 있는 딕셔너리
-    public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
-    public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
-    public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToFaceColorSprite { get; set; } = new();
-    public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToSkinColorSprite { get; set; } = new();
-    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponTop { get; set; } = new();
-    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponBot { get; set; } = new();
-    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothTop { get; set; } = new();
-    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothBot { get; set; } = new();
+    public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>>
+        DictIntToDictStateToHairStyleTopSprite { get; set; } = new();
+
+    public Dictionary<(int style, int color), Dictionary<AnimationState, Sprite[]>>
+        DictIntToDictStateToHairStyleBottomSprite { get; set; } = new();
+
+    public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToFaceColorSprite { get; set; } =
+        new();
+
+    public Dictionary<int, Dictionary<AnimationState, Sprite[]>> DictIntToDictStateToSkinColorSprite { get; set; } =
+        new();
+
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponTop { get; set; } =
+        new();
+
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToWeaponBot { get; set; } =
+        new();
+
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothTop { get; set; } =
+        new();
+
+    public Dictionary<CharacterClass, Dictionary<AnimationState, Sprite[]>> DictClassToStateToClothBot { get; set; } =
+        new();
 
     //버프 이펙트 Sprite를 enum 값으로 찾기 위한 딕셔너리
     public Dictionary<EBuffType, Sprite> DictBuffToSprite { get; set; } = new();
@@ -59,9 +76,11 @@ public class DataManager
     {
         { EType.BossHitEffect, typeof(BossHitEffect) },
     };
+
     #endregion
 
     #region Prefab데이터들
+
     public PoolManager PoolManagerPrefab { get; private set; }
     public InitSupporter InitSupporterPrefab { get; private set; }
     public NetworkData PlayerNetworkDataPrefab { get; private set; }
@@ -72,9 +91,10 @@ public class DataManager
     public UITeamStatusSlot PlayerStatusPrefab { get; private set; }
     public Fireworks FireworksPrefab { get; private set; }
     public List<BasePoolable> ListBasePoolablePrefab { get; private set; } = new();
+
     #endregion
 
-    private int[] HairColorVariants { get; set; } = new int[] { 1, 2, 4, 5, 6, 10 };  // 클래스별 머리색 c1,c2...
+    private int[] HairColorVariants { get; set; } = new int[] { 1, 2, 4, 5, 6, 10 }; // 클래스별 머리색 c1,c2...
     public int MaxHairFKey, MaxHairMKey, MaxSkinKey, MaxFaceKey;
 
     public async Task Init()
@@ -106,6 +126,7 @@ public class DataManager
             if (buffData.BuffSprite == null) continue;
             DictBuffToSprite[buffData.EBuffType] = buffData.BuffSprite;
         }
+
         return;
     }
 
@@ -131,7 +152,6 @@ public class DataManager
                 ListBasePoolablePrefab.Add(poolable);
                 types.Add(poolable.GetType());
             }
-
         );
         await poolablePrefabs.Task;
         return;
@@ -169,15 +189,15 @@ public class DataManager
 #if AllMethodDebug
         Debug.Log("DataLoadEachData");
 #endif
-        var init                = await Util.GetAddressableData<InitSupporter>              ("InitSupporter"    );
-        var pool                = await Util.GetAddressableData<PoolManager>                ("PoolManager"      );
-        var player              = await Util.GetAddressableData<Player>                     ("PlayerPrefab"     );
-        var crossHair           = await Util.GetAddressableData<NetworkObjectFollowServer>  ("CrossHairPrefab"  );
-        var networkData         = await Util.GetAddressableData<NetworkData>                ("NetworkData"      );
-        var dashEffectPrefab    = await Util.GetAddressableData<GameObject>                 ("DashEffectPrefab" );
-        var shieldPrefab        = await Util.GetAddressableData<FadeController>             ("ShieldPrefab"     );
-        var teamStatusSlot      = await Util.GetAddressableData<UITeamStatusSlot>           ("TeamStatusSlot"   );
-        var fireworksPrefab     = await Util.GetAddressableData<Fireworks>                  ("FireworksPrefab"  );
+        InitSupporterPrefab = await Util.GetAddressableData<InitSupporter>("InitSupporter");
+        PoolManagerPrefab = await Util.GetAddressableData<PoolManager>("PoolManager");
+        PlayerPrefab = await Util.GetAddressableData<Player>("PlayerPrefab");
+        CrossHairPrefab = await Util.GetAddressableData<NetworkObjectFollowServer>("CrossHairPrefab");
+        PlayerNetworkDataPrefab = await Util.GetAddressableData<NetworkData>("NetworkData");
+        DashEffectPrefab = await Util.GetAddressableData<GameObject>("DashEffectPrefab");
+        ShieldPrefab = await Util.GetAddressableData<FadeController>("ShieldPrefab");
+        PlayerStatusPrefab = await Util.GetAddressableData<UITeamStatusSlot>("TeamStatusSlot");
+        FireworksPrefab = await Util.GetAddressableData<Fireworks>("FireworksPrefab");
         return;
     }
 
@@ -224,8 +244,10 @@ public class DataManager
                 string keyTop = $"m{i}_c{colorIndex}_top";
                 string keyBot = $"m{i}_c{colorIndex}_bot";
 
-                DictIntToDictStateToHairStyleTopSprite[(i + MaxHairFKey, colorIndex)] = await LoadAndSortSprites(keyTop);
-                DictIntToDictStateToHairStyleBottomSprite[(i + MaxHairFKey, colorIndex)] = await LoadAndSortSprites(keyBot);
+                DictIntToDictStateToHairStyleTopSprite[(i + MaxHairFKey, colorIndex)] =
+                    await LoadAndSortSprites(keyTop);
+                DictIntToDictStateToHairStyleBottomSprite[(i + MaxHairFKey, colorIndex)] =
+                    await LoadAndSortSprites(keyBot);
             }
         }
     }
@@ -238,7 +260,7 @@ public class DataManager
     /// <returns></returns>
     private async Task<Dictionary<AnimationState, Sprite[]>> LoadAndSortSprites(string addressKey)
     {
-        var handle = Addressables.LoadAssetAsync<Sprite[]>(addressKey);         // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
+        var handle = Addressables.LoadAssetAsync<Sprite[]>(addressKey); // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
         await handle.Task;
         List<Sprite> sortedFrames = null;
         if (handle.Status == AsyncOperationStatus.Succeeded)
@@ -255,6 +277,7 @@ public class DataManager
                     return number;
                 }).ToList();
         }
+
         // SpriteSlicer로 정렬된 전체 시트(sortedFrames)를 애니메이션 상태별로 분리함
         return SpriteSlicer.SliceSprite(sortedFrames.ToArray());
     }
@@ -272,6 +295,7 @@ public class DataManager
         {
             DictEnumToCurve[animationCurveStruct.EAnimationCurve] = animationCurveStruct.AnimationCurve;
         }
+
         return;
     }
 
@@ -288,6 +312,7 @@ public class DataManager
         {
             DictEnumToBossObjcet[bossPrefabStruct.BossStage] = bossPrefabStruct.BossObject;
         }
+
         return;
     }
 
@@ -307,6 +332,7 @@ public class DataManager
                 DictEnumToAudioData[data.EnumClip] = data.AudioClipData;
             }
         }
+
         return;
     }
 
@@ -316,7 +342,8 @@ public class DataManager
     /// </summary>
     private async Task DataLoadAnimatorControllerData()
     {
-        var AnimatorControllerData = Addressables.LoadAssetsAsync<AnimatorControllerDataGather>("AnimatorController", null);
+        var AnimatorControllerData =
+            Addressables.LoadAssetsAsync<AnimatorControllerDataGather>("AnimatorController", null);
         await AnimatorControllerData.Task;
         AnimatorControllerDataGather[] gatherData = AnimatorControllerData.Result.ToArray();
         foreach (AnimatorControllerDataGather gather in gatherData)
@@ -327,6 +354,7 @@ public class DataManager
                 DictEnumToAnimatorData[data.EAnimatorContoller] = data.AnimatorController;
             }
         }
+
         return;
     }
 
@@ -347,8 +375,10 @@ public class DataManager
             {
                 sprites[i] = data[state][i];
             }
+
             result[state] = sprites;
         }
+
         return result;
     }
 
@@ -373,11 +403,10 @@ public class DataManager
                 DictClassToCharacterData[data.CharacterClass] = data;
         }
     }
-
 }
 
-    public enum EType
-    {
-        None = 0,
-        BossHitEffect,
-    }
+public enum EType
+{
+    None = 0,
+    BossHitEffect,
+}
