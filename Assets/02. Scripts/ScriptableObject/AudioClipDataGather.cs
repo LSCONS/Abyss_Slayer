@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New AuidoClipDataGather", menuName = "Data/AudioClipData")]
+[CreateAssetMenu(fileName = "New AudioClipDataGather", menuName = "Data/AudioClipData")]
 public class AudioClipDataGather : ScriptableObject
 {
     [field: SerializeField] public List<AudioClipEnumData> ListAudioClipEnumData { get; private set; } = new();
