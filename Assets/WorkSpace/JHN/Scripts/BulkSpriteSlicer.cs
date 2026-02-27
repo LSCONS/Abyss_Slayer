@@ -90,6 +90,7 @@ public static class BulkSpriteSlicer
                     });
                 }
             }
+            importer.spritesheet = metas.ToArray();
             importer.SaveAndReimport();
             Debug.Log($"[Sliced] {assetPath} → {metas.Count} sprites");
         }

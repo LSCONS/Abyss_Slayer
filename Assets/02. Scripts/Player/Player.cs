@@ -166,7 +166,7 @@ public class Player : NetworkBehaviour, IHasHealth
         {
             PlayerStateMachine.ChangeState(PlayerStateMachine.IdleState, true);
             PlayerStateIndex = PlayerStateMachine.GetIntDictStateToInit(PlayerStateMachine.IdleState);
-            PlayerRigidbody.velocity = Vector2.zero;
+            PlayerRigidbody.linearVelocity = Vector2.zero;
             PlayerPosition = position;
             transform.position = position;
             PlayerData.PlayerStatusData.IsDead = false;

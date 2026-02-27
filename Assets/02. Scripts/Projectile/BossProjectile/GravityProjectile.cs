@@ -87,7 +87,7 @@ public class GravityProjectile : BasePoolable
 
         Vector2 velocity = new Vector2(_velocityX, velocityY);                          //목표물의 x축 거리가 짧을때 y속도가 과도하게 높아지는 현상 방지
         velocity = velocity.normalized * Mathf.Clamp(velocity.magnitude,_minSpeed,_maxSpeed + 1);
-        _rigidbody.velocity = velocity;
+        _rigidbody.linearVelocity = velocity;
 
         _rigidbody.angularVelocity = Random.Range(-90f, 90f);                           //랜덤 회전값
     }
@@ -96,7 +96,7 @@ public class GravityProjectile : BasePoolable
     private void Rpc_Destroy()
     {
         _rigidbody.bodyType = RigidbodyType2D.Kinematic;
-        _rigidbody.velocity = Vector2.zero;
+        _rigidbody.linearVelocity = Vector2.zero;
         _sprite.SetActive(false);
         _particleSystem.Play();
         _collider.enabled = false;

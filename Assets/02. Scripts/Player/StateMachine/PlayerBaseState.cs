@@ -93,8 +93,8 @@ public class PlayerBaseState : IPlayerState
     private void Move()
     {
         float newMoveX = playerStateMachine.Player.NetworkInput.MoveDir.x * GetMovementSpeed();
-        float nowMoveY = playerStateMachine.Player.PlayerRigidbody.velocity.y;
-        playerStateMachine.Player.PlayerRigidbody.velocity = new Vector2(newMoveX, nowMoveY);
+        float nowMoveY = playerStateMachine.Player.PlayerRigidbody.linearVelocity.y;
+        playerStateMachine.Player.PlayerRigidbody.linearVelocity = new Vector2(newMoveX, nowMoveY);
         playerStateMachine.Player.FlipRenderer(newMoveX); //플레이어의 바라보는 방향을 바꿔주는 메서드
     }
 
@@ -115,7 +115,7 @@ public class PlayerBaseState : IPlayerState
     /// </summary>
     protected void ResetZeroVelocity()
     {
-        playerStateMachine.Player.PlayerRigidbody.velocity = Vector2.zero;
+        playerStateMachine.Player.PlayerRigidbody.linearVelocity = Vector2.zero;
     }
 
 

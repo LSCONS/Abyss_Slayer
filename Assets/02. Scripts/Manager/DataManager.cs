@@ -260,26 +260,37 @@ public class DataManager
     /// <returns></returns>
     private async Task<Dictionary<AnimationState, Sprite[]>> LoadAndSortSprites(string addressKey)
     {
-        var handle = Addressables.LoadAssetAsync<Sprite[]>(addressKey); // 우선 스프라이트 시트를 로드함 Sprite[]로 로드해서 스프라이트를 가져옴
-        await handle.Task;
-        List<Sprite> sortedFrames = null;
-        if (handle.Status == AsyncOperationStatus.Succeeded)
+        AsyncOperationHandle<Sprite[]> handle;
+        try
         {
-            Sprite[] spriteArray = handle.Result;
-            sortedFrames = new List<Sprite>(spriteArray);
-
-            // 스프라이트를 이름 숫자 부분으로 정렬함 (왜? addressable은 보장을 안해준대서)
-            sortedFrames = spriteArray
-                .OrderBy(sprite =>
-                {
-                    string name = sprite.name;
-                    int number = int.Parse(name.Split('_').Last());
-                    return number;
-                }).ToList();
+            handle = Addressables.LoadAssetAsync<Sprite[]>(addressKey);
+            await handle.Task;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[DataManager] Addressable 키 '{addressKey}'를 찾을 수 없습니다: {e.Message}");
+            return new Dictionary<AnimationState, Sprite[]>();
         }
 
+        if (handle.Status != AsyncOperationStatus.Succeeded || handle.Result == null)
+        {
+            Debug.LogError($"[DataManager] Addressable 로드 실패: {addressKey}");
+            return new Dictionary<AnimationState, Sprite[]>();
+        }
+
+        Sprite[] spriteArray = handle.Result;
+
+        // 스프라이트를 이름 숫자 부분으로 정렬함 (왜? addressable은 보장을 안해준대서)
+        var sortedFrames = spriteArray
+            .OrderBy(sprite =>
+            {
+                string name = sprite.name;
+                int number = int.Parse(name.Split('_').Last());
+                return number;
+            }).ToArray();
+
         // SpriteSlicer로 정렬된 전체 시트(sortedFrames)를 애니메이션 상태별로 분리함
-        return SpriteSlicer.SliceSprite(sortedFrames.ToArray());
+        return SpriteSlicer.SliceSprite(sortedFrames);
     }
 
 

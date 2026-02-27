@@ -148,10 +148,10 @@ public class PlayerStateMachine : StateMachine
     public void IsTriggerTrue() => Player.PlayerGroundCollider.isTrigger = true;
 
     /// <summary>velocity.y의 값이 0에 가까운지 확인</summary>
-    private bool IsZeroVelocityY() => Mathf.Approximately(Player.PlayerRigidbody.velocity.y, 0);
+    private bool IsZeroVelocityY() => Mathf.Approximately(Player.PlayerRigidbody.linearVelocity.y, 0);
 
     /// <summary>velocity.y의 값이 0보다 작거나 같은지 확인</summary>
-    private bool IsLowVelocityY() => Player.PlayerRigidbody.velocity.y <= 0;
+    private bool IsLowVelocityY() => Player.PlayerRigidbody.linearVelocity.y <= 0;
 
     /// <summary>현재 닿고 있는 땅이 있는지 확인</summary>
     private bool IsZeroGround() => (Player.PlayerCheckGround.GroundPlaneCount + Player.PlayerCheckGround.GroundPlatformCount) == 0;
